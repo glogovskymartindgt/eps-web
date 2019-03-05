@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'iihf-root',
@@ -6,5 +7,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'wfm-web';
+
+  constructor(private translate: TranslateService) {
+    translate.setDefaultLang('en');
+  }
+  
+  useLanguage(language: string) {
+    this.translate.use(language);
+  }
+
 }
