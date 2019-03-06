@@ -1,6 +1,7 @@
 {
-    "header": {
-        "title": "Medzinárodná hokejová federácia",
-        "country": "Slovensko"
-    }
+	"header": {
+		"title": "Medzinárodná hokejová federácia",
+		"country": "Slovensko"
+	},
+	"status": "Stav"
 }

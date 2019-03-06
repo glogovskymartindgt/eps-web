@@ -1,6 +1,7 @@
 {
-    "header": {
-        "title": "International Ice Hockey Federation",
-        "country": "Slovakia"
-    }
+	"header": {
+		"title": "International Ice Hockey Federation",
+		"country": "Slovakia"
+	},
+	"status": "Status"
 }
