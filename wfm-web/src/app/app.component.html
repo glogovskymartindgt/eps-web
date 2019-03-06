@@ -5,6 +5,20 @@
 <div style="text-align:center">
   <h1 translate>header.country</h1>
   <img width="200" alt="Angular Logo" src="assets/img/iihf-brand-logo.gif">
+
+  <p translate>status</p>
+
+  <p>Server status {{data?.status}}</p>
+  <p>DB detail status {{data?.details?.db?.status}}</p>
+  <p>DB {{data?.details?.db?.details?.database}}</p>
+  <p>DB ping {{data?.details?.db?.details?.hello}}</p>
+
+  <p>Diskspace status {{data?.details?.diskSpace?.status}}</p>
+  <p>Diskspace status {{data?.details?.diskSpace?.details?.total}}</p>
+  <p>Diskspace free {{data?.details?.diskSpace?.details?.free}}</p>
+  <p>Diskspace threshold {{data?.details?.diskSpace?.details?.threshold}}</p>
+
   <button (click)="useLanguage('en')">en</button>
   <button (click)="useLanguage('sk')">sk</button>
+
 </div>

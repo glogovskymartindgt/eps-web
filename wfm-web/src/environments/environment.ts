@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  API_ENDPOINT: "http://seidl10:8080/"
+  //API_ENDPOINT: "http://localhost:8080/"
 };
 
 /*
