@@ -21,31 +21,7 @@ export class AppComponent implements OnInit{
 
   ngOnInit(){
 
-    let sth = {
-      "status": "UP",
-      "details": {
-        "db": {
-          "status": "UP",
-          "details": {
-            "database": "PostgreSQL",
-            "hello": 1
-          }
-        },
-        "diskSpace": {
-          "status": "UP",
-          "details": {
-            "total": 225020211200,
-            "free": 174585724928,
-            "threshold": 10485760
-          }
-        }
-      }
-    }
-
-    this.data = sth;
-
-    this.http.get(environment.API_ENDPOINT).subscribe((data: any)=>{
-      //alert(JSON.stringify(data));
+    this.http.get(environment.API_ENDPOINT+"actuator/health").subscribe((data: any)=>{
       this.data = data;
     });
     

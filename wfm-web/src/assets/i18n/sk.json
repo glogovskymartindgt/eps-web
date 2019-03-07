@@ -3,5 +3,16 @@
 		"title": "Medzinárodná hokejová federácia",
 		"country": "Slovensko"
 	},
-	"status": "Stav"
+	"server-status": "Stav servera",
+	"db": {
+		"status": "Detail stavu databázy",
+		"detail": "Databáza",
+		"ping": "Odozva databázy"
+	},
+	"diskspace": {
+		"status": "Stav miesta na disku",
+		"total": "Celkovo miesta na disku",
+		"free": "Voľné miesto na disku",
+		"treshold": "Prah na disku"
+	}
 }

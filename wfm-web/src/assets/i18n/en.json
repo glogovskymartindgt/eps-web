@@ -3,5 +3,16 @@
 		"title": "International Ice Hockey Federation",
 		"country": "Slovakia"
 	},
-	"status": "Status"
+	"server-status": "Server status",
+	"db": {
+		"status": "Database detail status",
+		"detail": "Database",
+		"ping": "DataBase ping"
+	},
+	"diskspace": {
+		"status": "Diskspace status",
+		"total": "Database total",
+		"free": "DataBase free",
+		"treshold": "DataBase treshold"
+	}
 }
