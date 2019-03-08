@@ -1,0 +1,69 @@
+.first-header-row th {
+    border-bottom: none;
+    white-space: nowrap;
+}
+
+th[mat-header-cell] {
+    font-weight: 600;
+    padding: 5px;
+    text-align: inherit;
+    color: black;
+}
+
+td[mat-cell] {
+    font-size: 12px;
+    color: #575757;
+    padding: 0 5px 0 5px;
+}
+
+.data {
+    padding: 5px;
+    cursor: pointer;
+}
+
+.white-box {
+    background: white;
+    padding: 10px;
+    margin: 0;
+}
+
+.expand-detail-row {
+    height: 0;
+}
+
+.expand-element-detail {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.expand-td {
+    background: #e0f2f1;
+}
+
+.paginator-style {
+    border-top: 1px solid rgba(0, 0, 0, .12);
+}
+
+.search-icon {
+    color: gray;
+    font-size: 14px;
+    padding-right: 5px;
+    animation-name: fadeIn;
+    animation-duration: 1s;
+}
+
+.w-100 {
+    width: 100px !important;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+

@@ -1,0 +1,7 @@
+/*
+Material table filter graphic bug fix
+ */
+.header-flexend .mat-sort-header-container {
+    justify-content: flex-end !important;
+}
+

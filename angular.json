@@ -17,6 +17,11 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/app/shared/hazelnut/hazelnut-common/hazelnut/styles"
+              ]
+            },
             "outputPath": "dist/iihf-web",
             "index": "src/index.html",
             "main": "src/main.ts",

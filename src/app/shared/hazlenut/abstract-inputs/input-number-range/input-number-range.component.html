@@ -1,0 +1,14 @@
+<div [ngClass]="'w-' + inputSize">
+    <haz-input-number [formControl]="fromControl"
+                      [inputStyles]="inputStyles"
+                      [label]="fromLabel"
+                      class="mr-10"
+                      [styles]="realStyles"></haz-input-number>
+    <haz-input-number [label]="toLabel"
+                      [styles]="realStyles"
+                      [inputStyles]="inputStyles"
+                      [formControl]="toControl"></haz-input-number>
+    <mat-error *ngIf="actualError === 'minmax'" class="error-message">
+        {{errorInterval}}
+    </mat-error>
+</div>

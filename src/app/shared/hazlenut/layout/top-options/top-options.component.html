@@ -1,0 +1,24 @@
+<div *ngFor="let menuItem of routes;" fxLayout="row">
+    <button *ngIf="checkRoute(menuItem, false)"
+            (click)="highlightAndNavigateOption(menuItem.path)"
+            [matTooltip]="menuItem.data['title']"
+            mat-icon-button>
+        <mat-icon>{{menuItem.data['icon']}}</mat-icon>
+        <div [ngClass]="{'side-option-selected': menuItem.path === menuService.selectedOptionPath,
+              'side-option-unselected': menuItem.path !== menuService.selectedOptionPath}">
+        </div>
+    </button>
+    <button *ngIf="checkRoute(menuItem, true)"
+            (click)="toggleMenuSelect();"
+            [matTooltip]="menuItem.data['title']"
+            mat-icon-button>
+        <mat-icon [ngClass]="{'upper-icon': menuSelect}">
+            {{menuItem.data['icon']}}
+        </mat-icon>
+    </button>
+    <div *ngIf="checkRoute(menuItem, true)"
+         [ngClass]="{'child-container-icon-open': menuSelect,
+                    'child-container-icon': !menuSelect}" fxLayout="row">
+        <top-options [routes]="menuItem.children" fxLayout="row"></top-options>
+    </div>
+</div>

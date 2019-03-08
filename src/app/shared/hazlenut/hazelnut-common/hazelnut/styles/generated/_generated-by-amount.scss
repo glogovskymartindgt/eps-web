@@ -1,0 +1,98 @@
+/*
+This .scss loop will create " margin helpers " and " padding helpers " for use in your web projects.
+It will generate several classes such as:
+    .mr-10 which gives margin-right 10 pixels.
+    .mr-15 gives MARGIN to the RIGHT 15 pixels.
+    .mt-15 gives MARGIN to the TOP 15 pixels and so on.
+    .pb-5 gives PADDING to the BOTTOM of 5 pixels
+    .pl-40 gives PADDING to the LEFT of 40 pixels
+    .p-10 gives PADDING to all sides of 10pixels
+    .mx-auto gives center block element horizontally
+The first letter is " m " or " p " for MARGIN or PADDING
+Second letter is " t ", " b ", " l ", or " r " for TOP, BOTTOM, LEFT, or RIGHT
+Third letter is the number of spacing in pixels.
+*/
+
+// Adjust this to include the pixel amounts you need.
+$amounts: (
+    0, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 22, 23, 25, 30, 33, 35, 40, 43, 45, 50, 52, 60,
+    70, 75, 80, 90, 100, 150, 170, 200, 300
+);
+$sides: (top, bottom, left, right, ' ');
+
+@each $space in $amounts {
+    @each $side in $sides {
+        .m#{str-slice($side, 0, 1)}-#{$space} {
+            margin-#{$side}: #{$space}px !important;
+        }
+
+        .p#{str-slice($side, 0, 1)}-#{$space} {
+            padding-#{$side}: #{$space}px !important;
+        }
+    }
+    .m-#{$space} {
+        margin: #{$space}px !important;
+    }
+
+    .p-#{$space} {
+        padding: #{$space}px !important;
+    }
+}
+
+.mx-auto {
+    margin: auto !important;
+}
+
+/*
+    w-X sets width, where X is amount in pixels
+    w-100 sets width to 100px
+    max-w-100 sets max-width to 100px
+    min-w-100 sets min-width to 100px
+*/
+$wh-amounts: (
+    20, 25, 30, 32, 38, 50, 60, 70, 80, 83, 90, 95, 100, 120, 125, 130, 135, 140, 145, 150, 160, 165, 170, 175, 180,
+    190, 200, 204, 210, 220, 230, 240, 250, 260, 270, 275, 280, 290, 300, 310, 350, 372, 380, 400, 410, 450, 480,
+    500, 550, 600, 625, 900, 1500
+);
+
+@each $amount in $wh-amounts {
+    .w-#{$amount} {
+        width: #{$amount}px !important;
+    }
+
+    .min-w-#{$amount} {
+        min-width: #{$amount}px !important;
+    }
+
+    .max-w-#{$amount} {
+        max-width: #{$amount}px !important;
+    }
+
+    .h-#{$amount} {
+        height: #{$amount}px !important;
+    }
+
+    .min-h-#{$amount} {
+        min-height: #{$amount}px !important;
+    }
+
+    .max-h-#{$amount} {
+        max-height: #{$amount}px !important;
+    }
+}
+
+.w-full {
+    width: 100%;
+}
+
+/*
+    o-X sets opacity, where X is amount in percentage
+    o-100 sets opacity to 100% (fully visible)
+*/
+$o-amounts: (0, 10, 25, 40, 50, 60, 75, 90, 100);
+
+@each $amount in $o-amounts {
+    .o-#{$amount} {
+        opacity: #{$amount / 100} !important;
+    }
+}

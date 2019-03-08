@@ -1,0 +1,41 @@
+<mat-drawer-container class="menu-container" autosize>
+
+    <mat-drawer #drawer class="menu-sidenav" mode="side" opened="true" [disableClose]="true">
+        <div class="layer">
+            <ng-content></ng-content>
+            <div class="menu-icon-options">
+                <button mat-icon-button toggleFullscreen>
+                    <mat-icon>fullscreen</mat-icon>
+                </button>
+            </div>
+            <mat-divider></mat-divider>
+            <side-options></side-options>
+        </div>
+    </mat-drawer>
+
+    <div fxLayout="column">
+        <div [ngClass]="{'move-down-close': menuSide,
+                    'move-down-open': !menuSide}"
+             class="menu-topnav p-10"
+             fxLayoutAlign="space-between center"
+             fxLayout="row">
+            <top-options fxLayout="row" fxflex="90" *ngIf="!menuSide"></top-options>
+            <div fxflex fxLayoutAlign="end">
+                <button mat-icon-button (click)="drawer.toggle();toggleMenu();">
+                    <mat-icon>vertical_split</mat-icon>
+                </button>
+                <button mat-icon-button toggleFullscreen>
+                    <mat-icon>fullscreen</mat-icon>
+                </button>
+                <button mat-icon-button>
+                    <mat-icon>exit_to_app</mat-icon>
+                </button>
+            </div>
+        </div>
+        <div [@routeAnimations]="animateRoute(outlet)">
+            <router-outlet #outlet="outlet"></router-outlet>
+        </div>
+    </div>
+
+
+</mat-drawer-container>

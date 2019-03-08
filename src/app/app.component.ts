@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { TRANSLATE } from './shared/custom-functions';
 import { environment } from 'src/environments/environment';
+import { TRANSLATE } from './shared/custom-functions';
 
 @Component({
   selector: 'iihf-root',
@@ -11,23 +11,23 @@ import { environment } from 'src/environments/environment';
 })
 export class AppComponent implements OnInit{
 
-  data;
+  public data;
 
-  status = TRANSLATE('header.status');
+  public status = TRANSLATE('header.status');
 
-  constructor(private translate: TranslateService, private http: HttpClient) {
+  public constructor(private translate: TranslateService, private http: HttpClient) {
     translate.setDefaultLang('en');
   }
 
-  ngOnInit(){
+  public ngOnInit(){
 
-    this.http.get(environment.API_ENDPOINT+"actuator/health").subscribe((data: any)=>{
-      this.data = data;
-    });
-    
+    // this.http.get(environment.API_ENDPOINT+"actuator/health").subscribe((data: any)=>{
+    //   this.data = data;
+    // });
+
   }
-  
-  useLanguage(language: string) {
+
+  public useLanguage(language: string) {
     this.translate.use(language);
   }
 

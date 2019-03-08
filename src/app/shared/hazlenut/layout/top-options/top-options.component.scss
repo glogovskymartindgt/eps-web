@@ -1,0 +1,56 @@
+/*
+ Icon and text color
+  */
+$text-color: white;
+
+.child-container-icon {
+    overflow: hidden;
+    max-width: 0;
+    transition: max-width .2s ease-out;
+}
+
+.child-container-icon-open {
+    overflow: hidden;
+    max-width: 100vw;
+    transition: max-width .5s ease-in;
+    padding-top: 10px;
+}
+
+.mat-icon {
+    color: $text-color;
+}
+
+.smaller-icon {
+    font-size: 16px;
+    margin-top: 17px;
+    padding-left: 3px;
+}
+
+.side-option-selected {
+    margin-left: 5px;
+    width: 30px;
+    height: 2px;
+    background: $text-color;
+    position: absolute;
+    bottom: 2px;
+    border-radius: 1px;
+    transition: width .2s ease-in, margin .2s ease-in;
+}
+
+.side-option-unselected {
+    margin-left: 15px;
+    width: 0;
+    height: 2px;
+    background: $text-color;
+    position: absolute;
+    bottom: 2px;
+    border-radius: 1px;
+    transition: width .1s ease-out, margin .2s ease-out;
+}
+
+.upper-icon {
+    font-size: 12px;
+}
+
+
+

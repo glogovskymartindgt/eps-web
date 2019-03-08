@@ -1,23 +1,2 @@
-<div style="text-align:center">
-  <h1 translate>header.title</h1>
-  <img width="800" alt="Angular Logo" src="assets/img/iihf-anniversary-logo.gif">
-</div>
-<div style="text-align:center">
-  <h1 translate>header.country</h1>
-  <img width="200" alt="Angular Logo" src="assets/img/iihf-brand-logo.gif">
-
-  <p>{{ 'server-status' | translate}} {{data?.status}}</p>
-
-  <p>{{ 'db.status' | translate}} detail status {{data?.details?.db?.status}}</p>
-  <p>{{ 'db.detail' | translate}} {{data?.details?.db?.details?.database}}</p>
-  <p>{{ 'db.ping' | translate}} {{data?.details?.db?.details?.hello}}</p>
-
-  <p>{{ 'diskspace.status' | translate}} {{data?.details?.diskSpace?.status}}</p>
-  <p>{{ 'diskspace.total' | translate}} {{data?.details?.diskSpace?.details?.total}}</p>
-  <p>{{ 'diskspace.free' | translate}} {{data?.details?.diskSpace?.details?.free}}</p>
-  <p>{{ 'diskspace.treshold' | translate}} {{data?.details?.diskSpace?.details?.threshold}}</p>
-
-  <button (click)="useLanguage('en')">en</button>
-  <button (click)="useLanguage('sk')">sk</button>
-
-</div>
+<div class="top-bar"></div>
+<router-outlet></router-outlet>

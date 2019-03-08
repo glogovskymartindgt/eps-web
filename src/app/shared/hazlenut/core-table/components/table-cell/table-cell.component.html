@@ -1,0 +1,36 @@
+<ng-container [ngSwitch]="columnConfig.type">
+    <div *ngSwitchCase="tableCellType.NUMBER" class="num-value">{{ cellValue | roundToDecimal: 2 | number }}</div>
+
+    <div *ngSwitchCase="tableCellType.NUMBERINT"
+         class="num-value">{{ cellValue | roundToDecimal: 2 | number: '1.0-0' }}</div>
+
+    <div *ngSwitchCase="tableCellType.NUMBERFLOAT1"
+         class="num-value">{{ cellValue | roundToDecimal: 2 | number: '1.1-1' }}</div>
+
+    <div *ngSwitchCase="tableCellType.NUMBERFLOAT2"
+         class="num-value">{{ cellValue | roundToDecimal: 2 | number: '1.2-2' }}</div>
+
+    <div *ngSwitchCase="tableCellType.PERCENT"
+         class="text-nowrap num-value">{{ cellValue | roundToDecimal: 2 | number: '1.2-2' }} %
+    </div>
+
+    <div *ngSwitchCase="tableCellType.TOPERCENT" class="num-value">{{ cellValue | percent }}</div>
+
+    <div *ngSwitchCase="tableCellType.DATE">{{ cellValue | date }}</div>
+
+    <div *ngSwitchCase="tableCellType.DATETIME">{{ cellValue | date: 'short' }}</div>
+
+    <div *ngSwitchCase="tableCellType.CUSTOM_VALUE" [innerHTML]="customValue"></div>
+
+    <ng-container *ngSwitchCase="tableCellType.CONTENT">
+        <div [ngClass]="columnConfig.tdClasses">
+            <ng-container *ngTemplateOutlet="columnConfig.tableCellTemplate; context: {
+                              row: row, columnConfig: columnConfig, value: cellValue
+                          }"
+            ></ng-container>
+        </div>
+    </ng-container>
+
+    <div *ngSwitchDefault [ngClass]="columnConfig.tdClasses"
+         class="wrap-ellipsis">{{ cellValue }}</div>
+</ng-container>

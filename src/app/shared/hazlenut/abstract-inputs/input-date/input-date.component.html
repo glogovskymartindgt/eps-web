@@ -1,0 +1,13 @@
+<mat-form-field class="pt-2" [ngClass]="'w-' + dateWidth">
+    <input [formControl]="formControl"
+           [matDatepicker]="date"
+           [placeholder]="placeholder"
+           [value]="value"
+           [min]="min"
+           [max]="max"
+           matInput>
+    <mat-datepicker-toggle [for]="date"
+                           matSuffix>
+    </mat-datepicker-toggle>
+    <mat-datepicker #date></mat-datepicker>
+</mat-form-field>

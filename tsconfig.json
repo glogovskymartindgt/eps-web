@@ -17,6 +17,14 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@hazelnut": [
+        "app/shared/hazelnut"
+      ],
+      "@hazelnut/*": [
+        "app/shared/hazelnut/*"
+      ]
+    }
   }
 }

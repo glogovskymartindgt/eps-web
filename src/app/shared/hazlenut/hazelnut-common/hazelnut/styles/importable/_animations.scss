@@ -1,0 +1,11 @@
+@keyframes initXMove {
+    0% {
+        transform: translateX(-10px);
+    }
+    80% {
+        transform: translateX(3px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}

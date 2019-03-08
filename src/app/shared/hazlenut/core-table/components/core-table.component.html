@@ -1,0 +1,121 @@
+<div class="styled-table-container">
+    <table [dataSource]="data?.content"
+           [ngClass]="{'border-columns': configuration.columnBorders}"
+           class="styled-table"
+           mat-table
+           matSort
+           multiTemplateDataRows>
+
+        <!--header cells-->
+        <ng-container *ngFor="let columnConfig of configuration.columns; let i = index"
+                      [matColumnDef]="columnConfig.columnDef">
+            <!-- header cell -->
+            <!-- dynamically set sorting -->
+            <ng-container *ngIf="columnConfig.sorting">
+                <th
+                    *matHeaderCellDef
+                    [ngClass]="{ 'header-flexend': isRightAligned(columnConfig.type) || columnConfig.align === 'right' }"
+                    mat-header-cell
+                    mat-sort-header
+                >
+                    {{ columnConfig.label }}
+                </th>
+            </ng-container>
+            <ng-container *ngIf="!columnConfig.sorting">
+                <th *matHeaderCellDef mat-header-cell>
+                    <div
+                        [ngClass]="{
+                            'right-align-header': isRightAligned(configuration.columns[i].type) || columnConfig.align === 'right'
+                        }"
+                    >
+                        {{ columnConfig.label }}
+                    </div>
+                </th>
+            </ng-container>
+
+            <!-- selection checkbox cell -->
+            <ng-container *ngIf="i === 0 && selectableTable">
+                <td *matCellDef="let row" mat-cell>
+                    <mat-checkbox
+                        (change)="$event ? selection.toggle(row) : null"
+                        (click)="$event.stopPropagation()"
+                        [checked]="selection.isSelected(row)"
+                        [color]="configuration.selectionColor"
+                    >
+                    </mat-checkbox>
+                </td>
+            </ng-container>
+
+            <!-- data row cell -->
+            <ng-container *ngIf="dataRowsDisplayed">
+                <td *matCellDef="let row" [ngClass]="{ data: configuration.expandedRowTemplate }" mat-cell>
+                    <haz-table-cell [columnConfig]="columnConfig" [row]="row"></haz-table-cell>
+                </td>
+            </ng-container>
+        </ng-container>
+
+        <!--filter row cell-->
+        <ng-container *ngFor="let columnConfig of configuration.columns"
+                      [matColumnDef]="columnConfig.filterElement">
+            <th *matHeaderCellDef mat-header-cell>
+                <haz-core-table-filter *ngIf="columnConfig.filter" [columnConfig]="columnConfig">
+                </haz-core-table-filter>
+            </th>
+        </ng-container>
+
+        <!-- expanded rows cell -->
+        <ng-container matColumnDef="expandedDetail">
+            <td *matCellDef="let row" [attr.colspan]="displayedColumns?.length" class="expand-td" mat-cell>
+                <div [@detailExpand]="row == selectedRow ? 'expanded' : 'collapsed'" class="expand-element-detail"
+                >
+                    <ng-container
+                        *ngTemplateOutlet="configuration.expandedRowTemplate; context: { row: row }"></ng-container>
+                </div>
+            </td>
+        </ng-container>
+
+        <!--  header row -->
+        <tr
+            *matHeaderRowDef="displayedColumns; sticky: true"
+            [ngClass]="{ headerColor: configuration.headerColor, 'last-header-row': !anyFilter }"
+            class="first-header-row p-0 m-0"
+            mat-header-row
+        ></tr>
+
+        <!-- filters row -->
+        <ng-container *ngIf="anyFilter">
+            <tr *matHeaderRowDef="columnsFilters; sticky: true" class="p-0 m-0 last-header-row" mat-header-row></tr>
+        </ng-container>
+
+        <!-- data rows -->
+        <ng-container>
+            <tr
+                (click)="onExpandableRowClicked(row); rowClicked(row)"
+                *matRowDef="let row; columns: displayedColumns; let i = index"
+                [class.data-row]="configuration.expandedRowTemplate || configuration.trClasses === 'data-row'"
+                [ngClass]="getClass(row)"
+                mat-row
+            ></tr>
+        </ng-container>
+
+        <!-- expanded rows -->
+        <ng-container *ngIf="configuration.expandedRowTemplate">
+            <tr *matRowDef="let detail; columns: ['expandedDetail']" class="expand-detail-row" mat-row></tr>
+        </ng-container>
+    </table>
+</div>
+
+<!-- text on no data present -->
+<div *ngIf="!dataRowsDisplayed" class="white-box row">
+    <p class="pl-40 pt-15">{{ configuration.noDataText }}</p>
+</div>
+
+<mat-paginator
+    [hidden]="(configuration?.pageSizeOptions && data?.totalElements < configuration.pageSizeOptions[0]) || !configuration.paging"
+    [length]="data?.totalElements"
+    [pageSizeOptions]="configuration.pageSizeOptions"
+    [hidePageSize]="!configuration.paging"
+    class="paginator"
+    showFirstLastButtons>
+</mat-paginator>
+

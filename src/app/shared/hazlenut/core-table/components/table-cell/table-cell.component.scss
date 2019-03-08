@@ -1,0 +1,27 @@
+.num-value {
+    display: inline-block;
+    text-align: right;
+}
+
+div {
+    width: 100%;
+}
+
+*[data-state='success'] {
+    color: green;
+}
+
+*[data-state='fail'] {
+    color: red;
+}
+
+.wrap-ellipsis {
+    max-width: 30vw;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.text-nowrap {
+    white-space: nowrap !important;
+}

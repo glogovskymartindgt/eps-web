@@ -1,0 +1,22 @@
+<!--TODO use haz-core-ipnut here-->
+<ng-template [ngIf]="!customInput">
+    <mat-form-field [appearance]="appearance" [ngStyle]="styles">
+        <mat-label>{{ label }}</mat-label>
+        <input (blur)="onTouched(this.value)"
+               [formControl]="control"
+               [placeholder]="placeholder"
+               autocomplete="off"
+               matInput
+               style="width: 100%;"
+        />
+        <mat-hint align="start">{{ displayedError }}</mat-hint>
+        <mat-hint align="end">{{ displayedHint }}</mat-hint>
+        <mat-error *ngIf="showErrors">{{ displayedError }}</mat-error>
+    </mat-form-field>
+
+</ng-template>
+
+<ng-template [ngIf]="customInput">
+    <ng-container [ngStyle]="styles"
+                  *ngTemplateOutlet="customInput; context: { control: control, label: label }"></ng-container>
+</ng-template>

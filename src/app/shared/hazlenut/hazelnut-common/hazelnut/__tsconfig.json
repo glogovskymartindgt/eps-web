@@ -1,0 +1,15 @@
+{
+    "extends": "../../../../../../tsconfig.default.json",
+    "compileOnSave": false,
+    "include": [
+        "./**/*.ts"
+    ],
+    "exclude": [
+        "./**/*.spec.ts",
+        "**/*.d.ts"
+    ],
+    "compilerOptions": {
+        "baseUrl": "./",
+        "outDir": "../../dist/hazelnut"
+    }
+}

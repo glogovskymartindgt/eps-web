@@ -1,34 +1,47 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 
-// import ngx-translate and the http loader for translations
-import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
-import {TranslateHttpLoader} from '@ngx-translate/http-loader';
-import {HttpClient, HttpClientModule} from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { MatButtonModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { AppRoutes } from './app.routing';
+import { AdminLayoutComponent } from './pages/layouts/admin-layout/admin-layout.component';
+import { AuthLayoutComponent } from './pages/layouts/auth-layout/auth-layout.component';
+import { MaterialModule } from './shared/hazlenut/hazelnut-common';
+import { LayoutModule } from './shared/hazlenut/layout';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    AuthLayoutComponent,
+    AdminLayoutComponent
   ],
   imports: [
     BrowserModule,
-     //ngx-translate imports
-     HttpClientModule,
-     TranslateModule.forRoot({
-         loader: {
-             provide: TranslateLoader,
-             useFactory: HttpLoaderFactory,
-             deps: [HttpClient]
-         }
-     })
+    BrowserAnimationsModule,
+    MatButtonModule,
+    HttpClientModule,
+    LayoutModule,
+    RouterModule.forRoot(AppRoutes, {useHash: true}),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
+    MaterialModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
 
-// ngx-translate required HttpLoaderFactory for AOT compilation
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
