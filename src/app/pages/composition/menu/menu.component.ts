@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, TemplateRef } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { routeAnimations } from '../../hazelnut-common/animations/animations';
+import { Router, RouterOutlet } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { routeAnimations } from '../../../shared/hazlenut/hazelnut-common/animations';
 
 @Component({
     selector: 'menu',
@@ -13,14 +14,20 @@ export class MenuComponent implements OnInit {
 
     public menuSide = true;
 
-    public constructor() {
+    public constructor(private readonly router: Router,
+                       private readonly translateService: TranslateService) {
     }
 
     public ngOnInit(): void {
     }
 
-    public toggleMenu(): void {
+    public logout(): void {
         this.menuSide = !this.menuSide;
+        this.router.navigate(['/authentication/login']);
+    }
+
+    public toggleLanguage() {
+        this.translateService.use(this.translateService.currentLang === 'sk' ?  'en' : 'sk');
     }
 
     public animateRoute(outlet: RouterOutlet): boolean {

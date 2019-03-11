@@ -23,7 +23,9 @@ export class SideOptionsComponent implements OnInit {
 
     public ngOnInit(): void {
         if (!this.routes) {
-            this.routes = this.router.config;
+            this.routes = this.router.config
+              .find((group) => group.component && group.component.name === 'AdminLayoutComponent')
+              .children;
         }
     }
 

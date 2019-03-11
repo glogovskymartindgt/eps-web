@@ -1,24 +1,25 @@
 {
-  "header": {
-    "title": "Medzinárodná hokejová federácia",
-    "country": "Slovensko"
-  },
-  "server-status": "Stav servera",
-  "db": {
-    "status": "Detail stavu databázy",
-    "detail": "Databáza",
-    "ping": "Odozva databázy"
-  },
-  "diskspace": {
-    "status": "Stav miesta na disku",
-    "total": "Celkovo miesta na disku",
-    "free": "Voľné miesto na disku",
-    "treshold": "Prah na disku"
-  },
-  "menu": {
-    "tasks": "Úlohy"
-  },
-  "login": {
-    "login": "Prihlásiť"
-  }
+    "header": {
+        "title": "Medzinárodná hokejová federácia",
+        "country": "Slovensko"
+    },
+    "server-status": "Stav servera",
+    "db": {
+        "status": "Detail stavu databázy",
+        "detail": "Databáza",
+        "ping": "Odozva databázy"
+    },
+    "diskspace": {
+        "status": "Stav miesta na disku",
+        "total": "Celkovo miesta na disku",
+        "free": "Voľné miesto na disku",
+        "treshold": "Prah na disku"
+    },
+    "menu": {
+        "tasks": "Úlohy",
+        "plans": "Plány"
+    },
+    "login": {
+        "login": "Prihlásiť"
+    }
 }

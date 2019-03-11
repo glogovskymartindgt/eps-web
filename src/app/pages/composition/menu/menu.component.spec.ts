@@ -1,6 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { TestingModule } from '@hazelnut/lib/testing.module';
-import { LayoutModule } from '../layout.module';
 
 import { MenuComponent } from './menu.component';
 
@@ -11,8 +9,6 @@ describe('MenuComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
-                TestingModule,
-                LayoutModule,
             ],
         }).compileComponents();
     }));

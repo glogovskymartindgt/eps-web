@@ -14,5 +14,12 @@
 		"total": "Database total",
 		"free": "DataBase free",
 		"treshold": "DataBase treshold"
-	}
+	},
+    "menu": {
+        "tasks": "Tasks",
+        "plans": "Plans"
+    },
+    "login": {
+        "login": "Log in"
+    }
 }

@@ -19,12 +19,12 @@ export const AppRoutes: Routes = [
         data: {title: 'menu.tasks', icon: 'person', menu: true, animation: 'tasks'},
         // canActivate: [AuthGuard]
       },
-  //     {
-  //       path: 'admins',
-  //       loadChildren: './pages/admins/admins.module#AdminsModule',
-  //       data: {title: 'menu.admins', icon: 'perm_identity', menu: true, animation: 'admins'},
-  //       canActivate: [AuthGuard]
-  //     },
+      {
+        path: 'plans',
+        loadChildren: './pages/plans/plans.module#PlansModule',
+        data: {title: 'menu.plans', icon: 'person', menu: true, animation: 'plans'},
+        // canActivate: [AuthGuard]
+      },
     ],
   },
   {
