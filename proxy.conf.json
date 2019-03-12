@@ -1,0 +1,14 @@
+{
+  "/api/*": {
+    "target": {
+      "host": "devou.qbsw.local",
+      "protocol": "https:",
+      "port": 8843
+    },
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api": "/plaze/api"
+    }
+  }
+}

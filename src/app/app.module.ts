@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -12,7 +13,7 @@ import { CompositionModule } from './pages/composition/composition.module';
 import { AdminLayoutComponent } from './pages/layouts/admin-layout/admin-layout.component';
 import { AuthLayoutComponent } from './pages/layouts/auth-layout/auth-layout.component';
 import { MaterialModule } from './shared/hazlenut/hazelnut-common';
-import { FormsModule } from '@angular/forms';
+import { AuthGuard } from './shared/services/auth-guard';
 
 @NgModule({
     declarations: [
@@ -36,7 +37,7 @@ import { FormsModule } from '@angular/forms';
         }),
         MaterialModule,
     ],
-    providers: [],
+    providers: [AuthGuard],
     bootstrap: [AppComponent]
 })
 export class AppModule {

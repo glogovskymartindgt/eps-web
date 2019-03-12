@@ -8,9 +8,9 @@ import 'hammerjs';
 import { initHazelnutConfig } from './app/shared/hazlenut/hazelnut-common/config/hazelnut-config';
 
 initHazelnutConfig({
-  URL_API: "/",
-  LANGUAGE: "sk",
-  VERSION: "1.0.0",
+  URL_API: environment.URL_API,
+  LANGUAGE: 'sk',
+  VERSION: '1.0.0',
   BROWSE_LIMIT: 10
 });
 
@@ -19,4 +19,4 @@ if (environment.production) {
 }
 
 platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+  .catch((err) => console.error(err));
