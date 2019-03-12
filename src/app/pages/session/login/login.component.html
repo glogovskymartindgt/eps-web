@@ -1,5 +1,5 @@
 <div class="login-page" fxLayout="row" fxLayoutAlign="center center">    
-  <mat-card class="login-card">
+  <mat-card class="login-card p-0">
       <form [formGroup]="loginForm">
           <div class="login-header mb-20">
               <div class="login-header" fxLayout="row" fxLayoutAlign="center center">    
@@ -7,24 +7,23 @@
               </div>
            </div>
           <mat-card-header></mat-card-header>
-          <mat-card-content>
+          <mat-card-content class="m-0 px-16">
               <div class="card-container">
                   <mat-form-field appearance="fill">
-                      <mat-label translate>login.email</mat-label>
-                      <input matInput required formControlName="email">
-                      <mat-error *ngIf="f?.email?.invalid">{{getErrorMessage('email')}}</mat-error>
+                      <mat-label translate>login.login-name</mat-label>
+                      <input matInput required formControlName="loginName">
+                      <mat-error *ngIf="loginFormControls?.loginName?.invalid" translate>login.login-required</mat-error>
                   </mat-form-field>
                   <mat-form-field appearance="fill" class="mt-8">
                       <mat-label translate>login.password</mat-label>
-                      <input matInput [type]="hide ? 'password' : 'text'" required formControlName="password">
-                      <mat-icon matSuffix (click)="hide  = !hide " class="cursor-pointer" matTooltip="{{ 'login.toggle-visibility' | translate}}">{{hide  ? 'visibility_off' : 'visibility'}}</mat-icon>
-                      <mat-hint translate>login.password-visibility-hint</mat-hint>
-                      <mat-error *ngIf="f?.password?.invalid">{{getErrorMessage('password')}}</mat-error>
+                      <input matInput [type]="hidePassword ? 'password' : 'text'" required formControlName="password">
+                      <mat-icon matSuffix (click)="hidePassword  = !hidePassword " class="cursor-pointer" matTooltip="{{ 'login.toggle-visibility' | translate}}">{{hidePassword  ? 'visibility_off' : 'visibility'}}</mat-icon>
+                      <mat-error *ngIf="loginFormControls?.password?.invalid" translate>login.password-required</mat-error>
                   </mat-form-field>
               </div>
           </mat-card-content>
-          <mat-card-actions class="m-0 p-0">
-              <button mat-raised-button color="primary" class="my-btn " (click)="login()">{{ 'login.login' | translate }}</button>
+          <mat-card-actions class="m-0 px-16 pb-16">
+                <button type="submit" mat-raised-button color="primary" class="my-btn" (click)="login()">{{ 'login.login' | translate }}</button>
           </mat-card-actions>
       </form>
   </mat-card>

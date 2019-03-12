@@ -21,9 +21,9 @@
     },
 	"login": {
 		"login": "Log in",
-		"email": "Email",
+		"login-name": "Login name",
+		"login-required": "Login is required",
 		"password": "Password",
-		"password-visibility-hint": "Click the eye to toggle visibility",
 		"password-required": "Password is required",
 		"toggle-visibility": "Toggle visibility"
 	}
