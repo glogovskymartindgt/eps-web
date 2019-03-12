@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { AuthService } from '../../../shared/services/auth.service.ts.service';
-import { TRANSLATE } from 'src/app/shared/custom-functions';
-import { TranslateService } from '@ngx-translate/core';
 import {_} from '@biesbjerg/ngx-translate-extract/dist/utils/utils';
+import { TranslateService } from '@ngx-translate/core';
+import { TRANSLATE } from 'src/app/shared/custom-functions';
+import { AuthService } from '../../../shared/services/auth.service.ts.service';
 
 @Component({
   selector: 'iihf-login',
@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
                      private readonly formBuilder: FormBuilder,
                      private readonly authService: AuthService) { }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.createForm();
   }
 
@@ -32,13 +32,13 @@ export class LoginComponent implements OnInit {
       });
   }
 
-    get loginFormControls() { return this.loginForm.controls; }
+    public get loginFormControls() { return this.loginForm.controls; }
 
   public login() {
     if (this.loginForm.invalid) {
       return;
     }
-      this.authService.login(this.loginForm.value.email, this.loginForm.value.password);
+    this.authService.login(this.loginForm.value.loginName, this.loginForm.value.password);
   }
 
 }
