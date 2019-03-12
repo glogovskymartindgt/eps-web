@@ -19,6 +19,8 @@ $amounts: (
     70, 75, 80, 90, 100, 150, 170, 200, 300
 );
 $sides: (top, bottom, left, right, ' ');
+$sidesX: (left, right, ' ');
+$sidesY: (top, bottom, ' ');
 
 @each $space in $amounts {
     @each $side in $sides {
@@ -30,6 +32,27 @@ $sides: (top, bottom, left, right, ' ');
             padding-#{$side}: #{$space}px !important;
         }
     }
+    
+    @each $side in $sidesX {
+        .mx-#{$space} {
+            margin-#{$side}: #{$space}px !important;
+        }
+
+        .px-#{$space} {
+            padding-#{$side}: #{$space}px !important;
+        }
+    }
+
+    @each $side in $sidesY {
+        .my-#{$space} {
+            margin-#{$side}: #{$space}px !important;
+        }
+
+        .py-#{$space} {
+            padding-#{$side}: #{$space}px !important;
+        }
+    }
+
     .m-#{$space} {
         margin: #{$space}px !important;
     }
@@ -37,6 +60,7 @@ $sides: (top, bottom, left, right, ' ');
     .p-#{$space} {
         padding: #{$space}px !important;
     }
+    
 }
 
 .mx-auto {
