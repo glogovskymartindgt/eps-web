@@ -12,6 +12,7 @@ import { CompositionModule } from './pages/composition/composition.module';
 import { AdminLayoutComponent } from './pages/layouts/admin-layout/admin-layout.component';
 import { AuthLayoutComponent } from './pages/layouts/auth-layout/auth-layout.component';
 import { MaterialModule } from './shared/hazlenut/hazelnut-common';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [
@@ -24,6 +25,7 @@ import { MaterialModule } from './shared/hazlenut/hazelnut-common';
         BrowserAnimationsModule,
         HttpClientModule,
         CompositionModule,
+        FormsModule,
         RouterModule.forRoot(AppRoutes, {useHash: true}),
         TranslateModule.forRoot({
             loader: {

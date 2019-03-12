@@ -19,7 +19,12 @@
         "tasks": "Tasks",
         "plans": "Plans"
     },
-    "login": {
-        "login": "Log in"
-    }
+	"login": {
+		"login": "Log in",
+		"email": "Email",
+		"password": "Password",
+		"password-visibility-hint": "Click the eye to toggle visibility",
+		"password-required": "Password is required",
+		"toggle-visibility": "Toggle visibility"
+	}
 }

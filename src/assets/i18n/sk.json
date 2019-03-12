@@ -20,6 +20,11 @@
         "plans": "Plány"
     },
     "login": {
-        "login": "Prihlásiť"
+      "login": "Prihlásiť sa",
+      "email": "Email",
+      "password": "Heslo",
+      "password-visibility-hint": "Kliknutín na oko sa zmení viditeľnosť",
+      "password-required": "Heslo je povinné",
+      "toggle-visibility": "Zmeniť viditeľnosť"
     }
 }
