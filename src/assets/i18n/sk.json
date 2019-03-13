@@ -21,8 +21,8 @@
     },
     "login": {
       "login": "Prihlásiť sa",
-      "login-name": "Prihlasovacie meno",
-      "login-required": "Prihlasovacie meno je povinné",
+      "username": "Prihlasovacie meno",
+      "username-required": "Prihlasovacie meno je povinné",
       "password": "Heslo",
       "password-required": "Heslo je povinné",
       "toggle-visibility": "Zmeniť viditeľnosť"

@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import {_} from '@biesbjerg/ngx-translate-extract/dist/utils/utils';
-import { TranslateService } from '@ngx-translate/core';
-import { TRANSLATE } from 'src/app/shared/custom-functions';
 import { AuthService } from '../../../shared/services/auth.service.ts.service';
 
 @Component({
@@ -27,7 +24,7 @@ export class LoginComponent implements OnInit {
 
   private createForm() {
       this.loginForm = this.formBuilder.group({
-          loginName: [null, [Validators.required]],
+          userName: [null, [Validators.required]],
           password: [null, [Validators.required]]
       });
   }
@@ -38,7 +35,7 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
-    this.authService.login(this.loginForm.value.loginName, this.loginForm.value.password);
+    this.authService.login(this.loginForm.value.userName, this.loginForm.value.password);
   }
 
 }

@@ -1,18 +1,16 @@
 <div class="login-page" fxLayout="row" fxLayoutAlign="center center">    
   <mat-card class="login-card p-0">
       <form [formGroup]="loginForm">
-          <div class="login-header mb-20">
-              <div class="login-header" fxLayout="row" fxLayoutAlign="center center">    
-                 <img src="/assets/img/iihf-brand-logo.gif" height="200px" alt="iihf logo">
-              </div>
+          <div class="login-header p-25 pt-35">
+            <h2 class="logo-blue-color m-0"><span class="logo-red-color">IIHF</span><br>EVENT<br>PLANNING<br>SYSTEM</h2>
            </div>
           <mat-card-header></mat-card-header>
-          <mat-card-content class="m-0 px-16">
+          <mat-card-content class="m-0 px-25">
               <div class="card-container">
                   <mat-form-field appearance="fill">
-                      <mat-label translate>login.login-name</mat-label>
-                      <input matInput required formControlName="loginName">
-                      <mat-error *ngIf="loginFormControls?.loginName?.invalid" translate>login.login-required</mat-error>
+                      <mat-label translate>login.username</mat-label>
+                      <input matInput required formControlName="userName">
+                      <mat-error *ngIf="loginFormControls?.userName?.invalid" translate>login.username-required</mat-error>
                   </mat-form-field>
                   <mat-form-field appearance="fill" class="mt-8">
                       <mat-label translate>login.password</mat-label>
@@ -22,8 +20,8 @@
                   </mat-form-field>
               </div>
           </mat-card-content>
-          <mat-card-actions class="m-0 px-16 pb-16">
-                <button type="submit" mat-raised-button color="primary" class="my-btn" (click)="login()">{{ 'login.login' | translate }}</button>
+          <mat-card-actions class="m-0 px-25 pb-35 mt-5" fxLayoutAlign="end center">
+                <button type="submit" mat-flat-button color="primary" class="login-btn" (click)="login()">{{ 'login.login' | translate }}</button>
           </mat-card-actions>
       </form>
   </mat-card>

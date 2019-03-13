@@ -20,9 +20,9 @@
         "plans": "Plans"
     },
 	"login": {
-		"login": "Log in",
-		"login-name": "Login name",
-		"login-required": "Login is required",
+		"login": "Login",
+		"username": "Username",
+		"username-required": "Username is required",
 		"password": "Password",
 		"password-required": "Password is required",
 		"toggle-visibility": "Toggle visibility"

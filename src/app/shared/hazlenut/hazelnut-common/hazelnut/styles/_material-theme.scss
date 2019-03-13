@@ -24,3 +24,110 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: auto;
 }
+
+@include mat-core();
+$iihf-primary: (
+    50 : #e3f2fa,
+    100 : #b9dff2,
+    200 : #8acae9,
+    300 : #5bb5e0,
+    400 : #38a5da,
+    500 : #1595d3,
+    600 : #128dce,
+    700 : #0f82c8,
+    800 : #0c78c2,
+    900 : #0667b7,
+    A100 : #e1f0ff,
+    A200 : #aed6ff,
+    A400 : #7bbdff,
+    A700 : #62b0ff,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+$iihf-accent: (
+    50 : #e0e6ec,
+    100 : #b3c0d0,
+    200 : #8096b1,
+    300 : #4d6c91,
+    400 : #264d7a,
+    500 : #002d62,
+    600 : #00285a,
+    700 : #002250,
+    800 : #001c46,
+    900 : #001134,
+    A100 : #6c88ff,
+    A200 : #395eff,
+    A400 : #0635ff,
+    A700 : #002deb,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #ffffff,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #ffffff,
+        A400 : #ffffff,
+        A700 : #ffffff,
+    )
+);
+
+$iihf-warn: (
+    50 : #f9e4e4,
+    100 : #f1bcbc,
+    200 : #e79090,
+    300 : #dd6463,
+    400 : #d64241,
+    500 : #cf2120,
+    600 : #ca1d1c,
+    700 : #c31818,
+    800 : #bd1413,
+    900 : #b20b0b,
+    A100 : #ffdfdf,
+    A200 : #ffacac,
+    A400 : #ff7979,
+    A700 : #ff5f5f,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+$my-app-primary: mat-palette($iihf-primary);
+$my-app-accent:  mat-palette($iihf-accent, 500, 900, A100);
+$my-app-warn:    mat-palette($iihf-warn);
+
+$my-app-theme: mat-light-theme($my-app-primary, $my-app-accent, $my-app-warn);
+@include angular-material-theme($my-app-theme);
