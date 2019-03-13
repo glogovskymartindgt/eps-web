@@ -1,0 +1,16 @@
+<div fxLayout="row" class="project-card m-50">
+    <div class="project-card-content" fxFlex="95">
+        <div fxFlex="20" fxLayoutAlign="center center">
+            <img src="https://picsum.photos/76/103" class="project-image" alt="iihf logo">
+        </div>
+        <div fxFlex="60">
+          <p class="project-card-primary-font mb-0">{{Project?.name}}</p>
+          <p class="project-card-secondary-font m-0 mr-5 mt-10">{{Project?.country_1}} and {{Project?.country_2}}</p>
+        </div>
+        <div fxFlex="30" fxLayoutAlign="center end">
+          <p class="project-card-location-font m-0 mb-20 mr-10">{{Project?.venue_city_1}} – {{Project?.venue_city_2}}</p>
+        </div>       
+    </div>
+    <div [ngClass]="(Project?.state == 'open') ? 'open' : (Project?.state == 'closed')  ? 'closed'  : '' " class="project-card-right" fxFlex="5">
+    </div>
+</div>
