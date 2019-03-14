@@ -1,5 +1,27 @@
-<div class="top-bar"></div>
+<div class="top-bar" fxLayout="row">
+    <h2 class="mt-10 ml-19 no-select">
+        <span class="red-title" style="margin-left: 19px;">
+            {{'app.iihf' | translate}}
+        </span>
+        <span class="blue-title">
+            {{'app.planningSystem' | translate}}
+        </span>
+        <span *ngIf="projectUserService.isLoggedIn"
+              style="position:absolute; right: 20px;"
+              [@moveLeft]
+        >
+            <span class="small-text">Cornelia Ljungberg</span>
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>keyboard_arrow_down</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item class="small-text" (click)="logout()">
+                   <mat-icon>exit_to_app</mat-icon>
+                  {{'app.logout' | translate}}
+              </button>
+            </mat-menu>
+        </span>
+    </h2>
+</div>
 <div style="height:50px;"></div>
-<button mat-raised-button color="warn" (click)="useLanguage('en')" class="m-3">EN</button>
-<button mat-raised-button color="link" (click)="useLanguage('sk')" class="m-3">SK</button>
 <router-outlet></router-outlet>

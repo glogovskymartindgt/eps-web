@@ -3,18 +3,6 @@
         "title": "Medzinárodná hokejová federácia",
         "country": "Slovensko"
     },
-    "server-status": "Stav servera",
-    "db": {
-        "status": "Detail stavu databázy",
-        "detail": "Databáza",
-        "ping": "Odozva databázy"
-    },
-    "diskspace": {
-        "status": "Stav miesta na disku",
-        "total": "Celkovo miesta na disku",
-        "free": "Voľné miesto na disku",
-        "treshold": "Prah na disku"
-    },
     "menu": {
         "tasks": "Úlohy",
         "plans": "Plány"
@@ -44,5 +32,10 @@
         "firstPage": "Prvá stránka",
         "lastPage": "Posledná stránka",
         "from": "z"
+    },
+    "app": {
+        "iihf": "IIHF",
+        "planningSystem": "EVENT PLANNING SYSTEM",
+        "logout": "Odhlásenie"
     }
 }

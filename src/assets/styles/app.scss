@@ -1,3 +1,36 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import '../../app/shared/hazlenut/hazelnut-common/hazelnut/styles/_main.scss';
 @import 'common/scrollbar.scss';
+@import 'font/font.scss';
+
+$color-red: #CF2120;
+$color-secondary: #002D62;
+$title-font-size: 24px;
+
+.red-title {
+    color: $color-red;
+    font-size: $title-font-size;
+}
+
+.blue-title {
+    color: $color-secondary;
+    font-size: $title-font-size;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'MPLUSRounded1c-ExtraBold', sans-serif;
+}
+
+p {
+    font-family: 'Roboto-Bold', sans-serif;
+}
+
+.no-select {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}

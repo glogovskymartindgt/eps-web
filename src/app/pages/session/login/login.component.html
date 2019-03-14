@@ -1,28 +1,39 @@
-<div class="login-page" fxLayout="row" fxLayoutAlign="center center">    
-  <mat-card class="login-card p-0">
-      <form [formGroup]="loginForm">
-          <div class="login-header p-25 pt-35">
-            <h2 class="logo-blue-color m-0"><span class="logo-red-color">IIHF</span><br>EVENT<br>PLANNING<br>SYSTEM</h2>
-           </div>
-          <mat-card-header></mat-card-header>
-          <mat-card-content class="m-0 px-25">
-              <div class="card-container">
-                  <mat-form-field appearance="fill">
-                      <mat-label translate>login.username</mat-label>
-                      <input matInput required formControlName="userName">
-                      <mat-error *ngIf="loginFormControls?.userName?.invalid" translate>login.username-required</mat-error>
-                  </mat-form-field>
-                  <mat-form-field appearance="fill" class="mt-8">
-                      <mat-label translate>login.password</mat-label>
-                      <input matInput [type]="hidePassword ? 'password' : 'text'" required formControlName="password">
-                      <mat-icon matSuffix (click)="hidePassword  = !hidePassword " class="cursor-pointer" matTooltip="{{ 'login.toggle-visibility' | translate}}">{{hidePassword  ? 'visibility_off' : 'visibility'}}</mat-icon>
-                      <mat-error *ngIf="loginFormControls?.password?.invalid" translate>login.password-required</mat-error>
-                  </mat-form-field>
-              </div>
-          </mat-card-content>
-          <mat-card-actions class="m-0 px-25 pb-35 mt-5" fxLayoutAlign="end center">
-                <button type="submit" mat-flat-button color="primary" class="login-btn" (click)="login()">{{ 'login.login' | translate }}</button>
-          </mat-card-actions>
-      </form>
-  </mat-card>
+<div class="login-page" fxLayout="row" fxLayoutAlign="center center">
+    <mat-card class="login-card p-0">
+        <form [formGroup]="loginForm">
+            <div class="login-header p-25 pt-35">
+                <h2 class="logo-blue-color m-0">
+                    <span class="red-title">IIHF</span><br>
+                    EVENT<br>
+                    PLANNING<br>
+                    SYSTEM
+                </h2>
+            </div>
+            <mat-card-header></mat-card-header>
+            <mat-card-content class="m-0 px-25">
+                <div class="card-container">
+                    <mat-form-field appearance="fill">
+                        <mat-label translate>login.username</mat-label>
+                        <input matInput required formControlName="userName">
+                        <mat-error *ngIf="loginFormControls?.userName?.invalid" translate>login.username-required
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="mt-8">
+                        <mat-label translate>login.password</mat-label>
+                        <input matInput [type]="hidePassword ? 'password' : 'text'" required formControlName="password">
+                        <mat-icon matSuffix (click)="hidePassword  = !hidePassword " class="cursor-pointer"
+                                  matTooltip="{{ 'login.toggle-visibility' | translate}}">
+                            {{hidePassword ? 'visibility_off' : 'visibility'}}
+                        </mat-icon>
+                        <mat-error *ngIf="loginFormControls?.password?.invalid" translate>login.password-required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </mat-card-content>
+            <mat-card-actions class="m-0 px-25 pb-35 mt-5" fxLayoutAlign="end center">
+                <button type="submit" mat-flat-button color="primary" class="login-btn"
+                        (click)="login()">{{ 'login.login' | translate }}</button>
+            </mat-card-actions>
+        </form>
+    </mat-card>
 </div>

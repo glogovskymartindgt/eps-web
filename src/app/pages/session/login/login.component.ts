@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Regex } from '../../../shared/hazlenut/hazelnut-common/regex/regex';
 import { AuthService } from '../../../shared/services/auth.service.ts.service';
 
 @Component({

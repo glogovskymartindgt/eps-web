@@ -17,15 +17,10 @@ export class MenuComponent implements OnInit {
 
     public constructor(private readonly router: Router,
                        private readonly translateService: TranslateService,
-                       private readonly authService: AuthService,
                        ) {
     }
 
     public ngOnInit(): void {
-    }
-
-    public logout(): void {
-            this.authService.logout();
     }
 
     public toggleLanguage() {
