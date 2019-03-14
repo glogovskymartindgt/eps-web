@@ -1,3 +1,4 @@
-<p>
-  plan-list works!
-</p>
+<div class="api-photos-container" fxLayout="row wrap" fxLayoutAlign="center center">
+<!-- <div class="api-photos-container" fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutAlign.xs="center center" fxLayoutAlign.sm="center center" fxLayoutAlign.md="center center"> -->
+  <project-card *ngFor="let project of allProjects" [project]="project"></project-card>
+</div>
