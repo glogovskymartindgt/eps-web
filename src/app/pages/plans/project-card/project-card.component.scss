@@ -1,0 +1,51 @@
+$radius: 23px;
+$card-color: #fff;
+
+%project-card-font-base {
+    font-family: Roboto, sans-serif;
+    color: #002D62;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.project-card {
+    width: 523px;
+    height: 115px;
+    background-color: $card-color;
+    border-radius: $radius;
+    box-shadow: 0 0px 20px 0 rgba(0, 0, 0, 0.2), 0 0px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.project-card-content {
+    background-color: $card-color;
+    border-top-left-radius: $radius - 3px;
+    border-bottom-left-radius: $radius - 3px;
+}
+
+.project-card-right {
+    border-top-right-radius: $radius - 3px;
+    border-bottom-right-radius: $radius - 3px;
+}
+
+.open {
+    background-color: #1595D3;
+}
+
+.closed {
+    background-color: #848484;
+}
+
+.project-card-primary-font {
+    @extend %project-card-font-base;
+}
+
+.project-card-secondary-font {
+    @extend %project-card-font-base;
+    font-size: 16px;
+}
+
+.project-card-location-font {
+    @extend %project-card-font-base;
+    font-size: 16px;
+    font-weight: normal;
+}

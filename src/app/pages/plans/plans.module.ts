@@ -8,9 +8,13 @@ import { CoreTableModule } from '../../shared/hazlenut/core-table';
 import { MaterialModule } from '../../shared/hazlenut/hazelnut-common';
 import { PlanListComponent } from './plan-list/plan-list.component';
 import { PlansRoutingModule } from './plans-routing.module';
+import { ProjectCardComponent } from './project-card/project-card.component';
 
 @NgModule({
-    declarations: [PlanListComponent],
+    declarations: [
+        PlanListComponent,
+        ProjectCardComponent
+    ],
     imports: [
         CommonModule,
         PlansRoutingModule,

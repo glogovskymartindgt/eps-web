@@ -1,29 +1,29 @@
-$fury-color: #455A64;
+$color-primary: #1595D3;
+$color-secondary: #002D62;
+$color-logo-red:#CF2120;
 
 .login-page {
   height: 90vh;
+  background-image: linear-gradient($color-secondary, #89CAE9);
 }
 
 .login-header {
-  width: 300px;
-  height: 280px;
-  background-color: $fury-color;
+  border-top-left-radius: 23px;
+  border-top-right-radius: 23px;
 }
 
 .login-card {
-  width: 300px;
-  border-radius: 0;
+  width: 320px;
+  border-radius: 23px;
+  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.2), 0 5px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.header-image {
-  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
-  background-size: cover;
-}
-
-.my-btn {
-  background-color: $fury-color;
-  width: 100%;
-  color: white;
+.login-btn {
+  background-color: rgba($color-primary, 0.5);
+  color: $color-secondary;
+  font-weight: bold;
+  font-size: 18px;
+  font-family: Roboto, sans-serif;
 }
 
 .cursor-pointer {
@@ -37,4 +37,27 @@ $fury-color: #455A64;
 
 .card-container > * {
   width: 100%;
+}
+
+mat-label {
+  color: $color-primary;
+  font-family: Roboto, sans-serif;
+  font-weight: 550;
+  font-size: 16px;
+}
+
+input {
+  color: $color-secondary;
+  font-size: 20px;
+  font-family: Roboto, sans-serif;
+}
+
+.logo-blue-color {
+  color: $color-secondary;
+  font-size: 29px;
+}
+
+.logo-red-color {
+  color: $color-logo-red;
+  font-size: 29px;
 }
