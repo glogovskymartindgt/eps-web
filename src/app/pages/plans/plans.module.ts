@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
+import { CoreTableModule } from '../../shared/hazlenut/core-table';
 import { MaterialModule } from '../../shared/hazlenut/hazelnut-common';
 import { PlanListComponent } from './plan-list/plan-list.component';
 import { PlansRoutingModule } from './plans-routing.module';
@@ -17,6 +18,7 @@ import { PlansRoutingModule } from './plans-routing.module';
         FlexLayoutModule,
         TranslateModule.forChild(),
         ReactiveFormsModule,
+        CoreTableModule
     ]
 })
 export class PlansModule {

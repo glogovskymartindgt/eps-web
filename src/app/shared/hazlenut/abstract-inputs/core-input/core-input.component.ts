@@ -58,7 +58,6 @@ export class CoreInputComponent implements OnInit, ControlValueAccessor, AfterVi
         this.maxLength = this.setAsExactIfNaN(this.maxLength);
         this.setFormControl();
         this.onFormControlChanges();
-
         InputUtils.setDefaultTranslates(this, this.translateWrapperService, this.useInstantTranslates);
     }
 

@@ -8,12 +8,18 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { config } from 'rxjs';
 import { AppRoutes } from './app.routing';
 import { CompositionModule } from './pages/composition/composition.module';
 import { AdminLayoutComponent } from './pages/layouts/admin-layout/admin-layout.component';
 import { AuthLayoutComponent } from './pages/layouts/auth-layout/auth-layout.component';
-import { MaterialModule } from './shared/hazlenut/hazelnut-common';
+import { ComponentsModule } from './shared/components/components.module';
+import { CoreTableModule, GLOBAL_CONFIG_TOKEN } from './shared/hazlenut/core-table';
+import { MaterialModule, NOTIFICATION_WRAPPER_TOKEN, TRANSLATE_WRAPPER_TOKEN } from './shared/hazlenut/hazelnut-common';
+import { NotificationSnackBarComponent } from './shared/hazlenut/small-components/notifications';
 import { AuthGuard } from './shared/services/auth-guard';
+import { NotificationService } from './shared/services/notification.service';
+import { TranslateWrapperService } from './shared/services/translate-wrapper.service';
 
 @NgModule({
     declarations: [
@@ -36,8 +42,17 @@ import { AuthGuard } from './shared/services/auth-guard';
             }
         }),
         MaterialModule,
+        ComponentsModule,
+        CoreTableModule
     ],
-    providers: [AuthGuard],
+    providers: [
+        AuthGuard,
+        {provide: 'abstractInputConfig', useValue: config},
+        {provide: NOTIFICATION_WRAPPER_TOKEN, useClass: NotificationService},
+        {provide: TRANSLATE_WRAPPER_TOKEN, useClass: TranslateWrapperService},
+        {provide: GLOBAL_CONFIG_TOKEN, useValue: {}},
+    ],
+    entryComponents: [NotificationSnackBarComponent],
     bootstrap: [AppComponent]
 })
 export class AppModule {

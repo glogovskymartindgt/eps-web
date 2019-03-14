@@ -20,7 +20,8 @@ export const TRANSLATE_WRAPPER_TOKEN = new InjectionToken<TranslateWrapper>('tra
  *
  */
 export function mergeTranslates(translateWrapperService: TranslateWrapper, ...keys: string[]): Observable<KeyValue> {
-    /*merge(translateWrapperService.get('errorRequired').pipe(map((res) => ['errorRequired', res])),
+    /*
+    merge(translateWrapperService.get('errorRequired').pipe(map((res) => ['errorRequired', res])),
         translateWrapperService.get('errorMinlength').pipe(map((res) => ['errorMinlength', res])),
         translateWrapperService.get('errorPattern').pipe(map((res) => ['errorPattern', res])),
         translateWrapperService.get('hintMaxlength').pipe(map((res) => ['hintMaxlength', res])),

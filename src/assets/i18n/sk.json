@@ -20,11 +20,29 @@
         "plans": "Plány"
     },
     "login": {
-      "login": "Prihlásiť sa",
-      "login-name": "Prihlasovacie meno",
-      "login-required": "Prihlasovacie meno je povinné",
-      "password": "Heslo",
-      "password-required": "Heslo je povinné",
-      "toggle-visibility": "Zmeniť viditeľnosť"
+        "login": "Prihlásiť sa",
+        "login-name": "Prihlasovacie meno",
+        "login-required": "Prihlasovacie meno je povinné",
+        "password": "Heslo",
+        "password-required": "Heslo je povinné",
+        "toggle-visibility": "Zmeniť viditeľnosť"
+    },
+    "error": {
+        "login": "Nepodarilo sa prihlásiť",
+        "logout": "Nepodarilo sa odhlásiť",
+        "required": "Povinné pole",
+        "api": "Nepodarilo sa nadviazať spojenie so serverom",
+        "minlength": "Nedostatok znakov",
+        "pattern": "Nevhodný tvar",
+        "add": "Požiadavka na vytvorenie sa nevykonala",
+        "interval": "Nulový interval"
+    },
+    "paginator": {
+        "itemsPerPage": "Maximálny počet na stránke",
+        "nextPage": "Nasledujúca stránka",
+        "previousPage": "Predchádzajúca stránka",
+        "firstPage": "Prvá stránka",
+        "lastPage": "Posledná stránka",
+        "from": "z"
     }
 }

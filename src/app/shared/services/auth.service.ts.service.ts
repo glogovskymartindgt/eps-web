@@ -18,7 +18,7 @@ export class AuthService {
     }
 
     public login(loginName: string, password: string) {
-        console.log('call login');
+
         this.loginBackend(loginName, password);
     }
 
@@ -31,14 +31,16 @@ export class AuthService {
     private loginBackend(login: string, password: string, deviceId = 'device1'): void {
         const headers = new HttpHeaders({'Content-Type': 'application/json'});
         this.httpClient.post(
-            HazelnutConfig.URL_API + '/security/authenticate',
+            HazelnutConfig.URL_API +
+            // '/api' +
+            '/security/authenticate',
             {login, password, deviceId},
             {headers}
         ).subscribe((data) => {
                 this.userService.setAuthData(data);
                 this.router.navigate(['tasks/list']);
             },
-            // (error) => this.notificationService.openErrorNotification(error)
+            (error) => this.notificationService.openErrorNotification('error.login')
         );
     }
 
@@ -50,10 +52,9 @@ export class AuthService {
             {headers}
         ).subscribe((data) => {
                 this.userService.clearUserData();
-                // this.notificationService.openErrorNotification('info.logoutSuccessful');
                 this.router.navigate(['authentication/login']);
             }
-            // ,(error) => this.notificationService.openErrorNotification(error)
+            , (error) => this.notificationService.openErrorNotification('error.logout')
         );
     }
 }
