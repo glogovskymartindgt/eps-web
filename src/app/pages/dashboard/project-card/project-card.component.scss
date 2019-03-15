@@ -9,6 +9,7 @@ $card-color: #fff;
 }
 
 .project-card {
+    cursor: pointer;
     width: 520px;
     height: 115px;
     background-color: $card-color;

@@ -5,14 +5,14 @@
     },
     "menu": {
         "tasks": "Úlohy",
-        "plans": "Plány"
+        "dashboard": "Projekty",
+        "reports": "Reporty",
+        "facts": "Fakty a čísla"
     },
     "login": {
         "login": "Prihlásiť sa",
         "username": "Prihlasovacie meno",
-        "username-required": "Prihlasovacie meno je povinné",
         "password": "Heslo",
-        "password-required": "Heslo je povinné",
         "toggle-visibility": "Zmeniť viditeľnosť"
     },
     "error": {
@@ -36,6 +36,9 @@
     "app": {
         "iihf": "IIHF",
         "planningSystem": "EVENT PLANNING SYSTEM",
+        "event": "EVENT",
+        "planning": "PLANNING",
+        "system": "SYSTEM",
         "logout": "Odhlásenie"
     }
 }

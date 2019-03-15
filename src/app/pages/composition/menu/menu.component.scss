@@ -22,7 +22,7 @@ $background: #2b303b;
 
 .menu-container {
     min-width: 100%;
-    min-height: 100vh;
+    min-height: calc(100vh - 112px);
     padding: 0 !important;
     margin: 0 !important;
 }
@@ -44,7 +44,6 @@ $background: #2b303b;
 .menu-sidenav {
     min-width: 245px;
     box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
-    position: fixed;
 }
 
 .menu-icon-options {
@@ -70,6 +69,12 @@ $background: #2b303b;
 .mat-icon {
     color: $text-color;
 }
+
+.project-header {
+    height: 56px;
+    background: blue;
+}
+
 
 
 

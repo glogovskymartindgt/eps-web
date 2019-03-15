@@ -2,53 +2,59 @@ $color-primary: #1595D3;
 $color-secondary: #002D62;
 
 .login-page {
-  height: 90vh;
-  background-image: linear-gradient($color-secondary, #89CAE9);
+    height: calc(100vh - 50px);
+    background-image: linear-gradient($color-secondary, #89CAE9);
 }
 
 .login-header {
-  border-top-left-radius: 23px;
-  border-top-right-radius: 23px;
+    border-top-left-radius: 23px;
+    border-top-right-radius: 23px;
 }
 
 .login-card {
-  width: 320px;
-  border-radius: 23px;
-  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.2), 0 5px 20px 0 rgba(0, 0, 0, 0.19);
+    width: 320px;
+    border-radius: 23px;
+    box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.2), 0 5px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .login-btn {
-  background-color: rgba($color-primary, 0.5);
-  color: $color-secondary;
-  font-weight: bold;
-  font-size: 18px;
-  font-family: Roboto, sans-serif;
+    background-color: rgba($color-primary, 0.5);
+    color: $color-secondary;
+    font-weight: bold;
+    font-size: 18px;
+    font-family: Roboto-Bold, sans-serif;
 }
 
 .cursor-pointer {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .card-container {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 .card-container > * {
-  width: 100%;
+    width: 100%;
 }
 
 mat-label {
-  color: $color-primary;
-  font-family: Roboto, sans-serif;
-  font-weight: 550;
-  font-size: 16px;
+    color: $color-primary;
+    font-family: Roboto, sans-serif;
+    font-weight: 500;
+    font-size: 16px;
 }
 
 input {
-  color: $color-secondary;
-  font-size: 20px;
-  font-family: Roboto, sans-serif;
+    color: $color-secondary;
+    font-size: 20px;
+    font-family: Roboto, sans-serif;
+}
+
+::ng-deep {
+    .mat-form-field .mat-form-field-flex{
+        background-color: #e8f0fe;
+    }
 }
 
 

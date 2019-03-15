@@ -18,7 +18,6 @@ export class AuthService {
     }
 
     public login(loginName: string, password: string) {
-
         this.loginBackend(loginName, password);
     }
 
@@ -38,7 +37,7 @@ export class AuthService {
             {headers}
         ).subscribe((data) => {
                 this.userService.setAuthData(data);
-                this.router.navigate(['tasks/list']);
+                this.router.navigate(['dashboard']);
             },
             (error) => this.notificationService.openErrorNotification('error.login')
         );

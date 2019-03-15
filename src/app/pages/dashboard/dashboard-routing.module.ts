@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PlanListComponent } from './plan-list/plan-list.component';
+import { ProjectListComponent } from './project-list/project-list.component';
 
 const routes: Routes = [
     {
@@ -10,12 +10,12 @@ const routes: Routes = [
                 path: '',
                 pathMatch: 'full',
                 redirectTo: 'list',
-                data: {animation: 'planList'},
+                data: {animation: 'projectList'},
             },
             {
                 path: 'list',
-                component: PlanListComponent,
-                data: {animation: 'planList'},
+                component: ProjectListComponent,
+                data: {animation: 'projectList'},
             },
         ],
     }
@@ -25,4 +25,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class PlansRoutingModule { }
+export class DashboardRoutingModule { }
