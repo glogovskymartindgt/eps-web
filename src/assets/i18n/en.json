@@ -1,29 +1,44 @@
 {
-	"header": {
-		"title": "International Ice Hockey Federation",
-		"country": "Slovakia"
-	},
-	"server-status": "Server status",
-	"db": {
-		"status": "Database detail status",
-		"detail": "Database",
-		"ping": "DataBase ping"
-	},
-	"diskspace": {
-		"status": "Diskspace status",
-		"total": "Database total",
-		"free": "DataBase free",
-		"treshold": "DataBase treshold"
-	},
+    "header": {
+        "title": "International ice hockey federation",
+        "country": "Slovakia"
+    },
     "menu": {
         "tasks": "Tasks",
+        "dashboard": "Dashboard",
+        "reports": "Reports",
+        "facts": "Facts and Figures"
     },
-	"login": {
-		"login": "Login",
-		"username": "Username",
-		"username-required": "Username is required",
-		"password": "Password",
-		"password-required": "Password is required",
-		"toggle-visibility": "Toggle visibility"
-	}
+    "login": {
+        "login": "Log in",
+        "username": "Username",
+        "password": "Password",
+        "toggle-visibility": "Change visibility"
+    },
+    "error": {
+        "login": "Log in failed",
+        "logout": "Log out failed",
+        "required": "Required field",
+        "api": "Can't connect to server",
+        "minlength": "Minlength error",
+        "pattern": "Pattern error",
+        "add": "Create failed",
+        "interval": "Empty interval"
+    },
+    "paginator": {
+        "itemsPerPage": "Maxlength error",
+        "nextPage": "Next page",
+        "previousPage": "Previous page",
+        "firstPage": "First page",
+        "lastPage": "Last page",
+        "from": "from"
+    },
+    "app": {
+        "iihf": "IIHF",
+        "planningSystem": "EVENT PLANNING SYSTEM",
+        "event": "EVENT",
+        "planning": "PLANNING",
+        "system": "SYSTEM",
+        "logout": "Log out"
+    }
 }
