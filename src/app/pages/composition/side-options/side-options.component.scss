@@ -11,10 +11,14 @@ $text-color: white;
     user-select: none;
 }
 
+.bottom-border {
+    border-bottom: 1px solid white;
+}
+
 .menu-option {
-    height: 15px;
+    height: 26px;
     color: $text-color;
-    padding: 15px 40px 15px 15px;
+    padding: 21px 0 19px 19px;
     cursor: pointer;
     @include block-selecting-elements;
 
@@ -98,4 +102,9 @@ $text-color: white;
     right: 3px;
     border-radius: 1px;
     transition: height .1s ease-out, margin .2s ease-in;
+}
+
+.menu-text {
+    font-family: Roboto-Bold, sans-serif;
+    font-size: 14px;
 }

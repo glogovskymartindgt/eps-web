@@ -6,15 +6,14 @@
     >
         <div [ngClass]="getClass(menuItem.path)">
         </div>
-        <mat-icon class="menu-icon">{{menuItem.data['icon']}}</mat-icon>
-        <span class="pl-35 menu-text">{{menuItem.data["title"] | translate}}</span>
+        <span class="menu-text">{{menuItem.data["title"] | translate}}</span>
+        <div class="bottom-border mt-25"></div>
     </div>
     <div *ngIf="checkRoute(menuItem, true)"
          (click)="toggleMenuSelect()"
          class="menu-option"
          matRipple>
-        <mat-icon class="menu-icon">{{menuItem.data["icon"]}}</mat-icon>
-        <span class="pl-35 menu-text">{{menuItem.data["title"] | translate}}</span>
+        <span class="menu-text">{{menuItem.data["title"] | translate}}</span>
         <mat-icon *ngIf="menuItem.hasOwnProperty('children')"
                   class="menu-icon-dropdown"
                   [ngClass]="{'rotate-180': menuSelect, 'rotate-360': !menuSelect}">

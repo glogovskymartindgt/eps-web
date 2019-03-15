@@ -6,7 +6,7 @@ $text-color: white;
 /*
  Menu background
   */
-$background: #2b303b;
+$background: rgba(0, 45, 98, .5);
 
 @mixin block-selecting-elements() {
     -webkit-touch-callout: none;

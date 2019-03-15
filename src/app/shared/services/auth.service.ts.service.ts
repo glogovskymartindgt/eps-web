@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
 import { HazelnutConfig } from '../hazlenut/hazelnut-common/config/hazelnut-config';
 import { NotificationService } from './notification.service';
 import { ProjectUserService } from './project-user.service';
@@ -10,9 +9,6 @@ import { ProjectUserService } from './project-user.service';
     providedIn: 'root'
 })
 export class AuthService {
-
-    public isLoginSubject = new BehaviorSubject<boolean>(this.hasToken());
-
     public constructor(private readonly httpClient: HttpClient,
                        private readonly userService: ProjectUserService,
                        private readonly notificationService: NotificationService,
@@ -58,10 +54,6 @@ export class AuthService {
             }
             , (error) => this.notificationService.openErrorNotification('error.logout')
         );
-    }
-
-    private hasToken(): boolean {
-        return !!this.userService.instant.masterToken;
     }
 
 }
