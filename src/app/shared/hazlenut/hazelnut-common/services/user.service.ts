@@ -56,6 +56,7 @@ export abstract class UserService<T extends object> {
 
     public clearUserData(): void {
         this.storageService.removeItem('userData');
+        this._behaviorSubject.next({} as T);
     }
 
     private loadData(): T {

@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -43,6 +44,7 @@ import { TranslateWrapperService } from './shared/services/translate-wrapper.ser
         }),
         MaterialModule,
         ComponentsModule,
+        FlexLayoutModule,
         CoreTableModule
     ],
     providers: [
