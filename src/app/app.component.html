@@ -6,7 +6,7 @@
         <span class="blue-title">
             {{'app.planningSystem' | translate}}
         </span>
-        <span *ngIf="projectUserService.isLoggedIn"
+        <span *ngIf="isLogged"
               style="position:absolute; right: 20px;"
               [@moveLeft]
         >

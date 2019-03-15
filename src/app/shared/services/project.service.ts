@@ -7,6 +7,7 @@ import { ProjectUserService } from './project-user.service';
 @Injectable({
   providedIn: 'root'
 })
+
 export class ProjectService<T> extends AbstractService<T> {
 
     public constructor(http: HttpClient,

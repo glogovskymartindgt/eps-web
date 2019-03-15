@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { moveLeft } from './shared/animations/animations';
-import { TRANSLATE } from './shared/custom-functions';
 import { AuthService } from './shared/services/auth.service.ts.service';
 import { ProjectUserService } from './shared/services/project-user.service';
 
@@ -15,8 +14,7 @@ import { ProjectUserService } from './shared/services/project-user.service';
 export class AppComponent implements OnInit {
 
     public data;
-    public isLogged = false;
-    public status = TRANSLATE('header.status');
+    public isLogged = true;
 
     public constructor(private translateService: TranslateService,
                        private http: HttpClient,
@@ -27,7 +25,6 @@ export class AppComponent implements OnInit {
     }
 
     public ngOnInit() {
-
     }
 
     public logout(): void {

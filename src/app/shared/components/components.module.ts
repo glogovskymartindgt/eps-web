@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { SmallComponentsModule } from '../hazlenut/small-components';
 import { NotificationSnackBarComponent } from '../hazlenut/small-components/notifications';
 
 @NgModule({
-    declarations: [NotificationSnackBarComponent],
+    declarations: [],
     imports: [
-        CommonModule
+        CommonModule,
+        SmallComponentsModule
     ],
     exports: [NotificationSnackBarComponent]
 })
