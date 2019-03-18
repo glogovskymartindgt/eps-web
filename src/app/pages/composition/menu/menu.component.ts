@@ -1,24 +1,29 @@
 import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { routeAnimations } from '../../../shared/hazlenut/hazelnut-common/animations';
-import { ProjectInterface } from 'src/app/shared/interfaces/project.interface';
+import { fadeEnterLeave, routeAnimations } from '../../../shared/hazlenut/hazelnut-common/animations';
+import { SecondaryHeader } from '../../../shared/interfaces/secondary-header.interface';
+import { DashboardService } from '../../../shared/services/dashboard.service';
 
 @Component({
     selector: 'menu',
     templateUrl: './menu.component.html',
     styleUrls: ['./menu.component.scss'],
-    animations: [routeAnimations]
+    animations: [routeAnimations, fadeEnterLeave]
 })
 export class MenuComponent implements OnInit {
-
     @Input() public template: TemplateRef<any>;
+    public menuVisible = true;
 
-    public menuSide = true;
+    public constructor(private readonly translateService: TranslateService,
+                       private readonly dashBoardService: DashboardService) {
+    }
 
-    public constructor(private readonly translateService: TranslateService) { }
-
-    public ngOnInit(): void { }
+    public ngOnInit(): void {
+        this.dashBoardService.secondaryHeaderNotifier$.subscribe((secondaryHeader: SecondaryHeader) => {
+            this.menuVisible = !secondaryHeader.isDashboard;
+        });
+    }
 
     public toggleLanguage() {
         this.translateService.use(this.translateService.currentLang === 'sk' ? 'en' : 'sk');

@@ -1,30 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { DashboardService } from 'src/app/shared/services/dashboard.service';
 import { SecondaryHeader } from 'src/app/shared/interfaces/secondary-header.interface';
+import { DashboardService } from 'src/app/shared/services/dashboard.service';
+import { fadeEnterLeave } from '../../../../shared/hazlenut/hazelnut-common/animations';
 
 @Component({
-  selector: 'secondary-header',
-  templateUrl: './secondary-header.component.html',
-  styleUrls: ['./secondary-header.component.scss']
+    selector: 'secondary-header',
+    templateUrl: './secondary-header.component.html',
+    styleUrls: ['./secondary-header.component.scss'],
+    animations: [fadeEnterLeave]
 })
 export class SecondaryHeaderComponent implements OnInit {
 
-  public dashboardVisible = true;
+    public dashboardVisible = true;
+    public activeFilter = 'all';
+    public secondaryHeaderTitle = '';
 
-  public activeFilter: string = "all";
+    public constructor(private readonly router: Router,
+                       private readonly dashBoardService: DashboardService) {
+    }
 
-  public secondaryHeaderTitle: string = "";
-  
-  constructor(private readonly router: Router,
-              private readonly dashBoardService: DashboardService) { }
-
-  ngOnInit() {
-
-    this.dashBoardService.setSecondaryHeaderContent({ isDashboard: true });
-
-        this.dashBoardService.secondaryHeaderNotifier$.subscribe((secondaryHeader: SecondaryHeader)=>{
+    public ngOnInit() {
+        this.dashBoardService.setSecondaryHeaderContent({isDashboard: true});
+        this.dashBoardService.secondaryHeaderNotifier$.subscribe((secondaryHeader: SecondaryHeader) => {
             if (secondaryHeader.isDashboard) {
                 this.dashboardVisible = true;
                 this.secondaryHeaderTitle = '';
@@ -33,32 +31,27 @@ export class SecondaryHeaderComponent implements OnInit {
                 this.dashboardVisible = false;
             }
         });
-        
-  }
+    }
 
-  public toggleFilter(value: 'all' | 'open' | 'closed') {
-    
-    this.activeFilter = (value === 'all') ? 'all' :
-                        (value === 'open') ? 'open' :
-                        (value === 'closed') ? 'closed' : 'all';
+    public toggleFilter(value: 'all' | 'open' | 'closed') {
+        this.activeFilter = (value === 'all') ? 'all' :
+            (value === 'open') ? 'open' :
+                (value === 'closed') ? 'closed' : 'all';
+        this.filterProjects(value);
+    }
 
-    this.filterProjects(value);
+    private filterProjects(value: 'all' | 'open' | 'closed') {
+        // this.dashBoardService.filterProjects(value)
+        //   .subscribe((filteredProjects: ProjectInterface[]) => {
+        //     console.log(filteredProjects);
+        //     this.allProjects = filteredProjects;
+        // });
 
-  }
+    }
 
-  private filterProjects(value: 'all' | 'open' | 'closed') {
-
-      // this.dashBoardService.filterProjects(value)
-      //   .subscribe((filteredProjects: ProjectInterface[]) => {
-      //     console.log(filteredProjects);
-      //     this.allProjects = filteredProjects;
-      // });
-
-  }
-
-  public routeToDashboard() {
-      this.router.navigate(['dashboard']);
-      this.dashBoardService.setSecondaryHeaderContent({ isDashboard: true });
-  }
+    public routeToDashboard() {
+        this.router.navigate(['dashboard']);
+        this.dashBoardService.setSecondaryHeaderContent({isDashboard: true});
+    }
 
 }

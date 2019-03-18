@@ -1,7 +1,7 @@
-import { DashboardService } from './../../../shared/services/dashboard.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProjectInterface } from 'src/app/shared/interfaces/project.interface';
+import { DashboardService } from './../../../shared/services/dashboard.service';
 
 @Component({
     selector: 'project-card',
@@ -19,12 +19,12 @@ export class ProjectCardComponent implements OnInit {
     public ngOnInit() {
     }
 
-    public openTasks() {
+    public openAreas() {
         this.router.navigate(['business-areas/list']);
     }
 
     public onProjectSelected() {
-        alert(this.project.name + ' was Selected! ...Secondary panel will be changed');
+        this.openAreas();
         this.dashBoardService.setSecondaryHeaderContent({ isDashboard: false, title: '2021 IIHF Ice Hockey World Championship' });
     }
 

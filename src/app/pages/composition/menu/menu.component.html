@@ -1,34 +1,30 @@
 <div fxLayout="column">
-    
+    <div style="height: 50px"></div>
     <secondary-header></secondary-header>
 
     <div>
         <mat-drawer-container class="menu-container mt-50" autosize>
-            <mat-drawer #drawer class="menu-sidenav" mode="side" opened="true" [disableClose]="true">
+            <mat-drawer #drawer
+                        class="menu-sidenav"
+                        mode="side"
+                        opened="true"
+                        [disableClose]="true"
+                        *ngIf="menuVisible"
+                        [@fadeEnterLeave]
+            >
                 <div class="layer">
-                    <!--<ng-content></ng-content>-->
-
                     <!--<div class="menu-icon-options">-->
-                        <!--<button mat-icon-button toggleFullscreen>-->
-                            <!--<mat-icon>fullscreen</mat-icon>-->
-                        <!--</button>-->
-                        <!--<button mat-icon-button (click)="toggleLanguage()">-->
-                            <!--<mat-icon>language</mat-icon>-->
-                        <!--</button>-->
+                    <!--<button mat-icon-button (click)="toggleLanguage()">-->
+                    <!--<mat-icon>language</mat-icon>-->
+                    <!--</button>-->
                     <!--</div>-->
-                    <!--<mat-divider></mat-divider>-->
                     <side-options></side-options>
                 </div>
             </mat-drawer>
 
-            <button mat-icon-button mat-button (click)="drawer.toggle()">
-                <mat-icon class="mat-icon-black">menu</mat-icon>
-            </button>
 
             <div fxLayout="column">
-                <div [ngClass]="{'move-down-close': menuSide,
-                                 'move-down-open': !menuSide}"
-                     class="menu-topnav"
+                <div class="menu-topnav"
                      fxLayoutAlign="space-between center"
                      fxLayout="row">
                 </div>
