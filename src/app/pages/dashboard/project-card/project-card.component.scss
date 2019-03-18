@@ -2,7 +2,7 @@ $radius: 23px;
 $card-color: #fff;
 
 %project-card-font-base {
-    font-family: Roboto, sans-serif;
+    font-family: 'Roboto-Bold', sans-serif;
     color: #002D62;
     font-weight: bold;
     font-size: 20px;
@@ -10,7 +10,7 @@ $card-color: #fff;
 
 .project-card {
     cursor: pointer;
-    width: 520px;
+    width: 620px;
     height: 115px;
     background-color: $card-color;
     border-radius: $radius;
@@ -49,4 +49,15 @@ $card-color: #fff;
     @extend %project-card-font-base;
     font-size: 16px;
     font-weight: normal;
+}
+
+@media screen and (max-width: 680px) {
+    .project-card {
+        width: 350px;
+        height: 135px;
+    }
+    .project-image {
+        width: 80%;
+    }
+
 }

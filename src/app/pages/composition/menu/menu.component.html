@@ -24,9 +24,13 @@
                 </div>
             </mat-drawer>
 
+            <button mat-icon-button mat-button (click)="drawer.toggle()">
+                <mat-icon class="mat-icon-black">menu</mat-icon>
+            </button>
+
             <div fxLayout="column">
                 <div [ngClass]="{'move-down-close': menuSide,
-          'move-down-open': !menuSide}"
+                                 'move-down-open': !menuSide}"
                      class="menu-topnav"
                      fxLayoutAlign="space-between center"
                      fxLayout="row">
