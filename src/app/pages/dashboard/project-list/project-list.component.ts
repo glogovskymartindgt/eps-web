@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProjectInterface } from '../../../shared/interfaces/user-data.interface';
+import { ProjectInterface } from 'src/app/shared/interfaces/project.interface';
 
 @Component({
     selector: 'project-list',

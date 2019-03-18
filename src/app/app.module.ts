@@ -21,6 +21,7 @@ import { NotificationSnackBarComponent } from './shared/hazlenut/small-component
 import { AuthGuard } from './shared/services/auth-guard';
 import { NotificationService } from './shared/services/notification.service';
 import { TranslateWrapperService } from './shared/services/translate-wrapper.service';
+import { DashboardService } from './shared/services/dashboard.service';
 
 @NgModule({
     declarations: [
@@ -53,6 +54,7 @@ import { TranslateWrapperService } from './shared/services/translate-wrapper.ser
         {provide: NOTIFICATION_WRAPPER_TOKEN, useClass: NotificationService},
         {provide: TRANSLATE_WRAPPER_TOKEN, useClass: TranslateWrapperService},
         {provide: GLOBAL_CONFIG_TOKEN, useValue: {}},
+        DashboardService
     ],
     entryComponents: [NotificationSnackBarComponent],
     bootstrap: [AppComponent]
