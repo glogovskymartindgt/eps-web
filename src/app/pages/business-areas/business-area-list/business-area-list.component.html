@@ -1,0 +1,12 @@
+<div class="p-16">
+    <haz-core-table [configuration]="config"
+                    [data]="data"
+    ></haz-core-table>
+    <ng-template #navigationToTasksColumn let-actRow="row" let-context="context">
+        <div class="fr">
+            <button (click)="showTasks(1)" mat-icon-button>
+                <mat-icon>keyboard_arrow_right</mat-icon>
+            </button>
+        </div>
+    </ng-template>
+</div>

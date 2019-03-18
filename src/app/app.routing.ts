@@ -21,9 +21,15 @@ export const AppRoutes: Routes = [
                 canActivate: [AuthGuard]
             },
             {
+                path: 'business-areas',
+                loadChildren: './pages/business-areas/business-areas.module#BusinessAreasModule',
+                data: {title: 'menu.businessAreas', icon: 'person', menu: true, animation: 'tasks'},
+                canActivate: [AuthGuard]
+            },
+            {
                 path: 'tasks',
                 loadChildren: './pages/tasks/tasks.module#TasksModule',
-                data: {title: 'menu.tasks', icon: 'person', menu: true, animation: 'tasks'},
+                data: {title: 'menu.tasks', icon: 'person', animation: 'tasks'},
                 canActivate: [AuthGuard]
             },
             {

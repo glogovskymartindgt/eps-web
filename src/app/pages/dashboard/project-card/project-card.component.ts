@@ -18,7 +18,7 @@ export class ProjectCardComponent implements OnInit {
     }
 
     public openTasks() {
-        this.router.navigate(['tasks/list']);
+        this.router.navigate(['business-areas/list']);
     }
 
 }

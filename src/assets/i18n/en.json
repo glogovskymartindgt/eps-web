@@ -4,7 +4,7 @@
         "country": "Slovakia"
     },
     "menu": {
-        "tasks": "Tasks",
+        "businessAreas": "Business Areas and Tasks",
         "dashboard": "Dashboard",
         "reports": "Reports",
         "facts": "Facts and Figures"
@@ -26,7 +26,7 @@
         "interval": "Empty interval"
     },
     "paginator": {
-        "itemsPerPage": "Maxlength error",
+        "itemsPerPage": "Items per page",
         "nextPage": "Next page",
         "previousPage": "Previous page",
         "firstPage": "First page",
@@ -40,5 +40,9 @@
         "planning": "PLANNING",
         "system": "SYSTEM",
         "logout": "Log out"
+    },
+    "businessArea": {
+        "code": "Kód",
+        "name": "Názov"
     }
 }
