@@ -15,6 +15,12 @@
         "password": "Password",
         "toggle-visibility": "Change visibility"
     },
+    "dashboard": {
+		"dashboard": "Dashboard",
+		"all": "All",
+		"open": "Open",
+		"closed": "Closed"
+	},
     "error": {
         "login": "Log in failed",
         "logout": "Log out failed",

@@ -1,16 +1,14 @@
-<div fxLayout="row" class="project-card m-13" (click)="openTasks()">
-    <div class="project-card-content" fxFlex="95">
-        <div fxFlex="20" fxLayoutAlign="center center">
-            <img src="https://picsum.photos/76/103" class="project-image" alt="iihf logo">
-        </div>
-        <div fxFlex="60">
-          <p class="project-card-primary-font mb-0">{{project?.name}}</p>
-          <p class="project-card-secondary-font m-0 mr-5 mt-10">{{project?.country_1}} and {{project?.country_2}}</p>
-        </div>
-        <div fxFlex="30" fxLayoutAlign="center end">
-          <p class="project-card-location-font m-0 mb-20 mr-10">{{project?.venue_city_1}} – {{project?.venue_city_2}}</p>
-        </div>       
-    </div>
-    <div [ngClass]="(project?.state == 'open') ? 'open' : (project?.state == 'closed')  ? 'closed'  : '' " class="project-card-right" fxFlex="5">
-    </div>
+<div fxLayout="row" class="project-card m-13">
+  <div class="project-card-content" fxFlex="95" (click)="onProjectSelected()">
+      <div fxFlex="20" fxLayoutAlign="center center">
+          <img src="https://picsum.photos/76/103" class="project-image" alt="iihf logo">
+      </div>
+      <div fxFlex="80">
+        <p class="project-card-primary-font mb-0 mt-25">{{project?.name}}</p>
+        <p class="project-card-secondary-font m-0 mt-5">{{project?.country_1}} and {{project?.country_2}}</p>
+        <p class="project-card-location-font m-0 mt-5">{{project?.venue_city_1}} – {{project?.venue_city_2}}</p>
+      </div>
+  </div>
+  <div [ngClass]="(project?.state == 'open') ? 'open' : (project?.state == 'closed')  ? 'closed'  : '' " class="project-card-right" fxFlex="5">
+  </div>
 </div>

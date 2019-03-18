@@ -1,9 +1,6 @@
 <div fxLayout="column">
-    <div class="project-header">
-        <button mat-icon-button>
-            <mat-icon (click)="routeToDashboard()">close</mat-icon>
-        </button>
-    </div>
+    
+    <secondary-header></secondary-header>
 
     <div>
         <mat-drawer-container class="menu-container mt-50" autosize>
@@ -24,9 +21,13 @@
                 </div>
             </mat-drawer>
 
+            <button mat-icon-button mat-button (click)="drawer.toggle()">
+                <mat-icon class="mat-icon-black">menu</mat-icon>
+            </button>
+
             <div fxLayout="column">
                 <div [ngClass]="{'move-down-close': menuSide,
-          'move-down-open': !menuSide}"
+                                 'move-down-open': !menuSide}"
                      class="menu-topnav"
                      fxLayoutAlign="space-between center"
                      fxLayout="row">

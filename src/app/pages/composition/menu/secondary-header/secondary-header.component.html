@@ -1,0 +1,32 @@
+<div *ngIf="!dashboardVisible" fxLayout="row" class="project-header m-0 p-0">
+    <div fxFlex="2" class="mt-7 ml-8" fxLayoutAlign="center center">
+        <img src="https://picsum.photos/20/50" class="project-image ml-19" alt="iihf logo">
+    </div>
+    <div fxFlex="96" class="mt-7" fxLayoutAlign="start center">
+        <h3 class="secondary-header m-0">{{secondaryHeaderTitle}}</h3>
+    </div>
+    <div fxFlex class="mt-3" fxLayoutAlign="start center">
+        <button mat-icon-button>
+            <mat-icon (click)="routeToDashboard()">close</mat-icon>
+        </button>
+    </div>
+</div>
+
+<div *ngIf="dashboardVisible"  class="project-header" fxLayout="row" fxLayoutAlign="start center">    
+    <h3 class="m-0 ml-20 mt-7 dashboard-text">{{ 'dashboard.dashboard' | translate}}</h3>
+    <a class="ml-50 mt-7 dashboard-filter"
+        [ngClass]="(activeFilter === 'all') ? 'activated' : 'non-activated'"
+        (click)="toggleFilter('all')">
+        {{ 'dashboard.all' | translate}}
+    </a>
+    <a class="ml-50 mt-7 dashboard-filter"
+        [ngClass]="(activeFilter === 'open') ? 'activated' : 'non-activated'"
+        (click)="toggleFilter('open')">
+        {{ 'dashboard.open' | translate}}
+    </a>
+    <a class="ml-50 mt-7 dashboard-filter"
+        [ngClass]="(activeFilter === 'closed') ? 'activated' : 'non-activated'"
+        (click)="toggleFilter('closed')">
+        {{ 'dashboard.closed' | translate}}
+    </a>
+</div>

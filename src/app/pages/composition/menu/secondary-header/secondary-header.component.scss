@@ -1,0 +1,37 @@
+.project-header {
+    height: 56px;
+    background: #002D62;
+}
+
+.secondary-header {
+    color: white;
+}
+
+.mat-icon {
+    color: white;
+}
+
+.non-activated {
+    border: 1.5px solid rgba(255, 255, 255, 0);
+    border-radius: 30px;
+    padding: 5px 20px;
+}
+
+.activated {
+    border: 1.5px solid red;
+    border-radius: 30px;
+    padding: 5px 20px;
+}
+
+.dashboard-filter {
+    text-decoration: none;
+    color: #fff;
+    cursor: pointer;
+    font-family: 'Roboto-Bold', sans-serif;
+}
+
+.dashboard-text {
+    color:#fff;
+    font-family: 'Roboto-Bold', sans-serif;
+    font-size: 20px;
+}
