@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
       });
   }
 
-    public get loginFormControls() { return this.loginForm.controls; }
+  public get loginFormControls() { return this.loginForm.controls; }
 
   public login() {
     if (this.loginForm.invalid) {

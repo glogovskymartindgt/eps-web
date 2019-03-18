@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 import { DashboardService } from 'src/app/shared/services/dashboard.service';
 import { SecondaryHeader } from 'src/app/shared/interfaces/secondary-header.interface';
 
@@ -18,13 +17,13 @@ export class SecondaryHeaderComponent implements OnInit {
   public secondaryHeaderTitle: string = "";
   
   constructor(private readonly router: Router,
-              private readonly dashBoardService: DashboardService) { }
+              private readonly dashboardService: DashboardService) { }
 
   ngOnInit() {
 
-    this.dashBoardService.setSecondaryHeaderContent({ isDashboard: true });
+    this.dashboardService.setSecondaryHeaderContent({ isDashboard: true });
 
-        this.dashBoardService.secondaryHeaderNotifier$.subscribe((secondaryHeader: SecondaryHeader)=>{
+        this.dashboardService.secondaryHeaderNotifier$.subscribe((secondaryHeader: SecondaryHeader)=>{
             if (secondaryHeader.isDashboard) {
                 this.dashboardVisible = true;
                 this.secondaryHeaderTitle = '';
@@ -48,7 +47,7 @@ export class SecondaryHeaderComponent implements OnInit {
 
   private filterProjects(value: 'all' | 'open' | 'closed') {
 
-      // this.dashBoardService.filterProjects(value)
+      // this.dashboardService.filterProjects(value)
       //   .subscribe((filteredProjects: ProjectInterface[]) => {
       //     console.log(filteredProjects);
       //     this.allProjects = filteredProjects;
@@ -58,7 +57,7 @@ export class SecondaryHeaderComponent implements OnInit {
 
   public routeToDashboard() {
       this.router.navigate(['dashboard']);
-      this.dashBoardService.setSecondaryHeaderContent({ isDashboard: true });
+      this.dashboardService.setSecondaryHeaderContent({ isDashboard: true });
   }
 
 }
