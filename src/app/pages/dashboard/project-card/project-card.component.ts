@@ -13,7 +13,7 @@ export class ProjectCardComponent implements OnInit {
     @Input() public project: ProjectInterface;
 
     public constructor(private readonly router: Router,
-                       private readonly dashBoardService: DashboardService) {
+                       private readonly dashboardService: DashboardService) {
     }
 
     public ngOnInit() {
@@ -24,8 +24,11 @@ export class ProjectCardComponent implements OnInit {
     }
 
     public onProjectSelected() {
+        const selectedProject = '2021 IIHF Ice Hockey World Championship';
         this.openAreas();
-        this.dashBoardService.setSecondaryHeaderContent({ isDashboard: false, title: '2021 IIHF Ice Hockey World Championship' });
+        this.dashboardService.setSecondaryHeaderContent({
+            isDashboard: false, title: selectedProject
+        });
     }
 
 }

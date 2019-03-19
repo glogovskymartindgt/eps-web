@@ -5,12 +5,12 @@ import { Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ProjectInterface } from '../interfaces/project.interface';
 import { SecondaryHeader } from '../interfaces/secondary-header.interface';
+import { AppConstants } from '../utils/constants';
 
 @Injectable({
     providedIn: 'root'
 })
 export class DashboardService {
-
     private secondaryHeader = new Subject<SecondaryHeader>();
     public secondaryHeaderNotifier$ = this.secondaryHeader.asObservable();
 

@@ -12,14 +12,14 @@
             <mat-card-header></mat-card-header>
             <mat-card-content class="m-0 px-25">
                 <div class="card-container">
-                    <mat-form-field appearance="fill">
+                    <mat-form-field appearance="fill" class="theme-input">
                         <mat-label>{{'login.username' | translate}}</mat-label>
                         <input matInput required formControlName="userName">
                         <mat-error *ngIf="loginFormControls?.userName?.invalid">
                             {{'error.required' | translate}}
                         </mat-error>
                     </mat-form-field>
-                    <mat-form-field appearance="fill" class="mt-8">
+                    <mat-form-field appearance="fill" class="mt-8" class="theme-input">
                         <mat-label>{{'login.password' | translate}}</mat-label>
                         <input matInput [type]="hidePassword ? 'password' : 'text'" required formControlName="password">
                         <mat-icon matSuffix (click)="hidePassword = !hidePassword "
