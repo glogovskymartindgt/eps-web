@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { SecondaryHeader } from 'src/app/shared/interfaces/secondary-header.interface';
 import { DashboardService } from 'src/app/shared/services/dashboard.service';
 import { fadeEnterLeave } from '../../../../shared/hazlenut/hazelnut-common/animations';
+import { ProjectEventService } from '../../../../shared/services/project-event.service';
 
 @Component({
     selector: 'secondary-header',
@@ -17,7 +18,9 @@ export class SecondaryHeaderComponent implements OnInit {
     public secondaryHeaderTitle = '';
 
     public constructor(private readonly router: Router,
-                       private readonly dashBoardService: DashboardService) {
+                       private readonly dashBoardService: DashboardService,
+                       private readonly projectEventService: ProjectEventService,
+                       ) {
     }
 
     public ngOnInit() {
@@ -52,6 +55,7 @@ export class SecondaryHeaderComponent implements OnInit {
     public routeToDashboard() {
         this.router.navigate(['dashboard']);
         this.dashBoardService.setSecondaryHeaderContent({isDashboard: true});
+        this.projectEventService.setEventData('', false);
     }
 
 }

@@ -16,7 +16,8 @@ export class BusinessAreaListComponent implements OnInit {
     public data;
 
     public constructor(private readonly translateService: TranslateService,
-                       private readonly router: Router) {
+                       private readonly router: Router,
+    ) {
     }
 
     public ngOnInit() {
@@ -74,7 +75,7 @@ export class BusinessAreaListComponent implements OnInit {
         };
     }
 
-    public showTasks(){
+    public showTasks() {
         this.router.navigate(['tasks/list']);
     }
 

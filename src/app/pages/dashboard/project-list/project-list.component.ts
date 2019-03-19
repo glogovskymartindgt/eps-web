@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProjectInterface } from 'src/app/shared/interfaces/project.interface';
+import { ProjectEventService } from '../../../shared/services/project-event.service';
 
 @Component({
     selector: 'project-list',
@@ -9,37 +10,24 @@ import { ProjectInterface } from 'src/app/shared/interfaces/project.interface';
 
 export class ProjectListComponent implements OnInit {
 
-    public constructor() {
-    }
-
     public allProjects: ProjectInterface[] = [];
-
     private mockID = 0;
 
-    private mockedProject: ProjectInterface = {
-        id: 1,
-        name: '2021 IIHF ICE HOCKEY WORLDCHAMPIONSHIP',
-        logo: 'https://picsum.photos/76/103',
-        country_1: 'Belarus',
-        country_2: 'Latvia',
-        venue_city_1: 'Minsk',
-        venue_city_2: 'Riga',
-        state: 'open'
-    };
+    public constructor(
+        private readonly projectEventService: ProjectEventService
+    ) {
+    }
 
     public ngOnInit() {
-
+        this.projectEventService.setEventData('', false);
         const length = 35;
         for (let i = 0; i < length; i++) {
             this.allProjects.push(this.mockProjectCard());
         }
-
     }
 
     private mockProjectCard(): ProjectInterface {
-
         const newState = (this.mockID % 2 === 0) ? 'open' : 'closed';
-
         const card: ProjectInterface = {
             id: 1 + this.mockID,
             name: '2021 IIHF ICE HOCKEY WORLDCHAMPIONSHIP' + this.mockID,
@@ -50,11 +38,8 @@ export class ProjectListComponent implements OnInit {
             venue_city_2: 'Riga' + this.mockID,
             state: newState
         };
-
         this.mockID++;
-
         return card;
-
     }
 
 }

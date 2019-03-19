@@ -1,4 +1,4 @@
-<div *ngIf="!dashboardVisible"
+<div  *ngIf="projectEventService.subject.isEvent | async"
      fxLayout="row"
      class="project-header m-0 p-0">
     <div fxFlex="50px"
@@ -30,7 +30,7 @@
     </div>
 </div>
 
-<div *ngIf="dashboardVisible" class="project-header" fxLayout="row" fxLayoutAlign="start center">
+<div  *ngIf="!projectEventService.subject.isEvent | async" class="project-header" fxLayout="row" fxLayoutAlign="start center">
     <h3 class="m-0 ml-20 mt-7 dashboard-text" [@fadeEnterLeave]>{{ 'dashboard.dashboard' | translate}}</h3>
     <a class="ml-50 mt-7 dashboard-filter" mat-ripple [matRippleColor]="'rgba(255,255,255,0.2)'"
        [ngClass]="(activeFilter === 'all') ? 'activated' : 'non-activated'"

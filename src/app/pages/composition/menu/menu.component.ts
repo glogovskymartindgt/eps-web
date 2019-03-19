@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { fadeEnterLeave, routeAnimations } from '../../../shared/hazlenut/hazelnut-common/animations';
 import { SecondaryHeader } from '../../../shared/interfaces/secondary-header.interface';
 import { DashboardService } from '../../../shared/services/dashboard.service';
+import { ProjectEventService } from '../../../shared/services/project-event.service';
 
 @Component({
     selector: 'menu',
@@ -16,13 +17,15 @@ export class MenuComponent implements OnInit {
     public menuVisible = true;
 
     public constructor(private readonly translateService: TranslateService,
-                       private readonly dashBoardService: DashboardService) {
+                       private readonly dashBoardService: DashboardService,
+                       private readonly projectEventService: ProjectEventService,
+                       ) {
     }
 
     public ngOnInit(): void {
-        this.dashBoardService.secondaryHeaderNotifier$.subscribe((secondaryHeader: SecondaryHeader) => {
-            this.menuVisible = !secondaryHeader.isDashboard;
-        });
+        // this.dashBoardService.secondaryHeaderNotifier$.subscribe((secondaryHeader: SecondaryHeader) => {
+        //     this.menuVisible = !secondaryHeader.isDashboard;
+        // });
     }
 
     public toggleLanguage() {

@@ -8,12 +8,14 @@ import {
     TableConfiguration,
     TableFilterType
 } from '../../../shared/hazlenut/core-table';
+import { fadeEnterLeave } from '../../../shared/hazlenut/hazelnut-common/animations';
 import { BrowseResponse } from '../../../shared/hazlenut/hazelnut-common/models';
 
 @Component({
     selector: 'iihf-task-list',
     templateUrl: './task-list.component.html',
-    styleUrls: ['./task-list.component.scss']
+    styleUrls: ['./task-list.component.scss'],
+    animations: [fadeEnterLeave]
 })
 export class TaskListComponent implements OnInit {
     @ViewChild('dateFilter') public dateFilter: TemplateRef<any>;

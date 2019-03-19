@@ -1,11 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ProjectInterface } from '../interfaces/project.interface';
 import { SecondaryHeader } from '../interfaces/secondary-header.interface';
-import { AppConstants } from '../utils/constants';
 
 @Injectable({
     providedIn: 'root'
@@ -15,7 +13,7 @@ export class DashboardService {
     public secondaryHeaderNotifier$ = this.secondaryHeader.asObservable();
 
     public constructor(private http: HttpClient,
-                       private readonly router: Router) {
+    ) {
     }
 
     public setSecondaryHeaderContent(secondaryHeader: SecondaryHeader) {
