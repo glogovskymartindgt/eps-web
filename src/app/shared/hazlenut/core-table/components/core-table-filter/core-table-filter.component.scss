@@ -66,4 +66,21 @@ td[mat-cell] {
     }
 }
 
+//::ng-deep {
+//    .custom-filter-input .mat-form-field-flex {
+//        background-color: #f3f9fd;
+//        border: 1px solid #c4e4f4;
+//        border-top-left-radius: 5px;
+//        border-top-right-radius: 5px;
+//    }
+//}
+
+::ng-deep {
+    .mat-form-field .mat-form-field-flex {
+        background-color: #e8f0fe;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+}
+
 

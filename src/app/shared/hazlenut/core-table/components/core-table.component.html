@@ -10,6 +10,20 @@
         <ng-container *ngFor="let columnConfig of configuration.columns; let i = index"
                       [matColumnDef]="columnConfig.columnDef">
             <!-- header cell -->
+
+            <!-- selection checkbox cell -->
+            <ng-container *ngIf="i === 0 && selectableTable">
+                <td *matCellDef="let row" mat-cell>
+                    <mat-checkbox
+                        (change)="$event ? selection.toggle(row) : null"
+                        (click)="$event.stopPropagation()"
+                        [checked]="selection.isSelected(row)"
+                        [color]="configuration.selectionColor"
+                    >
+                    </mat-checkbox>
+                </td>
+            </ng-container>
+
             <!-- dynamically set sorting -->
             <ng-container *ngIf="columnConfig.sorting">
                 <th
@@ -31,19 +45,6 @@
                         {{ columnConfig.label }}
                     </div>
                 </th>
-            </ng-container>
-
-            <!-- selection checkbox cell -->
-            <ng-container *ngIf="i === 0 && selectableTable">
-                <td *matCellDef="let row" mat-cell>
-                    <mat-checkbox
-                        (change)="$event ? selection.toggle(row) : null"
-                        (click)="$event.stopPropagation()"
-                        [checked]="selection.isSelected(row)"
-                        [color]="configuration.selectionColor"
-                    >
-                    </mat-checkbox>
-                </td>
             </ng-container>
 
             <!-- data row cell -->
@@ -74,18 +75,17 @@
             </td>
         </ng-container>
 
-        <!--  header row -->
-        <tr
-            *matHeaderRowDef="displayedColumns; sticky: true"
-            [ngClass]="{ headerColor: configuration.headerColor, 'last-header-row': !anyFilter }"
-            class="first-header-row p-0 m-0"
-            mat-header-row
-        ></tr>
-
         <!-- filters row -->
         <ng-container *ngIf="anyFilter">
-            <tr *matHeaderRowDef="columnsFilters; sticky: true" class="p-0 m-0 last-header-row" mat-header-row></tr>
+            <tr *matHeaderRowDef="columnsFilters; sticky: true" class="p-0 m-0 first-header-row" mat-header-row></tr>
         </ng-container>
+
+        <!--  header row -->
+        <tr *matHeaderRowDef="displayedColumns; sticky: true"
+            [ngClass]="{ headerColor: configuration.headerColor, 'last-header-row': !anyFilter }"
+            class=" p-0 m-0 last-header-row"
+            mat-header-row
+        ></tr>
 
         <!-- data rows -->
         <ng-container>

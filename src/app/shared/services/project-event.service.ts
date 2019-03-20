@@ -22,6 +22,5 @@ export class ProjectEventService extends EventService<EventDataInterface> {
             isEvent,
             selectedEvent: event,
         });
-        console.log(isEvent);
     }
 }

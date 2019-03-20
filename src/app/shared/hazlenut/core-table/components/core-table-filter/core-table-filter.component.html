@@ -1,7 +1,9 @@
 <ng-container [formGroup]="filtersElement" [ngSwitch]="columnConfig.filter?.type">
 
     <mat-form-field *ngSwitchCase="filterTypeEnum.STRING"
-                    [ngClass]="widthClass">
+                    [ngClass]="widthClass"
+                    class="custom-filter-input"
+    >
 
         <input (blur)="showSearchIcon = true" (focus)="showSearchIcon = false"
                [formControlName]="columnConfig.filterElement"
@@ -9,11 +11,11 @@
                matInput
                type="text">
 
-        <mat-icon *ngIf="showSearchIcon &&( filtersElement.value[columnConfig.filterElement] === '' ||
-                         filtersElement.value[columnConfig.filterElement] === null )"
-                  class="search-icon" matSuffix>
-            search
-        </mat-icon>
+        <!--<mat-icon *ngIf="showSearchIcon &&( filtersElement.value[columnConfig.filterElement] === '' ||-->
+        <!--filtersElement.value[columnConfig.filterElement] === null )"-->
+        <!--class="search-icon" matSuffix>-->
+        <!--search-->
+        <!--</mat-icon>-->
     </mat-form-field>
 
     <mat-form-field *ngSwitchCase="filterTypeEnum.SELECT"
@@ -56,6 +58,19 @@
                     [ngClass]="widthClass">
         <mat-select [formControlName]="columnConfig.filterElement">
             <mat-option *ngFor="let option of columnConfig.filter.select" [value]="option.code | async">
+                {{ option.value | async }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field *ngSwitchCase="filterTypeEnum.TRAFFIC_LIGHT"
+                    [ngClass]="widthClass">
+        <mat-select-trigger *ngIf="columnConfig.filter.select">
+            {{columnConfig.filterElement.value}}
+        </mat-select-trigger>
+        <mat-select [formControlName]="columnConfig.filterElement" multiple>
+            <mat-option *ngFor="let option of columnConfig.filter.select" [value]="option.code | async">
+                <div style="width: 20px;height: 20px;background:red;border-radius:50%; position: absolute;right: 5px;"></div>
                 {{ option.value | async }}
             </mat-option>
         </mat-select>

@@ -48,7 +48,18 @@
         "logout": "Log out"
     },
     "businessArea": {
-        "code": "Kód",
-        "name": "Názov"
+        "code": "Code",
+        "name": "Name"
+    },
+    "task": {
+        "type": "Type",
+        "trafficLight": "Traffic light",
+        "code": "Code",
+        "title": "Name",
+        "phase": "Phase",
+        "venue": "Venue",
+        "responsible": "Responsible",
+        "dueDate": "Due date",
+        "status": "Status"
     }
 }

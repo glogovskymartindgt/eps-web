@@ -45,7 +45,6 @@ export class InputUtils {
                 target.hintBadCharacter = translate;
             });
         }
-        console.log('target', target);
     }
 
     public static setFromToTranslates(target: any, translationService: TranslateWrapper, instant: boolean): void {

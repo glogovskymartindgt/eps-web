@@ -2,6 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import {
+    ListItem,
     TableCellType,
     TableColumn,
     TableColumnFilter,
@@ -18,7 +19,8 @@ import { BrowseResponse } from '../../../shared/hazlenut/hazelnut-common/models'
     animations: [fadeEnterLeave]
 })
 export class TaskListComponent implements OnInit {
-    @ViewChild('dateFilter') public dateFilter: TemplateRef<any>;
+    @ViewChild('trafficLightColumn') public trafficLightColumn: TemplateRef<any>;
+    @ViewChild('statusColumn') public statusColumn: TemplateRef<any>;
     @ViewChild('updateColumn') public updateColumn: TemplateRef<any>;
     public config: TableConfiguration;
     public data;
@@ -46,14 +48,30 @@ export class TaskListComponent implements OnInit {
         this.config = {
             columns: [
                 new TableColumn({
-                    columnDef: 'type',
-                    label: this.translateService.instant('task.type'),
-                    filter: new TableColumnFilter({}),
-                    sorting: true,
+                    columnDef: ' ',
+                    label: ' ',
+                    type: TableCellType.CONTENT,
+                    tableCellTemplate: this.updateColumn,
                 }),
                 new TableColumn({
                     columnDef: 'trafficLight',
                     label: this.translateService.instant('task.trafficLight'),
+                    type: TableCellType.CONTENT,
+                    tableCellTemplate: this.trafficLightColumn,
+                    filter: new TableColumnFilter({
+                        valueType: 'ENUM',
+                        type: TableFilterType.TRAFFIC_LIGHT,
+                        select: [
+                            new ListItem('', this.translateService.instant('all.things')),
+                            new ListItem('RED', this.translateService.instant('task.trafficLight.red')),
+                            new ListItem('GREEN', this.translateService.instant('task.trafficLight.green')),
+                        ]
+                    }),
+                    sorting: true,
+                }),
+                new TableColumn({
+                    columnDef: 'type',
+                    label: this.translateService.instant('task.type'),
                     filter: new TableColumnFilter({}),
                     sorting: true,
                 }),
@@ -94,21 +112,24 @@ export class TaskListComponent implements OnInit {
                     filter: new TableColumnFilter({
                         valueType: 'DATE_TIME',
                         type: TableFilterType.DATETIME_AS_DATERANGE,
-                        template: this.dateFilter,
                     }),
                     sorting: true,
                 }),
                 new TableColumn({
                     columnDef: 'status',
                     label: this.translateService.instant('task.status'),
-                    filter: new TableColumnFilter({}),
-                    sorting: true,
-                }),
-                new TableColumn({
-                    columnDef: ' ',
-                    label: ' ',
                     type: TableCellType.CONTENT,
-                    tableCellTemplate: this.updateColumn,
+                    tableCellTemplate: this.statusColumn,
+                    filter: new TableColumnFilter({
+                        valueType: 'ENUM',
+                        type: TableFilterType.SELECT,
+                        select: [
+                            new ListItem('', this.translateService.instant('all.things')),
+                            new ListItem('OPEN', this.translateService.instant('task.statusValue.open')),
+                            new ListItem('CLOSED', this.translateService.instant('task.statusValue.closed')),
+                        ]
+                    }),
+                    sorting: true,
                 }),
             ],
 
@@ -121,7 +142,6 @@ export class TaskListComponent implements OnInit {
     }
 
     public export() {
-        console.log('export');
     }
 
 }
