@@ -1,9 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { HazelnutConfig } from '../hazlenut/hazelnut-common/config/hazelnut-config';
 import { NotificationService } from './notification.service';
 import { ProjectUserService } from './project-user.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -29,9 +29,7 @@ export class AuthService {
     private loginBackend(login: string, password: string, deviceId = 'device1'): void {
         const headers = new HttpHeaders({'Content-Type': 'application/json'});
         this.httpClient.post(
-            HazelnutConfig.URL_API +
-            // '/api' +
-            '/security/authenticate',
+            environment.URL_API + '/security/authenticate',
             {login, password, deviceId},
             {headers}
         ).subscribe((data) => {
@@ -45,8 +43,9 @@ export class AuthService {
     private logoutBackend(masterToken: string, authenticationToken: string, deviceId = 'device1'): void {
         const headers = new HttpHeaders({'Content-Type': 'application/json'});
         this.httpClient.post(
-            HazelnutConfig.URL_API + '/security/invalidate',
-            {masterToken, authenticationToken, deviceId},
+            environment.URL_API + '/security/invalidate',
+            // {masterToken, authenticationToken, deviceId},
+            {masterToken: masterToken, authenticationToken: authenticationToken, deviceId: deviceId},
             {headers}
         ).subscribe((data) => {
                 this.userService.clearUserData();

@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
         });
     }
 
-    public get loginFormControls() {
+  public get loginFormControls() {
         return this.loginForm.controls;
     }
 

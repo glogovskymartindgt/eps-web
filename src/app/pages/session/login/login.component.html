@@ -14,14 +14,14 @@
                 <div class="card-container">
                     <mat-form-field appearance="fill" class="theme-input">
                         <mat-label>{{'login.username' | translate}}</mat-label>
-                        <input matInput required formControlName="userName">
+                        <input matInput formControlName="userName">
                         <mat-error *ngIf="loginFormControls?.userName?.invalid">
                             {{'error.required' | translate}}
                         </mat-error>
                     </mat-form-field>
                     <mat-form-field appearance="fill" class="mt-8" class="theme-input">
                         <mat-label>{{'login.password' | translate}}</mat-label>
-                        <input matInput [type]="hidePassword ? 'password' : 'text'" required formControlName="password">
+                        <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password">
                         <mat-icon matSuffix (click)="hidePassword = !hidePassword "
                                   class="cursor-pointer"
                                   matTooltip="{{ 'login.toggle-visibility' | translate}}"
