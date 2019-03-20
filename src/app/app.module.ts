@@ -19,9 +19,9 @@ import { CoreTableModule, GLOBAL_CONFIG_TOKEN } from './shared/hazlenut/core-tab
 import { MaterialModule, NOTIFICATION_WRAPPER_TOKEN, TRANSLATE_WRAPPER_TOKEN } from './shared/hazlenut/hazelnut-common';
 import { NotificationSnackBarComponent } from './shared/hazlenut/small-components/notifications';
 import { AuthGuard } from './shared/services/auth-guard';
+import { DashboardService } from './shared/services/dashboard.service';
 import { NotificationService } from './shared/services/notification.service';
 import { TranslateWrapperService } from './shared/services/translate-wrapper.service';
-import { DashboardService } from './shared/services/dashboard.service';
 
 @NgModule({
     declarations: [

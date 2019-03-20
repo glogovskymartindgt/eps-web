@@ -17,10 +17,10 @@ export class SecondaryHeaderComponent implements OnInit {
     public activeFilter = 'all';
     public secondaryHeaderTitle = '';
 
-    public constructor(private readonly router: Router,
+    public constructor(public readonly projectEventService: ProjectEventService,
+                       private readonly router: Router,
                        private readonly dashBoardService: DashboardService,
-                       private readonly projectEventService: ProjectEventService,
-                       ) {
+    ) {
     }
 
     public ngOnInit() {

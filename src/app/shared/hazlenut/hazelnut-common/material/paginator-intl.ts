@@ -20,7 +20,7 @@ export class PaginatorIntl extends MatPaginatorIntl {
         const startIndex = page * pageSize;
         const endIndex = startIndex < length ? Math.min(startIndex + pageSize, length) : startIndex + pageSize;
         return `${startIndex === 0 ? 1 : startIndex} - ${endIndex} ${this.from} ${length}`;
-    };
+    }
 
     public injectTranslateService(translate: TranslateService) {
         this.translate = translate;

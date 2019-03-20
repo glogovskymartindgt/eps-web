@@ -16,10 +16,11 @@ export class MenuComponent implements OnInit {
     @Input() public template: TemplateRef<any>;
     public menuVisible = true;
 
-    public constructor(private readonly translateService: TranslateService,
-                       private readonly dashBoardService: DashboardService,
-                       private readonly projectEventService: ProjectEventService,
-                       ) {
+    public constructor(
+        public readonly projectEventService: ProjectEventService,
+        private readonly translateService: TranslateService,
+        private readonly dashBoardService: DashboardService,
+    ) {
     }
 
     public ngOnInit(): void {

@@ -28,7 +28,6 @@ export class InputNumberComponent<T = number | string> implements OnInit, Contro
 
     public formattedValue: string;
 
-
     public readonly control = new FormControl(0);
     private lastValue: string;
     public constructor() {

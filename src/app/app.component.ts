@@ -9,7 +9,7 @@ import { ProjectUserService } from './shared/services/project-user.service';
 })
 export class AppComponent implements OnInit {
 
-    public constructor(private translateService: TranslateService,
+    public constructor(private readonly translateService: TranslateService,
                        public projectUserService: ProjectUserService,
     ) {
         translateService.setDefaultLang('en');

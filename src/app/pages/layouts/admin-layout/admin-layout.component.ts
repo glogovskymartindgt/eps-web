@@ -16,7 +16,7 @@ export class AdminLayoutComponent implements OnInit {
     public data;
     public login = '';
 
-    public constructor(private readonly projectUserService: ProjectUserService,
+    public constructor(public readonly projectUserService: ProjectUserService,
                        private readonly authService: AuthService) {
     }
 

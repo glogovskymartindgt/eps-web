@@ -9,10 +9,10 @@ import { SecondaryHeader } from '../interfaces/secondary-header.interface';
     providedIn: 'root'
 })
 export class DashboardService {
-    private secondaryHeader = new Subject<SecondaryHeader>();
+    private readonly secondaryHeader = new Subject<SecondaryHeader>();
     public secondaryHeaderNotifier$ = this.secondaryHeader.asObservable();
 
-    public constructor(private http: HttpClient,
+    public constructor(private readonly http: HttpClient,
     ) {
     }
 

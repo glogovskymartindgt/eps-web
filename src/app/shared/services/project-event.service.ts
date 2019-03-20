@@ -19,8 +19,8 @@ export class ProjectEventService extends EventService<EventDataInterface> {
 
     public setEventData(event: string, isEvent: boolean) {
         this.setData({
-            selectedEvent: event,
             isEvent,
+            selectedEvent: event,
         });
         console.log(isEvent);
     }
