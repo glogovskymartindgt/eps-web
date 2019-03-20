@@ -90,10 +90,10 @@ export class TaskListComponent implements OnInit {
                 new TableColumn({
                     columnDef: 'dueDate',
                     label: this.translateService.instant('task.dueDate'),
-                    type: TableCellType.DATE,
+                    type: TableCellType.DATETIME,
                     filter: new TableColumnFilter({
                         valueType: 'DATE_TIME',
-                        type: TableFilterType.DATE,
+                        type: TableFilterType.DATETIME_AS_DATERANGE,
                         template: this.dateFilter,
                     }),
                     sorting: true,
