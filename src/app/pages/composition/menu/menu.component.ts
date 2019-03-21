@@ -30,4 +30,3 @@ export class MenuComponent implements OnInit {
         return outlet && outlet.activatedRouteData && outlet.activatedRouteData.title;
     }
 
-}

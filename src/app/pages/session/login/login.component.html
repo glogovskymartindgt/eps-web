@@ -24,7 +24,7 @@
                         <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password">
                         <mat-icon matSuffix (click)="hidePassword = !hidePassword "
                                   class="cursor-pointer"
-                                  matTooltip="{{ 'login.toggle-visibility' | translate}}"
+                                  matTooltip="{{ 'login.toggleVisibility' | translate}}"
                         >
                             {{hidePassword ? 'visibility_off' : 'visibility'}}
                         </mat-icon>
