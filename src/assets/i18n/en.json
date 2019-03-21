@@ -13,14 +13,36 @@
         "login": "Log in",
         "username": "Username",
         "password": "Password",
-        "toggle-visibility": "Change visibility"
+        "toggleVisibility": "Change visibility"
     },
     "dashboard": {
 		"dashboard": "Dashboard",
 		"all": "All",
 		"open": "Open",
 		"closed": "Closed"
-	},
+    },
+    "tasks": {
+        "cancel": "Cancel",
+        "save": "Save",
+        "empty": "Empty",
+        "both": "Both",
+        "none": "None",
+        "type": "Type",
+        "trafficLight": "Traffic light",
+        "forIssue": "for issue",
+        "title": "Ttitle",
+        "businessArea": "Business area",
+        "code": "Code",
+        "sourceOfAgenda": "Source of agenda",        
+        "phase": "Phase",
+        "dueDate": "Due date",
+        "responsible": "Responsible",
+        "venue": "Venue",
+        "description": "Description",
+        "new": {
+            "newTask": "New task"
+        }
+    },
     "error": {
         "login": "Log in failed",
         "logout": "Log out failed",
@@ -29,7 +51,9 @@
         "minlength": "Minlength error",
         "pattern": "Pattern error",
         "add": "Create failed",
-        "interval": "Empty interval"
+        "interval": "Empty interval",
+        "isRequired": "is required!",
+        "dateFormatIsInvalid": "Date format is invalid!"
     },
     "paginator": {
         "itemsPerPage": "Items per page",

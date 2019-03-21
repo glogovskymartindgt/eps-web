@@ -13,7 +13,7 @@
         "login": "Prihlásiť sa",
         "username": "Prihlasovacie meno",
         "password": "Heslo",
-        "toggle-visibility": "Zmeniť viditeľnosť"
+        "toggleVisibility": "Zmeniť viditeľnosť"
     },
     "error": {
         "login": "Nepodarilo sa prihlásiť",

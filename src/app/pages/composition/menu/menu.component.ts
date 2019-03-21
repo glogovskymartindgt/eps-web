@@ -19,12 +19,12 @@ export class MenuComponent implements OnInit {
     public constructor(
         public readonly projectEventService: ProjectEventService,
         private readonly translateService: TranslateService,
-        private readonly dashBoardService: DashboardService,
+        private readonly dashboardService: DashboardService,
     ) {
     }
 
     public ngOnInit(): void {
-        // this.dashBoardService.secondaryHeaderNotifier$.subscribe((secondaryHeader: SecondaryHeader) => {
+        // this.dashboardService.secondaryHeaderNotifier$.subscribe((secondaryHeader: SecondaryHeader) => {
         //     this.menuVisible = !secondaryHeader.isDashboard;
         // });
     }
