@@ -69,6 +69,8 @@ export class TaskCreateComponent implements OnInit {
       let ba: BusinessArea = this.filterBusinessAreaSelected;
       let index = this.allBusinessAreas.findIndex(el => el.code == ba.code && el.name == ba.name);
       this.taskForm.get('businessArea').setValue(this.allBusinessAreas[index]);
+    } else {
+      this.taskForm.get('businessArea').setValue(this.allBusinessAreas[0]);
     }
   }
     

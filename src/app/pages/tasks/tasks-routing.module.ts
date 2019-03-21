@@ -11,23 +11,19 @@ const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'list',
-        data: {animation: 'taskList'},
+        redirectTo: 'list'        
       },
       {
         path: 'list',
-        component: TaskListComponent,
-        data: {animation: 'taskList'},
+        component: TaskListComponent        
       },
         {
             path: 'create',
-            component: TaskCreateComponent,
-            data: {animation: 'taskCreate'},
+            component: TaskCreateComponent            
         },
         {
             path: 'edit',
-            component: TaskEditComponent,
-            data: {animation: 'taskEdit'},
+            component: TaskEditComponent            
         }
     ],
   }
