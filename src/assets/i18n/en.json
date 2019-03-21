@@ -16,11 +16,11 @@
         "toggle-visibility": "Change visibility"
     },
     "dashboard": {
-		"dashboard": "Dashboard",
-		"all": "All",
-		"open": "Open",
-		"closed": "Closed"
-	},
+        "dashboard": "Dashboard",
+        "all": "All",
+        "open": "Open",
+        "closed": "Closed"
+    },
     "error": {
         "login": "Log in failed",
         "logout": "Log out failed",
@@ -48,18 +48,43 @@
         "logout": "Log out"
     },
     "businessArea": {
+        "title": "Business Area",
         "code": "Code",
         "name": "Name"
     },
     "task": {
         "type": "Type",
         "trafficLight": "Traffic light",
+        "trafficLightValue": {
+            "red": "Red",
+            "green": "Green"
+        },
         "code": "Code",
-        "title": "Name",
+        "name": "Name",
+        "title": "Tasks",
         "phase": "Phase",
         "venue": "Venue",
         "responsible": "Responsible",
         "dueDate": "Due date",
-        "status": "Status"
+        "status": "Status",
+        "statusValue": {
+            "open": "Open",
+            "closed": "Closed"
+        }
+    },
+    "common": {
+        "add": "Add",
+        "export": "Export"
+    },
+    "all": {
+        "things": "All"
+    },
+    "fact": {
+        "title": "Facts and Figures",
+        "category": "Category",
+        "subCategory": "Subcategory",
+        "firstVenue": "First Venue",
+        "secondVenue": "Second Venue",
+        "totalValue": "Total Value"
     }
 }

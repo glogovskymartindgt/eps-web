@@ -5,36 +5,33 @@ import { TaskEditComponent } from './task-edit/task-edit.component';
 import { TaskListComponent } from './task-list/task-list.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    children: [
-      {
+    {
         path: '',
-        pathMatch: 'full',
-        redirectTo: 'list',
-        data: {animation: 'taskList'},
-      },
-      {
-        path: 'list',
-        component: TaskListComponent,
-        data: {animation: 'taskList'},
-      },
-        {
-            path: 'create',
-            component: TaskCreateComponent,
-            data: {animation: 'taskCreate'},
-        },
-        {
-            path: 'edit',
-            component: TaskEditComponent,
-            data: {animation: 'taskEdit'},
-        }
-    ],
-  }
+        children: [
+            {
+                path: '',
+                pathMatch: 'full',
+                redirectTo: 'list',
+            },
+            {
+                path: 'list',
+                component: TaskListComponent,
+            },
+            {
+                path: 'create',
+                component: TaskCreateComponent,
+            },
+            {
+                path: 'edit',
+                component: TaskEditComponent,
+            }
+        ],
+    }
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule]
 })
-export class TasksRoutingModule { }
+export class TasksRoutingModule {
+}

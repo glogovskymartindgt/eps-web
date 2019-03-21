@@ -36,7 +36,7 @@ export class TaskListComponent implements OnInit {
                     type: 'Task',
                     trafficLight: 'green',
                     code: '1.1.1',
-                    title: 'Application',
+                    name: 'Application',
                     phase: 'phase',
                     venue: 'Zurich',
                     responsible: 'Cornelia',
@@ -63,8 +63,8 @@ export class TaskListComponent implements OnInit {
                         type: TableFilterType.TRAFFIC_LIGHT,
                         select: [
                             new ListItem('', this.translateService.instant('all.things')),
-                            new ListItem('RED', this.translateService.instant('task.trafficLight.red')),
-                            new ListItem('GREEN', this.translateService.instant('task.trafficLight.green')),
+                            new ListItem('RED', this.translateService.instant('task.trafficLightValue.red')),
+                            new ListItem('GREEN', this.translateService.instant('task.trafficLightValue.green')),
                         ]
                     }),
                     sorting: true,
@@ -82,8 +82,8 @@ export class TaskListComponent implements OnInit {
                     sorting: true,
                 }),
                 new TableColumn({
-                    columnDef: 'title',
-                    label: this.translateService.instant('task.title'),
+                    columnDef: 'name',
+                    label: this.translateService.instant('task.name'),
                     filter: new TableColumnFilter({}),
                     sorting: true,
                 }),

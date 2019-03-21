@@ -1,3 +1,4 @@
+
 <div class="styled-table-container">
     <table [dataSource]="data?.content"
            [ngClass]="{'border-columns': configuration.columnBorders}"
@@ -56,13 +57,14 @@
         </ng-container>
 
         <!--filter row cell-->
-        <ng-container *ngFor="let columnConfig of configuration.columns"
-                      [matColumnDef]="columnConfig.filterElement">
-            <th *matHeaderCellDef mat-header-cell>
-                <haz-core-table-filter *ngIf="columnConfig.filter" [columnConfig]="columnConfig">
-                </haz-core-table-filter>
-            </th>
-        </ng-container>
+
+            <ng-container *ngFor="let columnConfig of configuration.columns"
+                          [matColumnDef]="columnConfig.filterElement">
+                <th *matHeaderCellDef mat-header-cell>
+                    <haz-core-table-filter *ngIf="columnConfig.filter" [columnConfig]="columnConfig">
+                    </haz-core-table-filter>
+                </th>
+            </ng-container>
 
         <!-- expanded rows cell -->
         <ng-container matColumnDef="expandedDetail">
@@ -77,14 +79,15 @@
 
         <!-- filters row -->
         <ng-container *ngIf="anyFilter">
-            <tr *matHeaderRowDef="columnsFilters; sticky: true" class="p-0 m-0 first-header-row" mat-header-row></tr>
+            <tr *matHeaderRowDef="columnsFilters; sticky: true" class="p-0 m-0 first-header-row"
+                mat-header-row></tr>
         </ng-container>
 
         <!--  header row -->
         <tr *matHeaderRowDef="displayedColumns; sticky: true"
             [ngClass]="{ headerColor: configuration.headerColor, 'last-header-row': !anyFilter }"
             class=" p-0 m-0 last-header-row"
-            mat-header-row
+            mat-header-row 
         ></tr>
 
         <!-- data rows -->

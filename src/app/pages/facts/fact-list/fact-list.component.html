@@ -1,0 +1,14 @@
+<div>
+    <div fxLayout="row" class="basic-screen-header">
+        <div class="pl-20"  fxFlex="300px" fxLayoutAlign="start center">
+            <h2>{{'fact.title' | translate}}</h2>
+        </div>
+        <div fxFlex fxLayoutAlign="end center">
+            <button mat-raised-button (click)="createFact()" class="mr-10">{{'common.add' | translate}}</button>
+        </div>
+    </div>
+
+    <haz-core-table [configuration]="config"
+                    [data]="data"
+    ></haz-core-table>
+</div>

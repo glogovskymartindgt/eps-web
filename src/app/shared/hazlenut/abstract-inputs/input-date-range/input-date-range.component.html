@@ -1,10 +1,10 @@
 <div [ngClass]="'w-' + (dateWidth * 2 + 5)" fxLayout="row">
     <haz-input-date [formControl]="fromFormControl"
-                    class="mr-5"
-                    [max]="toFormControl.value ? transformToDate(toFormControl.value) : null">
+                    [max]="transformToDate(toFormControl.value)"
+                    class="mr-5">
     </haz-input-date>
     <haz-input-date [formControl]="toFormControl"
-                    [min]="fromFormControl.value ? transformToDate(fromFormControl.value) : null">
+                    [min]="transformToDate(fromFormControl.value)">
     </haz-input-date>
     <mat-error *ngIf="dateRangeForm.errors && dateRangeForm.errors['minmax']" class="error-message">
         {{ errorInterval }}

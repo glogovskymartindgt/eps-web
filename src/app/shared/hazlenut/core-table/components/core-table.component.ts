@@ -1,5 +1,18 @@
 import { SelectionChange, SelectionModel } from '@angular/cdk/collections';
-import { Component, EventEmitter, Inject, Input, OnChanges, OnDestroy, OnInit, Output, QueryList, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
+import {
+    Component,
+    EventEmitter,
+    Inject,
+    Input,
+    OnChanges,
+    OnDestroy,
+    OnInit,
+    Output,
+    QueryList,
+    SimpleChanges,
+    ViewChild,
+    ViewChildren
+} from '@angular/core';
 import { MatPaginator, MatSort } from '@angular/material';
 import { map, switchMap } from 'rxjs/operators';
 import { Error } from 'tslint/lib/error';
@@ -7,7 +20,10 @@ import { detailExpand } from '../../hazelnut-common/animations/animations';
 import { MiscUtils } from '../../hazelnut-common/hazelnut/utils/misc.utils';
 import { TRANSLATE_WRAPPER_TOKEN, TranslateWrapper } from '../../hazelnut-common/interfaces/translate.interface';
 import { Filter } from '../../hazelnut-common/models';
-import { NOTIFICATION_WRAPPER_TOKEN, NotificationWrapper } from '../../small-components/notifications/notification.wrapper';
+import {
+    NOTIFICATION_WRAPPER_TOKEN,
+    NotificationWrapper
+} from '../../small-components/notifications/notification.wrapper';
 import { CoreTableService } from '../core-table.service';
 import { ExpandedDetailDirective } from '../directives/expanded-detail.directive';
 import { TableCellType } from '../models/table-cell-type.enum';
@@ -27,6 +43,8 @@ const DEFAULT_NO_DATA_KEY = 'common.noData';
     providers: [CoreTableService],
 })
 export class CoreTableComponent<T = any> implements OnInit, OnChanges, OnDestroy {
+    public toggle = true;
+
     @Input() public configuration: TableConfiguration = new TableConfiguration();
     @Input() public data: TableResponse<T>;
 

@@ -1,10 +1,10 @@
 <div fxLayout="row" class="basic-screen-header">
-    <div fxFlex="150px" fxLayoutAlign="center center">
-        <h2>Tasks</h2>
+    <div class="pl-20"  fxFlex="200px" fxLayoutAlign="start center">
+        <h2>{{'task.title' | translate}}</h2>
     </div>
     <div fxFlex fxLayoutAlign="start end">
         <mat-form-field>
-            <mat-label>Business area</mat-label>
+            <mat-label>{{'businessArea.title' | translate}}</mat-label>
             <mat-select>
                 <mat-option>--</mat-option>
             </mat-select>
@@ -22,11 +22,11 @@
 <ng-template #updateColumn let-actRow="row" let-context="context">
     <!--(click)="update(actRow.id)"-->
         <button  mat-icon-button>
-            <mat-icon>edit</mat-icon>
+            <mat-icon>more_vert</mat-icon>
         </button>
 </ng-template>
 <ng-template #statusColumn let-actRow="row" let-context="context">
-    {{('status.' + actRow.status.toLowerCase()) | translate}}
+    {{('task.statusValue.' + actRow.status.toLowerCase()) | translate}}
 </ng-template>
 <ng-template #trafficLightColumn let-actRow="row" let-context="context">
     <div *ngIf="actRow.trafficLight === 'red'" style="width: 25px;height: 25px;background:red;border-radius:50%;"></div>
