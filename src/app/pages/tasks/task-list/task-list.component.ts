@@ -46,7 +46,7 @@ export class TaskListComponent implements OnInit {
             ]
         );
         this.config = {
-            stickyEnd: true,
+            stickyEnd: 8,
             columns: [
                 new TableColumn({
                     columnDef: 'trafficLight',

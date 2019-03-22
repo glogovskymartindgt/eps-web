@@ -8,6 +8,14 @@
                autocomplete="off"
                matInput
                type="text">
+        <mat-icon *ngIf="filtersElement.value[columnConfig.filterElement]"
+                  matSuffix
+                  (click)="filtersElement.reset()"
+                  style="cursor: pointer; position: absolute; right: 10px; bottom: -5px;"
+                  [@fadeEnterLeave]
+        >
+            close
+        </mat-icon>
     </mat-form-field>
 
     <mat-form-field *ngSwitchCase="filterTypeEnum.SELECT"
@@ -93,7 +101,7 @@
 
     <div *ngSwitchCase="filterTypeEnum.DATETIME_AS_DATERANGE" class="min-w-300">
         <haz-input-date-range
-                              [formControlName]="columnConfig.filterElement">
+            [formControlName]="columnConfig.filterElement">
         </haz-input-date-range>
     </div>
 

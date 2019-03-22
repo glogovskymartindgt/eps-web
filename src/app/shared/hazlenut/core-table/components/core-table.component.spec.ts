@@ -1,8 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopNotificationService } from '@hazelnut/lib/small-components/notifications/testing/noop-notification.service';
-import { TestingModule } from '@hazelnut/lib/testing.module';
 import { NoopTranslationsService } from '../../hazelnut-common/services/testing/noop-translation.service';
 
+import { NoopNotificationService } from '../../small-components/notifications/testing/noop-notification.service';
 import { CoreTableModule } from '../core-table.module';
 import { CoreTableComponent } from './core-table.component';
 
@@ -14,7 +13,6 @@ describe('CoreTableComponent', () => {
         TestBed.configureTestingModule({
             imports: [
                 CoreTableModule,
-                TestingModule,
             ],
             providers: [
                 NoopTranslationsService,

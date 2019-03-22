@@ -87,10 +87,15 @@ tr.expand-detail-row {
 
 ::ng-deep {
     .mat-paginator .mat-form-field .mat-form-field-flex {
-        background-color: rgba(0,0,0,0);
+        background-color: rgba(0, 0, 0, 0);
     }
 }
 
+.table-sticky-end {
+    background: red !important;
+    border: 2px solid black;
+    position: sticky;
+}
 
 
 

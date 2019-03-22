@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
+import { fadeEnterLeave } from '../../../hazelnut-common/animations';
 import { CoreTableService } from '../../core-table.service';
 import { TableColumn } from '../../models/table-column.model';
 import { TableFilterType } from '../../models/table-filter-type.enum';
@@ -9,6 +10,7 @@ import { TableFilterType } from '../../models/table-filter-type.enum';
     selector: 'haz-core-table-filter',
     templateUrl: './core-table-filter.component.html',
     styleUrls: ['./core-table-filter.component.scss'],
+    animations: [fadeEnterLeave]
 })
 export class CoreTableFilterComponent implements OnInit {
     @Input() public columnConfig: TableColumn = new TableColumn({columnDef: '', label: ''});
