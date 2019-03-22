@@ -1,0 +1,77 @@
+.comment {
+    position: relative;
+    border-radius: 10px;
+    background: #89CAE9;
+    min-height: 20px;
+    margin: 25px 25px 25px 50px;
+    padding: 15px;
+
+    .comment-created {
+        right: 0;
+    }
+}
+
+.comment:after {
+    z-index: 77;
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 20%;
+    width: 0;
+    height: 0;
+    border: 12px solid transparent;
+    border-top-color: #89CAE9;
+    border-bottom: 0;
+    border-left: 0;
+    margin-left: -6px;
+    margin-bottom: -12px;
+}
+
+.my-comment {
+    position: relative;
+    border-radius: 10px;
+    background: #C3C3C3;
+    min-height: 20px;
+    margin: 25px 50px 25px 25px;
+    padding: 15px;
+
+    .comment-created {
+        left: 0;
+    }
+
+}
+
+.my-comment:after {
+    z-index: 77;
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 80%;
+    width: 0;
+    height: 0;
+    border: 12px solid transparent;
+    border-top-color: #C3C3C3;
+    border-bottom: 0;
+    border-right: 0;
+    margin-left: -6px;
+    margin-bottom: -12px;
+}
+
+.comment-user {
+    font-family: Roboto-Bold, sans-serif;
+    font-size: 14px;
+}
+
+.comment-content {
+    font-family: Roboto, sans-serif;
+    font-size: 14px;
+}
+
+.comment-created {
+    position: absolute;
+    padding-top: 15px;
+    font-family: Roboto, sans-serif;
+    font-size: 12px;
+}
+
+

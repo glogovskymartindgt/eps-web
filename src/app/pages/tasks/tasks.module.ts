@@ -12,9 +12,10 @@ import { TaskCreateComponent } from './task-create/task-create.component';
 import { TaskEditComponent } from './task-edit/task-edit.component';
 import { TaskListComponent } from './task-list/task-list.component';
 import { TasksRoutingModule } from './tasks-routing.module';
+import { TaskCommentComponent } from './task-comment/task-comment.component';
 
 @NgModule({
-    declarations: [TaskListComponent, TaskCreateComponent, TaskEditComponent],
+    declarations: [TaskListComponent, TaskCreateComponent, TaskEditComponent, TaskCommentComponent],
     imports: [
         CommonModule,
         TasksRoutingModule,
