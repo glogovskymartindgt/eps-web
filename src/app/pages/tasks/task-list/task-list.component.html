@@ -1,8 +1,8 @@
 <div fxLayout="row" class="basic-screen-header">
-    <div class="pl-20"  fxFlex="200px" fxLayoutAlign="start center">
+    <div class="pl-20" fxFlex="200px" fxLayoutAlign="start center">
         <h2>{{'task.title' | translate}}</h2>
     </div>
-    <div fxFlex fxLayoutAlign="start end">
+    <div fxFlex fxLayoutAlign="start end" class="header-select">
         <mat-form-field>
             <mat-label>{{'businessArea.title' | translate}}</mat-label>
             <mat-select>
@@ -11,8 +11,12 @@
         </mat-form-field>
     </div>
     <div fxFlex fxLayoutAlign="end center">
-        <button mat-raised-button (click)="createTask()" class="mr-10">{{'common.add' | translate}}</button>
-        <button mat-raised-button (click)="export()" class="mr-10">{{'common.export' | translate}}</button>
+        <button mat-flat-button (click)="createTask()" class="mr-10" color="accent">
+            {{'common.create' | translate}}
+        </button>
+        <button mat-flat-button (click)="export()" class="mr-10" color="accent">
+            {{'common.export' | translate}}
+        </button>
     </div>
 </div>
 
@@ -21,15 +25,16 @@
 ></haz-core-table>
 <ng-template #updateColumn let-actRow="row" let-context="context">
     <!--(click)="update(actRow.id)"-->
-        <button  mat-icon-button>
-            <mat-icon>more_vert</mat-icon>
-        </button>
+    <button mat-icon-button>
+        <mat-icon>keyboard_arrow_right</mat-icon>
+    </button>
 </ng-template>
 <ng-template #statusColumn let-actRow="row" let-context="context">
     {{('task.statusValue.' + actRow.status.toLowerCase()) | translate}}
 </ng-template>
 <ng-template #trafficLightColumn let-actRow="row" let-context="context">
-    <div *ngIf="actRow.trafficLight === 'red'" style="width: 25px;height: 25px;background:red;border-radius:50%;"></div>
-    <div *ngIf="actRow.trafficLight === 'green'" style="width: 25px;height: 25px;background:green;border-radius:50%;"></div>
+    <div *ngIf="actRow.trafficLight === 'red'" style="width: 12px;height: 12px;background:red;border-radius:50%;"></div>
+    <div *ngIf="actRow.trafficLight === 'green'"
+         style="width: 12px;height: 12px;background:green;border-radius:50%;"></div>
 </ng-template>
 

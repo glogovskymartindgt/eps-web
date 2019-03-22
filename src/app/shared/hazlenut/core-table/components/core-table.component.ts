@@ -109,7 +109,7 @@ export class CoreTableComponent<T = any> implements OnInit, OnChanges, OnDestroy
 
     public ngOnInit(): void {
         if (!this.configuration) {
-            throw new Error('this.configuration must be defined!!!');
+            throw new Error('this.configuration must be defined.');
         }
 
         const filters$ = this.coreTableService.filters$;

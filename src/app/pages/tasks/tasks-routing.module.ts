@@ -16,14 +16,17 @@ const routes: Routes = [
             {
                 path: 'list',
                 component: TaskListComponent,
+                data: {title: 'taskList'}
             },
             {
                 path: 'create',
                 component: TaskCreateComponent,
+                data: {title: 'taskCreate'}
             },
             {
                 path: 'edit',
                 component: TaskEditComponent,
+                data: {title: 'taskEdit'}
             }
         ],
     }

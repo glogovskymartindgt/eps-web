@@ -15,10 +15,12 @@ const routes: Routes = [
             {
                 path: 'list',
                 component: FactListComponent,
+                data: {title: 'factList'}
             },
             {
                 path: 'create',
                 component: FactCreateComponent,
+                data: {title: 'factCreate'}
             },
         ],
     }

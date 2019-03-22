@@ -50,6 +50,10 @@ export class CoreTableFilterComponent implements OnInit {
         }
     }
 
+    public clearFilters(){
+        // this.filtersElement.reset();
+    }
+
     private processFormChanges(): void {
         const elementName = this.columnConfig.filterElement;
         this.filtersElement.valueChanges.pipe(debounceTime(this.filterDelay)).subscribe((values: any) => {

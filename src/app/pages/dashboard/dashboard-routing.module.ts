@@ -10,12 +10,12 @@ const routes: Routes = [
                 path: '',
                 pathMatch: 'full',
                 redirectTo: 'list',
-                data: {animation: 'projectList'},
+                data: {title: 'projectList'},
             },
             {
                 path: 'list',
                 component: ProjectListComponent,
-                data: {animation: 'projectList'},
+                data: {title: 'projectList'},
             },
         ],
     }

@@ -1,4 +1,3 @@
-
 <div class="styled-table-container">
     <table [dataSource]="data?.content"
            [ngClass]="{'border-columns': configuration.columnBorders}"
@@ -6,65 +5,129 @@
            mat-table
            matSort
            multiTemplateDataRows>
+        <!--header cells sticky-->
+        <div *ngIf="configuration.stickyEnd">
+            <ng-container *ngFor="let columnConfig of configuration.columns; let i = index"
+                          [matColumnDef]="columnConfig.columnDef" stickyEnd>
+                <!-- header cell -->
 
-        <!--header cells-->
-        <ng-container *ngFor="let columnConfig of configuration.columns; let i = index"
-                      [matColumnDef]="columnConfig.columnDef">
-            <!-- header cell -->
+                <!-- selection checkbox cell -->
+                <ng-container *ngIf="i === 0 && selectableTable">
+                    <td *matCellDef="let row" mat-cell>
+                        <mat-checkbox
+                            (change)="$event ? selection.toggle(row) : null"
+                            (click)="$event.stopPropagation()"
+                            [checked]="selection.isSelected(row)"
+                            [color]="configuration.selectionColor"
+                        >
+                        </mat-checkbox>
+                    </td>
+                </ng-container>
 
-            <!-- selection checkbox cell -->
-            <ng-container *ngIf="i === 0 && selectableTable">
-                <td *matCellDef="let row" mat-cell>
-                    <mat-checkbox
-                        (change)="$event ? selection.toggle(row) : null"
-                        (click)="$event.stopPropagation()"
-                        [checked]="selection.isSelected(row)"
-                        [color]="configuration.selectionColor"
-                    >
-                    </mat-checkbox>
-                </td>
-            </ng-container>
-
-            <!-- dynamically set sorting -->
-            <ng-container *ngIf="columnConfig.sorting">
-                <th
-                    *matHeaderCellDef
-                    [ngClass]="{ 'header-flexend': isRightAligned(columnConfig.type) || columnConfig.align === 'right' }"
-                    mat-header-cell
-                    mat-sort-header
-                >
-                    {{ columnConfig.label }}
-                </th>
-            </ng-container>
-            <ng-container *ngIf="!columnConfig.sorting">
-                <th *matHeaderCellDef mat-header-cell>
-                    <div
-                        [ngClass]="{
-                            'right-align-header': isRightAligned(configuration.columns[i].type) || columnConfig.align === 'right'
-                        }"
+                <!-- dynamically set sorting -->
+                <ng-container *ngIf="columnConfig.sorting">
+                    <th
+                        *matHeaderCellDef
+                        [ngClass]="{ 'header-flexend': isRightAligned(columnConfig.type) || columnConfig.align === 'right' }"
+                        mat-header-cell
+                        mat-sort-header
                     >
                         {{ columnConfig.label }}
-                    </div>
-                </th>
-            </ng-container>
+                    </th>
+                </ng-container>
+                <ng-container *ngIf="!columnConfig.sorting">
+                    <th *matHeaderCellDef mat-header-cell>
+                        <div
+                            [ngClass]="{
+                            'right-align-header': isRightAligned(configuration.columns[i].type) || columnConfig.align === 'right'
+                        }"
+                        >
+                            {{ columnConfig.label }}
+                        </div>
+                    </th>
+                </ng-container>
 
-            <!-- data row cell -->
-            <ng-container *ngIf="dataRowsDisplayed">
-                <td *matCellDef="let row" [ngClass]="{ data: configuration.expandedRowTemplate }" mat-cell>
-                    <haz-table-cell [columnConfig]="columnConfig" [row]="row"></haz-table-cell>
-                </td>
+                <!-- data row cell -->
+                <ng-container *ngIf="dataRowsDisplayed">
+                    <td *matCellDef="let row" [ngClass]="{ data: configuration.expandedRowTemplate }" mat-cell>
+                        <haz-table-cell [columnConfig]="columnConfig" [row]="row"></haz-table-cell>
+                    </td>
+                </ng-container>
             </ng-container>
-        </ng-container>
+        </div>
+
+        <!--header cells-->
+        <div *ngIf="!configuration.stickyEnd">
+            <ng-container *ngFor="let columnConfig of configuration.columns; let i = index"
+                          [matColumnDef]="columnConfig.columnDef">
+                <!-- header cell -->
+
+                <!-- selection checkbox cell -->
+                <ng-container *ngIf="i === 0 && selectableTable">
+                    <td *matCellDef="let row" mat-cell>
+                        <mat-checkbox
+                            (change)="$event ? selection.toggle(row) : null"
+                            (click)="$event.stopPropagation()"
+                            [checked]="selection.isSelected(row)"
+                            [color]="configuration.selectionColor"
+                        >
+                        </mat-checkbox>
+                    </td>
+                </ng-container>
+
+                <!-- dynamically set sorting -->
+                <ng-container *ngIf="columnConfig.sorting">
+                    <th
+                        *matHeaderCellDef
+                        [ngClass]="{ 'header-flexend': isRightAligned(columnConfig.type) || columnConfig.align === 'right' }"
+                        mat-header-cell
+                        mat-sort-header
+                    >
+                        {{ columnConfig.label }}
+                    </th>
+                </ng-container>
+                <ng-container *ngIf="!columnConfig.sorting">
+                    <th *matHeaderCellDef mat-header-cell>
+                        <div
+                            [ngClass]="{
+                            'right-align-header': isRightAligned(configuration.columns[i].type) || columnConfig.align === 'right'
+                        }"
+                        >
+                            {{ columnConfig.label }}
+                        </div>
+                    </th>
+                </ng-container>
+
+                <!-- data row cell -->
+                <ng-container *ngIf="dataRowsDisplayed">
+                    <td *matCellDef="let row" [ngClass]="{ data: configuration.expandedRowTemplate }" mat-cell>
+                        <haz-table-cell [columnConfig]="columnConfig" [row]="row"></haz-table-cell>
+                    </td>
+                </ng-container>
+            </ng-container>
+        </div>
 
         <!--filter row cell-->
 
-            <ng-container *ngFor="let columnConfig of configuration.columns"
+        <div *ngIf="configuration.stickyEnd">
+            <ng-container *ngFor="let columnConfig of configuration.columns; let i = index"
+                          [matColumnDef]="columnConfig.filterElement" stickyEnd>
+                <th *matHeaderCellDef mat-header-cell>
+                    <haz-core-table-filter *ngIf="columnConfig.filter" [columnConfig]="columnConfig">
+                    </haz-core-table-filter>
+                </th>
+            </ng-container>
+        </div>
+
+        <div *ngIf="!configuration.stickyEnd">
+            <ng-container *ngFor="let columnConfig of configuration.columns; let i = index"
                           [matColumnDef]="columnConfig.filterElement">
                 <th *matHeaderCellDef mat-header-cell>
                     <haz-core-table-filter *ngIf="columnConfig.filter" [columnConfig]="columnConfig">
                     </haz-core-table-filter>
                 </th>
             </ng-container>
+        </div>
 
         <!-- expanded rows cell -->
         <ng-container matColumnDef="expandedDetail">
@@ -77,18 +140,18 @@
             </td>
         </ng-container>
 
-        <!-- filters row -->
-        <ng-container *ngIf="anyFilter">
-            <tr *matHeaderRowDef="columnsFilters; sticky: true" class="p-0 m-0 first-header-row"
-                mat-header-row></tr>
-        </ng-container>
-
         <!--  header row -->
         <tr *matHeaderRowDef="displayedColumns; sticky: true"
             [ngClass]="{ headerColor: configuration.headerColor, 'last-header-row': !anyFilter }"
-            class=" p-0 m-0 last-header-row"
-            mat-header-row 
+            class=" p-0 m-0 first-header-row"
+            mat-header-row
         ></tr>
+
+        <!-- filters row -->
+        <ng-container *ngIf="anyFilter">
+            <tr *matHeaderRowDef="columnsFilters; sticky: true" class="p-0 m-0 last-header-row"
+                mat-header-row></tr>
+        </ng-container>
 
         <!-- data rows -->
         <ng-container>

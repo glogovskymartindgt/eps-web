@@ -11,4 +11,5 @@ export enum TableFilterType {
     STRING = 'string',
     CUSTOM = 'custom',
     TRAFFIC_LIGHT = 'trafficLight',
+    CLEAR_FILTERS = 'clearFilters',
 }

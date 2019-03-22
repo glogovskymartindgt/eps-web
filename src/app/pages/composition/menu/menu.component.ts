@@ -29,4 +29,4 @@ export class MenuComponent implements OnInit {
     public animateRoute(outlet: RouterOutlet): boolean {
         return outlet && outlet.activatedRouteData && outlet.activatedRouteData.title;
     }
-
+}

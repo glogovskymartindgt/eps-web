@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ProjectInterface } from 'src/app/shared/interfaces/project.interface';
+import { fadeEnterLeave } from '../../../shared/hazlenut/hazelnut-common/animations';
 import { ProjectEventService } from '../../../shared/services/project-event.service';
 
 @Component({
     selector: 'project-list',
     templateUrl: './project-list.component.html',
-    styleUrls: ['./project-list.component.scss']
+    styleUrls: ['./project-list.component.scss'],
 })
 
 export class ProjectListComponent implements OnInit {

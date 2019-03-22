@@ -87,6 +87,11 @@ export class TableConfiguration {
     public columnBorders?: boolean;
 
     /**
+     * Make last column sticky
+     */
+    public stickyEnd?: boolean;
+
+    /**
      * Defines classes for tr elements
      *
      * @default ""

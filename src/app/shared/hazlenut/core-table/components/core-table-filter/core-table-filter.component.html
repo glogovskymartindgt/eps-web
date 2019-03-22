@@ -1,21 +1,13 @@
 <ng-container [formGroup]="filtersElement" [ngSwitch]="columnConfig.filter?.type">
 
     <mat-form-field *ngSwitchCase="filterTypeEnum.STRING"
-                    [ngClass]="widthClass"
-                    class="custom-filter-input"
+                    class="custom-filter-input w-full"
     >
-
         <input (blur)="showSearchIcon = true" (focus)="showSearchIcon = false"
                [formControlName]="columnConfig.filterElement"
                autocomplete="off"
                matInput
                type="text">
-
-        <!--<mat-icon *ngIf="showSearchIcon &&( filtersElement.value[columnConfig.filterElement] === '' ||-->
-        <!--filtersElement.value[columnConfig.filterElement] === null )"-->
-        <!--class="search-icon" matSuffix>-->
-        <!--search-->
-        <!--</mat-icon>-->
     </mat-form-field>
 
     <mat-form-field *ngSwitchCase="filterTypeEnum.SELECT"
@@ -69,9 +61,23 @@
             {{columnConfig.filterElement.value}}
         </mat-select-trigger>
         <mat-select [formControlName]="columnConfig.filterElement" multiple>
-            <mat-option *ngFor="let option of columnConfig.filter.select" [value]="option.code | async">
-                <div style="width: 20px;height: 20px;background:red;border-radius:50%; position: absolute;right: 5px;"></div>
-                {{ option.value | async }}
+            <mat-option [value]="'red'">
+                <div
+                    style="width: 12px;height: 12px;background:#20BF55;border-radius:50%; position: absolute;right: 12px;top:12px;"></div>
+                {{'color.green' | translate}}
+            </mat-option>
+            <mat-option [value]="'amber'">
+                <div
+                    style="width: 12px;height: 12px;background:#F79824;border-radius:50%; position: absolute;right: 12px;top:12px;"></div>
+                {{'color.amber' | translate}}
+            </mat-option>
+            <mat-option [value]="'green'">
+                <div
+                    style="width: 12px;height: 12px;background:#CE211F;border-radius:50%; position: absolute;right: 12px;top:12px;"></div>
+                {{'color.red' | translate}}
+            </mat-option>
+            <mat-option [value]="''">
+                {{'color.none' | translate}}
             </mat-option>
         </mat-select>
     </mat-form-field>
@@ -84,14 +90,25 @@
     <haz-input-date-range *ngSwitchCase="filterTypeEnum.DATERANGE" class="min-w-165"
                           [formControlName]="columnConfig.filterElement">
     </haz-input-date-range>
-    <haz-input-date-range *ngSwitchCase="filterTypeEnum.DATETIME_AS_DATERANGE" class="min-w-165"
-                          [formControlName]="columnConfig.filterElement">
-    </haz-input-date-range>
+
+    <div *ngSwitchCase="filterTypeEnum.DATETIME_AS_DATERANGE" class="min-w-300">
+        <haz-input-date-range
+                              [formControlName]="columnConfig.filterElement">
+        </haz-input-date-range>
+    </div>
 
     <div *ngSwitchCase="filterTypeEnum.NUMBER" fxLayout="row" style="justify-content: flex-end;" class="min-w-130">
         <haz-input-number-range [formControlName]="columnConfig.filterElement">
         </haz-input-number-range>
     </div>
+
+    <div *ngSwitchCase="filterTypeEnum.CLEAR_FILTERS">
+        <button mat-icon-button (click)="clearFilters()">
+            <mat-icon>cancel</mat-icon>
+        </button>
+    </div>
+
     <span *ngSwitchDefault></span>
 
 </ng-container>
+

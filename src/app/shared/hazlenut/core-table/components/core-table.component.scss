@@ -85,5 +85,12 @@ tr.expand-detail-row {
 }
 
 
+::ng-deep {
+    .mat-paginator .mat-form-field .mat-form-field-flex {
+        background-color: rgba(0,0,0,0);
+    }
+}
+
+
 
 

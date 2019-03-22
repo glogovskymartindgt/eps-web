@@ -10,12 +10,12 @@ const routes: Routes = [
                 path: '',
                 pathMatch: 'full',
                 redirectTo: 'list',
-                data: {animation: 'businessAreaList'},
+                data: {title: 'businessAreaList'},
             },
             {
                 path: 'list',
                 component: BusinessAreaListComponent,
-                data: {animation: 'businessAreaList'},
+                data: {title: 'businessAreaList'},
             },
         ],
     }

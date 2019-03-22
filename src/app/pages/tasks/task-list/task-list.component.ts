@@ -46,13 +46,8 @@ export class TaskListComponent implements OnInit {
             ]
         );
         this.config = {
+            stickyEnd: true,
             columns: [
-                new TableColumn({
-                    columnDef: ' ',
-                    label: ' ',
-                    type: TableCellType.CONTENT,
-                    tableCellTemplate: this.updateColumn,
-                }),
                 new TableColumn({
                     columnDef: 'trafficLight',
                     label: this.translateService.instant('task.trafficLight'),
@@ -131,8 +126,16 @@ export class TaskListComponent implements OnInit {
                     }),
                     sorting: true,
                 }),
+                new TableColumn({
+                    columnDef: ' ',
+                    label: ' ',
+                    type: TableCellType.CONTENT,
+                    tableCellTemplate: this.updateColumn,
+                    filter: new TableColumnFilter({
+                        type: TableFilterType.CLEAR_FILTERS,
+                    }),
+                }),
             ],
-
             paging: true,
         };
     }

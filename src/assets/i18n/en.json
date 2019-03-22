@@ -22,8 +22,8 @@
         "closed": "Closed"
     },
     "tasks": {
-        "cancel": "Cancel",
-        "save": "Save",
+        "cancel": "CANCEL",
+        "save": "SAVE",
         "empty": "Empty",
         "both": "Both",
         "none": "None",
@@ -97,8 +97,8 @@
         }
     },
     "common": {
-        "add": "Add",
-        "export": "Export"
+        "create": "CREATE",
+        "export": "EXPORT"
     },
     "all": {
         "things": "All"
@@ -106,9 +106,16 @@
     "fact": {
         "title": "Facts and Figures",
         "category": "Category",
+        "factItemType": "Fact item type",
         "subCategory": "Subcategory",
         "firstVenue": "First Venue",
         "secondVenue": "Second Venue",
         "totalValue": "Total Value"
+    },
+    "color": {
+        "green": "Green",
+        "amber": "Amber",
+        "red": "Red",
+        "none": "No color"
     }
 }
