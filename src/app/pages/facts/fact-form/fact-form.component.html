@@ -1,0 +1,30 @@
+
+<form [formGroup]="factForm">
+    <div>
+        <mat-form-field appearance="fill">
+            <mat-label>{{'fact.category' | translate}}</mat-label>
+            <mat-select>
+                <mat-option>Value1</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div>
+        <mat-form-field appearance="fill">
+            <mat-label>{{'fact.factItemType' | translate}}</mat-label>
+            <mat-select>
+                <mat-option>Value2</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div class="max-w-200">
+        <haz-core-input [label]="'Minsk'" appearance="fill"></haz-core-input>
+    </div>
+    <div class="max-w-200">
+        <haz-core-input [label]="'Riga'" appearance="fill"></haz-core-input>
+    </div>
+    <div class="max-w-200">
+        <haz-core-input [label]="'fact.totalValue' | translate" appearance="fill"></haz-core-input>
+    </div>
+</form>
