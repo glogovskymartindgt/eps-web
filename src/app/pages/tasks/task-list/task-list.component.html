@@ -2,7 +2,7 @@
     <div class="pl-20" fxFlex="200px" fxLayoutAlign="start center">
         <h2>{{'task.title' | translate}}</h2>
     </div>
-    <div fxFlex fxLayoutAlign="start end" class="header-select">
+    <div fxFlex fxLayoutAlign="start center" class="header-select">
         <mat-form-field>
             <mat-label>{{'businessArea.title' | translate}}</mat-label>
             <mat-select>
@@ -24,8 +24,9 @@
                 [data]="data"
 ></haz-core-table>
 <ng-template #updateColumn let-actRow="row" let-context="context">
-    <!--(click)="update(actRow.id)"-->
-    <button mat-icon-button>
+    <button mat-icon-button
+            (click)="update(actRow.id)"
+    >
         <mat-icon>keyboard_arrow_right</mat-icon>
     </button>
 </ng-template>

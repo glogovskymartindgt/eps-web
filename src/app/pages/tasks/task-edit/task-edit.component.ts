@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'task-edit',
@@ -7,9 +8,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TaskEditComponent implements OnInit {
 
-  public constructor() { }
+    public constructor(private router: Router) {
 
-  public ngOnInit() {
-  }
+    }
+
+    public ngOnInit(): void {
+    }
+
+    public onCancel() {
+        this.router.navigate(['tasks/list']);
+    }
+
+    public onSave() {
+
+        // if (this.taskForm.invalid) {
+        //     return;
+        // }
+        //
+        // if (this.f.title.value.trim() == '') {
+        //     this.taskForm.get('title').setValue(null);
+        // }
+
+    }
 
 }

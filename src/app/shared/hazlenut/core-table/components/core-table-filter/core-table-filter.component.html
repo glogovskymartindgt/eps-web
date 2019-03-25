@@ -1,7 +1,8 @@
 <ng-container [formGroup]="filtersElement" [ngSwitch]="columnConfig.filter?.type">
 
     <mat-form-field *ngSwitchCase="filterTypeEnum.STRING"
-                    class="custom-filter-input w-full"
+                    [ngClass]="widthClass"
+                    class="custom-filter-input"
     >
         <input (blur)="showSearchIcon = true" (focus)="showSearchIcon = false"
                [formControlName]="columnConfig.filterElement"
@@ -62,9 +63,9 @@
             </mat-option>
         </mat-select>
     </mat-form-field>
-
     <mat-form-field *ngSwitchCase="filterTypeEnum.TRAFFIC_LIGHT"
-                    [ngClass]="widthClass">
+                    [ngClass]="widthClass"
+                    >
         <mat-select-trigger *ngIf="columnConfig.filter.select">
             {{columnConfig.filterElement.value}}
         </mat-select-trigger>
@@ -99,7 +100,7 @@
                           [formControlName]="columnConfig.filterElement">
     </haz-input-date-range>
 
-    <div *ngSwitchCase="filterTypeEnum.DATETIME_AS_DATERANGE" class="min-w-300">
+    <div *ngSwitchCase="filterTypeEnum.DATETIME_AS_DATERANGE" class="min-w-210">
         <haz-input-date-range
             [formControlName]="columnConfig.filterElement">
         </haz-input-date-range>

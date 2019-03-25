@@ -41,6 +41,9 @@
         "description": "Description",
         "new": {
             "newTask": "New task"
+        },
+        "edit": {
+            "editTask": "Edit task"
         }
     },
     "error": {
@@ -110,12 +113,20 @@
         "subCategory": "Subcategory",
         "firstVenue": "First Venue",
         "secondVenue": "Second Venue",
-        "totalValue": "Total Value"
+        "totalValue": "Total Value",
+        "newFact": "New fact",
+        "editFact": "Edit fact"
     },
     "color": {
         "green": "Green",
         "amber": "Amber",
         "red": "Red",
         "none": "No color"
+    },
+    "comment": {
+        "newComment": "Add comment"
+    },
+    "report": {
+        "title": "Reports"
     }
 }

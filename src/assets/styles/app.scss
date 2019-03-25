@@ -46,8 +46,12 @@ p {
     float: right !important;
 }
 
+$color-primary: #1595D3;
+
 .basic-screen-header {
-    background: #71b2d1;
+    height: 50px;
+    background-color: rgba($color-primary, 0.5);
+    color: white;
 }
 
 

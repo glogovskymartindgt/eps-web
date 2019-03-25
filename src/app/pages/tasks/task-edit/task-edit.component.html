@@ -1,3 +1,50 @@
-<p>
-  task-edit works!
-</p>
+<div fxLayout="row" class="basic-screen-header">
+    <div class="pl-20" fxLayoutAlign="start center">
+        <h3>{{'tasks.edit.editTask' | translate}}</h3>
+    </div>
+</div>
+
+<div fxLayout="row">
+    <div fxFlex="70"  fxFlex.gt-sm="100%" class="p-30" fxLayout="column">
+        <task-form></task-form>
+
+        <div>
+            <button type="submit"
+                    mat-flat-button
+                    color="accent"
+                    class="mr-10"
+                    (click)="onSave()"
+            >
+                {{ 'tasks.save' | translate }}
+            </button>
+            <button type="button"
+                    mat-button
+                    class="mr-10"
+                    (click)="onCancel()"
+            >
+                {{ 'tasks.cancel' | translate }}
+            </button>
+        </div>
+    </div>
+
+    <div fxFlex="30" style="background:#F4F4F4" fxLayout="column">
+        <div class="comment-list">
+            <task-comment></task-comment>
+            <task-comment></task-comment>
+            <task-comment></task-comment>
+        </div>
+
+        <div class="w-full" fxLayout="row">
+            <mat-form-field class="m-20" fxFlex>
+                <textarea matInput [placeholder]="'comment.newComment' | translate"></textarea>
+            </mat-form-field>
+            <div fxFlex="50px" fxLayoutAlign="end end" class="pr-20 pb-30">
+                <button mat-icon-button>
+                    <mat-icon matSuffix>send</mat-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+</div>

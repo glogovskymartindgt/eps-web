@@ -10,9 +10,11 @@ import { MaterialModule } from '../../shared/hazlenut/hazelnut-common';
 import { FactCreateComponent } from './fact-create/fact-create.component';
 import { FactListComponent } from './fact-list/fact-list.component';
 import { FactsRoutingModule } from './facts-routing.module';
+import { FactFormComponent } from './fact-form/fact-form.component';
+import { FactEditComponent } from './fact-edit/fact-edit.component';
 
 @NgModule({
-    declarations: [FactListComponent, FactCreateComponent],
+    declarations: [FactListComponent, FactCreateComponent, FactFormComponent, FactEditComponent],
     imports: [
         CommonModule,
         FactsRoutingModule,

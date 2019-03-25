@@ -147,4 +147,7 @@ export class TaskListComponent implements OnInit {
     public export() {
     }
 
+    public update(id: number) {
+        this.router.navigate(['tasks/edit']);
+    }
 }

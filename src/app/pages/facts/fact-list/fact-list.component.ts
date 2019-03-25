@@ -1,7 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { TableCellType, TableColumn, TableColumnFilter, TableConfiguration } from '../../../shared/hazlenut/core-table';
+import {
+    TableCellType,
+    TableColumn,
+    TableColumnFilter,
+    TableConfiguration,
+    TableFilterType
+} from '../../../shared/hazlenut/core-table';
 import { BrowseResponse } from '../../../shared/hazlenut/hazelnut-common/models';
 
 @Component({
@@ -10,6 +16,7 @@ import { BrowseResponse } from '../../../shared/hazlenut/hazelnut-common/models'
     styleUrls: ['./fact-list.component.scss']
 })
 export class FactListComponent implements OnInit {
+    @ViewChild('updateColumn') public updateColumn: TemplateRef<any>;
     public config: TableConfiguration;
     public data = new BrowseResponse<any>(
         [
@@ -37,6 +44,7 @@ export class FactListComponent implements OnInit {
 
     public ngOnInit() {
         this.config = {
+            stickyEnd: 4,
             columns: [
                 new TableColumn({
                     columnDef: 'category',
@@ -67,7 +75,16 @@ export class FactListComponent implements OnInit {
                     label: this.translateService.instant('fact.totalValue'),
                     type: TableCellType.NUMBER,
                     sorting: true,
-                })
+                }),
+                new TableColumn({
+                    columnDef: ' ',
+                    label: ' ',
+                    type: TableCellType.CONTENT,
+                    tableCellTemplate: this.updateColumn,
+                    filter: new TableColumnFilter({
+                        type: TableFilterType.CLEAR_FILTERS,
+                    }),
+                }),
             ],
             paging: true,
         };
@@ -77,4 +94,7 @@ export class FactListComponent implements OnInit {
         this.router.navigate(['facts/create']);
     }
 
+    public update() {
+        this.router.navigate(['facts/edit']);
+    }
 }
