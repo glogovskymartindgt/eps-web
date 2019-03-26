@@ -14,7 +14,7 @@ import { ProjectEventService } from '../../../../shared/services/project-event.s
 export class SecondaryHeaderComponent implements OnInit {
 
     public dashboardVisible = true;
-    public activeFilter = 'all';
+    public activeFilter = 'ALL';
     public secondaryHeaderTitle = '';
 
     public constructor(public readonly projectEventService: ProjectEventService,
@@ -29,6 +29,7 @@ export class SecondaryHeaderComponent implements OnInit {
             if (secondaryHeader.isDashboard) {
                 this.dashboardVisible = true;
                 this.secondaryHeaderTitle = '';
+                this.activeFilter = 'ALL';
             } else {
                 this.secondaryHeaderTitle = secondaryHeader.title;
                 this.dashboardVisible = false;
@@ -36,21 +37,17 @@ export class SecondaryHeaderComponent implements OnInit {
         });
     }
 
-    public toggleFilter(value: 'all' | 'open' | 'closed') {
-        this.activeFilter = (value === 'all') ? 'all' :
-            (value === 'open') ? 'open' :
-                (value === 'closed') ? 'closed' : 'all';
-        this.filterProjects(value);
-    }
+    public toggleFilter(filterValue: string) {
+        
+        this.dashboardService.setDashboardFilter(filterValue);
 
-    private filterProjects(value: 'all' | 'open' | 'closed') {
-        // this.dashboardService.filterProjects(value)
-        //   .subscribe((filteredProjects: ProjectInterface[]) => {
-        //     console.log(filteredProjects);
-        //     this.allProjects = filteredProjects;
-        // });
+        this.activeFilter = 
+                (filterValue === 'ALL') ? 'ALL' :
+                (filterValue === 'OPEN') ? 'OPEN' :
+                (filterValue === 'CLOSED') ? 'CLOSED' : 'ALL';
 
     }
+
 
     public routeToDashboard() {
         this.router.navigate(['dashboard']);

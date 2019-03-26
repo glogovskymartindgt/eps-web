@@ -1,3 +1,4 @@
+import { SecondaryHeader } from './../../../shared/interfaces/secondary-header.interface';
 import { Component, OnInit } from '@angular/core';
 import { ProjectInterface } from 'src/app/shared/interfaces/project.interface';
 import { fadeEnterLeave } from '../../../shared/hazlenut/hazelnut-common/animations';
@@ -22,17 +23,30 @@ export class ProjectListComponent implements OnInit {
     }
 
     public ngOnInit() {
-        this.projectEventService.setEventData('', false);
-        const length = 35;
-        for (let i = 0; i < length; i++) {
-            this.allProjects.push(this.mockProjectCard());
-        }
+        // this.projectEventService.setEventData('', false);
+        // const length = 35;
+        // for (let i = 0; i < length; i++) {
+        //     this.allProjects.push(this.mockProjectCard());
+        // }
 
-        this.dashboardService.filterProjects('OPEN').subscribe(console.log);
+        this.dashboardService.dashboardFilterNotifier$.subscribe((filterValue: string) => {
+            this.filterProjects(filterValue);
+        });
+
+        this.filterProjects('ALL');
+        
+        this.dashboardService.setSecondaryHeaderContent({isDashboard: true});
+    }
+
+    private filterProjects(filterValue: string = 'ALL') {
+        this.dashboardService.filterProjects(filterValue).subscribe((projects: ProjectInterface[])=>{
+            this.allProjects = projects;
+            this.dashboardService.setSecondaryHeaderContent({isDashboard: true});
+        });
     }
 
     private mockProjectCard(): ProjectInterface {
-        const newState = (this.mockID % 2 === 0) ? 'open' : 'closed';
+        const newState = (this.mockID % 2 === 0) ? 'OPEN' : 'CLOSED';
         const card: ProjectInterface = {
             id: 1 + this.mockID,
             name: '2021 IIHF ICE HOCKEY WORLDCHAMPIONSHIP' + this.mockID,

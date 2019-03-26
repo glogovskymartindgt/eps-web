@@ -25,6 +25,7 @@ export class TaskListComponent implements OnInit {
     @ViewChild('trafficLightColumn') public trafficLightColumn: TemplateRef<any>;
     @ViewChild('statusColumn') public statusColumn: TemplateRef<any>;
     @ViewChild('updateColumn') public updateColumn: TemplateRef<any>;
+    @ViewChild('taskTypeColumn') public taskTypeColumn: TemplateRef<any>;
 
     private isInitialized = false;
     public loading = false;
@@ -59,10 +60,20 @@ export class TaskListComponent implements OnInit {
                     sorting: true,
                 }),
                 new TableColumn({
-                    columnDef: 'type',
+                    columnDef: 'taskType',
                     label: this.translateService.instant('task.type'),
-                    filter: new TableColumnFilter({}),
                     sorting: true,
+                    type: TableCellType.CONTENT,
+                    tableCellTemplate: this.taskTypeColumn,
+                    filter: new TableColumnFilter({
+                        valueType: 'ENUM',
+                        type: TableFilterType.SELECT,
+                        select: [
+                            new ListItem('', this.translateService.instant('all.things')),
+                            new ListItem('TASK', this.translateService.instant('task.taskTypeValue.task')),
+                            new ListItem('ISSUE', this.translateService.instant('task.taskTypeValue.issue')),
+                        ]
+                    }),
                 }),
                 new TableColumn({
                     columnDef: 'code',
@@ -105,7 +116,7 @@ export class TaskListComponent implements OnInit {
                     sorting: true,
                 }),
                 new TableColumn({
-                    columnDef: 'status',
+                    columnDef: 'state',
                     label: this.translateService.instant('task.status'),
                     type: TableCellType.CONTENT,
                     tableCellTemplate: this.statusColumn,

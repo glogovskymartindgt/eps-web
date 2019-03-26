@@ -6,9 +6,13 @@
          fxLayoutAlign="center center"
          [@fadeEnterLeave]
     >
-        <img src="https://picsum.photos/20/40"
-             class="project-image"
+    
+        <!-- <img src="https://picsum.photos/20/40" -->
+        <img src="assets/img/IIHF-LOGO.jpg"
+             class="project-image ml-15"
              alt="iihf logo"
+             width="28"
+             height="45"
         >
     </div>
     <div fxFlex="90"
@@ -16,7 +20,7 @@
          fxLayoutAlign="start center"
          [@fadeEnterLeave]
     >
-        <h3 class="secondary-header m-0">
+        <h3 class="secondary-header m-0 ml-10">
             {{secondaryHeaderTitle}}
         </h3>
     </div>
@@ -33,22 +37,22 @@
 <div *ngIf="!(projectEventService.subject.isEvent | async)"  class="project-header" fxLayout="row" fxLayoutAlign="start center">
     <h3 class="m-0 ml-20 mt-7 dashboard-text" [@fadeEnterLeave]>{{ 'dashboard.dashboard' | translate}}</h3>
     <a class="ml-50 mt-7 dashboard-filter" mat-ripple [matRippleColor]="'rgba(255,255,255,0.2)'"
-       [ngClass]="(activeFilter === 'all') ? 'activated' : 'non-activated'"
-       (click)="toggleFilter('all')"
+       [ngClass]="(activeFilter === 'ALL') ? 'activated' : 'non-activated'"
+       (click)="toggleFilter('ALL')"
        [@fadeEnterLeave]
     >
         {{ 'dashboard.all' | translate}}
     </a>
     <a class="ml-50 mt-7 dashboard-filter" mat-ripple [matRippleColor]="'rgba(255,255,255,0.2)'"
-       [ngClass]="(activeFilter === 'open') ? 'activated' : 'non-activated'"
-       (click)="toggleFilter('open')"
+       [ngClass]="(activeFilter === 'OPEN') ? 'activated' : 'non-activated'"
+       (click)="toggleFilter('OPEN')"
        [@fadeEnterLeave]
     >
         {{ 'dashboard.open' | translate}}
     </a>
     <a class="ml-50 mt-7 dashboard-filter" mat-ripple [matRippleColor]="'rgba(255,255,255,0.2)'"
-       [ngClass]="(activeFilter === 'closed') ? 'activated' : 'non-activated'"
-       (click)="toggleFilter('closed')"
+       [ngClass]="(activeFilter === 'CLOSED') ? 'activated' : 'non-activated'"
+       (click)="toggleFilter('CLOSED')"
        [@fadeEnterLeave]>
         {{ 'dashboard.closed' | translate}}
     </a>

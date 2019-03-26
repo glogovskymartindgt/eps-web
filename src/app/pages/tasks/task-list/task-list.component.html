@@ -20,6 +20,7 @@
     </div>
 </div>
 
+<haz-indeterminate-progress-bar [loading]="loading"></haz-indeterminate-progress-bar>
 <haz-core-table (requestData)="setTableData($event)"
                 [configuration]="config"
                 [data]="data"
@@ -33,6 +34,9 @@
 </ng-template>
 <ng-template #statusColumn let-actRow="row" let-context="context">
     {{('task.statusValue.' + actRow.state.toLowerCase()) | translate}}
+</ng-template>
+<ng-template #taskTypeColumn let-actRow="row" let-context="context">
+    {{('task.taskTypeValue.' + actRow.taskType.toLowerCase()) | translate}}
 </ng-template>
 <ng-template #trafficLightColumn let-actRow="row" let-context="context">
     <div *ngIf="actRow.trafficLight === 'red'" style="width: 12px;height: 12px;background:red;border-radius:50%;"></div>

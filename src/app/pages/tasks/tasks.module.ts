@@ -14,6 +14,7 @@ import { TaskListComponent } from './task-list/task-list.component';
 import { TasksRoutingModule } from './tasks-routing.module';
 import { TaskCommentComponent } from './task-comment/task-comment.component';
 import { TaskFormComponent } from './task-form/task-form.component';
+import { SmallComponentsModule } from 'src/app/shared/hazlenut';
 
 @NgModule({
     declarations: [TaskListComponent, TaskCreateComponent, TaskEditComponent, TaskCommentComponent, TaskFormComponent],
@@ -26,6 +27,7 @@ import { TaskFormComponent } from './task-form/task-form.component';
         ReactiveFormsModule,
         CoreTableModule,
         AbstractInputsModule,
+        SmallComponentsModule
     ],
     providers: [TranslateWrapperService]
 })

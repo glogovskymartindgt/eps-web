@@ -97,6 +97,10 @@
         "statusValue": {
             "open": "Open",
             "closed": "Closed"
+        },
+        "taskTypeValue": {
+            "task": "TASK",
+            "issue": "ISSUE"
         }
     },
     "common": {

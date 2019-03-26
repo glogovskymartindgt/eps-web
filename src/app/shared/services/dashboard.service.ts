@@ -15,6 +15,9 @@ export class DashboardService extends ProjectService<ProjectInterface>{
     private readonly secondaryHeader = new Subject<SecondaryHeader>();
     public secondaryHeaderNotifier$ = this.secondaryHeader.asObservable();
 
+    private readonly dashboardFilter = new Subject<String>();
+    public dashboardFilterNotifier$ = this.dashboardFilter.asObservable();
+
     public constructor(http: HttpClient,
                        notificationService: NotificationService,
                        userService: ProjectUserService,
@@ -24,12 +27,18 @@ export class DashboardService extends ProjectService<ProjectInterface>{
 
     public filterProjects(state: string) {
         const filters = [];
-        filters.push(new Filter('STATE', state, 'ENUM'));
+        if (state != "ALL") {
+            filters.push(new Filter('STATE', state, 'ENUM'));
+        }
         return this.filter(filters);
     }
 
     public setSecondaryHeaderContent(secondaryHeader: SecondaryHeader) {
         this.secondaryHeader.next(secondaryHeader);
+    }
+
+    public setDashboardFilter(filterValue: string) {
+        this.dashboardFilter.next(filterValue);
     }
 
 }

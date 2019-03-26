@@ -21,23 +21,21 @@ export class TaskFormComponent implements OnInit {
     public allTypes: string[] = ['task', 'issue'];
     public alltraficLights: string[] = ['red', 'amber', 'green', 'none'];
     public allBusinessAreas: BusinessArea[] = [
-        {name: 'area-1', code: '1.'},
-        {name: 'area-2', code: '2.'},
-        {name: 'area-3', code: '3.'}
+        {name: 'General', code: '1.'},
+        {name: 'Organisational Provisions', code: '2.'},
+        {name: 'Finances', code: '3.'}
     ];
     public codePrefix = '';
-    public allSourceOfAgendas: string[] = ['agenda1', 'agenda2', 'agenda3', ];
+    public allSourceOfAgendas: string[] = ['Regulation', 'Checklist' ];
     public allPhases: Phase[] = [
-        {name: 'phase-1', dateFrom: '07/06/2015', dateTo: '08/08/2016'},
-        {name: 'phase-2', dateFrom: '09/09/2016', dateTo: '10/10/2076'},
-        {name: 'phase-3', dateFrom: '02/01/2018', dateTo: '03/03/2019'},
+        {name: 'Planing', dateFrom: '04/04/2019', dateTo: '08/08/2019'},
+        {name: 'Event hosting', dateFrom: '09/09/2019', dateTo: '12/12/2020'},
     ];
     public allResponsibles: User[] = [
-        {firstName: 'name1', lastName: 'sureName1'},
-        {firstName: 'name2', lastName: 'sureName2'},
-        {firstName: 'name3', lastName: 'sureName3'}
+        {firstName: 'Cornelia', lastName: 'Ljungberg'},
+        {firstName: 'Martin', lastName: 'Zoellner'}
     ];
-    public allVenues: string[] = ['venue1', 'venue2'];
+    public allVenues: string[] = ['Slovakia', 'Czech republic'];
 
     public constructor(private readonly formBuilder: FormBuilder) {
     }
