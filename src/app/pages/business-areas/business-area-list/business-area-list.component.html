@@ -4,6 +4,7 @@
             <h2>{{'businessArea.title' | translate}}</h2>
         </div>
     </div>
+    <haz-indeterminate-progress-bar [loading]="loading"></haz-indeterminate-progress-bar>
     <haz-core-table (requestData)="setTableData($event)"
                     [configuration]="config"
                     [data]="data"

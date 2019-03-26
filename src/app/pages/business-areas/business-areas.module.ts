@@ -6,6 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { CoreTableModule } from '../../shared/hazlenut/core-table';
 import { MaterialModule } from '../../shared/hazlenut/hazelnut-common';
+import { SmallComponentsModule } from '../../shared/hazlenut/small-components';
 import { BusinessAreaListComponent } from './business-area-list/business-area-list.component';
 import { BusinessAreasRoutingModule } from './business-areas-routing.module';
 
@@ -18,7 +19,8 @@ import { BusinessAreasRoutingModule } from './business-areas-routing.module';
         FlexLayoutModule,
         TranslateModule.forChild(),
         ReactiveFormsModule,
-        CoreTableModule
+        CoreTableModule,
+        SmallComponentsModule
     ]
 })
 export class BusinessAreasModule {

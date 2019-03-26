@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import {
     ListItem,
-    TableCellType,
+    TableCellType, TableChangeEvent,
     TableColumn,
     TableColumnFilter,
     TableConfiguration,
@@ -11,6 +11,9 @@ import {
 } from '../../../shared/hazlenut/core-table';
 import { fadeEnterLeave } from '../../../shared/hazlenut/hazelnut-common/animations';
 import { BrowseResponse } from '../../../shared/hazlenut/hazelnut-common/models';
+import { TaskInterface } from '../../../shared/interfaces/task.interface';
+import { TaskService } from '../../../shared/services/data/task.service';
+import { NotificationService } from '../../../shared/services/notification.service';
 
 @Component({
     selector: 'iihf-task-list',
@@ -22,29 +25,20 @@ export class TaskListComponent implements OnInit {
     @ViewChild('trafficLightColumn') public trafficLightColumn: TemplateRef<any>;
     @ViewChild('statusColumn') public statusColumn: TemplateRef<any>;
     @ViewChild('updateColumn') public updateColumn: TemplateRef<any>;
+
+    private isInitialized = false;
+    public loading = false;
     public config: TableConfiguration;
-    public data;
+    public data: BrowseResponse<TaskInterface> = new BrowseResponse<TaskInterface>();
 
     public constructor(private readonly translateService: TranslateService,
-                       private readonly router: Router) {
+                       private readonly router: Router,
+                       private readonly taskService: TaskService,
+                       private readonly notificationService: NotificationService,
+    ) {
     }
 
     public ngOnInit() {
-        this.data = new BrowseResponse<any>(
-            [
-                {
-                    type: 'Task',
-                    trafficLight: 'green',
-                    code: '1.1.1',
-                    name: 'Application',
-                    phase: 'phase',
-                    venue: 'Zurich',
-                    responsible: 'Cornelia',
-                    dueDate: new Date(),
-                    status: 'Open',
-                },
-            ]
-        );
         this.config = {
             stickyEnd: 8,
             columns: [
@@ -83,19 +77,19 @@ export class TaskListComponent implements OnInit {
                     sorting: true,
                 }),
                 new TableColumn({
-                    columnDef: 'phase',
+                    columnDef: 'projectPhase',
                     label: this.translateService.instant('task.phase'),
                     filter: new TableColumnFilter({}),
                     sorting: true,
                 }),
                 new TableColumn({
-                    columnDef: 'venue',
+                    columnDef: 'cityName',
                     label: this.translateService.instant('task.venue'),
                     filter: new TableColumnFilter({}),
                     sorting: true,
                 }),
                 new TableColumn({
-                    columnDef: 'responsible',
+                    columnDef: 'responsibleUser',
                     label: this.translateService.instant('task.responsible'),
                     filter: new TableColumnFilter({}),
                     sorting: true,
@@ -150,4 +144,18 @@ export class TaskListComponent implements OnInit {
     public update(id: number) {
         this.router.navigate(['tasks/edit']);
     }
+
+    public setTableData(tableChangeEvent?: TableChangeEvent): void {
+        this.loading = true;
+        this.taskService.browseTasks(tableChangeEvent).subscribe((data) => {
+            this.data = data;
+            console.log(this.data);
+            this.loading = false;
+            this.isInitialized = true;
+        }, (error) => {
+            this.loading = false;
+            // this.notificationService.openErrorNotification(error);
+        });
+    }
+
 }

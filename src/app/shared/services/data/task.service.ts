@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TableChangeEvent } from '../../hazlenut/core-table';
 import { StringUtils } from '../../hazlenut/hazelnut-common/hazelnut';
-import { BrowseResponse, Filter, PostContent, Sort } from '../../hazlenut/hazelnut-common/models';
-import { BusinessArea } from '../../interfaces/bussiness-area.interface';
+import { BrowseResponse, PostContent, Sort } from '../../hazlenut/hazelnut-common/models';
+import { TaskInterface } from '../../interfaces/task.interface';
 import { NotificationService } from '../notification.service';
 import { ProjectUserService } from '../project-user.service';
 import { ProjectService } from '../project.service';
@@ -12,16 +12,17 @@ import { ProjectService } from '../project.service';
 @Injectable({
   providedIn: 'root'
 })
-export class BusinessAreaService extends ProjectService<BusinessArea>{
+
+export class TaskService extends ProjectService<TaskInterface>{
 
     public constructor(http: HttpClient,
                        notificationService: NotificationService,
                        userService: ProjectUserService,
     ) {
-        super(http, 'codeList', notificationService, userService);
+        super(http, 'task', notificationService, userService);
     }
 
-    public browseBusinessAreas(tableChangeEvent: TableChangeEvent): Observable<BrowseResponse<BusinessArea>> {
+    public browseTasks(tableChangeEvent: TableChangeEvent): Observable<BrowseResponse<TaskInterface>> {
         let filters = [];
         let sort = [];
         let limit = 10;
@@ -36,8 +37,6 @@ export class BusinessAreaService extends ProjectService<BusinessArea>{
                 sort = [new Sort(tableChangeEvent.sortActive,
                     tableChangeEvent.sortDirection)];
             }
-
-            filters.push(new Filter('CODE', 'BAREA'));
         }
         return this.browseWithSummary(PostContent.create(limit, offset, filters, sort));
     }

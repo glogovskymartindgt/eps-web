@@ -37,7 +37,7 @@ export class BusinessAreaListComponent implements OnInit {
         this.config = {
             columns: [
                 new TableColumn({
-                    columnDef: 'code',
+                    columnDef: 'codeItem',
                     label: this.translateService.instant('businessArea.code'),
                     filter: new TableColumnFilter({}),
                     sorting: true,
@@ -67,7 +67,6 @@ export class BusinessAreaListComponent implements OnInit {
         this.loading = true;
         this.businessAreaService.browseBusinessAreas(tableChangeEvent).subscribe((data) => {
             this.data = data;
-            console.log(data);
             this.loading = false;
             this.isInitialized = true;
         }, (error) => {

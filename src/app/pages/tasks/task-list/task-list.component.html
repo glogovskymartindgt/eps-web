@@ -20,7 +20,8 @@
     </div>
 </div>
 
-<haz-core-table [configuration]="config"
+<haz-core-table (requestData)="setTableData($event)"
+                [configuration]="config"
                 [data]="data"
 ></haz-core-table>
 <ng-template #updateColumn let-actRow="row" let-context="context">
@@ -31,7 +32,7 @@
     </button>
 </ng-template>
 <ng-template #statusColumn let-actRow="row" let-context="context">
-    {{('task.statusValue.' + actRow.status.toLowerCase()) | translate}}
+    {{('task.statusValue.' + actRow.state.toLowerCase()) | translate}}
 </ng-template>
 <ng-template #trafficLightColumn let-actRow="row" let-context="context">
     <div *ngIf="actRow.trafficLight === 'red'" style="width: 12px;height: 12px;background:red;border-radius:50%;"></div>
