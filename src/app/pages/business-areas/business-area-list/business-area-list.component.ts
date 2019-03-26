@@ -1,8 +1,17 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { TableCellType, TableColumn, TableColumnFilter, TableConfiguration } from '../../../shared/hazlenut/core-table';
+import {
+    TableCellType,
+    TableChangeEvent,
+    TableColumn,
+    TableColumnFilter,
+    TableConfiguration
+} from '../../../shared/hazlenut/core-table';
 import { BrowseResponse } from '../../../shared/hazlenut/hazelnut-common/models';
+import { BusinessArea } from '../../../shared/interfaces/bussiness-area.interface';
+import { BusinessAreaService } from '../../../shared/services/data/business-area.service';
+import { NotificationService } from '../../../shared/services/notification.service';
 
 @Component({
     selector: 'business-area-list',
@@ -12,38 +21,15 @@ import { BrowseResponse } from '../../../shared/hazlenut/hazelnut-common/models'
 export class BusinessAreaListComponent implements OnInit {
     @ViewChild('expandedContent') public expandedContent: TemplateRef<any>;
     @ViewChild('navigationToTasksColumn') public navigationToTasksColumn: TemplateRef<any>;
+    private isInitialized = false;
+    public loading = false;
     public config: TableConfiguration;
-    public data  = new BrowseResponse<any>(
-        [
-            {
-                code: '1',
-                name: 'area1'
-            },
-            {
-                code: '2',
-                name: 'area2'
-            },
-            {
-                code: '3',
-                name: 'area3'
-            },
-            {
-                code: '4',
-                name: 'area4'
-            },
-            {
-                code: '5',
-                name: 'area5'
-            },
-            {
-                code: '6',
-                name: 'area6'
-            },
-        ]
-    );
+    public data: BrowseResponse<BusinessArea> = new BrowseResponse<BusinessArea>();
 
     public constructor(private readonly translateService: TranslateService,
                        private readonly router: Router,
+                       private readonly businessAreaService: BusinessAreaService,
+                       private readonly notificationService: NotificationService,
     ) {
     }
 
@@ -75,6 +61,19 @@ export class BusinessAreaListComponent implements OnInit {
 
     public showTasks() {
         this.router.navigate(['tasks/list']);
+    }
+
+    public setTableData(tableChangeEvent?: TableChangeEvent): void {
+        this.loading = true;
+        this.businessAreaService.browseBusinessAreas(tableChangeEvent).subscribe((data) => {
+            this.data = data;
+            console.log(data);
+            this.loading = false;
+            this.isInitialized = true;
+        }, (error) => {
+            this.loading = false;
+            // this.notificationService.openErrorNotification(error);
+        });
     }
 
 }

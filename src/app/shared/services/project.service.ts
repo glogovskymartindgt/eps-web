@@ -5,7 +5,7 @@ import { NotificationService } from './notification.service';
 import { ProjectUserService } from './project-user.service';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 
 export class ProjectService<T> extends AbstractService<T> {

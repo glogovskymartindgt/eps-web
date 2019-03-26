@@ -1,5 +1,5 @@
 export const environment = {
     production: false,
-    URL_API: '/api',
+    URL_API: 'http://slezak10:8080/api',
 };
-
+

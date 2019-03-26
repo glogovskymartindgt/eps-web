@@ -142,7 +142,7 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
         } else if (!this.urlKey.endsWith('/')) {
             additionalUrl = '/' + additionalUrl;
         }
-        return this.browseInner<BrowseResponse<S>>(`${HazelnutConfig.URL_API}/${this.urlKey}${additionalUrl}/browse`,
+        return this.browseInner<BrowseResponse<S>>(`${HazelnutConfig.URL_API}/${this.urlKey}${additionalUrl}browse`,
             postContent,
             this.extractDetail);
     }

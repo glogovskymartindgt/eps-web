@@ -7,4 +7,6 @@ export interface ProjectInterface {
     venue_city_1?: string;
     venue_city_2?: string;
     state?: string;
+    cities?: string[];
+    countries?: string[];
 }

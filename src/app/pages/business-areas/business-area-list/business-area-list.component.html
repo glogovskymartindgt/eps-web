@@ -4,7 +4,8 @@
             <h2>{{'businessArea.title' | translate}}</h2>
         </div>
     </div>
-    <haz-core-table [configuration]="config"
+    <haz-core-table (requestData)="setTableData($event)"
+                    [configuration]="config"
                     [data]="data"
     ></haz-core-table>
     <ng-template #navigationToTasksColumn let-actRow="row" let-context="context">

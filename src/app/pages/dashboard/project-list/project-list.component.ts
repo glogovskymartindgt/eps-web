@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProjectInterface } from 'src/app/shared/interfaces/project.interface';
 import { fadeEnterLeave } from '../../../shared/hazlenut/hazelnut-common/animations';
+import { DashboardService } from '../../../shared/services/dashboard.service';
 import { ProjectEventService } from '../../../shared/services/project-event.service';
 
 @Component({
@@ -15,7 +16,8 @@ export class ProjectListComponent implements OnInit {
     private mockID = 0;
 
     public constructor(
-        private readonly projectEventService: ProjectEventService
+        private readonly projectEventService: ProjectEventService,
+        private readonly dashboardService: DashboardService,
     ) {
     }
 
@@ -25,6 +27,8 @@ export class ProjectListComponent implements OnInit {
         for (let i = 0; i < length; i++) {
             this.allProjects.push(this.mockProjectCard());
         }
+
+        this.dashboardService.filterProjects('OPEN').subscribe(console.log);
     }
 
     private mockProjectCard(): ProjectInterface {

@@ -31,9 +31,9 @@ export class ProjectCardComponent implements OnInit {
         this.projectEventService.setEventData('Project 2019', true);
         const selectedProject = '2021 IIHF Ice Hockey World Championship';
         this.openAreas();
-        this.dashboardService.setSecondaryHeaderContent({
-            isDashboard: false, title: selectedProject
-        });
+        // this.dashboardService.setSecondaryHeaderContent({
+        //     isDashboard: false, title: selectedProject
+        // });
     }
 
 }
