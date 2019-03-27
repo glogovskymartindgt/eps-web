@@ -40,4 +40,8 @@ export class BusinessAreaService extends ProjectService<BusinessArea>{
         }
         return this.browseWithSummary(PostContent.create(limit, offset, filters, sort));
     }
+
+    public listBusinessAreas(): Observable<BrowseResponse<BusinessArea>> {
+        return this.browseWithSummary(PostContent.create(100, 0, [], []));
+    }
 }

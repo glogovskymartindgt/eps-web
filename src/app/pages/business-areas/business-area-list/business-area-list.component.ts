@@ -12,6 +12,7 @@ import { BrowseResponse } from '../../../shared/hazlenut/hazelnut-common/models'
 import { BusinessArea } from '../../../shared/interfaces/bussiness-area.interface';
 import { BusinessAreaService } from '../../../shared/services/data/business-area.service';
 import { NotificationService } from '../../../shared/services/notification.service';
+import { SelectedAreaService } from '../../../shared/services/storage/selected-area.service';
 
 @Component({
     selector: 'business-area-list',
@@ -29,6 +30,7 @@ export class BusinessAreaListComponent implements OnInit {
     public constructor(private readonly translateService: TranslateService,
                        private readonly router: Router,
                        private readonly businessAreaService: BusinessAreaService,
+                       private readonly selectedAreaService: SelectedAreaService,
                        private readonly notificationService: NotificationService,
     ) {
     }
@@ -59,7 +61,8 @@ export class BusinessAreaListComponent implements OnInit {
         };
     }
 
-    public showTasks() {
+    public showTasks(selectedArea) {
+        this.selectedAreaService.setSelectedArea(selectedArea);
         this.router.navigate(['tasks/list']);
     }
 

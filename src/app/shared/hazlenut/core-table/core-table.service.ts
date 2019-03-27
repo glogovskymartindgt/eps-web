@@ -91,6 +91,21 @@ export class CoreTableService {
                 this.createFiltersFromDatetimeRange(value, propertyName);
                 break;
             }
+            case TableFilterType.TRAFFIC_LIGHT: {
+                if (value.length > 0) {
+                    const colorArray = value.toString().split(',');
+                    colorArray.forEach((color) => {
+                        this.filters.push(
+                            new Filter(propertyName,
+                                color.toString().toLocaleUpperCase(),
+                                'ENUM',
+                                'EQ',
+                                'OR'));
+
+                    });
+                }
+                break;
+            }
         }
         this.filtersSubject$.next(this.filters);
     }
@@ -139,9 +154,6 @@ export class CoreTableService {
 
     private createFiltersFromDatetimeRange(value: any, propertyName: Property) {
         value.dateFrom = value.dateFrom !== null ? new Date(value.dateFrom).toISOString() : value.dateFrom;
-        if (value.dateTo !== null) {
-            value.dateTo = new Date(value.dateTo.setHours(23, 59, 59, 999));
-        }
         if (value.dateFrom) {
             this.filters.push(new Filter(propertyName, value.dateFrom, 'DATE_TIME', 'GOE'));
         }

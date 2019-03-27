@@ -1,6 +1,8 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { map } from 'rxjs/operators';
 import {
     ListItem,
     TableCellType, TableChangeEvent,
@@ -12,9 +14,11 @@ import {
 import { fadeEnterLeave } from '../../../shared/hazlenut/hazelnut-common/animations';
 import { BrowseResponse } from '../../../shared/hazlenut/hazelnut-common/models';
 import { TaskInterface } from '../../../shared/interfaces/task.interface';
+import { BusinessAreaService } from '../../../shared/services/data/business-area.service';
 import { TaskService } from '../../../shared/services/data/task.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
+import { SelectedAreaService } from '../../../shared/services/storage/selected-area.service';
 
 @Component({
     selector: 'iihf-task-list',
@@ -28,20 +32,29 @@ export class TaskListComponent implements OnInit {
     @ViewChild('updateColumn') public updateColumn: TemplateRef<any>;
     @ViewChild('taskTypeColumn') public taskTypeColumn: TemplateRef<any>;
 
-    private isInitialized = false;
-    public loading = false;
+    public areaGroup: FormGroup;
     public config: TableConfiguration;
     public data: BrowseResponse<TaskInterface> = new BrowseResponse<TaskInterface>();
+    public businessAreaList: string[];
+    public loading = false;
+    private isInitialized = false;
 
     public constructor(private readonly translateService: TranslateService,
                        private readonly router: Router,
                        private readonly taskService: TaskService,
                        private readonly notificationService: NotificationService,
                        public readonly projectEventService: ProjectEventService,
+                       public readonly selectedAreaService: SelectedAreaService,
+                       public readonly businessAreaService: BusinessAreaService,
+                       public readonly formBuilder: FormBuilder,
     ) {
     }
 
     public ngOnInit() {
+        this.loadBusinessAreaList();
+        this.areaGroup = this.formBuilder.group({
+            businessArea: [this.selectedAreaService.instant.selectedArea]
+        });
         this.config = {
             stickyEnd: 8,
             columns: [
@@ -57,6 +70,7 @@ export class TaskListComponent implements OnInit {
                             new ListItem('', this.translateService.instant('all.things')),
                             new ListItem('RED', this.translateService.instant('task.trafficLightValue.red')),
                             new ListItem('GREEN', this.translateService.instant('task.trafficLightValue.green')),
+                            new ListItem('AMBER', this.translateService.instant('task.trafficLightValue.amber')),
                         ]
                     }),
                     sorting: true,
@@ -89,12 +103,12 @@ export class TaskListComponent implements OnInit {
                     filter: new TableColumnFilter({}),
                     sorting: true,
                 }),
-                new TableColumn({
-                    columnDef: 'projectPhase',
-                    label: this.translateService.instant('task.phase'),
-                    filter: new TableColumnFilter({}),
-                    sorting: true,
-                }),
+                // new TableColumn({
+                //     columnDef: 'projectPhase',
+                //     label: this.translateService.instant('task.phase'),
+                //     filter: new TableColumnFilter({}),
+                //     sorting: true,
+                // }),
                 new TableColumn({
                     columnDef: 'cityName',
                     label: this.translateService.instant('task.venue'),
@@ -138,9 +152,9 @@ export class TaskListComponent implements OnInit {
                     label: ' ',
                     type: TableCellType.CONTENT,
                     tableCellTemplate: this.updateColumn,
-                    filter: new TableColumnFilter({
-                        type: TableFilterType.CLEAR_FILTERS,
-                    }),
+                    // filter: new TableColumnFilter({
+                    //     type: TableFilterType.CLEAR_FILTERS,
+                    // }),
                 }),
             ],
             paging: true,
@@ -167,6 +181,14 @@ export class TaskListComponent implements OnInit {
         }, (error) => {
             this.loading = false;
             // this.notificationService.openErrorNotification(error);
+        });
+    }
+
+    private loadBusinessAreaList() {
+        this.businessAreaService.listBusinessAreas().subscribe((data) => {
+            this.businessAreaList = data.content
+                .filter((item) => item.codeItem !== null && item.state === 'VALID')
+                .map((item) => item.name);
         });
     }
 

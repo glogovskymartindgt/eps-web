@@ -1,18 +1,25 @@
 <div fxLayout="row" class="basic-screen-header">
-    <div class="pl-20" fxFlex="200px" fxLayoutAlign="start center">
+    <div class="pl-20" fxFlex="100px" fxLayoutAlign="start center">
         <h2>{{'task.title' | translate}}</h2>
     </div>
-    <div fxFlex fxLayoutAlign="start center" class="header-select">
-        <mat-form-field>
+    <div fxFlex fxLayoutAlign="start center" class="header-select" [formGroup]="areaGroup">
+        <mat-form-field class="pt-17">
             <mat-label>{{'businessArea.title' | translate}}</mat-label>
-            <mat-select>
-                <mat-option>--</mat-option>
+            <mat-select formControlName="businessArea">
+                <mat-option *ngFor="let businessAreaName of businessAreaList"
+                            [value]="businessAreaName"
+                >
+                    {{businessAreaName}}
+                </mat-option>
             </mat-select>
         </mat-form-field>
+        <!--        {{selectedAreaService.instant.selectedArea}}-->
     </div>
     <div fxFlex fxLayoutAlign="end center">
+
         <!-- TODO inactivate active project -->
-        <button *ngIf="projectEventService.instant.active" mat-flat-button (click)="createTask()" class="mr-10" color="accent">
+        <button *ngIf="projectEventService.instant.active" mat-flat-button (click)="createTask()" class="mr-10"
+                color="accent">
             {{'common.create' | translate}}
         </button>
         <button mat-flat-button (click)="export()" class="mr-10" color="accent">
@@ -40,8 +47,7 @@
     {{('task.taskTypeValue.' + actRow.taskType.toLowerCase()) | translate}}
 </ng-template>
 <ng-template #trafficLightColumn let-actRow="row" let-context="context">
-    <div *ngIf="actRow.trafficLight === 'red'" style="width: 12px;height: 12px;background:red;border-radius:50%;"></div>
-    <div *ngIf="actRow.trafficLight === 'green'"
-         style="width: 12px;height: 12px;background:green;border-radius:50%;"></div>
+    <div *ngIf="actRow.trafficLight === 'RED'" style="width: 12px;height: 12px;background:#CE211F;border-radius:50%;"></div>
+    <div *ngIf="actRow.trafficLight === 'GREEN'" style="width: 12px;height: 12px;background:#20BF55;border-radius:50%;"></div>
+    <div *ngIf="actRow.trafficLight === 'AMBER'" style="width: 12px;height: 12px;background:#F79824;border-radius:50%;"></div>
 </ng-template>
-

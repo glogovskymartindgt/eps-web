@@ -1,6 +1,6 @@
 export interface BusinessArea {
     id?: number;
-    code: string;
+    codeItem: string;
     name: string;
     state?: string;
 }
