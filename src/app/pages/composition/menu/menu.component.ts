@@ -2,7 +2,7 @@ import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { fadeEnterLeave, routeAnimations } from '../../../shared/hazlenut/hazelnut-common/animations';
-import { ProjectEventService } from '../../../shared/services/project-event.service';
+import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 
 @Component({
     selector: 'menu',

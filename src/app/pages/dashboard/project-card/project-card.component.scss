@@ -53,11 +53,11 @@ $card-color: #fff;
 
 @media screen and (max-width: 680px) {
     .project-card {
-        width: 350px;
+        width: 450px;
         height: 135px;
     }
-    .project-image {
-        width: 80%;
-    }
+}
 
+.project-image {
+    width: 55px;
 }

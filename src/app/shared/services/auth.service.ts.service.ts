@@ -1,10 +1,10 @@
-import { ProjectEventService } from './project-event.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { NotificationService } from './notification.service';
-import { ProjectUserService } from './project-user.service';
+import { ProjectEventService } from './storage/project-event.service';
+import { ProjectUserService } from './storage/project-user.service';
 
 @Injectable({
     providedIn: 'root'
@@ -47,7 +47,7 @@ export class AuthService {
         const headers = new HttpHeaders({'Content-Type': 'application/json'});
         // TODO fix this
         this.router.navigate(['authentication/login']);
-        this.projectEventService.setEventData('', false);
+        this.projectEventService.setEventData('', false, false, '');
         // this.httpClient.post(
         //     environment.URL_API + '/security/invalidate',
         //     // {masterToken, authenticationToken, deviceId},

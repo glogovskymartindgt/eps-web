@@ -99,8 +99,8 @@
             "closed": "Closed"
         },
         "taskTypeValue": {
-            "task": "TASK",
-            "issue": "ISSUE"
+            "task": "Task",
+            "issue": "Issue"
         }
     },
     "common": {

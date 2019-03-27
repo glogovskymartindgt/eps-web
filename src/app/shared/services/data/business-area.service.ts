@@ -6,8 +6,8 @@ import { StringUtils } from '../../hazlenut/hazelnut-common/hazelnut';
 import { BrowseResponse, Filter, PostContent, Sort } from '../../hazlenut/hazelnut-common/models';
 import { BusinessArea } from '../../interfaces/bussiness-area.interface';
 import { NotificationService } from '../notification.service';
-import { ProjectUserService } from '../project-user.service';
 import { ProjectService } from '../project.service';
+import { ProjectUserService } from '../storage/project-user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +36,6 @@ export class BusinessAreaService extends ProjectService<BusinessArea>{
                 sort = [new Sort(tableChangeEvent.sortActive,
                     tableChangeEvent.sortDirection)];
             }
-
             filters.push(new Filter('CODE', 'BAREA'));
         }
         return this.browseWithSummary(PostContent.create(limit, offset, filters, sort));

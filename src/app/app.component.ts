@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { ProjectUserService } from './shared/services/project-user.service';
+import { ProjectUserService } from './shared/services/storage/project-user.service';
 
 @Component({
     selector: 'iihf-root',

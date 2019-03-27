@@ -1,4 +1,4 @@
-<div  *ngIf="projectEventService.subject.isEvent | async"
+<div *ngIf="projectEventService.subject.isEvent | async"
      fxLayout="row"
      class="project-header m-0 p-0">
     <div fxFlex="50px"
@@ -6,14 +6,14 @@
          fxLayoutAlign="center center"
          [@fadeEnterLeave]
     >
-    
-        <!-- <img src="https://picsum.photos/20/40" -->
-        <img src="assets/img/IIHF-LOGO.jpg"
-             class="project-image ml-15"
-             alt="iihf logo"
-             width="28"
-             height="45"
-        >
+        <div style="background: white; width: 28px; height: 45px;">
+            <img [src]="projectEventService.instant.imagePath"
+                 class="project-image"
+                 alt="iihf logo"
+                 width="28"
+                 height="45"
+            >
+        </div>
     </div>
     <div fxFlex="90"
          class="mt-7"
@@ -21,7 +21,7 @@
          [@fadeEnterLeave]
     >
         <h3 class="secondary-header m-0 ml-10">
-            {{secondaryHeaderTitle}}
+            {{projectEventService.instant.selectedEvent}}
         </h3>
     </div>
     <div fxFlex
@@ -29,12 +29,13 @@
          fxLayoutAlign="end center"
          [@fadeEnterLeave]>
         <button mat-icon-button (click)="routeToDashboard()">
-            <mat-icon >close</mat-icon>
+            <mat-icon>close</mat-icon>
         </button>
     </div>
 </div>
 
-<div *ngIf="!(projectEventService.subject.isEvent | async)"  class="project-header" fxLayout="row" fxLayoutAlign="start center">
+<div *ngIf="!(projectEventService.subject.isEvent | async)" class="project-header" fxLayout="row"
+     fxLayoutAlign="start center">
     <h3 class="m-0 ml-20 mt-7 dashboard-text" [@fadeEnterLeave]>{{ 'dashboard.dashboard' | translate}}</h3>
     <a class="ml-50 mt-7 dashboard-filter" mat-ripple [matRippleColor]="'rgba(255,255,255,0.2)'"
        [ngClass]="(activeFilter === 'ALL') ? 'activated' : 'non-activated'"

@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { fadeEnterLeave } from '../../../shared/hazlenut/hazelnut-common/animations';
-import { ProjectEventService } from '../../../shared/services/project-event.service';
-import { DashboardService } from './../../../shared/services/dashboard.service';
 import { Project } from 'src/app/shared/models/project.model';
+import { fadeEnterLeave } from '../../../shared/hazlenut/hazelnut-common/animations';
+import { DashboardService } from '../../../shared/services/dashboard.service';
+import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 
 @Component({
     selector: 'project-card',
@@ -14,10 +14,11 @@ import { Project } from 'src/app/shared/models/project.model';
 export class ProjectCardComponent implements OnInit {
     @Input() public project: Project;
 
-    show2Cities: boolean = false;
-    show1City: boolean = false;
-    show2Countries: boolean = false;
-    show1Country: boolean = false;
+    public show2Cities = false;
+    public show1City = false;
+    public show2Countries = false;
+    public show1Country = false;
+    public imagePath = '';
 
     public constructor(private readonly router: Router,
                        private readonly dashboardService: DashboardService,
@@ -26,9 +27,9 @@ export class ProjectCardComponent implements OnInit {
     }
 
     public ngOnInit() {
-        console.log(this.project);
-        if (this.project.cities != null && this.project.cities.length == 2) {
-            if (this.project.cities[0] != this.project.cities[1]) {
+        this.imagePath = this.getImagePath(this.project.id);
+        if (this.project.cities !== null && this.project.cities.length === 2) {
+            if (this.project.cities[0] !== this.project.cities[1]) {
                 this.show2Cities = true;
             } else {
                 this.show2Cities = false;
@@ -51,10 +52,21 @@ export class ProjectCardComponent implements OnInit {
     }
 
     public onProjectSelected() {
-        this.projectEventService.setEventData('Project 2019', true);
-        const selectedProject = '2021 IIHF Ice Hockey World Championship';
-        this.dashboardService.setSecondaryHeaderContent({isDashboard: false, title: this.project.year + ' '+ this.project.name});
+        this.projectEventService.setEventData(
+            `${this.project.year} ${this.project.name}`,
+            true,
+            this.project.state === 'OPEN',
+            this.imagePath
+        );
+        this.dashboardService.setSecondaryHeaderContent({
+            isDashboard: false,
+            title: this.project.year + ' ' + this.project.name
+        });
         this.openAreas();
+    }
+
+    public getImagePath(projectId: number) {
+        return `assets/img/event-logos/${2017 + projectId - 1}.png`;
     }
 
 }

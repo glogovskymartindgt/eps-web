@@ -1,16 +1,16 @@
 import { Inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ABSTRACT_STORAGE_TOKEN, AbstractStorageService } from '../hazlenut/hazelnut-common/services';
+import { ABSTRACT_STORAGE_TOKEN, AbstractStorageService } from '../../hazlenut/hazelnut-common/services';
 
 type Proxify<T> = {
     [P in keyof T]: Observable<T[P]>;
 };
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
-export class EventService<T extends object> {
+export class AreaService<T extends object> {
     private readonly _behaviorSubject: BehaviorSubject<T>;
     private readonly _instant: T;
     private readonly _subject: Proxify<T>;
@@ -58,14 +58,14 @@ export class EventService<T extends object> {
     }
 
     public clearUserData(): void {
-        this.storageService.removeItem('projectData');
+        this.storageService.removeItem('areaData');
     }
 
     private loadData(): T {
-        return this.storageService.getObjectItem('projectData') as T;
+        return this.storageService.getObjectItem('areaData') as T;
     }
 
     private storeData(data: T): void {
-        this.storageService.setItemValue('projectData', data);
+        this.storageService.setItemValue('areaData', data);
     }
 }

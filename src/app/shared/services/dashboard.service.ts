@@ -5,8 +5,8 @@ import { Filter } from '../hazlenut/hazelnut-common/models';
 import { ProjectInterface } from '../interfaces/project.interface';
 import { SecondaryHeader } from '../interfaces/secondary-header.interface';
 import { NotificationService } from './notification.service';
-import { ProjectUserService } from './project-user.service';
 import { ProjectService } from './project.service';
+import { ProjectUserService } from './storage/project-user.service';
 
 @Injectable({
     providedIn: 'root'
@@ -27,7 +27,7 @@ export class DashboardService extends ProjectService<ProjectInterface>{
 
     public filterProjects(state: string) {
         const filters = [];
-        if (state != "ALL") {
+        if (state != 'ALL') {
             filters.push(new Filter('STATE', state, 'ENUM'));
         }
         return this.filter(filters);

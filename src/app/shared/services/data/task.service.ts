@@ -6,8 +6,8 @@ import { StringUtils } from '../../hazlenut/hazelnut-common/hazelnut';
 import { BrowseResponse, PostContent, Sort } from '../../hazlenut/hazelnut-common/models';
 import { TaskInterface } from '../../interfaces/task.interface';
 import { NotificationService } from '../notification.service';
-import { ProjectUserService } from '../project-user.service';
 import { ProjectService } from '../project.service';
+import { ProjectUserService } from '../storage/project-user.service';
 
 @Injectable({
   providedIn: 'root'

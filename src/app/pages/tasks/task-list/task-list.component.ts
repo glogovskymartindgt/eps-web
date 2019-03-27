@@ -14,6 +14,7 @@ import { BrowseResponse } from '../../../shared/hazlenut/hazelnut-common/models'
 import { TaskInterface } from '../../../shared/interfaces/task.interface';
 import { TaskService } from '../../../shared/services/data/task.service';
 import { NotificationService } from '../../../shared/services/notification.service';
+import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 
 @Component({
     selector: 'iihf-task-list',
@@ -36,6 +37,7 @@ export class TaskListComponent implements OnInit {
                        private readonly router: Router,
                        private readonly taskService: TaskService,
                        private readonly notificationService: NotificationService,
+                       public readonly projectEventService: ProjectEventService,
     ) {
     }
 
@@ -160,7 +162,6 @@ export class TaskListComponent implements OnInit {
         this.loading = true;
         this.taskService.browseTasks(tableChangeEvent).subscribe((data) => {
             this.data = data;
-            console.log(this.data);
             this.loading = false;
             this.isInitialized = true;
         }, (error) => {

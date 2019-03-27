@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AbstractStorageService, UserService } from '../hazlenut/hazelnut-common/services';
-import { UserDataInterface } from '../interfaces/user-data.interface';
+import { AbstractStorageService, UserService } from '../../hazlenut/hazelnut-common/services';
+import { UserDataInterface } from '../../interfaces/user-data.interface';
 
 @Injectable({
     providedIn: 'root'

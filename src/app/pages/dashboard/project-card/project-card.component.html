@@ -1,14 +1,15 @@
 <div fxLayout="row" class="project-card m-13">
     <div class="project-card-content" fxFlex="95" (click)="onProjectSelected()">
-        <div fxFlex="15" fxLayoutAlign="center center">
-            <!-- <img src="https://picsum.photos/76/103" class="project-image" alt="iihf logo"> -->
-            <img src="assets/img/IIHF-LOGO.jpg" width="66" height="103" class="project-image" alt="iihf logo">            
+        <div fxFlex="15" fxLayoutAlign="center center" class="p-10">
+            <img [src]="imagePath" class="project-image" alt="iihf logo">
         </div>
         <div fxFlex="85">
             <p class="project-card-primary-font mb-0 mt-25">{{project?.year}} {{project?.name}}</p>
-            <p *ngIf="show2Countries" class="project-card-secondary-font m-0 mt-5">{{project?.countries[0]}} and {{project?.countries[1]}}</p>
+            <p *ngIf="show2Countries" class="project-card-secondary-font m-0 mt-5">{{project?.countries[0]}}
+                and {{project?.countries[1]}}</p>
             <p *ngIf="show1Country" class="project-card-secondary-font m-0 mt-5">{{project?.countries[0]}}</p>
-            <p *ngIf="show2Cities" class="project-card-secondary-font m-0 mt-5">{{project?.cities[0]}} and {{project?.cities[1]}}</p>
+            <p *ngIf="show2Cities" class="project-card-secondary-font m-0 mt-5">{{project?.cities[0]}}
+                and {{project?.cities[1]}}</p>
             <p *ngIf="show1City" class="project-card-location-font m-0 mt-5">{{project?.cities[0]}}</p>
         </div>
     </div>
