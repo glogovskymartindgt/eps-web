@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 import { fadeEnterLeave } from '../../../hazelnut-common/animations';
@@ -14,6 +14,7 @@ import { TableFilterType } from '../../models/table-filter-type.enum';
 })
 export class CoreTableFilterComponent implements OnInit {
     @Input() public columnConfig: TableColumn = new TableColumn({columnDef: '', label: ''});
+    @Output() public resetFilters = new EventEmitter<boolean>();
     private _filtersElement: FormGroup = null;
     public showSearchIcon = true;
     public filterTypeEnum: typeof TableFilterType = TableFilterType;
@@ -52,8 +53,8 @@ export class CoreTableFilterComponent implements OnInit {
         }
     }
 
-    public clearFilters(){
-        // this.filtersElement.reset();
+    public clearFilters() {
+        this.resetFilters.next(true);
     }
 
     private processFormChanges(): void {

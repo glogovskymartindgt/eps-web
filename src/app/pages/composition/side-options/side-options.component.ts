@@ -24,9 +24,11 @@ export class SideOptionsComponent implements OnInit {
     public ngOnInit(): void {
         if (!this.routes) {
             this.routes = this.router.config
-              .find((group) => group.component && group.component.name === 'AdminLayoutComponent')
-              .children;
+                .find((group) => group.component && group.component.name === 'AdminLayoutComponent')
+                .children;
         }
+
+        this.setMenuOptionOnInitFromRouter();
     }
 
     public toggleMenuSelect() {
@@ -45,6 +47,15 @@ export class SideOptionsComponent implements OnInit {
             object.data &&
             object.data.hasOwnProperty('menu') &&
             (object.hasOwnProperty('children') === hasChildren);
+    }
+
+    public setMenuOptionOnInitFromRouter() {
+        ['reports', 'facts', 'business-areas'].forEach((routeSubstring) => {
+            if (this.router.url.includes(routeSubstring)) {
+                this.menuService.setSelectedOption(routeSubstring);
+            }
+        });
+
     }
 
 }

@@ -6,7 +6,7 @@ import {
     TableChangeEvent,
     TableColumn,
     TableColumnFilter,
-    TableConfiguration
+    TableConfiguration, TableFilterType
 } from '../../../shared/hazlenut/core-table';
 import { BrowseResponse } from '../../../shared/hazlenut/hazelnut-common/models';
 import { BusinessArea } from '../../../shared/interfaces/bussiness-area.interface';
@@ -55,7 +55,11 @@ export class BusinessAreaListComponent implements OnInit {
                     label: ' ',
                     type: TableCellType.CONTENT,
                     tableCellTemplate: this.navigationToTasksColumn,
+                    filter: new TableColumnFilter({
+                        type: TableFilterType.CLEAR_FILTERS,
+                    }),
                 }),
+
             ],
             paging: true,
         };

@@ -164,7 +164,7 @@
                               [matColumnDef]="columnConfig.filterElement"
                               stickyEnd>
                     <th *matHeaderCellDef mat-header-cell>
-                        <haz-core-table-filter *ngIf="columnConfig.filter" [columnConfig]="columnConfig">
+                        <haz-core-table-filter *ngIf="columnConfig.filter" [columnConfig]="columnConfig" (resetFilters)="resetFilters($event)">
                         </haz-core-table-filter>
                     </th>
                 </ng-container>
@@ -172,7 +172,7 @@
                               [matColumnDef]="columnConfig.filterElement"
                               >
                     <th *matHeaderCellDef mat-header-cell>
-                        <haz-core-table-filter *ngIf="columnConfig.filter" [columnConfig]="columnConfig">
+                        <haz-core-table-filter *ngIf="columnConfig.filter" [columnConfig]="columnConfig" (resetFilters)="resetFilters($event)">
                         </haz-core-table-filter>
                     </th>
                 </ng-container>
@@ -183,7 +183,7 @@
             <ng-container *ngFor="let columnConfig of configuration.columns; let i = index"
                           [matColumnDef]="columnConfig.filterElement">
                 <th *matHeaderCellDef mat-header-cell>
-                    <haz-core-table-filter *ngIf="columnConfig.filter" [columnConfig]="columnConfig">
+                    <haz-core-table-filter *ngIf="columnConfig.filter" [columnConfig]="columnConfig" (resetFilters)="resetFilters($event)">
                     </haz-core-table-filter>
                 </th>
             </ng-container>

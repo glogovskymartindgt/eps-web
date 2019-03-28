@@ -56,7 +56,7 @@ export class TaskListComponent implements OnInit {
             businessArea: [this.selectedAreaService.instant.selectedArea]
         });
         this.config = {
-            stickyEnd: 8,
+            stickyEnd: 7,
             columns: [
                 new TableColumn({
                     columnDef: 'trafficLight',
@@ -152,9 +152,9 @@ export class TaskListComponent implements OnInit {
                     label: ' ',
                     type: TableCellType.CONTENT,
                     tableCellTemplate: this.updateColumn,
-                    // filter: new TableColumnFilter({
-                    //     type: TableFilterType.CLEAR_FILTERS,
-                    // }),
+                    filter: new TableColumnFilter({
+                        type: TableFilterType.CLEAR_FILTERS,
+                    }),
                 }),
             ],
             paging: true,

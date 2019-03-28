@@ -21,9 +21,9 @@ export class TaskFormComponent implements OnInit {
     public allTypes: string[] = ['task', 'issue'];
     public alltraficLights: string[] = ['red', 'amber', 'green', 'none'];
     public allBusinessAreas: BusinessArea[] = [
-        {name: 'General', code: '1.'},
-        {name: 'Organisational Provisions', code: '2.'},
-        {name: 'Finances', code: '3.'}
+        {name: 'General', codeItem: '1.'},
+        {name: 'Organisational Provisions', codeItem: '2.'},
+        {name: 'Finances', codeItem: '3.'}
     ];
     public codePrefix = '';
     public allSourceOfAgendas: string[] = ['Regulation', 'Checklist' ];
@@ -66,7 +66,7 @@ export class TaskFormComponent implements OnInit {
         this.taskForm.get('venue').setValue('none');
         if (this.filterBusinessAreaSelected) {
             const ba: BusinessArea = this.filterBusinessAreaSelected;
-            const index = this.allBusinessAreas.findIndex((el) => el.code == ba.code && el.name == ba.name);
+            const index = this.allBusinessAreas.findIndex((el) => el.codeItem === ba.codeItem && el.name === ba.name);
             this.taskForm.get('businessArea').setValue(this.allBusinessAreas[index]);
         }
     }
@@ -76,7 +76,7 @@ export class TaskFormComponent implements OnInit {
     }
 
     public onTypeChanged(type: string) {
-        if (type == 'issue' && this.taskForm.get('trafficLight') == null) {
+        if (type === 'issue' && this.taskForm.get('trafficLight') === null) {
             this.taskForm.addControl('trafficLight', this.formBuilder.control(null, [Validators.required]));
             this.taskForm.get('trafficLight').setValue('none');
         } else {
@@ -86,7 +86,7 @@ export class TaskFormComponent implements OnInit {
     }
 
     public onBusinessAreaChanged(businessArea: BusinessArea) {
-        this.codePrefix = businessArea.code;
+        this.codePrefix = businessArea.codeItem;
     }
 
     public dateInvalid = false;

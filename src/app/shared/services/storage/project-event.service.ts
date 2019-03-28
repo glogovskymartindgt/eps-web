@@ -22,12 +22,6 @@ export class ProjectEventService extends EventService<EventDataInterface> {
     }
 
     public setEventData(event: string, isEvent: boolean, active: boolean, imagePath: string) {
-        console.log('selecting event', {
-            isEvent,
-            selectedEvent: event,
-            active,
-            imagePath,
-        });
         this.setData({
             isEvent,
             selectedEvent: event,

@@ -32,6 +32,7 @@ import { TableConfiguration } from '../models/table-configuration.model';
 import { TableRequestParameters } from '../models/table-request-parameters.model';
 import { TableResponse } from '../models/table-response.model';
 import { FilterMap, TableChangeEvent, TableChangeType } from '../table-change-event';
+import { CoreTableFilterComponent } from './core-table-filter/core-table-filter.component';
 
 const DEFAULT_NO_DATA_KEY = 'common.noData';
 
@@ -54,6 +55,7 @@ export class CoreTableComponent<T = any> implements OnInit, OnChanges, OnDestroy
 
     @ViewChild(MatPaginator) public paginator: MatPaginator;
     @ViewChild(MatSort) public sort: MatSort;
+    @ViewChildren(CoreTableFilterComponent) public filtersElementHolder: QueryList<CoreTableFilterComponent>;
     @ViewChildren(ExpandedDetailDirective) public expandedDetailHosts: QueryList<ExpandedDetailDirective>;
 
     public readonly filters: FilterMap = {};
@@ -243,5 +245,11 @@ export class CoreTableComponent<T = any> implements OnInit, OnChanges, OnDestroy
                 column.label = column.label.toUpperCase();
             }
         });
+    }
+
+    public resetFilters(guard: boolean) {
+        if (guard) {
+            this.filtersElementHolder.forEach((filter) => filter.filtersElement.reset());
+        }
     }
 }
