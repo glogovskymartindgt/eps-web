@@ -1,4 +1,12 @@
-import { AfterViewChecked, ChangeDetectorRef, Component, forwardRef, Inject, Input, OnInit } from '@angular/core';
+import {
+    AfterViewChecked,
+    ChangeDetectorRef,
+    Component,
+    forwardRef,
+    Inject,
+    Input,
+    OnInit
+} from '@angular/core';
 import {
     ControlValueAccessor,
     FormBuilder,

@@ -23,7 +23,7 @@ export const FORMAT = {
     selector: 'haz-input-date',
     templateUrl: './input-date.component.html',
     styleUrls: ['./input-date.component.scss'],
-    providers: [
+providers: [
         {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
         {provide: MAT_DATE_FORMATS, useValue: FORMAT},
         {
@@ -72,6 +72,11 @@ export class InputDateComponent implements OnInit, ControlValueAccessor {
         this.formControl.valueChanges.subscribe(() => {
             this.onChange(this.formControl.value);
         });
+    }
+    
+    public dateClass = (d: Date) => {
+        let day = moment(d).toDate().getDay();
+        return (day === 0 || day === 6) ? 'custom-date-class' : undefined;
     }
 
 }

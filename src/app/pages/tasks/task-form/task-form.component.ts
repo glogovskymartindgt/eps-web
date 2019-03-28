@@ -1,14 +1,37 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BusinessArea } from '../../../shared/interfaces/bussiness-area.interface';
 import { Phase } from '../../../shared/interfaces/phase.interface';
 import { User } from '../../../shared/interfaces/user.interface';
 import { Task } from '../../../shared/models/task.model';
 
+import {MomentDateAdapter} from '@angular/material-moment-adapter';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+
+import * as _moment from 'moment';
+
+const moment = _moment;
+
+export const MY_FORMATS = {
+    parse: {
+        dateInput: 'D.M.YYYY',
+    },
+    display: {
+        dateInput: 'D.M.YYYY',
+        monthYearLabel: 'D.M.YYYY',
+        dateA11yLabel: 'D.M.YYYY',
+        monthYearA11yLabel: 'D.M.YYYY',
+    },
+};
+
 @Component({
   selector: 'task-form',
   templateUrl: './task-form.component.html',
-  styleUrls: ['./task-form.component.scss']
+  styleUrls: ['./task-form.component.scss'],
+  providers: [
+    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+  ],
 })
 export class TaskFormComponent implements OnInit {
 
@@ -21,9 +44,9 @@ export class TaskFormComponent implements OnInit {
     public allTypes: string[] = ['task', 'issue'];
     public alltraficLights: string[] = ['red', 'amber', 'green', 'none'];
     public allBusinessAreas: BusinessArea[] = [
-        {name: 'General', code: '1.'},
-        {name: 'Organisational Provisions', code: '2.'},
-        {name: 'Finances', code: '3.'}
+        {name: 'General', codeItem: '1.'},
+        {name: 'Organisational Provisions', codeItem: '2.'},
+        {name: 'Finances', codeItem: '3.'}
     ];
     public codePrefix = '';
     public allSourceOfAgendas: string[] = ['Regulation', 'Checklist' ];
@@ -40,9 +63,14 @@ export class TaskFormComponent implements OnInit {
     public constructor(private readonly formBuilder: FormBuilder) {
     }
 
+    public dateClass = (d: Date) => {
+        let day = moment(d).toDate().getDay();
+        return (day === 0 || day === 6) ? 'custom-date-class' : undefined;
+    }
+
     public ngOnInit() {
         this.createForm();
-        this.setDefaultValues();
+        this.setDefaultValues();      
     }
 
     private createForm() {
@@ -66,7 +94,7 @@ export class TaskFormComponent implements OnInit {
         this.taskForm.get('venue').setValue('none');
         if (this.filterBusinessAreaSelected) {
             const ba: BusinessArea = this.filterBusinessAreaSelected;
-            const index = this.allBusinessAreas.findIndex((el) => el.code == ba.code && el.name == ba.name);
+            const index = this.allBusinessAreas.findIndex((el) => el.codeItem == ba.codeItem && el.name == ba.name);
             this.taskForm.get('businessArea').setValue(this.allBusinessAreas[index]);
         }
     }
@@ -86,7 +114,7 @@ export class TaskFormComponent implements OnInit {
     }
 
     public onBusinessAreaChanged(businessArea: BusinessArea) {
-        this.codePrefix = businessArea.code;
+        this.codePrefix = businessArea.codeItem;
     }
 
     public dateInvalid = false;
