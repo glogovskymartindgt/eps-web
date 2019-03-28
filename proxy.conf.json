@@ -1,7 +1,7 @@
 {
     "/api/*": {
         "target": {
-            "host": "slezak10",
+            "host": "seidl10",
             "protocol": "http:",
             "port": 8080
         },

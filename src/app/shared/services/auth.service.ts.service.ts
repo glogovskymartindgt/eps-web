@@ -37,6 +37,7 @@ export class AuthService {
             {headers}
         ).subscribe((data) => {
                 this.userService.setAuthData(data);
+                this.projectEventService.setEventData( );
                 this.router.navigate(['dashboard']);
             },
             (error) => this.notificationService.openErrorNotification('error.login')
@@ -47,7 +48,7 @@ export class AuthService {
         const headers = new HttpHeaders({'Content-Type': 'application/json'});
         // TODO fix this
         this.router.navigate(['authentication/login']);
-        this.projectEventService.setEventData('', false, false, '');
+        this.projectEventService.setEventData();
         // this.httpClient.post(
         //     environment.URL_API + '/security/invalidate',
         //     // {masterToken, authenticationToken, deviceId},

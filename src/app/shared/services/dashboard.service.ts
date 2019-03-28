@@ -11,9 +11,8 @@ import { ProjectUserService } from './storage/project-user.service';
 @Injectable({
     providedIn: 'root'
 })
-export class DashboardService extends ProjectService<ProjectInterface>{
+export class DashboardService extends ProjectService<ProjectInterface> {
     private readonly secondaryHeader = new Subject<SecondaryHeader>();
-    public secondaryHeaderNotifier$ = this.secondaryHeader.asObservable();
 
     private readonly dashboardFilter = new Subject<String>();
     public dashboardFilterNotifier$ = this.dashboardFilter.asObservable();
@@ -27,7 +26,7 @@ export class DashboardService extends ProjectService<ProjectInterface>{
 
     public filterProjects(state: string) {
         const filters = [];
-        if (state != 'ALL') {
+        if (state !== 'ALL') {
             filters.push(new Filter('STATE', state, 'ENUM'));
         }
         return this.filter(filters);

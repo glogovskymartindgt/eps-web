@@ -12,19 +12,16 @@ export class ProjectEventService extends EventService<EventDataInterface> {
         super(storageService);
     }
 
-    // todo test this
-    public get isEventSelected(): boolean {
-        return Boolean(this.instant && this.instant.selectedEvent);
-    }
-
-    public get activeEvent(): boolean {
-        return Boolean(this.instant && this.instant.selectedEvent);
-    }
-
-    public setEventData(event: string, isEvent: boolean, active: boolean, imagePath: string) {
+    public setEventData(
+        year: number = null,
+        projectName: string = null,
+        isEvent = false,
+        active = false,
+        imagePath: string = null) {
         this.setData({
+            year,
+            projectName,
             isEvent,
-            selectedEvent: event,
             active,
             imagePath,
         });

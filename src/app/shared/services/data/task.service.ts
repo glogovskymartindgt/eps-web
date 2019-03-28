@@ -3,17 +3,17 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TableChangeEvent } from '../../hazlenut/core-table';
 import { StringUtils } from '../../hazlenut/hazelnut-common/hazelnut';
-import { BrowseResponse, PostContent, Sort } from '../../hazlenut/hazelnut-common/models';
+import { BrowseResponse, Filter, PostContent, Sort } from '../../hazlenut/hazelnut-common/models';
 import { TaskInterface } from '../../interfaces/task.interface';
 import { NotificationService } from '../notification.service';
 import { ProjectService } from '../project.service';
 import { ProjectUserService } from '../storage/project-user.service';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 
-export class TaskService extends ProjectService<TaskInterface>{
+export class TaskService extends ProjectService<TaskInterface> {
 
     public constructor(http: HttpClient,
                        notificationService: NotificationService,
@@ -22,7 +22,7 @@ export class TaskService extends ProjectService<TaskInterface>{
         super(http, 'task', notificationService, userService);
     }
 
-    public browseTasks(tableChangeEvent: TableChangeEvent): Observable<BrowseResponse<TaskInterface>> {
+    public browseTasks(tableChangeEvent: TableChangeEvent, additionalFilters: Filter[]): Observable<BrowseResponse<TaskInterface>> {
         let filters = [];
         let sort = [];
         let limit = 10;
@@ -38,6 +38,10 @@ export class TaskService extends ProjectService<TaskInterface>{
                     tableChangeEvent.sortDirection)];
             }
         }
+
+        additionalFilters.forEach((additionalFilter) => {
+            filters.push(additionalFilter);
+        });
         return this.browseWithSummary(PostContent.create(limit, offset, filters, sort));
     }
 }

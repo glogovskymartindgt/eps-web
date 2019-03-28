@@ -1,5 +1,6 @@
 export interface EventDataInterface {
-    selectedEvent: string;
+    year: number;
+    projectName: string;
     isEvent: boolean;
     active: boolean;
     imagePath: string;

@@ -3,9 +3,10 @@
         <h2>{{'task.title' | translate}}</h2>
     </div>
     <div fxFlex fxLayoutAlign="start center" class="header-select" [formGroup]="areaGroup">
-        <mat-form-field class="pt-17">
+        <mat-form-field class="pt-17 w-250">
             <mat-label>{{'businessArea.title' | translate}}</mat-label>
             <mat-select formControlName="businessArea">
+                <mat-option value="all">{{'all.things' | translate}}</mat-option>
                 <mat-option *ngFor="let businessAreaName of businessAreaList"
                             [value]="businessAreaName"
                 >
@@ -13,7 +14,6 @@
                 </mat-option>
             </mat-select>
         </mat-form-field>
-        <!--        {{selectedAreaService.instant.selectedArea}}-->
     </div>
     <div fxFlex fxLayoutAlign="end center">
 
@@ -28,7 +28,7 @@
     </div>
 </div>
 
-<haz-indeterminate-progress-bar [loading]="loading"></haz-indeterminate-progress-bar>
+<!--<haz-indeterminate-progress-bar [loading]="loading"></haz-indeterminate-progress-bar>-->
 <haz-core-table (requestData)="setTableData($event)"
                 [configuration]="config"
                 [data]="data"

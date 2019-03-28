@@ -28,6 +28,11 @@ export class ProjectCardComponent implements OnInit {
 
     public ngOnInit() {
         this.imagePath = this.getImagePath(this.project.id);
+
+        // TODO apply this until backed apply sort on cities and countries
+        this.project.cities = this.applySortOnStringArray(this.project.cities);
+        this.project.countries = this.applySortOnStringArray(this.project.countries);
+
         if (this.project.cities !== null && this.project.cities.length === 2) {
             if (this.project.cities[0] !== this.project.cities[1]) {
                 this.show2Cities = true;
@@ -37,8 +42,8 @@ export class ProjectCardComponent implements OnInit {
             }
         }
 
-        if (this.project.countries != null && this.project.countries.length == 2) {
-            if (this.project.countries[0] != this.project.countries[1]) {
+        if (this.project.countries !== null && this.project.countries.length === 2) {
+            if (this.project.countries[0] !== this.project.countries[1]) {
                 this.show2Countries = true;
             } else {
                 this.show2Countries = false;
@@ -53,7 +58,8 @@ export class ProjectCardComponent implements OnInit {
 
     public onProjectSelected() {
         this.projectEventService.setEventData(
-            `${this.project.year} ${this.project.name}`,
+            +this.project.year,
+            this.project.name,
             true,
             this.project.state === 'OPEN',
             this.imagePath
@@ -67,6 +73,19 @@ export class ProjectCardComponent implements OnInit {
 
     public getImagePath(projectId: number) {
         return `assets/img/event-logos/${2017 + projectId - 1}.png`;
+    }
+
+    private applySortOnStringArray(array: string[]) {
+        array = array.sort((n1, n2) => {
+            if (n1 > n2) {
+                return 1;
+            }
+            if (n1 < n2) {
+                return -1;
+            }
+            return 0;
+        });
+        return array;
     }
 
 }

@@ -38,7 +38,7 @@ export class SecondaryHeaderComponent implements OnInit {
         this.activeFilter = 'ALL';
         this.router.navigate(['dashboard']);
         this.dashboardService.setSecondaryHeaderContent({isDashboard: true});
-        this.projectEventService.setEventData('', false, false , '');
+        this.projectEventService.setEventData();
     }
 
 }

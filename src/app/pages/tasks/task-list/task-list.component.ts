@@ -1,8 +1,7 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { map } from 'rxjs/operators';
 import {
     ListItem,
     TableCellType, TableChangeEvent,
@@ -12,7 +11,7 @@ import {
     TableFilterType
 } from '../../../shared/hazlenut/core-table';
 import { fadeEnterLeave } from '../../../shared/hazlenut/hazelnut-common/animations';
-import { BrowseResponse } from '../../../shared/hazlenut/hazelnut-common/models';
+import { BrowseResponse, Filter } from '../../../shared/hazlenut/hazelnut-common/models';
 import { TaskInterface } from '../../../shared/interfaces/task.interface';
 import { BusinessAreaService } from '../../../shared/services/data/business-area.service';
 import { TaskService } from '../../../shared/services/data/task.service';
@@ -38,6 +37,7 @@ export class TaskListComponent implements OnInit {
     public businessAreaList: string[];
     public loading = false;
     private isInitialized = false;
+    private businessAreaFilter: Filter;
 
     public constructor(private readonly translateService: TranslateService,
                        private readonly router: Router,
@@ -54,6 +54,12 @@ export class TaskListComponent implements OnInit {
         this.loadBusinessAreaList();
         this.areaGroup = this.formBuilder.group({
             businessArea: [this.selectedAreaService.instant.selectedArea]
+        });
+        this.areaGroup.valueChanges.subscribe((value) => {
+            if (value !== 'all') {
+                this.businessAreaFilter = new Filter('BUSENESS_AREA_NAME', value.businessArea);
+            }
+            this.setTableData();
         });
         this.config = {
             stickyEnd: 7,
@@ -173,14 +179,33 @@ export class TaskListComponent implements OnInit {
     }
 
     public setTableData(tableChangeEvent?: TableChangeEvent): void {
+
+        const additionalFilters = [
+            new Filter('PROJECT_NAME', this.projectEventService.instant.projectName),
+            new Filter('PROJECT_YEAR', this.projectEventService.instant.year, 'NUMBER'),
+        ];
+
+        if (this.businessAreaFilter && this.businessAreaFilter.value !== 'all') {
+            additionalFilters.push(this.businessAreaFilter);
+        }
+
+        if (!this.isInitialized) {
+            additionalFilters.push(
+                this.businessAreaFilter = new Filter('BUSENESS_AREA_NAME',
+                    this.selectedAreaService.instant.selectedArea)
+            );
+
+        }
+
         this.loading = true;
-        this.taskService.browseTasks(tableChangeEvent).subscribe((data) => {
+        this.taskService.browseTasks(tableChangeEvent, additionalFilters).subscribe((data) => {
             this.data = data;
             this.loading = false;
             this.isInitialized = true;
         }, (error) => {
             this.loading = false;
             // this.notificationService.openErrorNotification(error);
+
         });
     }
 

@@ -11,7 +11,7 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
 
 export class ProjectListComponent implements OnInit {
 
-    public allProjects: ProjectInterface[] = [];
+    public projects: ProjectInterface[] = [];
 
     public constructor(
         private readonly projectEventService: ProjectEventService,
@@ -23,15 +23,13 @@ export class ProjectListComponent implements OnInit {
         this.dashboardService.dashboardFilterNotifier$.subscribe((filterValue: string) => {
             this.filterProjects(filterValue);
         });
-
         this.filterProjects('ALL');
-
         this.dashboardService.setSecondaryHeaderContent({isDashboard: true});
     }
 
     private filterProjects(filterValue = 'ALL') {
-        this.dashboardService.filterProjects(filterValue).subscribe((projects: ProjectInterface[]) => {
-            this.allProjects = projects;
+        this.dashboardService.filterProjects(filterValue).subscribe((data: ProjectInterface[]) => {
+            this.projects = data;
             this.dashboardService.setSecondaryHeaderContent({isDashboard: true});
         });
     }
