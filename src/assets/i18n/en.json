@@ -24,9 +24,9 @@
     "tasks": {
         "cancel": "CANCEL",
         "save": "SAVE",
-        "empty": "Empty",
-        "both": "Both",
-        "none": "None",
+        "empty": "empty",
+        "both": "both",
+        "none": "none",
         "type": "Type",
         "trafficLight": "Traffic light",
         "forIssue": "for issue",

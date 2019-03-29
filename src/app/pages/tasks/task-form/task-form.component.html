@@ -114,7 +114,7 @@
                 <mat-select formControlName="businessArea"
                             (selectionChange)="onBusinessAreaChanged($event.value)">
                     <mat-option *ngFor="let businessArea of allBusinessAreas" [value]="businessArea">
-                        {{businessArea?.code}} - {{businessArea?.name}}
+                        {{businessArea?.codeItem}} - {{businessArea?.name}}
                     </mat-option>
                 </mat-select>
                 <mat-error
@@ -202,9 +202,9 @@
             <mat-form-field appearance="fill" class="due-date-width theme-input">
                 <mat-label>{{ 'tasks.dueDate' | translate }}</mat-label>
                 <input matInput [matDatepicker]="picker" (dateChange)="onDateChanged($event.value)"
-                       formControlName="dueDate">
+                        formControlName="dueDate">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
+                <mat-datepicker [dateClass]="dateClass" #picker></mat-datepicker>
                 <mat-error *ngIf="dateInvalid">{{ 'error.dateFormatIsInvalid' | translate }}</mat-error>
             </mat-form-field>
 
@@ -218,7 +218,7 @@
             <mat-form-field appearance="fill" class="theme-input">
                 <mat-label>{{ 'tasks.responsible' | translate }}</mat-label>
                 <mat-select formControlName="responsible">
-                    <mat-option class="color-none">empty</mat-option>
+                    <mat-option class="color-none">{{ 'tasks.empty' | translate }}</mat-option>
                     <mat-option *ngFor="let responsible of allResponsibles" [value]="responsible">
                         {{responsible?.firstName}} {{responsible?.lastName}}
                     </mat-option>

@@ -54,4 +54,9 @@ $color-primary: #1595D3;
     color: white;
 }
 
-
+.custom-date-class {
+    background: rgb(240, 240, 240);
+    & > .mat-calendar-body-cell-content{
+        color:black;
+    }
+}
