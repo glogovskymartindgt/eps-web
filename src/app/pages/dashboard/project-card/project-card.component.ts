@@ -1,3 +1,4 @@
+import { Venue } from './../../../shared/interfaces/venue.interface';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Project } from 'src/app/shared/models/project.model';
@@ -39,7 +40,15 @@ export class ProjectCardComponent implements OnInit {
         }
 
         if(this.project.venues !== null && this.project.venues.length === 2) {
-        
+
+            let pos1 = this.project.venues[0].screenPosition;
+            let pos2 = this.project.venues[1].screenPosition;
+            if ( (pos1 !== null && pos2 !== null) && (pos2 < pos1) ) {
+                let venue: Venue = this.project.venues[0];
+                this.project.venues[0] = this.project.venues[1];
+                this.project.venues[1] = venue;
+            }
+
             if (this.project.venues[0].country === this.project.venues[1].country) {
                 this.show1Country = true;
                 this.show2Countries = false;
