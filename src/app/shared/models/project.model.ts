@@ -1,3 +1,5 @@
+import { Venue } from '../interfaces/venue.interface';
+
 export class Project {
     id?: number;
     name?: string;
@@ -10,5 +12,6 @@ export class Project {
     cities?: string[] = [];
     countries?: string[] = [];
     year?: string;
+    venues?: Venue[];
 }
 
