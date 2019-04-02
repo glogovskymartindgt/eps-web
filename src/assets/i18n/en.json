@@ -56,7 +56,7 @@
         "add": "Create failed",
         "interval": "Empty interval",
         "isRequired": "is required!",
-        "dateFormatIsInvalid": "Date format is invalid!"
+        "dateFormatIsInvalid": "Invalid date format"
     },
     "paginator": {
         "itemsPerPage": "Items per page",

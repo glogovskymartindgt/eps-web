@@ -10,7 +10,7 @@ interface SomeUserData {
     age: number;
 }
 
-describe('UserService', () => {
+describe('UserDataService', () => {
     beforeEach(() => TestBed.configureTestingModule({
         providers: [
             {provide: ABSTRACT_STORAGE_TOKEN, useClass: NoopStorageService},

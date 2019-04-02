@@ -5,10 +5,17 @@ import { Phase } from '../../../shared/interfaces/phase.interface';
 import { User } from '../../../shared/interfaces/user.interface';
 import { Task } from '../../../shared/models/task.model';
 
-import {MomentDateAdapter} from '@angular/material-moment-adapter';
-import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 
 import * as _moment from 'moment';
+import { SourceOfAgenda } from '../../../shared/interfaces/source-of-agenda.interface';
+import { Venue } from '../../../shared/interfaces/venue.interface';
+import { BusinessAreaService } from '../../../shared/services/data/business-area.service';
+import { PhaseService } from '../../../shared/services/data/phase.service';
+import { UserDataService } from '../../../shared/services/data/user-data.service';
+import { VenueService } from '../../../shared/services/data/venue.service';
+import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 
 const moment = _moment;
 
@@ -25,65 +32,64 @@ export const MY_FORMATS = {
 };
 
 @Component({
-  selector: 'task-form',
-  templateUrl: './task-form.component.html',
-  styleUrls: ['./task-form.component.scss'],
-  providers: [
-    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
-    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
-  ],
+    selector: 'task-form',
+    templateUrl: './task-form.component.html',
+    styleUrls: ['./task-form.component.scss'],
+    providers: [
+        {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+        {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+    ],
 })
 export class TaskFormComponent implements OnInit {
+    public businessAreaList: BusinessArea[];
+    public sourceOfAgendaList: SourceOfAgenda[];
+    public phaseList: Phase[];
+    public venueList: Venue[];
+    public userList: User[];
+    public allTypes = ['task', 'issue'];
 
     public task: Task;
-
     public taskForm: FormGroup;
-
-    private filterBusinessAreaSelected: BusinessArea = null; // { name: 'area-3', code: '3.'};
-
-    public allTypes: string[] = ['task', 'issue'];
     public alltraficLights: string[] = ['red', 'amber', 'green', 'none'];
-    public allBusinessAreas: BusinessArea[] = [
-        {name: 'General', codeItem: '1.'},
-        {name: 'Organisational Provisions', codeItem: '2.'},
-        {name: 'Finances', codeItem: '3.'}
-    ];
     public codePrefix = '';
-    public allSourceOfAgendas: string[] = ['Regulation', 'Checklist' ];
-    public allPhases: Phase[] = [
-        {name: 'Planing', dateFrom: '04/04/2019', dateTo: '08/08/2019'},
-        {name: 'Event hosting', dateFrom: '09/09/2019', dateTo: '12/12/2020'},
-    ];
-    public allResponsibles: User[] = [
-        {firstName: 'Cornelia', lastName: 'Ljungberg'},
-        {firstName: 'Martin', lastName: 'Zoellner'}
-    ];
-    public allVenues: string[] = ['Slovakia', 'Czech republic'];
+    public allSourceOfAgendas: string[] = ['Regulation', 'Checklist'];
 
-    public constructor(private readonly formBuilder: FormBuilder) {
+    public constructor(private readonly formBuilder: FormBuilder,
+                       public readonly businessAreaService: BusinessAreaService,
+                       public readonly phaseService: PhaseService,
+                       public readonly venueService: VenueService,
+                       public readonly userDataService: UserDataService,
+                       private readonly projectEventService: ProjectEventService,
+    ) {
     }
 
     public dateClass = (d: Date) => {
-        let day = moment(d).toDate().getDay();
+        const day = moment(d).toDate().getDay();
         return (day === 0 || day === 6) ? 'custom-date-class' : undefined;
     }
 
     public ngOnInit() {
+        this.loadBusinessAreaList();
+        this.loadSourceOfAgendaList();
+        this.loadPhaseList();
+        this.loadVenueList();
+        this.loadUserList();
+
         this.createForm();
         this.setDefaultValues();
     }
 
     private createForm() {
+
         this.taskForm = this.formBuilder.group({
-            type: [null, [Validators.required]],
+            type: ['task', [Validators.required]],
             title: [null, [Validators.required]],
-            businessArea: [null, [Validators.required]],
-            code: [null, [Validators.required]],
-            sourceOfAgenda: [null, []],
-            phase: [null, []],
+            businessArea: ['all', [Validators.required]],
+            sourceOfAgenda: ['', []],
+            phase: ['', []],
             dueDate: [null, []],
-            responsible: [null, []],
-            venue: [null, []],
+            responsible: ['', []],
+            venue: ['', []],
             description: [null, []],
             test: [''],
             test2: ['2000']
@@ -92,11 +98,6 @@ export class TaskFormComponent implements OnInit {
 
     private setDefaultValues(): void {
         this.taskForm.get('venue').setValue('none');
-        if (this.filterBusinessAreaSelected) {
-            const ba: BusinessArea = this.filterBusinessAreaSelected;
-            const index = this.allBusinessAreas.findIndex((el) => el.codeItem == ba.codeItem && el.name == ba.name);
-            this.taskForm.get('businessArea').setValue(this.allBusinessAreas[index]);
-        }
     }
 
     public get f() {
@@ -121,6 +122,40 @@ export class TaskFormComponent implements OnInit {
 
     public onDateChanged(event) {
         this.dateInvalid = true;
+    }
+
+    private loadBusinessAreaList() {
+        this.businessAreaService.listBusinessAreas().subscribe((data) => {
+            this.businessAreaList = data.content
+                .filter((item) => item.codeItem !== null && item.state === 'VALID');
+        });
+    }
+
+    private loadSourceOfAgendaList() {
+        this.businessAreaService.listSourceOfAgendas().subscribe((data) => {
+            this.sourceOfAgendaList = data.content
+                .filter((item) => item.state === 'VALID');
+        });
+    }
+
+    // TODO get project id from local storage
+    private loadPhaseList() {
+        this.phaseService.getPhasesByProjectId(this.projectEventService.instant.id).subscribe((data) => {
+            this.phaseList = data;
+        });
+    }
+
+    // TODO get project id from local storage
+    private loadVenueList() {
+        this.venueService.getVenuesByProjectId(this.projectEventService.instant.id).subscribe((data) => {
+            this.venueList = data;
+        });
+    }
+
+    private loadUserList() {
+        this.userDataService.getUsers().subscribe((data) => {
+            this.userList = data;
+        });
     }
 
 }
