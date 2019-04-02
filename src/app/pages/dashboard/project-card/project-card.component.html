@@ -5,12 +5,12 @@
         </div>
         <div fxFlex="85">
             <p class="project-card-primary-font mb-0 mt-25">{{project?.year}} {{project?.name}}</p>
-            <p *ngIf="show2Countries" class="project-card-secondary-font m-0 mt-5">{{project?.countries[0]}}
-                and {{project?.countries[1]}}</p>
-            <p *ngIf="show1Country" class="project-card-secondary-font m-0 mt-5">{{project?.countries[0]}}</p>
-            <p *ngIf="show2Cities" class="project-card-secondary-font m-0 mt-5">{{project?.cities[0]}}
-                and {{project?.cities[1]}}</p>
-            <p *ngIf="show1City" class="project-card-location-font m-0 mt-5">{{project?.cities[0]}}</p>
+            <p *ngIf="show1Country" class="project-card-secondary-font m-0 mt-5">{{project?.venues[0]?.country}}</p>
+            <p *ngIf="show2Countries" class="project-card-secondary-font m-0 mt-5">{{project?.venues[0]?.country}}
+                and {{project?.venues[1]?.country}}</p>
+            <p *ngIf="show1City" class="project-card-location-font m-0 mt-5">{{project?.venues[0]?.city}}</p>
+            <p *ngIf="show2Cities" class="project-card-secondary-font m-0 mt-5">{{project?.venues[0]?.city}}
+                and {{project?.venues[1]?.city}}</p>
         </div>
     </div>
     <div [ngClass]="(project?.state == 'OPEN') ? 'open' : (project?.state == 'CLOSED')  ? 'closed'  : '' "
