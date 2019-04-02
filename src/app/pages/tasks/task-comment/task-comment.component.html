@@ -1,11 +1,5 @@
-<div class="comment">
-    <div class="comment-user">{{comment.user}}</div>
-    <div class="comment-content">{{comment.content}}</div>
-    <div class="comment-created">{{comment.created}}</div>
-</div>
-
-<div class="my-comment">
-    <div class="comment-user">{{comment.user}}</div>
-    <div class="comment-content">{{comment.content}}</div>
-    <div class="comment-created">{{comment.created}}</div>
+<div [ngClass]="isMyComment ? 'my-comment' : 'comment'">
+    <div class="comment-user">{{comment.createdBy}}</div>
+    <div class="comment-content">{{comment.description}}</div>
+    <div class="comment-created">{{comment.created | date:'dd.MM.yyyy HH:mm'}}</div>
 </div>

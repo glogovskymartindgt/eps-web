@@ -24,9 +24,9 @@
     "tasks": {
         "cancel": "CANCEL",
         "save": "SAVE",
-        "empty": "empty",
-        "both": "both",
-        "none": "none",
+        "empty": "Empty",
+        "both": "Both",
+        "none": "None",
         "type": "Type",
         "trafficLight": "Traffic light",
         "forIssue": "for issue",
@@ -56,6 +56,8 @@
         "add": "Create failed",
         "interval": "Empty interval",
         "isRequired": "is required!",
+        "addComment": "Adding of comment failed.",
+        "loadComments": "Comments loading failed.",
         "dateFormatIsInvalid": "Invalid date format"
     },
     "paginator": {

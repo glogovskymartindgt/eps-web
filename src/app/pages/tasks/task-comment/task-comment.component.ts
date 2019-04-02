@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { TaskCommentResponse } from 'src/app/shared/interfaces/task-comment.interface';
+import { ProjectUserService } from 'src/app/shared/services/storage/project-user.service';
 
 @Component({
   selector: 'task-comment',
@@ -7,15 +9,18 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class TaskCommentComponent implements OnInit {
 
-    public comment = {
-        user: 'Cornelia',
-        content: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.',
-        created: '12.3.2019 13:51',
-    };
+  @Input() comment: TaskCommentResponse;
 
-  public constructor() { }
+  @Input() index: number;
+
+  public isMyComment: boolean = false;
+
+  public constructor(private readonly projectUserService: ProjectUserService) { }
 
   public ngOnInit() {
+    this.projectUserService.subject.login.subscribe((login) => {
+      this.isMyComment = (login == this.comment.createdBy) ? true : false;
+  });
   }
 
 }

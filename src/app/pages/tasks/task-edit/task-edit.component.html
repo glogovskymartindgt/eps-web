@@ -28,22 +28,26 @@
     </div>
 
     <div fxFlex="30" style="background:#F4F4F4" fxLayout="column">
-        <div class="comment-list">
-            <task-comment></task-comment>
-            <task-comment></task-comment>
-            <task-comment></task-comment>
-        </div>
 
         <div class="w-full" fxLayout="row">
             <mat-form-field class="m-20" fxFlex>
-                <textarea matInput [placeholder]="'comment.newComment' | translate"></textarea>
-            </mat-form-field>
-            <div fxFlex="50px" fxLayoutAlign="end end" class="pr-20 pb-30">
-                <button mat-icon-button>
+                <textarea matInput rows="5" [placeholder]="'comment.newComment' | translate" [formControl]="newComment"></textarea>
+            </mat-form-field>            
+            <div fxFlex="50px" fxLayoutAlign="end end" class="pr-20 pb-50">
+                <button mat-icon-button (click)="onCommentAdded()">
                     <mat-icon matSuffix>send</mat-icon>
                 </button>
             </div>
         </div>
+
+        <haz-indeterminate-progress-bar [loading]="loading"></haz-indeterminate-progress-bar>
+
+        <div class="comment-list">
+            <div *ngFor="let comment of comments; let i = index">
+                <task-comment [comment]="comment" [index]="i"></task-comment>
+            </div>
+        </div>
+        
     </div>
 
 
