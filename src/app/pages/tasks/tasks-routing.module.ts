@@ -24,7 +24,7 @@ const routes: Routes = [
                 data: {title: 'taskCreate'}
             },
             {
-                path: 'edit',
+                path: 'edit/:id',
                 component: TaskEditComponent,
                 data: {title: 'taskEdit'}
             }

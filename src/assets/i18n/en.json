@@ -56,7 +56,9 @@
         "add": "Create failed",
         "interval": "Empty interval",
         "isRequired": "is required!",
-        "dateFormatIsInvalid": "Date format is invalid!"
+        "dateFormatIsInvalid": "Date format is invalid!",
+        "addComment": "Adding of comment failed.",
+        "loadComments": "Comments loading failed."
     },
     "paginator": {
         "itemsPerPage": "Items per page",
