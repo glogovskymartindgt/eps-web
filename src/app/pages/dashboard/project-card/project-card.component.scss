@@ -15,6 +15,7 @@ $card-color: #fff;
     background-color: $card-color;
     border-radius: $radius;
     box-shadow: 0 0px 20px 0 rgba(0, 0, 0, 0.2), 0 0px 20px 0 rgba(0, 0, 0, 0.2);
+    transition: all .15s ease-in-out;
     &:hover{
         box-shadow: none;
         box-shadow: 0 0px 15px 0 rgba(#1595D3, 0.2), 0 0px 15px 0 rgba(#1595D3, 0.8);

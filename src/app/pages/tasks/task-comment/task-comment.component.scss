@@ -34,7 +34,7 @@
     border-radius: 10px;
     background: #89CAE9;
     min-height: 20px;
-    margin: 25px 25px 40px 75px;
+    margin: 25px 25px 40px auto;
     padding: 15px;
     max-width: 400px;
     min-width: 100px;
@@ -78,4 +78,4 @@
     margin: 5px
 }
 
-
+@media screen and (max-width: 2000px) { .my-comment { margin: 25px 25px 40px 75px; } }
