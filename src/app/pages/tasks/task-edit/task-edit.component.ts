@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { TaskCommentService } from 'src/app/shared/services/task-comment.service';
 import { TaskComment, TaskCommentResponse } from 'src/app/shared/interfaces/task-comment.interface';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'task-edit',
@@ -13,7 +13,7 @@ import { FormControl } from '@angular/forms';
 export class TaskEditComponent implements OnInit {
 
     private taskId: number;
-    public newComment: FormControl = new FormControl("");
+    public newComment: FormControl = new FormControl("", Validators.required);
     public comments: TaskCommentResponse[] = [];
 
     public loading: boolean = false;
@@ -51,6 +51,12 @@ export class TaskEditComponent implements OnInit {
     }
 
     public onCommentAdded() {
+
+        this.newComment.markAsTouched();
+
+        if(this.newComment.invalid) {
+            return;
+        }
 
         let taskComment: TaskComment = { description: this.newComment.value, taskId: this.taskId }
         this.loading = true;

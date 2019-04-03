@@ -32,7 +32,10 @@
         <div class="w-full" fxLayout="row">
             <mat-form-field class="m-20" fxFlex>
                 <textarea matInput rows="5" [placeholder]="'comment.newComment' | translate" [formControl]="newComment"></textarea>
-            </mat-form-field>            
+                <mat-error
+                    *ngIf="newComment?.errors?.required">{{ 'error.filedIsRequired' | translate }}
+                </mat-error>
+            </mat-form-field>
             <div fxFlex="50px" fxLayoutAlign="end end" class="pr-20 pb-50">
                 <button mat-icon-button (click)="onCommentAdded()">
                     <mat-icon matSuffix>send</mat-icon>

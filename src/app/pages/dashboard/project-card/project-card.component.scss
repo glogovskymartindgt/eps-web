@@ -14,7 +14,14 @@ $card-color: #fff;
     height: 115px;
     background-color: $card-color;
     border-radius: $radius;
-    box-shadow: 0 0px 20px 0 rgba(0, 0, 0, 0.2), 0 0px 20px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0 0px 20px 0 rgba(0, 0, 0, 0.2), 0 0px 20px 0 rgba(0, 0, 0, 0.2);
+    &:hover{
+        box-shadow: none;
+        box-shadow: 0 0px 15px 0 rgba(#1595D3, 0.2), 0 0px 15px 0 rgba(#1595D3, 0.8);
+        -ms-transform: scale(1.03); /* IE 9 */
+        -webkit-transform: scale(1.03); /* Safari */
+        transform: scale(1.03); /* Standard syntax */
+    }
 }
 
 .project-card-content {

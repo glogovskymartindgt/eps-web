@@ -57,7 +57,7 @@ export class TaskListComponent implements OnInit {
         });
         this.areaGroup.valueChanges.subscribe((value) => {
             if (value !== 'all') {
-                this.businessAreaFilter = new Filter('BUSENESS_AREA_NAME', value.businessArea);
+                this.businessAreaFilter = new Filter('BUSINESS_AREA_NAME', value.businessArea);
             }
             this.setTableData();
         });
@@ -191,7 +191,7 @@ export class TaskListComponent implements OnInit {
 
         if (!this.isInitialized) {
             additionalFilters.push(
-                this.businessAreaFilter = new Filter('BUSENESS_AREA_NAME',
+                this.businessAreaFilter = new Filter('BUSINESS_AREA_NAME',
                     this.selectedAreaService.instant.selectedArea)
             );
 

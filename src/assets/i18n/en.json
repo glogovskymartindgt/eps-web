@@ -56,6 +56,7 @@
         "add": "Create failed",
         "interval": "Empty interval",
         "isRequired": "is required!",
+        "filedIsRequired": "This field is required!",
         "dateFormatIsInvalid": "Date format is invalid!",
         "addComment": "Adding of comment failed.",
         "loadComments": "Comments loading failed."
