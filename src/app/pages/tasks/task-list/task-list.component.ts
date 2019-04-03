@@ -12,6 +12,7 @@ import {
 } from '../../../shared/hazlenut/core-table';
 import { fadeEnterLeave } from '../../../shared/hazlenut/hazelnut-common/animations';
 import { BrowseResponse, Filter } from '../../../shared/hazlenut/hazelnut-common/models';
+import { BusinessArea } from '../../../shared/interfaces/bussiness-area.interface';
 import { TaskInterface } from '../../../shared/interfaces/task.interface';
 import { BusinessAreaService } from '../../../shared/services/data/business-area.service';
 import { TaskService } from '../../../shared/services/data/task.service';
@@ -34,7 +35,7 @@ export class TaskListComponent implements OnInit {
     public areaGroup: FormGroup;
     public config: TableConfiguration;
     public data: BrowseResponse<TaskInterface> = new BrowseResponse<TaskInterface>();
-    public businessAreaList: string[];
+    public businessAreaList: BusinessArea[];
     public loading = false;
     private isInitialized = false;
     private businessAreaFilter: Filter;
@@ -168,6 +169,7 @@ export class TaskListComponent implements OnInit {
     }
 
     public createTask() {
+        this.notificationService.openSuccessNotification('success.add');
         this.router.navigate(['tasks/create']);
     }
 
@@ -175,7 +177,7 @@ export class TaskListComponent implements OnInit {
     }
 
     public update(id: number) {
-        this.router.navigate(['tasks/edit/'+id]);
+        this.router.navigate(['tasks/edit/' + id]);
     }
 
     public setTableData(tableChangeEvent?: TableChangeEvent): void {
@@ -212,8 +214,7 @@ export class TaskListComponent implements OnInit {
     private loadBusinessAreaList() {
         this.businessAreaService.listBusinessAreas().subscribe((data) => {
             this.businessAreaList = data.content
-                .filter((item) => item.codeItem !== null && item.state === 'VALID')
-                .map((item) => item.name);
+                .filter((item) => item.codeItem !== null && item.state === 'VALID');
         });
     }
 

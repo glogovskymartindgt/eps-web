@@ -1,5 +1,5 @@
 export interface BusinessArea {
-    id?: number;
+    id: number;
     codeItem: string;
     name: string;
     state?: string;

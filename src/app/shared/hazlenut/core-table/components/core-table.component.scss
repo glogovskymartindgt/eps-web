@@ -1,6 +1,6 @@
 
 .styled-table-container {
-    max-height: 620px;
+    max-height: calc(100vh - 220px) ;
     overflow: auto;
     font-family: '-apple-system', 'system-ui', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial',
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;

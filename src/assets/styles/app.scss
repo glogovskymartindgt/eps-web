@@ -60,3 +60,20 @@ $color-primary: #1595D3;
         color:black;
     }
 }
+
+.snack-error{
+    font-family: 'Roboto', sans-serif !important;
+}
+
+.snack-info {
+    font-family: 'Roboto', sans-serif !important;
+    background: linear-gradient(40deg, #ffffff, #cfd8dc) !important;
+    color: black;
+}
+
+.snack-success {
+    font-family: 'Roboto', sans-serif !important;
+    background: rgba($color-primary, 1) !important;
+    color: white;
+}
+

@@ -60,6 +60,9 @@
         "loadComments": "Comments loading failed.",
         "dateFormatIsInvalid": "Invalid date format"
     },
+    "success": {
+        "add": "Add successfull"
+    },
     "paginator": {
         "itemsPerPage": "Items per page",
         "nextPage": "Next page",

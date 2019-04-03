@@ -113,10 +113,10 @@
                 <mat-label>{{'businessArea.title' | translate}}</mat-label>
                 <mat-select formControlName="businessArea">
                     <mat-option value="all">{{'all.things' | translate}}</mat-option>
-                    <mat-option *ngFor="let businessAreaName of businessAreaList"
-                                [value]="businessAreaName.id"
+                    <mat-option *ngFor="let businessArea of businessAreaList"
+                                [value]="businessArea.id"
                     >
-                        {{businessAreaName.codeItem}} - {{businessAreaName.name}}
+                        {{businessArea.codeItem}} - {{businessArea.name}}
                     </mat-option>
                 </mat-select>
 

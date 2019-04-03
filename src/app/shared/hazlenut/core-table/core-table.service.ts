@@ -9,9 +9,9 @@ import { TableFilterType } from './models/table-filter-type.enum';
 
 const DEFAULT_DEBOUNCE_TIME = 500;
 
-const DEFAULT_PAGE_SIZE_OPTIONS = [5, 10, 25, 100];
+const DEFAULT_PAGE_SIZE_OPTIONS = [10, 15, 20, 50, 100];
 
-const DEFAULT_PAGE_SIZE = 10;
+const DEFAULT_PAGE_SIZE = 15;
 
 const DEFAULT_NO_DATA_KEY = 'No data';
 
