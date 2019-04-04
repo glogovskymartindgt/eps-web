@@ -29,7 +29,6 @@
         "none": "None",
         "type": "Type",
         "trafficLight": "Traffic light",
-        "forIssue": "for issue",
         "title": "Ttitle",
         "businessArea": "Business area",
         "code": "Code",
@@ -39,6 +38,7 @@
         "responsible": "Responsible",
         "venue": "Venue",
         "description": "Description",
+        "sourceDescription": "Source description",
         "new": {
             "newTask": "New task"
         },
@@ -55,7 +55,6 @@
         "pattern": "Pattern error",
         "add": "Create failed",
         "interval": "Empty interval",
-        "isRequired": "is required!",
         "addComment": "Adding of comment failed.",
         "loadComments": "Comments loading failed.",
         "dateFormatIsInvalid": "Invalid date format"
@@ -87,10 +86,6 @@
     "task": {
         "type": "Type",
         "trafficLight": "Traffic light",
-        "trafficLightValue": {
-            "red": "Red",
-            "green": "Green"
-        },
         "code": "Code",
         "name": "Name",
         "title": "Tasks",
@@ -113,7 +108,8 @@
         "export": "EXPORT"
     },
     "all": {
-        "things": "All"
+        "things": "All",
+        "empty": "Empty"
     },
     "fact": {
         "title": "Facts and Figures",
@@ -130,7 +126,8 @@
         "green": "Green",
         "amber": "Amber",
         "red": "Red",
-        "none": "No color"
+        "none": "No color",
+        "nocolor": "No color"
     },
     "comment": {
         "newComment": "Add comment"

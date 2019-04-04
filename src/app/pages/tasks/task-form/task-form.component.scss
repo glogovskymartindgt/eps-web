@@ -5,8 +5,14 @@ $colors: (
     red: #ff0000,
     amber: #ff7b00,
     green: #038f03,
-    none: #bebebe
+    nocolor: #bebebe
 );
+
+@each $colorname, $color in $colors {
+    .color-#{$colorname} {
+        color: $color;
+    }
+}
 
 mat-label {
     color: $color-primary;
@@ -16,7 +22,7 @@ mat-label {
 }
 
 ::ng-deep {
-    .theme-input .mat-form-field-flex{
+    .theme-input .mat-form-field-flex {
         background-color: #e8f0fe;
     }
 }
@@ -32,61 +38,22 @@ mat-label {
     width: 100%;
 }
 
-.traffic-light-label {
-    margin-left: 35px;
-    color: red;
+.color-none {
+    color: #bebebe;
 }
 
-.traffic-light-label-in-options {
-    margin-left: 10px;
-    color: red;
-}
-
-.traffic-light-icon {
-    color: red;
+.color-circle {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
     position: absolute;
-    bottom: -3px;
 }
 
-.traffic-light-icon-in-options {
-    color: red;
-    position: relative;
+.short-input {
+    width: 205px;
 }
 
-@each $colorname, $color in $colors {
-    .color-#{$colorname} {
-        color: $color;
-    }
+.long-input {
+    width: 420px;
 }
 
-@media only screen and (max-width: 959px) {
-    .two-columns-width {
-        width: 204px;
-    }
-    .code-prefix-width {
-        left: -2px;
-    }
-}
-@media only screen and (min-width: 960px) {
-    .two-columns-width {
-        width: 420px;
-    }
-}
-
-.code-prefix-width {
-    width: 40px;
-}
-
-.code-prefix {
-    position: relative;
-    bottom: 3px;
-    left: 5px
-}
-
-.code-width {
-    width: 150px;
-}
-
-.due-date-width {
-    width: 204px;
-}

@@ -1,275 +1,136 @@
 <form [formGroup]="taskForm">
-    <div
-        fxLayout="row"
-        fxLayoutAlign="start center"
-        fxLayout.xs="column"
-        fxLayout.sm="column"
-        class="indentation"
-    >
-        <div fxLayoutAlign="start center" class="mr-15">
-            <mat-form-field appearance="fill" class="theme-input">
-                <mat-label>{{ 'tasks.type' | translate }} *</mat-label>
-                <mat-select formControlName="type" (selectionChange)="onTypeChanged($event.value)">
-                    <mat-option *ngFor="let type of allTypes" [value]="type">
-                        {{type}}
-                    </mat-option>
-                </mat-select>
-                <mat-error
-                    *ngIf="f?.type?.errors?.required">{{ 'tasks.type' | translate }} {{ 'error.isRequired' | translate }}</mat-error>
-            </mat-form-field>
-        </div>
 
-        <div *ngIf="f.type.value == 'issue'"
-             fxLayoutAlign="start center"
-             class="mr-15"
-        >
-
-            <mat-form-field appearance="fill" class="theme-input">
-                <mat-label>{{ 'tasks.trafficLight' | translate }} *</mat-label>
-                <mat-select formControlName="trafficLight">
-                    <mat-select-trigger>
-                        <mat-icon
-                            class="traffic-light-icon"
-                            [ngClass]="f?.trafficLight?.value == 'red' ? 'color-red' :
-											 f?.trafficLight?.value == 'amber' ? 'color-amber' :
-											 f?.trafficLight?.value == 'green' ? 'color-green' :
-											 f?.trafficLight?.value == 'none' ? 'color-none' : 'color-none'"
-                        >
-                            check_circle
-                        </mat-icon>
-                        <span
-                            class="traffic-light-label"
-                            [ngClass]="f?.trafficLight?.value == 'red' ? 'color-red' :
-										 f?.trafficLight?.value == 'amber' ? 'color-amber' :
-										 f?.trafficLight?.value == 'green' ? 'color-green' :
-										 f?.trafficLight?.value == 'none' ? 'color-none' : 'color-none'"
-                        >
-							{{f.trafficLight.value}}
-						</span>
-                    </mat-select-trigger>
-                    <mat-option *ngFor="let trafficLight of alltraficLights" [value]="trafficLight">
-                        <mat-icon
-                            class="traffic-light-icon-in-options"
-                            [ngClass]="trafficLight == 'red' ? 'color-red' :
-											 trafficLight == 'amber' ? 'color-amber' :
-											 trafficLight == 'green' ? 'color-green' :
-											 trafficLight == 'none' ? 'color-none' : 'color-none'"
-                        >
-                            check_circle
-                        </mat-icon>
-                        <span class="traffic-light-label-in-options"
-                              [ngClass]="trafficLight == 'red' ? 'color-red' :
-											 trafficLight == 'amber' ? 'color-amber' :
-											 trafficLight == 'green' ? 'color-green' :
-											 trafficLight == 'none' ? 'color-none' : 'color-none'"
-                        >
-							{{trafficLight}}
-						</span>
-                    </mat-option>
-                </mat-select>
-                <mat-error
-                    *ngIf="f?.trafficLight?.errors?.required">{{ 'tasks.trafficLight' | translate }} {{ 'tasks.forIssue' | translate }} {{ 'error.isRequired' | translate }}</mat-error>
-            </mat-form-field>
-
-        </div>
-
+    <div fxLayout="row">
+        <mat-form-field appearance="fill" class="theme-input short-input mr-10">
+            <mat-label>{{ 'tasks.type' | translate }}</mat-label>
+            <mat-select formControlName="taskType" (selectionChange)="onTaskTypeChanged($event.value)" required>
+                <mat-option *ngFor="let taskType of taskTypeList" [value]="taskType">
+                    {{taskType}}
+                </mat-option>
+            </mat-select>
+            <mat-error
+                *ngIf="f?.taskType?.errors?.required">{{ 'error.required' | translate }}</mat-error>
+        </mat-form-field>
+        <mat-form-field *ngIf="f.taskType.value == 'Issue'" appearance="fill" class="theme-input short-input">
+            <mat-label>{{ 'tasks.trafficLight' | translate }}</mat-label>
+            <mat-select formControlName="trafficLight" required>
+                <mat-select-trigger>
+                    <div class="color-circle" [ngStyle]="{'background': getCircleColor(f?.trafficLight?.value)}">
+                    </div>
+                    <span class="ml-20">{{('color.' + f?.trafficLight?.value) | translate}}</span>
+                </mat-select-trigger>
+                <mat-option *ngFor="let trafficLight of trafficLightList"
+                            [value]="trafficLight">
+                    <div [ngStyle]="{'background': getCircleColor(trafficLight)}" class="color-circle mt-17"></div>
+                    <span class="ml-20">{{('color.' + trafficLight) | translate}}</span>
+                </mat-option>
+            </mat-select>
+            <mat-error
+                *ngIf="f?.trafficLight?.errors?.required">{{ 'error.required' | translate }}</mat-error>
+        </mat-form-field>
     </div>
 
-    <div
-        fxLayout="row"
-        fxLayoutAlign="start center"
-        fxLayout.xs="column"
-        fxLayout.sm="column"
-        class="indentation"
-    >
 
-        <div fxLayoutAlign="start center"
-             class="mr-15"
-        >
-
-            <mat-form-field appearance="fill" class="two-columns-width theme-input">
-                <mat-label>{{ 'tasks.title' | translate }}... *</mat-label>
-                <input matInput formControlName="title">
-                <mat-error
-                    *ngIf="f?.title?.errors?.required">{{ 'tasks.title' | translate }} {{ 'error.isRequired' | translate }}</mat-error>
-            </mat-form-field>
-
-        </div>
-
+    <div>
+        <mat-form-field appearance="fill" class="theme-input long-input" required>
+            <mat-label>{{ 'tasks.title' | translate }}</mat-label>
+            <input matInput formControlName="title">
+            <mat-error
+                *ngIf="f?.title?.errors?.required">{{ 'error.required' | translate }}</mat-error>
+        </mat-form-field>
     </div>
 
-    <div
-        fxLayout="row"
-        fxLayoutAlign="start center"
-        fxLayout.xs="column"
-        fxLayout.sm="column"
-        class="indentation"
-    >
-
-        <div fxLayoutAlign="start center"
-             class="mr-15"
-        >
-            <mat-form-field appearance="fill" class="theme-input">
-                <mat-label>{{'businessArea.title' | translate}}</mat-label>
-                <mat-select formControlName="businessArea">
-                    <mat-option value="all">{{'all.things' | translate}}</mat-option>
-                    <mat-option *ngFor="let businessArea of businessAreaList"
-                                [value]="businessArea.id"
-                    >
-                        {{businessArea.codeItem}} - {{businessArea.name}}
-                    </mat-option>
-                </mat-select>
-
-                <mat-error
-                    *ngIf="f?.businessArea?.errors?.required">{{ 'tasks.businessArea' | translate }} {{ 'error.isRequired' | translate }}</mat-error>
-            </mat-form-field>
-
-        </div>
-
+    <div>
+        <mat-form-field appearance="fill" class="long-input theme-input">
+            <mat-label>{{'businessArea.title' | translate}}</mat-label>
+            <mat-select formControlName="businessArea" required>
+                <mat-option value="all">{{'all.things' | translate}}</mat-option>
+                <mat-option *ngFor="let businessArea of businessAreaList"
+                            [value]="businessArea.id"
+                >
+                    {{businessArea.codeItem}} - {{businessArea.name}}
+                </mat-option>
+            </mat-select>
+            <mat-error
+                *ngIf="f?.businessArea?.errors?.required">{{ 'error.required' | translate }}</mat-error>
+        </mat-form-field>
     </div>
 
-    <div fxLayout="row"
-         fxLayoutAlign="start center"
-         fxLayout.xs="column"
-         fxLayout.sm="column"
-         class="indentation"
-    >
-
-        <div
-            fxLayoutAlign="start center"
-            class=" mr-15"
-        >
-            <mat-form-field appearance="fill" class="theme-input">
-                <mat-label>{{ 'tasks.sourceOfAgenda' | translate }}</mat-label>
-                <mat-select formControlName="sourceOfAgenda">
-                    <mat-option value=""></mat-option>
-                    <mat-option *ngFor="let sourceOfAgenda of sourceOfAgendaList"
-                                [value]="sourceOfAgenda.id"
-                    >
-                        {{sourceOfAgenda.name}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-
-        </div>
-
-        <div
-            fxLayoutAlign="start center"
-            class=" mr-15"
-        >
-
-            <mat-form-field appearance="fill" class="theme-input">
-                <mat-label>{{ 'tasks.phase' | translate }}</mat-label>
-                <mat-select formControlName="phase">
-                    <mat-option value=""></mat-option>
-                    <mat-option *ngFor="let phase of phaseList"
-                                [value]="phase.id"
-                    >
-                        {{(phase.checkPointFrom | date) + ' - ' + (phase.checkPointTo | date) + ' ' + phase.name}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-
-        </div>
-
+    <div>
+        <mat-form-field appearance="fill" class="theme-input long-input">
+            <mat-label>{{ 'tasks.responsible' | translate }}</mat-label>
+            <mat-select formControlName="responsible">
+                <mat-option value="" class="color-none">{{'all.empty' | translate}}</mat-option>
+                <mat-option *ngFor="let user of userList"
+                            [value]="user.id"
+                >
+                    {{user.firstName}} {{user.lastName}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
     </div>
 
-    <div
-        fxLayout="row"
-        fxLayoutAlign="start center"
-        fxLayout.xs="column"
-        fxLayout.sm="column"
-        class="indentation"
-    >
-
-        <div
-            fxLayoutAlign="start center"
-            class="mr-15"
-        >
-
-            <mat-form-field appearance="fill" class="due-date-width theme-input">
-                <mat-label>{{ 'tasks.dueDate' | translate }}</mat-label>
-                <input matInput [matDatepicker]="picker" (dateChange)="onDateChanged($event.value)"
-                       formControlName="dueDate">
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker [dateClass]="dateClass" #picker></mat-datepicker>
-                <mat-error *ngIf="dateInvalid">{{ 'error.dateFormatIsInvalid' | translate }}</mat-error>
-            </mat-form-field>
-
-        </div>
-
-        <div
-            fxLayoutAlign="start center"
-            class="mr-15"
-        >
-
-            <mat-form-field appearance="fill" class="theme-input">
-                <mat-label>{{ 'tasks.responsible' | translate }}</mat-label>
-                <mat-select formControlName="responsible">
-                    <mat-option value=" "></mat-option>
-                    <mat-option *ngFor="let user of userList"
-                                [value]="user.id"
-                    >
-                        {{user.firstName}} {{user.lastName}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-
-        </div>
-
+    <div>
+        <mat-form-field appearance="fill" class="theme-input long-input">
+            <mat-label>{{ 'tasks.sourceOfAgenda' | translate }}</mat-label>
+            <mat-select formControlName="sourceOfAgenda">
+                <mat-option value="" class="color-none">{{'all.empty' | translate}}</mat-option>
+                <mat-option *ngFor="let sourceOfAgenda of sourceOfAgendaList"
+                            [value]="sourceOfAgenda.id"
+                >
+                    {{sourceOfAgenda.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
     </div>
 
-    <div
-        fxLayout="row"
-        fxLayoutAlign="start center"
-        fxLayout.xs="column"
-        fxLayout.sm="column"
-        class="indentation"
-    >
+    <haz-core-input formControlName="sourceDescription" label="{{'task.sourceDescription' | translate}}"
+                    class="theme-input"
+                    [appearance]="'fill'"></haz-core-input>
 
-        <div
-            fxLayoutAlign="start center"
-            class="mr-15"
-        >
-
-            <mat-form-field appearance="fill" class="two-columns-width theme-input">
-                <mat-label>{{ 'tasks.venue' | translate }}</mat-label>
-                <mat-select formControlName="venue">
-                    <mat-option value=''>{{ 'tasks.none' | translate }}</mat-option>
-                    <mat-option *ngFor="let venue of venueList" [value]="venue.id">
-                        {{venue.country}} {{venue.city}}
-                    </mat-option>
-                    <mat-option value="both">{{ 'tasks.both' | translate }}</mat-option>
-
-                </mat-select>
-            </mat-form-field>
-
-
-        </div>
-
+    <div>
+        <mat-form-field appearance="fill" class="theme-input long-input">
+            <mat-label>{{ 'tasks.phase' | translate }}</mat-label>
+            <mat-select formControlName="phase">
+                <mat-option value="" class="color-none">{{'all.empty' | translate}}</mat-option>
+                <mat-option *ngFor="let phase of phaseList"
+                            [value]="phase.id">
+                    {{(phase.checkPointFrom | date) + ' - ' + (phase.checkPointTo | date) + ' ' + phase.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
     </div>
 
-    <div
-        fxLayout="row"
-        fxLayoutAlign="start center"
-        fxLayout.xs="column"
-        fxLayout.sm="column"
-        class="indentation"
-    >
 
-        <div
-            fxLayoutAlign="start center"
-            class="mr-15"
-        >
+    <div fxLayout="row">
+        <mat-form-field appearance="fill" class="short-input theme-input mr-10">
+            <mat-label>{{ 'tasks.dueDate' | translate }}</mat-label>
+            <input matInput [matDatepicker]="picker" (dateChange)="onDateChanged($event.value)"
+                   formControlName="dueDate">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker [dateClass]="dateClass" #picker></mat-datepicker>
+            <mat-error *ngIf="dateInvalid">{{ 'error.dateFormatIsInvalid' | translate }}</mat-error>
+        </mat-form-field>
 
-            <mat-form-field appearance="fill" class="two-columns-width theme-input">
-                <mat-label>{{ 'tasks.description' | translate }}...</mat-label>
-                <textarea matInput rows="7" formControlName="description"></textarea>
-            </mat-form-field>
-
-        </div>
-
+        <mat-form-field appearance="fill" class="short-input theme-input">
+            <mat-label>{{ 'tasks.venue' | translate }}</mat-label>
+            <mat-select formControlName="venue">
+                <mat-option value='' class="color-none">{{ 'tasks.none' | translate }}</mat-option>
+                <mat-option *ngFor="let venue of venueList" [value]="venue.id">
+                    {{venue.country}} {{venue.city}}
+                </mat-option>
+                <mat-option value="both">{{ 'tasks.both' | translate }}</mat-option>
+            </mat-select>
+        </mat-form-field>
     </div>
 
+    <mat-form-field appearance="fill" class="long-input theme-input">
+        <mat-label>{{ 'tasks.description' | translate }}...</mat-label>
+        <textarea matInput rows="5" formControlName="description"></textarea>
+    </mat-form-field>
 
 </form>
+
+<pre>
+    {{taskForm.value | json}}
+</pre>

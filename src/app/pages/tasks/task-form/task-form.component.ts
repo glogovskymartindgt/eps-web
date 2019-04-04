@@ -46,19 +46,17 @@ export class TaskFormComponent implements OnInit {
     public phaseList: Phase[];
     public venueList: Venue[];
     public userList: User[];
-    public allTypes = ['task', 'issue'];
-
-    public task: Task;
+    public taskTypeList = ['Task', 'Issue'];
+    public trafficLightList: string[] = ['red', 'amber', 'green', 'nocolor'];
     public taskForm: FormGroup;
-    public alltraficLights: string[] = ['red', 'amber', 'green', 'none'];
-    public codePrefix = '';
-    public allSourceOfAgendas: string[] = ['Regulation', 'Checklist'];
+    public task: Task;
+    public dateInvalid = false;
 
     public constructor(private readonly formBuilder: FormBuilder,
-                       public readonly businessAreaService: BusinessAreaService,
-                       public readonly phaseService: PhaseService,
-                       public readonly venueService: VenueService,
-                       public readonly userDataService: UserDataService,
+                       private readonly businessAreaService: BusinessAreaService,
+                       private readonly phaseService: PhaseService,
+                       private readonly venueService: VenueService,
+                       private readonly userDataService: UserDataService,
                        private readonly projectEventService: ProjectEventService,
     ) {
     }
@@ -74,54 +72,39 @@ export class TaskFormComponent implements OnInit {
         this.loadPhaseList();
         this.loadVenueList();
         this.loadUserList();
-
         this.createForm();
-        this.setDefaultValues();
-    }
-
-    private createForm() {
-
-        this.taskForm = this.formBuilder.group({
-            type: ['task', [Validators.required]],
-            title: [null, [Validators.required]],
-            businessArea: ['all', [Validators.required]],
-            sourceOfAgenda: ['', []],
-            phase: ['', []],
-            dueDate: [null, []],
-            responsible: ['', []],
-            venue: ['', []],
-            description: [null, []],
-            test: [''],
-            test2: ['2000']
-        });
-    }
-
-    private setDefaultValues(): void {
-        this.taskForm.get('venue').setValue('none');
     }
 
     public get f() {
         return this.taskForm.controls;
     }
 
-    public onTypeChanged(type: string) {
-        if (type === 'issue' && this.taskForm.get('trafficLight') === null) {
-            this.taskForm.addControl('trafficLight', this.formBuilder.control(null, [Validators.required]));
-            this.taskForm.get('trafficLight').setValue('none');
+    public onTaskTypeChanged(taskType: string) {
+        if (taskType === 'Issue' && this.taskForm.get('trafficLight') === null) {
+            this.taskForm.addControl('trafficLight',
+                this.formBuilder.control(null, Validators.required)
+            );
+            this.taskForm.get('trafficLight').setValue('nocolor');
         } else {
             this.taskForm.removeControl('trafficLight');
         }
-
     }
-
-    public onBusinessAreaChanged(businessArea: BusinessArea) {
-        this.codePrefix = businessArea.codeItem;
-    }
-
-    public dateInvalid = false;
 
     public onDateChanged(event) {
         this.dateInvalid = true;
+    }
+
+    public getCircleColor(value) {
+        switch (value) {
+            case 'red':
+                return '#CE211F';
+            case 'amber':
+                return '#F79824';
+            case 'green':
+                return '#20BF55';
+            default:
+                return 'none';
+        }
     }
 
     private loadBusinessAreaList() {
@@ -138,14 +121,12 @@ export class TaskFormComponent implements OnInit {
         });
     }
 
-    // TODO get project id from local storage
     private loadPhaseList() {
         this.phaseService.getPhasesByProjectId(this.projectEventService.instant.id).subscribe((data) => {
             this.phaseList = data;
         });
     }
 
-    // TODO get project id from local storage
     private loadVenueList() {
         this.venueService.getVenuesByProjectId(this.projectEventService.instant.id).subscribe((data) => {
             this.venueList = data;
@@ -155,6 +136,21 @@ export class TaskFormComponent implements OnInit {
     private loadUserList() {
         this.userDataService.getUsers().subscribe((data) => {
             this.userList = data;
+        });
+    }
+
+    private createForm() {
+        this.taskForm = this.formBuilder.group({
+            taskType: ['Task', Validators.required],
+            title: [null, Validators.required],
+            businessArea: ['all', Validators.required],
+            sourceOfAgenda: [''],
+            phase: [''],
+            dueDate: [null],
+            responsible: [''],
+            venue: ['none'],
+            description: [''],
+            sourceDescription: [''],
         });
     }
 

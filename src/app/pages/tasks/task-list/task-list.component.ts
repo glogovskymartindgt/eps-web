@@ -75,9 +75,9 @@ export class TaskListComponent implements OnInit {
                         type: TableFilterType.TRAFFIC_LIGHT,
                         select: [
                             new ListItem('', this.translateService.instant('all.things')),
-                            new ListItem('RED', this.translateService.instant('task.trafficLightValue.red')),
-                            new ListItem('GREEN', this.translateService.instant('task.trafficLightValue.green')),
-                            new ListItem('AMBER', this.translateService.instant('task.trafficLightValue.amber')),
+                            new ListItem('RED', this.translateService.instant('color.red')),
+                            new ListItem('GREEN', this.translateService.instant('color.green')),
+                            new ListItem('AMBER', this.translateService.instant('color.amber')),
                         ]
                     }),
                     sorting: true,
