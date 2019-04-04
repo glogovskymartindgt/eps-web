@@ -19,8 +19,12 @@ export class TaskCommentComponent implements OnInit {
 
   public ngOnInit() {
     this.projectUserService.subject.login.subscribe((login) => {
-      this.isMyComment = (login == this.comment.createdBy) ? true : false;
-  });
+      this.isMyComment = this.toLowerCaseWithDot(login) == this.toLowerCaseWithDot(this.comment.createdBy) ? true : false;
+    });
+  }
+
+  private toLowerCaseWithDot(value: string): string {
+    return value.replace(" ",".").toLowerCase();
   }
 
 }
