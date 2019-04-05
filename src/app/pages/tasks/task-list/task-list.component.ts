@@ -31,6 +31,9 @@ export class TaskListComponent implements OnInit {
     @ViewChild('statusColumn') public statusColumn: TemplateRef<any>;
     @ViewChild('updateColumn') public updateColumn: TemplateRef<any>;
     @ViewChild('taskTypeColumn') public taskTypeColumn: TemplateRef<any>;
+    @ViewChild('userColumn') public userColumn: TemplateRef<any>;
+    @ViewChild('dateColumn') public dateColumn: TemplateRef<any>;
+    @ViewChild('venueColumn') public venueColumn: TemplateRef<any>;
 
     public areaGroup: FormGroup;
     public config: TableConfiguration;
@@ -121,22 +124,27 @@ export class TaskListComponent implements OnInit {
                     label: this.translateService.instant('task.venue'),
                     filter: new TableColumnFilter({}),
                     sorting: true,
+                    type: TableCellType.CONTENT,
+                    tableCellTemplate: this.venueColumn,
                 }),
                 new TableColumn({
-                    columnDef: 'responsibleUser',
+                    columnDef: 'responsibleUser.firstName',
                     label: this.translateService.instant('task.responsible'),
                     filter: new TableColumnFilter({}),
                     sorting: true,
+                    type: TableCellType.CONTENT,
+                    tableCellTemplate: this.userColumn,
                 }),
                 new TableColumn({
                     columnDef: 'dueDate',
                     label: this.translateService.instant('task.dueDate'),
-                    type: TableCellType.DATETIME,
                     filter: new TableColumnFilter({
                         valueType: 'DATE_TIME',
                         type: TableFilterType.DATETIME_AS_DATERANGE,
                     }),
                     sorting: true,
+                    type: TableCellType.CONTENT,
+                    tableCellTemplate: this.dateColumn,
                 }),
                 new TableColumn({
                     columnDef: 'state',
@@ -169,7 +177,6 @@ export class TaskListComponent implements OnInit {
     }
 
     public createTask() {
-        this.notificationService.openSuccessNotification('success.add');
         this.router.navigate(['tasks/create']);
     }
 

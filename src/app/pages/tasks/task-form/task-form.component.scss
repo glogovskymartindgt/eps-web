@@ -8,8 +8,8 @@ $colors: (
     nocolor: #bebebe
 );
 
-@each $colorname, $color in $colors {
-    .color-#{$colorname} {
+@each $color-name, $color in $colors {
+    .color-#{$color-name} {
         color: $color;
     }
 }
@@ -22,16 +22,23 @@ mat-label {
 }
 
 ::ng-deep {
-    .theme-input .mat-form-field-flex {
+    .mat-form-field-appearance-fill.mat-form-field-disabled .mat-form-field-flex {
         background-color: #e8f0fe;
     }
 }
 
 ::ng-deep {
-    .mat-form-field-appearance-fill.mat-form-field-disabled .mat-form-field-flex {
+    .theme-input .mat-form-field-flex {
         background-color: #e8f0fe;
-        border-bottom: 1px solid grey;
     }
+}
+
+.long-input {
+    width: 420px;
+}
+
+.short-input {
+    width: 205px;
 }
 
 .input-w {
@@ -49,11 +56,5 @@ mat-label {
     position: absolute;
 }
 
-.short-input {
-    width: 205px;
-}
 
-.long-input {
-    width: 420px;
-}
 

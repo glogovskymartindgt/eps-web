@@ -44,4 +44,10 @@ export class TaskService extends ProjectService<TaskInterface> {
         });
         return this.browseWithSummary(PostContent.create(limit, offset, filters, sort));
     }
+
+    public createTask(taskObject: any) {
+        console.log('creating', taskObject);
+        return this.add(taskObject);
+    }
+
 }

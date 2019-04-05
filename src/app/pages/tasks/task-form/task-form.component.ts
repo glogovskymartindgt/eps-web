@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BusinessArea } from '../../../shared/interfaces/bussiness-area.interface';
 import { Phase } from '../../../shared/interfaces/phase.interface';
@@ -41,6 +41,7 @@ export const MY_FORMATS = {
     ],
 })
 export class TaskFormComponent implements OnInit {
+    @Output('formDataChange') public onFormDataChange = new EventEmitter<any>();
     public businessAreaList: BusinessArea[];
     public sourceOfAgendaList: SourceOfAgenda[];
     public phaseList: Phase[];
@@ -148,10 +149,25 @@ export class TaskFormComponent implements OnInit {
             phase: [''],
             dueDate: [null],
             responsible: [''],
-            venue: ['none'],
+            venue: [''],
             description: [''],
             sourceDescription: [''],
         });
+
+        this.taskForm.valueChanges.subscribe(() => {
+            this.emitFormDataChangeEmitter();
+        });
+    }
+
+    private emitFormDataChangeEmitter(): void {
+        if (this.taskForm.invalid) {
+            this.onFormDataChange.emit(null);
+        } else {
+            const actualValue = {
+                ...this.taskForm.value,
+            };
+            this.onFormDataChange.emit(actualValue);
+        }
     }
 
 }

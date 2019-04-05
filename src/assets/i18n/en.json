@@ -134,5 +134,14 @@
     },
     "report": {
         "title": "Reports"
+    },
+    "hint": {
+        "maxlength": "Number of characters exceeded"
+    },
+    "venue": {
+        "value": {
+            "all": "All",
+            "none": "None"
+        }
     }
 }

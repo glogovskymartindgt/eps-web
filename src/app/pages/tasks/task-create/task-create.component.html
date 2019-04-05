@@ -6,7 +6,7 @@
 
 <div fxLayout="row">
     <div class="p-30">
-        <task-form></task-form>
+        <task-form (formDataChange)="formData=$event"></task-form>
 
         <div>
             <button type="submit"
@@ -14,6 +14,7 @@
                     color="accent"
                     class="mr-10"
                     (click)="onSave()"
+                    [disabled]="formData === null"
             >
                 {{ 'tasks.save' | translate }}
             </button>

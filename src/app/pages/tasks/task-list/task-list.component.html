@@ -48,6 +48,16 @@
 <ng-template #taskTypeColumn let-actRow="row" let-context="context">
     {{('task.taskTypeValue.' + actRow.taskType.toLowerCase()) | translate}}
 </ng-template>
+<ng-template #venueColumn let-actRow="row" let-context="context">
+    {{actRow.cityName | venue}}
+</ng-template>
+<ng-template #userColumn let-actRow="row" let-context="context">
+    {{actRow.responsibleUser.firstName}} {{actRow.responsibleUser.lastName}}
+</ng-template>
+<ng-template #dateColumn let-actRow="row" let-context="context">
+    {{actRow.dueDate  | date:'d.M.yyyy'}}
+</ng-template>
+
 <ng-template #trafficLightColumn let-actRow="row" let-context="context">
     <div *ngIf="actRow.trafficLight === 'RED'"
          style="width: 12px;height: 12px;background:#CE211F;border-radius:50%;"></div>
