@@ -13,12 +13,14 @@ export class ProjectEventService extends EventService<EventDataInterface> {
     }
 
     public setEventData(
+        id: number = null,
         year: number = null,
         projectName: string = null,
         isEvent = false,
         active = false,
         imagePath: string = null) {
         this.setData({
+            id,
             year,
             projectName,
             isEvent,

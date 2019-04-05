@@ -4,6 +4,7 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
 import * as _moment from 'moment';
+import { filter } from 'rxjs/operators';
 
 const moment = _moment;
 
@@ -36,17 +37,24 @@ export const FORMAT = {
 export class InputDateComponent implements OnInit, ControlValueAccessor {
     @Input() public placeholder: string;
     @Input() public dateWidth = 100;
-    @Input() public min;
-    @Input() public max;
-
+    @Input() public min: Date;
+    @Input() public max: Date;
+    private lastValue;
     public formControl = new FormControl();
-    public value: string;
 
     public constructor() {
     }
 
     public ngOnInit() {
         this.onFormControlChanges();
+    }
+
+    public setDisabledState(isDisabled: boolean): void {
+        if (isDisabled) {
+            this.formControl.disable();
+        } else {
+            this.formControl.enable();
+        }
     }
 
     public onChange(value: string): void {
@@ -56,8 +64,7 @@ export class InputDateComponent implements OnInit, ControlValueAccessor {
     }
 
     public writeValue(value: string): void {
-        this.value = value || '';
-        this.onChange(this.value);
+        this.formControl.setValue(value || '', {emitEvent: false});
     }
 
     public registerOnChange(fn: any): void {
@@ -69,9 +76,9 @@ export class InputDateComponent implements OnInit, ControlValueAccessor {
     }
 
     private onFormControlChanges(): void {
-        this.formControl.valueChanges.subscribe(() => {
+        this.formControl.valueChanges.pipe(filter((newValue) => newValue !== this.lastValue)).subscribe((newValue) => {
+            this.lastValue = newValue;
             this.onChange(this.formControl.value);
         });
     }
-
 }

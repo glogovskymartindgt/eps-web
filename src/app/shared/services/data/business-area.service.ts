@@ -5,14 +5,15 @@ import { TableChangeEvent } from '../../hazlenut/core-table';
 import { StringUtils } from '../../hazlenut/hazelnut-common/hazelnut';
 import { BrowseResponse, Filter, PostContent, Sort } from '../../hazlenut/hazelnut-common/models';
 import { BusinessArea } from '../../interfaces/bussiness-area.interface';
+import { SourceOfAgenda } from '../../interfaces/source-of-agenda.interface';
 import { NotificationService } from '../notification.service';
 import { ProjectService } from '../project.service';
 import { ProjectUserService } from '../storage/project-user.service';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
-export class BusinessAreaService extends ProjectService<BusinessArea>{
+export class BusinessAreaService extends ProjectService<BusinessArea> {
 
     public constructor(http: HttpClient,
                        notificationService: NotificationService,
@@ -43,5 +44,14 @@ export class BusinessAreaService extends ProjectService<BusinessArea>{
 
     public listBusinessAreas(): Observable<BrowseResponse<BusinessArea>> {
         return this.browseWithSummary(PostContent.create(100, 0, [], []));
+    }
+
+    public listSourceOfAgendas(): Observable<BrowseResponse<SourceOfAgenda>> {
+        return this.browseWithSummary(PostContent.create(
+            100,
+            0,
+            [new Filter('CODE', 'ASO')],
+            [])
+        );
     }
 }

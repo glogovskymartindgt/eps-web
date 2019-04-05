@@ -12,6 +12,7 @@ import {
 } from '../../../shared/hazlenut/core-table';
 import { fadeEnterLeave } from '../../../shared/hazlenut/hazelnut-common/animations';
 import { BrowseResponse, Filter } from '../../../shared/hazlenut/hazelnut-common/models';
+import { BusinessArea } from '../../../shared/interfaces/bussiness-area.interface';
 import { TaskInterface } from '../../../shared/interfaces/task.interface';
 import { BusinessAreaService } from '../../../shared/services/data/business-area.service';
 import { TaskService } from '../../../shared/services/data/task.service';
@@ -30,11 +31,14 @@ export class TaskListComponent implements OnInit {
     @ViewChild('statusColumn') public statusColumn: TemplateRef<any>;
     @ViewChild('updateColumn') public updateColumn: TemplateRef<any>;
     @ViewChild('taskTypeColumn') public taskTypeColumn: TemplateRef<any>;
+    @ViewChild('userColumn') public userColumn: TemplateRef<any>;
+    @ViewChild('dateColumn') public dateColumn: TemplateRef<any>;
+    @ViewChild('venueColumn') public venueColumn: TemplateRef<any>;
 
     public areaGroup: FormGroup;
     public config: TableConfiguration;
     public data: BrowseResponse<TaskInterface> = new BrowseResponse<TaskInterface>();
-    public businessAreaList: string[];
+    public businessAreaList: BusinessArea[];
     public loading = false;
     private isInitialized = false;
     private businessAreaFilter: Filter;
@@ -74,9 +78,9 @@ export class TaskListComponent implements OnInit {
                         type: TableFilterType.TRAFFIC_LIGHT,
                         select: [
                             new ListItem('', this.translateService.instant('all.things')),
-                            new ListItem('RED', this.translateService.instant('task.trafficLightValue.red')),
-                            new ListItem('GREEN', this.translateService.instant('task.trafficLightValue.green')),
-                            new ListItem('AMBER', this.translateService.instant('task.trafficLightValue.amber')),
+                            new ListItem('RED', this.translateService.instant('color.red')),
+                            new ListItem('GREEN', this.translateService.instant('color.green')),
+                            new ListItem('AMBER', this.translateService.instant('color.amber')),
                         ]
                     }),
                     sorting: true,
@@ -120,22 +124,27 @@ export class TaskListComponent implements OnInit {
                     label: this.translateService.instant('task.venue'),
                     filter: new TableColumnFilter({}),
                     sorting: true,
+                    type: TableCellType.CONTENT,
+                    tableCellTemplate: this.venueColumn,
                 }),
                 new TableColumn({
-                    columnDef: 'responsibleUser',
+                    columnDef: 'responsibleUser.firstName',
                     label: this.translateService.instant('task.responsible'),
                     filter: new TableColumnFilter({}),
                     sorting: true,
+                    type: TableCellType.CONTENT,
+                    tableCellTemplate: this.userColumn,
                 }),
                 new TableColumn({
                     columnDef: 'dueDate',
                     label: this.translateService.instant('task.dueDate'),
-                    type: TableCellType.DATETIME,
                     filter: new TableColumnFilter({
                         valueType: 'DATE_TIME',
                         type: TableFilterType.DATETIME_AS_DATERANGE,
                     }),
                     sorting: true,
+                    type: TableCellType.CONTENT,
+                    tableCellTemplate: this.dateColumn,
                 }),
                 new TableColumn({
                     columnDef: 'state',
@@ -175,7 +184,7 @@ export class TaskListComponent implements OnInit {
     }
 
     public update(id: number) {
-        this.router.navigate(['tasks/edit/'+id]);
+        this.router.navigate(['tasks/edit/' + id]);
     }
 
     public setTableData(tableChangeEvent?: TableChangeEvent): void {
@@ -212,8 +221,7 @@ export class TaskListComponent implements OnInit {
     private loadBusinessAreaList() {
         this.businessAreaService.listBusinessAreas().subscribe((data) => {
             this.businessAreaList = data.content
-                .filter((item) => item.codeItem !== null && item.state === 'VALID')
-                .map((item) => item.name);
+                .filter((item) => item.codeItem !== null && item.state === 'VALID');
         });
     }
 

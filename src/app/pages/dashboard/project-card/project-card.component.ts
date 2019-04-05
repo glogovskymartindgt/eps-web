@@ -75,6 +75,7 @@ export class ProjectCardComponent implements OnInit {
 
     public onProjectSelected() {
         this.projectEventService.setEventData(
+            this.project.id,
             +this.project.year,
             this.project.name,
             true,

@@ -216,8 +216,9 @@ export class CoreTableComponent<T = any> implements OnInit, OnChanges, OnDestroy
 
     private emitRequestParameters(changeEvent: TableChangeEvent): void {
         if (MiscUtils.isFunction(this.paginator.firstPage)) {
+            const hasPrev = this.paginator.hasPreviousPage();
             this.paginator.firstPage();
-            if (!this.paginator.hasPreviousPage()) {
+            if (!hasPrev) {
                 this.requestData.emit(changeEvent);
             }
         }

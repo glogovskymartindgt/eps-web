@@ -7,10 +7,10 @@
             <mat-label>{{'businessArea.title' | translate}}</mat-label>
             <mat-select formControlName="businessArea">
                 <mat-option value="all">{{'all.things' | translate}}</mat-option>
-                <mat-option *ngFor="let businessAreaName of businessAreaList"
-                            [value]="businessAreaName"
+                <mat-option *ngFor="let businessArea of businessAreaList"
+                            [value]="businessArea.name"
                 >
-                    {{businessAreaName}}
+                    {{businessArea.codeItem}} - {{businessArea.name}}
                 </mat-option>
             </mat-select>
         </mat-form-field>
@@ -28,17 +28,19 @@
     </div>
 </div>
 
-<!--<haz-indeterminate-progress-bar [loading]="loading"></haz-indeterminate-progress-bar>-->
+<haz-indeterminate-progress-bar [loading]="loading"></haz-indeterminate-progress-bar>
 <haz-core-table (requestData)="setTableData($event)"
                 [configuration]="config"
                 [data]="data"
 ></haz-core-table>
 <ng-template #updateColumn let-actRow="row" let-context="context">
-    <button mat-icon-button
-            (click)="update(actRow.id)"
-    >
-        <mat-icon>keyboard_arrow_right</mat-icon>
-    </button>
+    <div class="fr">
+        <button mat-icon-button
+                (click)="update(actRow.id)"
+        >
+            <mat-icon>keyboard_arrow_right</mat-icon>
+        </button>
+    </div>
 </ng-template>
 <ng-template #statusColumn let-actRow="row" let-context="context">
     {{('task.statusValue.' + actRow.state.toLowerCase()) | translate}}
@@ -46,8 +48,21 @@
 <ng-template #taskTypeColumn let-actRow="row" let-context="context">
     {{('task.taskTypeValue.' + actRow.taskType.toLowerCase()) | translate}}
 </ng-template>
+<ng-template #venueColumn let-actRow="row" let-context="context">
+    {{actRow.cityName | venue}}
+</ng-template>
+<ng-template #userColumn let-actRow="row" let-context="context">
+    {{actRow.responsibleUser.firstName}} {{actRow.responsibleUser.lastName}}
+</ng-template>
+<ng-template #dateColumn let-actRow="row" let-context="context">
+    {{actRow.dueDate  | date:'d.M.yyyy'}}
+</ng-template>
+
 <ng-template #trafficLightColumn let-actRow="row" let-context="context">
-    <div *ngIf="actRow.trafficLight === 'RED'" style="width: 12px;height: 12px;background:#CE211F;border-radius:50%;"></div>
-    <div *ngIf="actRow.trafficLight === 'GREEN'" style="width: 12px;height: 12px;background:#20BF55;border-radius:50%;"></div>
-    <div *ngIf="actRow.trafficLight === 'AMBER'" style="width: 12px;height: 12px;background:#F79824;border-radius:50%;"></div>
+    <div *ngIf="actRow.trafficLight === 'RED'"
+         style="width: 12px;height: 12px;background:#CE211F;border-radius:50%;"></div>
+    <div *ngIf="actRow.trafficLight === 'GREEN'"
+         style="width: 12px;height: 12px;background:#20BF55;border-radius:50%;"></div>
+    <div *ngIf="actRow.trafficLight === 'AMBER'"
+         style="width: 12px;height: 12px;background:#F79824;border-radius:50%;"></div>
 </ng-template>

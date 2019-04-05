@@ -37,29 +37,30 @@ export class AuthService {
             {headers}
         ).subscribe((data) => {
                 this.userService.setAuthData(data);
-                this.projectEventService.setEventData( );
+                this.projectEventService.setEventData();
                 this.router.navigate(['dashboard']);
             },
-            (error) => this.notificationService.openErrorNotification('error.login')
+            (error) => {
+                console.log(error);
+                this.notificationService.openErrorNotification(error.error.message);
+            }
         );
     }
 
     private logoutBackend(masterToken: string, authenticationToken: string, deviceId = 'device1'): void {
         const headers = new HttpHeaders({'Content-Type': 'application/json'});
-        // TODO fix this
-        this.router.navigate(['authentication/login']);
+
         this.projectEventService.setEventData();
-        // this.httpClient.post(
-        //     environment.URL_API + '/security/invalidate',
-        //     // {masterToken, authenticationToken, deviceId},
-        //     {masterToken, authenticationToken, deviceId},
-        //     {headers}
-        // ).subscribe((data) => {
-        //         this.userService.clearUserData();
-        //         this.router.navigate(['authentication/login']);
-        //     }
-        //     , (error) => this.notificationService.openErrorNotification('error.logout')
-        // );
+        this.httpClient.post(
+            environment.URL_API + '/security/invalidate',
+            {masterToken, authenticationToken, deviceId},
+            {headers}
+        ).subscribe((data) => {
+                this.userService.clearUserData();
+                this.router.navigate(['authentication/login']);
+            }
+            , (error) => this.notificationService.openErrorNotification('error.logout')
+        );
     }
 
 }

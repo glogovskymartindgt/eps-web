@@ -8,6 +8,26 @@
     <div fxFlex="70"  fxFlex.gt-sm="100%" class="p-30" fxLayout="column">
         <task-form></task-form>
 
+        <form [formGroup]="changedDataForm">
+            <div class="long-input">
+                <haz-core-input [label]="'tasks.sourceDescription' | translate"
+                                [appearance]="'fill'"
+                                formControlName="changedAt"
+                                class="theme-input long-input"
+                >
+                </haz-core-input>
+            </div>
+
+            <div class="long-input">
+                <haz-core-input [label]="'tasks.sourceDescription' | translate"
+                                [appearance]="'fill'"
+                                formControlName="changedBy"
+                                class="theme-input long-input"
+                >
+                </haz-core-input>
+            </div>
+        </form>
+
         <div>
             <button type="submit"
                     mat-flat-button

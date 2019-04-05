@@ -1,13 +1,5 @@
 import { AfterViewChecked, ChangeDetectorRef, Component, forwardRef, Inject, Input, OnInit } from '@angular/core';
-import {
-    ControlValueAccessor,
-    FormBuilder,
-    FormControl,
-    FormGroup,
-    NG_VALUE_ACCESSOR,
-    ValidationErrors,
-    Validators
-} from '@angular/forms';
+import { ControlValueAccessor, FormBuilder, FormControl, FormGroup, NG_VALUE_ACCESSOR, ValidationErrors, Validators } from '@angular/forms';
 
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
@@ -111,9 +103,11 @@ export class InputDateRangeComponent implements OnInit, ControlValueAccessor, Af
             return this.writeValue({dateFrom: null, dateTo: null});
         }
         if (value.dateTo && this.toFormControl.value !== value.dateTo && this.toFormControl.value._d !== value.dateTo._d) {
+            console.log('set to');
             this.toFormControl.setValue(value.dateTo, {emitEvent: false});
         }
         if (value.dateFrom && this.fromFormControl.value !== value.dateFrom && this.fromFormControl.value._d !== value.dateFrom._d) {
+            console.log('set from');
             this.fromFormControl.setValue(value.dateFrom, {emitEvent: false});
         }
         this.cdRef.detectChanges();
@@ -140,14 +134,14 @@ export class InputDateRangeComponent implements OnInit, ControlValueAccessor, Af
         return this
             .formBuilder.group({
                 from: [null, {
-                validators: Validators.compose([
-                    Validators.required])
-            }],
+                    validators: Validators.compose([
+                        Validators.required])
+                }],
                 to: [null, {
-                validators: Validators.compose([
-                    Validators.required])
-            }]
-        }, {validator: this.minMaxValidator});
+                    validators: Validators.compose([
+                        Validators.required])
+                }]
+            }, {validator: this.minMaxValidator});
     }
 
     private onFormGroupChanges(formGroup: FormGroup): void {

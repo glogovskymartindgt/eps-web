@@ -27,9 +27,14 @@
 
 .dashboard-filter {
     text-decoration: none;
-    color: #fff;
+    color: #ddd;
     cursor: pointer;
     font-family: 'Roboto-Bold', sans-serif;
+    transition: .3s;
+
+    &:hover{
+        color: #fff;
+    }
 }
 
 .dashboard-text {

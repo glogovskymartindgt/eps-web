@@ -1,4 +1,5 @@
 export interface EventDataInterface {
+    id: number;
     year: number;
     projectName: string;
     isEvent: boolean;
