@@ -19,7 +19,6 @@ import { CoreTableModule, GLOBAL_CONFIG_TOKEN } from './shared/hazlenut/core-tab
 import {
     MaterialModule,
     NOTIFICATION_WRAPPER_TOKEN,
-    SharedPipesModule,
     TRANSLATE_WRAPPER_TOKEN
 } from './shared/hazlenut/hazelnut-common';
 import { NotificationSnackBarComponent } from './shared/hazlenut/small-components/notifications';
