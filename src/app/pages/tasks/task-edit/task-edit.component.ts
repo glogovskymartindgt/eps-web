@@ -3,7 +3,6 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TaskComment, TaskCommentResponse } from 'src/app/shared/interfaces/task-comment.interface';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { FormControl, Validators } from '@angular/forms';
 import { TaskCommentService } from 'src/app/shared/services/task-comment.service';
 
 @Component({
@@ -13,12 +12,10 @@ import { TaskCommentService } from 'src/app/shared/services/task-comment.service
 })
 export class TaskEditComponent implements OnInit {
 
-    private taskId: number;
-    public newComment: FormControl = new FormControl("", Validators.required);
+    public newComment: FormControl = new FormControl('', Validators.required);
     public comments: TaskCommentResponse[] = [];
     public loading = false;
     public changedDataForm: FormGroup;
-
     private taskId: number;
 
     public constructor(
@@ -63,11 +60,11 @@ export class TaskEditComponent implements OnInit {
 
         this.newComment.markAsTouched();
 
-        if(this.newComment.invalid) {
+        if (this.newComment.invalid) {
             return;
         }
 
-        let taskComment: TaskComment = { description: this.newComment.value, taskId: this.taskId }
+        const taskComment: TaskComment = {description: this.newComment.value, taskId: this.taskId};
         this.loading = true;
 
         this.taskCommentService.addComment(taskComment)
