@@ -184,7 +184,7 @@ export class TaskListComponent implements OnInit {
     }
 
     public update(id: number) {
-        this.router.navigate(['tasks/edit/' + id]);
+        this.router.navigate(['tasks/edit'], {queryParams: {id}});
     }
 
     public setTableData(tableChangeEvent?: TableChangeEvent): void {

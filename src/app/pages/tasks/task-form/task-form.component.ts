@@ -8,13 +8,16 @@ import { Task } from '../../../shared/models/task.model';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 
+import { ActivatedRoute } from '@angular/router';
 import * as _moment from 'moment';
 import { SourceOfAgenda } from '../../../shared/interfaces/source-of-agenda.interface';
 import { Venue } from '../../../shared/interfaces/venue.interface';
 import { BusinessAreaService } from '../../../shared/services/data/business-area.service';
 import { PhaseService } from '../../../shared/services/data/phase.service';
+import { TaskService } from '../../../shared/services/data/task.service';
 import { UserDataService } from '../../../shared/services/data/user-data.service';
 import { VenueService } from '../../../shared/services/data/venue.service';
+import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 
 const moment = _moment;
@@ -52,6 +55,8 @@ export class TaskFormComponent implements OnInit {
     public taskForm: FormGroup;
     public task: Task;
     public dateInvalid = false;
+    public dateInvalidClosed = false;
+    public isUpdate = false;
 
     public constructor(private readonly formBuilder: FormBuilder,
                        private readonly businessAreaService: BusinessAreaService,
@@ -59,6 +64,9 @@ export class TaskFormComponent implements OnInit {
                        private readonly venueService: VenueService,
                        private readonly userDataService: UserDataService,
                        private readonly projectEventService: ProjectEventService,
+                       private readonly activatedRoute: ActivatedRoute,
+                       private readonly notificationService: NotificationService,
+                       private readonly taskService: TaskService,
     ) {
     }
 
@@ -74,25 +82,19 @@ export class TaskFormComponent implements OnInit {
         this.loadVenueList();
         this.loadUserList();
         this.createForm();
+        this.checkIfUpdate();
     }
 
     public get f() {
         return this.taskForm.controls;
     }
 
-    public onTaskTypeChanged(taskType: string) {
-        if (taskType === 'Issue' && this.taskForm.get('trafficLight') === null) {
-            this.taskForm.addControl('trafficLight',
-                this.formBuilder.control(null, Validators.required)
-            );
-            this.taskForm.get('trafficLight').setValue('nocolor');
-        } else {
-            this.taskForm.removeControl('trafficLight');
-        }
-    }
-
     public onDateChanged(event) {
         this.dateInvalid = true;
+    }
+
+    public onDateChangedClosed(event) {
+        this.dateInvalidClosed = true;
     }
 
     public getCircleColor(value) {
@@ -144,7 +146,7 @@ export class TaskFormComponent implements OnInit {
         this.taskForm = this.formBuilder.group({
             taskType: ['Task', Validators.required],
             title: [null, Validators.required],
-            businessArea: ['all', Validators.required],
+            businessArea: ['', Validators.required],
             sourceOfAgenda: [''],
             phase: [''],
             dueDate: [null],
@@ -152,6 +154,12 @@ export class TaskFormComponent implements OnInit {
             venue: [''],
             description: [''],
             sourceDescription: [''],
+            state: [''],
+            code: [''],
+            closedDate: [''],
+            changedBy: [''],
+            changedAt: [''],
+            trafficLight: ['', Validators.required]
         });
 
         this.taskForm.valueChanges.subscribe(() => {
@@ -168,6 +176,46 @@ export class TaskFormComponent implements OnInit {
             };
             this.onFormDataChange.emit(actualValue);
         }
+    }
+
+    private checkIfUpdate() {
+        this.activatedRoute.queryParams.subscribe((param) => {
+            if (Object.keys(param).length > 0) {
+                this.isUpdate = true;
+                this.getIdFromRouteParamsAndSetDetail(param);
+            }
+        });
+    }
+
+    private getIdFromRouteParamsAndSetDetail(param: any): void {
+        this.taskService.getTaskById(param.id).subscribe((apiTask) => {
+            this.setForm(apiTask);
+        }, (error) => this.notificationService.openErrorNotification(error));
+
+    }
+
+    private setForm(task: any) {
+        console.log('task', task);
+        this.taskForm.controls.title.patchValue(task.name);
+        this.taskForm.controls.taskType.patchValue(task.taskType);
+        this.taskForm.controls.phase.patchValue(task.projectPhase.id);
+        this.taskForm.controls.dueDate.patchValue(task.dueDate);
+        this.taskForm.controls.responsible.patchValue(task.responsibleUser.id);
+        this.taskForm.controls.venue.patchValue(task.cityName);
+        this.taskForm.controls.description.patchValue(task.description);
+        this.taskForm.controls.sourceDescription.patchValue(task.sourceDescription);
+        this.taskForm.controls.state.patchValue(task.state);
+        this.taskForm.controls.code.patchValue(task.code);
+        this.taskForm.controls.trafficLight.patchValue(task.trafficLight);
+
+        this.taskForm.controls.taskType.disable();
+        this.taskForm.controls.businessArea.disable();
+        this.taskForm.controls.code.disable();
+        this.taskForm.controls.closedDate.disable();
+        this.taskForm.controls.changedAt.disable();
+        this.taskForm.controls.changedBy.disable();
+
+        this.taskForm.updateValueAndValidity();
     }
 
 }

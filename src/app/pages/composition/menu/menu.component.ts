@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { fadeEnterLeave, routeAnimations } from '../../../shared/hazlenut/hazelnut-common/animations';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
+import { AppConstants } from '../../../shared/utils/constants';
 
 @Component({
     selector: 'menu',
@@ -12,6 +13,7 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
 })
 export class MenuComponent implements OnInit {
     @Input() public template: TemplateRef<any>;
+    public version = AppConstants.version;
 
     public constructor(
         public readonly projectEventService: ProjectEventService,

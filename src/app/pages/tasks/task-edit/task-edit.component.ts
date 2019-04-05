@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TaskComment, TaskCommentResponse } from 'src/app/shared/interfaces/task-comment.interface';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { TaskCommentService } from 'src/app/shared/services/task-comment.service';
+import { TaskService } from '../../../shared/services/data/task.service';
+import { TaskFormComponent } from '../task-form/task-form.component';
 
 @Component({
     selector: 'task-edit',
@@ -11,31 +13,26 @@ import { TaskCommentService } from 'src/app/shared/services/task-comment.service
     styleUrls: ['./task-edit.component.scss']
 })
 export class TaskEditComponent implements OnInit {
+    @ViewChild(TaskFormComponent) public taskForm: TaskFormComponent;
+    public formData = null;
 
     public newComment: FormControl = new FormControl('', Validators.required);
     public comments: TaskCommentResponse[] = [];
     public loading = false;
-    public changedDataForm: FormGroup;
     private taskId: number;
 
     public constructor(
         private router: Router,
         private readonly taskCommentService: TaskCommentService,
         private readonly notificationService: NotificationService,
-        private route: ActivatedRoute,
-        private formBuilder: FormBuilder
+        private activatedRoute: ActivatedRoute,
+        private taskService: TaskService,
     ) {
-
     }
 
     public ngOnInit(): void {
-        this.changedDataForm = this.formBuilder.group({
-            changedAt: {value: 'changedAt', disabled: true},
-            changedBy: {value: 'changedBy', disabled: true},
-        });
-
-        this.route.params.subscribe((params) => {
-            this.taskId = Number.parseInt(params.id);
+        this.activatedRoute.queryParams.subscribe((param) => {
+            this.taskId = param.id;
             this.getAllComments();
         });
     }
@@ -45,28 +42,25 @@ export class TaskEditComponent implements OnInit {
     }
 
     public onSave() {
-
-        // if (this.taskForm.invalid) {
-        //     return;
-        // }
-        //
-        // if (this.f.title.value.trim() == '') {
-        //     this.taskForm.get('title').setValue(null);
-        // }
-
+        this.taskService.editTask(this.taskId, this.transformTaskToApiObject(this.formData));
+        // .subscribe(
+        //     (response) => {
+        //         console.log(response);
+        //         this.notificationService.openSuccessNotification('success.edit');
+        //         this.router.navigate(['tasks/list']);
+        //     }, (error) => {
+        //         console.log(error);
+        //         this.notificationService.openErrorNotification('error.add');
+        //     });
     }
 
     public onCommentAdded() {
-
         this.newComment.markAsTouched();
-
         if (this.newComment.invalid) {
             return;
         }
-
         const taskComment: TaskComment = {description: this.newComment.value, taskId: this.taskId};
         this.loading = true;
-
         this.taskCommentService.addComment(taskComment)
             .subscribe((commentResponse: TaskCommentResponse) => {
                 this.newComment.reset();
@@ -76,13 +70,10 @@ export class TaskEditComponent implements OnInit {
                 this.notificationService.openErrorNotification('error.addComment');
                 this.loading = false;
             });
-
     }
 
     public getAllComments() {
-
         this.loading = true;
-
         this.taskCommentService.getAllComment(this.taskId)
             .subscribe((comments: TaskCommentResponse[]) => {
                 this.comments = comments;
@@ -93,6 +84,25 @@ export class TaskEditComponent implements OnInit {
                 this.loading = false;
             });
 
+    }
+
+    private transformTaskToApiObject(formObject: any): any {
+        console.log('editFormObject', formObject);
+        const apiObject: any = {
+            name: formObject.title,
+            state: formObject.state,
+            dueDate: formObject.dueDate,
+            clSourceOfAgendaId: formObject.sourceOfAgenda,
+            projectPhaseId: formObject.phase,
+            responsibleUserId: formObject.responsible,
+            cityName: formObject.venue,
+            description: formObject.description,
+            sourceDescription: formObject.sourceDescription,
+        };
+        if (formObject.trafficLight !== '') {
+            apiObject.trafficLight = formObject.trafficLight;
+        }
+        return apiObject;
     }
 
 }

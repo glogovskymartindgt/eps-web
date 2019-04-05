@@ -44,15 +44,14 @@ export class TaskCreateComponent implements OnInit {
     }
 
     private transformTaskToApiObject(formObject: any): any {
-        console.log('formObject', formObject);
         const apiObject: any = {
-            taskType: formObject.taskType.toUpperCase(),
+            taskType: formObject.taskType,
             name: formObject.title,
             clBusinessArea: formObject.businessArea,
             project: this.projectEventService.instant.id
         };
         if (formObject.trafficLight) {
-            apiObject.trafficLight = formObject.trafficLight.toUpperCase();
+            apiObject.trafficLight = formObject.trafficLight;
         }
         if (formObject.sourceOfAgenda !== '') {
             apiObject.clSourceOfAgenda = formObject.sourceOfAgenda;
@@ -62,9 +61,6 @@ export class TaskCreateComponent implements OnInit {
         }
         if (formObject.dueDate !== null) {
             apiObject.dueDate = formObject.dueDate;
-        }
-        if (formObject.responsible !== '') {
-            apiObject.responsible = formObject.responsible;
         }
         if (formObject.responsible !== '') {
             apiObject.responsibleUser = formObject.responsible;

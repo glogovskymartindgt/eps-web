@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { fadeEnterLeave } from '../../../shared/hazlenut/hazelnut-common/animations';
 import { AuthService } from '../../../shared/services/auth.service.ts.service';
+import { AppConstants } from '../../../shared/utils/constants';
 
 @Component({
     selector: 'iihf-login',
@@ -13,7 +14,7 @@ import { AuthService } from '../../../shared/services/auth.service.ts.service';
 export class LoginComponent implements OnInit {
 
     public hidePassword = true;
-
+    public version = AppConstants.version;
     public loginForm: FormGroup;
 
     public constructor(private readonly router: Router,
@@ -32,7 +33,7 @@ export class LoginComponent implements OnInit {
         });
     }
 
-  public get loginFormControls() {
+    public get loginFormControls() {
         return this.loginForm.controls;
     }
 

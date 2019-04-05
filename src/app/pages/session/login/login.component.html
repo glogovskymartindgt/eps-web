@@ -19,7 +19,7 @@
                             {{'error.required' | translate}}
                         </mat-error>
                     </mat-form-field>
-                    <mat-form-field appearance="fill" class="mt-8" class="theme-input">
+                    <mat-form-field appearance="fill" class="mt-8 theme-input">
                         <mat-label>{{'login.password' | translate}}</mat-label>
                         <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password">
                         <mat-icon matSuffix (click)="hidePassword = !hidePassword "
@@ -47,4 +47,5 @@
             </mat-card-actions>
         </form>
     </mat-card>
+    <div class="version">{{version}}</div>
 </div>

@@ -28,6 +28,7 @@
         "both": "Both",
         "none": "None",
         "type": "Type",
+        "status": "Status",
         "trafficLight": "Traffic light",
         "title": "Ttitle",
         "businessArea": "Business area",
@@ -35,16 +36,23 @@
         "sourceOfAgenda": "Source of agenda",
         "phase": "Phase",
         "dueDate": "Due date",
+        "closedDate": "Closed date",
         "responsible": "Responsible",
         "venue": "Venue",
         "description": "Description",
         "sourceDescription": "Source description",
+        "changedAt": "Changed at",
+        "changedBy": "Changed by",
         "new": {
             "newTask": "New task"
         },
         "edit": {
             "editTask": "Edit task"
         }
+    },
+    "status": {
+        "open": "Open",
+        "closed": "Closed"
     },
     "error": {
         "login": "Log in failed",
@@ -55,15 +63,13 @@
         "pattern": "Pattern error",
         "add": "Create failed",
         "interval": "Empty interval",
-        "isRequired": "is required!",
-        "filedIsRequired": "This field is required!",
-        "dateFormatIsInvalid": "Date format is invalid!",
+        "dateFormatIsInvalid": "Date format is invalid",
         "addComment": "Adding of comment failed.",
-        "loadComments": "Comments loading failed.",
-        "dateFormatIsInvalid": "Invalid date format"
+        "loadComments": "Comments loading failed."
     },
     "success": {
-        "add": "Add successfull"
+        "add": "Add successfull",
+        "edit": "Edit successfull"
     },
     "paginator": {
         "itemsPerPage": "Items per page",

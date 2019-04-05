@@ -2,3 +2,9 @@
     height: calc(100vh - 280px);
     overflow-x: auto;
 }
+
+::ng-deep {
+    .theme-input .mat-form-field-flex {
+        background-color: #e8f0fe;
+    }
+}

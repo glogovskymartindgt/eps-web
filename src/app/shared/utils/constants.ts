@@ -1,3 +1,3 @@
 export class AppConstants {
-    public static readonly version = '0.0.1';
+    public static readonly version = '0.1.2.M2';
 }

@@ -38,16 +38,37 @@ export class TaskService extends ProjectService<TaskInterface> {
                     tableChangeEvent.sortDirection)];
             }
         }
-
         additionalFilters.forEach((additionalFilter) => {
             filters.push(additionalFilter);
         });
+        filters = this.reorderFiltersToApplyCorectTrafficColor(filters);
         return this.browseWithSummary(PostContent.create(limit, offset, filters, sort));
     }
 
     public createTask(taskObject: any) {
-        console.log('creating', taskObject);
         return this.add(taskObject);
+    }
+
+    public editTask(id: number, taskObject: any) {
+        return this.update(id, taskObject);
+    }
+
+    public getTaskById(id: number){
+        return this.getDetail(id);
+    }
+
+    private reorderFiltersToApplyCorectTrafficColor(filters) {
+        return filters.sort(this.compare);
+    }
+
+    private compare(a, b) {
+        if (a.property === 'TRAFFIC_LIGHT') {
+            return -1;
+        }
+        if (a.property !== 'TRAFFIC_LIGHT') {
+            return 1;
+        }
+        return 0;
     }
 
 }

@@ -5,28 +5,8 @@
 </div>
 
 <div fxLayout="row">
-    <div fxFlex="70"  fxFlex.gt-sm="100%" class="p-30" fxLayout="column">
-        <task-form></task-form>
-
-        <form [formGroup]="changedDataForm">
-            <div class="long-input">
-                <haz-core-input [label]="'tasks.sourceDescription' | translate"
-                                [appearance]="'fill'"
-                                formControlName="changedAt"
-                                class="theme-input long-input"
-                >
-                </haz-core-input>
-            </div>
-
-            <div class="long-input">
-                <haz-core-input [label]="'tasks.sourceDescription' | translate"
-                                [appearance]="'fill'"
-                                formControlName="changedBy"
-                                class="theme-input long-input"
-                >
-                </haz-core-input>
-            </div>
-        </form>
+    <div fxFlex="65"  fxFlex.gt-sm="100%" class="p-30" fxLayout="column">
+        <task-form  (formDataChange)="formData=$event"></task-form>
 
         <div>
             <button type="submit"
@@ -47,13 +27,13 @@
         </div>
     </div>
 
-    <div fxFlex="30" style="background:#F4F4F4" fxLayout="column">
+    <div fxFlex="35" style="background:#F4F4F4" fxLayout="column">
 
         <div class="w-full" fxLayout="row">
-            <mat-form-field class="m-20" fxFlex>
+            <mat-form-field class="m-20 theme-input" fxFlex>
                 <textarea matInput rows="5" [placeholder]="'comment.newComment' | translate" [formControl]="newComment"></textarea>
                 <mat-error
-                    *ngIf="newComment?.errors?.required">{{ 'error.filedIsRequired' | translate }}
+                    *ngIf="newComment?.errors?.required">{{ 'error.required' | translate }}
                 </mat-error>
             </mat-form-field>
             <div fxFlex="50px" fxLayoutAlign="end end" class="pr-20 pb-50">

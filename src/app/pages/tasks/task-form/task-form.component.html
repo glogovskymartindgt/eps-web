@@ -1,26 +1,46 @@
 <form [formGroup]="taskForm">
 
     <div fxLayout="row">
+        <div class="short-input mr-10">
+            <haz-core-input [label]="'tasks.code' | translate"
+                            [appearance]="'fill'"
+                            formControlName="code"
+                            class="theme-input"
+            >
+            </haz-core-input>
+        </div>
+        <mat-form-field appearance="fill" class="theme-input short-input">
+            <mat-label>{{ 'tasks.status' | translate }}</mat-label>
+            <mat-select formControlName="state" required>
+                <mat-option [value]="'OPEN'">{{'status.open' | translate}}</mat-option>
+                <mat-option [value]="'CLOSED'">{{'status.closed' | translate}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div fxLayout="row">
         <mat-form-field appearance="fill" class="theme-input short-input mr-10">
             <mat-label>{{ 'tasks.type' | translate }}</mat-label>
-            <mat-select formControlName="taskType" (selectionChange)="onTaskTypeChanged($event.value)" required>
-                <mat-option *ngFor="let taskType of taskTypeList" [value]="taskType">
+            <mat-select formControlName="taskType" required>
+                <mat-option *ngFor="let taskType of taskTypeList" [value]="taskType.toUpperCase()">
                     {{taskType}}
                 </mat-option>
             </mat-select>
             <mat-error
                 *ngIf="f?.taskType?.errors?.required">{{ 'error.required' | translate }}</mat-error>
         </mat-form-field>
-        <mat-form-field *ngIf="f.taskType.value == 'Issue'" appearance="fill" class="theme-input short-input">
+        <mat-form-field *ngIf="f.taskType.value == 'ISSUE'" appearance="fill" class="theme-input short-input">
             <mat-label>{{ 'tasks.trafficLight' | translate }}</mat-label>
             <mat-select formControlName="trafficLight" required>
                 <mat-select-trigger>
-                    <div class="color-circle" [ngStyle]="{'background': getCircleColor(f?.trafficLight?.value)}">
+                    <div class="color-circle"
+                         [ngStyle]="{'background': getCircleColor(f?.trafficLight?.value.toString().toLowerCase())}">
                     </div>
-                    <span class="ml-20">{{('color.' + f?.trafficLight?.value) | translate}}</span>
+                    <span
+                        class="ml-20">{{('color.' + f?.trafficLight?.value.toString().toLowerCase()) | translate}}</span>
                 </mat-select-trigger>
                 <mat-option *ngFor="let trafficLight of trafficLightList"
-                            [value]="trafficLight">
+                            [value]="trafficLight.toUpperCase()">
                     <div [ngStyle]="{'background': getCircleColor(trafficLight)}" class="color-circle mt-17"></div>
                     <span class="ml-20">{{('color.' + trafficLight) | translate}}</span>
                 </mat-option>
@@ -44,7 +64,7 @@
         <mat-form-field appearance="fill" class="long-input theme-input">
             <mat-label>{{'businessArea.title' | translate}}</mat-label>
             <mat-select formControlName="businessArea" required>
-                <mat-option value="all">{{'all.things' | translate}}</mat-option>
+                <mat-option class="color-none" value="">{{'all.empty' | translate}}</mat-option>
                 <mat-option *ngFor="let businessArea of businessAreaList"
                             [value]="businessArea.id"
                 >
@@ -132,6 +152,15 @@
         </mat-form-field>
     </div>
 
+    <mat-form-field appearance="fill" class="short-input theme-input mr-10" *ngIf="isUpdate">
+        <mat-label>{{ 'tasks.closedDate' | translate }}</mat-label>
+        <input matInput [matDatepicker]="pickerClosed" (dateChange)="onDateChangedClosed($event.value)"
+               formControlName="closedDate">
+        <mat-datepicker-toggle matSuffix [for]="pickerClosed"></mat-datepicker-toggle>
+        <mat-datepicker [dateClass]="dateClass" #pickerClosed></mat-datepicker>
+        <mat-error *ngIf="dateInvalid">{{ 'error.dateFormatIsInvalid' | translate }}</mat-error>
+    </mat-form-field>
+
     <div class="long-input">
         <haz-core-input [label]="'tasks.description' | translate"
                         [type]="'textarea'"
@@ -142,12 +171,22 @@
         </haz-core-input>
     </div>
 
+    <div class="long-input" *ngIf="isUpdate">
+        <haz-core-input [label]="'tasks.changedAt' | translate"
+                        [appearance]="'fill'"
+                        formControlName="changedAt"
+                        class="theme-input"
+        >
+        </haz-core-input>
+    </div>
+
+    <div class="long-input" *ngIf="isUpdate">
+        <haz-core-input [label]="'tasks.changedBy' | translate"
+                        [appearance]="'fill'"
+                        formControlName="changedBy"
+                        class="theme-input"
+        >
+        </haz-core-input>
+    </div>
+
 </form>
-
-{{taskForm.valid}}
-
-<pre>
-    {{taskForm.value | json}}
-</pre>
-
-

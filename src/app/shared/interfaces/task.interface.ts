@@ -1,11 +1,14 @@
+import { Phase } from './phase.interface';
+import { User } from './user.interface';
+
 export interface TaskInterface {
     id?: number;
     trafficLight?: string;
     code?: string;
     name?: string;
-    projectPhase?: string;
+    projectPhase?: Phase;
     cityName?: string;
-    responsibleUser?: string;
+    responsibleUser?: User;
     dueDate?: string;
     state?: string;
 }
