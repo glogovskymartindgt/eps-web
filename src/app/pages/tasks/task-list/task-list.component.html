@@ -32,7 +32,7 @@
                 [data]="data"
 ></haz-core-table>
 <ng-template #updateColumn let-actRow="row" let-context="context">
-    <div class="fr">
+    <div class="fr" *ngIf="projectEventService.instant.active">
         <button mat-icon-button
                 (click)="update(actRow.id)"
         >
@@ -50,7 +50,9 @@
     {{actRow.cityName | venue}}
 </ng-template>
 <ng-template #userColumn let-actRow="row" let-context="context">
-    {{actRow.responsibleUser.firstName}} {{actRow.responsibleUser.lastName}}
+    <ng-container *ngIf="actRow.responsibleUser">
+        {{actRow.responsibleUser.firstName}} {{actRow.responsibleUser.lastName}}
+    </ng-container>
 </ng-template>
 <ng-template #dateColumn let-actRow="row" let-context="context">
     {{actRow.dueDate  | date:'d.M.yyyy'}}

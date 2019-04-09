@@ -41,6 +41,7 @@ export class TaskListComponent implements OnInit {
     public data: BrowseResponse<TaskInterface> = new BrowseResponse<TaskInterface>();
     public businessAreaList: BusinessArea[];
     public loading = false;
+    public loadingExport = false;
     private lastTableChangeEvent: TableChangeEvent;
     private isInitialized = false;
     private businessAreaFilter: Filter;
@@ -183,14 +184,17 @@ export class TaskListComponent implements OnInit {
     }
 
     public export() {
+        this.loadingExport = true;
         this.taskService.exportTasks(this.lastTableChangeEvent).subscribe((response) => {
             new FileManager().saveFile(
                 'Export',
                 response,
                 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
             );
+            this.loadingExport = false;
         }, (error) => {
-            this.notificationService.openErrorNotification(error);
+            this.notificationService.openErrorNotification('error.api');
+            this.loadingExport = false;
         });
     }
 

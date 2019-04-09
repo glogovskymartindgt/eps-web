@@ -51,7 +51,7 @@ export class TaskFormComponent implements OnInit {
     public venueList: Venue[];
     public userList: User[];
     public taskTypeList = ['Task', 'Issue'];
-    public trafficLightList: string[] = ['red', 'amber', 'green', 'nocolor'];
+    public trafficLightList: string[] = ['red', 'amber', 'green', 'none'];
     public taskForm: FormGroup;
     public task: Task;
     public dateInvalid = false;

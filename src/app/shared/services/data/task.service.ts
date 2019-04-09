@@ -46,11 +46,17 @@ export class TaskService extends ProjectService<TaskInterface> {
     }
 
     public exportTasks(tableChangeEvent?: TableChangeEvent) {
-        return this.report(tableChangeEvent.filters, [
-            new Sort(tableChangeEvent.sortActive,
+        let filters = [];
+        if (tableChangeEvent && tableChangeEvent.filters) {
+            filters = tableChangeEvent.filters;
+        }
+        let sort = [];
+        if (tableChangeEvent && tableChangeEvent.sortActive && tableChangeEvent.sortDirection){
+            sort = [new Sort(tableChangeEvent.sortActive,
                 tableChangeEvent.sortDirection as Direction
-            )
-        ]);
+            )];
+        }
+        return this.report(filters, sort);
     }
 
     public createTask(taskObject: any) {
