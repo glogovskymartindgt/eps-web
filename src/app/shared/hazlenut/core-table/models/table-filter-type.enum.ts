@@ -12,4 +12,5 @@ export enum TableFilterType {
     CUSTOM = 'custom',
     TRAFFIC_LIGHT = 'trafficLight',
     CLEAR_FILTERS = 'clearFilters',
+    RESPONSIBLE = 'responsible',
 }

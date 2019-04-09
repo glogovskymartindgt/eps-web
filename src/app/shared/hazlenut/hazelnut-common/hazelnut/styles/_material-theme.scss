@@ -19,13 +19,13 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
     white-space: nowrap;
     direction: ltr;
     font-feature-settings: 'liga';
-    -webkit-font-feature-settings: 'liga';
     -moz-font-feature-settings: 'liga';
+    -webkit-font-feature-settings: 'liga';
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: auto;
 }
 
-@include mat-core();
+@include mat-core;
 $iihf-primary: (
     50 : #e3f2fa,
     100 : #b9dff2,
@@ -126,8 +126,8 @@ $iihf-warn: (
 );
 
 $my-app-primary: mat-palette($iihf-primary);
-$my-app-accent:  mat-palette($iihf-accent, 500, 900, A100);
-$my-app-warn:    mat-palette($iihf-warn);
+$my-app-accent: mat-palette($iihf-accent, 500, 900, A100);
+$my-app-warn: mat-palette($iihf-warn);
 
 $my-app-theme: mat-light-theme($my-app-primary, $my-app-accent, $my-app-warn);
 @include angular-material-theme($my-app-theme);

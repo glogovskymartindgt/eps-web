@@ -1,4 +1,6 @@
-<div [ngClass]="'w-' + inputSize">
+<div [ngClass]="'w-' + inputSize" style="display: flex;
+    flex-direction: row;
+    justify-content: flex-end;" >
     <haz-input-number [formControl]="fromControl"
                       [inputStyles]="inputStyles"
                       [label]="fromLabel"

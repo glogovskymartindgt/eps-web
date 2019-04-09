@@ -127,6 +127,7 @@ export class TaskFormComponent implements OnInit {
     private loadPhaseList() {
         this.phaseService.getPhasesByProjectId(this.projectEventService.instant.id).subscribe((data) => {
             this.phaseList = data;
+            console.log('phases', data);
         });
     }
 
@@ -191,7 +192,6 @@ export class TaskFormComponent implements OnInit {
         this.taskService.getTaskById(param.id).subscribe((apiTask) => {
             this.setForm(apiTask);
         }, (error) => this.notificationService.openErrorNotification(error));
-
     }
 
     private setForm(task: any) {
@@ -199,6 +199,7 @@ export class TaskFormComponent implements OnInit {
         this.taskForm.controls.title.patchValue(task.name);
         this.taskForm.controls.taskType.patchValue(task.taskType);
         this.taskForm.controls.phase.patchValue(task.projectPhase.id);
+        this.taskForm.controls.businessArea.patchValue(task.clBusinessArea.id);
         this.taskForm.controls.dueDate.patchValue(task.dueDate);
         this.taskForm.controls.responsible.patchValue(task.responsibleUser.id);
         this.taskForm.controls.venue.patchValue(task.cityName);
@@ -207,6 +208,8 @@ export class TaskFormComponent implements OnInit {
         this.taskForm.controls.state.patchValue(task.state);
         this.taskForm.controls.code.patchValue(task.code);
         this.taskForm.controls.trafficLight.patchValue(task.trafficLight);
+        this.taskForm.controls.changedAt.patchValue(moment(task.changedAt).format('d.M.YYYY'));
+        this.taskForm.controls.changedBy.patchValue(task.changedBy);
 
         this.taskForm.controls.taskType.disable();
         this.taskForm.controls.businessArea.disable();

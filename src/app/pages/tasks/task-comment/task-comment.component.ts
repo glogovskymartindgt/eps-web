@@ -1,30 +1,28 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { TaskCommentResponse } from 'src/app/shared/interfaces/task-comment.interface';
-import { ProjectUserService } from 'src/app/shared/services/storage/project-user.service';
+import { StringUtils } from '../../../shared/hazlenut/hazelnut-common/hazelnut';
+import { TaskCommentResponse } from '../../../shared/interfaces/task-comment.interface';
+import { ProjectUserService } from '../../../shared/services/storage/project-user.service';
 
 @Component({
-  selector: 'task-comment',
-  templateUrl: './task-comment.component.html',
-  styleUrls: ['./task-comment.component.scss']
+    selector: 'task-comment',
+    templateUrl: './task-comment.component.html',
+    styleUrls: ['./task-comment.component.scss']
 })
 export class TaskCommentComponent implements OnInit {
 
-  @Input() comment: TaskCommentResponse;
+    @Input() public comment: TaskCommentResponse;
+    @Input() public index: number;
 
-  @Input() index: number;
+    public isMyComment = false;
 
-  public isMyComment: boolean = false;
+    public constructor(private readonly projectUserService: ProjectUserService) {
+    }
 
-  public constructor(private readonly projectUserService: ProjectUserService) { }
-
-  public ngOnInit() {
-    this.projectUserService.subject.login.subscribe((login) => {
-      this.isMyComment = this.toLowerCaseWithDot(login) == this.toLowerCaseWithDot(this.comment.createdBy) ? true : false;
-    });
-  }
-
-  private toLowerCaseWithDot(value: string): string {
-    return value.replace(" ",".").toLowerCase();
-  }
+    public ngOnInit() {
+        this.projectUserService.subject.login.subscribe((login) => {
+            console.log('compare', login, this.comment.createdBy);
+            StringUtils.compareInDotLowerCase(login, this.comment.createdBy);
+        });
+    }
 
 }

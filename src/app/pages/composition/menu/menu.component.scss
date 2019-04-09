@@ -8,7 +8,7 @@ $text-color: white;
   */
 $background: rgba(0, 45, 98, .5);
 
-@mixin block-selecting-elements() {
+@mixin block-selecting-elements {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -moz-user-select: none;

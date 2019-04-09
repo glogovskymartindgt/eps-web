@@ -3,7 +3,7 @@ $card-color: #fff;
 
 %project-card-font-base {
     font-family: 'Roboto-Bold', sans-serif;
-    color: #002D62;
+    color: #002d62;
     font-weight: bold;
     font-size: 20px;
 }
@@ -14,11 +14,10 @@ $card-color: #fff;
     height: 115px;
     background-color: $card-color;
     border-radius: $radius;
-    box-shadow: 0 0px 20px 0 rgba(0, 0, 0, 0.2), 0 0px 20px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 0 20px 0 rgba(0, 0, 0, 0.2);
     transition: all .15s ease-in-out;
     &:hover{
-        box-shadow: none;
-        box-shadow: 0 0px 15px 0 rgba(#1595D3, 0.2), 0 0px 15px 0 rgba(#1595D3, 0.8);
+        box-shadow: 0 0 15px 0 rgba(#1595D3, 0.2), 0 0 15px 0 rgba(#1595D3, 0.8);
         -ms-transform: scale(1.03); /* IE 9 */
         -webkit-transform: scale(1.03); /* Safari */
         transform: scale(1.03); /* Standard syntax */
@@ -37,7 +36,7 @@ $card-color: #fff;
 }
 
 .open {
-    background-color: #1595D3;
+    background-color: #1595d3;
 }
 
 .closed {

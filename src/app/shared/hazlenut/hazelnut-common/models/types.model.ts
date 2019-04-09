@@ -14,4 +14,7 @@ export type Property =
     | 'READ'
     | 'VALIDITY_START'
     | 'NAME'
-    | 'STATE';
+    | 'STATE'
+    | 'RESPONSIBLE_USER'
+    | 'CODE'
+    ;

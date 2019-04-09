@@ -16,14 +16,14 @@ import {
 import { MatPaginator, MatSort } from '@angular/material';
 import { map, switchMap } from 'rxjs/operators';
 import { Error } from 'tslint/lib/error';
-import { detailExpand } from '../../hazelnut-common/animations/animations';
-import { MiscUtils } from '../../hazelnut-common/hazelnut/utils/misc.utils';
-import { TRANSLATE_WRAPPER_TOKEN, TranslateWrapper } from '../../hazelnut-common/interfaces/translate.interface';
+import { detailExpand } from '../../hazelnut-common/animations';
+import { MiscUtils } from '../../hazelnut-common/hazelnut';
+import { TRANSLATE_WRAPPER_TOKEN, TranslateWrapper } from '../../hazelnut-common/interfaces';
 import { Filter } from '../../hazelnut-common/models';
 import {
     NOTIFICATION_WRAPPER_TOKEN,
     NotificationWrapper
-} from '../../small-components/notifications/notification.wrapper';
+} from '../../small-components/notifications';
 import { CoreTableService } from '../core-table.service';
 import { ExpandedDetailDirective } from '../directives/expanded-detail.directive';
 import { TableCellType } from '../models/table-cell-type.enum';

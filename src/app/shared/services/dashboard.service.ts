@@ -14,7 +14,7 @@ import { ProjectUserService } from './storage/project-user.service';
 export class DashboardService extends ProjectService<ProjectInterface> {
     private readonly secondaryHeader = new Subject<SecondaryHeader>();
 
-    private readonly dashboardFilter = new Subject<String>();
+    private readonly dashboardFilter = new Subject<string>();
     public dashboardFilterNotifier$ = this.dashboardFilter.asObservable();
 
     public constructor(http: HttpClient,

@@ -26,7 +26,7 @@ export class UsersService extends ProjectService<User> {
         let sort = [
             new Sort('CREATED', 'DESC'),
         ];
-        let limit = 10;
+        let limit = 15;
         let offset = 0;
 
         if (tableChangeEvent) {

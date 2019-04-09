@@ -25,7 +25,7 @@ export class TaskService extends ProjectService<TaskInterface> {
     public browseTasks(tableChangeEvent: TableChangeEvent, additionalFilters: Filter[]): Observable<BrowseResponse<TaskInterface>> {
         let filters = [];
         let sort = [];
-        let limit = 10;
+        let limit = 15;
         let offset = 0;
 
         if (tableChangeEvent) {
@@ -45,6 +45,10 @@ export class TaskService extends ProjectService<TaskInterface> {
         return this.browseWithSummary(PostContent.create(limit, offset, filters, sort));
     }
 
+    public exportTasks() {
+        return this.report([], []);
+    }
+
     public createTask(taskObject: any) {
         return this.add(taskObject);
     }
@@ -53,7 +57,7 @@ export class TaskService extends ProjectService<TaskInterface> {
         return this.update(id, taskObject);
     }
 
-    public getTaskById(id: number){
+    public getTaskById(id: number) {
         return this.getDetail(id);
     }
 

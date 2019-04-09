@@ -1,6 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { TestingModule } from '@hazelnut/lib/testing.module';
-import { TRANSLATE_WRAPPER_TOKEN } from '../../hazelnut-common/interfaces/translate.interface';
+import { TRANSLATE_WRAPPER_TOKEN } from '../../hazelnut-common/interfaces';
 import { NoopTranslationsService } from '../../hazelnut-common/services/testing/noop-translation.service';
 import { AbstractInputsModule } from '../abstract-inputs.module';
 import { InputDateRangeComponent } from './input-date-range.component';
@@ -12,7 +11,6 @@ describe('InputDateRangeComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
-                TestingModule,
                 AbstractInputsModule,
             ],
             providers: [

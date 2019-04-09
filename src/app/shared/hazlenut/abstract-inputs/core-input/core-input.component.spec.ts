@@ -2,8 +2,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule, MatInputModule } from '@angular/material';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { TRANSLATE_WRAPPER_TOKEN } from '@hazelnut';
-import { NoopTranslationsService } from '@hazelnut/lib/hazelnut-common/services/testing/noop-translation.service';
+import { TRANSLATE_WRAPPER_TOKEN } from '../../hazelnut-common/interfaces';
+import { NoopTranslationsService } from '../../hazelnut-common/services/testing/noop-translation.service';
 import { CoreInputComponent } from './core-input.component';
 
 describe('CoreInputComponent', () => {

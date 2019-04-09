@@ -1,121 +1,131 @@
 <ng-container [ngSwitch]="columnConfig.filter?.type" [formGroup]="filtersElement">
-        <mat-form-field *ngSwitchCase="filterTypeEnum.STRING"
-                        [ngClass]="widthClass"
-                        class="custom-filter-input"
+    <mat-form-field *ngSwitchCase="filterTypeEnum.STRING"
+                    [ngClass]="widthClass"
+                    class="custom-filter-input"
+    >
+        <input (blur)="showSearchIcon = true" (focus)="showSearchIcon = false"
+               [formControlName]="columnConfig.filterElement"
+               autocomplete="off"
+               matInput
+               type="text">
+        <mat-icon *ngIf="filtersElement.value[columnConfig.filterElement]"
+                  matSuffix
+                  (click)="filtersElement.reset()"
+                  style="cursor: pointer; position: absolute; right: 10px; bottom: -5px;"
+                  [@fadeEnterLeave]
         >
-            <input (blur)="showSearchIcon = true" (focus)="showSearchIcon = false"
-                   [formControlName]="columnConfig.filterElement"
-                   autocomplete="off"
-                   matInput
-                   type="text">
-            <mat-icon *ngIf="filtersElement.value[columnConfig.filterElement]"
-                      matSuffix
-                      (click)="filtersElement.reset()"
-                      style="cursor: pointer; position: absolute; right: 10px; bottom: -5px;"
-                      [@fadeEnterLeave]
-            >
-                close
-            </mat-icon>
-        </mat-form-field>
+            close
+        </mat-icon>
+    </mat-form-field>
 
-        <mat-form-field *ngSwitchCase="filterTypeEnum.SELECT"
-                        [ngClass]="widthClass">
-            <mat-select [formControlName]="columnConfig.filterElement">
-                <mat-option *ngFor="let option of columnConfig.filter.select" [value]="option.code | async">
-                    {{ option.value | async }}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
+    <mat-form-field *ngSwitchCase="filterTypeEnum.SELECT" [ngClass]="widthClass">
+        <mat-select [formControlName]="columnConfig.filterElement">
+            <mat-option *ngFor="let option of columnConfig.filter.select" [value]="option.code | async">
+                {{ option.value | async }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
 
-        <mat-form-field *ngSwitchCase="filterTypeEnum.TYPE"
-                        [ngClass]="widthClass">
-            <mat-select [formControlName]="columnConfig.filterElement">
-                <mat-option *ngFor="let option of columnConfig.filter.select" [value]="option.code | async">
-                    {{ option.value | async }}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
+    <mat-form-field *ngSwitchCase="filterTypeEnum.RESPONSIBLE" [ngClass]="widthClass">
+        <!--        // TODO Set config before init-->
+        <!--        {{columnConfig.filter.select  | json}}-->
+        <mat-select [formControlName]="columnConfig.filterElement">
+            <mat-option  [value]="'None'">
+                {{ 'tasks.none' | translate }}
+            </mat-option>
+            <mat-option *ngFor="let option of userList$ | async" [value]="option.id">
+                {{ option.firstName }} {{ option.lastName }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
 
-        <mat-form-field *ngSwitchCase="filterTypeEnum.SELECT_STRING"
-                        [ngClass]="widthClass">
-            <mat-select [formControlName]="columnConfig.filterElement">
-                <mat-option *ngFor="let option of columnConfig.filter.select" [value]="option.code | async">
-                    {{ option.value | async }}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
+    <mat-form-field *ngSwitchCase="filterTypeEnum.TYPE" [ngClass]="widthClass">
+        <mat-select [formControlName]="columnConfig.filterElement">
+            <mat-option *ngFor="let option of columnConfig.filter.select" [value]="option.code | async">
+                {{ option.value | async }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
 
-        <mat-form-field *ngSwitchCase="filterTypeEnum.SELECT_NUMBER"
-                        [ngClass]="widthClass">
-            <mat-select [formControlName]="columnConfig.filterElement">
-                <mat-option *ngFor="let option of columnConfig.filter.select" [value]="option.value">
-                    {{ option.code | async }}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
+    <mat-form-field *ngSwitchCase="filterTypeEnum.SELECT_STRING" [ngClass]="widthClass">
+        <mat-select [formControlName]="columnConfig.filterElement">
+            <mat-option *ngFor="let option of columnConfig.filter.select" [value]="option.code | async">
+                {{ option.value | async }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
 
-        <mat-form-field *ngSwitchCase="filterTypeEnum.SELECT_ANY_DATE_TIME"
-                        [ngClass]="widthClass">
-            <mat-select [formControlName]="columnConfig.filterElement">
-                <mat-option *ngFor="let option of columnConfig.filter.select" [value]="option.code | async">
-                    {{ option.value | async }}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-        <mat-form-field *ngSwitchCase="filterTypeEnum.TRAFFIC_LIGHT"
-                        [ngClass]="widthClass"
-        >
-            <mat-select-trigger *ngIf="columnConfig.filter.select">
-                {{columnConfig.filterElement.value}}
-            </mat-select-trigger>
-            <mat-select [formControlName]="columnConfig.filterElement" multiple>
-                <mat-option [value]="'green'">
-                    <div
-                        style="width: 12px;height: 12px;background:#20BF55;border-radius:50%; position: absolute;right: 12px;top:12px;"></div>
-                    {{'color.green' | translate}}
-                </mat-option>
-                <mat-option [value]="'amber'">
-                    <div
-                        style="width: 12px;height: 12px;background:#F79824;border-radius:50%; position: absolute;right: 12px;top:12px;"></div>
-                    {{'color.amber' | translate}}
-                </mat-option>
-                <mat-option [value]="'red'">
-                    <div
-                        style="width: 12px;height: 12px;background:#CE211F;border-radius:50%; position: absolute;right: 12px;top:12px;"></div>
-                    {{'color.red' | translate}}
-                </mat-option>
-                <mat-option [value]="'none'">
-                    {{'color.none' | translate}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
+    <mat-form-field *ngSwitchCase="filterTypeEnum.SELECT_NUMBER"
+                    [ngClass]="widthClass">
+        <mat-select [formControlName]="columnConfig.filterElement">
+            <mat-option *ngFor="let option of columnConfig.filter.select" [value]="option.value">
+                {{ option.code | async }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
 
-        <ng-container *ngSwitchCase="filterTypeEnum.CUSTOM">
-            <ng-container
-                *ngTemplateOutlet="columnConfig.filter.template; context: { columnConfig: columnConfig, control: control }"></ng-container>
-        </ng-container>
+    <mat-form-field *ngSwitchCase="filterTypeEnum.SELECT_ANY_DATE_TIME"
+                    [ngClass]="widthClass">
+        <mat-select [formControlName]="columnConfig.filterElement">
+            <mat-option *ngFor="let option of columnConfig.filter.select" [value]="option.code | async">
+                {{ option.value | async }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field *ngSwitchCase="filterTypeEnum.TRAFFIC_LIGHT"
+                    [ngClass]="widthClass"
+    >
+        <mat-select-trigger *ngIf="columnConfig.filter.select">
+            {{columnConfig.filterElement.value}}
+        </mat-select-trigger>
+        <mat-select [formControlName]="columnConfig.filterElement" multiple>
+            <mat-option [value]="'green'">
+                <div
+                    style="width: 12px;height: 12px;background:#20bf55;border-radius:50%; position: absolute;right: 12px;top:12px;"></div>
+                {{'color.green' | translate}}
+            </mat-option>
+            <mat-option [value]="'amber'">
+                <div
+                    style="width: 12px;height: 12px;background:#f79824;border-radius:50%; position: absolute;right: 12px;top:12px;"></div>
+                {{'color.amber' | translate}}
+            </mat-option>
+            <mat-option [value]="'red'">
+                <div
+                    style="width: 12px;height: 12px;background:#ce211f;border-radius:50%; position: absolute;right: 12px;top:12px;"></div>
+                {{'color.red' | translate}}
+            </mat-option>
+            <mat-option [value]="'none'">
+                {{'color.none' | translate}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
 
-        <haz-input-date-range *ngSwitchCase="filterTypeEnum.DATERANGE" class="min-w-165"
-                              [formControlName]="columnConfig.filterElement">
+    <ng-container *ngSwitchCase="filterTypeEnum.CUSTOM">
+        <ng-container
+            *ngTemplateOutlet="columnConfig.filter.template; context: { columnConfig: columnConfig, control: control }"></ng-container>
+    </ng-container>
+
+    <haz-input-date-range *ngSwitchCase="filterTypeEnum.DATERANGE" class="min-w-165"
+                          [formControlName]="columnConfig.filterElement">
+    </haz-input-date-range>
+
+    <div *ngSwitchCase="filterTypeEnum.DATETIME_AS_DATERANGE" class="min-w-210">
+        <haz-input-date-range
+            [formControlName]="columnConfig.filterElement">
         </haz-input-date-range>
+    </div>
 
-        <div *ngSwitchCase="filterTypeEnum.DATETIME_AS_DATERANGE" class="min-w-210">
-            <haz-input-date-range
-                [formControlName]="columnConfig.filterElement">
-            </haz-input-date-range>
-        </div>
+    <div *ngSwitchCase="filterTypeEnum.NUMBER" fxLayout="row" style="justify-content: flex-end;" class="min-w-130">
+        <haz-input-number-range [formControlName]="columnConfig.filterElement">
+        </haz-input-number-range>
+    </div>
 
-        <div *ngSwitchCase="filterTypeEnum.NUMBER" fxLayout="row" style="justify-content: flex-end;" class="min-w-130">
-            <haz-input-number-range [formControlName]="columnConfig.filterElement">
-            </haz-input-number-range>
-        </div>
+    <div *ngSwitchCase="filterTypeEnum.CLEAR_FILTERS" fxLayout="row" style="justify-content: flex-end;">
+        <button mat-icon-button (click)="clearFilters()">
+            <mat-icon>cancel</mat-icon>
+        </button>
+    </div>
 
-        <div *ngSwitchCase="filterTypeEnum.CLEAR_FILTERS" fxLayout="row" style="justify-content: flex-end;">
-            <button mat-icon-button (click)="clearFilters()">
-                <mat-icon>cancel</mat-icon>
-            </button>
-        </div>
-
-        <span *ngSwitchDefault></span>
+    <span *ngSwitchDefault></span>
 </ng-container>
 

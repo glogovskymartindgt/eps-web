@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TaskComment, TaskCommentResponse } from 'src/app/shared/interfaces/task-comment.interface';
-import { NotificationService } from 'src/app/shared/services/notification.service';
-import { TaskCommentService } from 'src/app/shared/services/task-comment.service';
+import { TaskComment, TaskCommentResponse } from '../../../shared/interfaces/task-comment.interface';
 import { TaskService } from '../../../shared/services/data/task.service';
+import { NotificationService } from '../../../shared/services/notification.service';
+import { TaskCommentService } from '../../../shared/services/task-comment.service';
 import { TaskFormComponent } from '../task-form/task-form.component';
 
 @Component({
@@ -22,11 +22,11 @@ export class TaskEditComponent implements OnInit {
     private taskId: number;
 
     public constructor(
-        private router: Router,
+        private readonly router: Router,
         private readonly taskCommentService: TaskCommentService,
         private readonly notificationService: NotificationService,
-        private activatedRoute: ActivatedRoute,
-        private taskService: TaskService,
+        private readonly activatedRoute: ActivatedRoute,
+        private readonly taskService: TaskService,
     ) {
     }
 
@@ -42,16 +42,15 @@ export class TaskEditComponent implements OnInit {
     }
 
     public onSave() {
-        this.taskService.editTask(this.taskId, this.transformTaskToApiObject(this.formData));
-        // .subscribe(
-        //     (response) => {
-        //         console.log(response);
-        //         this.notificationService.openSuccessNotification('success.edit');
-        //         this.router.navigate(['tasks/list']);
-        //     }, (error) => {
-        //         console.log(error);
-        //         this.notificationService.openErrorNotification('error.add');
-        //     });
+        this.taskService.editTask(this.taskId, this.transformTaskToApiObject(this.formData)).subscribe(
+            (response) => {
+                console.log(response);
+                this.notificationService.openSuccessNotification('success.edit');
+                this.router.navigate(['tasks/list']);
+            }, (error) => {
+                console.log(error);
+                this.notificationService.openErrorNotification('error.add');
+            });
     }
 
     public onCommentAdded() {

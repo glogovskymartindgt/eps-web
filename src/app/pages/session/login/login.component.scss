@@ -1,9 +1,9 @@
-$color-primary: #1595D3;
-$color-secondary: #002D62;
+$color-primary: #1595d3;
+$color-secondary: #002d62;
 
 .login-page {
     height: 100vh;
-    background-image: linear-gradient($color-secondary, #89CAE9);
+    background-image: linear-gradient($color-secondary, #89cae9);
 }
 
 .login-header {
@@ -22,7 +22,7 @@ $color-secondary: #002D62;
     color: $color-secondary;
     font-weight: bold;
     font-size: 18px;
-    font-family: Roboto-Bold, sans-serif;
+    font-family: 'Roboto-Bold', sans-serif;
 }
 
 .cursor-pointer {
@@ -40,7 +40,7 @@ $color-secondary: #002D62;
 
 mat-label {
     color: $color-primary;
-    font-family: Roboto, sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-weight: 500;
     font-size: 16px;
 }
@@ -48,7 +48,7 @@ mat-label {
 input {
     color: $color-secondary;
     font-size: 20px;
-    font-family: Roboto, sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 ::ng-deep {

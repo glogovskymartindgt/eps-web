@@ -1,5 +1,5 @@
-$color-primary: #1595D3;
-$color-secondary: #002D62;
+$color-primary: #1595d3;
+$color-secondary: #002d62;
 
 $colors: (
     red: #ff0000,
@@ -16,7 +16,7 @@ $colors: (
 
 mat-label {
     color: $color-primary;
-    font-family: Roboto, sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-weight: 500;
     font-size: 16px;
 }
@@ -55,6 +55,3 @@ mat-label {
     border-radius: 50%;
     position: absolute;
 }
-
-
-

@@ -11,7 +11,7 @@ initHazelnutConfig({
   URL_API: environment.URL_API,
   LANGUAGE: 'en',
   VERSION: '1.0.0',
-  BROWSE_LIMIT: 10
+  BROWSE_LIMIT: 15
 });
 
 if (environment.production) {

@@ -57,6 +57,12 @@ export class CoreTableService {
                 this.filters.push(new Filter(propertyName, value, 'STRING', 'EQ'));
                 break;
             }
+            case TableFilterType.RESPONSIBLE: {
+                if (value !== 'None') {
+                    this.filters.push(new Filter('RESPONSIBLE_USER', value, 'NUMBER', 'EQ'));
+                }
+                break;
+            }
             case TableFilterType.SELECT_NUMBER: {
                 this.filters.push(new Filter(propertyName, value, 'NUMBER', 'EQ'));
                 break;

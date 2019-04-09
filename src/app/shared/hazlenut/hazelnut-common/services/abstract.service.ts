@@ -1,9 +1,13 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 // TODO: abstract service shouldn't be dependent od core-table
 import { TableChangeEvent } from '../../core-table/table-change-event';
-import { NOTIFICATION_WRAPPER_TOKEN, NotificationWrapper } from '../../small-components/notifications/notification.wrapper';
+import {
+    NOTIFICATION_WRAPPER_TOKEN,
+    NotificationWrapper
+} from '../../small-components/notifications/notification.wrapper';
 import { HazelnutConfig } from '../config/hazelnut-config';
 import { StringMap } from '../hazelnut';
 import { BrowseResponse, Direction, Filter, PostContent, Property, Sort } from '../models';
@@ -25,7 +29,7 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
         const sorts: Sort[] = [];
 
         if (params.sortActive) {
-            sorts.push(new Sort(params.sortActive as Property, params.sortDirection as Direction));
+            sorts.push(new Sort(params.sortActive, params.sortDirection as Direction));
         }
         return this.browseInner(`${HazelnutConfig.URL_API}/${url}`,
             PostContent.create(params.pageSize, params.pageSize * params.pageIndex, filters, sorts),
@@ -212,5 +216,40 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
             mapFunction,
             body: content.prepareAndGet(HazelnutConfig.BROWSE_LIMIT)
         });
+    }
+
+        /**
+         *
+         * @param {Filter[]} filter
+         * @param {Sort[]} sort
+         * @returns {Observable<T>}
+         */
+    protected report<S = T>(filter: Filter[] = [], sort: Sort[] = [new Sort()]): Observable<any> {
+            if (sort && sort.length === 0) {
+                sort.push(new Sort());
+            }
+            const content = { filterCriteria: { criteria: filter }, sortingCriteria: { criteria: sort } };
+            return this.postBlob(`${HazelnutConfig.URL_API}/${this.urlKey}/report`, content, this.extractDetail);
+        }
+
+    /**
+     * @param {string} url
+     * @param body
+     * @param {(res: Response) => any[]} mapFunction
+     * @param params
+     * @returns {Observable<S>}
+     */
+    protected postBlob<S = T[]>(url: string,
+                                body: any,
+                                mapFunction: (response: any) => S,
+                                params: HttpParams | { [param: string]: string | string[]; } = {}): Observable<S> {
+        return this.http.post(url, body, {
+            headers: this.getHeader(),
+            params,
+            responseType: 'blob'
+        }).pipe(
+            map(mapFunction),
+            catchError(this.handleError),
+        );
     }
 }

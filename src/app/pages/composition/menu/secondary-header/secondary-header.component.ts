@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { DashboardService } from 'src/app/shared/services/dashboard.service';
 import { fadeEnterLeave } from '../../../../shared/hazlenut/hazelnut-common/animations';
+import { DashboardService } from '../../../../shared/services/dashboard.service';
 import { ProjectEventService } from '../../../../shared/services/storage/project-event.service';
 
 @Component({

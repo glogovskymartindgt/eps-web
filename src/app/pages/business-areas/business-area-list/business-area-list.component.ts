@@ -78,7 +78,7 @@ export class BusinessAreaListComponent implements OnInit {
             this.isInitialized = true;
         }, (error) => {
             this.loading = false;
-            // this.notificationService.openErrorNotification(error);
+            this.notificationService.openErrorNotification('error.api');
         });
     }
 

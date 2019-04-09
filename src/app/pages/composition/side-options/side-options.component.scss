@@ -16,11 +16,11 @@ $text-color: white;
 }
 
 .menu-option {
+    @include block-selecting-elements;
     height: 26px;
     color: $text-color;
     padding: 21px 0 19px 19px;
     cursor: pointer;
-    @include block-selecting-elements;
 
     &:hover {
         background: rgba(255, 255, 255, .1);
@@ -105,6 +105,6 @@ $text-color: white;
 }
 
 .menu-text {
-    font-family: Roboto-Bold, sans-serif;
+    font-family: 'Roboto-Bold', sans-serif;
     font-size: 14px;
 }

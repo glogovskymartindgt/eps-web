@@ -25,7 +25,7 @@ export class BusinessAreaService extends ProjectService<BusinessArea> {
     public browseBusinessAreas(tableChangeEvent: TableChangeEvent): Observable<BrowseResponse<BusinessArea>> {
         let filters = [];
         let sort = [];
-        let limit = 10;
+        let limit = 15;
         let offset = 0;
 
         if (tableChangeEvent) {

@@ -17,10 +17,10 @@ export class TaskCreateComponent implements OnInit {
     public formData = null;
     public loading: false;
 
-    public constructor(private router: Router,
-                       private taskService: TaskService,
-                       private notificationService: NotificationService,
-                       private projectEventService: ProjectEventService
+    public constructor(private readonly router: Router,
+                       private readonly taskService: TaskService,
+                       private readonly notificationService: NotificationService,
+                       private readonly projectEventService: ProjectEventService
     ) {
     }
 
@@ -47,23 +47,23 @@ export class TaskCreateComponent implements OnInit {
         const apiObject: any = {
             taskType: formObject.taskType,
             name: formObject.title,
-            clBusinessArea: formObject.businessArea,
-            project: this.projectEventService.instant.id
+            clBusinessAreaId: formObject.businessArea,
+            projectId: this.projectEventService.instant.id
         };
         if (formObject.trafficLight) {
             apiObject.trafficLight = formObject.trafficLight;
         }
         if (formObject.sourceOfAgenda !== '') {
-            apiObject.clSourceOfAgenda = formObject.sourceOfAgenda;
+            apiObject.clSourceOfAgendaId = formObject.sourceOfAgenda;
         }
         if (formObject.phase !== '') {
-            apiObject.projectPhase = formObject.phase;
+            apiObject.projectPhaseId = formObject.phase;
         }
         if (formObject.dueDate !== null) {
             apiObject.dueDate = formObject.dueDate;
         }
         if (formObject.responsible !== '') {
-            apiObject.responsibleUser = formObject.responsible;
+            apiObject.responsibleUserId = formObject.responsible;
         }
         if (formObject.venue !== '') {
             apiObject.cityName = formObject.venue;

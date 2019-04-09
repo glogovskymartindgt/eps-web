@@ -1,16 +1,16 @@
-import { Injectable } from '@angular/core';
-import { ProjectService } from './project.service';
 import { HttpClient } from '@angular/common/http';
-import { NotificationService } from './notification.service';
-import { ProjectUserService } from './storage/project-user.service';
-import { TaskComment, TaskCommentResponse } from '../interfaces/task-comment.interface';
-import { environment } from 'src/environments/environment';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { TaskComment, TaskCommentResponse } from '../interfaces/task-comment.interface';
+import { NotificationService } from './notification.service';
+import { ProjectService } from './project.service';
+import { ProjectUserService } from './storage/project-user.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TaskCommentService extends ProjectService<any> {//TODO comment from BE interface create
+export class TaskCommentService extends ProjectService<any> {// TODO comment from BE interface create
 
   public constructor(
       http: HttpClient,
@@ -23,7 +23,7 @@ export class TaskCommentService extends ProjectService<any> {//TODO comment from
   public addComment(taskComment: TaskComment): Observable<TaskCommentResponse> {
 
     return this.http.post<TaskCommentResponse>(
-        environment.URL_API + '/comment',
+        `${environment.URL_API}/comment`,
         taskComment,
         {headers: this.getHeader()}
     );
@@ -33,7 +33,7 @@ export class TaskCommentService extends ProjectService<any> {//TODO comment from
   public getAllComment(taskId: number): Observable<TaskCommentResponse[]> {
 
     return this.http.get<TaskCommentResponse[]>(
-          environment.URL_API + '/comment/' + taskId,
+          `${environment.URL_API}/comment/${taskId}`,
           {headers: this.getHeader()}
     );
 

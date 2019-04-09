@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
+import { UserDataService } from '../../../../services/data/user-data.service';
+import { NotificationService } from '../../../../services/notification.service';
 import { fadeEnterLeave } from '../../../hazelnut-common/animations';
 import { CoreTableService } from '../../core-table.service';
 import { TableColumn } from '../../models/table-column.model';
@@ -18,8 +20,12 @@ export class CoreTableFilterComponent implements OnInit {
     private _filtersElement: FormGroup = null;
     public showSearchIcon = true;
     public filterTypeEnum: typeof TableFilterType = TableFilterType;
+    public userList$ = this.userDataService.getUsers();
 
-    public constructor(private readonly coreTableService: CoreTableService) {
+    public constructor(private readonly coreTableService: CoreTableService,
+                       private readonly userDataService: UserDataService,
+                       private readonly notificationService: NotificationService,
+                       ) {
     }
 
     public get filterDelay(): number {

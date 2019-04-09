@@ -12,10 +12,12 @@ import {
 } from '../../../shared/hazlenut/core-table';
 import { fadeEnterLeave } from '../../../shared/hazlenut/hazelnut-common/animations';
 import { BrowseResponse, Filter } from '../../../shared/hazlenut/hazelnut-common/models';
+import { FileManager } from '../../../shared/hazlenut/hazelnut-common/utils/file-manager';
 import { BusinessArea } from '../../../shared/interfaces/bussiness-area.interface';
 import { TaskInterface } from '../../../shared/interfaces/task.interface';
 import { BusinessAreaService } from '../../../shared/services/data/business-area.service';
 import { TaskService } from '../../../shared/services/data/task.service';
+import { UserDataService } from '../../../shared/services/data/user-data.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 import { SelectedAreaService } from '../../../shared/services/storage/selected-area.service';
@@ -39,6 +41,7 @@ export class TaskListComponent implements OnInit {
     public config: TableConfiguration;
     public data: BrowseResponse<TaskInterface> = new BrowseResponse<TaskInterface>();
     public businessAreaList: BusinessArea[];
+    public userList: any[];
     public loading = false;
     private isInitialized = false;
     private businessAreaFilter: Filter;
@@ -50,6 +53,7 @@ export class TaskListComponent implements OnInit {
                        public readonly projectEventService: ProjectEventService,
                        public readonly selectedAreaService: SelectedAreaService,
                        public readonly businessAreaService: BusinessAreaService,
+                       public readonly userDataService: UserDataService,
                        public readonly formBuilder: FormBuilder,
     ) {
     }
@@ -104,7 +108,10 @@ export class TaskListComponent implements OnInit {
                 new TableColumn({
                     columnDef: 'code',
                     label: this.translateService.instant('task.code'),
-                    filter: new TableColumnFilter({}),
+                    type: TableCellType.NUMBER,
+                    filter: new TableColumnFilter({
+                        type: TableFilterType.NUMBER,
+                    }),
                     sorting: true,
                 }),
                 new TableColumn({
@@ -113,12 +120,6 @@ export class TaskListComponent implements OnInit {
                     filter: new TableColumnFilter({}),
                     sorting: true,
                 }),
-                // new TableColumn({
-                //     columnDef: 'projectPhase',
-                //     label: this.translateService.instant('task.phase'),
-                //     filter: new TableColumnFilter({}),
-                //     sorting: true,
-                // }),
                 new TableColumn({
                     columnDef: 'cityName',
                     label: this.translateService.instant('task.venue'),
@@ -128,12 +129,14 @@ export class TaskListComponent implements OnInit {
                     tableCellTemplate: this.venueColumn,
                 }),
                 new TableColumn({
-                    columnDef: 'responsibleUser.firstName',
+                    columnDef: 'responsibleUser',
                     label: this.translateService.instant('task.responsible'),
-                    filter: new TableColumnFilter({}),
                     sorting: true,
                     type: TableCellType.CONTENT,
                     tableCellTemplate: this.userColumn,
+                    filter: new TableColumnFilter({
+                        type: TableFilterType.RESPONSIBLE,
+                    }),
                 }),
                 new TableColumn({
                     columnDef: 'dueDate',
@@ -181,6 +184,11 @@ export class TaskListComponent implements OnInit {
     }
 
     public export() {
+        this.taskService.exportTasks().subscribe((response) => {
+            new FileManager().saveFile('Export', response, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        }, (error) => {
+            this.notificationService.openErrorNotification(error);
+        });
     }
 
     public update(id: number) {
@@ -188,7 +196,6 @@ export class TaskListComponent implements OnInit {
     }
 
     public setTableData(tableChangeEvent?: TableChangeEvent): void {
-
         const additionalFilters = [
             new Filter('PROJECT_NAME', this.projectEventService.instant.projectName),
             new Filter('PROJECT_YEAR', this.projectEventService.instant.year, 'NUMBER'),
@@ -213,7 +220,7 @@ export class TaskListComponent implements OnInit {
             this.isInitialized = true;
         }, (error) => {
             this.loading = false;
-            // this.notificationService.openErrorNotification(error);
+            this.notificationService.openErrorNotification('error.api');
 
         });
     }

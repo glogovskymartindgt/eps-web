@@ -12,7 +12,6 @@ export class TableColumn implements TableColumnInterface {
     public label: string;
     public type?: TableCellType;
     public sorting = false;
-    public tdClasses = '';
     public filter?: TableColumnFilter;
     public tableCellTemplate?: TemplateRef<any>;
     public componentParams?: object;
@@ -24,7 +23,6 @@ export class TableColumn implements TableColumnInterface {
         this.label = config.label;
         this.type = config.type;
         this.sorting = config.sorting || this.sorting;
-        this.tdClasses = config.tdClasses || this.tdClasses;
         this.filter = config.filter || this.filter;
         this.tableCellTemplate = config.tableCellTemplate;
         this.componentParams = config.componentParams;

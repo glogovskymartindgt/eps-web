@@ -11,6 +11,14 @@ function addLeadingZero(text: string): string {
 
 export class StringUtils {
 
+    public static toLowerCaseWithDot(value: string): string {
+        return value.replace(' ', '.').toLowerCase();
+    }
+
+    public static compareInDotLowerCase(firstString: string, secondString: string) {
+        return StringUtils.toLowerCaseWithDot(firstString) === StringUtils.toLowerCaseWithDot(secondString);
+    }
+
     public static removeAccentedCharacters(word: string): string {
         if (!word || !word.replace) {
             return word;
