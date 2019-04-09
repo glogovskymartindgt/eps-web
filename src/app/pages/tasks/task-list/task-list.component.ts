@@ -17,7 +17,6 @@ import { BusinessArea } from '../../../shared/interfaces/bussiness-area.interfac
 import { TaskInterface } from '../../../shared/interfaces/task.interface';
 import { BusinessAreaService } from '../../../shared/services/data/business-area.service';
 import { TaskService } from '../../../shared/services/data/task.service';
-import { UserDataService } from '../../../shared/services/data/user-data.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 import { SelectedAreaService } from '../../../shared/services/storage/selected-area.service';
@@ -41,8 +40,8 @@ export class TaskListComponent implements OnInit {
     public config: TableConfiguration;
     public data: BrowseResponse<TaskInterface> = new BrowseResponse<TaskInterface>();
     public businessAreaList: BusinessArea[];
-    public userList: any[];
     public loading = false;
+    private lastTableChangeEvent: TableChangeEvent;
     private isInitialized = false;
     private businessAreaFilter: Filter;
 
@@ -53,7 +52,6 @@ export class TaskListComponent implements OnInit {
                        public readonly projectEventService: ProjectEventService,
                        public readonly selectedAreaService: SelectedAreaService,
                        public readonly businessAreaService: BusinessAreaService,
-                       public readonly userDataService: UserDataService,
                        public readonly formBuilder: FormBuilder,
     ) {
     }
@@ -185,8 +183,12 @@ export class TaskListComponent implements OnInit {
     }
 
     public export() {
-        this.taskService.exportTasks().subscribe((response) => {
-            new FileManager().saveFile('Export', response, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        this.taskService.exportTasks(this.lastTableChangeEvent).subscribe((response) => {
+            new FileManager().saveFile(
+                'Export',
+                response,
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            );
         }, (error) => {
             this.notificationService.openErrorNotification(error);
         });
@@ -197,6 +199,7 @@ export class TaskListComponent implements OnInit {
     }
 
     public setTableData(tableChangeEvent?: TableChangeEvent): void {
+        this.lastTableChangeEvent = tableChangeEvent;
         const additionalFilters = [
             new Filter('PROJECT_NAME', this.projectEventService.instant.projectName),
             new Filter('PROJECT_YEAR', this.projectEventService.instant.year, 'NUMBER'),
@@ -211,7 +214,6 @@ export class TaskListComponent implements OnInit {
                 this.businessAreaFilter = new Filter('BUSINESS_AREA_NAME',
                     this.selectedAreaService.instant.selectedArea)
             );
-
         }
 
         this.loading = true;

@@ -28,8 +28,8 @@
 
     <mat-form-field *ngSwitchCase="filterTypeEnum.RESPONSIBLE" [ngClass]="widthClass">
         <mat-select [formControlName]="columnConfig.filterElement">
-            <mat-option  [value]="'None'">
-                {{ 'tasks.none' | translate }}
+            <mat-option  [value]="'All'">
+                {{ 'all.persons' | translate }}
             </mat-option>
             <mat-option *ngFor="let option of userList$ | async" [value]="option.id">
                 {{ option.firstName }} {{ option.lastName }}

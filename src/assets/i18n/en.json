@@ -120,6 +120,7 @@
     },
     "all": {
         "things": "All",
+        "persons": "All",
         "empty": "Empty"
     },
     "fact": {

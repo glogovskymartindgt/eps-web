@@ -86,7 +86,6 @@ export class TaskEditComponent implements OnInit {
     }
 
     private transformTaskToApiObject(formObject: any): any {
-        console.log('editFormObject', formObject);
         const apiObject: any = {
             name: formObject.title,
             state: formObject.state,

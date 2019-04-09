@@ -103,11 +103,9 @@ export class InputDateRangeComponent implements OnInit, ControlValueAccessor, Af
             return this.writeValue({dateFrom: null, dateTo: null});
         }
         if (value.dateTo && this.toFormControl.value !== value.dateTo && this.toFormControl.value._d !== value.dateTo._d) {
-            console.log('set to');
             this.toFormControl.setValue(value.dateTo, {emitEvent: false});
         }
         if (value.dateFrom && this.fromFormControl.value !== value.dateFrom && this.fromFormControl.value._d !== value.dateFrom._d) {
-            console.log('set from');
             this.fromFormControl.setValue(value.dateFrom, {emitEvent: false});
         }
         this.cdRef.detectChanges();

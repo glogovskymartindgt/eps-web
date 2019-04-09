@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TableChangeEvent } from '../../hazlenut/core-table';
 import { StringUtils } from '../../hazlenut/hazelnut-common/hazelnut';
-import { BrowseResponse, Filter, PostContent, Sort } from '../../hazlenut/hazelnut-common/models';
+import { BrowseResponse, Direction, Filter, PostContent, Sort } from '../../hazlenut/hazelnut-common/models';
 import { TaskInterface } from '../../interfaces/task.interface';
 import { NotificationService } from '../notification.service';
 import { ProjectService } from '../project.service';
@@ -45,8 +45,12 @@ export class TaskService extends ProjectService<TaskInterface> {
         return this.browseWithSummary(PostContent.create(limit, offset, filters, sort));
     }
 
-    public exportTasks() {
-        return this.report([], []);
+    public exportTasks(tableChangeEvent?: TableChangeEvent) {
+        return this.report(tableChangeEvent.filters, [
+            new Sort(tableChangeEvent.sortActive,
+                tableChangeEvent.sortDirection as Direction
+            )
+        ]);
     }
 
     public createTask(taskObject: any) {

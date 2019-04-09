@@ -127,7 +127,6 @@ export class TaskFormComponent implements OnInit {
     private loadPhaseList() {
         this.phaseService.getPhasesByProjectId(this.projectEventService.instant.id).subscribe((data) => {
             this.phaseList = data;
-            console.log('phases', data);
         });
     }
 
@@ -195,7 +194,6 @@ export class TaskFormComponent implements OnInit {
     }
 
     private setForm(task: any) {
-        console.log('task', task);
         this.taskForm.controls.title.patchValue(task.name);
         this.taskForm.controls.taskType.patchValue(task.taskType);
         this.taskForm.controls.phase.patchValue(task.projectPhase.id);
