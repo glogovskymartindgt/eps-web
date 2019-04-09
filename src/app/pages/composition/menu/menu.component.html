@@ -12,18 +12,10 @@
                         [@fadeEnterLeave]
             >
                 <div class="layer">
-<!--                    TODO tesing multilanguage functionality-->
-                    <!--<div class="menu-icon-options">-->
-                    <!--<button mat-icon-button (click)="toggleLanguage()">-->
-                    <!--<mat-icon>language</mat-icon>-->
-                    <!--</button>-->
-                    <!--</div>-->
                     <side-options></side-options>
                 </div>
-                <div class="version">{{version}}</div>
+                <div class="version" (dblclick)="toggleLanguage()">{{version}}</div>
             </mat-drawer>
-
-
             <div fxLayout="column">
                 <div class="menu-topnav"
                      fxLayoutAlign="space-between center"

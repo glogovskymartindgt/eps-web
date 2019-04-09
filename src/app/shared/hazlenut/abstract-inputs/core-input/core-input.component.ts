@@ -73,8 +73,6 @@ export class CoreInputComponent implements OnInit, ControlValueAccessor, AfterVi
     }
 
     public writeValue(value: string): void {
-        // this.value = value || '';
-        // this.onChange(this.value);
         this.formControl.setValue(value || '', {emitEvent: false});
     }
 

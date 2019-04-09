@@ -45,7 +45,6 @@ export class CoreTableFilterComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        // setup formGroup
         const elementName = this.columnConfig.filterElement;
         const formGroupOptions: { [id: string]: FormControl } = {};
         formGroupOptions[elementName] = new FormControl(

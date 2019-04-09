@@ -10,7 +10,7 @@
             </haz-core-input>
         </div>
         <mat-form-field appearance="fill" class="theme-input short-input">
-            <mat-label>{{ 'tasks.status' | translate }}</mat-label>
+            <mat-label class="label-style">{{ 'tasks.status' | translate }}</mat-label>
             <mat-select formControlName="state" required>
                 <mat-option [value]="'OPEN'">{{'status.open' | translate}}</mat-option>
                 <mat-option [value]="'CLOSED'">{{'status.closed' | translate}}</mat-option>
@@ -20,7 +20,7 @@
 
     <div fxLayout="row">
         <mat-form-field appearance="fill" class="theme-input short-input mr-10">
-            <mat-label>{{ 'tasks.type' | translate }}</mat-label>
+            <mat-label class="label-style">{{ 'tasks.type' | translate }}</mat-label>
             <mat-select formControlName="taskType" required>
                 <mat-option *ngFor="let taskType of taskTypeList" [value]="taskType.toUpperCase()">
                     {{taskType}}
@@ -30,7 +30,7 @@
                 *ngIf="f?.taskType?.errors?.required">{{ 'error.required' | translate }}</mat-error>
         </mat-form-field>
         <mat-form-field *ngIf="f.taskType.value == 'ISSUE'" appearance="fill" class="theme-input short-input">
-            <mat-label>{{ 'tasks.trafficLight' | translate }}</mat-label>
+            <mat-label class="label-style">{{ 'tasks.trafficLight' | translate }}</mat-label>
             <mat-select formControlName="trafficLight">
                 <mat-select-trigger>
                     <div class="color-circle"
@@ -62,7 +62,7 @@
 
     <div>
         <mat-form-field appearance="fill" class="long-input theme-input">
-            <mat-label>{{'businessArea.title' | translate}}</mat-label>
+            <mat-label class="label-style">{{'businessArea.title' | translate}}</mat-label>
             <mat-select formControlName="businessArea" required>
                 <mat-option class="color-none" value="">{{'all.empty' | translate}}</mat-option>
                 <mat-option *ngFor="let businessArea of businessAreaList"
@@ -78,7 +78,7 @@
 
     <div>
         <mat-form-field appearance="fill" class="theme-input long-input">
-            <mat-label>{{ 'tasks.responsible' | translate }}</mat-label>
+            <mat-label class="label-style">{{ 'tasks.responsible' | translate }}</mat-label>
             <mat-select formControlName="responsible">
                 <mat-option value="" class="color-none">{{'all.empty' | translate}}</mat-option>
                 <mat-option *ngFor="let user of userList"
@@ -92,7 +92,7 @@
 
     <div>
         <mat-form-field appearance="fill" class="theme-input long-input">
-            <mat-label>{{ 'tasks.sourceOfAgenda' | translate }}</mat-label>
+            <mat-label class="label-style">{{ 'tasks.sourceOfAgenda' | translate }}</mat-label>
             <mat-select formControlName="sourceOfAgenda">
                 <mat-option value="" class="color-none">{{'all.empty' | translate}}</mat-option>
                 <mat-option *ngFor="let sourceOfAgenda of sourceOfAgendaList"
@@ -116,7 +116,7 @@
 
     <div>
         <mat-form-field appearance="fill" class="theme-input long-input">
-            <mat-label>{{ 'tasks.phase' | translate }}</mat-label>
+            <mat-label class="label-style">{{ 'tasks.phase' | translate }}</mat-label>
             <mat-select formControlName="phase">
                 <mat-option value="" class="color-none">{{'all.empty' | translate}}</mat-option>
                 <mat-option *ngFor="let phase of phaseList"
@@ -132,7 +132,7 @@
 
     <div fxLayout="row">
         <mat-form-field appearance="fill" class="short-input theme-input mr-10">
-            <mat-label>{{ 'tasks.dueDate' | translate }}</mat-label>
+            <mat-label class="label-style">{{ 'tasks.dueDate' | translate }}</mat-label>
             <input matInput [matDatepicker]="picker" (dateChange)="onDateChanged($event.value)"
                    formControlName="dueDate">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -141,7 +141,7 @@
         </mat-form-field>
 
         <mat-form-field appearance="fill" class="short-input theme-input">
-            <mat-label>{{ 'tasks.venue' | translate }}</mat-label>
+            <mat-label class="label-style">{{ 'tasks.venue' | translate }}</mat-label>
             <mat-select formControlName="venue">
                 <mat-option value='None' class="color-none">{{ 'tasks.none' | translate }}</mat-option>
                 <mat-option *ngFor="let venue of venueList" [value]="venue.city">
@@ -153,7 +153,7 @@
     </div>
 
     <mat-form-field appearance="fill" class="short-input theme-input mr-10" *ngIf="isUpdate">
-        <mat-label>{{ 'tasks.closedDate' | translate }}</mat-label>
+        <mat-label class="label-style">{{ 'tasks.closedDate' | translate }}</mat-label>
         <input matInput [matDatepicker]="pickerClosed" (dateChange)="onDateChangedClosed($event.value)"
                formControlName="closedDate">
         <mat-datepicker-toggle matSuffix [for]="pickerClosed"></mat-datepicker-toggle>

@@ -27,8 +27,6 @@
     </mat-form-field>
 
     <mat-form-field *ngSwitchCase="filterTypeEnum.RESPONSIBLE" [ngClass]="widthClass">
-        <!--        // TODO Set config before init-->
-        <!--        {{columnConfig.filter.select  | json}}-->
         <mat-select [formControlName]="columnConfig.filterElement">
             <mat-option  [value]="'None'">
                 {{ 'tasks.none' | translate }}

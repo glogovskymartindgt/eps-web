@@ -11,17 +11,20 @@
             </div>
             <mat-card-header></mat-card-header>
             <mat-card-content class="m-0 px-25">
-                <div class="card-container">
-                    <mat-form-field appearance="fill" class="theme-input">
-                        <mat-label>{{'login.username' | translate}}</mat-label>
-                        <input matInput formControlName="userName">
+                <div>
+                    <mat-form-field appearance="fill" class="theme-input w-full">
+                        <mat-label class="label-style">{{'login.username' | translate}}</mat-label>
+                        <input matInput formControlName="userName" class="input-style">
                         <mat-error *ngIf="loginFormControls?.userName?.invalid">
                             {{'error.required' | translate}}
                         </mat-error>
                     </mat-form-field>
-                    <mat-form-field appearance="fill" class="mt-8 theme-input">
-                        <mat-label>{{'login.password' | translate}}</mat-label>
-                        <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password">
+                    <mat-form-field appearance="fill" class="mt-8 theme-input w-full">
+                        <mat-label class="label-style">{{'login.password' | translate}}</mat-label>
+                        <input matInput
+                               [type]="hidePassword ? 'password' : 'text'"
+                               formControlName="password"
+                               class="input-style">
                         <mat-icon matSuffix (click)="hidePassword = !hidePassword "
                                   class="cursor-pointer"
                                   matTooltip="{{ 'login.toggleVisibility' | translate}}"

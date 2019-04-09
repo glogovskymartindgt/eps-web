@@ -59,6 +59,7 @@ export class TaskListComponent implements OnInit {
     }
 
     public ngOnInit() {
+        const allThingsKey = 'all.things';
         this.loadBusinessAreaList();
         this.areaGroup = this.formBuilder.group({
             businessArea: [this.selectedAreaService.instant.selectedArea]
@@ -81,7 +82,7 @@ export class TaskListComponent implements OnInit {
                         valueType: 'ENUM',
                         type: TableFilterType.TRAFFIC_LIGHT,
                         select: [
-                            new ListItem('', this.translateService.instant('all.things')),
+                            new ListItem('', this.translateService.instant(allThingsKey)),
                             new ListItem('RED', this.translateService.instant('color.red')),
                             new ListItem('GREEN', this.translateService.instant('color.green')),
                             new ListItem('AMBER', this.translateService.instant('color.amber')),
@@ -99,7 +100,7 @@ export class TaskListComponent implements OnInit {
                         valueType: 'ENUM',
                         type: TableFilterType.SELECT,
                         select: [
-                            new ListItem('', this.translateService.instant('all.things')),
+                            new ListItem('', this.translateService.instant(allThingsKey)),
                             new ListItem('TASK', this.translateService.instant('task.taskTypeValue.task')),
                             new ListItem('ISSUE', this.translateService.instant('task.taskTypeValue.issue')),
                         ]
@@ -158,7 +159,7 @@ export class TaskListComponent implements OnInit {
                         valueType: 'ENUM',
                         type: TableFilterType.SELECT,
                         select: [
-                            new ListItem('', this.translateService.instant('all.things')),
+                            new ListItem('', this.translateService.instant(allThingsKey)),
                             new ListItem('OPEN', this.translateService.instant('task.statusValue.open')),
                             new ListItem('CLOSED', this.translateService.instant('task.statusValue.closed')),
                         ]

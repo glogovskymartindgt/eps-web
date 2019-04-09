@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProjectInterface } from 'src/app/shared/interfaces/project.interface';
+import { ProjectInterface } from '../../../shared/interfaces/project.interface';
 import { DashboardService } from '../../../shared/services/dashboard.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 

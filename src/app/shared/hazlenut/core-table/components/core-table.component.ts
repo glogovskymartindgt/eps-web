@@ -157,7 +157,6 @@ export class CoreTableComponent<T = any> implements OnInit, OnChanges, OnDestroy
             this.setPageSize();
             this.setLabels();
 
-            // setup selection
             if (this.selectableTable) {
                 this.configuration.columns.unshift(new TableColumn({columnDef: 'nothing'}));
                 this.selection = new SelectionModel<any>(this.configuration.selection === 'multi', []);

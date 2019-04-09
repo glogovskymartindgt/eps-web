@@ -75,7 +75,7 @@ export class ProjectCardComponent implements OnInit {
         );
         this.dashboardService.setSecondaryHeaderContent({
             isDashboard: false,
-            title: this.project.year + ' ' + this.project.name
+            title: `${this.project.year} ${this.project.name}`
         });
         this.openAreas();
     }
