@@ -83,6 +83,9 @@ export class TaskFormComponent implements OnInit {
         this.loadUserList();
         this.createForm();
         this.checkIfUpdate();
+        this.taskForm.get('taskType').valueChanges.subscribe((value) => {
+            this.onTypeChanged(value);
+        });
     }
 
     public get f() {
@@ -100,11 +103,11 @@ export class TaskFormComponent implements OnInit {
     public getCircleColor(value) {
         switch (value) {
             case 'red':
-                return '#CE211F';
+                return '#ce211f';
             case 'amber':
-                return '#F79824';
+                return '#f79824';
             case 'green':
-                return '#20BF55';
+                return '#20bf55';
             default:
                 return 'none';
         }
@@ -142,6 +145,16 @@ export class TaskFormComponent implements OnInit {
         });
     }
 
+    public onTypeChanged(type: string) {
+        if (type === 'ISSUE' && this.taskForm.get('trafficLight') === null) {
+            this.taskForm.addControl('trafficLight', this.formBuilder.control(null, [Validators.required]));
+            this.taskForm.get('trafficLight').setValue('none');
+        } else {
+            this.taskForm.removeControl('trafficLight');
+        }
+
+    }
+
     private createForm() {
         this.taskForm = this.formBuilder.group({
             taskType: ['Task', Validators.required],
@@ -159,7 +172,7 @@ export class TaskFormComponent implements OnInit {
             closedDate: [''],
             changedBy: [''],
             changedAt: [''],
-            trafficLight: ['', Validators.required]
+            // trafficLight: ['']
         });
 
         this.taskForm.valueChanges.subscribe(() => {

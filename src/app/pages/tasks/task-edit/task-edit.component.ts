@@ -49,7 +49,7 @@ export class TaskEditComponent implements OnInit {
                 this.router.navigate(['tasks/list']);
             }, (error) => {
                 console.log(error);
-                this.notificationService.openErrorNotification('error.add');
+                this.notificationService.openErrorNotification('error.edit');
             });
     }
 

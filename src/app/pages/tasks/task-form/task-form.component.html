@@ -31,7 +31,7 @@
         </mat-form-field>
         <mat-form-field *ngIf="f.taskType.value == 'ISSUE'" appearance="fill" class="theme-input short-input">
             <mat-label class="label-style">{{ 'tasks.trafficLight' | translate }}</mat-label>
-            <mat-select formControlName="trafficLight">
+            <mat-select formControlName="trafficLight" required>
                 <mat-select-trigger>
                     <div class="color-circle"
                          [ngStyle]="{'background': getCircleColor(f?.trafficLight?.value.toString().toLowerCase())}">

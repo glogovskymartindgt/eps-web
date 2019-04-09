@@ -62,6 +62,7 @@
         "minlength": "Minlength error",
         "pattern": "Pattern error",
         "add": "Create failed",
+        "edit": "Edit failed",
         "interval": "Empty interval",
         "dateFormatIsInvalid": "Date format is invalid",
         "addComment": "Adding of comment failed.",
