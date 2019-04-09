@@ -116,8 +116,8 @@
     "common": {
         "create": "CREATE",
         "export": "EXPORT",
-        "from": "Od",
-        "to": "Do"
+        "from": "From",
+        "to": "To"
     },
     "all": {
         "things": "All",

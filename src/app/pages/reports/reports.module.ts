@@ -7,6 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AbstractInputsModule } from '../../shared/hazlenut/abstract-inputs';
 import { CoreTableModule } from '../../shared/hazlenut/core-table';
 import { MaterialModule } from '../../shared/hazlenut/hazelnut-common';
+import { SmallComponentsModule } from '../../shared/hazlenut/small-components';
 import { ReportListComponent } from './report-list/report-list.component';
 import { ReportsRoutingModule } from './reports-routing.module';
 
@@ -20,7 +21,8 @@ import { ReportsRoutingModule } from './reports-routing.module';
         TranslateModule.forChild(),
         ReactiveFormsModule,
         CoreTableModule,
-        AbstractInputsModule
+        AbstractInputsModule,
+        SmallComponentsModule
     ]
 })
 export class ReportsModule {
