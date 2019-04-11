@@ -74,7 +74,7 @@ export class TaskListComponent implements OnInit {
             columns: [
                 new TableColumn({
                     columnDef: 'trafficLight',
-                    label: this.translateService.instant('task.trafficLight'),
+                    labelKey: 'task.trafficLight',
                     type: TableCellType.CONTENT,
                     tableCellTemplate: this.trafficLightColumn,
                     filter: new TableColumnFilter({
@@ -91,7 +91,7 @@ export class TaskListComponent implements OnInit {
                 }),
                 new TableColumn({
                     columnDef: 'taskType',
-                    label: this.translateService.instant('task.type'),
+                    labelKey: 'task.type',
                     sorting: true,
                     type: TableCellType.CONTENT,
                     tableCellTemplate: this.taskTypeColumn,
@@ -107,7 +107,7 @@ export class TaskListComponent implements OnInit {
                 }),
                 new TableColumn({
                     columnDef: 'code',
-                    label: this.translateService.instant('task.code'),
+                    labelKey: 'task.code',
                     type: TableCellType.NUMBER,
                     filter: new TableColumnFilter({
                         type: TableFilterType.NUMBER,
@@ -116,13 +116,13 @@ export class TaskListComponent implements OnInit {
                 }),
                 new TableColumn({
                     columnDef: 'name',
-                    label: this.translateService.instant('task.name'),
+                    labelKey: 'task.name',
                     filter: new TableColumnFilter({}),
                     sorting: true,
                 }),
                 new TableColumn({
                     columnDef: 'cityName',
-                    label: this.translateService.instant('task.venue'),
+                    labelKey: 'task.venue',
                     filter: new TableColumnFilter({}),
                     sorting: true,
                     type: TableCellType.CONTENT,
@@ -130,7 +130,7 @@ export class TaskListComponent implements OnInit {
                 }),
                 new TableColumn({
                     columnDef: 'responsibleUser',
-                    label: this.translateService.instant('task.responsible'),
+                    labelKey: 'task.responsible',
                     sorting: true,
                     type: TableCellType.CONTENT,
                     tableCellTemplate: this.userColumn,
@@ -140,7 +140,7 @@ export class TaskListComponent implements OnInit {
                 }),
                 new TableColumn({
                     columnDef: 'dueDate',
-                    label: this.translateService.instant('task.dueDate'),
+                    labelKey: 'task.dueDate',
                     filter: new TableColumnFilter({
                         valueType: 'DATE_TIME',
                         type: TableFilterType.DATETIME_AS_DATERANGE,
@@ -151,7 +151,7 @@ export class TaskListComponent implements OnInit {
                 }),
                 new TableColumn({
                     columnDef: 'state',
-                    label: this.translateService.instant('task.status'),
+                    labelKey: 'task.status',
                     type: TableCellType.CONTENT,
                     tableCellTemplate: this.statusColumn,
                     filter: new TableColumnFilter({

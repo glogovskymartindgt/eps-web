@@ -3,9 +3,11 @@ import { ControlValueAccessor, FormBuilder, FormControl, FormGroup, NG_VALUE_ACC
 
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { Observable } from 'rxjs';
 import { StringUtils } from '../../hazelnut-common/hazelnut/utils/string.utils';
 import { TRANSLATE_WRAPPER_TOKEN, TranslateWrapper } from '../../hazelnut-common/interfaces/translate.interface';
 import { Regex } from '../../hazelnut-common/regex/regex';
+import { InputUtils } from '../../hazelnut-common/utils/input-utils';
 
 const DATE_FORMAT = 'DD.MM.YYYY';
 
@@ -28,8 +30,8 @@ export interface DateRangeModel {
     ]
 })
 export class InputDateRangeComponent implements OnInit, ControlValueAccessor, AfterViewChecked {
-    @Input() public fromLabel: string;
-    @Input() public toLabel: string;
+    @Input() public fromLabel: Observable<string>;
+    @Input() public toLabel: Observable<string>;
     @Input() public type: 'date' | 'dateTime' = 'dateTime'; // TODO: create enum
     @Input() public dateWidth;
 
@@ -199,8 +201,9 @@ export class InputDateRangeComponent implements OnInit, ControlValueAccessor, Af
     }
 
     private setLabels(): void {
-        this.fromLabel = this.fromLabel ? this.fromLabel : 'common.from';
-        this.toLabel = this.toLabel ? this.toLabel : 'common.to';
+        InputUtils.setFromToTranslates(this, this.translateWrapperService);
+        // this.fromLabel = this.fromLabel ? this.fromLabel : 'common.from';
+        // this.toLabel = this.toLabel ? this.toLabel : 'common.to';
     }
 
 }

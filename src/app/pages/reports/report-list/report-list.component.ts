@@ -55,11 +55,11 @@ export class ReportListComponent implements OnInit {
                 new TableColumn({
                     columnDef: 'name',
                     filter: new TableColumnFilter({}),
-                    label: this.translateService.instant('report.name'),
+                    labelKey: 'report.name',
                 }),
                 new TableColumn({
                     columnDef: 'description',
-                    label: this.translateService.instant('report.description'),
+                    labelKey: 'report.description',
                     type: TableCellType.CONTENT,
                     tableCellTemplate: this.descriptionColumn,
                 }),

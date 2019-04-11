@@ -27,8 +27,8 @@ export class InputNumberRangeComponent implements OnInit, ControlValueAccessor {
     @Input() public inputStyles = {width: '30px'};
     @Input() public styles = {};
     @Input() public customInput: TemplateRef<any>;
-    @Input() public fromLabel;
-    @Input() public toLabel;
+    @Input() public fromLabel: Observable<string>;
+    @Input() public toLabel: Observable<string>;
     @Input() public useInstantTranslates = false;
     @Input() public inputSize = 165;
 
@@ -87,6 +87,7 @@ export class InputNumberRangeComponent implements OnInit, ControlValueAccessor {
 
     public ngOnInit(): void {
         InputUtils.setFromToTranslates(this, this.translateWrapperService);
+        // this.fromLabel = this.translateWrapperService.get('common.from').pipe(tap((e) => console.log(e)));
 
         merge(this.toControl.valueChanges, this.fromControl.valueChanges).subscribe(() => {
             this.onChange(this.value);

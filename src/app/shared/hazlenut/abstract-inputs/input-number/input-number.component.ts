@@ -20,7 +20,7 @@ import { NumberType } from '../../hazelnut-common/enums/number-type.enum';
 export class InputNumberComponent<T = number | string> implements OnInit, ControlValueAccessor {
     @Input() public type = NumberType.FLOAT;
     @Input() public customInput: TemplateRef<any>;
-    @Input() public label: string;
+    @Input() public label: Observable<string>;
     @Input() public placeholder: string;
 
     @Input() public styles;

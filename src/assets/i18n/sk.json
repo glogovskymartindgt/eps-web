@@ -1,45 +1,25 @@
 {
     "header": {
-        "title": "Medzinárodná hokejová federácia",
+        "title": "International ice hockey federation",
         "country": "Slovensko"
     },
     "menu": {
-        "businessAreas": "Biznis skupiny a ulohy",
-        "dashboard": "Projekty",
+        "businessAreas": "Biznis oblasti a úlohy",
+        "dashboard": "Rozvrh",
         "reports": "Reporty",
         "facts": "Fakty a čísla"
     },
     "login": {
-        "login": "Prihlásiť sa",
-        "username": "Prihlasovacie meno",
+        "login": "Prihlásenie",
+        "username": "Používateľské meno",
         "password": "Heslo",
-        "toggleVisibility": "Zmeniť viditeľnosť"
+        "toggleVisibility": "Zmeniť zobrazenie"
     },
-    "error": {
-        "login": "Nepodarilo sa prihlásiť",
-        "logout": "Nepodarilo sa odhlásiť",
-        "required": "Povinné pole",
-        "api": "Nepodarilo sa nadviazať spojenie so serverom",
-        "minlength": "Nedostatok znakov",
-        "pattern": "Nevhodný tvar",
-        "add": "Požiadavka na vytvorenie sa nevykonala",
-        "interval": "Nulový interval"
-    },
-    "paginator": {
-        "itemsPerPage": "Maximálny počet na stránke",
-        "nextPage": "Nasledujúca stránka",
-        "previousPage": "Predchádzajúca stránka",
-        "firstPage": "Prvá stránka",
-        "lastPage": "Posledná stránka",
-        "from": "z"
-    },
-    "app": {
-        "iihf": "IIHF",
-        "planningSystem": "EVENT PLANNING SYSTEM",
-        "event": "EVENT",
-        "planning": "PLANNING",
-        "system": "SYSTEM",
-        "logout": "Odhlásenie"
+    "dashboard": {
+        "dashboard": "Rozvrh",
+        "all": "Všetko",
+        "open": "Otvorené",
+        "closed": "Uzatvorené"
     },
     "tasks": {
         "cancel": "ZRUŠIŤ",
@@ -51,17 +31,17 @@
         "status": "Stav",
         "trafficLight": "Semafor",
         "title": "Názov",
-        "businessArea": "Podnikateľská zóna",
+        "businessArea": "Podnikataľská zóna",
         "code": "Kód",
         "sourceOfAgenda": "Zdroj agendy",
         "phase": "Fáza",
-        "dueDate": "Dátum splatnosti",
-        "closedDate": "Dátum zatvorenia",
+        "dueDate": "Dátum ukončenia",
+        "closedDate": "Dátum uzatvorenia",
         "responsible": "Zodpovedný",
         "venue": "Miesto",
         "description": "Popis",
         "sourceDescription": "Zdrojový popis",
-        "changedAt": "Naposledy zmenené",
+        "changedAt": "Zmenené",
         "changedBy": "Zmenil",
         "new": {
             "newTask": "Nová úloha"
@@ -70,10 +50,113 @@
             "editTask": "Upraviť úlohu"
         }
     },
+    "status": {
+        "open": "Otvorené",
+        "closed": "Uzatvorené"
+    },
+    "error": {
+        "login": "Prihlásenie sa nepodarilo",
+        "logout": "Odhlásenie sa nepodarilo",
+        "required": "Povinné pole",
+        "api": "Nepodarilo sa nadviazať spojenie so serverom",
+        "minlength": "Pole má minimálnu dĺžku",
+        "pattern": "Nesprávny tvar",
+        "add": "Vytvorenie sa nepodarilo",
+        "edit": "Zmeny sa nepodarilo vykonať",
+        "interval": "Prázdny interval",
+        "dateFormatIsInvalid": "Nevalidný dátum",
+        "addComment": "Pridanie sa nepodarilo",
+        "loadComments": "Načítanie komentov sa nepodarilo"
+    },
+    "success": {
+        "add": "Pridanie úspešné",
+        "edit": "Úprava úspešná"
+    },
+    "paginator": {
+        "itemsPerPage": "Maximálny počet na stránku",
+        "nextPage": "Ďalšia stránka",
+        "previousPage": "Predchádzajúca stránka",
+        "firstPage": "Prvá stránka",
+        "lastPage": "Posledná stránka",
+        "from": "od"
+    },
+    "app": {
+        "iihf": "IIHF",
+        "planningSystem": "EVENT PLANNING SYSTEM",
+        "event": "EVENT",
+        "planning": "PLANNING",
+        "system": "SYSTEM",
+        "logout": "Odhlásenie"
+    },
+    "businessArea": {
+        "title": "Podnikateľská oblasť",
+        "code": "Kód",
+        "name": "Názov"
+    },
+    "task": {
+        "type": "Typ",
+        "trafficLight": "Semafor",
+        "code": "Kód",
+        "name": "Názov",
+        "title": "Úlohy",
+        "phase": "Fáza",
+        "venue": "Miesto",
+        "responsible": "Zodpovedný",
+        "dueDate": "Dátum ukončenia",
+        "status": "Stav",
+        "statusValue": {
+            "open": "Otvorené",
+            "closed": "Zatvorené"
+        },
+        "taskTypeValue": {
+            "task": "Úloha",
+            "issue": "Problém"
+        }
+    },
     "common": {
-        "create": "Vytvoriť",
-        "export": "Exportovať",
+        "create": "VYTVORIŤ",
+        "export": "EXPORTOVAŤ",
         "from": "Od",
         "to": "Do"
+    },
+    "all": {
+        "things": "Všetko",
+        "persons": "Všetci",
+        "empty": "Prázdne"
+    },
+    "fact": {
+        "title": "Fakty a čísla",
+        "category": "Kategória",
+        "factItemType": "Typ faktu",
+        "subCategory": "Podkategória",
+        "firstVenue": "Prvé miesto",
+        "secondVenue": "Druhé miesto",
+        "totalValue": "Celková hodnota",
+        "newFact": "Nový fakt",
+        "editFact": "Upraviť fakt"
+    },
+    "color": {
+        "green": "Zelená",
+        "amber": "Oranžová",
+        "red": "Červená",
+        "none": "Bez farby",
+        "nocolor": "Bez farby"
+    },
+    "comment": {
+        "newComment": "Pridať komentár"
+    },
+    "report": {
+        "title": "Reporty",
+        "name": "Názov",
+        "description": "Popis"
+    },
+    "hint": {
+        "maxlength": "Prekročený limit znakov"
+    },
+    "venue": {
+        "value": {
+            "all": "Všetko",
+            "none": "Prázdne"
+        }
     }
 }
