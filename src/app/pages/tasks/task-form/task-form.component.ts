@@ -209,10 +209,14 @@ export class TaskFormComponent implements OnInit {
     private setForm(task: any) {
         this.taskForm.controls.title.patchValue(task.name);
         this.taskForm.controls.taskType.patchValue(task.taskType);
-        this.taskForm.controls.phase.patchValue(task.projectPhase.id);
+        if (task.projectPhase !== null) {
+            this.taskForm.controls.phase.patchValue(task.projectPhase.id);
+        }
         this.taskForm.controls.businessArea.patchValue(task.clBusinessArea.id);
         this.taskForm.controls.dueDate.patchValue(task.dueDate);
-        this.taskForm.controls.responsible.patchValue(task.responsibleUser.id);
+        if (task.responsibleUser !== null) {
+            this.taskForm.controls.phase.patchValue(task.responsibleUser.id);
+        }
         this.taskForm.controls.venue.patchValue(task.cityName);
         this.taskForm.controls.description.patchValue(task.description);
         this.taskForm.controls.sourceDescription.patchValue(task.sourceDescription);

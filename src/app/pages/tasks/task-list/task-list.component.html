@@ -5,7 +5,7 @@
     <div fxFlex fxLayoutAlign="start center" class="header-select" [formGroup]="areaGroup">
         <mat-form-field class="pt-17 w-250">
             <mat-label>{{'businessArea.title' | translate}}</mat-label>
-            <mat-select formControlName="businessArea">
+            <mat-select formControlName="businessArea" (selectionChange)="setTableData()">
                 <mat-option value="all">{{'all.things' | translate}}</mat-option>
                 <mat-option *ngFor="let businessArea of businessAreaList"
                             [value]="businessArea.name"

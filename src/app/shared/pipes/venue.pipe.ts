@@ -10,6 +10,9 @@ export class VenuePipe implements PipeTransform {
     }
 
     public transform(value: any, args?: any): any {
+        if (value === null){
+            return;
+        }
         switch (value.toString().toLowerCase()) {
             case 'all':
                 return this.translateService.instant('venue.value.all');

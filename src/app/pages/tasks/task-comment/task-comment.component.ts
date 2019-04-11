@@ -20,7 +20,7 @@ export class TaskCommentComponent implements OnInit {
 
     public ngOnInit() {
         this.projectUserService.subject.login.subscribe((login) => {
-            StringUtils.compareInDotLowerCase(login, this.comment.createdBy);
+            this.isMyComment = StringUtils.compareInDotLowerCase(login, this.comment.createdBy);
         });
     }
 
