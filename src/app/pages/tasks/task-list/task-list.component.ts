@@ -203,7 +203,7 @@ export class TaskListComponent implements OnInit {
         this.router.navigate(['tasks/edit'], {queryParams: {id}});
     }
 
-    public setTableData(tableChangeEvent?: TableChangeEvent): void {       
+    public setTableData(tableChangeEvent?: TableChangeEvent): void {
 
         if (tableChangeEvent != null && tableChangeEvent.filters !== null && tableChangeEvent.filters.length > 0) {
             this.allTaskFilters = tableChangeEvent.filters;
@@ -227,7 +227,7 @@ export class TaskListComponent implements OnInit {
         }
 
         if (this.allTaskFilters !== null) {
-            this.allTaskFilters.forEach((filter: Filter)=>{
+            this.allTaskFilters.forEach((filter: Filter) => {
                 additionalFilters.push(filter);
             });
         }
@@ -249,10 +249,6 @@ export class TaskListComponent implements OnInit {
             this.businessAreaList = data.content
                 .filter((item) => item.codeItem !== null && item.state === 'VALID');
         });
-    }
-
-    public businessAreaChganges() {
-        this.setTableData();
     }
 
 }
