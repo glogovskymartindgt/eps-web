@@ -45,6 +45,7 @@ export class TaskListComponent implements OnInit {
     private lastTableChangeEvent: TableChangeEvent;
     private isInitialized = false;
     private businessAreaFilter: Filter;
+    private allTaskFilters: Filter[] = [];
 
     public constructor(private readonly translateService: TranslateService,
                        private readonly router: Router,
@@ -202,7 +203,12 @@ export class TaskListComponent implements OnInit {
         this.router.navigate(['tasks/edit'], {queryParams: {id}});
     }
 
-    public setTableData(tableChangeEvent?: TableChangeEvent): void {
+    public setTableData(tableChangeEvent?: TableChangeEvent): void {       
+
+        if (tableChangeEvent != null && tableChangeEvent.filters !== null && tableChangeEvent.filters.length > 0) {
+            this.allTaskFilters = tableChangeEvent.filters;
+        }
+
         this.lastTableChangeEvent = tableChangeEvent;
         const additionalFilters = [
             new Filter('PROJECT_NAME', this.projectEventService.instant.projectName),
@@ -218,6 +224,12 @@ export class TaskListComponent implements OnInit {
                 this.businessAreaFilter = new Filter('BUSINESS_AREA_NAME',
                     this.selectedAreaService.instant.selectedArea)
             );
+        }
+
+        if (this.allTaskFilters !== null) {
+            this.allTaskFilters.forEach((filter: Filter)=>{
+                additionalFilters.push(filter);
+            });
         }
 
         this.loading = true;
@@ -237,6 +249,10 @@ export class TaskListComponent implements OnInit {
             this.businessAreaList = data.content
                 .filter((item) => item.codeItem !== null && item.state === 'VALID');
         });
+    }
+
+    public businessAreaChganges() {
+        this.setTableData();
     }
 
 }
