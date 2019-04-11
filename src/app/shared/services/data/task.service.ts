@@ -53,7 +53,7 @@ export class TaskService extends ProjectService<TaskInterface> {
         let sort = [];
         if (tableChangeEvent && tableChangeEvent.sortActive && tableChangeEvent.sortDirection){
             sort = [new Sort(tableChangeEvent.sortActive,
-                tableChangeEvent.sortDirection as Direction
+                tableChangeEvent.sortDirection
             )];
         }
         return this.report(filters, sort);

@@ -40,19 +40,19 @@ export class BusinessAreaListComponent implements OnInit {
             columns: [
                 new TableColumn({
                     columnDef: 'codeItem',
-                    label: this.translateService.instant('businessArea.code'),
+                    labelKey: 'businessArea.code',
                     filter: new TableColumnFilter({}),
                     sorting: true,
                 }),
                 new TableColumn({
                     columnDef: 'name',
-                    label: this.translateService.instant('businessArea.name'),
+                    labelKey: 'businessArea.name',
                     filter: new TableColumnFilter({}),
                     sorting: true,
                 }),
                 new TableColumn({
                     columnDef: ' ',
-                    label: ' ',
+                    labelKey: ' ',
                     type: TableCellType.CONTENT,
                     tableCellTemplate: this.navigationToTasksColumn,
                     filter: new TableColumnFilter({

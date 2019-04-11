@@ -15,6 +15,7 @@ export class TableColumn implements TableColumnInterface {
     public filter?: TableColumnFilter;
     public tableCellTemplate?: TemplateRef<any>;
     public componentParams?: object;
+    public labelKey?: string;
     public customValue?: (row: any) => string;
     public align?: string;
 
@@ -28,6 +29,7 @@ export class TableColumn implements TableColumnInterface {
         this.componentParams = config.componentParams;
         this.customValue = config.customValue;
         this.align = config.align;
+        this.labelKey = config.labelKey;
     }
 
     /**

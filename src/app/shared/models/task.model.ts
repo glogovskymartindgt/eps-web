@@ -1,12 +1,12 @@
 export class Task {
-    type?: string;
-    trafficLight?: string;
-    title?: string;
-    businessArea?: string;
-    code?: string;
-    sourceOfAgenda?: string;
-    phase?: string;
-    dueDate?: string;
-    responsible?: string;
-    description?: string;
+    public type?: string;
+    public trafficLight?: string;
+    public title?: string;
+    public businessArea?: string;
+    public code?: string;
+    public sourceOfAgenda?: string;
+    public phase?: string;
+    public dueDate?: string;
+    public responsible?: string;
+    public description?: string;
 }

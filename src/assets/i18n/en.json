@@ -146,7 +146,9 @@
         "newComment": "Add comment"
     },
     "report": {
-        "title": "Reports"
+        "title": "Reports",
+        "name": "Name",
+        "description": "Description"
     },
     "hint": {
         "maxlength": "Number of characters exceeded"

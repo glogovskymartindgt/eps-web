@@ -1,5 +1,6 @@
 import { Component, forwardRef, Input, OnInit, TemplateRef } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { MathUtils } from '../..//hazelnut-common/hazelnut';
 import { NumberType } from '../../hazelnut-common/enums/number-type.enum';
 

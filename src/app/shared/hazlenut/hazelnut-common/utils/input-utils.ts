@@ -1,4 +1,5 @@
 import { ValidatorFn, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { TranslateWrapper } from '../interfaces/translate.interface';
 
 export class InputUtils {
@@ -47,17 +48,22 @@ export class InputUtils {
         }
     }
 
-    public static setFromToTranslates(target: any, translationService: TranslateWrapper, instant: boolean): void {
-        if (instant) {
-            target.fromLabel = target.fromLabel || translationService.instant('common.from');
-            target.toLabel = target.toLabel || translationService.instant('common.to');
-        } else {
-            translationService.get('common.from').subscribe((translate) => {
-                target.fromLabel = translate;
-            });
-            translationService.get('common.to').subscribe((translate) => {
-                target.toLabel = translate;
-            });
-        }
+    public static setFromToTranslates(target: any, translationService: TranslateWrapper): void {
+        // const getObservable = (value: Observable<string>, defaultValue: string): Observable<string> => {
+        //     if (value instanceof Observable) {
+        //         return value;
+        //     }
+        //     if (typeof value === 'string') {
+        //         return translationService.get(value);
+        //     }
+        //     return translationService.get(defaultValue);
+        // };
+        //
+        // target.fromLabel = getObservable(target.fromLabel, 'common.from');
+        // target.toLabel = getObservable(target.toLabel, 'common.to');
+
+        target.fromLabel = target.fromLabel || translationService.instant('common.from');
+        target.toLabel = target.toLabel || translationService.instant('common.to');
+
     }
 }

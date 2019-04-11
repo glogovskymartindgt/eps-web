@@ -6,7 +6,14 @@
 
 <haz-indeterminate-progress-bar [loading]="loading"></haz-indeterminate-progress-bar>
 <!--(requestData)="setTableData($event)"-->
-<haz-core-table
+<haz-core-table [configuration]="config" [data]="data"></haz-core-table>
 
-                [configuration]="config"
-                [data]="data"></haz-core-table>
+<ng-template #descriptionColumn let-actRow="row" let-context="context">
+    <div class="p-5">{{actRow.description}}</div>
+</ng-template>
+
+<ng-template #actionColumn let-actRow="row" let-context="context">
+    <button mat-icon-button>
+        <mat-icon>save_alt</mat-icon>
+    </button>
+</ng-template>

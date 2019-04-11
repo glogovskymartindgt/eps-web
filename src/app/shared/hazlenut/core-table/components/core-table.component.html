@@ -33,7 +33,7 @@
                             mat-header-cell
                             mat-sort-header
                         >
-                            {{ columnConfig.label }}
+                            {{getLabel(columnConfig) | async}}
                         </th>
                     </ng-container>
                     <ng-container *ngIf="!columnConfig.sorting">
@@ -43,7 +43,7 @@
                             'right-align-header': isRightAligned(configuration.columns[i].type) || columnConfig.align === 'right'
                         }"
                             >
-                                {{ columnConfig.label }}
+                                {{getLabel(columnConfig) | async}}
                             </div>
                         </th>
                     </ng-container>
@@ -80,7 +80,7 @@
                             mat-header-cell
                             mat-sort-header
                         >
-                            {{ columnConfig.label }}
+                            {{getLabel(columnConfig) | async}}
                         </th>
                     </ng-container>
                     <ng-container *ngIf="!columnConfig.sorting">
@@ -90,7 +90,7 @@
                             'right-align-header': isRightAligned(configuration.columns[i].type) || columnConfig.align === 'right'
                         }"
                             >
-                                {{ columnConfig.label }}
+                                {{getLabel(columnConfig) | async}}
                             </div>
                         </th>
                     </ng-container>
@@ -132,7 +132,7 @@
                         mat-header-cell
                         mat-sort-header
                     >
-                        {{ columnConfig.label }}
+                        {{getLabel(columnConfig) | async}}
                     </th>
                 </ng-container>
                 <ng-container *ngIf="!columnConfig.sorting">
@@ -142,7 +142,7 @@
                             'right-align-header': isRightAligned(configuration.columns[i].type) || columnConfig.align === 'right'
                         }"
                         >
-                            {{ columnConfig.label }}
+                            {{getLabel(columnConfig) | async}}
                         </div>
                     </th>
                 </ng-container>

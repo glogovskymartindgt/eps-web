@@ -1,6 +1,7 @@
 import { Component, forwardRef, Inject, Input, OnInit, TemplateRef } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { merge } from 'rxjs';
+import { merge, Observable } from 'rxjs';
+import { tap } from 'rxjs/internal/operators/tap';
 import { MathUtils, Regexp, StringMap } from '../..//hazelnut-common/hazelnut';
 import { InputUtils } from '../..//hazelnut-common/utils/input-utils';
 import { NumberType } from '../../hazelnut-common/enums/number-type.enum';
@@ -85,7 +86,7 @@ export class InputNumberRangeComponent implements OnInit, ControlValueAccessor {
     }
 
     public ngOnInit(): void {
-        InputUtils.setFromToTranslates(this, this.translateWrapperService, this.useInstantTranslates);
+        InputUtils.setFromToTranslates(this, this.translateWrapperService);
 
         merge(this.toControl.valueChanges, this.fromControl.valueChanges).subscribe(() => {
             this.onChange(this.value);

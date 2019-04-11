@@ -40,5 +40,40 @@
         "planning": "PLANNING",
         "system": "SYSTEM",
         "logout": "Odhlásenie"
+    },
+    "tasks": {
+        "cancel": "ZRUŠIŤ",
+        "save": "ULOŽIŤ",
+        "empty": "Prázdne",
+        "both": "Všetky",
+        "none": "Žiadne",
+        "type": "Typ",
+        "status": "Stav",
+        "trafficLight": "Semafor",
+        "title": "Názov",
+        "businessArea": "Podnikateľská zóna",
+        "code": "Kód",
+        "sourceOfAgenda": "Zdroj agendy",
+        "phase": "Fáza",
+        "dueDate": "Dátum splatnosti",
+        "closedDate": "Dátum zatvorenia",
+        "responsible": "Zodpovedný",
+        "venue": "Miesto",
+        "description": "Popis",
+        "sourceDescription": "Zdrojový popis",
+        "changedAt": "Naposledy zmenené",
+        "changedBy": "Zmenil",
+        "new": {
+            "newTask": "Nová úloha"
+        },
+        "edit": {
+            "editTask": "Upraviť úlohu"
+        }
+    },
+    "common": {
+        "create": "Vytvoriť",
+        "export": "Exportovať",
+        "from": "Od",
+        "to": "Do"
     }
 }

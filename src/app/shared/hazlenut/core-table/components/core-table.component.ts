@@ -14,6 +14,7 @@ import {
     ViewChildren
 } from '@angular/core';
 import { MatPaginator, MatSort } from '@angular/material';
+import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Error } from 'tslint/lib/error';
 import { detailExpand } from '../../hazelnut-common/animations';
@@ -173,6 +174,18 @@ export class CoreTableComponent<T = any> implements OnInit, OnChanges, OnDestroy
         }
     }
 
+    public getLabel(columnConfig: TableColumn): Observable<string> {
+        if (columnConfig.label) {
+            return of(columnConfig.label);
+        }
+        return this.translateWrapperService.get(columnConfig.labelKey).pipe(map((label) => {
+            if (typeof label === 'string' && this.configuration.uppercaseHeader !== false) {
+                return label.toUpperCase();
+            }
+            return label;
+        }));
+    }
+
     public rowClicked(row: T): void {
         this.rowClick.emit(row);
     }
@@ -241,7 +254,7 @@ export class CoreTableComponent<T = any> implements OnInit, OnChanges, OnDestroy
 
     private setLabels(): void {
         this.configuration.columns.forEach((column: TableColumn) => {
-            if (this.configuration.uppercaseHeader !== false) {
+            if (typeof column.label === 'string' && this.configuration.uppercaseHeader !== false) {
                 column.label = column.label.toUpperCase();
             }
         });

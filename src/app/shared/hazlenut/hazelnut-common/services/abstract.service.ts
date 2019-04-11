@@ -218,19 +218,19 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
         });
     }
 
-        /**
-         *
-         * @param {Filter[]} filter
-         * @param {Sort[]} sort
-         * @returns {Observable<T>}
-         */
+    /**
+     *
+     * @param {Filter[]} filter
+     * @param {Sort[]} sort
+     * @returns {Observable<T>}
+     */
     protected report<S = T>(filter: Filter[] = [], sort: Sort[] = [new Sort()]): Observable<any> {
-            if (sort && sort.length === 0) {
-                sort.push(new Sort());
-            }
-            const content = { filterCriteria: { criteria: filter }, sortingCriteria: { criteria: sort } };
-            return this.postBlob(`${HazelnutConfig.URL_API}/${this.urlKey}/report`, content, this.extractDetail);
+        if (sort && sort.length === 0) {
+            sort.push(new Sort());
         }
+        const content = {filterCriteria: {criteria: filter}, sortingCriteria: {criteria: sort}};
+        return this.postBlob(`${HazelnutConfig.URL_API}/${this.urlKey}/report`, content, this.extractDetail);
+    }
 
     /**
      * @param {string} url

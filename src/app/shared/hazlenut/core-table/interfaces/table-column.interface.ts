@@ -14,6 +14,11 @@ export interface TableColumnInterface {
     label?: string;
 
     /**
+     * Column title key printed into th element from XX.json
+     */
+    labelKey?: string;
+
+    /**
      *  Type of column used for render predefined types
      *
      *  @example
