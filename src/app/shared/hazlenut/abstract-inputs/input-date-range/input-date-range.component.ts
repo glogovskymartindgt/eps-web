@@ -198,8 +198,6 @@ export class InputDateRangeComponent implements OnInit, ControlValueAccessor, Af
 
     private setLabels(): void {
         InputUtils.setFromToTranslates(this, this.translateWrapperService);
-        // this.fromLabel = this.fromLabel ? this.fromLabel : 'common.from';
-        // this.toLabel = this.toLabel ? this.toLabel : 'common.to';
     }
 
 }
