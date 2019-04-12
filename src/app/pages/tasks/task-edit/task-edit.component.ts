@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Regex } from '../../../shared/hazlenut/hazelnut-common/regex/regex';
 import { TaskComment, TaskCommentResponse } from '../../../shared/interfaces/task-comment.interface';
 import { TaskService } from '../../../shared/services/data/task.service';
 import { NotificationService } from '../../../shared/services/notification.service';
@@ -19,6 +20,7 @@ export class TaskEditComponent implements OnInit {
     public newComment: FormControl = new FormControl('', Validators.required);
     public comments: TaskCommentResponse[] = [];
     public loading = false;
+    public notOnlyWhiteCharactersPattern = Regex.notOnlyWhiteCharactersPattern;
     private taskId: number;
 
     public constructor(

@@ -29,13 +29,18 @@
 
     <div fxFlex="35" style="background:#f4f4f4" fxLayout="column">
         <div class="w-full" fxLayout="row">
-            <mat-form-field class="m-20 theme-input" fxFlex>
-                <textarea matInput rows="5" [placeholder]="'comment.newComment' | translate"
-                          [formControl]="newComment"></textarea>
-                <mat-error
-                    *ngIf="newComment?.errors?.required">{{ 'error.required' | translate }}
-                </mat-error>
-            </mat-form-field>
+
+            <haz-core-input [label]="'comment.newComment' | translate"
+                            [type]="'textarea'"
+                            [appearance]="'fill'"
+                            [formControl]="newComment"
+                            [required]="true"
+                            [pattern]="notOnlyWhiteCharactersPattern"
+                            required
+                            class="theme-input m-20"
+            >
+            </haz-core-input>
+
             <div fxFlex="50px" fxLayoutAlign="end end" class="pr-20 pb-50">
                 <button mat-icon-button (click)="onCommentAdded()">
                     <mat-icon matSuffix>send</mat-icon>

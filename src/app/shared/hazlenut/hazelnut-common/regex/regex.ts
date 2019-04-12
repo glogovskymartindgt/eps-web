@@ -14,6 +14,8 @@ export class Regex {
 
     public static readonly numericPattern = '^[0-9]*$';
 
+    public static readonly notOnlyWhiteCharactersPattern = '^[\\s \\S]*[\\S]+[\\s \\S]*$';
+
     public static readonly doublePattern = '^[0-9.]*$';
 
     public static readonly telPattern = '^[0-9\\/*+().\\- ]*$';

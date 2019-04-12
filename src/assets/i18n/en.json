@@ -60,7 +60,7 @@
         "required": "Required field",
         "api": "Can't connect to server",
         "minlength": "Minlength error",
-        "pattern": "Pattern error",
+        "pattern": "Invalid pattern",
         "add": "Create failed",
         "edit": "Edit failed",
         "interval": "Empty interval",
