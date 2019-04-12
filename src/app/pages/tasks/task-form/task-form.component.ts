@@ -148,16 +148,15 @@ export class TaskFormComponent implements OnInit {
     public onTypeChanged(type: string) {
         if (type === 'ISSUE' && this.taskForm.get('trafficLight') === null) {
             this.taskForm.addControl('trafficLight', this.formBuilder.control(null, [Validators.required]));
-            this.taskForm.get('trafficLight').setValue('none');
+            this.taskForm.get('trafficLight').setValue('');
         } else {
             this.taskForm.removeControl('trafficLight');
         }
-
     }
 
     private createForm() {
         this.taskForm = this.formBuilder.group({
-            taskType: ['Task', Validators.required],
+            taskType: ['TASK', Validators.required],
             title: [null, Validators.required],
             businessArea: ['', Validators.required],
             sourceOfAgenda: [''],
