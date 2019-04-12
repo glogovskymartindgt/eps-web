@@ -23,7 +23,7 @@
             <mat-label class="label-style">{{ 'tasks.type' | translate }}</mat-label>
             <mat-select formControlName="taskType" required>
                 <mat-option *ngFor="let taskType of taskTypeList" [value]="taskType.toUpperCase()">
-                    {{taskType}}
+                    {{('task.taskTypeValue.' + taskType.toLowerCase()) | translate}}
                 </mat-option>
             </mat-select>
             <mat-error

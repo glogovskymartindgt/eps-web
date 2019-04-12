@@ -187,6 +187,7 @@ export class TaskListComponent implements OnInit {
     public export() {
         this.loadingExport = true;
         this.taskService.exportTasks(this.lastTableChangeEvent).subscribe((response) => {
+            // TODO create loading on export and add filename as in response
             new FileManager().saveFile(
                 'Export',
                 response,
@@ -205,7 +206,7 @@ export class TaskListComponent implements OnInit {
 
     public setTableData(tableChangeEvent?: TableChangeEvent): void {
 
-        if (tableChangeEvent != null && tableChangeEvent.filters !== null && tableChangeEvent.filters.length > 0) {
+        if (tableChangeEvent && tableChangeEvent.filters && tableChangeEvent.filters.length > 0) {
             this.allTaskFilters = tableChangeEvent.filters;
         }
 
@@ -226,7 +227,7 @@ export class TaskListComponent implements OnInit {
             );
         }
 
-        if (this.allTaskFilters !== null) {
+        if (this.allTaskFilters) {
             this.allTaskFilters.forEach((filter: Filter) => {
                 additionalFilters.push(filter);
             });

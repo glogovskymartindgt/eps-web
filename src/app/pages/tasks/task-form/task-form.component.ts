@@ -172,7 +172,6 @@ export class TaskFormComponent implements OnInit {
             closedDate: [''],
             changedBy: [''],
             changedAt: [''],
-            // trafficLight: ['']
         });
 
         this.taskForm.valueChanges.subscribe(() => {
@@ -209,22 +208,40 @@ export class TaskFormComponent implements OnInit {
     private setForm(task: any) {
         this.taskForm.controls.title.patchValue(task.name);
         this.taskForm.controls.taskType.patchValue(task.taskType);
-        if (task.projectPhase !== null) {
+        if (task.projectPhase) {
             this.taskForm.controls.phase.patchValue(task.projectPhase.id);
         }
         this.taskForm.controls.businessArea.patchValue(task.clBusinessArea.id);
-        this.taskForm.controls.dueDate.patchValue(task.dueDate);
-        if (task.responsibleUser !== null) {
+        if (task.dueDate) {
+            this.taskForm.controls.dueDate.patchValue(task.dueDate);
+        }
+        if (task.responsibleUser) {
             this.taskForm.controls.phase.patchValue(task.responsibleUser.id);
         }
-        this.taskForm.controls.venue.patchValue(task.cityName);
-        this.taskForm.controls.description.patchValue(task.description);
-        this.taskForm.controls.sourceDescription.patchValue(task.sourceDescription);
-        this.taskForm.controls.state.patchValue(task.state);
-        this.taskForm.controls.code.patchValue(task.code);
-        this.taskForm.controls.trafficLight.patchValue(task.trafficLight);
-        this.taskForm.controls.changedAt.patchValue(moment(task.changedAt).format('d.M.YYYY'));
-        this.taskForm.controls.changedBy.patchValue(task.changedBy);
+        if (task.cityName) {
+            this.taskForm.controls.venue.patchValue(task.cityName);
+        }
+        if (task.description) {
+            this.taskForm.controls.description.patchValue(task.description);
+        }
+        if (task.sourceDescription) {
+            this.taskForm.controls.sourceDescription.patchValue(task.sourceDescription);
+        }
+        if (task.state) {
+            this.taskForm.controls.state.patchValue(task.state);
+        }
+        if (task.code) {
+            this.taskForm.controls.code.patchValue(task.code);
+        }
+        if (task.trafficLight) {
+            this.taskForm.controls.trafficLight.patchValue(task.trafficLight);
+        }
+        if (task.changedAt) {
+            this.taskForm.controls.changedAt.patchValue(moment(task.changedAt).format('d.M.YYYY'));
+        }
+        if (task.changedBy) {
+            this.taskForm.controls.changedBy.patchValue(task.changedBy);
+        }
 
         this.taskForm.controls.taskType.disable();
         this.taskForm.controls.businessArea.disable();

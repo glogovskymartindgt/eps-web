@@ -7,6 +7,8 @@
         "startAOT": "ng serve --aot=true --proxy-config proxy.conf.json",
         "build": "ng build --configuration=devou",
         "buildProd": "ng build --configuration=production",
+        "zipDist": "zip -r dist/iihf-web.zip dist/iihf-web",
+        "buildAndZipDist": "npm run build && npm run zipDist",
         "test": "ng test",
         "lint": "ng lint",
         "e2e": "ng e2e"
