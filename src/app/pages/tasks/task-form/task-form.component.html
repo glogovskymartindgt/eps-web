@@ -1,4 +1,4 @@
-<form [formGroup]="taskForm">
+<form [formGroup]="taskForm" *ngIf="(isUpdate && formLoaded) || !isUpdate">
 
     <div fxLayout="row" *ngIf="isUpdate">
         <div class="short-input mr-10">
@@ -29,6 +29,7 @@
             <mat-error
                 *ngIf="f?.taskType?.errors?.required">{{ 'error.required' | translate }}</mat-error>
         </mat-form-field>
+
         <mat-form-field *ngIf="f.taskType.value == 'ISSUE'" appearance="fill" class="theme-input short-input">
             <mat-label class="label-style">{{ 'tasks.trafficLight' | translate }}</mat-label>
             <mat-select formControlName="trafficLight" required>

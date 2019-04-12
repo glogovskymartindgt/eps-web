@@ -59,7 +59,10 @@ export class AuthService {
                 this.userService.clearUserData();
                 this.router.navigate(['authentication/login']);
             }
-            , (error) => this.notificationService.openErrorNotification('error.logout')
+            , (error) => {
+                this.router.navigate(['authentication/login']);
+                this.notificationService.openErrorNotification('error.logout');
+            }
         );
     }
 

@@ -57,6 +57,7 @@ export class TaskFormComponent implements OnInit {
     public dateInvalid = false;
     public dateInvalidClosed = false;
     public isUpdate = false;
+    public formLoaded = false;
 
     public constructor(private readonly formBuilder: FormBuilder,
                        private readonly businessAreaService: BusinessAreaService,
@@ -146,10 +147,12 @@ export class TaskFormComponent implements OnInit {
     }
 
     public onTypeChanged(type: string) {
+        console.log('changed', type);
         if (type === 'ISSUE' && this.taskForm.get('trafficLight') === null) {
             this.taskForm.addControl('trafficLight', this.formBuilder.control(null, [Validators.required]));
             this.taskForm.get('trafficLight').setValue('');
-        } else {
+        }
+        if (type === 'TASK') {
             this.taskForm.removeControl('trafficLight');
         }
     }
@@ -205,6 +208,24 @@ export class TaskFormComponent implements OnInit {
     }
 
     private setForm(task: any) {
+        this.taskForm = this.formBuilder.group({
+            taskType: ['TASK', Validators.required],
+            trafficLight: ['', Validators.required],
+            title: [null, Validators.required],
+            businessArea: ['', Validators.required],
+            sourceOfAgenda: [''],
+            phase: [''],
+            dueDate: [null],
+            responsible: [''],
+            venue: [''],
+            description: [''],
+            sourceDescription: [''],
+            state: [''],
+            code: [''],
+            closedDate: [''],
+            changedBy: [''],
+            changedAt: [''],
+        });
         this.taskForm.controls.title.patchValue(task.name);
         this.taskForm.controls.taskType.patchValue(task.taskType);
         if (task.projectPhase) {
@@ -215,7 +236,10 @@ export class TaskFormComponent implements OnInit {
             this.taskForm.controls.dueDate.patchValue(task.dueDate);
         }
         if (task.responsibleUser) {
-            this.taskForm.controls.phase.patchValue(task.responsibleUser.id);
+            this.taskForm.controls.responsible.patchValue(task.responsibleUser.id);
+        }
+        if (task.clSourceOfAgenda) {
+            this.taskForm.controls.sourceOfAgenda.patchValue(task.clSourceOfAgenda.id);
         }
         if (task.cityName) {
             this.taskForm.controls.venue.patchValue(task.cityName);
@@ -233,7 +257,10 @@ export class TaskFormComponent implements OnInit {
             this.taskForm.controls.code.patchValue(task.code);
         }
         if (task.trafficLight) {
-            this.taskForm.controls.trafficLight.patchValue(task.trafficLight);
+            this.taskForm.addControl('trafficLight',
+                this.formBuilder.control(null, [Validators.required])
+            );
+            this.taskForm.get('trafficLight').setValue(task.trafficLight);
         }
         if (task.changedAt) {
             this.taskForm.controls.changedAt.patchValue(moment(task.changedAt).format('d.M.YYYY'));
@@ -241,15 +268,14 @@ export class TaskFormComponent implements OnInit {
         if (task.changedBy) {
             this.taskForm.controls.changedBy.patchValue(task.changedBy);
         }
-
         this.taskForm.controls.taskType.disable();
         this.taskForm.controls.businessArea.disable();
         this.taskForm.controls.code.disable();
         this.taskForm.controls.closedDate.disable();
         this.taskForm.controls.changedAt.disable();
         this.taskForm.controls.changedBy.disable();
-
         this.taskForm.updateValueAndValidity();
+        this.formLoaded = true;
     }
 
 }
