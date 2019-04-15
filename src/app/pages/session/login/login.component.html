@@ -1,13 +1,22 @@
 <div class="login-page" fxLayout="row" fxLayoutAlign="center center">
     <mat-card class="login-card p-0" [@fadeEnterLeave]>
         <form [formGroup]="loginForm">
-            <div class="login-header p-25 pt-35">
-                <h2 class="blue-title m-0 no-select">
-                    <span class="red-title">{{'app.iihf' | translate}}</span><br>
-                    {{'app.event' | translate}}<br>
-                    {{'app.planning' | translate}}<br>
-                    {{'app.system' | translate}}
-                </h2>
+            <div fxLayout="row">
+                <div class="login-header p-25 pt-35" fxFlex="50">
+                    <h2 class="blue-title m-0 no-select">
+                        <span class="red-title">{{'app.iihf' | translate}}</span><br>
+                        {{'app.event' | translate}}<br>
+                        {{'app.planning' | translate}}<br>
+                        {{'app.system' | translate}}
+                    </h2>
+                </div>
+                <div fxFlex>
+                    <img [src]="'assets/img/iihf.png'"
+                         class="project-image mt-40 ml-30"
+                         alt="iihf logo"
+                         width="80"
+                    >
+                </div>
             </div>
             <mat-card-header></mat-card-header>
             <mat-card-content class="m-0 px-25">

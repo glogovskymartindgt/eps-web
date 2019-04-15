@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { tap } from 'rxjs/internal/operators/tap';
 import { Regex } from '../../../shared/hazlenut/hazelnut-common/regex/regex';
 import { TaskComment, TaskCommentResponse } from '../../../shared/interfaces/task-comment.interface';
 import { TaskService } from '../../../shared/services/data/task.service';
@@ -16,8 +17,7 @@ import { TaskFormComponent } from '../task-form/task-form.component';
 export class TaskEditComponent implements OnInit {
     @ViewChild(TaskFormComponent) public taskForm: TaskFormComponent;
     public formData = null;
-
-    public newComment: FormControl = new FormControl('', Validators.required);
+    public addCommentForm: FormGroup;
     public comments: TaskCommentResponse[] = [];
     public loading = false;
     public notOnlyWhiteCharactersPattern = Regex.notOnlyWhiteCharactersPattern;
@@ -29,6 +29,7 @@ export class TaskEditComponent implements OnInit {
         private readonly notificationService: NotificationService,
         private readonly activatedRoute: ActivatedRoute,
         private readonly taskService: TaskService,
+        private readonly formBuilder: FormBuilder,
     ) {
     }
 
@@ -36,6 +37,9 @@ export class TaskEditComponent implements OnInit {
         this.activatedRoute.queryParams.subscribe((param) => {
             this.taskId = param.id;
             this.getAllComments();
+        });
+        this.addCommentForm = this.formBuilder.group({
+            newComment: ['', Validators.required]
         });
     }
 
@@ -56,16 +60,18 @@ export class TaskEditComponent implements OnInit {
     }
 
     public onCommentAdded() {
-        this.newComment.markAsTouched();
-        if (this.newComment.invalid) {
+        if (this.addCommentForm.invalid) {
             return;
         }
-        const taskComment: TaskComment = {description: this.newComment.value, taskId: this.taskId};
+        const taskComment: TaskComment = {
+            description: this.addCommentForm.value.newComment.toString(),
+            taskId: this.taskId
+        };
         this.loading = true;
         this.taskCommentService.addComment(taskComment)
             .subscribe((commentResponse: TaskCommentResponse) => {
-                this.newComment.reset();
                 this.getAllComments();
+                this.addCommentForm.reset();
                 this.loading = false;
             }, (error) => {
                 this.notificationService.openErrorNotification('error.addComment');
@@ -76,13 +82,13 @@ export class TaskEditComponent implements OnInit {
     public getAllComments() {
         this.loading = true;
         this.taskCommentService.getAllComment(this.taskId)
+            .pipe(
+                tap(() => this.loading = false)
+            )
             .subscribe((comments: TaskCommentResponse[]) => {
-                this.comments = comments;
-                this.comments.reverse();
-                this.loading = false;
+                this.comments = comments.reverse();
             }, (error) => {
                 this.notificationService.openErrorNotification('error.loadComments');
-                this.loading = false;
             });
 
     }

@@ -59,6 +59,7 @@ export class TaskListComponent implements OnInit {
     }
 
     public ngOnInit() {
+
         const allThingsKey = 'all.things';
         this.loadBusinessAreaList();
         this.areaGroup = this.formBuilder.group({

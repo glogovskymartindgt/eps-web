@@ -23,6 +23,12 @@ export class LoginComponent implements OnInit {
     }
 
     public ngOnInit() {
+        // console.log('LOCAL STORAGE');
+        // for (let i = 0; i < localStorage.length; i++) {
+        //     const key = localStorage.key(i);
+        //     const value = localStorage.getItem(key);
+        //     console.log(key, value);
+        // }
         this.createForm();
     }
 

@@ -29,23 +29,26 @@
 
     <div fxFlex="35" style="background:#f4f4f4" fxLayout="column">
         <div class="w-full" fxLayout="row">
+            <form [formGroup]="addCommentForm" (ngSubmit)="onCommentAdded()">
+                <haz-core-input [label]="'comment.newComment' | translate"
+                                [type]="'textarea'"
+                                [appearance]="'fill'"
+                                formControlName="newComment"
+                                [required]="true"
+                                [pattern]="notOnlyWhiteCharactersPattern"
+                                required
+                                class="theme-input m-20"
+                >
+                </haz-core-input>
 
-            <haz-core-input [label]="'comment.newComment' | translate"
-                            [type]="'textarea'"
-                            [appearance]="'fill'"
-                            [formControl]="newComment"
-                            [required]="true"
-                            [pattern]="notOnlyWhiteCharactersPattern"
-                            required
-                            class="theme-input m-20"
-            >
-            </haz-core-input>
+                <div fxFlex="50px" fxLayoutAlign="end end" class="pr-20 pb-50">
 
-            <div fxFlex="50px" fxLayoutAlign="end end" class="pr-20 pb-50">
-                <button mat-icon-button (click)="onCommentAdded()">
-                    <mat-icon matSuffix>send</mat-icon>
-                </button>
-            </div>
+                    <button mat-icon-button>
+                        <mat-icon matSuffix>send</mat-icon>
+                    </button>
+                </div>
+            </form>
+            {{addCommentForm.value  | json}}
         </div>
 
         <haz-indeterminate-progress-bar [loading]="loading"></haz-indeterminate-progress-bar>
