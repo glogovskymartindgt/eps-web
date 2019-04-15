@@ -211,7 +211,7 @@ export class TaskFormComponent implements OnInit {
         this.taskForm = this.formBuilder.group({
             taskType: ['TASK', Validators.required],
             trafficLight: ['', Validators.required],
-            title: [null, Validators.required],
+            title: ['', Validators.required],
             businessArea: ['', Validators.required],
             sourceOfAgenda: [''],
             phase: [''],
@@ -263,7 +263,7 @@ export class TaskFormComponent implements OnInit {
             this.taskForm.get('trafficLight').setValue(task.trafficLight);
         }
         if (task.changedAt) {
-            this.taskForm.controls.changedAt.patchValue(moment(task.changedAt).format('d.M.YYYY'));
+            this.taskForm.controls.changedAt.patchValue(moment(task.changedAt).format('D.M.YYYY'));
         }
         if (task.changedBy) {
             this.taskForm.controls.changedBy.patchValue(task.changedBy);
