@@ -3,23 +3,30 @@
         <div class="pl-20" fxFlex="300px" fxLayoutAlign="start center">
             <h2>{{'fact.title' | translate}}</h2>
         </div>
-                <div fxFlex fxLayoutAlign="end center">
-                    <button mat-raised-button (click)="createFact()"
-                            class="mr-10"
-                            color="accent">
-                        {{'common.create' | translate}}
-                    </button>
-                </div>
+        <div fxFlex fxLayoutAlign="end center">
+            <button mat-raised-button (click)="createFact()"
+                    class="mr-10"
+                    color="accent">
+                {{'common.create' | translate}}
+            </button>
+        </div>
     </div>
 
-    <haz-core-table [configuration]="config"
+    <haz-core-table (requestData)="setTableData($event)"
+                    [configuration]="config"
                     [data]="data"
-    ></haz-core-table>
+    >
+    </haz-core-table>
     <ng-template #updateColumn let-actRow="row" let-context="context">
         <div class="fr">
             <button mat-icon-button (click)="update()">
                 <mat-icon>keyboard_arrow_right</mat-icon>
             </button>
+        </div>
+    </ng-template>
+    <ng-template #totalValueColumn let-actRow="row" let-context="context">
+        <div class="fr">
+            {{(actRow.venueValue1 + actRow.venueValue2) | number}}
         </div>
     </ng-template>
 </div>

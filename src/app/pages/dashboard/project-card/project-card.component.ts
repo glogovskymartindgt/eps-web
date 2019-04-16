@@ -38,7 +38,7 @@ export class ProjectCardComponent implements OnInit {
         if (this.project.venues !== null && this.project.venues.length === 2) {
             const firstPosition = this.project.venues[0].screenPosition;
             const secondPosition = this.project.venues[1].screenPosition;
-            if ( (firstPosition !== null && secondPosition !== null) && (secondPosition < firstPosition) ) {
+            if ((firstPosition !== null && secondPosition !== null) && (secondPosition < firstPosition)) {
                 const venue: Venue = this.project.venues[0];
                 this.project.venues[0] = this.project.venues[1];
                 this.project.venues[1] = venue;
@@ -65,10 +65,13 @@ export class ProjectCardComponent implements OnInit {
     }
 
     public onProjectSelected() {
+        console.log(this.project);
         this.projectEventService.setEventData(
             this.project.id,
             +this.project.year,
             this.project.name,
+            this.project.venues[0].city,
+            this.project.venues[1].city,
             true,
             this.project.state === 'OPEN',
             this.imagePath

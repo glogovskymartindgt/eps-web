@@ -5,7 +5,9 @@ import { TableChangeEvent } from '../../hazlenut/core-table';
 import { StringUtils } from '../../hazlenut/hazelnut-common/hazelnut';
 import { BrowseResponse, Filter, PostContent, Sort } from '../../hazlenut/hazelnut-common/models';
 import { BusinessArea } from '../../interfaces/bussiness-area.interface';
+import { Category } from '../../interfaces/category.interface';
 import { SourceOfAgenda } from '../../interfaces/source-of-agenda.interface';
+import { SubCategory } from '../../interfaces/subcategory.interface';
 import { NotificationService } from '../notification.service';
 import { ProjectService } from '../project.service';
 import { ProjectUserService } from '../storage/project-user.service';
@@ -47,11 +49,21 @@ export class BusinessAreaService extends ProjectService<BusinessArea> {
     }
 
     public listSourceOfAgendas(): Observable<BrowseResponse<SourceOfAgenda>> {
-        return this.browseWithSummary(PostContent.create(
-            100,
-            0,
-            [new Filter('CODE', 'ASO')],
-            [])
+        return this.browseWithSummary(
+            PostContent.create(100, 0, [new Filter('CODE', 'ASO')], [])
+        );
+    }
+
+    public listCategories(): Observable<BrowseResponse<Category>> {
+        return this.browseWithSummary(
+            PostContent.create(100, 0, [new Filter('CODE', 'CAT')], [])
+        );
+    }
+
+    // TODO based on category id
+    public listSubCategories(): Observable<BrowseResponse<SubCategory>> {
+        return this.browseWithSummary(
+            PostContent.create(100, 0, [new Filter('CODE', 'SUBCAT')], [])
         );
     }
 }

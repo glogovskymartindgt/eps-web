@@ -2,13 +2,17 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import {
-    TableCellType,
+    TableCellType, TableChangeEvent,
     TableColumn,
     TableColumnFilter,
     TableConfiguration,
     TableFilterType
 } from '../../../shared/hazlenut/core-table';
 import { BrowseResponse } from '../../../shared/hazlenut/hazelnut-common/models';
+import { Fact } from '../../../shared/interfaces/fact.interface';
+import { FactService } from '../../../shared/services/data/fact.service';
+import { NotificationService } from '../../../shared/services/notification.service';
+import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 
 @Component({
     selector: 'fact-list',
@@ -17,27 +21,17 @@ import { BrowseResponse } from '../../../shared/hazlenut/hazelnut-common/models'
 })
 export class FactListComponent implements OnInit {
     @ViewChild('updateColumn') public updateColumn: TemplateRef<any>;
+    @ViewChild('totalValueColumn') public totalValueColumn: TemplateRef<any>;
     public config: TableConfiguration;
-    public data = new BrowseResponse<any>(
-        [
-            {
-                category: 'category1',
-                subCategory: 'subCategory1',
-                firstVenue: 345235,
-                secondVenue: 3,
-                totalValue: 4325235423
-            },
-            {
-                category: 'category2',
-                subCategory: 'subCategory2',
-                firstVenue: 234523,
-                secondVenue: 423,
-                totalValue: 33
-            }
-        ]);
+    public loading = false;
+    public isInitialized = false;
+    public data = new BrowseResponse<Fact>([]);
 
     public constructor(
         private readonly translateService: TranslateService,
+        private readonly notificationService: NotificationService,
+        private readonly projectEventService: ProjectEventService,
+        private readonly factService: FactService,
         private readonly router: Router,
     ) {
     }
@@ -59,22 +53,23 @@ export class FactListComponent implements OnInit {
                     sorting: true,
                 }),
                 new TableColumn({
-                    columnDef: 'firstVenue',
-                    labelKey: 'fact.firstVenue',
+                    columnDef: 'venueValue1',
+                    label: this.projectEventService.instant.firstVenue,
                     type: TableCellType.NUMBER,
                     sorting: true,
                 }),
                 new TableColumn({
-                    columnDef: 'secondVenue',
-                    labelKey: 'fact.secondVenue',
+                    columnDef: 'venueValue2',
+                    label: this.projectEventService.instant.secondVenue,
                     type: TableCellType.NUMBER,
                     sorting: true,
                 }),
                 new TableColumn({
                     columnDef: 'totalValue',
                     labelKey: 'fact.totalValue',
-                    type: TableCellType.NUMBER,
-                    sorting: true,
+                    align: 'right',
+                    type: TableCellType.CONTENT,
+                    tableCellTemplate: this.totalValueColumn,
                 }),
                 new TableColumn({
                     columnDef: ' ',
@@ -96,5 +91,17 @@ export class FactListComponent implements OnInit {
 
     public update() {
         this.router.navigate(['facts/edit']);
+    }
+
+    public setTableData(tableChangeEvent?: TableChangeEvent): void {
+        this.loading = true;
+        this.factService.browseFacts(tableChangeEvent).subscribe((data) => {
+            this.data = data;
+            this.loading = false;
+            this.isInitialized = true;
+        }, (error) => {
+            this.loading = false;
+            this.notificationService.openErrorNotification('error.api');
+        });
     }
 }

@@ -3,7 +3,7 @@ import { Injectable, InjectionToken } from '@angular/core';
 /**
  */
 
-let actualStorage: Storage = localStorage; // localStorage
+let actualStorage: Storage = sessionStorage; // localStorage
 
 /**
  * Storage service

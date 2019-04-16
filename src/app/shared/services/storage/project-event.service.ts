@@ -16,6 +16,8 @@ export class ProjectEventService extends EventService<EventDataInterface> {
         id: number = null,
         year: number = null,
         projectName: string = null,
+        firstVenue: string = null,
+        secondVenue: string = null,
         isEvent = false,
         active = false,
         imagePath: string = null) {
@@ -23,6 +25,8 @@ export class ProjectEventService extends EventService<EventDataInterface> {
             id,
             year,
             projectName,
+            firstVenue,
+            secondVenue,
             isEvent,
             active,
             imagePath,
