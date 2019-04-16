@@ -41,7 +41,10 @@ export class BusinessAreaListComponent implements OnInit {
                 new TableColumn({
                     columnDef: 'codeItem',
                     labelKey: 'businessArea.code',
-                    filter: new TableColumnFilter({}),
+                    type: TableCellType.NUMBER,
+                    filter: new TableColumnFilter({
+                        type: TableFilterType.NUMBER,
+                    }),
                     sorting: true,
                 }),
                 new TableColumn({
