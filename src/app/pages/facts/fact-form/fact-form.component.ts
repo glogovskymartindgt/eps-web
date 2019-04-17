@@ -132,7 +132,7 @@ export class FactFormComponent implements OnInit {
 
     private setForm(task: any) {
         this.factForm = this.formBuilder.group({
-            category: [task.category.id, Validators.required],
+            category: [task.category.category, Validators.required],
             subCategory: [task.subCategory.subCategory, Validators.required],
             firstValue: [task.valueFirst, Validators.required],
             secondValue: [task.valueSecond, Validators.required],
