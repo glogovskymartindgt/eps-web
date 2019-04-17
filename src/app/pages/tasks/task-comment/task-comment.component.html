@@ -1,4 +1,4 @@
-<div [ngClass]="isMyComment ? 'my-comment' : 'comment'">
+<div [ngClass]="isMyComment ? 'my-comment comment-sizing' : 'comment comment-sizing'">
     <div class="comment-user">{{comment.createdBy}}</div>
     <div class="comment-content">{{comment.description}}</div>
     <div class="comment-created">{{comment.created | date:'dd.MM.yyyy HH:mm'}}</div>

@@ -1,6 +1,6 @@
 <div *ngFor="let menuItem of routes;">
     <div *ngIf="checkRoute(menuItem, false)"
-         class="menu-option"
+         class="menu-option h-26"
          matRipple
          (click)="highlightAndNavigateOption(menuItem.path)"
     >
@@ -11,7 +11,7 @@
     </div>
     <div *ngIf="checkRoute(menuItem, true)"
          (click)="toggleMenuSelect()"
-         class="menu-option"
+         class="menu-option h-26"
          matRipple>
         <span class="menu-text">{{menuItem.data["title"] | translate}}</span>
         <mat-icon *ngIf="menuItem.hasOwnProperty('children')"

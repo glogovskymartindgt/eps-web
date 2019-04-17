@@ -158,7 +158,7 @@
     },
     "venue": {
         "value": {
-            "all": "All",
+            "all": "Both",
             "none": "None"
         }
     }

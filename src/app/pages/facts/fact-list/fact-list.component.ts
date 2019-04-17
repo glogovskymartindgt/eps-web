@@ -27,12 +27,11 @@ export class FactListComponent implements OnInit {
     public isInitialized = false;
     public data = new BrowseResponse<Fact>([]);
 
-    public constructor(
-        private readonly translateService: TranslateService,
-        private readonly notificationService: NotificationService,
-        private readonly projectEventService: ProjectEventService,
-        private readonly factService: FactService,
-        private readonly router: Router,
+    public constructor(public readonly projectEventService: ProjectEventService,
+                       private readonly translateService: TranslateService,
+                       private readonly notificationService: NotificationService,
+                       private readonly factService: FactService,
+                       private readonly router: Router,
     ) {
     }
 

@@ -32,13 +32,10 @@ export class FactCreateComponent implements OnInit {
 
     // TODO
     public onSave(): void {
-        console.log(this.transformTaskToApiObject(this.formData));
         this.factService.createFact(this.transformTaskToApiObject(this.formData)).subscribe((response) => {
-            console.log(response);
             this.notificationService.openSuccessNotification('success.add');
             this.router.navigate(['facts/list']);
         }, (error) => {
-            console.log(error);
             this.notificationService.openErrorNotification('error.add');
         });
     }

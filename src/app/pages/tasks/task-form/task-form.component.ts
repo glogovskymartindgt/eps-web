@@ -147,7 +147,6 @@ export class TaskFormComponent implements OnInit {
     }
 
     public onTypeChanged(type: string) {
-        console.log('changed', type);
         if (type === 'ISSUE' && this.taskForm.get('trafficLight') === null) {
             this.taskForm.addControl('trafficLight', this.formBuilder.control(null, [Validators.required]));
             this.taskForm.get('trafficLight').setValue('');

@@ -17,7 +17,6 @@ $text-color: white;
 
 .menu-option {
     @include block-selecting-elements;
-    height: 26px;
     color: $text-color;
     padding: 21px 0 19px 19px;
     cursor: pointer;

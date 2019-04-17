@@ -1,12 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
 import { AbstractService } from '../hazlenut/hazelnut-common/services';
 import { NotificationService } from './notification.service';
 import { ProjectUserService } from './storage/project-user.service';
-
-@Injectable({
-    providedIn: 'root'
-})
 
 export class ProjectService<T> extends AbstractService<T> {
 

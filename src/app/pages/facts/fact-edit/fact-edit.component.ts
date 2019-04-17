@@ -36,11 +36,9 @@ export class FactEditComponent implements OnInit {
         if (this.formData) {
             this.factService.editTask(this.factId, this.transformTaskToApiObject(this.formData)).subscribe(
                 (response) => {
-                    console.log(response);
                     this.notificationService.openSuccessNotification('success.edit');
                     this.router.navigate(['facts/list']);
                 }, (error) => {
-                    console.log(error);
                     this.notificationService.openErrorNotification('error.edit');
                 });
         }
@@ -48,12 +46,10 @@ export class FactEditComponent implements OnInit {
     }
 
     private transformTaskToApiObject(formObject: any): any {
-        console.log(formObject);
-        const apiObject: any = {
+        return {
             valueFirst: formObject.firstValue,
             valueSecond: formObject.secondValue,
         };
-        return apiObject;
     }
 
 }

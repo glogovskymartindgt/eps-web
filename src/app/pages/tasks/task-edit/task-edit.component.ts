@@ -51,11 +51,9 @@ export class TaskEditComponent implements OnInit {
         if (this.formData) {
             this.taskService.editTask(this.taskId, this.transformTaskToApiObject(this.formData)).subscribe(
                 (response) => {
-                    console.log(response);
                     this.notificationService.openSuccessNotification('success.edit');
                     this.router.navigate(['tasks/list']);
                 }, (error) => {
-                    console.log(error);
                     this.notificationService.openErrorNotification('error.edit');
                 });
         }

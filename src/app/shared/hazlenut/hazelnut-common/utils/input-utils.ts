@@ -49,21 +49,7 @@ export class InputUtils {
     }
 
     public static setFromToTranslates(target: any, translationService: TranslateWrapper): void {
-        // const getObservable = (value: Observable<string>, defaultValue: string): Observable<string> => {
-        //     if (value instanceof Observable) {
-        //         return value;
-        //     }
-        //     if (typeof value === 'string') {
-        //         return translationService.get(value);
-        //     }
-        //     return translationService.get(defaultValue);
-        // };
-        //
-        // target.fromLabel = getObservable(target.fromLabel, 'common.from');
-        // target.toLabel = getObservable(target.toLabel, 'common.to');
-
         target.fromLabel = target.fromLabel || translationService.instant('common.from');
         target.toLabel = target.toLabel || translationService.instant('common.to');
-
     }
 }

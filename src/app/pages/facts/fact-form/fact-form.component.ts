@@ -27,8 +27,8 @@ export class FactFormComponent implements OnInit {
     public actualUnitShortName = '';
     public isUpdate = false;
     public formLoaded = false;
-    private readonly firstVenueLabel = this.projectEventService.instant.firstVenue;
-    private readonly secondVenueLabel = this.projectEventService.instant.secondVenue;
+    public readonly firstVenueLabel = this.projectEventService.instant.firstVenue;
+    public readonly secondVenueLabel = this.projectEventService.instant.secondVenue;
 
     public constructor(private readonly projectEventService: ProjectEventService,
                        private readonly formBuilder: FormBuilder,
