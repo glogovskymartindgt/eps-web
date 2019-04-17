@@ -65,17 +65,12 @@ export class ProjectCardComponent implements OnInit {
     }
 
     public onProjectSelected() {
-        console.log(this.project);
         this.projectEventService.setEventData(
-            this.project.id,
-            +this.project.year,
-            this.project.name,
-            this.project.venues[0].city,
-            this.project.venues[1].city,
+            this.project,
             true,
-            this.project.state === 'OPEN',
             this.imagePath
-        );
+        )
+        ;
         this.dashboardService.setSecondaryHeaderContent({
             isDashboard: false,
             title: `${this.project.year} ${this.project.name}`

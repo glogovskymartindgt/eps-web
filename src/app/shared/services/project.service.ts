@@ -18,10 +18,9 @@ export class ProjectService<T> extends AbstractService<T> {
     }
 
     protected getHeader(): HttpHeaders {
-        // console.log('CALLING HEADER');
         let headers = new HttpHeaders();
         headers = headers.set('device-id', this.userService.instant.deviceId);
-        headers = headers.set('token', this.userService.instant.authToken);
+        headers = headers.set('token', localStorage.userData ? JSON.parse(localStorage.userData).authToken : '');
         headers = headers.set('Content-Type', 'application/json');
         return headers;
     }

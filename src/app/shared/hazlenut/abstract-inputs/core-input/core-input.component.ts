@@ -28,6 +28,7 @@ export class CoreInputComponent implements OnInit, ControlValueAccessor, AfterVi
     @Input() public exactLength?: number;
     @Input() public allowedCharactersPattern?: string;
     @Input() public pattern?: string;
+    @Input() public textSuffix?: string;
     @Input() public styles = {width: '100%'};
     @Input() public appearance: MatFormFieldAppearance = 'standard';
     @Input() public type: 'string' | 'textarea' = 'string'; // TODO: Email, Password

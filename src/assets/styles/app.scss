@@ -3,8 +3,8 @@
 @import 'common/scrollbar.scss';
 @import 'font/font.scss';
 
-$color-red: #CF2120;
-$color-secondary: #002D62;
+$color-red: #cf2120;
+$color-secondary: #002d62;
 $title-font-size: 24px;
 
 input {
@@ -46,7 +46,7 @@ p {
     float: right !important;
 }
 
-$color-primary: #1595D3;
+$color-primary: #1595d3;
 
 .basic-screen-header {
     height: 50px;
@@ -56,12 +56,13 @@ $color-primary: #1595D3;
 
 .custom-date-class {
     background: rgb(240, 240, 240);
-    & > .mat-calendar-body-cell-content{
-        color:black;
+
+    & > .mat-calendar-body-cell-content {
+        color: black;
     }
 }
 
-.snack-error{
+.snack-error {
     font-family: 'Roboto', sans-serif !important;
 }
 
@@ -77,10 +78,18 @@ $color-primary: #1595D3;
     color: white;
 }
 
-.version{
+.version {
     position: absolute;
     bottom: 5px;
     left: 5px;
     color: white;
     font-family: Roboto, sans-serif;
+}
+
+.long-input {
+    width: 420px;
+}
+
+.short-input {
+    width: 205px;
 }

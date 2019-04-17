@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AbstractStorageService } from '../../hazlenut/hazelnut-common/services';
 import { EventDataInterface } from '../../interfaces/event.interface';
+import { Project } from '../../models/project.model';
 import { EventService } from './event.service';
 
 @Injectable({
@@ -12,24 +13,16 @@ export class ProjectEventService extends EventService<EventDataInterface> {
         super(storageService);
     }
 
-    public setEventData(
-        id: number = null,
-        year: number = null,
-        projectName: string = null,
-        firstVenue: string = null,
-        secondVenue: string = null,
-        isEvent = false,
-        active = false,
-        imagePath: string = null) {
+    public setEventData(project: Project = null, isEvent = false, imagePath: string = null) {
         this.setData({
-            id,
-            year,
-            projectName,
-            firstVenue,
-            secondVenue,
             isEvent,
-            active,
             imagePath,
+            id: project ? project.id : null,
+            year: project ? +project.year : null,
+            projectName: project ? project.name : null,
+            firstVenue: project ? project.venues[0].city : null,
+            secondVenue: project ? project.venues[1].city : null,
+            active: project ? project.state === 'OPEN' : null,
         });
     }
 

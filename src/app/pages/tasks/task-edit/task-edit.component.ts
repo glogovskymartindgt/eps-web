@@ -48,15 +48,17 @@ export class TaskEditComponent implements OnInit {
     }
 
     public onSave() {
-        this.taskService.editTask(this.taskId, this.transformTaskToApiObject(this.formData)).subscribe(
-            (response) => {
-                console.log(response);
-                this.notificationService.openSuccessNotification('success.edit');
-                this.router.navigate(['tasks/list']);
-            }, (error) => {
-                console.log(error);
-                this.notificationService.openErrorNotification('error.edit');
-            });
+        if (this.formData) {
+            this.taskService.editTask(this.taskId, this.transformTaskToApiObject(this.formData)).subscribe(
+                (response) => {
+                    console.log(response);
+                    this.notificationService.openSuccessNotification('success.edit');
+                    this.router.navigate(['tasks/list']);
+                }, (error) => {
+                    console.log(error);
+                    this.notificationService.openErrorNotification('error.edit');
+                });
+        }
     }
 
     public onCommentAdded() {
@@ -86,7 +88,7 @@ export class TaskEditComponent implements OnInit {
                 tap(() => this.loading = false)
             )
             .subscribe((comments: TaskCommentResponse[]) => {
-                this.comments = comments.reverse();
+                this.comments = [...comments].reverse();
             }, (error) => {
                 this.notificationService.openErrorNotification('error.loadComments');
             });

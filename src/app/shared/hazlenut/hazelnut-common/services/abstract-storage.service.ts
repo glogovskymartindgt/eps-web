@@ -3,7 +3,7 @@ import { Injectable, InjectionToken } from '@angular/core';
 /**
  */
 
-let actualStorage: Storage = sessionStorage; // localStorage
+let actualStorage: Storage = localStorage; // localStorage
 
 /**
  * Storage service
@@ -39,6 +39,7 @@ export abstract class AbstractStorageService {
 
     public getItem(key: string): string | null {
         return actualStorage.getItem(key);
+
     }
 
     /**

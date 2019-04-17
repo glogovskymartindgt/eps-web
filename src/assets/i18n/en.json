@@ -128,12 +128,14 @@
         "title": "Facts and Figures",
         "category": "Category",
         "factItemType": "Fact item type",
-        "subCategory": "Subcategory",
+        "subCategory": "Fact item",
         "firstVenue": "First Venue",
         "secondVenue": "Second Venue",
         "totalValue": "Total Value",
         "newFact": "New fact",
-        "editFact": "Edit fact"
+        "editFact": "Edit fact",
+        "changedAt": "Changed at",
+        "changedBy": "Changed by"
     },
     "color": {
         "green": "Green",
@@ -151,7 +153,8 @@
         "description": "Description"
     },
     "hint": {
-        "maxlength": "Number of characters exceeded"
+        "maxlength": "Number of characters exceeded",
+        "badCharacter": "Character not allowed"
     },
     "venue": {
         "value": {

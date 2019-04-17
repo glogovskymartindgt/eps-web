@@ -5,13 +5,7 @@
 </div>
 
 <div class="p-30">
-    <fact-form></fact-form>
-    <div class="max-w-200">
-        <haz-core-input [label]="'Last changed at'" appearance="fill"></haz-core-input>
-    </div>
-    <div class="max-w-200">
-        <haz-core-input [label]="'Last changed by'" appearance="fill"></haz-core-input>
-    </div>
+    <fact-form (formDataChange)="formData=$event"></fact-form>
 
     <div>
         <button type="submit"

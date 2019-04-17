@@ -10,7 +10,7 @@ import { ProjectService } from '../project.service';
 import { ProjectUserService } from '../storage/project-user.service';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class FactService extends ProjectService<Fact> {
 
@@ -38,6 +38,18 @@ export class FactService extends ProjectService<Fact> {
             }
         }
         return this.browseWithSummary(PostContent.create(limit, offset, filters, sort));
+    }
+
+    public createFact(factObject: any) {
+        return this.add(factObject);
+    }
+
+    public getFactById(id: number) {
+        return this.getDetail(id);
+    }
+
+    public editTask(id: number, taskObject: any) {
+        return this.update(id, taskObject);
     }
 
 }

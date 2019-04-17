@@ -1,6 +1,6 @@
 export interface SubCategory {
     id: number;
-    codeItem: number;
-    name: string;
-    state: string;
+    subCategory: string;
+    unit: string;
+    unitShortName: string;
 }

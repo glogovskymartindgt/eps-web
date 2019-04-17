@@ -4,7 +4,8 @@
             <h2>{{'fact.title' | translate}}</h2>
         </div>
         <div fxFlex fxLayoutAlign="end center">
-            <button mat-raised-button (click)="createFact()"
+            <button *ngIf="projectEventService.instant.active"
+                    mat-raised-button (click)="createFact()"
                     class="mr-10"
                     color="accent">
                 {{'common.create' | translate}}
@@ -19,14 +20,16 @@
     </haz-core-table>
     <ng-template #updateColumn let-actRow="row" let-context="context">
         <div class="fr">
-            <button mat-icon-button (click)="update()">
+            <button *ngIf="projectEventService.instant.active"
+                    mat-icon-button
+                    (click)="update(actRow.id)">
                 <mat-icon>keyboard_arrow_right</mat-icon>
             </button>
         </div>
     </ng-template>
     <ng-template #totalValueColumn let-actRow="row" let-context="context">
         <div class="fr">
-            {{(actRow.venueValue1 + actRow.venueValue2) | number}}
+            {{(actRow.valueFirst + actRow.valueSecond) | number}}
         </div>
     </ng-template>
 </div>

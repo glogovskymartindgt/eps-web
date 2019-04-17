@@ -244,8 +244,8 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
                                 mapFunction: (response: any) => S,
                                 params: HttpParams | { [param: string]: string | string[]; } = {}): Observable<S> {
         return this.http.post(url, body, {
-            headers: this.getHeader(),
             params,
+            headers: this.getHeader(),
             responseType: 'blob'
         }).pipe(
             map(mapFunction),

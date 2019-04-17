@@ -18,6 +18,7 @@
               autocomplete="off"
               cdkTextareaAutosize
               style="width: 100%;overflow: hidden;"></textarea>
+    <span *ngIf="textSuffix" matSuffix>{{textSuffix}}</span>
     <mat-hint align="start">{{ displayedError }}</mat-hint>
     <mat-hint align="end">{{ displayedHint }}</mat-hint>
     <mat-error *ngIf="showErrors">{{ displayedError }}</mat-error>

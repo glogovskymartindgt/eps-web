@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 import { TableChangeEvent } from '../../hazlenut/core-table';
 import { StringUtils } from '../../hazlenut/hazelnut-common/hazelnut';
 import { BrowseResponse, Filter, PostContent, Sort } from '../../hazlenut/hazelnut-common/models';
@@ -10,6 +11,7 @@ import { SourceOfAgenda } from '../../interfaces/source-of-agenda.interface';
 import { SubCategory } from '../../interfaces/subcategory.interface';
 import { NotificationService } from '../notification.service';
 import { ProjectService } from '../project.service';
+import { ProjectEventService } from '../storage/project-event.service';
 import { ProjectUserService } from '../storage/project-user.service';
 
 @Injectable({
@@ -20,6 +22,7 @@ export class BusinessAreaService extends ProjectService<BusinessArea> {
     public constructor(http: HttpClient,
                        notificationService: NotificationService,
                        userService: ProjectUserService,
+                       private readonly projectEventService: ProjectEventService
     ) {
         super(http, 'codeList', notificationService, userService);
     }
@@ -34,7 +37,9 @@ export class BusinessAreaService extends ProjectService<BusinessArea> {
             limit = tableChangeEvent.pageSize;
             offset = tableChangeEvent.pageIndex * tableChangeEvent.pageSize;
             filters = Object.values(tableChangeEvent.filters);
-            filters.forEach((filter) => filter.property = StringUtils.convertCamelToSnakeUpper(filter.property));
+            filters.forEach((filter) =>
+                filter.property = StringUtils.convertCamelToSnakeUpper(filter.property)
+            );
             if (tableChangeEvent.sortActive && tableChangeEvent.sortDirection) {
                 sort = [new Sort(tableChangeEvent.sortActive,
                     tableChangeEvent.sortDirection)];
@@ -49,21 +54,23 @@ export class BusinessAreaService extends ProjectService<BusinessArea> {
     }
 
     public listSourceOfAgendas(): Observable<BrowseResponse<SourceOfAgenda>> {
-        return this.browseWithSummary(
-            PostContent.create(100, 0, [new Filter('CODE', 'ASO')], [])
-        );
+      return this.getListByCode('ASO');
     }
 
     public listCategories(): Observable<BrowseResponse<Category>> {
-        return this.browseWithSummary(
-            PostContent.create(100, 0, [new Filter('CODE', 'CAT')], [])
+        return this.getListByCode('CAT');
+    }
+
+    public listSubCategories(categoryId: number): Observable<SubCategory[]> {
+        return this.http.get<SubCategory[]>(
+            `${environment.URL_API}/codeList/${this.projectEventService.instant.id}/${categoryId}`,
+            {headers: this.getHeader()}
         );
     }
 
-    // TODO based on category id
-    public listSubCategories(): Observable<BrowseResponse<SubCategory>> {
+    private getListByCode(code: string): Observable<BrowseResponse<any>>{
         return this.browseWithSummary(
-            PostContent.create(100, 0, [new Filter('CODE', 'SUBCAT')], [])
+            PostContent.create(100, 0, [new Filter('CODE', code)], [])
         );
     }
 }

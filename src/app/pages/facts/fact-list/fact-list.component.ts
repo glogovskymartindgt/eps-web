@@ -41,27 +41,33 @@ export class FactListComponent implements OnInit {
             stickyEnd: 4,
             columns: [
                 new TableColumn({
-                    columnDef: 'category',
+                    columnDef: 'category.category',
                     labelKey: 'fact.category',
                     filter: new TableColumnFilter({}),
                     sorting: true,
                 }),
                 new TableColumn({
-                    columnDef: 'subCategory',
+                    columnDef: 'subCategory.subCategory',
                     labelKey: 'fact.subCategory',
                     filter: new TableColumnFilter({}),
                     sorting: true,
                 }),
                 new TableColumn({
-                    columnDef: 'venueValue1',
+                    columnDef: 'valueFirst',
                     label: this.projectEventService.instant.firstVenue,
                     type: TableCellType.NUMBER,
+                    filter: new TableColumnFilter({
+                        type: TableFilterType.NUMBER,
+                    }),
                     sorting: true,
                 }),
                 new TableColumn({
-                    columnDef: 'venueValue2',
+                    columnDef: 'valueSecond',
                     label: this.projectEventService.instant.secondVenue,
                     type: TableCellType.NUMBER,
+                    filter: new TableColumnFilter({
+                        type: TableFilterType.NUMBER,
+                    }),
                     sorting: true,
                 }),
                 new TableColumn({
@@ -89,8 +95,8 @@ export class FactListComponent implements OnInit {
         this.router.navigate(['facts/create']);
     }
 
-    public update() {
-        this.router.navigate(['facts/edit']);
+    public update(id: number) {
+        this.router.navigate(['facts/edit'], {queryParams: {id}});
     }
 
     public setTableData(tableChangeEvent?: TableChangeEvent): void {

@@ -24,7 +24,7 @@ export class AuthService {
 
     public logout(): void {
         this.logoutBackend(this.userService.instant.masterToken,
-            this.userService.instant.authToken,
+            localStorage.userData ? JSON.parse(localStorage.userData).authToken : '',
             this.userService.instant.deviceId);
     }
 

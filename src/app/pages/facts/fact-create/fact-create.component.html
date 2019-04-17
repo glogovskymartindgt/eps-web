@@ -5,7 +5,7 @@
 </div>
 
 <div class="p-30">
-    <fact-form></fact-form>
+    <fact-form (formDataChange)="formData=$event"></fact-form>
 
     <div>
         <button type="submit"
@@ -13,6 +13,7 @@
                 color="accent"
                 class="mr-10"
                 (click)="onSave()"
+                [disabled]="formData === null"
         >
             {{ 'tasks.save' | translate }}
         </button>

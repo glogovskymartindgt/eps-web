@@ -20,12 +20,6 @@ export class ProjectListComponent implements OnInit {
     }
 
     public ngOnInit() {
-        // console.log('LOCAL STORAGE dashboard');
-        // for (let i = 0; i < localStorage.length; i++) {
-        //     const key = localStorage.key(i);
-        //     const value = localStorage.getItem(key);
-        //     console.log(key, value);
-        // }
 
         this.dashboardService.dashboardFilterNotifier$.subscribe((filterValue: string) => {
             this.filterProjects(filterValue);

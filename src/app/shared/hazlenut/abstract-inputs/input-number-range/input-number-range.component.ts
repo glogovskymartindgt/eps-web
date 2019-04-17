@@ -87,8 +87,6 @@ export class InputNumberRangeComponent implements OnInit, ControlValueAccessor {
 
     public ngOnInit(): void {
         InputUtils.setFromToTranslates(this, this.translateWrapperService);
-        // this.fromLabel = this.translateWrapperService.get('common.from').pipe(tap((e) => console.log(e)));
-
         merge(this.toControl.valueChanges, this.fromControl.valueChanges).subscribe(() => {
             this.onChange(this.value);
             if (

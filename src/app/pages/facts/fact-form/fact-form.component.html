@@ -1,30 +1,93 @@
-
 <form [formGroup]="factForm">
     <div>
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="fill" class="long-input">
             <mat-label>{{'fact.category' | translate}}</mat-label>
-            <mat-select>
-                <mat-option>Value1</mat-option>
+            <mat-select formControlName="category" required>
+                <ng-container *ngIf="!formLoaded">
+                    <mat-option *ngFor="let category of categories" [value]="category.id">
+                        {{ category.name }}
+                    </mat-option>
+                </ng-container>
+                <mat-option *ngIf="formLoaded" [value]="factForm?.value?.category">
+                    {{factForm?.value?.category}}
+                </mat-option>
             </mat-select>
+
+            <mat-error *ngIf="controls?.category?.errors?.required">
+                {{ 'error.required' | translate }}
+            </mat-error>
         </mat-form-field>
     </div>
 
-    <div>
-        <mat-form-field appearance="fill">
+    <div *ngIf="subCategories !== null || formLoaded" [@enterLeaveSmooth]>
+        <mat-form-field appearance="fill" class="long-input">
             <mat-label>{{'fact.factItemType' | translate}}</mat-label>
-            <mat-select>
-                <mat-option>Value2</mat-option>
+            <mat-select formControlName="subCategory" required>
+                <ng-container *ngIf="subCategories && subCategories.length && !formLoaded">
+                    <mat-option *ngFor="let subcategory of subCategories" [value]="subcategory.id">
+                        <span class="fact-text">{{ subcategory.subCategory }}</span>
+                    </mat-option>
+                </ng-container>
+                <mat-option
+                    *ngIf="subCategories && subCategories.length === 0 && !formLoaded">{{'all.empty' | translate}}</mat-option>
+                <mat-option *ngIf="formLoaded" [value]="factForm?.value?.subCategory">
+                    {{factForm?.value?.subCategory}}
+                </mat-option>
             </mat-select>
+            <mat-error *ngIf="controls?.subCategory?.errors?.required">
+                {{ 'error.required' | translate }}
+            </mat-error>
         </mat-form-field>
     </div>
 
-    <div class="max-w-200">
-        <haz-core-input [label]="firstVenueLabel" appearance="fill"></haz-core-input>
+    <div class="long-input">
+        <haz-core-input formControlName="firstValue"
+                        [label]="firstVenueLabel"
+                        appearance="fill"
+                        [textSuffix]="actualUnitShortName"
+                        [allowedCharactersPattern]="doublePattern"
+                        [required]="true"
+                        required
+                        [maxLength]="15"
+        >
+        </haz-core-input>
     </div>
-    <div class="max-w-200">
-        <haz-core-input [label]="secondVenueLabel" appearance="fill"></haz-core-input>
+    <div class="long-input">
+        <haz-core-input formControlName="secondValue"
+                        [label]="secondVenueLabel"
+                        appearance="fill"
+                        [textSuffix]="actualUnitShortName"
+                        [allowedCharactersPattern]="doublePattern"
+                        [required]="true"
+                        required
+                        [maxLength]="15"
+        >
+        </haz-core-input>
     </div>
-    <div class="max-w-200">
-        <haz-core-input [label]="'fact.totalValue' | translate" appearance="fill"></haz-core-input>
+    <div class="long-input">
+        <haz-core-input formControlName="totalValue"
+                        [label]="'fact.totalValue' | translate"
+                        appearance="fill"
+                        [textSuffix]="actualUnitShortName"
+        >
+        </haz-core-input>
+    </div>
+
+    <div class="long-input" *ngIf="formLoaded">
+        <haz-core-input [label]="'fact.changedAt' |  translate"
+                        [appearance]="'fill'"
+                        formControlName="changedAt"
+                        class="theme-input"
+        >
+        </haz-core-input>
+    </div>
+
+    <div class="long-input" *ngIf="formLoaded">
+        <haz-core-input [label]="'fact.changedBy' | translate"
+                        [appearance]="'fill'"
+                        formControlName="changedBy"
+                        class="theme-input"
+        >
+        </haz-core-input>
     </div>
 </form>

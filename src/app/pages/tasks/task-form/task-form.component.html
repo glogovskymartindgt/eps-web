@@ -46,8 +46,9 @@
                     <span class="ml-20">{{('color.' + trafficLight) | translate}}</span>
                 </mat-option>
             </mat-select>
-            <mat-error
-                *ngIf="f?.trafficLight?.errors?.required">{{ 'error.required' | translate }}</mat-error>
+            <mat-error *ngIf="f?.trafficLight?.errors?.required">
+                {{ 'error.required' | translate }}
+            </mat-error>
         </mat-form-field>
     </div>
 
