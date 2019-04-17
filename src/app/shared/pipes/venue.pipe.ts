@@ -9,7 +9,7 @@ export class VenuePipe implements PipeTransform {
     public constructor(private readonly translateService: TranslateService) {
     }
 
-    public transform(value: any, args?: any) {
+    public transform(value: any, args?: any): string | undefined {
         if (!value) {
             return;
         }
