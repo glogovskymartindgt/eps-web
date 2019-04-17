@@ -46,6 +46,7 @@ export class TaskListComponent implements OnInit {
     private isInitialized = false;
     private businessAreaFilter: Filter;
     private allTaskFilters: Filter[] = [];
+    private additionalFilters: Filter[] = [];
 
     public constructor(private readonly translateService: TranslateService,
                        private readonly router: Router,
@@ -186,18 +187,22 @@ export class TaskListComponent implements OnInit {
     }
 
     public export() {
-        this.loadingExport = true;
-        this.taskService.exportTasks(this.lastTableChangeEvent).subscribe((response) => {
-            // TODO create loading on export and add filename as in response
+        this.loading = true;
+        this.taskService.exportTasks(this.lastTableChangeEvent, this.additionalFilters).subscribe((response) => {
+            let d = new Date(Date.now());
+            var exportName = 'task_' +("0" + d.getDate()).slice(-2) + "." + ("0"+(d.getMonth()+1)).slice(-2) + "." +
+                                             d.getFullYear() + "-" + ("0" + d.getHours()).slice(-2) + "." + ("0" + d.getMinutes()).slice(-2) + "." + ("0" + d.getSeconds()).slice(-2) + '.xlsx';
+
+
             new FileManager().saveFile(
-                'Export',
+                exportName,
                 response,
                 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
             );
-            this.loadingExport = false;
+            this.loading = false;
         }, (error) => {
             this.notificationService.openErrorNotification('error.api');
-            this.loadingExport = false;
+            this.loading = false;
         });
     }
 
@@ -212,17 +217,18 @@ export class TaskListComponent implements OnInit {
         }
 
         this.lastTableChangeEvent = tableChangeEvent;
-        const additionalFilters = [
+
+        this.additionalFilters = [
             new Filter('PROJECT_NAME', this.projectEventService.instant.projectName),
             new Filter('PROJECT_YEAR', this.projectEventService.instant.year, 'NUMBER'),
         ];
 
         if (this.businessAreaFilter && this.businessAreaFilter.value !== 'all') {
-            additionalFilters.push(this.businessAreaFilter);
+            this.additionalFilters.push(this.businessAreaFilter);
         }
 
         if (!this.isInitialized) {
-            additionalFilters.push(
+            this.additionalFilters.push(
                 this.businessAreaFilter = new Filter('BUSINESS_AREA_NAME',
                     this.selectedAreaService.instant.selectedArea)
             );
@@ -230,12 +236,12 @@ export class TaskListComponent implements OnInit {
 
         if (this.allTaskFilters) {
             this.allTaskFilters.forEach((filter: Filter) => {
-                additionalFilters.push(filter);
+                this.additionalFilters.push(filter);
             });
         }
 
         this.loading = true;
-        this.taskService.browseTasks(tableChangeEvent, additionalFilters).subscribe((data) => {
+        this.taskService.browseTasks(tableChangeEvent, this.additionalFilters).subscribe((data) => {
             this.data = data;
             this.loading = false;
             this.isInitialized = true;

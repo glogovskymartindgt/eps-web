@@ -43,17 +43,16 @@ export class TaskService extends ProjectService<TaskInterface> {
         return this.browseWithSummary(PostContent.create(limit, offset, filters, sort));
     }
 
-    public exportTasks(tableChangeEvent?: TableChangeEvent) {
+    public exportTasks(tableChangeEvent?: TableChangeEvent, additionalFilters?: Filter[]) {
         let filters = [];
-        if (tableChangeEvent && tableChangeEvent.filters) {
-            filters = tableChangeEvent.filters;
-        }
         let sort = [];
         if (tableChangeEvent && tableChangeEvent.sortActive && tableChangeEvent.sortDirection){
             sort = [new Sort(tableChangeEvent.sortActive,
                 tableChangeEvent.sortDirection
             )];
         }
+        filters = filters.concat(additionalFilters);
+        filters = this.reorderFiltersToApplyCorectTrafficColor(filters);
         return this.report(filters, sort);
     }
 
