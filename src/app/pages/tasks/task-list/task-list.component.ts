@@ -1,3 +1,4 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -20,6 +21,7 @@ import { TaskService } from '../../../shared/services/data/task.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 import { SelectedAreaService } from '../../../shared/services/storage/selected-area.service';
+import { GetFileNameFromContentDisposition } from 'src/app/shared/utils/headers';
 
 @Component({
     selector: 'iihf-task-list',
@@ -56,6 +58,7 @@ export class TaskListComponent implements OnInit {
                        public readonly selectedAreaService: SelectedAreaService,
                        public readonly businessAreaService: BusinessAreaService,
                        public readonly formBuilder: FormBuilder,
+                       private http: HttpClient
     ) {
     }
 
@@ -189,14 +192,13 @@ export class TaskListComponent implements OnInit {
     public export() {
         this.loading = true;
         this.taskService.exportTasks(this.lastTableChangeEvent, this.additionalFilters).subscribe((response) => {
-            let d = new Date(Date.now());
-            var exportName = 'task_' +("0" + d.getDate()).slice(-2) + "." + ("0"+(d.getMonth()+1)).slice(-2) + "." +
-                                             d.getFullYear() + "-" + ("0" + d.getHours()).slice(-2) + "." + ("0" + d.getMinutes()).slice(-2) + "." + ("0" + d.getSeconds()).slice(-2) + '.xlsx';
 
+            const contentDisposition = response.headers.get('Content-Disposition');
+            const exportName: string = GetFileNameFromContentDisposition(contentDisposition);
 
             new FileManager().saveFile(
                 exportName,
-                response,
+                response.body,
                 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
             );
             this.loading = false;
