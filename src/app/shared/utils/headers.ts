@@ -4,8 +4,8 @@ export function GetFileNameFromContentDisposition(disposition: string): string {
     let exportName: string = "EXPORT";
 
     if (disposition && disposition.indexOf('attachment') !== -1) {
-        var filenameRegex = Regex.fileNameFromContentDispositionPattern;
-        var matches = filenameRegex.exec(disposition);
+        const filenameRegex = Regex.fileNameFromContentDispositionPattern;
+        const matches = filenameRegex.exec(disposition);
         if (matches != null && matches[1]) { 
             exportName = matches[1].replace(/['"]/g, '');
         }
