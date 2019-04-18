@@ -235,7 +235,9 @@ export class TaskListComponent implements OnInit {
         }
 
         if (this.allTaskFilters) {
-            this.allTaskFilters = [...this.allTaskFilters, ...this.additionalFilters];
+            this.allTaskFilters.forEach((filter: Filter) => {
+                this.additionalFilters.push(filter);
+            });
         }
 
         this.loading = true;
