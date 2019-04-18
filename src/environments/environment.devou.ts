@@ -1,4 +1,4 @@
 export const environment = {
     production: false,
-    URL_API: 'https://iihftest.qbsw.local:8080/api',
+    URL_API: 'http://iihftest.qbsw.local:8080/api',
 };
