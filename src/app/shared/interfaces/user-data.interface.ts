@@ -6,4 +6,5 @@ export interface UserDataInterface {
     roles?: string[];
     masterToken?: string;
     authToken?: string;
+    userId?: number;
 }

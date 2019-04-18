@@ -1,3 +1,5 @@
+import { UserDataComment } from './user-data-comment.interface';
+
 export interface TaskComment {
     description: string;
     taskId: number;
@@ -5,6 +7,6 @@ export interface TaskComment {
 
 export interface TaskCommentResponse extends TaskComment {
     id: number;
-    createdBy: string;
+    createdBy: UserDataComment;
     created: string;
 }

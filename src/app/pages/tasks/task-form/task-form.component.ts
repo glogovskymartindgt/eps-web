@@ -265,7 +265,7 @@ export class TaskFormComponent implements OnInit {
             this.taskForm.controls.changedAt.patchValue(moment(task.changedAt).format('D.M.YYYY'));
         }
         if (task.changedBy) {
-            this.taskForm.controls.changedBy.patchValue(task.changedBy);
+            this.taskForm.controls.changedBy.patchValue(`${task.changedBy.firstName} ${task.changedBy.lastName}`);
         }
         this.taskForm.controls.taskType.disable();
         this.taskForm.controls.businessArea.disable();
