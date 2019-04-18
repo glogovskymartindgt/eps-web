@@ -1,4 +1,3 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -21,7 +20,7 @@ import { TaskService } from '../../../shared/services/data/task.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 import { SelectedAreaService } from '../../../shared/services/storage/selected-area.service';
-import { GetFileNameFromContentDisposition } from 'src/app/shared/utils/headers';
+import { GetFileNameFromContentDisposition } from '../../../shared/utils/headers';
 
 @Component({
     selector: 'iihf-task-list',
@@ -57,8 +56,7 @@ export class TaskListComponent implements OnInit {
                        public readonly projectEventService: ProjectEventService,
                        public readonly selectedAreaService: SelectedAreaService,
                        public readonly businessAreaService: BusinessAreaService,
-                       public readonly formBuilder: FormBuilder,
-                       private http: HttpClient
+                       public readonly formBuilder: FormBuilder
     ) {
     }
 

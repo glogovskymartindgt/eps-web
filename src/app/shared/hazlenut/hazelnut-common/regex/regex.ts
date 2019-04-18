@@ -23,4 +23,6 @@ export class Regex {
     public static readonly figuresPattern = '^[0-9]{1,}$';
 
     public static readonly emailPattern = '^\\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,}\\b$';
+
+    public static readonly fileNameFromContentDispositionPattern = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
 }
