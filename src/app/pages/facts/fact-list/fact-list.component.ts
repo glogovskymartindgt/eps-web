@@ -40,13 +40,13 @@ export class FactListComponent implements OnInit {
             stickyEnd: 4,
             columns: [
                 new TableColumn({
-                    columnDef: 'category.category',
+                    columnDef: 'categoryName',
                     labelKey: 'fact.category',
                     filter: new TableColumnFilter({}),
                     sorting: true,
                 }),
                 new TableColumn({
-                    columnDef: 'subCategory.subCategory',
+                    columnDef: 'subCategoryName',
                     labelKey: 'fact.subCategory',
                     filter: new TableColumnFilter({}),
                     sorting: true,
