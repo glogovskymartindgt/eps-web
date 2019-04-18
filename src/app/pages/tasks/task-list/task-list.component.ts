@@ -20,6 +20,7 @@ import { TaskService } from '../../../shared/services/data/task.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 import { SelectedAreaService } from '../../../shared/services/storage/selected-area.service';
+import { GetFileNameFromContentDisposition } from '../../../shared/utils/headers';
 
 @Component({
     selector: 'iihf-task-list',
@@ -46,6 +47,7 @@ export class TaskListComponent implements OnInit {
     private isInitialized = false;
     private businessAreaFilter: Filter;
     private allTaskFilters: Filter[] = [];
+    private additionalFilters: Filter[] = [];
 
     public constructor(private readonly translateService: TranslateService,
                        private readonly router: Router,
@@ -54,7 +56,7 @@ export class TaskListComponent implements OnInit {
                        public readonly projectEventService: ProjectEventService,
                        public readonly selectedAreaService: SelectedAreaService,
                        public readonly businessAreaService: BusinessAreaService,
-                       public readonly formBuilder: FormBuilder,
+                       public readonly formBuilder: FormBuilder
     ) {
     }
 
@@ -186,18 +188,21 @@ export class TaskListComponent implements OnInit {
     }
 
     public export() {
-        this.loadingExport = true;
-        this.taskService.exportTasks(this.lastTableChangeEvent).subscribe((response) => {
-            // TODO create loading on export and add filename as in response
+        this.loading = true;
+        this.taskService.exportTasks(this.lastTableChangeEvent, this.additionalFilters).subscribe((response) => {
+
+            const contentDisposition = response.headers.get('Content-Disposition');
+            const exportName: string = GetFileNameFromContentDisposition(contentDisposition);
+
             new FileManager().saveFile(
-                'Export',
-                response,
+                exportName,
+                response.body,
                 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
             );
-            this.loadingExport = false;
+            this.loading = false;
         }, (error) => {
             this.notificationService.openErrorNotification('error.api');
-            this.loadingExport = false;
+            this.loading = false;
         });
     }
 
@@ -212,28 +217,29 @@ export class TaskListComponent implements OnInit {
         }
 
         this.lastTableChangeEvent = tableChangeEvent;
-        const additionalFilters = [
+
+        this.additionalFilters = [
             new Filter('PROJECT_NAME', this.projectEventService.instant.projectName),
             new Filter('PROJECT_YEAR', this.projectEventService.instant.year, 'NUMBER'),
         ];
 
         if (this.businessAreaFilter && this.businessAreaFilter.value !== 'all') {
-            additionalFilters.push(this.businessAreaFilter);
+            this.additionalFilters.push(this.businessAreaFilter);
         }
 
         if (!this.isInitialized) {
-            additionalFilters.push(
+            this.additionalFilters.push(
                 this.businessAreaFilter = new Filter('BUSINESS_AREA_NAME',
                     this.selectedAreaService.instant.selectedArea)
             );
         }
 
         if (this.allTaskFilters) {
-            this.allTaskFilters = [...this.allTaskFilters, ...additionalFilters];
+            this.allTaskFilters = [...this.allTaskFilters, ...this.additionalFilters];
         }
 
         this.loading = true;
-        this.taskService.browseTasks(tableChangeEvent, additionalFilters).subscribe((data) => {
+        this.taskService.browseTasks(tableChangeEvent, this.additionalFilters).subscribe((data) => {
             this.data = data;
             this.loading = false;
             this.isInitialized = true;

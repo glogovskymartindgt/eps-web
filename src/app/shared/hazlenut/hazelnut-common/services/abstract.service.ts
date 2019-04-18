@@ -246,7 +246,8 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
         return this.http.post(url, body, {
             params,
             headers: this.getHeader(),
-            responseType: 'blob'
+            responseType: 'blob',
+            observe: 'response'
         }).pipe(
             map(mapFunction),
             catchError(this.handleError),
