@@ -22,6 +22,7 @@ export class ProjectUserService extends UserService<UserDataInterface> {
             roles: data.accountData.roles,
             masterToken: data.masterTokenData.generatedToken,
             authToken: data.authenticationTokenData.generatedToken,
+            userId: data.accountData.user.id,
             deviceId: 'device1',
         });
     }

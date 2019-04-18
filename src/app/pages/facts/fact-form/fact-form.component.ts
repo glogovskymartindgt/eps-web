@@ -131,6 +131,7 @@ export class FactFormComponent implements OnInit {
     }
 
     private setForm(task: any) {
+        const hasChangedBy: boolean = task.changedBy && task.changedBy.firstName && task.changedBy.lastName;
         this.factForm = this.formBuilder.group({
             category: [task.category.category, Validators.required],
             subCategory: [task.subCategory.subCategory, Validators.required],
@@ -138,7 +139,7 @@ export class FactFormComponent implements OnInit {
             secondValue: [task.valueSecond, Validators.required],
             totalValue: [''],
             changedAt: [task.changedAt ? task.changedAt : ''],
-            changedBy: [task.changedBy ? task.changedBy : '']
+            changedBy: [hasChangedBy ? `${task.changedBy.firstName} ${task.changedBy.lastName}` : '']
         });
 
         this.factForm.controls.firstValue.valueChanges.subscribe((value) => {

@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { StringUtils } from '../../../shared/hazlenut/hazelnut-common/hazelnut';
 import { TaskCommentResponse } from '../../../shared/interfaces/task-comment.interface';
 import { ProjectUserService } from '../../../shared/services/storage/project-user.service';
 
@@ -19,8 +18,8 @@ export class TaskCommentComponent implements OnInit {
     }
 
     public ngOnInit() {
-        this.projectUserService.subject.login.subscribe((login) => {
-            this.isMyComment = StringUtils.compareInDotLowerCase(login, this.comment.createdBy);
+        this.projectUserService.subject.userId.subscribe((userId) => {
+            this.isMyComment = (userId === this.comment.createdBy.id) ? true : false;
         });
     }
 
