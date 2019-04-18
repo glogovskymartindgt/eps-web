@@ -127,7 +127,23 @@ export class TaskListComponent implements OnInit {
                 new TableColumn({
                     columnDef: 'cityName',
                     labelKey: 'task.venue',
-                    filter: new TableColumnFilter({}),
+                    filter: new TableColumnFilter({
+                        valueType: 'STRING',
+                        type: TableFilterType.SELECT_STRING,
+                        select: [
+                            new ListItem('None', this.translateService.instant('venue.value.none')),
+                            new ListItem(
+                                this.projectEventService.instant.firstVenue,
+                                this.projectEventService.instant.firstVenue
+                            ),
+                            new ListItem(
+                                this.projectEventService.instant.secondVenue,
+                                this.projectEventService.instant.secondVenue
+                            ),
+                            new ListItem('BOTH', this.translateService.instant('venue.value.all')),
+                            new ListItem('', this.translateService.instant('tasks.empty')),
+                        ]
+                    }),
                     sorting: true,
                     type: TableCellType.CONTENT,
                     tableCellTemplate: this.venueColumn,

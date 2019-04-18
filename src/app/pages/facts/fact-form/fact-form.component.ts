@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import * as moment from 'moment';
 import { tap } from 'rxjs/internal/operators/tap';
 import { enterLeaveSmooth } from '../../../shared/hazlenut/hazelnut-common/animations';
 import { Regex } from '../../../shared/hazlenut/hazelnut-common/regex/regex';
@@ -138,7 +139,7 @@ export class FactFormComponent implements OnInit {
             firstValue: [task.valueFirst, Validators.required],
             secondValue: [task.valueSecond, Validators.required],
             totalValue: [''],
-            changedAt: [task.changedAt ? task.changedAt : ''],
+            changedAt: [task.changedAt ? this.formatDateTime(new Date(task.changedAt)) : ''],
             changedBy: [hasChangedBy ? `${task.changedBy.firstName} ${task.changedBy.lastName}` : '']
         });
 
@@ -163,6 +164,14 @@ export class FactFormComponent implements OnInit {
         this.factForm.controls.changedBy.disable();
 
         this.formLoaded = true;
+    }
+
+    private formatDateTime(date: Date): string {
+        if (!date) {
+            return '';
+        }
+
+        return moment(date).format('D.M.YYYY');
     }
 
 }

@@ -1,4 +1,4 @@
-.comment {
+.my-comment {
     position: relative;
     border-radius: 10px;
     background: #c3c3c3;
@@ -13,7 +13,7 @@
     }
 }
 
-.comment:after {
+.my-comment:after {
     z-index: 77;
     content: '';
     position: absolute;
@@ -27,12 +27,12 @@
     margin-bottom: -12px;
 }
 
-.comment-sizing:after {
+.my-comment-sizing:after {
     width: 0;
     height: 0;
 }
 
-.my-comment {
+.comment {
     position: relative;
     border-radius: 10px;
     background: #89cae9;
@@ -47,7 +47,7 @@
     }
 }
 
-.my-comment:after {
+.comment:after {
     z-index: 77;
     content: '';
     position: absolute;
