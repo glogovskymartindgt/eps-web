@@ -78,6 +78,10 @@ export class ProjectCardComponent implements OnInit {
         this.openAreas();
     }
 
+    public setDefaultImage() {
+        this.imagePath = `assets/img/event-logos/2020.png`;
+    }
+
     public getImagePath(projectId: number) {
         return `assets/img/event-logos/${2017 + projectId - 1}.png`;
     }

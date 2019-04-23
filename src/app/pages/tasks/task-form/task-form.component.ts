@@ -174,7 +174,6 @@ export class TaskFormComponent implements OnInit {
             changedBy: [''],
             changedAt: [''],
         });
-
         this.taskForm.valueChanges.subscribe(() => {
             this.emitFormDataChangeEmitter();
         });
@@ -209,7 +208,6 @@ export class TaskFormComponent implements OnInit {
     private setForm(task: any) {
         this.taskForm = this.formBuilder.group({
             taskType: ['TASK', Validators.required],
-            trafficLight: ['', Validators.required],
             title: ['', Validators.required],
             businessArea: ['', Validators.required],
             sourceOfAgenda: [''],
@@ -233,6 +231,9 @@ export class TaskFormComponent implements OnInit {
         this.taskForm.controls.businessArea.patchValue(task.clBusinessArea.id);
         if (task.dueDate) {
             this.taskForm.controls.dueDate.patchValue(task.dueDate);
+        }
+        if (task.closedDate) {
+            this.taskForm.controls.closedDate.patchValue(task.closedDate);
         }
         if (task.responsibleUser) {
             this.taskForm.controls.responsible.patchValue(task.responsibleUser.id);
@@ -275,6 +276,10 @@ export class TaskFormComponent implements OnInit {
         this.taskForm.controls.changedBy.disable();
         this.taskForm.updateValueAndValidity();
         this.formLoaded = true;
+
+        this.taskForm.valueChanges.subscribe(() => {
+            this.emitFormDataChangeEmitter();
+        });
     }
 
 }

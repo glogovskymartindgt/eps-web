@@ -1,8 +1,9 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { TableCellType, TableColumn, TableColumnFilter, TableConfiguration } from '../../../shared/hazlenut/core-table';
+import { TableCellType, TableColumn, TableConfiguration } from '../../../shared/hazlenut/core-table';
 import { BrowseResponse } from '../../../shared/hazlenut/hazelnut-common/models';
 import { Report } from '../../../shared/interfaces/report.interface';
+import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 
 @Component({
     selector: 'report-list',
@@ -20,8 +21,7 @@ export class ReportListComponent implements OnInit {
             {
                 id: 1,
                 name: 'To do list',
-                description: 'The report contains all open tasks and issues within the selected project.'
-
+                description: 'The report contains all open tasks and issues within the selected project.',
             },
             {
                 id: 2,
@@ -31,8 +31,8 @@ export class ReportListComponent implements OnInit {
             }
         ]);
 
-    public constructor(
-        private readonly translateService: TranslateService
+    public constructor(private readonly translateService: TranslateService,
+                       private readonly projectEventService: ProjectEventService,
     ) {
     }
 
