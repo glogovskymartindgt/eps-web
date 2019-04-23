@@ -1,7 +1,7 @@
 import { Regex } from '../hazlenut/hazelnut-common/regex/regex';
 
 export function GetFileNameFromContentDisposition(disposition: string): string {
-    let exportName: string = "EXPORT";
+    let exportName = "EXPORT";
 
     if (disposition && disposition.indexOf('attachment') !== -1) {
         const filenameRegex = Regex.fileNameFromContentDispositionPattern;

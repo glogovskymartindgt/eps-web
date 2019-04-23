@@ -19,7 +19,7 @@ export class TaskCommentComponent implements OnInit {
 
     public ngOnInit() {
         this.projectUserService.subject.userId.subscribe((userId) => {
-            this.isMyComment = (userId === this.comment.createdBy.id) ? true : false;
+            this.isMyComment = userId === this.comment.createdBy.id;
         });
     }
 
