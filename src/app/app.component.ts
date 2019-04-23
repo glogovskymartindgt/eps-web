@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { ProjectUserService } from './shared/services/storage/project-user.service';
+import { RoutingStorageService } from './shared/services/routing-storage.service';
 
 @Component({
     selector: 'iihf-root',
@@ -10,9 +10,10 @@ import { ProjectUserService } from './shared/services/storage/project-user.servi
 export class AppComponent implements OnInit {
 
     public constructor(private readonly translateService: TranslateService,
-                       public projectUserService: ProjectUserService,
+                       private readonly routingStorageService: RoutingStorageService
     ) {
         translateService.setDefaultLang('en');
+        this.routingStorageService.loadRouting();
     }
 
     public ngOnInit() {

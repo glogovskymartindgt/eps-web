@@ -18,8 +18,10 @@ import { TaskInterface } from '../../../shared/interfaces/task.interface';
 import { BusinessAreaService } from '../../../shared/services/data/business-area.service';
 import { TaskService } from '../../../shared/services/data/task.service';
 import { NotificationService } from '../../../shared/services/notification.service';
+import { RoutingStorageService } from '../../../shared/services/routing-storage.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 import { SelectedAreaService } from '../../../shared/services/storage/selected-area.service';
+import { TableChangeStorageService } from '../../../shared/services/table-change-storage.service';
 import { GetFileNameFromContentDisposition } from '../../../shared/utils/headers';
 
 @Component({
@@ -49,18 +51,22 @@ export class TaskListComponent implements OnInit {
     private allTaskFilters: Filter[] = [];
     private additionalFilters: Filter[] = [];
 
-    public constructor(private readonly translateService: TranslateService,
+    public constructor(public readonly projectEventService: ProjectEventService,
+                       public readonly selectedAreaService: SelectedAreaService,
+                       public readonly businessAreaService: BusinessAreaService,
+                       public readonly formBuilder: FormBuilder,
+                       private readonly translateService: TranslateService,
                        private readonly router: Router,
                        private readonly taskService: TaskService,
                        private readonly notificationService: NotificationService,
-                       public readonly projectEventService: ProjectEventService,
-                       public readonly selectedAreaService: SelectedAreaService,
-                       public readonly businessAreaService: BusinessAreaService,
-                       public readonly formBuilder: FormBuilder
+                       private readonly routingStorageService: RoutingStorageService,
+                       private readonly tableChangeStorageService: TableChangeStorageService,
     ) {
     }
 
     public ngOnInit() {
+        console.log('previous url', this.routingStorageService.getPreviousUrl());
+        console.log('tacss', this.tableChangeStorageService.getTasksLastTableChangeEvent());
 
         const allThingsKey = 'all.things';
         this.loadBusinessAreaList();
@@ -255,6 +261,8 @@ export class TaskListComponent implements OnInit {
                 this.additionalFilters.push(filter);
             });
         }
+
+        this.tableChangeStorageService.setTasksLastTableChangeEvent(tableChangeEvent);
 
         this.loading = true;
         this.taskService.browseTasks(tableChangeEvent, this.additionalFilters).subscribe((data) => {
