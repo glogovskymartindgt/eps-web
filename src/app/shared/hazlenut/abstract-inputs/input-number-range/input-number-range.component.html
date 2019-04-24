@@ -1,16 +1,18 @@
-<div [ngClass]="'w-' + inputSize" style="display: flex;
-    flex-direction: row;
-    justify-content: flex-end;" >
-    <haz-input-number [formControl]="fromControl"
-                      [inputStyles]="inputStyles"
-                      [label]="fromLabel"
-                      class="mr-10"
-                      [styles]="realStyles"></haz-input-number>
-    <haz-input-number [label]="toLabel"
-                      [styles]="realStyles"
-                      [inputStyles]="inputStyles"
-                      [formControl]="toControl"></haz-input-number>
-    <mat-error *ngIf="actualError === 'minmax'" class="error-message">
+<div [ngClass]="'w-' + inputSize" class="flex-end-column">
+    <div class="flex-end-row">
+        <haz-input-number [formControl]="fromControl"
+                          [inputStyles]="inputStyles"
+                          [label]="fromLabel"
+                          class="mr-10"
+                          [styles]="realStyles">
+        </haz-input-number>
+        <haz-input-number [label]="toLabel"
+                          [styles]="realStyles"
+                          [inputStyles]="inputStyles"
+                          [formControl]="toControl">
+        </haz-input-number>
+    </div>
+    <mat-error *ngIf="actualError === 'minmax'" class="error-message flex-end-row">
         {{errorInterval}}
     </mat-error>
 </div>
