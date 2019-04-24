@@ -13,13 +13,11 @@ export class TableChangeStorageService {
     }
 
     public setTasksLastTableChangeEvent(changeEvent?: TableChangeEvent) {
-        console.log('set', changeEvent);
-        this.tasksLastTableChangeEvent = changeEvent;
-        console.log('ex', this.tasksLastTableChangeEvent);
+        this.tasksLastTableChangeEvent = {...changeEvent, filters: [...changeEvent.filters]};
     }
 
     public setFactsLastTableChangeEvent(changeEvent?: TableChangeEvent) {
-        this.factsLastTableChangeEvent = changeEvent;
+        this.factsLastTableChangeEvent = {...changeEvent, filters: [...changeEvent.filters]};
     }
 
     public getTasksLastTableChangeEvent() {

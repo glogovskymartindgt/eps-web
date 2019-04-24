@@ -262,18 +262,23 @@ export class TaskListComponent implements OnInit {
             });
         }
 
-        this.tableChangeStorageService.setTasksLastTableChangeEvent(tableChangeEvent);
-
         this.loading = true;
-        this.taskService.browseTasks(tableChangeEvent, this.additionalFilters).subscribe((data) => {
+
+        // this.isInitialized ?
+        //     this.tableChangeStorageService.getTasksLastTableChangeEvent() :
+        this.taskService.browseTasks(
+
+                tableChangeEvent,
+            this.additionalFilters
+        ).subscribe((data) => {
             this.data = data;
             this.loading = false;
             this.isInitialized = true;
         }, (error) => {
             this.loading = false;
             this.notificationService.openErrorNotification('error.api');
-
         });
+        // this.tableChangeStorageService.setTasksLastTableChangeEvent(tableChangeEvent);
     }
 
     private loadBusinessAreaList() {
