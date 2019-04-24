@@ -4,7 +4,8 @@
     </div>
 </div>
 
-<div class="p-30">
+<div div fxLayout="row" style="overflow: auto;  height: calc(100vh - 160px);">
+    <div class="p-30">
     <fact-form (formDataChange)="formData=$event"></fact-form>
 
     <div>
@@ -23,5 +24,6 @@
         >
             {{ 'tasks.cancel' | translate }}
         </button>
+    </div>
     </div>
 </div>

@@ -1,5 +1,5 @@
 export interface UserDataComment {
-    id: number,
+    id: number;
     firstName: string;
     lastName: string;
 }
