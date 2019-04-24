@@ -31,6 +31,10 @@ export class FactFormComponent implements OnInit {
     public readonly firstVenueLabel = this.projectEventService.instant.firstVenue;
     public readonly secondVenueLabel = this.projectEventService.instant.secondVenue;
 
+    isTotalRequired: boolean = false;
+    isFirstValueRequired: boolean = false;
+    isSecondValueRequired: boolean = false;
+
     public constructor(private readonly projectEventService: ProjectEventService,
                        private readonly formBuilder: FormBuilder,
                        private readonly businessAreaService: BusinessAreaService,
@@ -46,7 +50,8 @@ export class FactFormComponent implements OnInit {
             subCategory: ['', Validators.required],
             firstValue: ['', Validators.required],
             secondValue: ['', Validators.required],
-            totalValue: [{value: '', disabled: true}],
+            oneValue: [false],
+            totalValue: [{value: '', disabled: true}]
         });
         this.loadCategories();
         this.checkIfUpdate();
@@ -65,8 +70,8 @@ export class FactFormComponent implements OnInit {
         });
 
         this.factForm.controls.firstValue.valueChanges.subscribe((value) => {
-            this.factForm.controls.totalValue.patchValue(+value +
-                +this.factForm.value.secondValue);
+                this.factForm.controls.totalValue.patchValue(+value +
+                    +this.factForm.value.secondValue);
         });
 
         this.factForm.controls.secondValue.valueChanges.subscribe((value) => {
@@ -77,6 +82,11 @@ export class FactFormComponent implements OnInit {
         this.factForm.valueChanges.subscribe(() => {
             this.emitFormDataChangeEmitter();
         });
+
+        this.factForm.controls.oneValue.valueChanges.subscribe(() => {
+            this.oneValueSelected();
+        });
+
     }
 
     public get controls() {
@@ -131,13 +141,49 @@ export class FactFormComponent implements OnInit {
         }, (error) => this.notificationService.openErrorNotification(error));
     }
 
+    private oneValueSelected() {
+        const oneValue = this.factForm.controls.oneValue.value;
+        
+        if (oneValue) {
+            this.controls['firstValue'].clearValidators();
+            this.controls['secondValue'].clearValidators();
+            this.controls['totalValue'].setValidators(Validators.required);
+            this.isFirstValueRequired = false;
+            this.isSecondValueRequired = false;
+            this.isTotalRequired = true;
+
+            this.factForm.controls.totalValue.enable();
+            this.factForm.controls.firstValue.disable();
+            this.factForm.controls.secondValue.disable();
+        } else {
+            this.controls['firstValue'].setValidators(Validators.required);
+            this.controls['secondValue'].setValidators(Validators.required);
+            this.controls['totalValue'].clearValidators();
+            this.isFirstValueRequired = true;
+            this.isSecondValueRequired = true;
+            this.isTotalRequired = false;
+
+            this.factForm.controls.totalValue.disable();
+            this.factForm.controls.firstValue.enable();
+            this.factForm.controls.secondValue.enable();
+        }
+
+        this.controls['firstValue'].setValue('');
+        this.controls['secondValue'].setValue('');
+        this.controls['totalValue'].setValue('');
+    }
+
     private setForm(task: any) {
         const hasChangedBy: boolean = task.changedBy && task.changedBy.firstName && task.changedBy.lastName;
+        this.isFirstValueRequired = true;
+        this.isSecondValueRequired = true;
+        this.isTotalRequired = false;
         this.factForm = this.formBuilder.group({
             category: [task.category.category, Validators.required],
             subCategory: [task.subCategory.subCategory, Validators.required],
             firstValue: [task.valueFirst, Validators.required],
             secondValue: [task.valueSecond, Validators.required],
+            oneValue: [false],
             totalValue: [''],
             changedAt: [task.changedAt ? this.formatDateTime(new Date(task.changedAt)) : ''],
             changedBy: [hasChangedBy ? `${task.changedBy.firstName} ${task.changedBy.lastName}` : '']
@@ -164,6 +210,11 @@ export class FactFormComponent implements OnInit {
         this.factForm.controls.changedBy.disable();
 
         this.formLoaded = true;
+
+        this.factForm.controls.oneValue.valueChanges.subscribe(() => {
+            this.oneValueSelected();
+        });
+
     }
 
     private formatDateTime(date: Date): string {
