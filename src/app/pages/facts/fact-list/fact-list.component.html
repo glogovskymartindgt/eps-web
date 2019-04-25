@@ -29,7 +29,7 @@
     </ng-template>
     <ng-template #totalValueColumn let-actRow="row" let-context="context">
         <div class="fr">
-            {{(actRow.valueFirst + actRow.valueSecond) | number}}
+            {{(actRow.valueFirst + actRow.valueSecond) | thousandDelimiter: ','}}
         </div>
     </ng-template>
 </div>

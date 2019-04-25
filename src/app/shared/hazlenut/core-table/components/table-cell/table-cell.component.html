@@ -1,5 +1,5 @@
 <ng-container [ngSwitch]="columnConfig.type">
-    <div *ngSwitchCase="tableCellType.NUMBER" class="num-value">{{ cellValue | roundToDecimal: 2 | number }}</div>
+    <div *ngSwitchCase="tableCellType.NUMBER" class="num-value">{{ cellValue | thousandDelimiter: ',' }}</div>
 
     <div *ngSwitchCase="tableCellType.NUMBERINT"
          class="num-value">{{ cellValue | roundToDecimal: 2 | number: '1.0-0' }}</div>
