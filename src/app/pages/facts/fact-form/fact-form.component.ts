@@ -50,7 +50,7 @@ export class FactFormComponent implements OnInit {
             subCategory: ['', Validators.required],
             firstValue: ['', Validators.required],
             secondValue: ['', Validators.required],
-            oneValue: [false],
+            hasOnlyTotalValue: [false],
             totalValue: [{value: '', disabled: true}]
         });
         this.loadCategories();
@@ -83,7 +83,7 @@ export class FactFormComponent implements OnInit {
             this.emitFormDataChangeEmitter();
         });
 
-        this.factForm.controls.oneValue.valueChanges.subscribe(() => {
+        this.factForm.controls.hasOnlyTotalValue.valueChanges.subscribe(() => {
             this.oneValueSelected();
         });
 
@@ -142,9 +142,9 @@ export class FactFormComponent implements OnInit {
     }
 
     private oneValueSelected() {
-        const oneValue = this.factForm.controls.oneValue.value;
+        const hasOnlyTotalValue = this.factForm.controls.hasOnlyTotalValue.value;
         
-        if (oneValue) {
+        if (hasOnlyTotalValue) {
             this.controls['firstValue'].clearValidators();
             this.controls['secondValue'].clearValidators();
             this.controls['totalValue'].setValidators(Validators.required);
@@ -183,7 +183,7 @@ export class FactFormComponent implements OnInit {
             subCategory: [task.subCategory.subCategory, Validators.required],
             firstValue: [task.valueFirst, Validators.required],
             secondValue: [task.valueSecond, Validators.required],
-            oneValue: [false],
+            hasOnlyTotalValue: [false],
             totalValue: [''],
             changedAt: [task.changedAt ? this.formatDateTime(new Date(task.changedAt)) : ''],
             changedBy: [hasChangedBy ? `${task.changedBy.firstName} ${task.changedBy.lastName}` : '']
@@ -211,7 +211,7 @@ export class FactFormComponent implements OnInit {
 
         this.formLoaded = true;
 
-        this.factForm.controls.oneValue.valueChanges.subscribe(() => {
+        this.factForm.controls.hasOnlyTotalValue.valueChanges.subscribe(() => {
             this.oneValueSelected();
         });
 

@@ -49,7 +49,7 @@ export class FactEditComponent implements OnInit {
         return {
             valueFirst: +formObject.firstValue,
             valueSecond: +formObject.secondValue,
-            oneValue: formObject.oneValue,
+            hasOnlyTotalValue: formObject.hasOnlyTotalValue,
             totalValue: +formObject.totalValue,
         };
     }

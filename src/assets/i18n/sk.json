@@ -134,7 +134,7 @@
         "totalValue": "Celková hodnota",
         "newFact": "Nový fakt",
         "editFact": "Upraviť fakt",
-        "oneValue": "Jedna hodnota pre obe mestá"
+        "hasOnlyTotalValue": "Jedna hodnota pre obe mestá"
     },
     "color": {
         "green": "Zelená",
