@@ -264,11 +264,13 @@ export class TaskListComponent implements OnInit {
 
         this.loading = true;
 
+        // this.tableChangeStorageService.setTasksLastTableChangeEvent(tableChangeEvent);
+
         // this.isInitialized ?
         //     this.tableChangeStorageService.getTasksLastTableChangeEvent() :
+        //     tableChangeEvent
         this.taskService.browseTasks(
-
-                tableChangeEvent,
+            tableChangeEvent,
             this.additionalFilters
         ).subscribe((data) => {
             this.data = data;
@@ -278,7 +280,7 @@ export class TaskListComponent implements OnInit {
             this.loading = false;
             this.notificationService.openErrorNotification('error.api');
         });
-        // this.tableChangeStorageService.setTasksLastTableChangeEvent(tableChangeEvent);
+
     }
 
     private loadBusinessAreaList() {

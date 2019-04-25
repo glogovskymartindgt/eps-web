@@ -10,7 +10,7 @@ export class RoutingStorageService {
     private history = [];
 
     public constructor(
-        private router: Router
+        private readonly router: Router
     ) {
     }
 
