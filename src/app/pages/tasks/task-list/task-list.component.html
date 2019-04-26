@@ -16,7 +16,7 @@
         </mat-form-field>
     </div>
     <div fxFlex fxLayoutAlign="end center">
-        <button mat-flat-button (click)="createTask()" class="mr-10"
+        <button *ngIf="projectEventService.instant.active" mat-flat-button (click)="createTask()" class="mr-10"
                 color="accent">
             {{'common.create' | translate}}
         </button>
