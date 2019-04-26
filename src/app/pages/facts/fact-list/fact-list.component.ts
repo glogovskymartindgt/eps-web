@@ -80,9 +80,6 @@ export class FactListComponent implements OnInit {
                     labelKey: 'fact.totalValue',
                     align: 'right',
                     type: TableCellType.CONTENT,
-                    filter: new TableColumnFilter({
-                        type: TableFilterType.NUMBER,
-                    }),
                     tableCellTemplate: this.totalValueColumn,
                 }),
                 new TableColumn({

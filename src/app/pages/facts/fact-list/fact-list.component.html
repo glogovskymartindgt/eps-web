@@ -39,7 +39,7 @@
     </ng-template>
     <ng-template #totalValueColumn let-actRow="row" let-context="context">
         <div class="fr">
-            {{actRow.totalValue}}
+            {{(actRow.valueFirst === null && actRow.valueSecond === null) ? actRow.totalValue : actRow.valueFirst + actRow.valueSecond | number}}
         </div>
     </ng-template>
 </div>
