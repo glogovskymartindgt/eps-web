@@ -173,7 +173,7 @@ export class FactFormComponent implements OnInit {
             return '';
         }
 
-        return moment(date).format('D.M.YYYY');
+        return moment(date).format('D.M.YYYY - HH:mm:ss');
     }
 
 }
