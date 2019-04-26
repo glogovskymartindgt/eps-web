@@ -7,7 +7,7 @@ import { Regex } from '../hazlenut/hazelnut-common/regex/regex';
 export class ThousandDelimiterPipe implements PipeTransform {
 
     public transform(value: string | number, decimalSeparator = '.'): any {
-        return value.toString()
+        return (value === null) ? null : value.toString()
             .replace(Regex.thousandSeparatorOccurenceWithMaxTwoDecimal, ' ')
             .replace('.', decimalSeparator);
     }
