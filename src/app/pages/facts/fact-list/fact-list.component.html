@@ -20,8 +20,7 @@
     </haz-core-table>
     <ng-template #updateColumn let-actRow="row" let-context="context">
         <div class="fr">
-            <button *ngIf="projectEventService.instant.active"
-                    mat-icon-button
+            <button  mat-icon-button
                     (click)="update(actRow.id)">
                 <mat-icon>keyboard_arrow_right</mat-icon>
             </button>

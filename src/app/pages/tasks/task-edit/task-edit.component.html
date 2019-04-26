@@ -9,7 +9,8 @@
         <task-form (formDataChange)="formData=$event"></task-form>
 
         <div>
-            <button type="submit"
+            <button *ngIf="projectEventService.instant.active"
+                    type="submit"
                     mat-flat-button
                     color="accent"
                     class="mr-10"
@@ -38,7 +39,7 @@
                                 [pattern]="notOnlyWhiteCharactersPattern"
                                 required
                                 class="theme-input m-20"
-                               [maxLength]="255"
+                                [maxLength]="255"
                 >
                 </haz-core-input>
 

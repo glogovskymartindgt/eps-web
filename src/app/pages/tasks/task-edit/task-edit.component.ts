@@ -6,6 +6,7 @@ import { Regex } from '../../../shared/hazlenut/hazelnut-common/regex/regex';
 import { TaskComment, TaskCommentResponse } from '../../../shared/interfaces/task-comment.interface';
 import { TaskService } from '../../../shared/services/data/task.service';
 import { NotificationService } from '../../../shared/services/notification.service';
+import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 import { TaskCommentService } from '../../../shared/services/task-comment.service';
 import { TaskFormComponent } from '../task-form/task-form.component';
 
@@ -30,6 +31,7 @@ export class TaskEditComponent implements OnInit {
         private readonly activatedRoute: ActivatedRoute,
         private readonly taskService: TaskService,
         private readonly formBuilder: FormBuilder,
+        private readonly projectEventService: ProjectEventService,
     ) {
     }
 

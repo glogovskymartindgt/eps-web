@@ -47,7 +47,8 @@
             "newTask": "New task"
         },
         "edit": {
-            "editTask": "Edit task"
+            "editTask": "Edit task",
+            "detailTask": "Task detail"
         }
     },
     "status": {
@@ -134,6 +135,7 @@
         "totalValue": "Total Value",
         "newFact": "New fact",
         "editFact": "Edit fact",
+        "detailFact": "Fact detail",
         "changedAt": "Changed at",
         "changedBy": "Changed by"
     },

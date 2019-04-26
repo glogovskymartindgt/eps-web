@@ -6,24 +6,25 @@
 
 <div div fxLayout="row" style="overflow: auto;  height: calc(100vh - 160px);">
     <div class="p-30">
-    <fact-form (formDataChange)="formData=$event"></fact-form>
+        <fact-form (formDataChange)="formData=$event"></fact-form>
 
-    <div>
-        <button type="submit"
-                mat-flat-button
-                color="accent"
-                class="mr-10"
-                (click)="onSave()"
-        >
-            {{ 'tasks.save' | translate }}
-        </button>
-        <button type="button"
-                mat-button
-                class="mr-10"
-                (click)="onCancel()"
-        >
-            {{ 'tasks.cancel' | translate }}
-        </button>
-    </div>
+        <div>
+            <button *ngIf="projectEventService.instant.active"
+                    type="submit"
+                    mat-flat-button
+                    color="accent"
+                    class="mr-10"
+                    (click)="onSave()"
+            >
+                {{ 'tasks.save' | translate }}
+            </button>
+            <button type="button"
+                    mat-button
+                    class="mr-10"
+                    (click)="onCancel()"
+            >
+                {{ 'tasks.cancel' | translate }}
+            </button>
+        </div>
     </div>
 </div>

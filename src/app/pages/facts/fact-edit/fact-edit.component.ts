@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FactService } from '../../../shared/services/data/fact.service';
 import { NotificationService } from '../../../shared/services/notification.service';
+import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 import { TaskFormComponent } from '../../tasks/task-form/task-form.component';
 
 @Component({
@@ -19,6 +20,7 @@ export class FactEditComponent implements OnInit {
         private readonly notificationService: NotificationService,
         private readonly factService: FactService,
         private readonly activatedRoute: ActivatedRoute,
+        private readonly projectEventService: ProjectEventService,
     ) {
     }
 
