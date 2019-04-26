@@ -11,6 +11,7 @@ import { BusinessAreaService } from '../../../shared/services/data/business-area
 import { FactService } from '../../../shared/services/data/fact.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
+import { isNullOrUndefined } from 'util';
 
 @Component({
     selector: 'fact-form',
@@ -64,9 +65,12 @@ export class FactFormComponent implements OnInit {
         });
 
         this.factForm.controls.subCategory.valueChanges.subscribe((value) => {
-            this.actualUnitShortName = this.subCategories.find(
+            const subcategory = this.subCategories.find(
                 (subCategory) => subCategory.id = value
-            ).unitShortName;
+            );
+            if (!isNullOrUndefined(subcategory)) {
+                this.actualUnitShortName = subcategory.unitShortName;
+            }
         });
 
         this.factForm.controls.firstValue.valueChanges.subscribe((value) => {
@@ -85,7 +89,7 @@ export class FactFormComponent implements OnInit {
 
         this.factForm.controls.hasOnlyTotalValue.valueChanges.subscribe(() => {
             this.oneValueSelected();
-        });
+        });       
 
     }
 
@@ -122,7 +126,7 @@ export class FactFormComponent implements OnInit {
             const actualValue = {
                 ...this.factForm.value,
             };
-            this.onFormDataChange.emit(actualValue);
+            this.onFormDataChange.emit(actualValue);            
         }
     }
 
@@ -183,8 +187,8 @@ export class FactFormComponent implements OnInit {
             subCategory: [task.subCategory.subCategory, Validators.required],
             firstValue: [task.valueFirst, Validators.required],
             secondValue: [task.valueSecond, Validators.required],
-            hasOnlyTotalValue: [false],
-            totalValue: [''],
+            hasOnlyTotalValue: [task.hasOnlyTotalValue],
+            totalValue: [task.totalValue],
             changedAt: [task.changedAt ? this.formatDateTime(new Date(task.changedAt)) : ''],
             changedBy: [hasChangedBy ? `${task.changedBy.firstName} ${task.changedBy.lastName}` : '']
         });
@@ -203,7 +207,7 @@ export class FactFormComponent implements OnInit {
             this.emitFormDataChangeEmitter();
         });
 
-        this.factForm.controls.totalValue.patchValue(+this.factForm.value.firstValue + +this.factForm.value.secondValue);
+        this.factForm.controls.totalValue.patchValue(+this.factForm.value.totalValue);
 
         this.factForm.controls.totalValue.disable();
         this.factForm.controls.changedAt.disable();
@@ -215,6 +219,22 @@ export class FactFormComponent implements OnInit {
             this.oneValueSelected();
         });
 
+        if (task.hasOnlyTotalValue) {
+            this.controls['firstValue'].clearValidators();
+            this.controls['secondValue'].clearValidators();
+            this.controls['totalValue'].setValidators(Validators.required);
+            this.isFirstValueRequired = false;
+            this.isSecondValueRequired = false;
+            this.isTotalRequired = true;
+
+            setTimeout(() => {
+                this.factForm.controls.firstValue.disable();
+                this.factForm.controls.secondValue.disable();
+                this.factForm.controls.totalValue.enable();
+                
+                this.factForm.controls.totalValue.patchValue(task.totalValue);
+            }, 200);
+        }
     }
 
     private formatDateTime(date: Date): string {
