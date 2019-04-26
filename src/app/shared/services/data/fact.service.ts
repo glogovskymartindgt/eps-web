@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TableChangeEvent } from '../../hazlenut/core-table';
 import { StringUtils } from '../../hazlenut/hazelnut-common/hazelnut';
-import { BrowseResponse, PostContent, Sort } from '../../hazlenut/hazelnut-common/models';
+import { BrowseResponse, PostContent, Sort, Filter } from '../../hazlenut/hazelnut-common/models';
 import { Fact } from '../../interfaces/fact.interface';
 import { NotificationService } from '../notification.service';
 import { ProjectService } from '../project.service';
@@ -21,7 +21,7 @@ export class FactService extends ProjectService<Fact> {
         super(http, 'factItem', notificationService, userService);
     }
 
-    public browseFacts(tableChangeEvent: TableChangeEvent): Observable<BrowseResponse<Fact>> {
+    public browseFacts(tableChangeEvent: TableChangeEvent, projectFilter: Filter): Observable<BrowseResponse<Fact>> {
         let filters = [];
         let sort = [];
         let limit = 15;
@@ -37,6 +37,7 @@ export class FactService extends ProjectService<Fact> {
                     tableChangeEvent.sortDirection)];
             }
         }
+        filters.push(projectFilter);
         return this.browseWithSummary(PostContent.create(limit, offset, filters, sort));
     }
 
