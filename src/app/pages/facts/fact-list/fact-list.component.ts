@@ -8,7 +8,7 @@ import {
     TableConfiguration,
     TableFilterType
 } from '../../../shared/hazlenut/core-table';
-import { BrowseResponse } from '../../../shared/hazlenut/hazelnut-common/models';
+import { BrowseResponse, Filter } from '../../../shared/hazlenut/hazelnut-common/models';
 import { Fact } from '../../../shared/interfaces/fact.interface';
 import { FactService } from '../../../shared/services/data/fact.service';
 import { NotificationService } from '../../../shared/services/notification.service';
@@ -106,7 +106,8 @@ export class FactListComponent implements OnInit {
 
     public setTableData(tableChangeEvent?: TableChangeEvent): void {
         this.loading = true;
-        this.factService.browseFacts(tableChangeEvent).subscribe((data) => {
+        let projectFilter = new Filter('PROJECT_ID', this.projectEventService.instant.id, 'NUMBER');
+        this.factService.browseFacts(tableChangeEvent, projectFilter).subscribe((data) => {
             this.data = data;
             this.loading = false;
             this.isInitialized = true;

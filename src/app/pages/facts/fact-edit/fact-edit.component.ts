@@ -20,7 +20,7 @@ export class FactEditComponent implements OnInit {
         private readonly notificationService: NotificationService,
         private readonly factService: FactService,
         private readonly activatedRoute: ActivatedRoute,
-        private readonly projectEventService: ProjectEventService,
+        public readonly projectEventService: ProjectEventService,
     ) {
     }
 
