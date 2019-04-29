@@ -1,12 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, tap } from 'rxjs/operators';
 import { UserDataService } from '../../../../services/data/user-data.service';
 import { NotificationService } from '../../../../services/notification.service';
 import { fadeEnterLeave } from '../../../hazelnut-common/animations';
 import { CoreTableService } from '../../core-table.service';
 import { TableColumn } from '../../models/table-column.model';
 import { TableFilterType } from '../../models/table-filter-type.enum';
+import { BusinessAreaService } from 'src/app/shared/services/data/business-area.service';
 
 @Component({
     selector: 'haz-core-table-filter',
@@ -21,10 +22,12 @@ export class CoreTableFilterComponent implements OnInit {
     public showSearchIcon = true;
     public filterTypeEnum: typeof TableFilterType = TableFilterType;
     public userList$ = this.userDataService.getUsers();
+    public categoryList$ = [];
 
     public constructor(private readonly coreTableService: CoreTableService,
                        private readonly userDataService: UserDataService,
                        private readonly notificationService: NotificationService,
+                       private readonly businessAreaService: BusinessAreaService,
                        ) {
     }
 
@@ -56,6 +59,15 @@ export class CoreTableFilterComponent implements OnInit {
         if (this.columnConfig.filter && this.columnConfig.filter.type === TableFilterType.CUSTOM) {
             this._filtersElement.addControl(this.columnConfig.filterElement, new FormControl());
         }
+
+        this.loadCategoryList();
+    }
+
+    private loadCategoryList() {
+        this.businessAreaService.listCategories()
+            .subscribe((data) => {
+                this.categoryList$ = data.content;
+            });
     }
 
     public clearFilters() {

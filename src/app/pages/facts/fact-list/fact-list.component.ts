@@ -24,6 +24,7 @@ export class FactListComponent implements OnInit {
     @ViewChild('firstValueColumn') public firstValueColumn: TemplateRef<any>;
     @ViewChild('secondValueColumn') public secondValueColumn: TemplateRef<any>;
     @ViewChild('totalValueColumn') public totalValueColumn: TemplateRef<any>;
+    @ViewChild('categoryColumn') public categoryColumn: TemplateRef<any>;
     public config: TableConfiguration;
     public loading = false;
     public isInitialized = false;
@@ -44,8 +45,12 @@ export class FactListComponent implements OnInit {
                 new TableColumn({
                     columnDef: 'categoryName',
                     labelKey: 'fact.category',
-                    filter: new TableColumnFilter({}),
+                    type: TableCellType.CONTENT,
+                    filter: new TableColumnFilter({
+                        type: TableFilterType.CATEGORY,
+                    }),
                     sorting: true,
+                    tableCellTemplate: this.categoryColumn,
                 }),
                 new TableColumn({
                     columnDef: 'subCategoryName',

@@ -63,6 +63,12 @@ export class CoreTableService {
                 }
                 break;
             }
+            case TableFilterType.CATEGORY: {
+                if (value !== 'All') {
+                    this.filters.push(new Filter('CATEGORY_NAME', value, 'STRING', 'EQ'));
+                }
+                break;
+            }
             case TableFilterType.SELECT_NUMBER: {
                 this.filters.push(new Filter(propertyName, value, 'NUMBER', 'EQ'));
                 break;

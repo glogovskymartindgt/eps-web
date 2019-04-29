@@ -16,5 +16,6 @@ export type Property =
     | 'NAME'
     | 'STATE'
     | 'RESPONSIBLE_USER'
+    | 'CATEGORY_NAME'
     | 'CODE'
     ;
