@@ -133,7 +133,8 @@
         "secondVenue": "Druhé miesto",
         "totalValue": "Celková hodnota",
         "newFact": "Nový fakt",
-        "editFact": "Upraviť fakt"
+        "editFact": "Upraviť fakt",
+        "hasOnlyTotalValue": "Jedna hodnota pre obe mestá"
     },
     "color": {
         "green": "Zelená",

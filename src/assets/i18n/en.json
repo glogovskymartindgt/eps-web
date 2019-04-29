@@ -137,7 +137,8 @@
         "editFact": "Edit fact",
         "detailFact": "Fact detail",
         "changedAt": "Changed at",
-        "changedBy": "Changed by"
+        "changedBy": "Changed by",
+        "hasOnlyTotalValue": "One value for both venues"
     },
     "color": {
         "green": "Green",

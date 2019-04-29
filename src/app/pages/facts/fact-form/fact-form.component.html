@@ -46,9 +46,8 @@
                         appearance="fill"
                         [textSuffix]="actualUnitShortName"
                         [allowedCharactersPattern]="doublePattern"
-                        [required]="true"
-                        required
                         [maxLength]="15"
+                        [required]="'isFirstValueRequired'"
         >
         </haz-core-input>
     </div>
@@ -57,18 +56,25 @@
                         [label]="secondVenueLabel"
                         appearance="fill"
                         [textSuffix]="actualUnitShortName"
-                        [allowedCharactersPattern]="doublePattern"
-                        [required]="true"
-                        required
+                        [allowedCharactersPattern]="doublePattern"                        
                         [maxLength]="15"
+                        [required]="'isSecondValueRequired'"
         >
         </haz-core-input>
+    </div>
+    <div class="mb-20">
+        <mat-checkbox
+            formControlName="hasOnlyTotalValue"
+        >{{'fact.hasOnlyTotalValue' | translate}}</mat-checkbox>
     </div>
     <div class="long-input">
         <haz-core-input formControlName="totalValue"
                         [label]="'fact.totalValue' | translate"
                         appearance="fill"
                         [textSuffix]="actualUnitShortName"
+                        [allowedCharactersPattern]="doublePattern"
+                        [maxLength]="15"
+                        [required]="'isTotalRequired'"
         >
         </haz-core-input>
     </div>

@@ -21,6 +21,8 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
 })
 export class FactListComponent implements OnInit {
     @ViewChild('updateColumn') public updateColumn: TemplateRef<any>;
+    @ViewChild('firstValueColumn') public firstValueColumn: TemplateRef<any>;
+    @ViewChild('secondValueColumn') public secondValueColumn: TemplateRef<any>;
     @ViewChild('totalValueColumn') public totalValueColumn: TemplateRef<any>;
     public config: TableConfiguration;
     public loading = false;
@@ -54,21 +56,25 @@ export class FactListComponent implements OnInit {
                 new TableColumn({
                     columnDef: 'valueFirst',
                     label: this.projectEventService.instant.firstVenue,
-                    type: TableCellType.NUMBER,
+                    align: 'right',
+                    type: TableCellType.CONTENT,
                     filter: new TableColumnFilter({
                         type: TableFilterType.NUMBER,
                     }),
                     sorting: true,
+                    tableCellTemplate: this.firstValueColumn,
                 }),
                 new TableColumn({
                     columnDef: 'valueSecond',
                     label: this.projectEventService.instant.secondVenue,
-                    type: TableCellType.NUMBER,
+                    align: 'right',
+                    type: TableCellType.CONTENT,
                     filter: new TableColumnFilter({
                         type: TableFilterType.NUMBER,
                     }),
                     sorting: true,
-                }),
+                    tableCellTemplate: this.secondValueColumn,
+                }),                
                 new TableColumn({
                     columnDef: 'totalValue',
                     labelKey: 'fact.totalValue',

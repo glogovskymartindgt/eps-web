@@ -49,8 +49,10 @@ export class FactEditComponent implements OnInit {
 
     private transformTaskToApiObject(formObject: any): any {
         return {
-            valueFirst: formObject.firstValue,
-            valueSecond: formObject.secondValue,
+            valueFirst: +formObject.firstValue,
+            valueSecond: +formObject.secondValue,
+            hasOnlyTotalValue: formObject.hasOnlyTotalValue,
+            totalValue: +formObject.totalValue,
         };
     }
 
