@@ -50,7 +50,6 @@ export class TaskEditComponent implements OnInit {
     }
 
     public onSave() {
-        console.log('save', this.formData);
         if (this.formData) {
             this.taskService.editTask(this.taskId, this.transformTaskToApiObject(this.formData)).subscribe(
                 (response) => {

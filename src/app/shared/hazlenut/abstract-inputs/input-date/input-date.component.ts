@@ -44,6 +44,11 @@ export class InputDateComponent implements OnInit, ControlValueAccessor {
 
     public constructor() {
     }
+    
+    public dateClass = (d: Date) => {
+        const day = moment(d).toDate().getDay();
+        return (day === 0 || day === 6) ? 'custom-date-class' : undefined;
+    }
 
     public ngOnInit() {
         this.onFormControlChanges();
