@@ -131,6 +131,7 @@ export class TaskListComponent implements OnInit {
                         valueType: 'STRING',
                         type: TableFilterType.SELECT_STRING,
                         select: [
+                            new ListItem('', this.translateService.instant('venue.value.all')),
                             new ListItem('None', this.translateService.instant('venue.value.none')),
                             new ListItem(
                                 this.projectEventService.instant.firstVenue,
@@ -140,8 +141,7 @@ export class TaskListComponent implements OnInit {
                                 this.projectEventService.instant.secondVenue,
                                 this.projectEventService.instant.secondVenue
                             ),
-                            new ListItem('BOTH', this.translateService.instant('venue.value.all')),
-                            new ListItem('', this.translateService.instant('tasks.empty')),
+                            new ListItem('BOTH', this.translateService.instant('venue.value.both')),
                         ]
                     }),
                     sorting: true,

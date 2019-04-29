@@ -31,7 +31,7 @@ export class TaskEditComponent implements OnInit {
         private readonly activatedRoute: ActivatedRoute,
         private readonly taskService: TaskService,
         private readonly formBuilder: FormBuilder,
-        private readonly projectEventService: ProjectEventService,
+        public readonly projectEventService: ProjectEventService,
     ) {
     }
 

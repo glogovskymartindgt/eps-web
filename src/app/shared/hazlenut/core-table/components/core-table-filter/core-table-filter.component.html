@@ -38,6 +38,17 @@
         </mat-select>
     </mat-form-field>
 
+    <mat-form-field *ngSwitchCase="filterTypeEnum.CATEGORY" [ngClass]="widthClass">
+        <mat-select [formControlName]="columnConfig.filterElement">
+            <mat-option  [value]="'All'">
+                {{ 'venue.value.all' | translate }}
+            </mat-option>
+            <mat-option *ngFor="let option of categoryList$" [value]="option.name">
+                {{ option.name }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
     <mat-form-field *ngSwitchCase="filterTypeEnum.TYPE" [ngClass]="widthClass">
         <mat-select [formControlName]="columnConfig.filterElement">
             <mat-option *ngFor="let option of columnConfig.filter.select" [value]="option.code | async">

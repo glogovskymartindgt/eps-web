@@ -156,6 +156,7 @@
     "venue": {
         "value": {
             "all": "Všetky",
+            "both": "Obe",
             "none": "Žiadna"
         }
     }

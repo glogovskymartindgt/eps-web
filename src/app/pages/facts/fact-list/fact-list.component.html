@@ -18,6 +18,9 @@
                     [data]="data"
     >
     </haz-core-table>
+    <ng-template #categoryColumn let-actRow="row" let-context="context">
+        {{actRow.categoryName}}
+    </ng-template>
     <ng-template #updateColumn let-actRow="row" let-context="context">
         <div class="fr">
             <button  mat-icon-button
