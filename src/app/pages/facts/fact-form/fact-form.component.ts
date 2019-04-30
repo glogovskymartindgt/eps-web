@@ -185,8 +185,8 @@ export class FactFormComponent implements OnInit {
         this.factForm = this.formBuilder.group({
             category: [task.category.category, Validators.required],
             subCategory: [task.subCategory.subCategory, Validators.required],
-            firstValue: [task.valueFirst, Validators.required],
-            secondValue: [task.valueSecond, Validators.required],
+            firstValue: [task.valueFirst.toString(), Validators.required],
+            secondValue: [task.valueSecond.toString(), Validators.required],
             hasOnlyTotalValue: [task.hasOnlyTotalValue],
             totalValue: [task.totalValue],
             changedAt: [task.changedAt ? this.formatDateTime(new Date(task.changedAt)) : ''],
