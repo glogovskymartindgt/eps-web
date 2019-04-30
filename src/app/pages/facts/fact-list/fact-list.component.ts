@@ -111,7 +111,7 @@ export class FactListComponent implements OnInit {
 
     public setTableData(tableChangeEvent?: TableChangeEvent): void {
         this.loading = true;
-        let projectFilter = new Filter('PROJECT_ID', this.projectEventService.instant.id, 'NUMBER');
+        const projectFilter = new Filter('PROJECT_ID', this.projectEventService.instant.id, 'NUMBER');
         this.factService.browseFacts(tableChangeEvent, projectFilter).subscribe((data) => {
             this.data = data;
             this.loading = false;

@@ -32,9 +32,9 @@ export class FactFormComponent implements OnInit {
     public readonly firstVenueLabel = this.projectEventService.instant.firstVenue;
     public readonly secondVenueLabel = this.projectEventService.instant.secondVenue;
 
-    isTotalRequired: boolean = false;
-    isFirstValueRequired: boolean = false;
-    isSecondValueRequired: boolean = false;
+    isTotalRequired = false;
+    isFirstValueRequired = false;
+    isSecondValueRequired = false;
 
     public constructor(private readonly projectEventService: ProjectEventService,
                        private readonly formBuilder: FormBuilder,

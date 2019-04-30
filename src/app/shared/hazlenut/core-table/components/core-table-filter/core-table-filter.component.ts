@@ -7,7 +7,7 @@ import { fadeEnterLeave } from '../../../hazelnut-common/animations';
 import { CoreTableService } from '../../core-table.service';
 import { TableColumn } from '../../models/table-column.model';
 import { TableFilterType } from '../../models/table-filter-type.enum';
-import { BusinessAreaService } from 'src/app/shared/services/data/business-area.service';
+import { BusinessAreaService } from  '../../../../services/data/business-area.service';
 
 @Component({
     selector: 'haz-core-table-filter',
