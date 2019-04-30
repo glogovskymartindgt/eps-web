@@ -132,7 +132,7 @@ export class TaskListComponent implements OnInit {
                         type: TableFilterType.SELECT_STRING,
                         select: [
                             new ListItem('', this.translateService.instant('venue.value.all')),
-                            new ListItem('None', this.translateService.instant('venue.value.none')),
+                            new ListItem('NONE', this.translateService.instant('venue.value.none')),
                             new ListItem(
                                 this.projectEventService.instant.firstVenue,
                                 this.projectEventService.instant.firstVenue
