@@ -165,7 +165,7 @@ export class TaskFormComponent implements OnInit {
             phase: [''],
             dueDate: [null],
             responsible: [''],
-            venue: [''],
+            venue: ['NONE'],
             description: [''],
             sourceDescription: [''],
             state: [''],
