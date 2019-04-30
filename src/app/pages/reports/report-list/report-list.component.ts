@@ -1,9 +1,9 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import { TableCellType, TableColumn, TableConfiguration } from '../../../shared/hazlenut/core-table';
 import { BrowseResponse } from '../../../shared/hazlenut/hazelnut-common/models';
 import { Report } from '../../../shared/interfaces/report.interface';
-import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
+import { NotificationService } from 'src/app/shared/services/notification.service';
+import { ReportService } from 'src/app/shared/services/data/report.service';
 
 @Component({
     selector: 'report-list',
@@ -16,27 +16,17 @@ export class ReportListComponent implements OnInit {
 
     public loading = false;
     public config: TableConfiguration;
-    public data = new BrowseResponse<Report>(
-        [
-            {
-                id: 1,
-                name: 'To do list',
-                description: 'The report contains all open tasks and issues within the selected project.',
-            },
-            {
-                id: 2,
-                name: 'Red flag list',
-                description: 'The report contains all open issues within the selected project that don\'t have ' +
-                    'traffic light set to none.'
-            }
-        ]);
+    public data = new BrowseResponse<Report>();
 
-    public constructor(private readonly translateService: TranslateService,
-                       private readonly projectEventService: ProjectEventService,
+    public constructor(
+            private readonly notificationService: NotificationService,
+            private readonly reportService: ReportService
     ) {
     }
 
     public ngOnInit() {
+
+        this.setTableData();
 
         this.config = {
             stickyEnd: 2,
@@ -58,9 +48,21 @@ export class ReportListComponent implements OnInit {
                     tableCellTemplate: this.actionColumn,
                 }),
             ],
-            paging: true,
+            paging: false,
         };
 
+    }
+
+    private setTableData() {
+        this.loading = true;
+        this.reportService.getAllReports().subscribe((data) => {
+            this.data.content = data;
+            this.data.totalElements = data.length;
+            this.loading = false;
+        }, (error) => {
+            this.loading = false;
+            this.notificationService.openErrorNotification('error.api');
+        });
     }
 
 }
