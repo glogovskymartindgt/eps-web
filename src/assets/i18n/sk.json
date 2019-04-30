@@ -7,7 +7,8 @@
         "businessAreas": "Biznis oblasti a úlohy",
         "dashboard": "Rozvrh",
         "reports": "Reporty",
-        "facts": "Fakty a čísla"
+        "facts": "Fakty a čísla",
+        "allFacts": "Všetky Fakty a čísla"
     },
     "login": {
         "login": "Prihlásenie",

@@ -39,6 +39,12 @@ export const AppRoutes: Routes = [
                 canActivate: [AuthGuard]
             },
             {
+                path: 'all-facts',
+                loadChildren: './pages/facts/facts.module#FactsModule',
+                data: {title: 'menu.allFacts', icon: 'person', menu: true, animation: 'facts'},
+                canActivate: [AuthGuard]
+            },
+            {
                 path: 'reports',
                 loadChildren: './pages/reports/reports.module#ReportsModule',
                 data: {title: 'menu.reports', icon: 'person', menu: true, animation: 'reports'},

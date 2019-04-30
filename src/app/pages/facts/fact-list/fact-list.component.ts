@@ -14,6 +14,8 @@ import { FactService } from '../../../shared/services/data/fact.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 
+const ALL_FACTS = 'all-facts';
+
 @Component({
     selector: 'fact-list',
     templateUrl: './fact-list.component.html',
@@ -29,6 +31,7 @@ export class FactListComponent implements OnInit {
     public loading = false;
     public isInitialized = false;
     public data = new BrowseResponse<Fact>([]);
+    public allFacts = false;
 
     public constructor(public readonly projectEventService: ProjectEventService,
                        private readonly translateService: TranslateService,
@@ -79,7 +82,7 @@ export class FactListComponent implements OnInit {
                     }),
                     sorting: true,
                     tableCellTemplate: this.secondValueColumn,
-                }),                
+                }),
                 new TableColumn({
                     columnDef: 'totalValue',
                     labelKey: 'fact.totalValue',
@@ -99,6 +102,16 @@ export class FactListComponent implements OnInit {
             ],
             paging: true,
         };
+
+        if (this.router.url.includes(ALL_FACTS)) {
+            this.allFacts = true;
+            // this.config.columns.splice(0, 0,
+                // new TableColumn({
+                    // 
+                // })
+            // );
+        }
+                
     }
 
     public createFact() {

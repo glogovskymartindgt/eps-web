@@ -1,7 +1,7 @@
 <div>
     <div fxLayout="row" class="basic-screen-header">
         <div class="pl-20" fxFlex="300px" fxLayoutAlign="start center">
-            <h2>{{'fact.title' | translate}}</h2>
+            <h2>{{ (allFacts ? 'fact.titleAllFacts' : 'fact.title') | translate}}</h2>
         </div>
         <div fxFlex fxLayoutAlign="end center">
             <button *ngIf="projectEventService.instant.active"
@@ -40,11 +40,8 @@
         </div>
     </ng-template>
     <ng-template #totalValueColumn let-actRow="row" let-context="context">
-        <div *ngIf="(actRow.valueFirst === null && actRow.valueSecond === null)" class="fr">
-            {{actRow.totalValue | thousandDelimiter: ','}}
-        </div>
-        <div *ngIf="(actRow.valueFirst !== null || actRow.valueSecond !== null)" class="fr">
-            {{actRow.valueFirst + actRow.valueSecond | thousandDelimiter: ','}}
+        <div class="fr">
+            {{ ((actRow.valueFirst === null && actRow.valueSecond === null) ? actRow.totalValue : (actRow.valueFirst + actRow.valueSecond))  | thousandDelimiter: ','}}
         </div>
     </ng-template>
 </div>

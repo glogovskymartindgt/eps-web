@@ -7,7 +7,8 @@
         "businessAreas": "Business Areas and Tasks",
         "dashboard": "Dashboard",
         "reports": "Reports",
-        "facts": "Facts and Figures"
+        "facts": "Facts and Figures",
+        "allFacts": "All Facts and Figures"
     },
     "login": {
         "login": "Log in",
@@ -127,6 +128,7 @@
     },
     "fact": {
         "title": "Facts and Figures",
+        "titleAllFacts":"All Facts and Figures",
         "category": "Category",
         "factItemType": "Fact item type",
         "subCategory": "Fact item",
