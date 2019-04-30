@@ -6,7 +6,7 @@
 
 <div fxLayout="row" style="overflow: auto;  height: calc(100vh - 160px);">
     <div fxFlex="65" fxFlex.gt-sm="100%" class="p-30 form-content" fxLayout="column">
-        <task-form (formDataChange)="formData=$event"></task-form>
+        <task-form (formDataChange)="formDataChange($event)"></task-form>
 
         <div>
             <button *ngIf="projectEventService.instant.active"

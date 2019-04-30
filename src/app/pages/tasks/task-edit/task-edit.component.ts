@@ -112,5 +112,11 @@ export class TaskEditComponent implements OnInit {
         }
         return apiObject;
     }
+    
+    public formDataChange($event) {
+        setTimeout(() => {
+            this.formData = $event;
+        }, 200);
+    }
 
 }
