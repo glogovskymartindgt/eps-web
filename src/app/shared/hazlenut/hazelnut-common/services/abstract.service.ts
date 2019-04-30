@@ -253,4 +253,37 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
             catchError(this.handleError),
         );
     }
+
+
+    /**
+     *
+     * @param {Filter[]} filter
+     * @param {Sort[]} sort
+     * @returns {Observable<T>}
+     */
+    protected reportGet<S = T>(projectId: number, reportId: number): Observable<any> {
+        return this.getBlob(`${HazelnutConfig.URL_API}/report/${projectId}/${reportId}`, this.extractDetail);
+    }
+
+    /**
+     * @param {string} url
+     * @param body
+     * @param {(res: Response) => any[]} mapFunction
+     * @param params
+     * @returns {Observable<S>}
+     */
+    protected getBlob<S = T[]>(url: string,
+                                mapFunction: (response: any) => S,
+                                params: HttpParams | { [param: string]: string | string[]; } = {}): Observable<S> {
+        return this.http.get(url, {
+            params,
+            headers: this.getHeader(),
+            responseType: 'blob',
+            observe: 'response'
+        }).pipe(
+            map(mapFunction),
+            catchError(this.handleError),
+        );
+        }
+
 }
