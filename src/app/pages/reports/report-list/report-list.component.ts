@@ -5,7 +5,7 @@ import { Report } from '../../../shared/interfaces/report.interface';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ReportService } from '../../../shared/services/data/report.service';
 import { FileManager } from '../../../shared/hazlenut/hazelnut-common/utils/file-manager';
-import { GetFileNameFromContentDisposition } from 'src/app/shared/utils/headers';
+import { GetFileNameFromContentDisposition } from '../../../shared/utils/headers';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 
 @Component({

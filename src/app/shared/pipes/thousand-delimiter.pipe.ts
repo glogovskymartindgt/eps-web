@@ -9,8 +9,7 @@ export class ThousandDelimiterPipe implements PipeTransform {
 
     public transform(value: string | number, decimalSeparator = '.'): any {
         
-        if (isNullOrUndefined(value))
-            return;
+        value = isNullOrUndefined(value) ? '' : value;
 
         const decimalPart = value.toString().split(".")[1];
         let numberOfDecimals = 0;
