@@ -74,13 +74,13 @@ export class FactFormComponent implements OnInit {
         });
 
         this.factForm.controls.firstValue.valueChanges.subscribe((value) => {
-                this.factForm.controls.totalValue.patchValue(+value +
-                    +this.factForm.value.secondValue);
+            const num = (+value + +this.factForm.value.secondValue).toFixed(2);
+            this.factForm.controls.totalValue.patchValue(num.toString());
         });
 
         this.factForm.controls.secondValue.valueChanges.subscribe((value) => {
-            this.factForm.controls.totalValue.patchValue((+this.factForm.value.firstValue +
-                +value).toString());
+            const num = (+this.factForm.value.firstValue + +value).toFixed(2);
+            this.factForm.controls.totalValue.patchValue(num.toString());
         });
 
         this.factForm.valueChanges.subscribe(() => {
@@ -185,22 +185,22 @@ export class FactFormComponent implements OnInit {
         this.factForm = this.formBuilder.group({
             category: [task.category.category, Validators.required],
             subCategory: [task.subCategory.subCategory, Validators.required],
-            firstValue: [task.valueFirst.toString(), Validators.required],
-            secondValue: [task.valueSecond.toString(), Validators.required],
+            firstValue: [!isNullOrUndefined(task.valueFirst) ? task.valueFirst.toString() : '', Validators.required],
+            secondValue: [!isNullOrUndefined(task.valueSecond) ? task.valueSecond.toString() : '', Validators.required],
             hasOnlyTotalValue: [task.hasOnlyTotalValue],
-            totalValue: [task.totalValue],
+            totalValue: [!isNullOrUndefined(task.totalValue) ? parseFloat(task.totalValue).toFixed(2).toString() : ''],
             changedAt: [task.changedAt ? this.formatDateTime(new Date(task.changedAt)) : ''],
             changedBy: [hasChangedBy ? `${task.changedBy.firstName} ${task.changedBy.lastName}` : '']
         });
 
         this.factForm.controls.firstValue.valueChanges.subscribe((value) => {
-            this.factForm.controls.totalValue.patchValue((+value +
-                +this.factForm.value.secondValue).toString());
+            const num = (+value + +this.factForm.value.secondValue).toFixed(2);
+            this.factForm.controls.totalValue.patchValue(num.toString());
         });
 
         this.factForm.controls.secondValue.valueChanges.subscribe((value) => {
-            this.factForm.controls.totalValue.patchValue((+this.factForm.value.firstValue +
-                +value).toString());
+            const num = (+this.factForm.value.firstValue + +value).toFixed(2);
+            this.factForm.controls.totalValue.patchValue(num.toString());
         });
 
         this.factForm.valueChanges.subscribe(() => {
@@ -208,7 +208,7 @@ export class FactFormComponent implements OnInit {
         });
 
         this.factForm.controls.totalValue.patchValue(
-            (+this.factForm.value.firstValue + +this.factForm.value.secondValue).toString()
+            (+this.factForm.value.firstValue + +this.factForm.value.secondValue).toFixed(2).toString()
         );
 
         this.factForm.controls.totalValue.disable();
@@ -234,7 +234,7 @@ export class FactFormComponent implements OnInit {
                 this.factForm.controls.secondValue.disable();
                 this.factForm.controls.totalValue.enable();
                 
-                this.factForm.controls.totalValue.patchValue(task.totalValue);
+                this.factForm.controls.totalValue.patchValue(task.totalValue.toString());
             }, 200);
         }
     }
