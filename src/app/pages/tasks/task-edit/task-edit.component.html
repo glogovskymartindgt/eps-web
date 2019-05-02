@@ -46,7 +46,9 @@
 
                 <div fxFlex="50px" fxLayoutAlign="end end" class="pr-20 pb-50">
 
-                    <button mat-icon-button>
+                    <button mat-icon-button
+                            [disabled]="addCommentForm?.controls?.newComment?.errors?.required"
+                    >
                         <mat-icon matSuffix>send</mat-icon>
                     </button>
                 </div>
