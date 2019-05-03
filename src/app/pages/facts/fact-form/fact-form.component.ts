@@ -59,6 +59,7 @@ export class FactFormComponent implements OnInit {
 
         this.factForm.controls.category.valueChanges.subscribe((value) => {
             this.actualUnitShortName = '';
+            this.factForm.controls.subCategory.patchValue('');
             if (value && Number(value)) {
                 this.loadSubCategories(value);
             }
