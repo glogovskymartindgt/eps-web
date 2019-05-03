@@ -45,7 +45,7 @@
                         [label]="firstVenueLabel"
                         appearance="fill"
                         [textSuffix]="actualUnitShortName"
-                        [allowedCharactersPattern]="doublePattern"
+                        [allowedCharactersPattern]="decimalPattern"
                         [maxLength]="15"
                         [required]="'isFirstValueRequired'"
         >
@@ -56,7 +56,7 @@
                         [label]="secondVenueLabel"
                         appearance="fill"
                         [textSuffix]="actualUnitShortName"
-                        [allowedCharactersPattern]="doublePattern"                        
+                        [allowedCharactersPattern]="decimalPattern"                        
                         [maxLength]="15"
                         [required]="'isSecondValueRequired'"
         >
@@ -72,7 +72,7 @@
                         [label]="'fact.totalValue' | translate"
                         appearance="fill"
                         [textSuffix]="actualUnitShortName"
-                        [allowedCharactersPattern]="doublePattern"
+                        [allowedCharactersPattern]="decimalPattern"
                         [maxLength]="15"
                         [required]="'isTotalRequired'"
         >

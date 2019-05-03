@@ -18,6 +18,8 @@ export class Regex {
 
     public static readonly doublePattern = '^[0-9.]*$';
 
+    public static readonly decimalPattern = '^[0-9]*[.]?[0-9]*$';
+
     public static readonly telPattern = '^[0-9\\/*+().\\- ]*$';
 
     public static readonly figuresPattern = '^[0-9]{1,}$';

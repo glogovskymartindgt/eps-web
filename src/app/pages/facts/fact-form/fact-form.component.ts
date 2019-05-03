@@ -21,10 +21,10 @@ import { isNullOrUndefined } from 'util';
 })
 export class FactFormComponent implements OnInit {
     @Output('formDataChange') public onFormDataChange = new EventEmitter<any>();
-    public doublePattern = Regex.doublePattern;
+    public decimalPattern = Regex.decimalPattern;
     public factForm: FormGroup;
     public categories: Category[] = [];
-    public subCategories: SubCategory[] = null;
+    public subCategories: SubCategory[] = [];
     public categoryLoading = false;
     public actualUnitShortName = '';
     public isUpdate = false;
@@ -74,7 +74,7 @@ export class FactFormComponent implements OnInit {
             }
         });
 
-        this.factForm.controls.firstValue.valueChanges.subscribe((value) => {
+        this.factForm.controls.firstValue.valueChanges.subscribe((value) => {            
             const num = (+value + +this.factForm.value.secondValue).toFixed(2);
             this.factForm.controls.totalValue.patchValue(num.toString());
         });
@@ -121,7 +121,8 @@ export class FactFormComponent implements OnInit {
     }
 
     private emitFormDataChangeEmitter(): void {
-        if (this.factForm.invalid) {
+        const isInvalid = (this.factForm.value.firstValue === '.' || this.factForm.value.secondValue === '.' || this.factForm.value.totalValue === '.');
+        if (this.factForm.invalid || isInvalid) {
             this.onFormDataChange.emit(null);
         } else {
             const actualValue = {
