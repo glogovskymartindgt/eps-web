@@ -50,7 +50,7 @@ export class SideOptionsComponent implements OnInit {
     }
 
     public setMenuOptionOnInitFromRouter() {
-        ['reports', 'facts', 'business-areas'].forEach((routeSubstring) => {
+        ['reports', 'facts', 'business-areas', 'all-facts'].forEach((routeSubstring) => {
             if (this.router.url.includes(routeSubstring)) {
                 this.menuService.setSelectedOption(routeSubstring);
             }

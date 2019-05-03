@@ -135,7 +135,10 @@
         "totalValue": "Celková hodnota",
         "newFact": "Nový fakt",
         "editFact": "Upraviť fakt",
-        "hasOnlyTotalValue": "Jedna hodnota pre obe mestá"
+        "hasOnlyTotalValue": "Jedna hodnota pre obe mestá",
+        "year": "Rok",
+        "firstValue": "Prvá hodnota",
+        "secondValue": "Druhá hodnota"
     },
     "color": {
         "green": "Zelená",

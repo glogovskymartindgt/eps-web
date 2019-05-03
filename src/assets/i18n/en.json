@@ -140,7 +140,10 @@
         "detailFact": "Fact detail",
         "changedAt": "Changed at",
         "changedBy": "Changed by",
-        "hasOnlyTotalValue": "One value for both venues"
+        "hasOnlyTotalValue": "One value for both venues",
+        "year": "Year",
+        "firstValue": "First value",
+        "secondValue": "Second value"
     },
     "color": {
         "green": "Green",

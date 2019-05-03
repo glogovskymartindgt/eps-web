@@ -41,7 +41,7 @@ export class FactListComponent implements OnInit {
     ) {
     }
 
-    public ngOnInit() {
+    public ngOnInit() {      
         this.config = {
             stickyEnd: 4,
             columns: [
@@ -89,7 +89,7 @@ export class FactListComponent implements OnInit {
                     align: 'right',
                     type: TableCellType.CONTENT,
                     tableCellTemplate: this.totalValueColumn,
-                }),
+                }),                
                 new TableColumn({
                     columnDef: ' ',
                     label: ' ',
@@ -105,13 +105,29 @@ export class FactListComponent implements OnInit {
 
         if (this.router.url.includes(ALL_FACTS)) {
             this.allFacts = true;
-            // this.config.columns.splice(0, 0,
-                // new TableColumn({
-                    // 
-                // })
-            // );
+            this.config.columns.splice(0, 0,
+                new TableColumn({
+                    columnDef: 'year',
+                    labelKey: 'fact.year',
+                    align: 'right',
+                    type: TableCellType.NUMBER_SIMPLE,
+                    filter: new TableColumnFilter({
+                        type: TableFilterType.NUMBER,
+                    }),
+                    sorting: true,
+                })
+            );
+
+            this.setLabel('valueFirst', 'fact.firstValue');
+            this.setLabel('valueSecond', 'fact.secondValue');
         }
                 
+    }
+
+    private setLabel(columnName: string, replaceLabel: string) {
+        const index = this.config.columns.findIndex((el) => el.columnDef === columnName);
+        this.config.columns[index].label = null;
+        this.config.columns[index].labelKey = replaceLabel;
     }
 
     public createFact() {
@@ -124,7 +140,10 @@ export class FactListComponent implements OnInit {
 
     public setTableData(tableChangeEvent?: TableChangeEvent): void {
         this.loading = true;
-        const projectFilter = new Filter('PROJECT_ID', this.projectEventService.instant.id, 'NUMBER');
+        let projectFilter = null;
+        if (!this.router.url.includes(ALL_FACTS)) {
+            projectFilter = new Filter('PROJECT_ID', this.projectEventService.instant.id, 'NUMBER');
+        }
         this.factService.browseFacts(tableChangeEvent, projectFilter).subscribe((data) => {
             this.data = data;
             this.loading = false;

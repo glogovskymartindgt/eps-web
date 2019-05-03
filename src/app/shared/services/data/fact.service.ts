@@ -21,7 +21,7 @@ export class FactService extends ProjectService<Fact> {
         super(http, 'factItem', notificationService, userService);
     }
 
-    public browseFacts(tableChangeEvent: TableChangeEvent, projectFilter: Filter): Observable<BrowseResponse<Fact>> {
+    public browseFacts(tableChangeEvent: TableChangeEvent, projectFilter?: Filter): Observable<BrowseResponse<Fact>> {
         let filters = [];
         let sort = [];
         let limit = 15;
@@ -37,7 +37,9 @@ export class FactService extends ProjectService<Fact> {
                     tableChangeEvent.sortDirection)];
             }
         }
-        filters.push(projectFilter);
+        if (projectFilter) {
+            filters.push(projectFilter);
+        }       
         return this.browseWithSummary(PostContent.create(limit, offset, filters, sort));
     }
 

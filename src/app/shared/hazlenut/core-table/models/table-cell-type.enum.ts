@@ -3,6 +3,7 @@
  */
 export enum TableCellType {
     NUMBER = 'number',
+    NUMBER_SIMPLE = 'numberSimple',
     FULFILLMENT = 'fulfillment',
     PERCENT = 'percent',
     TOPERCENT = 'toPercent',
