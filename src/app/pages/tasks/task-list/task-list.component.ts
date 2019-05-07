@@ -151,12 +151,13 @@ export class TaskListComponent implements OnInit {
                     tableCellTemplate: this.venueColumn,
                 }),
                 new TableColumn({
-                    columnDef: 'responsibleUser',
+                    columnDef: 'responsibleUserFirstName',
                     labelKey: 'task.responsible',
                     sorting: true,
                     type: TableCellType.CONTENT,
                     tableCellTemplate: this.userColumn,
                     filter: new TableColumnFilter({
+                        valueType: 'STRING',
                         type: TableFilterType.RESPONSIBLE,
                     }),
                 }),
@@ -239,8 +240,7 @@ export class TaskListComponent implements OnInit {
         this.lastTableChangeEvent = tableChangeEvent;
 
         this.additionalFilters = [
-            new Filter('PROJECT_NAME', this.projectEventService.instant.projectName),
-            new Filter('PROJECT_YEAR', this.projectEventService.instant.year, 'NUMBER'),
+            new Filter('PROJECT_ID', this.projectEventService.instant.id, 'NUMBER'),
         ];
 
         if (this.businessAreaFilter && this.businessAreaFilter.value !== 'all') {
@@ -260,6 +260,8 @@ export class TaskListComponent implements OnInit {
             });
         }
 
+        this.removeDuplicateFilters();
+
         this.loading = true;
         this.taskService.browseTasks(tableChangeEvent, this.additionalFilters).subscribe((data) => {
             this.data = data;
@@ -270,6 +272,16 @@ export class TaskListComponent implements OnInit {
             this.notificationService.openErrorNotification('error.api');
 
         });
+    }
+
+    private removeDuplicateFilters(): void {
+        const userIdFilters = this.additionalFilters.filter((el: Filter) => el.property == "RESPONSIBLE_USER_ID");
+        if (userIdFilters.length > 1) {
+            const allUserIdFilters = this.additionalFilters.filter((el: Filter)=>el.property == "RESPONSIBLE_USER_ID");
+            const oneFilter = allUserIdFilters[allUserIdFilters.length-1];
+            this.additionalFilters = this.additionalFilters.filter((el: Filter) => el.property != "RESPONSIBLE_USER_ID");
+            this.additionalFilters.push(oneFilter);
+        }
     }
 
     private loadBusinessAreaList() {
