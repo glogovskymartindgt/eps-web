@@ -19,7 +19,7 @@ const DEFAULT_NO_DATA_KEY = 'No data';
 export class CoreTableService {
     private readonly filtersSubject$: Subject<Filter[]> = new BehaviorSubject<Filter[]>([]);
     public filters$: Observable<Filter[]> = this.filtersSubject$.asObservable();
-    private readonly filters: Filter[] = [];
+    private filters: Filter[] = [];
 
     public constructor(
         @Inject(GLOBAL_CONFIG_TOKEN) private readonly globalTableConfig: CoreTableConfigInterface,
@@ -58,9 +58,7 @@ export class CoreTableService {
                 break;
             }
             case TableFilterType.RESPONSIBLE: {
-                if (value !== 'All') {
-                    this.filters.push(new Filter('RESPONSIBLE_USER_ID', value, 'NUMBER', 'EQ'));
-                }
+                this.filters.push(new Filter('RESPONSIBLE_USER_ID', value, 'NUMBER', 'EQ'));
                 break;
             }
             case TableFilterType.CATEGORY: {

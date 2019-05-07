@@ -42,9 +42,12 @@ export class TaskService extends ProjectService<TaskInterface> {
         
         const allFilters = filters.filter((el: Filter)=>el.property == "RESPONSIBLE_USER_ID");        
         if (allFilters.length>1){
-            const oneFilter = allFilters[allFilters.length-1];
+            const oneFilter: Filter = allFilters[allFilters.length-1];
             filters = filters.filter((el: Filter)=>el.property != "RESPONSIBLE_USER_ID");
-            filters.push(oneFilter);
+            if (oneFilter.value === 'All') {
+            } else {
+                filters.push(oneFilter);
+            }
         }
 
         filters = this.reorderFiltersToApplyCorectTrafficColor(filters);
