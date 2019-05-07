@@ -36,9 +36,7 @@
                                 [type]="'textarea'"
                                 [appearance]="'fill'"
                                 formControlName="newComment"
-                                [required]="true"
                                 [pattern]="notOnlyWhiteCharactersPattern"
-                                required
                                 class="theme-input m-20"
                                 [maxLength]="255"
                 >
@@ -47,7 +45,7 @@
                 <div fxFlex="50px" fxLayoutAlign="end end" class="pr-20 pb-50">
 
                     <button mat-icon-button
-                            [disabled]="addCommentForm?.controls?.newComment?.errors?.required"
+                            [disabled]="addCommentForm?.controls?.newComment?.errors"
                     >
                         <mat-icon matSuffix>send</mat-icon>
                     </button>

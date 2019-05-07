@@ -73,7 +73,7 @@ export class TaskEditComponent implements OnInit {
         this.taskCommentService.addComment(taskComment)
             .subscribe((commentResponse: TaskCommentResponse) => {
                 this.getAllComments();
-                this.addCommentForm.reset();
+                this.addCommentForm.controls.newComment.reset();
                 this.loading = false;
             }, (error) => {
                 this.notificationService.openErrorNotification('error.addComment');
