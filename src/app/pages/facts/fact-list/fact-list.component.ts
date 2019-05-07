@@ -135,7 +135,11 @@ export class FactListComponent implements OnInit {
     }
 
     public update(id: number) {
-        this.router.navigate(['facts/edit'], {queryParams: {id}});
+        if (this.router.url.includes(ALL_FACTS)) {
+            this.router.navigate(['all-facts/edit'], {queryParams: {id}});
+        } else {
+            this.router.navigate(['facts/edit'], {queryParams: {id}});
+        }
     }
 
     public setTableData(tableChangeEvent?: TableChangeEvent): void {

@@ -5,6 +5,8 @@ import { NotificationService } from '../../../shared/services/notification.servi
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 import { TaskFormComponent } from '../../tasks/task-form/task-form.component';
 
+const ALL_FACTS = 'all-facts';
+
 @Component({
     selector: 'fact-edit',
     templateUrl: './fact-edit.component.html',
@@ -14,6 +16,8 @@ export class FactEditComponent implements OnInit {
     @ViewChild(TaskFormComponent) public taskForm: TaskFormComponent;
     public formData = null;
     private factId: number;
+
+    private factRoute = "facts";
 
     public constructor(
         private readonly router: Router,
@@ -28,10 +32,14 @@ export class FactEditComponent implements OnInit {
         this.activatedRoute.queryParams.subscribe((param) => {
             this.factId = param.id;
         });
+
+        if (this.router.url.includes(ALL_FACTS)) {
+            this.factRoute = "all-facts";
+        }
     }
 
     public onCancel() {
-        this.router.navigate(['facts/list']);
+        this.router.navigate([this.factRoute+'/list']);
     }
 
     public onSave() {
@@ -39,7 +47,7 @@ export class FactEditComponent implements OnInit {
             this.factService.editTask(this.factId, this.transformTaskToApiObject(this.formData)).subscribe(
                 (response) => {
                     this.notificationService.openSuccessNotification('success.edit');
-                    this.router.navigate(['facts/list']);
+                    this.router.navigate([this.factRoute+'/list']);
                 }, (error) => {
                     this.notificationService.openErrorNotification('error.edit');
                 });

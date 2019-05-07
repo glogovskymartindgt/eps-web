@@ -4,7 +4,7 @@
             <h2>{{ (allFacts ? 'fact.titleAllFacts' : 'fact.title') | translate}}</h2>
         </div>
         <div fxFlex fxLayoutAlign="end center">
-            <button *ngIf="projectEventService.instant.active"
+            <button *ngIf="projectEventService.instant.active && !allFacts"
                     mat-raised-button (click)="createFact()"
                     class="mr-10"
                     color="accent">
