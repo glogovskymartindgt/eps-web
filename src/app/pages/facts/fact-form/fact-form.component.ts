@@ -90,7 +90,7 @@ export class FactFormComponent implements OnInit {
 
         this.factForm.controls.hasOnlyTotalValue.valueChanges.subscribe(() => {
             this.oneValueSelected();
-        });       
+        });
 
     }
 
@@ -180,6 +180,7 @@ export class FactFormComponent implements OnInit {
     }
 
     private setForm(task: any) {
+        this.actualUnitShortName = task.subCategory.unitShortName;
         const hasChangedBy: boolean = task.changedBy && task.changedBy.firstName && task.changedBy.lastName;
         this.isFirstValueRequired = true;
         this.isSecondValueRequired = true;

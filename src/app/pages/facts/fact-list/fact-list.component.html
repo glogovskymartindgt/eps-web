@@ -31,17 +31,17 @@
     </ng-template>
     <ng-template #firstValueColumn let-actRow="row" let-context="context">
         <div class="fr">
-            {{actRow?.valueFirst === null ? '-' : actRow?.valueFirst | thousandDelimiter: ','}}
+            {{actRow?.valueFirst === null ? '-' : actRow?.valueFirst | thousandDelimiter: ','}} {{actRow?.valueFirst === null ? '' : actRow.measureUnit}}
         </div>
     </ng-template>
     <ng-template #secondValueColumn let-actRow="row" let-context="context">
         <div class="fr">
-            {{actRow?.valueSecond === null ? '-' : actRow?.valueSecond | thousandDelimiter: ','}}
+            {{actRow?.valueSecond === null ? '-' : actRow?.valueSecond | thousandDelimiter: ','}} {{actRow?.valueSecond === null ? '' : actRow.measureUnit}}
         </div>
     </ng-template>
     <ng-template #totalValueColumn let-actRow="row" let-context="context">
         <div class="fr">
-            {{ ((actRow.valueFirst === null && actRow.valueSecond === null) ? actRow.totalValue : (actRow.valueFirst + actRow.valueSecond))  | thousandDelimiter: ','}}
+            {{ ((actRow.valueFirst === null && actRow.valueSecond === null) ? actRow.totalValue : (actRow.valueFirst + actRow.valueSecond))  | thousandDelimiter: ','}} {{actRow.measureUnit}}
         </div>
     </ng-template>
 </div>
