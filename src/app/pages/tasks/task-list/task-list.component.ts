@@ -1,3 +1,4 @@
+import { CoreTableComponent } from './../../../shared/hazlenut/core-table/components/core-table.component';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -36,6 +37,7 @@ export class TaskListComponent implements OnInit {
     @ViewChild('userColumn') public userColumn: TemplateRef<any>;
     @ViewChild('dateColumn') public dateColumn: TemplateRef<any>;
     @ViewChild('venueColumn') public venueColumn: TemplateRef<any>;
+    @ViewChild('taskTable') public taskTable: CoreTableComponent;
 
     public areaGroup: FormGroup;
     public config: TableConfiguration;
@@ -227,7 +229,9 @@ export class TaskListComponent implements OnInit {
     }
 
     public setTableData(tableChangeEvent?: TableChangeEvent): void {
-
+        if (!tableChangeEvent)  {
+            tableChangeEvent = this.taskTable.reset();
+        }
         if (tableChangeEvent && tableChangeEvent.filters && tableChangeEvent.filters.length > 0) {
             this.allTaskFilters = tableChangeEvent.filters;
         }

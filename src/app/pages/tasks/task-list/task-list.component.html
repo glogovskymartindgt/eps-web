@@ -27,7 +27,8 @@
 </div>
 
 <haz-indeterminate-progress-bar [loading]="loading"></haz-indeterminate-progress-bar>
-<haz-core-table (requestData)="setTableData($event)"
+<haz-core-table #taskTable
+                (requestData)="setTableData($event)"
                 [configuration]="config"
                 [data]="data"
 ></haz-core-table>
