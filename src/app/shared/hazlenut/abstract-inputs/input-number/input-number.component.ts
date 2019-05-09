@@ -49,15 +49,9 @@ export class InputNumberComponent<T = number | string> implements OnInit, Contro
     public ngOnInit(): void {
         this.control.valueChanges.subscribe((value: string) => {
             if (value) {
-                // is number is not valid number
-                if (!value.match(/^-?\d+([,.]\d*)?$/)) {
+                // if number is not valid number
+                if (!value.match(/^-?\d+$/)) {
                     this.control.setValue(this.lastValue);
-                    return;
-                }
-
-                // replace . for ,
-                if (value.match(/^-?\d+\.\d*$/)) {
-                    this.control.setValue(value.replace('.', ','));
                     return;
                 }
             }
