@@ -28,7 +28,7 @@ export class ProjectCardComponent implements OnInit {
     }
 
     public ngOnInit() {
-        this.imagePath = this.getImagePath(this.project.id);
+        this.imagePath = this.getImagePath();
         if (this.project.venues !== null && this.project.venues.length === 1) {
             this.showOneCity = true;
             this.showAllCities = false;
@@ -82,8 +82,8 @@ export class ProjectCardComponent implements OnInit {
         this.imagePath = `assets/img/event-logos/2020.png`;
     }
 
-    public getImagePath(projectId: number) {
-        return `assets/img/event-logos/${2017 + projectId - 1}.png`;
+    public getImagePath() {
+        return `assets/img/event-logos/${this.project.year}.png`;
     }
 
 }
