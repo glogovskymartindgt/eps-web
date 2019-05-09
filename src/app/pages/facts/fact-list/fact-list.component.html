@@ -41,7 +41,7 @@
     </ng-template>
     <ng-template #totalValueColumn let-actRow="row" let-context="context">
         <div class="fr">
-            {{ ((actRow.valueFirst === null && actRow.valueSecond === null) ? actRow.totalValue : (actRow.valueFirst + actRow.valueSecond))  | thousandDelimiter: ','}} {{actRow.measureUnit}}
+            {{actRow?.totalValue === null ? '-' : actRow?.totalValue | thousandDelimiter: ','}} {{actRow.measureUnit}}
         </div>
     </ng-template>
 </div>

@@ -42,13 +42,14 @@ export class FactCreateComponent implements OnInit {
 
     // TODO
     private transformTaskToApiObject(formObject: any): any {
+        let totalValue = (formObject.totalValue) ? formObject.totalValue : (+formObject.firstValue + +formObject.secondValue);
         return {
             categoryId: formObject.category,
             subCategoryId: formObject.subCategory,
             valueFirst: +formObject.firstValue,
             valueSecond: +formObject.secondValue,
             hasOnlyTotalValue: formObject.hasOnlyTotalValue,
-            totalValue: +formObject.totalValue,
+            totalValue: totalValue,
             projectId: this.projectEventService.instant.id
         };
     }
