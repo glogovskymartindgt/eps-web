@@ -72,6 +72,7 @@ export class CoreTableFilterComponent implements OnInit {
 
     public clearFilters() {
         this.resetFilters.next(true);
+        this.coreTableService.clearFilters();
     }
 
     private processFormChanges(): void {
