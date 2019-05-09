@@ -19,7 +19,7 @@ const DEFAULT_NO_DATA_KEY = 'No data';
 export class CoreTableService {
     private readonly filtersSubject$: Subject<Filter[]> = new BehaviorSubject<Filter[]>([]);
     public filters$: Observable<Filter[]> = this.filtersSubject$.asObservable();
-    private filters: Filter[] = [];
+    private readonly filters: Filter[] = [];
 
     public constructor(
         @Inject(GLOBAL_CONFIG_TOKEN) private readonly globalTableConfig: CoreTableConfigInterface,

@@ -40,12 +40,11 @@ export class TaskService extends ProjectService<TaskInterface> {
         }
         filters = filters.concat(additionalFilters);
         
-        const allFilters = filters.filter((el: Filter)=>el.property == "RESPONSIBLE_USER_ID");        
+        const allFilters = filters.filter((el: Filter)=>el.property === "RESPONSIBLE_USER_ID");        
         if (allFilters.length>1){
             const oneFilter: Filter = allFilters[allFilters.length-1];
-            filters = filters.filter((el: Filter)=>el.property != "RESPONSIBLE_USER_ID");
-            if (oneFilter.value === 'All') {
-            } else {
+            filters = filters.filter((el: Filter)=>el.property !== "RESPONSIBLE_USER_ID");
+            if (oneFilter.value !== 'All') {
                 filters.push(oneFilter);
             }
         }

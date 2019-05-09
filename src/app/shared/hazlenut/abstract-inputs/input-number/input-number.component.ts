@@ -48,12 +48,10 @@ export class InputNumberComponent<T = number | string> implements OnInit, Contro
 
     public ngOnInit(): void {
         this.control.valueChanges.subscribe((value: string) => {
-            if (value) {
-                // if number is not valid number
-                if (!value.match(/^-?\d+$/)) {
-                    this.control.setValue(this.lastValue);
-                    return;
-                }
+            // if number is not valid number
+            if (value && (!value.match(/^-?\d+$/))) {
+                this.control.setValue(this.lastValue);
+                return;
             }
             this.lastValue = value;
             this.onChange(value as any);

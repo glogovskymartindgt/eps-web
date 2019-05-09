@@ -30,7 +30,6 @@ export class FactEditComponent implements OnInit {
     }
 
     public ngOnInit() {
-        this.projectEventService.instant.year
         this.activatedRoute.queryParams.subscribe((param) => {
             this.factId = param.id;
         });
@@ -61,12 +60,11 @@ export class FactEditComponent implements OnInit {
     }
 
     private transformTaskToApiObject(formObject: any): any {
-        let totalValue = (formObject.totalValue) ? formObject.totalValue : (+formObject.firstValue + +formObject.secondValue);
         return {
             valueFirst: +formObject.firstValue,
             valueSecond: +formObject.secondValue,
             hasOnlyTotalValue: formObject.hasOnlyTotalValue,
-            totalValue: totalValue,
+            totalValue: (formObject.totalValue) ? formObject.totalValue : (+formObject.firstValue + +formObject.secondValue),
         };
     }
 

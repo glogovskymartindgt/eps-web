@@ -275,11 +275,11 @@ export class TaskListComponent implements OnInit {
     }
 
     private removeDuplicateFilters(): void {
-        const userIdFilters = this.additionalFilters.filter((el: Filter) => el.property == "RESPONSIBLE_USER_ID");
+        const userIdFilters = this.additionalFilters.filter((el: Filter) => el.property === "RESPONSIBLE_USER_ID");
         if (userIdFilters.length > 1) {
-            const allUserIdFilters = this.additionalFilters.filter((el: Filter)=>el.property == "RESPONSIBLE_USER_ID");
+            const allUserIdFilters = this.additionalFilters.filter((el: Filter)=>el.property === "RESPONSIBLE_USER_ID");
             const oneFilter = allUserIdFilters[allUserIdFilters.length-1];
-            this.additionalFilters = this.additionalFilters.filter((el: Filter) => el.property != "RESPONSIBLE_USER_ID");
+            this.additionalFilters = this.additionalFilters.filter((el: Filter) => el.property !== "RESPONSIBLE_USER_ID");
             this.additionalFilters.push(oneFilter);
         }
     }
