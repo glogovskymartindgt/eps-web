@@ -18,6 +18,7 @@ export class FactEditComponent implements OnInit {
     private factId: number;
 
     private factRoute = "facts";
+    public canSave = true;
 
     public constructor(
         private readonly router: Router,
@@ -29,12 +30,16 @@ export class FactEditComponent implements OnInit {
     }
 
     public ngOnInit() {
+        this.projectEventService.instant.year
         this.activatedRoute.queryParams.subscribe((param) => {
             this.factId = param.id;
         });
 
         if (this.router.url.includes(ALL_FACTS)) {
             this.factRoute = "all-facts";
+            if (!this.router.url.includes(this.projectEventService.instant.year.toString())) {
+                this.canSave = false;
+            }
         }
     }
 

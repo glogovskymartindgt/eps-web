@@ -134,9 +134,9 @@ export class FactListComponent implements OnInit {
         this.router.navigate(['facts/create']);
     }
 
-    public update(id: number) {
+    public update(id: number, year: number) {
         if (this.router.url.includes(ALL_FACTS)) {
-            this.router.navigate(['all-facts/edit'], {queryParams: {id}});
+            this.router.navigate(['all-facts/edit'], {queryParams: {id, year}});
         } else {
             this.router.navigate(['facts/edit'], {queryParams: {id}});
         }

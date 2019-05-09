@@ -14,7 +14,7 @@
                 color="accent"
                 class="mr-10"
                 (click)="onSave()"
-                [disabled]="formData === null"
+                [disabled]="formData === null || !canSave"
         >
             {{ 'tasks.save' | translate }}
         </button>
