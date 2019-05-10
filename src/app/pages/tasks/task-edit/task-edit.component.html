@@ -6,14 +6,16 @@
 
 <div fxLayout="row" style="overflow: auto;  height: calc(100vh - 160px);">
     <div fxFlex="65" fxFlex.gt-sm="100%" class="p-30 form-content" fxLayout="column">
-        <task-form (formDataChange)="formData=$event"></task-form>
+        <task-form (formDataChange)="formDataChange($event)"></task-form>
 
         <div>
-            <button type="submit"
+            <button *ngIf="projectEventService.instant.active"
+                    type="submit"
                     mat-flat-button
                     color="accent"
                     class="mr-10"
                     (click)="onSave()"
+                    [disabled]="formData === null"
             >
                 {{ 'tasks.save' | translate }}
             </button>
@@ -34,17 +36,17 @@
                                 [type]="'textarea'"
                                 [appearance]="'fill'"
                                 formControlName="newComment"
-                                [required]="true"
                                 [pattern]="notOnlyWhiteCharactersPattern"
-                                required
                                 class="theme-input m-20"
-                               [maxLength]="255"
+                                [maxLength]="2000"
                 >
                 </haz-core-input>
 
                 <div fxFlex="50px" fxLayoutAlign="end end" class="pr-20 pb-50">
 
-                    <button mat-icon-button>
+                    <button mat-icon-button
+                            [disabled]="addCommentForm?.controls?.newComment?.errors"
+                    >
                         <mat-icon matSuffix>send</mat-icon>
                     </button>
                 </div>

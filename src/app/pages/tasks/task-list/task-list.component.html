@@ -27,12 +27,13 @@
 </div>
 
 <haz-indeterminate-progress-bar [loading]="loading"></haz-indeterminate-progress-bar>
-<haz-core-table (requestData)="setTableData($event)"
+<haz-core-table #taskTable
+                (requestData)="setTableData($event)"
                 [configuration]="config"
                 [data]="data"
 ></haz-core-table>
 <ng-template #updateColumn let-actRow="row" let-context="context">
-    <div class="fr" *ngIf="projectEventService.instant.active">
+    <div class="fr">
         <button mat-icon-button
                 (click)="update(actRow.id)"
         >
@@ -60,9 +61,9 @@
 
 <ng-template #trafficLightColumn let-actRow="row" let-context="context">
     <div *ngIf="actRow.trafficLight === 'RED'"
-         style="width: 12px;height: 12px;background:#CE211F;border-radius:50%;"></div>
+         style="width: 12px;height: 12px;background:#ce211f;border-radius:50%;"></div>
     <div *ngIf="actRow.trafficLight === 'GREEN'"
-         style="width: 12px;height: 12px;background:#20BF55;border-radius:50%;"></div>
+         style="width: 12px;height: 12px;background:#20bf55;border-radius:50%;"></div>
     <div *ngIf="actRow.trafficLight === 'AMBER'"
-         style="width: 12px;height: 12px;background:#F79824;border-radius:50%;"></div>
+         style="width: 12px;height: 12px;background:#f79824;border-radius:50%;"></div>
 </ng-template>

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TableChangeEvent } from '../../hazlenut/core-table';
 import { StringUtils } from '../../hazlenut/hazelnut-common/hazelnut';
-import { BrowseResponse, Direction, Filter, PostContent, Sort } from '../../hazlenut/hazelnut-common/models';
+import { BrowseResponse, Filter, PostContent, Sort } from '../../hazlenut/hazelnut-common/models';
 import { TaskInterface } from '../../interfaces/task.interface';
 import { NotificationService } from '../notification.service';
 import { ProjectService } from '../project.service';
@@ -39,6 +39,16 @@ export class TaskService extends ProjectService<TaskInterface> {
             }
         }
         filters = filters.concat(additionalFilters);
+        
+        const allFilters = filters.filter((el: Filter)=>el.property === "RESPONSIBLE_USER_ID");        
+        if (allFilters.length>1){
+            const oneFilter: Filter = allFilters[allFilters.length-1];
+            filters = filters.filter((el: Filter)=>el.property !== "RESPONSIBLE_USER_ID");
+            if (oneFilter.value !== 'All') {
+                filters.push(oneFilter);
+            }
+        }
+
         filters = this.reorderFiltersToApplyCorectTrafficColor(filters);
         return this.browseWithSummary(PostContent.create(limit, offset, filters, sort));
     }

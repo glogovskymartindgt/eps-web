@@ -1,10 +1,10 @@
 <div>
     <div fxLayout="row" class="basic-screen-header">
         <div class="pl-20" fxFlex="300px" fxLayoutAlign="start center">
-            <h2>{{'fact.title' | translate}}</h2>
+            <h2>{{ (allFacts ? 'fact.titleAllFacts' : 'fact.title') | translate}}</h2>
         </div>
         <div fxFlex fxLayoutAlign="end center">
-            <button *ngIf="projectEventService.instant.active"
+            <button *ngIf="projectEventService.instant.active && !allFacts"
                     mat-raised-button (click)="createFact()"
                     class="mr-10"
                     color="accent">
@@ -18,18 +18,30 @@
                     [data]="data"
     >
     </haz-core-table>
+    <ng-template #categoryColumn let-actRow="row" let-context="context">
+        {{actRow.categoryName}}
+    </ng-template>
     <ng-template #updateColumn let-actRow="row" let-context="context">
         <div class="fr">
-            <button *ngIf="projectEventService.instant.active"
-                    mat-icon-button
-                    (click)="update(actRow.id)">
+            <button  mat-icon-button
+                    (click)="update(actRow.id, actRow.year)">
                 <mat-icon>keyboard_arrow_right</mat-icon>
             </button>
         </div>
     </ng-template>
+    <ng-template #firstValueColumn let-actRow="row" let-context="context">
+        <div class="fr">
+            {{actRow?.valueFirst === null ? '-' : actRow?.valueFirst | thousandDelimiter: ','}} {{actRow?.valueFirst === null ? '' : actRow.measureUnit}}
+        </div>
+    </ng-template>
+    <ng-template #secondValueColumn let-actRow="row" let-context="context">
+        <div class="fr">
+            {{actRow?.valueSecond === null ? '-' : actRow?.valueSecond | thousandDelimiter: ','}} {{actRow?.valueSecond === null ? '' : actRow.measureUnit}}
+        </div>
+    </ng-template>
     <ng-template #totalValueColumn let-actRow="row" let-context="context">
         <div class="fr">
-            {{(actRow.valueFirst + actRow.valueSecond) | number}}
+            {{actRow?.totalValue === null ? '-' : actRow?.totalValue | thousandDelimiter: ','}} {{actRow.measureUnit}}
         </div>
     </ng-template>
 </div>

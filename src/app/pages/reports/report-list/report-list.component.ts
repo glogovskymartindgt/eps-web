@@ -1,8 +1,11 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import { TableCellType, TableColumn, TableConfiguration } from '../../../shared/hazlenut/core-table';
 import { BrowseResponse } from '../../../shared/hazlenut/hazelnut-common/models';
 import { Report } from '../../../shared/interfaces/report.interface';
+import { NotificationService } from '../../../shared/services/notification.service';
+import { ReportService } from '../../../shared/services/data/report.service';
+import { FileManager } from '../../../shared/hazlenut/hazelnut-common/utils/file-manager';
+import { GetFileNameFromContentDisposition } from '../../../shared/utils/headers';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 
 @Component({
@@ -16,27 +19,18 @@ export class ReportListComponent implements OnInit {
 
     public loading = false;
     public config: TableConfiguration;
-    public data = new BrowseResponse<Report>(
-        [
-            {
-                id: 1,
-                name: 'To do list',
-                description: 'The report contains all open tasks and issues within the selected project.',
-            },
-            {
-                id: 2,
-                name: 'Red flag list',
-                description: 'The report contains all open issues within the selected project that don\'t have ' +
-                    'traffic light set to none.'
-            }
-        ]);
+    public data = new BrowseResponse<Report>();
 
-    public constructor(private readonly translateService: TranslateService,
-                       private readonly projectEventService: ProjectEventService,
+    public constructor(
+            private readonly notificationService: NotificationService,
+            private readonly reportService: ReportService,
+            private readonly projectEventService: ProjectEventService,
     ) {
     }
 
     public ngOnInit() {
+
+        this.setTableData();
 
         this.config = {
             stickyEnd: 2,
@@ -58,9 +52,40 @@ export class ReportListComponent implements OnInit {
                     tableCellTemplate: this.actionColumn,
                 }),
             ],
-            paging: true,
+            paging: false,
         };
 
+    }
+
+    private setTableData() {
+        this.loading = true;
+        this.reportService.getAllReports().subscribe((data) => {
+            this.data.content = data;
+            this.data.totalElements = data.length;
+            this.loading = false;
+        }, (error) => {
+            this.loading = false;
+            this.notificationService.openErrorNotification('error.api');
+        });
+    }
+
+    public export(reportId: number) {
+        this.loading = true;
+        this.reportService.exportReport(this.projectEventService.instant.id, reportId).subscribe((response) => {
+
+            const contentDisposition = response.headers.get('Content-Disposition');
+            const exportName: string = GetFileNameFromContentDisposition(contentDisposition);
+
+            new FileManager().saveFile(
+                exportName,
+                response.body,
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            );
+            this.loading = false;
+        }, (error) => {
+            this.notificationService.openErrorNotification('error.api');
+            this.loading = false;
+        });
     }
 
 }

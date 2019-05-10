@@ -1,9 +1,9 @@
 {
     "/api/*": {
         "target": {
-            "host": "seidl10",
+            "host": "slezak10",
             "protocol": "http:",
-            "port": 8081
+            "port": 8083
         },
         "secure": false,
         "changeOrigin": false,

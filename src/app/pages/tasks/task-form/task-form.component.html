@@ -58,7 +58,7 @@
                         [appearance]="'fill'"
                         formControlName="title"
                         class="theme-input"
-                        [maxLength]="50"
+                        [maxLength]="150"
         >
         </haz-core-input>
     </div>
@@ -110,7 +110,7 @@
     <div class="long-input">
         <haz-core-input [label]="'tasks.sourceDescription' | translate"
                         [appearance]="'fill'"
-                        [maxLength]="50"
+                        [maxLength]="5000"
                         formControlName="sourceDescription"
                         class="theme-input long-input"
         >
@@ -146,11 +146,11 @@
         <mat-form-field appearance="fill" class="short-input theme-input">
             <mat-label class="label-style">{{ 'tasks.venue' | translate }}</mat-label>
             <mat-select formControlName="venue">
-                <mat-option value='None' class="color-none">{{ 'tasks.none' | translate }}</mat-option>
+                <mat-option value='NONE' class="color-none">{{ 'tasks.none' | translate }}</mat-option>
                 <mat-option *ngFor="let venue of venueList" [value]="venue.city">
                     {{venue.city}}
                 </mat-option>
-                <mat-option value="all">{{ 'tasks.both' | translate }}</mat-option>
+                <mat-option value="BOTH">{{ 'tasks.both' | translate }}</mat-option>
             </mat-select>
         </mat-form-field>
     </div>
@@ -170,7 +170,7 @@
                         [appearance]="'fill'"
                         formControlName="description"
                         class="theme-input"
-                        [maxLength]="255"
+                        [maxLength]="5000"
         >
         </haz-core-input>
     </div>
@@ -192,7 +192,5 @@
         >
         </haz-core-input>
     </div>
-
-    {{taskForm.valid}}
 
 </form>

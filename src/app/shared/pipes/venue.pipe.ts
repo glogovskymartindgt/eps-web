@@ -17,9 +17,9 @@ export class VenuePipe implements PipeTransform {
             case 'all':
                 return this.translateService.instant('venue.value.all');
             case 'both':
-                return this.translateService.instant('venue.value.all');
+                return this.translateService.instant('venue.value.both');
             case  'none':
-                return this.translateService.instant('venue.value.none');
+                return '';
             default:
         }
         return value;

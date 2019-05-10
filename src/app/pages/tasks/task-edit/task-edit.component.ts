@@ -6,6 +6,7 @@ import { Regex } from '../../../shared/hazlenut/hazelnut-common/regex/regex';
 import { TaskComment, TaskCommentResponse } from '../../../shared/interfaces/task-comment.interface';
 import { TaskService } from '../../../shared/services/data/task.service';
 import { NotificationService } from '../../../shared/services/notification.service';
+import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 import { TaskCommentService } from '../../../shared/services/task-comment.service';
 import { TaskFormComponent } from '../task-form/task-form.component';
 
@@ -30,6 +31,7 @@ export class TaskEditComponent implements OnInit {
         private readonly activatedRoute: ActivatedRoute,
         private readonly taskService: TaskService,
         private readonly formBuilder: FormBuilder,
+        public readonly projectEventService: ProjectEventService,
     ) {
     }
 
@@ -48,7 +50,6 @@ export class TaskEditComponent implements OnInit {
     }
 
     public onSave() {
-        console.log('save', this.formData);
         if (this.formData) {
             this.taskService.editTask(this.taskId, this.transformTaskToApiObject(this.formData)).subscribe(
                 (response) => {
@@ -72,7 +73,7 @@ export class TaskEditComponent implements OnInit {
         this.taskCommentService.addComment(taskComment)
             .subscribe((commentResponse: TaskCommentResponse) => {
                 this.getAllComments();
-                this.addCommentForm.reset();
+                this.addCommentForm.controls.newComment.reset();
                 this.loading = false;
             }, (error) => {
                 this.notificationService.openErrorNotification('error.addComment');
@@ -110,6 +111,12 @@ export class TaskEditComponent implements OnInit {
             apiObject.trafficLight = formObject.trafficLight;
         }
         return apiObject;
+    }
+    
+    public formDataChange($event) {
+        setTimeout(() => {
+            this.formData = $event;
+        }, 200);
     }
 
 }

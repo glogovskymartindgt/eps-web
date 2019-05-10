@@ -18,6 +18,8 @@ export class Regex {
 
     public static readonly doublePattern = '^[0-9.]*$';
 
+    public static readonly decimalPattern = '^[0-9]*[.]?[0-9]*$';
+
     public static readonly telPattern = '^[0-9\\/*+().\\- ]*$';
 
     public static readonly figuresPattern = '^[0-9]{1,}$';
@@ -25,4 +27,14 @@ export class Regex {
     public static readonly emailPattern = '^\\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,}\\b$';
 
     public static readonly fileNameFromContentDispositionPattern = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+
+    /**
+     *
+     * (?!^)            # Assert we are not at start of line
+     * (?=              # start of positive lookahead
+     *      (?:\d{3})+  # assert there are 1 or more of 3 digit sets ahead
+     *      (?:\.|$)    # followed by decimal point or end of string
+     * )                # end of lookahead
+     */
+    public static readonly thousandSeparatorOccurenceWithMaxTwoDecimal = /(?!^)(?=(?:\d{3})+(?:\.|$))/gm;
 }

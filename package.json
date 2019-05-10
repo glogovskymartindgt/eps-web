@@ -8,6 +8,7 @@
         "build": "ng build --configuration=devou",
         "buildProd": "ng build --configuration=production",
         "buildDockerTest": "ng build --configuration=docker",
+        "buildDockerDemo": "ng build --configuration=demo",
         "zipDist": "zip -r dist/iihf-web.zip dist/iihf-web",
         "buildAndZipDist": "npm run build && npm run zipDist",
         "test": "ng test",

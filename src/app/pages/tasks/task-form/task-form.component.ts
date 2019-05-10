@@ -165,7 +165,7 @@ export class TaskFormComponent implements OnInit {
             phase: [''],
             dueDate: [null],
             responsible: [''],
-            venue: [''],
+            venue: ['NONE'],
             description: [''],
             sourceDescription: [''],
             state: [''],
@@ -263,7 +263,7 @@ export class TaskFormComponent implements OnInit {
             this.taskForm.get('trafficLight').setValue(task.trafficLight);
         }
         if (task.changedAt) {
-            this.taskForm.controls.changedAt.patchValue(moment(task.changedAt).format('D.M.YYYY'));
+            this.taskForm.controls.changedAt.patchValue(moment(task.changedAt).format('D.M.YYYY - HH:mm:ss'));
         }
         if (task.changedBy) {
             this.taskForm.controls.changedBy.patchValue(`${task.changedBy.firstName} ${task.changedBy.lastName}`);

@@ -3,6 +3,7 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
+import { PipesModule } from '../../pipes/pipes.module';
 import { AbstractInputsModule } from '../abstract-inputs/abstract-inputs.module';
 import { MaterialModule } from '../hazelnut-common/material/material.module';
 import { RoundToDecimalPipe, SharedPipesModule } from '../hazelnut-common/pipes';
@@ -33,7 +34,8 @@ import { TableFilterCustomizedDirective } from './directives/table-filter-custom
         MaterialModule,
         FlexLayoutModule,
         SharedPipesModule,
-        TranslateModule.forChild()
+        TranslateModule.forChild(),
+        PipesModule
     ],
     providers: [RoundToDecimalPipe],
     exports:

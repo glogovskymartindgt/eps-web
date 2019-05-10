@@ -4,9 +4,9 @@
     </div>
 </div>
 
-<div div fxLayout="row" style="overflow: auto;  height: calc(100vh - 160px);">
+<div fxLayout="row" style="overflow: auto;  height: calc(100vh - 160px);">
     <div class="p-30">
-    <fact-form (formDataChange)="formData=$event"></fact-form>
+        <fact-form (formDataChange)="formData=$event"></fact-form>
 
     <div>
         <button type="submit"
@@ -14,6 +14,7 @@
                 color="accent"
                 class="mr-10"
                 (click)="onSave()"
+                [disabled]="formData === null || !canSave"
         >
             {{ 'tasks.save' | translate }}
         </button>
@@ -24,6 +25,5 @@
         >
             {{ 'tasks.cancel' | translate }}
         </button>
-    </div>
     </div>
 </div>

@@ -7,7 +7,8 @@
         "businessAreas": "Business Areas and Tasks",
         "dashboard": "Dashboard",
         "reports": "Reports",
-        "facts": "Facts and Figures"
+        "facts": "Facts and Figures",
+        "allFacts": "All Facts and Figures"
     },
     "login": {
         "login": "Log in",
@@ -47,7 +48,8 @@
             "newTask": "New task"
         },
         "edit": {
-            "editTask": "Edit task"
+            "editTask": "Edit task",
+            "detailTask": "Task detail"
         }
     },
     "status": {
@@ -126,6 +128,7 @@
     },
     "fact": {
         "title": "Facts and Figures",
+        "titleAllFacts":"All Facts and Figures",
         "category": "Category",
         "factItemType": "Fact item type",
         "subCategory": "Fact item",
@@ -134,8 +137,13 @@
         "totalValue": "Total Value",
         "newFact": "New fact",
         "editFact": "Edit fact",
+        "detailFact": "Fact detail",
         "changedAt": "Changed at",
-        "changedBy": "Changed by"
+        "changedBy": "Changed by",
+        "hasOnlyTotalValue": "One value for both venues",
+        "year": "Year",
+        "firstValue": "First value",
+        "secondValue": "Second value"
     },
     "color": {
         "green": "Green",
@@ -158,7 +166,8 @@
     },
     "venue": {
         "value": {
-            "all": "Both",
+            "all": "All",
+            "both": "Both",
             "none": "None"
         }
     }

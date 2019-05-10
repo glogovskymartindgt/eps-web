@@ -7,7 +7,8 @@
         "businessAreas": "Biznis oblasti a úlohy",
         "dashboard": "Rozvrh",
         "reports": "Reporty",
-        "facts": "Fakty a čísla"
+        "facts": "Fakty a čísla",
+        "allFacts": "Všetky Fakty a čísla"
     },
     "login": {
         "login": "Prihlásenie",
@@ -133,7 +134,11 @@
         "secondVenue": "Druhé miesto",
         "totalValue": "Celková hodnota",
         "newFact": "Nový fakt",
-        "editFact": "Upraviť fakt"
+        "editFact": "Upraviť fakt",
+        "hasOnlyTotalValue": "Jedna hodnota pre obe mestá",
+        "year": "Rok",
+        "firstValue": "Prvá hodnota",
+        "secondValue": "Druhá hodnota"
     },
     "color": {
         "green": "Zelená",
@@ -156,6 +161,7 @@
     "venue": {
         "value": {
             "all": "Všetky",
+            "both": "Obe",
             "none": "Žiadna"
         }
     }

@@ -1,3 +1,4 @@
+import { CoreTableComponent } from './../../../shared/hazlenut/core-table/components/core-table.component';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -38,6 +39,7 @@ export class TaskListComponent implements OnInit {
     @ViewChild('userColumn') public userColumn: TemplateRef<any>;
     @ViewChild('dateColumn') public dateColumn: TemplateRef<any>;
     @ViewChild('venueColumn') public venueColumn: TemplateRef<any>;
+    @ViewChild('taskTable') public taskTable: CoreTableComponent;
 
     public areaGroup: FormGroup;
     public config: TableConfiguration;
@@ -137,7 +139,8 @@ export class TaskListComponent implements OnInit {
                         valueType: 'STRING',
                         type: TableFilterType.SELECT_STRING,
                         select: [
-                            new ListItem('None', this.translateService.instant('venue.value.none')),
+                            new ListItem('', this.translateService.instant('venue.value.all')),
+                            new ListItem('NONE', this.translateService.instant('venue.value.none')),
                             new ListItem(
                                 this.projectEventService.instant.firstVenue,
                                 this.projectEventService.instant.firstVenue
@@ -146,8 +149,7 @@ export class TaskListComponent implements OnInit {
                                 this.projectEventService.instant.secondVenue,
                                 this.projectEventService.instant.secondVenue
                             ),
-                            new ListItem('BOTH', this.translateService.instant('venue.value.all')),
-                            new ListItem('', this.translateService.instant('tasks.empty')),
+                            new ListItem('BOTH', this.translateService.instant('venue.value.both')),
                         ]
                     }),
                     sorting: true,
@@ -155,12 +157,13 @@ export class TaskListComponent implements OnInit {
                     tableCellTemplate: this.venueColumn,
                 }),
                 new TableColumn({
-                    columnDef: 'responsibleUser',
+                    columnDef: 'responsibleUserFirstName',
                     labelKey: 'task.responsible',
                     sorting: true,
                     type: TableCellType.CONTENT,
                     tableCellTemplate: this.userColumn,
                     filter: new TableColumnFilter({
+                        valueType: 'STRING',
                         type: TableFilterType.RESPONSIBLE,
                     }),
                 }),
@@ -233,7 +236,9 @@ export class TaskListComponent implements OnInit {
     }
 
     public setTableData(tableChangeEvent?: TableChangeEvent): void {
-
+        if (!tableChangeEvent)  {
+            tableChangeEvent = this.taskTable.reset();
+        }
         if (tableChangeEvent && tableChangeEvent.filters && tableChangeEvent.filters.length > 0) {
             this.allTaskFilters = tableChangeEvent.filters;
         }
@@ -241,8 +246,7 @@ export class TaskListComponent implements OnInit {
         this.lastTableChangeEvent = tableChangeEvent;
 
         this.additionalFilters = [
-            new Filter('PROJECT_NAME', this.projectEventService.instant.projectName),
-            new Filter('PROJECT_YEAR', this.projectEventService.instant.year, 'NUMBER'),
+            new Filter('PROJECT_ID', this.projectEventService.instant.id, 'NUMBER'),
         ];
 
         if (this.businessAreaFilter && this.businessAreaFilter.value !== 'all') {
@@ -261,6 +265,8 @@ export class TaskListComponent implements OnInit {
                 this.additionalFilters.push(filter);
             });
         }
+
+        this.removeDuplicateFilters();
 
         this.loading = true;
 
@@ -281,6 +287,16 @@ export class TaskListComponent implements OnInit {
             this.notificationService.openErrorNotification('error.api');
         });
 
+    }
+
+    private removeDuplicateFilters(): void {
+        const userIdFilters = this.additionalFilters.filter((el: Filter) => el.property === "RESPONSIBLE_USER_ID");
+        if (userIdFilters.length > 1) {
+            const allUserIdFilters = this.additionalFilters.filter((el: Filter)=>el.property === "RESPONSIBLE_USER_ID");
+            const oneFilter = allUserIdFilters[allUserIdFilters.length-1];
+            this.additionalFilters = this.additionalFilters.filter((el: Filter) => el.property !== "RESPONSIBLE_USER_ID");
+            this.additionalFilters.push(oneFilter);
+        }
     }
 
     private loadBusinessAreaList() {
