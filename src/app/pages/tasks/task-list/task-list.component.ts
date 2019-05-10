@@ -1,17 +1,19 @@
-import { CoreTableComponent } from './../../../shared/hazlenut/core-table/components/core-table.component';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import {
+    CoreTableComponent,
     ListItem,
-    TableCellType, TableChangeEvent,
+    TableCellType,
+    TableChangeEvent,
     TableColumn,
     TableColumnFilter,
     TableConfiguration,
     TableFilterType
 } from '../../../shared/hazlenut/core-table';
 import { fadeEnterLeave } from '../../../shared/hazlenut/hazelnut-common/animations';
+import { StringUtils } from '../../../shared/hazlenut/hazelnut-common/hazelnut';
 import { BrowseResponse, Filter } from '../../../shared/hazlenut/hazelnut-common/models';
 import { FileManager } from '../../../shared/hazlenut/hazelnut-common/utils/file-manager';
 import { BusinessArea } from '../../../shared/interfaces/bussiness-area.interface';
@@ -68,9 +70,8 @@ export class TaskListComponent implements OnInit {
 
     public ngOnInit() {
         console.log('previous url', this.routingStorageService.getPreviousUrl());
-        console.log('tacss', this.tableChangeStorageService.getTasksLastTableChangeEvent());
+        console.log('change event', this.tableChangeStorageService.getTasksLastTableChangeEvent());
 
-        const allThingsKey = 'all.things';
         this.loadBusinessAreaList();
         this.areaGroup = this.formBuilder.group({
             businessArea: [this.selectedAreaService.instant.selectedArea]
@@ -81,6 +82,10 @@ export class TaskListComponent implements OnInit {
             }
             this.setTableData();
         });
+
+        //
+
+        const allThingsKey = 'all.things';
         this.config = {
             stickyEnd: 7,
             columns: [
@@ -206,6 +211,29 @@ export class TaskListComponent implements OnInit {
             ],
             paging: true,
         };
+
+        if (
+            !this.isInitialized &&
+            this.tableChangeStorageService.getTasksLastTableChangeEvent()
+        ) {
+            if (this.tableChangeStorageService.getTasksLastTableChangeEvent().pageIndex) {
+                this.config.predefinedPageIndex = this.tableChangeStorageService.getTasksLastTableChangeEvent().pageIndex;
+            }
+            if (this.tableChangeStorageService.getTasksLastTableChangeEvent().pageSize) {
+                this.config.predefinedPageSize = this.tableChangeStorageService.getTasksLastTableChangeEvent().pageSize;
+            }
+            if (this.tableChangeStorageService.getTasksLastTableChangeEvent().sortDirection) {
+                this.config.predefinedSortDirection =
+                    this.tableChangeStorageService.getTasksLastTableChangeEvent().sortDirection.toLowerCase();
+            }
+            if (this.tableChangeStorageService.getTasksLastTableChangeEvent().sortActive) {
+                this.config.predefinedSortActive =
+                    StringUtils.convertSnakeToCamel(this.tableChangeStorageService.getTasksLastTableChangeEvent().sortActive.toLowerCase());
+            }
+
+        }
+
+        //
     }
 
     public createTask() {
@@ -236,7 +264,8 @@ export class TaskListComponent implements OnInit {
     }
 
     public setTableData(tableChangeEvent?: TableChangeEvent): void {
-        if (!tableChangeEvent)  {
+
+        if (!tableChangeEvent) {
             tableChangeEvent = this.taskTable.reset();
         }
         if (tableChangeEvent && tableChangeEvent.filters && tableChangeEvent.filters.length > 0) {
@@ -270,11 +299,6 @@ export class TaskListComponent implements OnInit {
 
         this.loading = true;
 
-        // this.tableChangeStorageService.setTasksLastTableChangeEvent(tableChangeEvent);
-
-        // this.isInitialized ?
-        //     this.tableChangeStorageService.getTasksLastTableChangeEvent() :
-        //     tableChangeEvent
         this.taskService.browseTasks(
             tableChangeEvent,
             this.additionalFilters
@@ -287,14 +311,16 @@ export class TaskListComponent implements OnInit {
             this.notificationService.openErrorNotification('error.api');
         });
 
+        this.tableChangeStorageService.setTasksLastTableChangeEvent(tableChangeEvent);
+
     }
 
     private removeDuplicateFilters(): void {
-        const userIdFilters = this.additionalFilters.filter((el: Filter) => el.property === "RESPONSIBLE_USER_ID");
+        const userIdFilters = this.additionalFilters.filter((el: Filter) => el.property === 'RESPONSIBLE_USER_ID');
         if (userIdFilters.length > 1) {
-            const allUserIdFilters = this.additionalFilters.filter((el: Filter)=>el.property === "RESPONSIBLE_USER_ID");
-            const oneFilter = allUserIdFilters[allUserIdFilters.length-1];
-            this.additionalFilters = this.additionalFilters.filter((el: Filter) => el.property !== "RESPONSIBLE_USER_ID");
+            const allUserIdFilters = this.additionalFilters.filter((el: Filter) => el.property === 'RESPONSIBLE_USER_ID');
+            const oneFilter = allUserIdFilters[allUserIdFilters.length - 1];
+            this.additionalFilters = this.additionalFilters.filter((el: Filter) => el.property !== 'RESPONSIBLE_USER_ID');
             this.additionalFilters.push(oneFilter);
         }
     }

@@ -15,7 +15,7 @@ export interface FilterMap {
 
 export class TableChangeEvent {
     public readonly pageSize: number;
-    public readonly pageIndex: number;
+    public  pageIndex: number;
     public readonly filters: Filter[] = [];
     public readonly sortActive: Property;
     public readonly sortDirection: Direction | '';

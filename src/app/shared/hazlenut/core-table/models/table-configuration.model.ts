@@ -104,6 +104,32 @@ export class TableConfiguration {
      */
     public trClassesCond?: (row: any, rows?: number) => string;
 
+    /**
+     * Value for predefined page index
+     *
+     */
+    public predefinedPageIndex?: number;
+
+    /**
+     * Value for predefined page size
+     *
+     */
+    public predefinedPageSize?: number;
+
+    /**
+     * String for predefined sort direction
+     * 'asc' | 'desc'
+     *
+     */
+    public predefinedSortDirection?: string;
+
+    /**
+     * String for predefined sort active
+     * column name in camel case
+     *
+     */
+    public predefinedSortActive?: string;
+
     /*
     public check: () => void  = () => {
         if (Array.isArray(this.columns)) {
