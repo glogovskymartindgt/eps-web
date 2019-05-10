@@ -18,7 +18,7 @@ export class Regex {
 
     public static readonly doublePattern = '^[0-9.]*$';
 
-    public static readonly decimalPattern = '^[0-9]*[.]?[0-9]*$';
+    public static readonly decimalPattern = '^[0-9\\s]*[.|,]?[0-9]{0,2}$';
 
     public static readonly telPattern = '^[0-9\\/*+().\\- ]*$';
 

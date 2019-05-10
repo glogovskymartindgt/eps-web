@@ -3,11 +3,13 @@
     <input *ngIf="type === 'string'"
            [formControl]="formControl"
            [placeholder]="placeholder"
-           [required]="required"
-           (blur)="manageUserInput()"
+           [required]="required"           
+           (focus)="handleFocus()"
+           (blur)="handleBlur()"
            matInput
            autocomplete="off"
-           style="width: 100%;"/>
+           style="width: 100%;"
+           [ngStyle]="inputStyles"/>
     <textarea *ngIf="type === 'textarea'"
               [formControl]="formControl"
               [placeholder]="placeholder"
@@ -18,7 +20,7 @@
               autocomplete="off"
               cdkTextareaAutosize
               style="width: 100%;overflow: hidden;"></textarea>
-    <span *ngIf="textSuffix" matSuffix>{{textSuffix}}</span>
+    <span *ngIf="textSuffix" matSuffix [ngStyle]="formControl.disabled ? {'color': '#989898'} : {}">{{textSuffix}}</span>
     <mat-hint align="start">{{ displayedError }}</mat-hint>
     <mat-hint align="end">{{ displayedHint }}</mat-hint>
     <mat-error *ngIf="showErrors">{{ displayedError }}</mat-error>

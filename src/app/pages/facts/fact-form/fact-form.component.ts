@@ -1,3 +1,4 @@
+import { ThousandDelimiterPipe } from './../../../shared/pipes/thousand-delimiter.pipe';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -35,6 +36,8 @@ export class FactFormComponent implements OnInit {
     isTotalRequired = false;
     isFirstValueRequired = false;
     isSecondValueRequired = false;
+
+    private pipe: ThousandDelimiterPipe;
 
     public constructor(private readonly projectEventService: ProjectEventService,
                        private readonly formBuilder: FormBuilder,
@@ -74,14 +77,14 @@ export class FactFormComponent implements OnInit {
             }
         });
 
-        this.factForm.controls.firstValue.valueChanges.subscribe((value) => {            
-            const num = (+value + +this.factForm.value.secondValue).toFixed(2);
-            this.factForm.controls.totalValue.patchValue(num.toString());
+        this.factForm.controls.firstValue.valueChanges.subscribe((value) => {
+            const num = this.factForm.value.secondValue ? (+value + +parseFloat(this.factForm.value.secondValue.replace(',','.'))).toFixed(2) : value;
+            this.factForm.controls.totalValue.patchValue(this.pipe.transform(num.toString(), ','));
         });
 
         this.factForm.controls.secondValue.valueChanges.subscribe((value) => {
-            const num = (+this.factForm.value.firstValue + +value).toFixed(2);
-            this.factForm.controls.totalValue.patchValue(num.toString());
+            const num = this.factForm.value.firstValue ? (+parseFloat(this.factForm.value.firstValue.replace(',','.')) + +value).toFixed(2) : value;
+            this.factForm.controls.totalValue.patchValue(this.pipe.transform(num.toString(), ','));
         });
 
         this.factForm.valueChanges.subscribe(() => {
@@ -91,6 +94,8 @@ export class FactFormComponent implements OnInit {
         this.factForm.controls.hasOnlyTotalValue.valueChanges.subscribe(() => {
             this.oneValueSelected();
         });
+
+        this.pipe = new ThousandDelimiterPipe();
 
     }
 
@@ -121,7 +126,8 @@ export class FactFormComponent implements OnInit {
     }
 
     private emitFormDataChangeEmitter(): void {
-        const isInvalid = (this.factForm.value.firstValue === '.' || this.factForm.value.secondValue === '.' || this.factForm.value.totalValue === '.');
+        const isInvalid = (this.factForm.value.firstValue === '.' || this.factForm.value.secondValue === '.' || this.factForm.value.totalValue === '.')
+                      ||  (this.factForm.value.firstValue === ',' || this.factForm.value.secondValue === ',' || this.factForm.value.totalValue === ',');
         if (this.factForm.invalid || isInvalid) {
             this.onFormDataChange.emit(null);
         } else {
@@ -188,31 +194,27 @@ export class FactFormComponent implements OnInit {
         this.factForm = this.formBuilder.group({
             category: [task.category.category, Validators.required],
             subCategory: [task.subCategory.subCategory, Validators.required],
-            firstValue: [!isNullOrUndefined(task.valueFirst) ? task.valueFirst.toString() : '', Validators.required],
-            secondValue: [!isNullOrUndefined(task.valueSecond) ? task.valueSecond.toString() : '', Validators.required],
+            firstValue: [!isNullOrUndefined(task.valueFirst) ? this.pipe.transform(task.valueFirst.toString(), ',') : '', Validators.required],
+            secondValue: [!isNullOrUndefined(task.valueSecond) ? this.pipe.transform(task.valueSecond.toString(), ',') : '', Validators.required],
             hasOnlyTotalValue: [task.hasOnlyTotalValue],
-            totalValue: [!isNullOrUndefined(task.totalValue) ? parseFloat(task.totalValue).toFixed(2).toString() : ''],
+            totalValue: [!isNullOrUndefined(task.totalValue) ? this.pipe.transform(parseFloat(task.totalValue).toFixed(2).toString(), ',') : ''],
             changedAt: [task.changedAt ? this.formatDateTime(new Date(task.changedAt)) : ''],
             changedBy: [hasChangedBy ? `${task.changedBy.firstName} ${task.changedBy.lastName}` : '']
         });
 
         this.factForm.controls.firstValue.valueChanges.subscribe((value) => {
-            const num = (+value + +this.factForm.value.secondValue).toFixed(2);
-            this.factForm.controls.totalValue.patchValue(num.toString());
+            const num = this.factForm.value.secondValue ? (+value.replace(',','.') + +this.factForm.value.secondValue.replace(',','.')).toFixed(2) : +value.replace(',','.');
+            this.factForm.controls.totalValue.patchValue(this.pipe.transform(num.toString(), ','));
         });
 
         this.factForm.controls.secondValue.valueChanges.subscribe((value) => {
-            const num = (+this.factForm.value.firstValue + +value).toFixed(2);
-            this.factForm.controls.totalValue.patchValue(num.toString());
+            const num = this.factForm.value.firstValue ? (+this.factForm.value.firstValue.replace(',','.') + +value.replace(',','.')).toFixed(2) : +value.replace(',','.');
+            this.factForm.controls.totalValue.patchValue(this.pipe.transform(num.toString(), ','));
         });
 
         this.factForm.valueChanges.subscribe(() => {
             this.emitFormDataChangeEmitter();
         });
-
-        this.factForm.controls.totalValue.patchValue(
-            (+this.factForm.value.firstValue + +this.factForm.value.secondValue).toFixed(2).toString()
-        );
 
         this.factForm.controls.totalValue.disable();
         this.factForm.controls.changedAt.disable();
@@ -237,7 +239,7 @@ export class FactFormComponent implements OnInit {
                 this.factForm.controls.secondValue.disable();
                 this.factForm.controls.totalValue.enable();
                 
-                this.factForm.controls.totalValue.patchValue(task.totalValue.toString());
+                this.factForm.controls.totalValue.patchValue(this.pipe.transform(parseFloat(task.totalValue).toFixed(2).toString()));
             }, 200);
         }
     }

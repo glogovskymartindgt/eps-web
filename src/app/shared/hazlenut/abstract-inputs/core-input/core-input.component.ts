@@ -1,3 +1,4 @@
+import { ThousandDelimiterPipe } from './../../../pipes/thousand-delimiter.pipe';
 import { AfterViewChecked, ChangeDetectorRef, Component, forwardRef, Inject, Input, OnInit } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 import { MatFormFieldAppearance } from '@angular/material';
@@ -30,6 +31,7 @@ export class CoreInputComponent implements OnInit, ControlValueAccessor, AfterVi
     @Input() public pattern?: string;
     @Input() public textSuffix?: string;
     @Input() public styles = {width: '100%'};
+    @Input() public inputStyles? = {width: '100%'};
     @Input() public appearance: MatFormFieldAppearance = 'standard';
     @Input() public type: 'string' | 'textarea' = 'string'; // TODO: Email, Password
 
@@ -39,7 +41,11 @@ export class CoreInputComponent implements OnInit, ControlValueAccessor, AfterVi
     @Input() public hintMaxlength;
     @Input() public hintBadCharacter;
 
+    @Input() public handleFocusAndBlur? = false;
+
     public errors: { [key: string]: string } = {};
+
+    private pipe: ThousandDelimiterPipe;
 
     public formControl: FormControl;
     public displayedError: string;
@@ -61,6 +67,8 @@ export class CoreInputComponent implements OnInit, ControlValueAccessor, AfterVi
         this.onFormControlChanges();
 
         InputUtils.setDefaultTranslates(this, this.translateWrapperService, this.useInstantTranslates);
+
+        this.pipe = new ThousandDelimiterPipe();
     }
 
     public ngAfterViewChecked(): void {
@@ -93,7 +101,7 @@ export class CoreInputComponent implements OnInit, ControlValueAccessor, AfterVi
         }
     }
 
-    private manageUserInput(): void {
+    private manageUserInput(): void {       
 
         if (!this.formControl.errors) {
             this.displayedError = '';
@@ -132,6 +140,24 @@ export class CoreInputComponent implements OnInit, ControlValueAccessor, AfterVi
             }
         }
         this.onChange(this.formControl.value);
+    }
+
+    private handleFocus(): void {
+        if (this.handleFocusAndBlur) {
+            this.formControl.setValue(this.formControl.value.replace(/\s/g, ''), {emitEvent: false});
+            this.formControl.setValue(this.formControl.value.replace(',', '.'), {emitEvent: false});
+        }
+    }
+
+    
+
+    private handleBlur(): void {
+        if (this.handleFocusAndBlur) {
+            this.formControl.setValue(this.formControl.value.replace(/\s/g, ''), {emitEvent: false});
+            setTimeout(() => {
+                this.formControl.setValue(this.pipe.transform(this.formControl.value, ','), {emitEvent: false});
+            }, 250);
+        }
     }
 
     private onFormControlChanges(): void {
