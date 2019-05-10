@@ -6,13 +6,12 @@ import { Router } from '@angular/router';
 })
 export class MenuService implements OnInit {
 
-  public selectedOptionPath;
+  public selectedOptionPath = 'business-areas';
 
   public constructor(private readonly router: Router) {
   }
 
   public ngOnInit(): void {
-    this.selectedOptionPath = this.router.config[0].children[0].path;
   }
 
   public setSelectedOption(newSelectedOptionPath): void {
