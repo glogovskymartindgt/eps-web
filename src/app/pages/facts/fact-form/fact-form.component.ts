@@ -70,7 +70,7 @@ export class FactFormComponent implements OnInit {
 
         this.factForm.controls.subCategory.valueChanges.subscribe((value) => {
             const subcategory = this.subCategories.find(
-                (subCategory) => subCategory.id = value
+                (subCategory) => subCategory.id === value
             );
             if (!isNullOrUndefined(subcategory)) {
                 this.actualUnitShortName = subcategory.unitShortName;
