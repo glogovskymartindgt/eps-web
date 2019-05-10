@@ -13,3 +13,19 @@
         background-color: #e8f0fe;
     }
 }
+
+.comment-input {
+    width: 600px;
+}
+
+@media screen and (max-width: 2100px) {
+    .comment-input {
+        width: 450px;
+    }
+}
+
+@media screen and (max-width: 1700px) {
+    .comment-input {
+        width: 100%;
+    }
+}
