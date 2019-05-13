@@ -108,6 +108,7 @@ export class FactListComponent implements OnInit {
         };
 
         if (this.router.url.includes(ALL_FACTS)) {
+            this.config.stickyEnd = 5;
             this.allFacts = true;
             this.config.columns.splice(0, 0,
                 new TableColumn({
