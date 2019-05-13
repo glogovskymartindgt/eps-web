@@ -23,8 +23,8 @@ export class ReportService extends ProjectService<Report[]> {
     return this.getDetail('');
   }
 
-  public exportReport(projectID: number, reportID: number) {
-    return this.reportGet(projectID, reportID);
+  public exportReport(projectId: number, reportId: number) {
+    return this.reportGet(projectId, reportId);
   }
 
 }
