@@ -205,12 +205,12 @@ export class FactFormComponent implements OnInit {
         });
 
         this.factForm.controls.firstValue.valueChanges.subscribe((value) => {
-            const num = this.factForm.value.secondValue ? (+value.replace(',','.') + +this.factForm.value.secondValue.replace(',','.')).toFixed(2) : +value.replace(',','.');
+            const num = this.factForm.value.secondValue ? (+value.replace(',','.').replace(' ','') + parseFloat(this.factForm.value.secondValue.replace(',','.').replace(' ',''))).toFixed(2) : +value.replace(',','.').replace(' ','');
             this.factForm.controls.totalValue.patchValue(this.pipe.transform(num.toString(), ','));
         });
 
         this.factForm.controls.secondValue.valueChanges.subscribe((value) => {
-            const num = this.factForm.value.firstValue ? (+this.factForm.value.firstValue.replace(',','.') + +value.replace(',','.')).toFixed(2) : +value.replace(',','.');
+            const num = this.factForm.value.firstValue ? (parseFloat(this.factForm.value.firstValue.replace(',','.').replace(' ','')) + +value.replace(',','.').replace(' ','')).toFixed(2) : +value.replace(',','.').replace(' ','');
             this.factForm.controls.totalValue.patchValue(this.pipe.transform(num.toString(), ','));
         });
 
