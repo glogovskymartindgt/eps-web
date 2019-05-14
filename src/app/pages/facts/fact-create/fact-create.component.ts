@@ -1,3 +1,4 @@
+import { isNullOrUndefined } from 'util';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FactService } from '../../../shared/services/data/fact.service';
@@ -42,6 +43,15 @@ export class FactCreateComponent implements OnInit {
 
     // TODO
     private transformTaskToApiObject(formObject: any): any {
+        if(!isNullOrUndefined(formObject.firstValue)) {
+            formObject.firstValue = this.checkAndRemoveLastDotComma(formObject.firstValue);
+        }
+        if(!isNullOrUndefined(formObject.secondValue)) {
+            formObject.secondValue = this.checkAndRemoveLastDotComma(formObject.secondValue);
+        }
+        if(!isNullOrUndefined(formObject.totalValue)) {
+            formObject.totalValue = this.checkAndRemoveLastDotComma(formObject.totalValue);
+        }
         return {
             categoryId: formObject.category,
             subCategoryId: formObject.subCategory,
@@ -51,6 +61,14 @@ export class FactCreateComponent implements OnInit {
             totalValue: (formObject.totalValue) ? formObject.totalValue : (+formObject.firstValue + +formObject.secondValue),
             projectId: this.projectEventService.instant.id
         };
+    }
+
+    private checkAndRemoveLastDotComma(value: string): string {
+        const lastCharacter = value.toString().slice(-1);
+        if (lastCharacter !== '' && (lastCharacter === "." || lastCharacter === ",")) {
+            value = value.toString().substring(0, value.toString().length-1);
+        };
+        return value;
     }
 
 }

@@ -7,8 +7,8 @@ import { isNullOrUndefined } from 'util';
 })
 export class ThousandDelimiterPipe implements PipeTransform {
 
-    public transform(value: string | number, decimalSeparator = '.'): any {       
-        
+    public transform(value: string | number, decimalSeparator = '.'): any {
+
         value = isNullOrUndefined(value) ? '' : value;
 
         const decimalPart = value.toString().split(".")[1];
