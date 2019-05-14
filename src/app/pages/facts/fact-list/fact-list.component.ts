@@ -41,7 +41,7 @@ export class FactListComponent implements OnInit {
     ) {
     }
 
-    public ngOnInit() {      
+    public ngOnInit() {
         this.config = {
             stickyEnd: 4,
             columns: [
@@ -93,7 +93,7 @@ export class FactListComponent implements OnInit {
                     }),
                     sorting: true,
                     tableCellTemplate: this.totalValueColumn,
-                }),                
+                }),
                 new TableColumn({
                     columnDef: ' ',
                     label: ' ',
@@ -125,7 +125,7 @@ export class FactListComponent implements OnInit {
             this.setLabel('valueFirst', 'fact.firstValue');
             this.setLabel('valueSecond', 'fact.secondValue');
         }
-                
+
     }
 
     private setLabel(columnName: string, replaceLabel: string) {

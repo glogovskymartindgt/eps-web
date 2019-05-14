@@ -3,6 +3,9 @@ import { AbstractService } from '../hazlenut/hazelnut-common/services';
 import { NotificationService } from './notification.service';
 import { ProjectUserService } from './storage/project-user.service';
 
+/**
+ * HTTP methods only for this project should be here
+ */
 export class ProjectService<T> extends AbstractService<T> {
 
     public constructor(http: HttpClient,

@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Regex } from '../hazlenut/hazelnut-common/regex/regex';
 import { isNullOrUndefined } from 'util';
+import { Regex } from '../hazlenut/hazelnut-common/regex/regex';
 
 @Pipe({
     name: 'thousandDelimiter'
@@ -8,10 +8,10 @@ import { isNullOrUndefined } from 'util';
 export class ThousandDelimiterPipe implements PipeTransform {
 
     public transform(value: string | number, decimalSeparator = '.'): any {
-        
+
         value = isNullOrUndefined(value) ? '' : value;
 
-        const decimalPart = value.toString().split(".")[1];
+        const decimalPart = value.toString().split('.')[1];
         let numberOfDecimals = 0;
 
         if (decimalPart) {

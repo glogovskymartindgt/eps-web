@@ -114,14 +114,14 @@ export class InputNumberRangeComponent implements OnInit, ControlValueAccessor {
     }
 
     private _setFrom(value: number | string, emitEvent = false) {
-        if(isNaN(parseFloat(value as string))) {
+        if (isNaN(parseFloat(value as string))) {
             this.actualError = '';
         }
         this.fromControl.setValue(MathUtils.validateValue({value, type: this.type}), {emitEvent});
     }
- 
+
     private _setTo(value: number | string, emitEvent = false) {
-        if(isNaN(parseFloat(value as string))) {
+        if (isNaN(parseFloat(value as string))) {
             this.actualError = '';
         }
         this.toControl.setValue(MathUtils.validateValue({value, type: this.type}), {emitEvent});

@@ -1,5 +1,6 @@
 import { TemplateRef } from '@angular/core';
 import { Params } from '@angular/router';
+import { Filter } from '../../hazelnut-common/models';
 import { TableColumn } from './table-column.model';
 
 /**
@@ -129,6 +130,11 @@ export class TableConfiguration {
      *
      */
     public predefinedSortActive?: string;
+
+    /**
+     * Filter object array which are predefined
+     */
+    public predefinedFilters?: Filter[];
 
     /*
     public check: () => void  = () => {

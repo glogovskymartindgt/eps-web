@@ -14,11 +14,11 @@ export interface FilterMap {
 }
 
 export class TableChangeEvent {
-    public readonly pageSize: number;
-    public  pageIndex: number;
+    public pageSize: number;
+    public pageIndex: number;
     public readonly filters: Filter[] = [];
-    public readonly sortActive: Property;
-    public readonly sortDirection: Direction | '';
+    public sortActive: Property;
+    public sortDirection: Direction | '';
 
     private constructor(public readonly type: TableChangeType, params: TableRequestParameters, filters: Filter[]) {
         this.pageIndex = params.pageIndex;

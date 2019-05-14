@@ -1,4 +1,3 @@
-import { TableChangeEvent } from './../table-change-event';
 import { SelectionChange, SelectionModel } from '@angular/cdk/collections';
 import {
     Component,
@@ -22,10 +21,7 @@ import { detailExpand } from '../../hazelnut-common/animations';
 import { MiscUtils } from '../../hazelnut-common/hazelnut';
 import { TRANSLATE_WRAPPER_TOKEN, TranslateWrapper } from '../../hazelnut-common/interfaces';
 import { Filter } from '../../hazelnut-common/models';
-import {
-    NOTIFICATION_WRAPPER_TOKEN,
-    NotificationWrapper
-} from '../../small-components/notifications';
+import { NOTIFICATION_WRAPPER_TOKEN, NotificationWrapper } from '../../small-components/notifications';
 import { CoreTableService } from '../core-table.service';
 import { ExpandedDetailDirective } from '../directives/expanded-detail.directive';
 import { TableCellType } from '../models/table-cell-type.enum';
@@ -34,6 +30,7 @@ import { TableConfiguration } from '../models/table-configuration.model';
 import { TableRequestParameters } from '../models/table-request-parameters.model';
 import { TableResponse } from '../models/table-response.model';
 import { FilterMap, TableChangeType } from '../table-change-event';
+import { TableChangeEvent } from './../table-change-event';
 import { CoreTableFilterComponent } from './core-table-filter/core-table-filter.component';
 
 const DEFAULT_NO_DATA_KEY = 'common.noData';
@@ -153,7 +150,7 @@ export class CoreTableComponent<T = any> implements OnInit, OnChanges, OnDestroy
         if (this.selection) {
             this.selection.clear();
         }
-        
+
         if (simpleChanges.configuration && simpleChanges.configuration.previousValue !== simpleChanges.configuration.currentValue) {
             this.configuration = this.coreTableService.processConfiguration(this.configuration);
             this.setPageSize();
@@ -208,7 +205,10 @@ export class CoreTableComponent<T = any> implements OnInit, OnChanges, OnDestroy
 
     public reset(): TableChangeEvent {
         this.paginator.pageIndex = 0;
-        return TableChangeEvent.Init(new TableRequestParameters({pageSize: this.paginator.pageSize, pageIndex: 0}, this.sort), []);
+        return TableChangeEvent.Init(new TableRequestParameters({
+            pageSize: this.paginator.pageSize,
+            pageIndex: 0
+        }, this.sort), []);
     }
 
     public isRightAligned(columnType: string): boolean {

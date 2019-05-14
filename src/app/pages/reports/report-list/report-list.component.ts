@@ -1,12 +1,12 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { TableCellType, TableColumn, TableConfiguration } from '../../../shared/hazlenut/core-table';
 import { BrowseResponse } from '../../../shared/hazlenut/hazelnut-common/models';
-import { Report } from '../../../shared/interfaces/report.interface';
-import { NotificationService } from '../../../shared/services/notification.service';
-import { ReportService } from '../../../shared/services/data/report.service';
 import { FileManager } from '../../../shared/hazlenut/hazelnut-common/utils/file-manager';
-import { GetFileNameFromContentDisposition } from '../../../shared/utils/headers';
+import { Report } from '../../../shared/interfaces/report.interface';
+import { ReportService } from '../../../shared/services/data/report.service';
+import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
+import { GetFileNameFromContentDisposition } from '../../../shared/utils/headers';
 
 @Component({
     selector: 'report-list',
@@ -22,9 +22,9 @@ export class ReportListComponent implements OnInit {
     public data = new BrowseResponse<Report>();
 
     public constructor(
-            private readonly notificationService: NotificationService,
-            private readonly reportService: ReportService,
-            private readonly projectEventService: ProjectEventService,
+        private readonly notificationService: NotificationService,
+        private readonly reportService: ReportService,
+        private readonly projectEventService: ProjectEventService,
     ) {
     }
 

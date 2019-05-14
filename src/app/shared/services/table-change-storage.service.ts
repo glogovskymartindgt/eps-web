@@ -1,19 +1,30 @@
 import { Injectable } from '@angular/core';
 import { TableChangeEvent } from '../hazlenut/core-table';
+import { Filter } from '../hazlenut/hazelnut-common/models';
 
 @Injectable({
     providedIn: 'root'
 })
 export class TableChangeStorageService {
 
-    private tasksLastTableChangeEvent: TableChangeEvent;
+    private tasksLastTableChangeEvent: any;
     private factsLastTableChangeEvent: TableChangeEvent;
 
     public constructor() {
     }
 
-    public setTasksLastTableChangeEvent(changeEvent?: TableChangeEvent) {
-        this.tasksLastTableChangeEvent = {...changeEvent, filters: [...changeEvent.filters]};
+    /**
+     * Storing data from task list and also additional filters, because we need business area filter which is not in
+     * table
+     * @param changeEvent
+     * @param additionalFilers
+     */
+    public setTasksLastTableChangeEvent(changeEvent: TableChangeEvent, additionalFilers: Filter[]) {
+        this.tasksLastTableChangeEvent = {
+            ...changeEvent,
+            filters: [...changeEvent.filters],
+            additionalFilters: additionalFilers
+        };
     }
 
     public setFactsLastTableChangeEvent(changeEvent?: TableChangeEvent) {

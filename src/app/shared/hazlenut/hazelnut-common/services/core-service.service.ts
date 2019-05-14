@@ -13,6 +13,9 @@ export interface AbstractServiceParams<T> {
     params?: HttpParams | { [param: string]: string | string[]; };
 }
 
+/**
+ * Core HTTP methods
+ */
 export abstract class CoreService<T> {
     protected constructor(protected readonly http: HttpClient,
                           @Inject(NOTIFICATION_WRAPPER_TOKEN) protected readonly notificationService: NotificationWrapper) {

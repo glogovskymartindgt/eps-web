@@ -39,11 +39,11 @@ export class TaskService extends ProjectService<TaskInterface> {
             }
         }
         filters = filters.concat(additionalFilters);
-        
-        const allFilters = filters.filter((el: Filter)=>el.property === "RESPONSIBLE_USER_ID");        
-        if (allFilters.length>1){
-            const oneFilter: Filter = allFilters[allFilters.length-1];
-            filters = filters.filter((el: Filter)=>el.property !== "RESPONSIBLE_USER_ID");
+
+        const allFilters = filters.filter((el: Filter) => el.property === 'RESPONSIBLE_USER_ID');
+        if (allFilters.length > 1) {
+            const oneFilter: Filter = allFilters[allFilters.length - 1];
+            filters = filters.filter((el: Filter) => el.property !== 'RESPONSIBLE_USER_ID');
             if (oneFilter.value !== 'All') {
                 filters.push(oneFilter);
             }
@@ -56,7 +56,7 @@ export class TaskService extends ProjectService<TaskInterface> {
     public exportTasks(tableChangeEvent?: TableChangeEvent, additionalFilters?: Filter[]) {
         let filters = [];
         let sort = [];
-        if (tableChangeEvent && tableChangeEvent.sortActive && tableChangeEvent.sortDirection){
+        if (tableChangeEvent && tableChangeEvent.sortActive && tableChangeEvent.sortDirection) {
             sort = [new Sort(tableChangeEvent.sortActive,
                 tableChangeEvent.sortDirection
             )];

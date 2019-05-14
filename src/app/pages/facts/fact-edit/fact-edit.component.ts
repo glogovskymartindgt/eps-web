@@ -17,7 +17,7 @@ export class FactEditComponent implements OnInit {
     public formData = null;
     private factId: number;
 
-    private factRoute = "facts";
+    private factRoute = 'facts';
     public canSave = true;
 
     public constructor(
@@ -35,7 +35,7 @@ export class FactEditComponent implements OnInit {
         });
 
         if (this.router.url.includes(ALL_FACTS)) {
-            this.factRoute = "all-facts";
+            this.factRoute = 'all-facts';
             if (!this.router.url.includes(this.projectEventService.instant.year.toString())) {
                 this.canSave = false;
             }
@@ -43,7 +43,7 @@ export class FactEditComponent implements OnInit {
     }
 
     public onCancel() {
-        this.router.navigate([this.factRoute+'/list']);
+        this.router.navigate([`${this.factRoute}/list`]);
     }
 
     public onSave() {
@@ -51,7 +51,7 @@ export class FactEditComponent implements OnInit {
             this.factService.editTask(this.factId, this.transformTaskToApiObject(this.formData)).subscribe(
                 (response) => {
                     this.notificationService.openSuccessNotification('success.edit');
-                    this.router.navigate([this.factRoute+'/list']);
+                    this.router.navigate([this.factRoute + '/list']);
                 }, (error) => {
                     this.notificationService.openErrorNotification('error.edit');
                 });

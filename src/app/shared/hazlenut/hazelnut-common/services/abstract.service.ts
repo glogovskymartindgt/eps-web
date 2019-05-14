@@ -14,6 +14,9 @@ import { BrowseResponse, Direction, Filter, PostContent, Property, Sort } from '
 import { CountModel } from '../models/count.model';
 import { AbstractServiceParams, CoreService } from './core-service.service';
 
+/**
+ * HTTP methods which find usage in multiple projects are here
+ */
 export abstract class AbstractService<T = any> extends CoreService<T> {
     protected constructor(http: HttpClient,
                           @Inject(NOTIFICATION_WRAPPER_TOKEN) notificationService: NotificationWrapper,
@@ -254,7 +257,6 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
         );
     }
 
-
     /**
      *
      * @param {Filter[]} filter
@@ -273,8 +275,8 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
      * @returns {Observable<S>}
      */
     protected getBlob<S = T[]>(url: string,
-                                mapFunction: (response: any) => S,
-                                params: HttpParams | { [param: string]: string | string[]; } = {}): Observable<S> {
+                               mapFunction: (response: any) => S,
+                               params: HttpParams | { [param: string]: string | string[]; } = {}): Observable<S> {
         return this.http.get(url, {
             params,
             headers: this.getHeader(),
@@ -284,6 +286,6 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
             map(mapFunction),
             catchError(this.handleError),
         );
-        }
+    }
 
 }

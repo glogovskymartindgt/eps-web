@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TableChangeEvent } from '../../hazlenut/core-table';
 import { StringUtils } from '../../hazlenut/hazelnut-common/hazelnut';
-import { BrowseResponse, PostContent, Sort, Filter } from '../../hazlenut/hazelnut-common/models';
+import { BrowseResponse, Filter, PostContent, Sort } from '../../hazlenut/hazelnut-common/models';
 import { Fact } from '../../interfaces/fact.interface';
 import { NotificationService } from '../notification.service';
 import { ProjectService } from '../project.service';
@@ -39,7 +39,7 @@ export class FactService extends ProjectService<Fact> {
         }
         if (projectFilter) {
             filters.push(projectFilter);
-        }       
+        }
         return this.browseWithSummary(PostContent.create(limit, offset, filters, sort));
     }
 

@@ -1,13 +1,14 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
-import { debounceTime, tap } from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators';
+import { BusinessAreaService } from '../../../../services/data/business-area.service';
 import { UserDataService } from '../../../../services/data/user-data.service';
 import { NotificationService } from '../../../../services/notification.service';
 import { fadeEnterLeave } from '../../../hazelnut-common/animations';
+import { StringUtils } from '../../../hazelnut-common/hazelnut';
 import { CoreTableService } from '../../core-table.service';
 import { TableColumn } from '../../models/table-column.model';
 import { TableFilterType } from '../../models/table-filter-type.enum';
-import { BusinessAreaService } from  '../../../../services/data/business-area.service';
 
 @Component({
     selector: 'haz-core-table-filter',
@@ -28,7 +29,8 @@ export class CoreTableFilterComponent implements OnInit {
                        private readonly userDataService: UserDataService,
                        private readonly notificationService: NotificationService,
                        private readonly businessAreaService: BusinessAreaService,
-                       ) {
+    ) {
+
     }
 
     public get filterDelay(): number {
@@ -51,7 +53,9 @@ export class CoreTableFilterComponent implements OnInit {
         const elementName = this.columnConfig.filterElement;
         const formGroupOptions: { [id: string]: FormControl } = {};
         formGroupOptions[elementName] = new FormControl(
-            this.columnConfig.filter && this.columnConfig.filter.predefinedValue ? this.columnConfig.filter.predefinedValue[0] : null,
+            this.columnConfig.filter && this.columnConfig.filter.predefinedValue ?
+                this.columnConfig.filter.predefinedValue[0] :
+                null,
         );
         this._filtersElement = new FormGroup(formGroupOptions);
         this.processFormChanges();
@@ -59,8 +63,8 @@ export class CoreTableFilterComponent implements OnInit {
         if (this.columnConfig.filter && this.columnConfig.filter.type === TableFilterType.CUSTOM) {
             this._filtersElement.addControl(this.columnConfig.filterElement, new FormControl());
         }
-
         this.loadCategoryList();
+        this.setPredefinedFilterValuesIntoTableFilters();
     }
 
     private loadCategoryList() {
@@ -83,6 +87,42 @@ export class CoreTableFilterComponent implements OnInit {
                 this.coreTableService.addFilter(this.columnConfig, newValue);
             }
         });
+    }
+
+    private setPredefinedFilterValuesIntoTableFilters() {
+        const configuration = this.coreTableService.configuration;
+        const isFilterFromPredefinedFilters = configuration && configuration.predefinedFilters
+            && configuration.predefinedFilters.find((filter) =>
+                filter.property === StringUtils.convertCamelToSnakeUpper(this.columnConfig.columnDef)
+            );
+        const isPredefinedNumberValue = configuration
+            && this.columnConfig.type === 'number'
+            && isFilterFromPredefinedFilters;
+        if (isPredefinedNumberValue) {
+            this.setFilterElementByPredefinedNumberValues();
+        } else if (isFilterFromPredefinedFilters) {
+            this.filtersElement.controls[this.columnConfig.filterElement].patchValue(configuration.predefinedFilters
+                .find((filter) =>
+                    filter.property === StringUtils.convertCamelToSnakeUpper(this.columnConfig.columnDef))
+                .value
+            );
+        }
+    }
+
+    private setFilterElementByPredefinedNumberValues() {
+        const lowerNumberFilter = this.getNumberFilterFromPredefinedFiltersByOperator('GOE');
+        const higherNumberFilter = this.getNumberFilterFromPredefinedFiltersByOperator('LOE');
+        this.filtersElement.controls[this.columnConfig.filterElement].patchValue({
+            from: lowerNumberFilter ? lowerNumberFilter.value : null,
+            to: higherNumberFilter ? higherNumberFilter.value : null,
+        });
+    }
+
+    private getNumberFilterFromPredefinedFiltersByOperator(operator: string) {
+        return this.coreTableService.configuration.predefinedFilters
+            .filter((filter) =>
+                filter.property === StringUtils.convertCamelToSnakeUpper(this.columnConfig.columnDef))
+            .find((filter) => filter.operator === operator);
     }
 
 }
