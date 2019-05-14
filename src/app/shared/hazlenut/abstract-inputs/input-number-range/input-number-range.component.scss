@@ -14,3 +14,12 @@
     flex-direction: column;
     justify-content: flex-end;
 }
+
+::ng-deep {
+    .red-error .mat-form-field-flex {
+        border-bottom: 1.5px solid #d60000;
+    }   
+    .red-error .mat-focused .mat-form-field-underline .mat-form-field-ripple{
+        background: #d60000;
+    }
+}

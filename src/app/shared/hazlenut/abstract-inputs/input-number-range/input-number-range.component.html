@@ -4,11 +4,13 @@
                           [inputStyles]="inputStyles"
                           [label]="fromLabel"
                           class="mr-10"
+                          [ngClass]="actualError === 'minmax' ? 'red-error' : ''"
                           [styles]="realStyles">
         </haz-input-number>
         <haz-input-number [label]="toLabel"
                           [styles]="realStyles"
                           [inputStyles]="inputStyles"
+                          [ngClass]="actualError === 'minmax' ? 'red-error' : ''"
                           [formControl]="toControl">
         </haz-input-number>
     </div>

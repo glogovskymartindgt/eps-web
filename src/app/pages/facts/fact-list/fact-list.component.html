@@ -38,7 +38,7 @@
     </ng-template>
     <ng-template #totalValueColumn let-actRow="row" let-context="context">
         <div class="fr">
-            {{actRow?.totalValue === null ? '-' : actRow?.totalValue | thousandDelimiter: ','}} {{actRow.measureUnit}}
+            {{actRow?.totalValue === null ? '-' : actRow?.totalValue | thousandDelimiter: ','}} {{actRow?.totalValue !== null ? actRow.measureUnit : ''}}
         </div>
     </ng-template>
     <ng-template #updateColumn let-actRow="row" let-context="context">
