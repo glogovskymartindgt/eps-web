@@ -5,6 +5,7 @@ import { FactService } from '../../../shared/services/data/fact.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 import { TaskFormComponent } from '../../tasks/task-form/task-form.component';
+import { checkAndRemoveLastDotComma } from 'src/app/shared/utils/removeLastChar';
 
 @Component({
     selector: 'fact-create',
@@ -44,13 +45,13 @@ export class FactCreateComponent implements OnInit {
     // TODO
     private transformTaskToApiObject(formObject: any): any {
         if(!isNullOrUndefined(formObject.firstValue)) {
-            formObject.firstValue = this.checkAndRemoveLastDotComma(formObject.firstValue);
+            formObject.firstValue = checkAndRemoveLastDotComma(formObject.firstValue);
         }
         if(!isNullOrUndefined(formObject.secondValue)) {
-            formObject.secondValue = this.checkAndRemoveLastDotComma(formObject.secondValue);
+            formObject.secondValue = checkAndRemoveLastDotComma(formObject.secondValue);
         }
         if(!isNullOrUndefined(formObject.totalValue)) {
-            formObject.totalValue = this.checkAndRemoveLastDotComma(formObject.totalValue);
+            formObject.totalValue = checkAndRemoveLastDotComma(formObject.totalValue);
         }
         return {
             categoryId: formObject.category,
@@ -61,14 +62,6 @@ export class FactCreateComponent implements OnInit {
             totalValue: (formObject.totalValue) ? formObject.totalValue : (+formObject.firstValue + +formObject.secondValue),
             projectId: this.projectEventService.instant.id
         };
-    }
-
-    private checkAndRemoveLastDotComma(value: string): string {
-        const lastCharacter = value.toString().slice(-1);
-        if (lastCharacter !== '' && (lastCharacter === "." || lastCharacter === ",")) {
-            value = value.toString().substring(0, value.toString().length-1);
-        };
-        return value;
     }
 
 }

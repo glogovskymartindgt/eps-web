@@ -4,6 +4,8 @@ import { FactService } from '../../../shared/services/data/fact.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 import { TaskFormComponent } from '../../tasks/task-form/task-form.component';
+import { isNullOrUndefined } from 'util';
+import { checkAndRemoveLastDotComma } from 'src/app/shared/utils/removeLastChar';
 
 const ALL_FACTS = 'all-facts';
 
@@ -60,6 +62,15 @@ export class FactEditComponent implements OnInit {
     }
 
     private transformTaskToApiObject(formObject: any): any {
+        if(!isNullOrUndefined(formObject.firstValue)) {
+            formObject.firstValue = checkAndRemoveLastDotComma(formObject.firstValue);
+        }
+        if(!isNullOrUndefined(formObject.secondValue)) {
+            formObject.secondValue = checkAndRemoveLastDotComma(formObject.secondValue);
+        }
+        if(!isNullOrUndefined(formObject.totalValue)) {
+            formObject.totalValue = checkAndRemoveLastDotComma(formObject.totalValue);
+        }
         return {
             valueFirst: +formObject.firstValue,
             valueSecond: +formObject.secondValue,
