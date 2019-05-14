@@ -6,7 +6,7 @@ import { debounceTime, tap } from 'rxjs/operators';
 import { TRANSLATE_WRAPPER_TOKEN, TranslateWrapper } from '../../hazelnut-common/interfaces/translate.interface';
 import { InputUtils } from '../../hazelnut-common/utils/input-utils';
 import { ValidatorComposer } from '../validator-composer';
-import { isNullOrUndefined } from 'util';
+import { checkAndRemoveLastDotComma } from 'src/app/shared/utils/removeLastChar';
 
 @Component({
     selector: 'haz-core-input',
@@ -152,14 +152,7 @@ export class CoreInputComponent implements OnInit, ControlValueAccessor, AfterVi
    
     private handleBlur(): void {
         if (this.handleFocusAndBlur) {
-
-            if (!isNullOrUndefined(this.formControl.value)) {
-                const lastCharacter = this.formControl.value.toString().slice(-1);
-                if (lastCharacter !== '' && (lastCharacter === "." || lastCharacter === ",")) {
-                    this.formControl.setValue(this.formControl.value.toString().substring(0, this.formControl.value.toString().length-1));
-                };
-            }
-
+            this.formControl.value.setValue(checkAndRemoveLastDotComma(this.formControl.value));
             this.formControl.setValue(this.formControl.value.replace(/\s/g, ''), {emitEvent: false});
             setTimeout(() => {
                 this.formControl.setValue(this.pipe.transform(this.formControl.value, ','), {emitEvent: false});

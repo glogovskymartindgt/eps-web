@@ -44,15 +44,10 @@ export class FactCreateComponent implements OnInit {
 
     // TODO
     private transformTaskToApiObject(formObject: any): any {
-        if(!isNullOrUndefined(formObject.firstValue)) {
-            formObject.firstValue = checkAndRemoveLastDotComma(formObject.firstValue);
-        }
-        if(!isNullOrUndefined(formObject.secondValue)) {
-            formObject.secondValue = checkAndRemoveLastDotComma(formObject.secondValue);
-        }
-        if(!isNullOrUndefined(formObject.totalValue)) {
-            formObject.totalValue = checkAndRemoveLastDotComma(formObject.totalValue);
-        }
+        formObject.firstValue = checkAndRemoveLastDotComma(formObject.firstValue);
+        formObject.secondValue = checkAndRemoveLastDotComma(formObject.secondValue);
+        formObject.totalValue = checkAndRemoveLastDotComma(formObject.totalValue);
+        
         return {
             categoryId: formObject.category,
             subCategoryId: formObject.subCategory,
