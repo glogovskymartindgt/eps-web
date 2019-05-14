@@ -30,8 +30,8 @@ export class FactFormComponent implements OnInit {
     public actualUnitShortName = '';
     public isUpdate = false;
     public formLoaded = false;
-    public readonly firstVenueLabel = this.projectEventService.instant.firstVenue;
-    public readonly secondVenueLabel = this.projectEventService.instant.secondVenue;
+    public firstVenueLabel = this.projectEventService.instant.firstVenue;
+    public secondVenueLabel = this.projectEventService.instant.secondVenue;
 
     isTotalRequired = false;
     isFirstValueRequired = false;
@@ -148,7 +148,7 @@ export class FactFormComponent implements OnInit {
     }
 
     private getIdFromRouteParamsAndSetDetail(param: any): void {
-        this.factService.getFactById(param.id).subscribe((apiTask) => {
+        this.factService.getFactById(param.id, param.projectId).subscribe((apiTask) => {
             this.setForm(apiTask);
         }, (error) => this.notificationService.openErrorNotification(error));
     }
@@ -186,6 +186,8 @@ export class FactFormComponent implements OnInit {
     }
 
     private setForm(task: any) {
+        this.firstVenueLabel = task.venueFirst;
+        this.secondVenueLabel = task.venueSecond;
         this.actualUnitShortName = task.subCategory.unitShortName;
         const hasChangedBy: boolean = task.changedBy && task.changedBy.firstName && task.changedBy.lastName;
         this.isFirstValueRequired = true;

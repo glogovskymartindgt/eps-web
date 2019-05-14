@@ -68,6 +68,22 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
         });
     }
 
+     /**
+     * * Function returns list of result from browse API
+     *
+     * @param id - id of searched object
+     * @param projectId - projectId of searched object
+     * @param params 
+     */
+    public getVenueDetail(id: number | string, projectId: number | string, params?: StringMap): Observable<T> {
+        const realIds = id && projectId ? `/${id}/${projectId}` : '';
+        return this.get({
+            params,
+            url: `${HazelnutConfig.URL_API}/${this.urlKey}${realIds}`,
+            mapFunction: this.extractDetail
+        });
+    }
+
     /**
      * Function create new object
      *

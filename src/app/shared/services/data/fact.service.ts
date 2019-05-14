@@ -47,8 +47,8 @@ export class FactService extends ProjectService<Fact> {
         return this.add(factObject);
     }
 
-    public getFactById(id: number) {
-        return this.getDetail(id);
+    public getFactById(id: number, projectId: number) {
+        return this.getVenueDetail(id, projectId);
     }
 
     public editTask(id: number, taskObject: any) {
