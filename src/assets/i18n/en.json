@@ -70,6 +70,10 @@
         "addComment": "Adding of comment failed.",
         "loadComments": "Comments loading failed."
     },
+    "errorCode": {
+        "2": "Subcategory is already in use",
+        "9002": "Access denied"
+    },
     "success": {
         "add": "Add successfull",
         "edit": "Edit successfull"
