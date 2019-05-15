@@ -152,7 +152,7 @@ export class CoreInputComponent implements OnInit, ControlValueAccessor, AfterVi
    
     private handleBlur(): void {
         if (this.handleFocusAndBlur) {
-            this.formControl.value.setValue(checkAndRemoveLastDotComma(this.formControl.value));
+            this.formControl.setValue(checkAndRemoveLastDotComma(this.formControl.value));
             this.formControl.setValue(this.formControl.value.replace(/\s/g, ''), {emitEvent: false});
             setTimeout(() => {
                 this.formControl.setValue(this.pipe.transform(this.formControl.value, ','), {emitEvent: false});
