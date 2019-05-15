@@ -95,7 +95,7 @@ export class CoreTableFilterComponent implements OnInit {
             && configuration.predefinedFilters.find((filter) =>
                 filter.property === StringUtils.convertCamelToSnakeUpper(this.columnConfig.columnDef)
             );
-        const isPredefinedNumberValue = this.columnConfig.type === 'number';
+        const isPredefinedNumberValue = this.columnConfig.filter.type === 'number';
         const isPredefinedDateValue = this.columnConfig.config
             && this.columnConfig.config.filter
             && this.columnConfig.config.filter.valueType === 'DATE_TIME';

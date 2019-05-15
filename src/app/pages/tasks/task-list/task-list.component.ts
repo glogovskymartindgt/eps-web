@@ -69,7 +69,6 @@ export class TaskListComponent implements OnInit {
     }
 
     public ngOnInit() {
-        this.isReturnFromDetail();
         this.loadBusinessAreaList();
         this.areaGroup = this.formBuilder.group({
             businessArea: [this.getBusinessAreaValue()]
