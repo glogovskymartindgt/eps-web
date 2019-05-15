@@ -215,6 +215,9 @@ export class TaskListComponent implements OnInit {
             && this.isReturnFromDetail()
             && this.tableChangeStorageService.getTasksLastTableChangeEvent()
         ) {
+            if (this.tableChangeStorageService.getTasksLastTableChangeEvent().filters) {
+                this.config.predefinedFilters = this.tableChangeStorageService.getTasksLastTableChangeEvent().filters;
+            }
             if (this.tableChangeStorageService.getTasksLastTableChangeEvent().pageIndex) {
                 this.config.predefinedPageIndex = this.tableChangeStorageService.getTasksLastTableChangeEvent().pageIndex;
             }
@@ -229,10 +232,6 @@ export class TaskListComponent implements OnInit {
                 this.config.predefinedSortActive =
                     StringUtils.convertSnakeToCamel(this.tableChangeStorageService.getTasksLastTableChangeEvent().sortActive.toLowerCase());
             }
-            if (this.tableChangeStorageService.getTasksLastTableChangeEvent().filters) {
-                this.config.predefinedFilters = this.tableChangeStorageService.getTasksLastTableChangeEvent().filters;
-            }
-
         }
 
         //
@@ -369,8 +368,7 @@ export class TaskListComponent implements OnInit {
 
     private isReturnFromDetail() {
         return this.routingStorageService.getPreviousUrl().includes('tasks/edit')
-            || this.routingStorageService.getPreviousUrl().includes('tasks/create')
-            ;
+            || this.routingStorageService.getPreviousUrl().includes('tasks/create');
     }
 
 }

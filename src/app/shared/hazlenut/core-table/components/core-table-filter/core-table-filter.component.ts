@@ -95,27 +95,54 @@ export class CoreTableFilterComponent implements OnInit {
             && configuration.predefinedFilters.find((filter) =>
                 filter.property === StringUtils.convertCamelToSnakeUpper(this.columnConfig.columnDef)
             );
-        const isPredefinedNumberValue = configuration
-            && this.columnConfig.type === 'number'
-            && isFilterFromPredefinedFilters;
-        if (isPredefinedNumberValue) {
-            this.setFilterElementByPredefinedNumberValues();
-        } else if (isFilterFromPredefinedFilters) {
-            this.filtersElement.controls[this.columnConfig.filterElement].patchValue(configuration.predefinedFilters
-                .find((filter) =>
-                    filter.property === StringUtils.convertCamelToSnakeUpper(this.columnConfig.columnDef))
-                .value
-            );
+        const isPredefinedNumberValue = this.columnConfig.type === 'number';
+        const isPredefinedDateValue = this.columnConfig.config
+            && this.columnConfig.config.filter
+            && this.columnConfig.config.filter.valueType === 'DATE_TIME';
+        const isPredefinedTrafficLightValue = this.columnConfig.columnDef === 'trafficLight';
+        if (isFilterFromPredefinedFilters) {
+            if (isPredefinedNumberValue) {
+                this.setFilterElementByPredefinedNumberValues();
+            } else if (isPredefinedDateValue) {
+                this.setFilterElementByPredefinedDateValues();
+            } else if (isPredefinedTrafficLightValue) {
+                this.setFilterElementByPredefinedTrafficLightValues();
+            } else {
+                this.filtersElement.controls[this.columnConfig.filterElement].patchValue(configuration.predefinedFilters
+                    .find((filter) =>
+                        filter.property === StringUtils.convertCamelToSnakeUpper(this.columnConfig.columnDef))
+                    .value
+                );
+            }
         }
     }
 
-    private setFilterElementByPredefinedNumberValues() {
-        const lowerNumberFilter = this.getNumberFilterFromPredefinedFiltersByOperator('GOE');
-        const higherNumberFilter = this.getNumberFilterFromPredefinedFiltersByOperator('LOE');
+    private setFilterElementByPredefinedDateValues() {
+        // ExpressionChangedAfterItHasBeenCheckedError even with {emitEvent: false, onlySelf: true}
+        const lowerFilter = this.getNumberFilterFromPredefinedFiltersByOperator('GOE');
+        const higherFilter = this.getNumberFilterFromPredefinedFiltersByOperator('LOE');
         this.filtersElement.controls[this.columnConfig.filterElement].patchValue({
-            from: lowerNumberFilter ? lowerNumberFilter.value : null,
-            to: higherNumberFilter ? higherNumberFilter.value : null,
+            dateFrom: lowerFilter ? lowerFilter.value : null,
+            dateTo: higherFilter ? higherFilter.value : null,
         });
+    }
+
+    private setFilterElementByPredefinedNumberValues() {
+        const lowerFilter = this.getNumberFilterFromPredefinedFiltersByOperator('GOE');
+        const higherFilter = this.getNumberFilterFromPredefinedFiltersByOperator('LOE');
+        this.filtersElement.controls[this.columnConfig.filterElement].patchValue({
+            from: lowerFilter ? lowerFilter.value : null,
+            to: higherFilter ? higherFilter.value : null,
+        });
+    }
+
+    private setFilterElementByPredefinedTrafficLightValues() {
+        this.filtersElement.controls[this.columnConfig.filterElement].patchValue(
+            ['RED', 'GREEN', 'AMBER', 'NONE']
+                .map((color) => this.getTrafficLightFromPredefinedFiltersByColor(color))
+                .filter((filter) => filter !== undefined)
+                .map((filter) => filter.value.toString().toLowerCase())
+        );
     }
 
     private getNumberFilterFromPredefinedFiltersByOperator(operator: string) {
@@ -123,6 +150,13 @@ export class CoreTableFilterComponent implements OnInit {
             .filter((filter) =>
                 filter.property === StringUtils.convertCamelToSnakeUpper(this.columnConfig.columnDef))
             .find((filter) => filter.operator === operator);
+    }
+
+    private getTrafficLightFromPredefinedFiltersByColor(colorValue: string) {
+        return this.coreTableService.configuration.predefinedFilters
+            .filter((filter) =>
+                filter.property === StringUtils.convertCamelToSnakeUpper(this.columnConfig.columnDef))
+            .find((filter) => filter.value === colorValue);
     }
 
 }

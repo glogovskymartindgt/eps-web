@@ -110,8 +110,8 @@ export class CoreTableService {
                                 color.toString().toLocaleUpperCase(),
                                 'ENUM',
                                 'EQ',
-                                'OR'));
-
+                                'OR')
+                        );
                     });
 
                     // const colorArray = value.toString()
