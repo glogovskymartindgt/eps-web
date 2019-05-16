@@ -2,6 +2,7 @@ import { Inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ABSTRACT_STORAGE_TOKEN, AbstractStorageService } from './abstract-storage.service';
+import { isNullOrUndefined } from 'util';
 
 type Proxify<T> = {
     [P in keyof T]: Observable<T[P]>;
@@ -11,6 +12,8 @@ export abstract class UserService<T extends object> {
     private readonly _behaviorSubject: BehaviorSubject<T>;
     private readonly _instant: T;
     private readonly _subject: Proxify<T>;
+
+    public login: string;
 
     protected constructor(@Inject(ABSTRACT_STORAGE_TOKEN) private readonly storageService: AbstractStorageService) {
         const value = (this.loadData() || {}) as T;
@@ -55,16 +58,24 @@ export abstract class UserService<T extends object> {
     }
 
     public clearUserData(): void {
-        this.storageService.removeItem('userData');
+        this.storageService.removeItem(this.login);
+        this.storageService.removeItem('lastUser');
         this._behaviorSubject.next({} as T);
     }
 
+    /*
+     * when user refreshes the page, 'lastUser' is used
+     */
     private loadData(): T {
-        return this.storageService.getObjectItem('userData') as T;
+        if ((!isNullOrUndefined(localStorage.getItem('lastUser')))) {
+            this.login = localStorage.getItem('lastUser');
+        }
+        return this.storageService.getObjectItem(this.login) as T;
     }
 
-    private storeData(data: T): void {
-        this.storageService.setItemValue('userData', data);
+    private storeData(data: any): void {
+        this.login = data.login;
+        this.storageService.setItemValue(data.login, data);
     }
 
 }

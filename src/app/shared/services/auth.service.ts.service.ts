@@ -36,9 +36,11 @@ export class AuthService {
      * Logout wrapper function
      */
     public logout(): void {
-        this.logoutBackend(this.userService.instant.masterToken,
-            localStorage.userData ? JSON.parse(localStorage.userData).authToken : '',
-            this.userService.instant.deviceId);
+        this.logoutBackend(
+            this.userService.instant.masterToken,
+            this.userService.instant.authToken,
+            this.userService.instant.deviceId
+        );
     }
 
     /**
