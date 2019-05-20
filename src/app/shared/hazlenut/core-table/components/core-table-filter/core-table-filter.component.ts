@@ -104,7 +104,7 @@ export class CoreTableFilterComponent implements OnInit {
             if (isPredefinedNumberValue) {
                 this.setFilterElementByPredefinedNumberValues();
             } else if (isPredefinedDateValue) {
-                this.setFilterElementByPredefinedDateValues();
+               // TODO apply set date filter
             } else if (isPredefinedTrafficLightValue) {
                 this.setFilterElementByPredefinedTrafficLightValues();
             } else {
@@ -118,7 +118,7 @@ export class CoreTableFilterComponent implements OnInit {
     }
 
     private setFilterElementByPredefinedDateValues() {
-        // ExpressionChangedAfterItHasBeenCheckedError even with {emitEvent: false, onlySelf: true}
+        // TODO fix ExpressionChangedAfterItHasBeenCheckedError
         const lowerFilter = this.getNumberFilterFromPredefinedFiltersByOperator('GOE');
         const higherFilter = this.getNumberFilterFromPredefinedFiltersByOperator('LOE');
         this.filtersElement.controls[this.columnConfig.filterElement].patchValue({
