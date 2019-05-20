@@ -3,15 +3,16 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 import { tap } from 'rxjs/internal/operators/tap';
+import { isNullOrUndefined } from 'util';
 import { enterLeaveSmooth } from '../../../shared/hazlenut/hazelnut-common/animations';
 import { Regex } from '../../../shared/hazlenut/hazelnut-common/regex/regex';
 import { Category } from '../../../shared/interfaces/category.interface';
 import { SubCategory } from '../../../shared/interfaces/subcategory.interface';
+import { ThousandDelimiterPipe } from '../../../shared/pipes/thousand-delimiter.pipe';
 import { BusinessAreaService } from '../../../shared/services/data/business-area.service';
 import { FactService } from '../../../shared/services/data/fact.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
-import { isNullOrUndefined } from 'util';
 
 @Component({
     selector: 'fact-form',
@@ -77,12 +78,28 @@ export class FactFormComponent implements OnInit {
         });
 
         this.factForm.controls.firstValue.valueChanges.subscribe((value) => {
-            const num = this.factForm.value.secondValue ? (+value.replace(',','.').replace(' ','') + parseFloat(this.factForm.value.secondValue.replace(',','.').replace(' ',''))).toFixed(2) : +value.replace(',','.').replace(' ','');
+            const num = this.factForm.value.secondValue ?
+                (+value.replace(',', '.')
+                        .replace(' ', '')
+                    + parseFloat(this.factForm.value.secondValue
+                        .replace(',', '.')
+                        .replace(' ', '')))
+                    .toFixed(2) :
+                +value.replace(',', '.')
+                    .replace(' ', '');
             this.factForm.controls.totalValue.patchValue(this.pipe.transform(num.toString(), ','));
         });
 
         this.factForm.controls.secondValue.valueChanges.subscribe((value) => {
-            const num = this.factForm.value.firstValue ? (+value.replace(',','.').replace(' ','') + parseFloat(this.factForm.value.firstValue.replace(',','.').replace(' ',''))).toFixed(2) : +value.replace(',','.').replace(' ','');
+            const num = this.factForm.value.firstValue ?
+                (+value
+                        .replace(',', '.')
+                        .replace(' ', '')
+                    + parseFloat(this.factForm.value.firstValue
+                        .replace(',', '.')
+                        .replace(' ', '')))
+                    .toFixed(2) :
+                +value.replace(',', '.').replace(' ', '');
             this.factForm.controls.totalValue.patchValue(this.pipe.transform(num.toString(), ','));
         });
 
@@ -126,7 +143,7 @@ export class FactFormComponent implements OnInit {
 
     private emitFormDataChangeEmitter(): void {
         const isInvalid = (this.factForm.value.firstValue === '.' || this.factForm.value.secondValue === '.' || this.factForm.value.totalValue === '.')
-                      ||  (this.factForm.value.firstValue === ',' || this.factForm.value.secondValue === ',' || this.factForm.value.totalValue === ',');
+            || (this.factForm.value.firstValue === ',' || this.factForm.value.secondValue === ',' || this.factForm.value.totalValue === ',');
         if (this.factForm.invalid || isInvalid) {
             this.onFormDataChange.emit(null);
         } else {
@@ -204,12 +221,27 @@ export class FactFormComponent implements OnInit {
         });
 
         this.factForm.controls.firstValue.valueChanges.subscribe((value) => {
-            const num = this.factForm.value.secondValue ? (+value.replace(',','.').replace(' ','') + parseFloat(this.factForm.value.secondValue.replace(',','.').replace(' ',''))).toFixed(2) : +value.replace(',','.').replace(' ','');
+            const num = this.factForm.value.secondValue ?
+                (+value.replace(',', '.')
+                        .replace(' ', '')
+                    + parseFloat(this.factForm.value.secondValue
+                        .replace(',', '.')
+                        .replace(' ', '')))
+                    .toFixed(2) :
+                +value.replace(',', '.')
+                    .replace(' ', '');
             this.factForm.controls.totalValue.patchValue(this.pipe.transform(num.toString(), ','));
         });
 
         this.factForm.controls.secondValue.valueChanges.subscribe((value) => {
-            const num = this.factForm.value.firstValue ? (parseFloat(this.factForm.value.firstValue.replace(',','.').replace(' ','')) + +value.replace(',','.').replace(' ','')).toFixed(2) : +value.replace(',','.').replace(' ','');
+            const num = this.factForm.value.firstValue ?
+                (parseFloat(this.factForm.value.firstValue
+                        .replace(',', '.')
+                        .replace(' ', ''))
+                    + +value.replace(',', '.')
+                        .replace(' ', ''))
+                    .toFixed(2) :
+                +value.replace(',', '.').replace(' ', '');
             this.factForm.controls.totalValue.patchValue(this.pipe.transform(num.toString(), ','));
         });
 

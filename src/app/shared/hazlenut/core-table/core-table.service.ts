@@ -113,29 +113,6 @@ export class CoreTableService {
                                 'OR')
                         );
                     });
-
-                    // const colorArray = value.toString()
-                    //     .split(',')
-                    //     .map((color) => new Filter(propertyName,
-                    //         color.toString().toLocaleUpperCase(),
-                    //         'ENUM',
-                    //         'EQ',
-                    //         'OR')
-                    //     );
-                    // console.log('colorArray', colorArray);
-                    // this.filters.concat(colorArray);
-                    // console.log('filters', this.filters);
-
-                    // const colorFilters = value.toString()
-                    //     .split(',')
-                    //     .map((color) => {
-                    //         new Filter(propertyName,
-                    //             color.toString().toLocaleUpperCase(),
-                    //             'ENUM',
-                    //             'EQ',
-                    //             'OR');
-                    //     });
-                    // this.filters = [...this.filters, ...colorFilters];
                 }
                 break;
             }

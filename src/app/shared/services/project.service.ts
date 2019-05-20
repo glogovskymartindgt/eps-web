@@ -1,9 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { HazelnutConfig } from '../hazlenut/hazelnut-common/config/hazelnut-config';
 import { AbstractService } from '../hazlenut/hazelnut-common/services';
 import { NotificationService } from './notification.service';
 import { ProjectUserService } from './storage/project-user.service';
-import { Observable } from 'rxjs';
-import { HazelnutConfig } from '../hazlenut/hazelnut-common/config/hazelnut-config';
 
 /**
  * HTTP methods only for this project should be here
@@ -30,7 +30,6 @@ export class ProjectService<T> extends AbstractService<T> {
      *
      * @param id - id of searched object
      * @param projectId - projectId of searched object
-     * @param params 
      */
     public getFactItemDetail(id: number | string, projectId: number | string): Observable<T> {
         const realIds = id && projectId ? `/${id}/${projectId}` : '';
