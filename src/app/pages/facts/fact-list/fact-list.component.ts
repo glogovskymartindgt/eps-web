@@ -137,6 +137,7 @@ export class FactListComponent implements OnInit {
         }
 
         if (this.router.url.includes(ALL_FACTS)) {
+            this.config.stickyEnd = 5;
             this.allFacts = true;
             this.config.columns.splice(0, 0,
                 new TableColumn({
@@ -166,11 +167,11 @@ export class FactListComponent implements OnInit {
         this.router.navigate(['facts/create']);
     }
 
-    public update(id: number, year: number) {
+    public update(id: number, year: number, projectId: number) {
         if (this.router.url.includes(ALL_FACTS)) {
-            this.router.navigate(['all-facts/edit'], {queryParams: {id, year}});
+            this.router.navigate(['all-facts/edit'], {queryParams: {id, projectId, year}});
         } else {
-            this.router.navigate(['facts/edit'], {queryParams: {id}});
+            this.router.navigate(['facts/edit'], {queryParams: {id, projectId}});
         }
     }
 

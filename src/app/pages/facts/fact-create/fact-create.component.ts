@@ -1,9 +1,11 @@
+import { isNullOrUndefined } from 'util';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FactService } from '../../../shared/services/data/fact.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 import { TaskFormComponent } from '../../tasks/task-form/task-form.component';
+import { checkAndRemoveLastDotComma } from 'src/app/shared/utils/removeLastChar';
 
 @Component({
     selector: 'fact-create',
@@ -42,6 +44,10 @@ export class FactCreateComponent implements OnInit {
 
     // TODO
     private transformTaskToApiObject(formObject: any): any {
+        formObject.firstValue = checkAndRemoveLastDotComma(formObject.firstValue);
+        formObject.secondValue = checkAndRemoveLastDotComma(formObject.secondValue);
+        formObject.totalValue = checkAndRemoveLastDotComma(formObject.totalValue);
+        
         return {
             categoryId: formObject.category,
             subCategoryId: formObject.subCategory,

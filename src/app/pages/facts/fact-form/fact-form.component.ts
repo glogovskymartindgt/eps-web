@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 import { tap } from 'rxjs/internal/operators/tap';
-import { isNullOrUndefined } from 'util';
 import { enterLeaveSmooth } from '../../../shared/hazlenut/hazelnut-common/animations';
 import { Regex } from '../../../shared/hazlenut/hazelnut-common/regex/regex';
 import { Category } from '../../../shared/interfaces/category.interface';
@@ -12,6 +11,7 @@ import { BusinessAreaService } from '../../../shared/services/data/business-area
 import { FactService } from '../../../shared/services/data/fact.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
+import { isNullOrUndefined } from 'util';
 
 @Component({
     selector: 'fact-form',
@@ -29,12 +29,14 @@ export class FactFormComponent implements OnInit {
     public actualUnitShortName = '';
     public isUpdate = false;
     public formLoaded = false;
-    public readonly firstVenueLabel = this.projectEventService.instant.firstVenue;
-    public readonly secondVenueLabel = this.projectEventService.instant.secondVenue;
+    public firstVenueLabel = this.projectEventService.instant.firstVenue;
+    public secondVenueLabel = this.projectEventService.instant.secondVenue;
 
     public isTotalRequired = false;
     public isFirstValueRequired = false;
     public isSecondValueRequired = false;
+
+    private pipe: ThousandDelimiterPipe;
 
     public constructor(private readonly projectEventService: ProjectEventService,
                        private readonly formBuilder: FormBuilder,
@@ -67,7 +69,7 @@ export class FactFormComponent implements OnInit {
 
         this.factForm.controls.subCategory.valueChanges.subscribe((value) => {
             const subcategory = this.subCategories.find(
-                (subCategory) => subCategory.id = value
+                (subCategory) => subCategory.id === value
             );
             if (!isNullOrUndefined(subcategory)) {
                 this.actualUnitShortName = subcategory.unitShortName;
@@ -75,13 +77,13 @@ export class FactFormComponent implements OnInit {
         });
 
         this.factForm.controls.firstValue.valueChanges.subscribe((value) => {
-            const num = (+value + +this.factForm.value.secondValue).toFixed(2);
-            this.factForm.controls.totalValue.patchValue(num.toString());
+            const num = this.factForm.value.secondValue ? (+value.replace(',','.').replace(' ','') + parseFloat(this.factForm.value.secondValue.replace(',','.').replace(' ',''))).toFixed(2) : +value.replace(',','.').replace(' ','');
+            this.factForm.controls.totalValue.patchValue(this.pipe.transform(num.toString(), ','));
         });
 
         this.factForm.controls.secondValue.valueChanges.subscribe((value) => {
-            const num = (+this.factForm.value.firstValue + +value).toFixed(2);
-            this.factForm.controls.totalValue.patchValue(num.toString());
+            const num = this.factForm.value.firstValue ? (+value.replace(',','.').replace(' ','') + parseFloat(this.factForm.value.firstValue.replace(',','.').replace(' ',''))).toFixed(2) : +value.replace(',','.').replace(' ','');
+            this.factForm.controls.totalValue.patchValue(this.pipe.transform(num.toString(), ','));
         });
 
         this.factForm.valueChanges.subscribe(() => {
@@ -91,6 +93,8 @@ export class FactFormComponent implements OnInit {
         this.factForm.controls.hasOnlyTotalValue.valueChanges.subscribe(() => {
             this.oneValueSelected();
         });
+
+        this.pipe = new ThousandDelimiterPipe();
 
     }
 
@@ -121,7 +125,8 @@ export class FactFormComponent implements OnInit {
     }
 
     private emitFormDataChangeEmitter(): void {
-        const isInvalid = (this.factForm.value.firstValue === '.' || this.factForm.value.secondValue === '.' || this.factForm.value.totalValue === '.');
+        const isInvalid = (this.factForm.value.firstValue === '.' || this.factForm.value.secondValue === '.' || this.factForm.value.totalValue === '.')
+                      ||  (this.factForm.value.firstValue === ',' || this.factForm.value.secondValue === ',' || this.factForm.value.totalValue === ',');
         if (this.factForm.invalid || isInvalid) {
             this.onFormDataChange.emit(null);
         } else {
@@ -142,7 +147,7 @@ export class FactFormComponent implements OnInit {
     }
 
     private getIdFromRouteParamsAndSetDetail(param: any): void {
-        this.factService.getFactById(param.id).subscribe((apiTask) => {
+        this.factService.getFactById(param.id, param.projectId).subscribe((apiTask) => {
             this.setForm(apiTask);
         }, (error) => this.notificationService.openErrorNotification(error));
     }
@@ -180,6 +185,8 @@ export class FactFormComponent implements OnInit {
     }
 
     private setForm(task: any) {
+        this.firstVenueLabel = task.venueFirst;
+        this.secondVenueLabel = task.venueSecond;
         this.actualUnitShortName = task.subCategory.unitShortName;
         const hasChangedBy: boolean = task.changedBy && task.changedBy.firstName && task.changedBy.lastName;
         this.isFirstValueRequired = true;
@@ -188,31 +195,27 @@ export class FactFormComponent implements OnInit {
         this.factForm = this.formBuilder.group({
             category: [task.category.category, Validators.required],
             subCategory: [task.subCategory.subCategory, Validators.required],
-            firstValue: [!isNullOrUndefined(task.valueFirst) ? task.valueFirst.toString() : '', Validators.required],
-            secondValue: [!isNullOrUndefined(task.valueSecond) ? task.valueSecond.toString() : '', Validators.required],
+            firstValue: [!isNullOrUndefined(task.valueFirst) ? this.pipe.transform(task.valueFirst.toString(), ',') : '', Validators.required],
+            secondValue: [!isNullOrUndefined(task.valueSecond) ? this.pipe.transform(task.valueSecond.toString(), ',') : '', Validators.required],
             hasOnlyTotalValue: [task.hasOnlyTotalValue],
-            totalValue: [!isNullOrUndefined(task.totalValue) ? parseFloat(task.totalValue).toFixed(2).toString() : ''],
+            totalValue: [!isNullOrUndefined(task.totalValue) ? this.pipe.transform(parseFloat(task.totalValue).toFixed(2).toString(), ',') : ''],
             changedAt: [task.changedAt ? this.formatDateTime(new Date(task.changedAt)) : ''],
             changedBy: [hasChangedBy ? `${task.changedBy.firstName} ${task.changedBy.lastName}` : '']
         });
 
         this.factForm.controls.firstValue.valueChanges.subscribe((value) => {
-            const num = (+value + +this.factForm.value.secondValue).toFixed(2);
-            this.factForm.controls.totalValue.patchValue(num.toString());
+            const num = this.factForm.value.secondValue ? (+value.replace(',','.').replace(' ','') + parseFloat(this.factForm.value.secondValue.replace(',','.').replace(' ',''))).toFixed(2) : +value.replace(',','.').replace(' ','');
+            this.factForm.controls.totalValue.patchValue(this.pipe.transform(num.toString(), ','));
         });
 
         this.factForm.controls.secondValue.valueChanges.subscribe((value) => {
-            const num = (+this.factForm.value.firstValue + +value).toFixed(2);
-            this.factForm.controls.totalValue.patchValue(num.toString());
+            const num = this.factForm.value.firstValue ? (parseFloat(this.factForm.value.firstValue.replace(',','.').replace(' ','')) + +value.replace(',','.').replace(' ','')).toFixed(2) : +value.replace(',','.').replace(' ','');
+            this.factForm.controls.totalValue.patchValue(this.pipe.transform(num.toString(), ','));
         });
 
         this.factForm.valueChanges.subscribe(() => {
             this.emitFormDataChangeEmitter();
         });
-
-        this.factForm.controls.totalValue.patchValue(
-            (+this.factForm.value.firstValue + +this.factForm.value.secondValue).toFixed(2).toString()
-        );
 
         this.factForm.controls.totalValue.disable();
         this.factForm.controls.changedAt.disable();

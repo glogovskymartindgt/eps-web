@@ -1,3 +1,4 @@
+import { ThousandDelimiterPipe } from './../../../pipes/thousand-delimiter.pipe';
 import { AfterViewChecked, ChangeDetectorRef, Component, forwardRef, Inject, Input, OnInit } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 import { MatFormFieldAppearance } from '@angular/material';
@@ -5,6 +6,7 @@ import { debounceTime, tap } from 'rxjs/operators';
 import { TRANSLATE_WRAPPER_TOKEN, TranslateWrapper } from '../../hazelnut-common/interfaces/translate.interface';
 import { InputUtils } from '../../hazelnut-common/utils/input-utils';
 import { ValidatorComposer } from '../validator-composer';
+import { checkAndRemoveLastDotComma } from 'src/app/shared/utils/removeLastChar';
 
 @Component({
     selector: 'haz-core-input',
@@ -30,6 +32,7 @@ export class CoreInputComponent implements OnInit, ControlValueAccessor, AfterVi
     @Input() public pattern?: string;
     @Input() public textSuffix?: string;
     @Input() public styles = {width: '100%'};
+    @Input() public inputStyles? = {width: '100%'};
     @Input() public appearance: MatFormFieldAppearance = 'standard';
     @Input() public type: 'string' | 'textarea' = 'string'; // TODO: Email, Password
 
@@ -39,7 +42,11 @@ export class CoreInputComponent implements OnInit, ControlValueAccessor, AfterVi
     @Input() public hintMaxlength;
     @Input() public hintBadCharacter;
 
+    @Input() public handleFocusAndBlur? = false;
+
     public errors: { [key: string]: string } = {};
+
+    private pipe: ThousandDelimiterPipe;
 
     public formControl: FormControl;
     public displayedError: string;
@@ -61,6 +68,8 @@ export class CoreInputComponent implements OnInit, ControlValueAccessor, AfterVi
         this.onFormControlChanges();
 
         InputUtils.setDefaultTranslates(this, this.translateWrapperService, this.useInstantTranslates);
+
+        this.pipe = new ThousandDelimiterPipe();
     }
 
     public ngAfterViewChecked(): void {
@@ -93,7 +102,7 @@ export class CoreInputComponent implements OnInit, ControlValueAccessor, AfterVi
         }
     }
 
-    private manageUserInput(): void {
+    private manageUserInput(): void {       
 
         if (!this.formControl.errors) {
             this.displayedError = '';
@@ -132,6 +141,23 @@ export class CoreInputComponent implements OnInit, ControlValueAccessor, AfterVi
             }
         }
         this.onChange(this.formControl.value);
+    }
+
+    private handleFocus(): void {
+        if (this.handleFocusAndBlur) {
+            this.formControl.setValue(this.formControl.value.replace(/\s/g, ''), {emitEvent: false});
+            this.formControl.setValue(this.formControl.value.replace(',', '.'), {emitEvent: false});
+        }
+    }
+   
+    private handleBlur(): void {
+        if (this.handleFocusAndBlur) {
+            this.formControl.setValue(checkAndRemoveLastDotComma(this.formControl.value));
+            this.formControl.setValue(this.formControl.value.replace(/\s/g, ''), {emitEvent: false});
+            setTimeout(() => {
+                this.formControl.setValue(this.pipe.transform(this.formControl.value, ','), {emitEvent: false});
+            }, 250);
+        }
     }
 
     private onFormControlChanges(): void {
