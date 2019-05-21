@@ -1,5 +1,8 @@
 import { Direction, Precedence, Property } from './types.model';
 
+/**
+ * Sort object used in browse API criteria
+ */
 export class Sort {
     public property: Property;
     public direction: Direction;

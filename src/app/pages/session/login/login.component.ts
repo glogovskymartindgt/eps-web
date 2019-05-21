@@ -11,6 +11,10 @@ import { AppConstants } from '../../../shared/utils/constants';
     styleUrls: ['./login.component.scss'],
     animations: [fadeEnterLeave]
 })
+
+/**
+ * Login component
+ */
 export class LoginComponent implements OnInit {
 
     public hidePassword = true;
@@ -26,6 +30,9 @@ export class LoginComponent implements OnInit {
         this.createForm();
     }
 
+    /**
+     * Default form setup
+     */
     private createForm() {
         this.loginForm = this.formBuilder.group({
             userName: [null, [Validators.required]],
@@ -33,10 +40,16 @@ export class LoginComponent implements OnInit {
         });
     }
 
+    /**
+     * Getter for login form  controls
+     */
     public get loginFormControls() {
         return this.loginForm.controls;
     }
 
+    /**
+     * Call login in API
+     */
     public login() {
         if (this.loginForm.invalid) {
             return;
