@@ -28,10 +28,11 @@ export class ReportListComponent implements OnInit {
     ) {
     }
 
+    /**
+     * Set table data values and config setup
+     */
     public ngOnInit() {
-
         this.setTableData();
-
         this.config = {
             stickyEnd: 2,
             columns: [
@@ -54,35 +55,37 @@ export class ReportListComponent implements OnInit {
             ],
             paging: false,
         };
-
     }
 
+    /**
+     * Set report table data from API
+     */
     private setTableData() {
         this.loading = true;
         this.reportService.getAllReports().subscribe((data) => {
             this.data.content = data;
             this.data.totalElements = data.length;
             this.loading = false;
-        }, (error) => {
+        }, () => {
             this.loading = false;
             this.notificationService.openErrorNotification('error.api');
         });
     }
 
+    /**
+     * Export excel report from API
+     * @param reportId
+     */
     public export(reportId: number) {
         this.loading = true;
         this.reportService.exportReport(this.projectEventService.instant.id, reportId).subscribe((response) => {
-
-            const contentDisposition = response.headers.get('Content-Disposition');
-            const exportName: string = GetFileNameFromContentDisposition(contentDisposition);
-
             new FileManager().saveFile(
-                exportName,
+                GetFileNameFromContentDisposition(response.headers.get('Content-Disposition')),
                 response.body,
                 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
             );
             this.loading = false;
-        }, (error) => {
+        }, () => {
             this.notificationService.openErrorNotification('error.api');
             this.loading = false;
         });

@@ -1,3 +1,4 @@
+<!--Complex task list screen for task management and report export-->
 <div fxLayout="row" class="basic-screen-header">
     <div class="pl-20" fxFlex="100px" fxLayoutAlign="start center">
         <h2>{{'task.title' | translate}}</h2>
@@ -58,7 +59,6 @@
 <ng-template #dateColumn let-actRow="row" let-context="context">
     {{actRow.dueDate  | date:'d.M.yyyy'}}
 </ng-template>
-
 <ng-template #trafficLightColumn let-actRow="row" let-context="context">
     <div *ngIf="actRow.trafficLight === 'RED'"
          style="width: 12px;height: 12px;background:#ce211f;border-radius:50%;"></div>

@@ -11,6 +11,10 @@ import { TaskFormComponent } from '../../tasks/task-form/task-form.component';
     templateUrl: './fact-create.component.html',
     styleUrls: ['./fact-create.component.scss']
 })
+
+/**
+ * Fact create component
+ */
 export class FactCreateComponent implements OnInit {
     @ViewChild(TaskFormComponent) public taskForm: TaskFormComponent;
     public formData = null;
@@ -24,14 +28,22 @@ export class FactCreateComponent implements OnInit {
     ) {
     }
 
+    /**
+     * Default form initialization is in child form component
+     */
     public ngOnInit() {
     }
 
+    /**
+     * Cancel create form and navigate to list component
+     */
     public onCancel(): void {
         this.router.navigate(['facts/list']);
     }
 
-    // TODO
+    /**
+     * Save fact with formm values and navigate to list component
+     */
     public onSave(): void {
         this.factService.createFact(this.transformTaskToApiObject(this.formData)).subscribe((response) => {
             this.notificationService.openSuccessNotification('success.add');
@@ -41,7 +53,10 @@ export class FactCreateComponent implements OnInit {
         });
     }
 
-    // TODO
+    /**
+     * Partial fact form object to API fact object transformation
+     * @param formObject
+     */
     private transformTaskToApiObject(formObject: any): any {
         formObject.firstValue = checkAndRemoveLastDotComma(formObject.firstValue);
         formObject.secondValue = checkAndRemoveLastDotComma(formObject.secondValue);

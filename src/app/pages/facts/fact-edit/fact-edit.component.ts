@@ -6,20 +6,24 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
 import { checkAndRemoveLastDotComma } from '../../../shared/utils/removeLastChar';
 import { TaskFormComponent } from '../../tasks/task-form/task-form.component';
 
-const ALL_FACTS = 'all-facts';
+const ALL_FACTS_SCREEN = 'all-facts';
+const FACTS_SCREEN = 'facts';
 
 @Component({
     selector: 'fact-edit',
     templateUrl: './fact-edit.component.html',
     styleUrls: ['./fact-edit.component.scss']
 })
+
+/**
+ * Fact edit form
+ */
 export class FactEditComponent implements OnInit {
     @ViewChild(TaskFormComponent) public taskForm: TaskFormComponent;
     public formData = null;
-    private factId: number;
-
-    private factRoute = 'facts';
     public canSave = true;
+    private factRoute = FACTS_SCREEN;
+    private factId: number;
 
     public constructor(
         private readonly router: Router,
@@ -30,23 +34,32 @@ export class FactEditComponent implements OnInit {
     ) {
     }
 
+    /**
+     * Sect fact id from url parameter and set can save property if screen is Facts and Figures and not All Facts and Figures
+     */
     public ngOnInit() {
         this.activatedRoute.queryParams.subscribe((param) => {
             this.factId = param.id;
         });
 
-        if (this.router.url.includes(ALL_FACTS)) {
-            this.factRoute = 'all-facts';
+        if (this.router.url.includes(ALL_FACTS_SCREEN)) {
+            this.factRoute = ALL_FACTS_SCREEN;
             if (!this.router.url.includes(this.projectEventService.instant.year.toString())) {
                 this.canSave = false;
             }
         }
     }
 
+    /**
+     * Cancel form, navigate to facts list screen
+     */
     public onCancel() {
         this.router.navigate([`${this.factRoute}/list`]);
     }
 
+    /**
+     * Edit task with form values on save and navigate to facts list
+     */
     public onSave() {
         if (this.formData) {
             this.factService.editTask(this.factId, this.transformTaskToApiObject(this.formData)).subscribe(
@@ -60,11 +73,14 @@ export class FactEditComponent implements OnInit {
 
     }
 
+    /**
+     * Partial fact form object to API fact object transformation
+     * @param formObject
+     */
     private transformTaskToApiObject(formObject: any): any {
         formObject.firstValue = checkAndRemoveLastDotComma(formObject.firstValue);
         formObject.secondValue = checkAndRemoveLastDotComma(formObject.secondValue);
         formObject.totalValue = checkAndRemoveLastDotComma(formObject.totalValue);
-
         return {
             valueFirst: +formObject.firstValue,
             valueSecond: +formObject.secondValue,

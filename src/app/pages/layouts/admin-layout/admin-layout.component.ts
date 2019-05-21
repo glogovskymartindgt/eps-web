@@ -26,6 +26,9 @@ export class AdminLayoutComponent implements OnInit {
         });
     }
 
+    /**
+     * Logout from app and navigate to login screen
+     */
     public logout(): void {
         this.authService.logout();
         this.projectUserService.clearUserData();

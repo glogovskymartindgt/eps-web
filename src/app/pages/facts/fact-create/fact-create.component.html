@@ -1,3 +1,4 @@
+<!--Create fact form component-->
 <div fxLayout="row" class="basic-screen-header">
     <div class="pl-20" fxLayoutAlign="start center">
         <h3>{{'fact.newFact' | translate}}</h3>
@@ -7,7 +8,6 @@
 <div fxLayout="row" style="overflow: auto; height: calc(100vh - 160px);">
     <div class="p-30">
         <fact-form (formDataChange)="formData=$event"></fact-form>
-
         <div>
             <button type="submit"
                     mat-flat-button
