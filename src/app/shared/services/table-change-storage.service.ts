@@ -5,8 +5,11 @@ import { Filter } from '../hazlenut/hazelnut-common/models';
 @Injectable({
     providedIn: 'root'
 })
-export class TableChangeStorageService {
 
+/**
+ * Store table change events
+ */
+export class TableChangeStorageService {
     private tasksLastTableChangeEvent: any;
     private factsLastTableChangeEvent: TableChangeEvent;
 
@@ -27,14 +30,24 @@ export class TableChangeStorageService {
         };
     }
 
+    /**
+     * Store table change event in facts
+     * @param changeEvent
+     */
     public setFactsLastTableChangeEvent(changeEvent?: TableChangeEvent) {
         this.factsLastTableChangeEvent = {...changeEvent, filters: [...changeEvent.filters]};
     }
 
+    /**
+     * Get stored tasks table change event
+     */
     public getTasksLastTableChangeEvent() {
         return this.tasksLastTableChangeEvent;
     }
 
+    /**
+     * Get stored facts table change event
+     */
     public getFactsLastTableChangeEvent() {
         return this.factsLastTableChangeEvent;
     }

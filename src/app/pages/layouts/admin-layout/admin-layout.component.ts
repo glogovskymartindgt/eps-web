@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { moveLeft } from '../../../shared/animations/animations';
-import { fadeEnterLeave, moveDown, routeAnimations } from '../../../shared/hazlenut/hazelnut-common/animations';
+import { fadeEnterLeave, moveDown, moveLeft, routeAnimations } from '../../../shared/hazlenut/hazelnut-common/animations';
 import { HazelnutConfig } from '../../../shared/hazlenut/hazelnut-common/config/hazelnut-config';
 import { AuthService } from '../../../shared/services/auth.service.ts.service';
 import { ProjectUserService } from '../../../shared/services/storage/project-user.service';

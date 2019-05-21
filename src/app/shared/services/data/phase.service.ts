@@ -9,6 +9,10 @@ import { ProjectUserService } from '../storage/project-user.service';
 @Injectable({
   providedIn: 'root'
 })
+
+/**
+ * Fact service communicating with 'phase' API url
+ */
 export class PhaseService extends ProjectService<Phase[]> {
 
     public constructor(http: HttpClient,
@@ -18,6 +22,10 @@ export class PhaseService extends ProjectService<Phase[]> {
         super(http, 'phase', notificationService, userService);
     }
 
+    /**
+     * Get phases objects from API
+     * @param projectId
+     */
     public getPhasesByProjectId(projectId: number): Observable<Phase[]> {
         return this.getDetail(projectId);
     }

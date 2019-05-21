@@ -6,7 +6,7 @@ import { NotificationService } from './notification.service';
 import { ProjectUserService } from './storage/project-user.service';
 
 /**
- * HTTP methods only for this project should be here
+ * HTTP methods only for this project should be in project service
  */
 export class ProjectService<T> extends AbstractService<T> {
 
@@ -26,8 +26,7 @@ export class ProjectService<T> extends AbstractService<T> {
     }
 
     /**
-     * * Function returns list of result from browse API
-     *
+     * Function returns list of result from browse API
      * @param id - id of searched object
      * @param projectId - projectId of searched object
      */

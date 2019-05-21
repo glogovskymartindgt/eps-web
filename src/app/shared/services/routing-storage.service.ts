@@ -5,8 +5,11 @@ import { filter } from 'rxjs/operators';
 @Injectable({
     providedIn: 'root'
 })
-export class RoutingStorageService {
 
+/**
+ * Service for storing path of showed url in application
+ */
+export class RoutingStorageService {
     private history = [];
 
     public constructor(
@@ -14,6 +17,9 @@ export class RoutingStorageService {
     ) {
     }
 
+    /**
+     * Start storing of urls
+     */
     public loadRouting(): void {
         this.router.events
             .pipe(filter((event) => event instanceof NavigationEnd))
@@ -22,10 +28,16 @@ export class RoutingStorageService {
             });
     }
 
+    /**
+     * Get url array. Array represent showed url in application in order
+     */
     public getHistory(): string[] {
         return this.history;
     }
 
+    /**
+     * Get previous url
+     */
     public getPreviousUrl(): string {
         return this.history[this.history.length - 2] || '/index';
     }

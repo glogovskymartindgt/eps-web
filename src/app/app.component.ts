@@ -9,6 +9,11 @@ import { RoutingStorageService } from './shared/services/routing-storage.service
 })
 export class AppComponent implements OnInit {
 
+    /**
+     * Set default language of app to english and save routes everytime it changes
+     * @param translateService
+     * @param routingStorageService
+     */
     public constructor(private readonly translateService: TranslateService,
                        private readonly routingStorageService: RoutingStorageService
     ) {
@@ -16,6 +21,9 @@ export class AppComponent implements OnInit {
         this.routingStorageService.loadRouting();
     }
 
+    /**
+     * Use english language
+     */
     public ngOnInit() {
         this.translateService.use('en');
     }

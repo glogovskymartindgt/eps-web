@@ -12,6 +12,10 @@ import { ProjectUserService } from '../storage/project-user.service';
 @Injectable({
   providedIn: 'root'
 })
+
+/**
+ * Fact service communicating with 'internal/users' API url
+ */
 export class UsersService extends ProjectService<User> {
 
     public constructor(http: HttpClient,
@@ -21,6 +25,10 @@ export class UsersService extends ProjectService<User> {
         super(http, 'internal/users', notificationService, userService);
     }
 
+    /**
+     * Get users from API based on criteria
+     * @param tableChangeEvent
+     */
     public browseUsers(tableChangeEvent: TableChangeEvent): Observable<BrowseResponse<User>> {
         let filters = [];
         let sort = [

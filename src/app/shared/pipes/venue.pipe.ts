@@ -4,6 +4,10 @@ import { TranslateService } from '@ngx-translate/core';
 @Pipe({
     name: 'venue'
 })
+
+/**
+ * Venue value transformation
+ */
 export class VenuePipe implements PipeTransform {
 
     public constructor(private readonly translateService: TranslateService) {

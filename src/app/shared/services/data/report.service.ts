@@ -9,6 +9,10 @@ import { ProjectUserService } from '../storage/project-user.service';
 @Injectable({
     providedIn: 'root'
 })
+
+/**
+ * Fact service communicating with 'report' API url
+ */
 export class ReportService extends ProjectService<Report[]> {
 
     public constructor(
@@ -19,12 +23,18 @@ export class ReportService extends ProjectService<Report[]> {
         super(http, 'report', notificationService, userService);
     }
 
+    /**
+     * Get report objects from API
+     */
     public getAllReports(): Observable<Report[]> {
         return this.getDetail('');
     }
 
-  public exportReport(projectId: number, reportId: number) {
-    return this.reportGet(projectId, reportId);
-  }
+    /**
+     * Export report from API
+     */
+    public exportReport(projectId: number, reportId: number) {
+        return this.reportGet(projectId, reportId);
+    }
 
 }

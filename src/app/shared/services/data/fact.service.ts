@@ -12,6 +12,10 @@ import { ProjectUserService } from '../storage/project-user.service';
 @Injectable({
     providedIn: 'root'
 })
+
+/**
+ * Fact service communicating with 'factItem' API url
+ */
 export class FactService extends ProjectService<Fact> {
 
     public constructor(http: HttpClient,
@@ -21,12 +25,16 @@ export class FactService extends ProjectService<Fact> {
         super(http, 'factItem', notificationService, userService);
     }
 
+    /**
+     * Get list of Facts and Figures objects bast on table change event criteria and project filter
+     * @param tableChangeEvent
+     * @param projectFilter
+     */
     public browseFacts(tableChangeEvent: TableChangeEvent, projectFilter?: Filter): Observable<BrowseResponse<Fact>> {
         let filters = [];
         let sort = [];
         let limit = 15;
         let offset = 0;
-
         if (tableChangeEvent) {
             limit = tableChangeEvent.pageSize;
             offset = tableChangeEvent.pageIndex * tableChangeEvent.pageSize;
@@ -43,14 +51,28 @@ export class FactService extends ProjectService<Fact> {
         return this.browseWithSummary(PostContent.create(limit, offset, filters, sort));
     }
 
+    /**
+     * Create fact object with API call
+     * @param factObject
+     */
     public createFact(factObject: any) {
         return this.add(factObject);
     }
 
+    /**
+     * Get fact object from API
+     * @param id
+     * @param projectId
+     */
     public getFactById(id: number, projectId: number) {
         return this.getFactItemDetail(id, projectId);
     }
 
+    /**
+     * Edit task object API call
+     * @param id
+     * @param taskObject
+     */
     public editTask(id: number, taskObject: any) {
         return this.update(id, taskObject);
     }

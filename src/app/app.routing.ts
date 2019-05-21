@@ -3,6 +3,9 @@ import { AdminLayoutComponent } from './pages/layouts/admin-layout/admin-layout.
 import { AuthLayoutComponent } from './pages/layouts/auth-layout/auth-layout.component';
 import { AuthGuard } from './shared/services/auth-guard';
 
+/**
+ * Menu property in routes for showing screen option in app menu
+ */
 export const AppRoutes: Routes = [
     {
         path: '',
