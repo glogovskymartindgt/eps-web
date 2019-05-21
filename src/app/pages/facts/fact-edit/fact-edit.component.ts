@@ -1,10 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { checkAndRemoveLastDotComma } from 'src/app/shared/utils/removeLastChar';
-import { isNullOrUndefined } from 'util';
 import { FactService } from '../../../shared/services/data/fact.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
+import { checkAndRemoveLastDotComma } from '../../../shared/utils/removeLastChar';
 import { TaskFormComponent } from '../../tasks/task-form/task-form.component';
 
 const ALL_FACTS = 'all-facts';

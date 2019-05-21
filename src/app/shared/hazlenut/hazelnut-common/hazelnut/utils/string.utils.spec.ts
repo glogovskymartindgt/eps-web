@@ -54,19 +54,4 @@ describe('StringUtils', () => {
             });
         });
     });
-    describe('IsValidEmail', () => {
-        it('It should return true if email is valid', () => {
-            [
-                ...MockData.randomStrings,
-                ...MockData.phoneNumbers,
-                ...MockData.notEmails,
-            ].forEach((email) => {
-                expect(StringUtils.isValidEmail(email), `'${email}' should not be email`).to.be.false;
-            });
-
-            MockData.emails.forEach((email) => {
-                expect(StringUtils.isValidEmail(email), `'${email}' should be email`).to.be.true;
-            });
-        });
-    });
 });

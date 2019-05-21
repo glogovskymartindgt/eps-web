@@ -356,7 +356,7 @@ export class TaskListComponent implements OnInit {
         return businessAreaValue;
     }
 
-    private getStorageBusinessAreaFilter(tableChangeEventInStorage: any) {
+    private getStorageBusinessAreaFilter(tableChangeEventInStorage: any): any | undefined {
         if (!tableChangeEventInStorage || !tableChangeEventInStorage.additionalFilters) {
             return;
         }

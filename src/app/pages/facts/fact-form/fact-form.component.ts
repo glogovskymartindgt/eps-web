@@ -78,29 +78,13 @@ export class FactFormComponent implements OnInit {
         });
 
         this.factForm.controls.firstValue.valueChanges.subscribe((value) => {
-            const num = this.factForm.value.secondValue ?
-                (+value.replace(',', '.')
-                        .replace(' ', '')
-                    + parseFloat(this.factForm.value.secondValue
-                        .replace(',', '.')
-                        .replace(' ', '')))
-                    .toFixed(2) :
-                +value.replace(',', '.')
-                    .replace(' ', '');
-            this.factForm.controls.totalValue.patchValue(this.pipe.transform(num.toString(), ','));
+            const number = this.transformNumberValue(this.factForm.value.secondValue, value);
+            this.factForm.controls.totalValue.patchValue(this.pipe.transform(number.toString(), ','));
         });
 
         this.factForm.controls.secondValue.valueChanges.subscribe((value) => {
-            const num = this.factForm.value.firstValue ?
-                (+value
-                        .replace(',', '.')
-                        .replace(' ', '')
-                    + parseFloat(this.factForm.value.firstValue
-                        .replace(',', '.')
-                        .replace(' ', '')))
-                    .toFixed(2) :
-                +value.replace(',', '.').replace(' ', '');
-            this.factForm.controls.totalValue.patchValue(this.pipe.transform(num.toString(), ','));
+            const number = this.transformNumberValue(this.factForm.value.firstValue, value);
+            this.factForm.controls.totalValue.patchValue(this.pipe.transform(number.toString(), ','));
         });
 
         this.factForm.valueChanges.subscribe(() => {
@@ -221,16 +205,8 @@ export class FactFormComponent implements OnInit {
         });
 
         this.factForm.controls.firstValue.valueChanges.subscribe((value) => {
-            const num = this.factForm.value.secondValue ?
-                (+value.replace(',', '.')
-                        .replace(' ', '')
-                    + parseFloat(this.factForm.value.secondValue
-                        .replace(',', '.')
-                        .replace(' ', '')))
-                    .toFixed(2) :
-                +value.replace(',', '.')
-                    .replace(' ', '');
-            this.factForm.controls.totalValue.patchValue(this.pipe.transform(num.toString(), ','));
+            const number = this.transformNumberValue(this.factForm.value.secondValue, value);
+            this.factForm.controls.totalValue.patchValue(this.pipe.transform(number.toString(), ','));
         });
 
         this.factForm.controls.secondValue.valueChanges.subscribe((value) => {
@@ -283,6 +259,13 @@ export class FactFormComponent implements OnInit {
         }
 
         return moment(date).format('D.M.YYYY - HH:mm:ss');
+    }
+
+    private transformNumberValue(formValue: any, value: any){
+        return formValue
+            ? (+value.replace(',', '.').replace(' ', '') + parseFloat(formValue.replace(',', '.').replace(' ', '')))
+                .toFixed(2)
+            : +value.replace(',', '.').replace(' ', '');
     }
 
 }
