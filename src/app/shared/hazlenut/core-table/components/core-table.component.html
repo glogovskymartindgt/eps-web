@@ -241,7 +241,6 @@
     <p class="pl-40 pt-15">{{ configuration.noDataText }}</p>
 </div>
 
-<!--TODO Set pageIndex if not predefined from variables-->
 <mat-paginator
     [hidden]="(configuration?.pageSizeOptions && data?.totalElements < configuration.pageSizeOptions[0]) || !configuration.paging"
     [length]="data?.totalElements"
