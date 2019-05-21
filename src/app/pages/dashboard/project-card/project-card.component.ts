@@ -12,6 +12,10 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
     styleUrls: ['./project-card.component.scss'],
     animations: [fadeEnterLeave]
 })
+
+/**
+ * Project card component with logo data
+ */
 export class ProjectCardComponent implements OnInit {
     @Input() public project: Project;
 
@@ -27,6 +31,9 @@ export class ProjectCardComponent implements OnInit {
     ) {
     }
 
+    /**
+     * Project data setup in intialization
+     */
     public ngOnInit() {
         this.imagePath = this.getImagePath();
         if (this.project.venues !== null && this.project.venues.length === 1) {
@@ -60,17 +67,23 @@ export class ProjectCardComponent implements OnInit {
         }
     }
 
+    /**
+     * Route to business area screen
+     */
     public openAreas() {
         this.router.navigate(['business-areas/list']);
     }
 
+    /**
+     * Using projectEventService to store selected project informations into local storage
+     * Apply changes on second header to show project title logo and unselect project button
+     */
     public onProjectSelected() {
         this.projectEventService.setEventData(
             this.project,
             true,
             this.imagePath
-        )
-        ;
+        );
         this.dashboardService.setSecondaryHeaderContent({
             isDashboard: false,
             title: `${this.project.year} ${this.project.name}`
@@ -78,10 +91,17 @@ export class ProjectCardComponent implements OnInit {
         this.openAreas();
     }
 
+    /**
+     * Set default image for years where image logo is unknown
+     */
     public setDefaultImage() {
         this.imagePath = `assets/img/event-logos/2020.png`;
     }
 
+    /**
+     * Return image logo path from assets based on year
+     * images are not from project API
+     */
     public getImagePath() {
         return `assets/img/event-logos/${this.project.year}.png`;
     }

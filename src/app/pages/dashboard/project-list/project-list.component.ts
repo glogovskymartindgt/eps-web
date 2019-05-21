@@ -9,6 +9,9 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
     styleUrls: ['./project-list.component.scss'],
 })
 
+/**
+ * Custom responsive design project list of cards with filter option
+ */
 export class ProjectListComponent implements OnInit {
 
     public projects: ProjectInterface[] = [];
@@ -19,8 +22,10 @@ export class ProjectListComponent implements OnInit {
     ) {
     }
 
+    /**
+     * Create filter listener on projects and set default value to ALL
+     */
     public ngOnInit() {
-
         this.dashboardService.dashboardFilterNotifier$.subscribe((filterValue: string) => {
             this.filterProjects(filterValue);
         });
@@ -28,6 +33,10 @@ export class ProjectListComponent implements OnInit {
         this.dashboardService.setSecondaryHeaderContent({isDashboard: true});
     }
 
+    /**
+     * Filter projects based on selected filter
+     * @param filterValue
+     */
     private filterProjects(filterValue = 'ALL') {
         this.dashboardService.filterProjects(filterValue).subscribe((data: ProjectInterface[]) => {
             this.projects = data;

@@ -210,15 +210,8 @@ export class FactFormComponent implements OnInit {
         });
 
         this.factForm.controls.secondValue.valueChanges.subscribe((value) => {
-            const num = this.factForm.value.firstValue ?
-                (parseFloat(this.factForm.value.firstValue
-                        .replace(',', '.')
-                        .replace(' ', ''))
-                    + +value.replace(',', '.')
-                        .replace(' ', ''))
-                    .toFixed(2) :
-                +value.replace(',', '.').replace(' ', '');
-            this.factForm.controls.totalValue.patchValue(this.pipe.transform(num.toString(), ','));
+            const number = this.transformNumberValue(this.factForm.value.firstValue, value);
+            this.factForm.controls.totalValue.patchValue(this.pipe.transform(number.toString(), ','));
         });
 
         this.factForm.valueChanges.subscribe(() => {

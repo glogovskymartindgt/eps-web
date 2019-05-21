@@ -19,7 +19,12 @@ import { SelectedAreaService } from '../../../shared/services/storage/selected-a
     templateUrl: './business-area-list.component.html',
     styleUrls: ['./business-area-list.component.scss']
 })
+
+/**
+ * Business area list with title table and loader
+ */
 export class BusinessAreaListComponent implements OnInit {
+    // if expanded content is not used, then we need to remove it
     @ViewChild('expandedContent') public expandedContent: TemplateRef<any>;
     @ViewChild('navigationToTasksColumn') public navigationToTasksColumn: TemplateRef<any>;
     private isInitialized = false;
@@ -35,6 +40,9 @@ export class BusinessAreaListComponent implements OnInit {
     ) {
     }
 
+    /**
+     * Config setup on initialization
+     */
     public ngOnInit() {
         this.config = {
             columns: [
@@ -68,18 +76,27 @@ export class BusinessAreaListComponent implements OnInit {
         };
     }
 
+    /**
+     * Navigate to task list screen and save value of selectedArea
+     * @param selectedArea
+     */
     public showTasks(selectedArea) {
         this.selectedAreaService.setSelectedArea(selectedArea);
         this.router.navigate(['tasks/list']);
     }
 
+    /**
+     * Load data from service for table
+     * On first call is initialized
+     * @param tableChangeEvent
+     */
     public setTableData(tableChangeEvent?: TableChangeEvent): void {
         this.loading = true;
         this.businessAreaService.browseBusinessAreas(tableChangeEvent).subscribe((data) => {
             this.data = data;
             this.loading = false;
             this.isInitialized = true;
-        }, (error) => {
+        }, () => {
             this.loading = false;
             this.notificationService.openErrorNotification('error.api');
         });
