@@ -129,7 +129,7 @@ export class CoreTableService {
         // uppercase header
         if (this._configuration.uppercaseHeader === undefined) {
             this._configuration.uppercaseHeader = this.globalTableConfig.uppercaseHeader !== undefined
-                ? this.globalTableConfig.uppercaseHeader : true;
+                                                  ? this.globalTableConfig.uppercaseHeader : true;
         }
 
         // table row classes

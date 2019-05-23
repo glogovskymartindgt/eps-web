@@ -1,4 +1,4 @@
-import { NgModule, ErrorHandler } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 
@@ -16,18 +16,14 @@ import { AdminLayoutComponent } from './pages/layouts/admin-layout/admin-layout.
 import { AuthLayoutComponent } from './pages/layouts/auth-layout/auth-layout.component';
 import { ComponentsModule } from './shared/components/components.module';
 import { CoreTableModule, GLOBAL_CONFIG_TOKEN } from './shared/hazlenut/core-table';
-import {
-    MaterialModule,
-    NOTIFICATION_WRAPPER_TOKEN,
-    TRANSLATE_WRAPPER_TOKEN
-} from './shared/hazlenut/hazelnut-common';
+import { MaterialModule, NOTIFICATION_WRAPPER_TOKEN, TRANSLATE_WRAPPER_TOKEN } from './shared/hazlenut/hazelnut-common';
 import { NotificationSnackBarComponent } from './shared/hazlenut/small-components/notifications';
 import { PipesModule } from './shared/pipes/pipes.module';
 import { AuthGuard } from './shared/services/auth-guard';
 import { DashboardService } from './shared/services/dashboard.service';
+import { GlobalErrorHandlerService } from './shared/services/global-error-handler.service';
 import { NotificationService } from './shared/services/notification.service';
 import { TranslateWrapperService } from './shared/services/translate-wrapper.service';
-import { GlobalErrorHandlerService } from './shared/services/global-error-handler.service';
 
 @NgModule({
     declarations: [

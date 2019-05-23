@@ -1,4 +1,4 @@
-import { Injectable, TemplateRef, NgZone } from '@angular/core';
+import { Injectable, NgZone, TemplateRef } from '@angular/core';
 import { MatSnackBar, MatSnackBarRef } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationSnackBarComponent, NotificationWrapper } from '../hazlenut/small-components/notifications';

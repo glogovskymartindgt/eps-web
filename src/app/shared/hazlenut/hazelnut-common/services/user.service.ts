@@ -1,8 +1,8 @@
 import { Inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ABSTRACT_STORAGE_TOKEN, AbstractStorageService } from './abstract-storage.service';
 import { isNullOrUndefined } from 'util';
+import { ABSTRACT_STORAGE_TOKEN, AbstractStorageService } from './abstract-storage.service';
 
 type Proxify<T> = {
     [P in keyof T]: Observable<T[P]>;
