@@ -1,17 +1,20 @@
-import { isNullOrUndefined } from 'util';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FactService } from '../../../shared/services/data/fact.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
+import { checkAndRemoveLastDotComma } from '../../../shared/utils/removeLastChar';
 import { TaskFormComponent } from '../../tasks/task-form/task-form.component';
-import { checkAndRemoveLastDotComma } from 'src/app/shared/utils/removeLastChar';
 
 @Component({
     selector: 'fact-create',
     templateUrl: './fact-create.component.html',
     styleUrls: ['./fact-create.component.scss']
 })
+
+/**
+ * Fact create component
+ */
 export class FactCreateComponent implements OnInit {
     @ViewChild(TaskFormComponent) public taskForm: TaskFormComponent;
     public formData = null;
@@ -25,29 +28,38 @@ export class FactCreateComponent implements OnInit {
     ) {
     }
 
+    /**
+     * Default form initialization is in child form component
+     */
     public ngOnInit() {
     }
 
+    /**
+     * Cancel create form and navigate to list component
+     */
     public onCancel(): void {
         this.router.navigate(['facts/list']);
     }
 
-    // TODO
+    /**
+     * Save fact with formm values and navigate to list component
+     */
     public onSave(): void {
         this.factService.createFact(this.transformTaskToApiObject(this.formData)).subscribe((response) => {
             this.notificationService.openSuccessNotification('success.add');
             this.router.navigate(['facts/list']);
-        }, (error) => {
-            this.notificationService.openErrorNotification('error.add');
         });
     }
 
-    // TODO
+    /**
+     * Partial fact form object to API fact object transformation
+     * @param formObject
+     */
     private transformTaskToApiObject(formObject: any): any {
         formObject.firstValue = checkAndRemoveLastDotComma(formObject.firstValue);
         formObject.secondValue = checkAndRemoveLastDotComma(formObject.secondValue);
         formObject.totalValue = checkAndRemoveLastDotComma(formObject.totalValue);
-        
+
         return {
             categoryId: formObject.category,
             subCategoryId: formObject.subCategory,

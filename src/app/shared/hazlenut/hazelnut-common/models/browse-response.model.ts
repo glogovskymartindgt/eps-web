@@ -1,3 +1,6 @@
+/**
+ * Object representing response from browse API
+ */
 export class BrowseResponse<T> {
     public content: T[];
     public totalElements: number;

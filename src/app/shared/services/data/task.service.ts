@@ -13,6 +13,9 @@ import { ProjectUserService } from '../storage/project-user.service';
     providedIn: 'root'
 })
 
+/**
+ * Fact service communicating with 'task' API url
+ */
 export class TaskService extends ProjectService<TaskInterface> {
 
     public constructor(http: HttpClient,
@@ -22,6 +25,11 @@ export class TaskService extends ProjectService<TaskInterface> {
         super(http, 'task', notificationService, userService);
     }
 
+    /**
+     * Ger task objects from API based on criteria
+     * @param tableChangeEvent
+     * @param additionalFilters
+     */
     public browseTasks(tableChangeEvent: TableChangeEvent, additionalFilters: Filter[]): Observable<BrowseResponse<TaskInterface>> {
         let filters = [];
         let sort = [];
@@ -39,24 +47,30 @@ export class TaskService extends ProjectService<TaskInterface> {
             }
         }
         filters = filters.concat(additionalFilters);
-        
-        const allFilters = filters.filter((el: Filter)=>el.property === "RESPONSIBLE_USER_ID");        
-        if (allFilters.length>1){
-            const oneFilter: Filter = allFilters[allFilters.length-1];
-            filters = filters.filter((el: Filter)=>el.property !== "RESPONSIBLE_USER_ID");
+
+        const allFilters = filters.filter((el: Filter) => el.property === 'RESPONSIBLE_USER_ID');
+        if (allFilters.length > 1) {
+            const oneFilter: Filter = allFilters[allFilters.length - 1];
+            filters = filters.filter((el: Filter) => el.property !== 'RESPONSIBLE_USER_ID');
             if (oneFilter.value !== 'All') {
                 filters.push(oneFilter);
             }
         }
 
+        // Traffic color must be first to proper filtering
         filters = this.reorderFiltersToApplyCorectTrafficColor(filters);
         return this.browseWithSummary(PostContent.create(limit, offset, filters, sort));
     }
 
+    /**
+     * Report task objects into report file and download from API
+     * @param tableChangeEvent
+     * @param additionalFilters
+     */
     public exportTasks(tableChangeEvent?: TableChangeEvent, additionalFilters?: Filter[]) {
         let filters = [];
         let sort = [];
-        if (tableChangeEvent && tableChangeEvent.sortActive && tableChangeEvent.sortDirection){
+        if (tableChangeEvent && tableChangeEvent.sortActive && tableChangeEvent.sortDirection) {
             sort = [new Sort(tableChangeEvent.sortActive,
                 tableChangeEvent.sortDirection
             )];
@@ -66,22 +80,44 @@ export class TaskService extends ProjectService<TaskInterface> {
         return this.report(filters, sort);
     }
 
+    /**
+     * Create task object with API call
+     * @param taskObject
+     */
     public createTask(taskObject: any) {
         return this.add(taskObject);
     }
 
+    /**
+     * Edit task object with API call
+     * @param id
+     * @param taskObject
+     */
     public editTask(id: number, taskObject: any) {
         return this.update(id, taskObject);
     }
 
+    /**
+     * Get task object from API
+     * @param id
+     */
     public getTaskById(id: number) {
         return this.getDetail(id);
     }
 
+    /**
+     * Reorder filters with conditiona that traffic light filters are first
+     * @param filters
+     */
     private reorderFiltersToApplyCorectTrafficColor(filters) {
         return filters.sort(this.compare);
     }
 
+    /**
+     * Compare sort function with traffic light property preselection
+     * @param a
+     * @param b
+     */
     private compare(a, b) {
         if (a.property === 'TRAFFIC_LIGHT') {
             return -1;

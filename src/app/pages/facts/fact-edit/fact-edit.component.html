@@ -1,3 +1,4 @@
+<!--Edit fact form with predefined values based on id from url parameters-->
 <div fxLayout="row" class="basic-screen-header">
     <div class="pl-20" fxLayoutAlign="start center">
         <h3>{{'fact.editFact' | translate}}</h3>
@@ -7,23 +8,23 @@
 <div fxLayout="row" style="overflow: auto;  height: calc(100vh - 160px);">
     <div class="p-30">
         <fact-form (formDataChange)="formData=$event"></fact-form>
-
-    <div>
-        <button type="submit"
-                mat-flat-button
-                color="accent"
-                class="mr-10"
-                (click)="onSave()"
-                [disabled]="!formData || !canSave"
-        >
-            {{ 'tasks.save' | translate }}
-        </button>
-        <button type="button"
-                mat-button
-                class="mr-10"
-                (click)="onCancel()"
-        >
-            {{ 'tasks.cancel' | translate }}
-        </button>
+        <div>
+            <button (click)="onSave()"
+                    [disabled]="!formData || !canSave"
+                    type="submit"
+                    mat-flat-button
+                    color="accent"
+                    class="mr-10"
+            >
+                {{ 'tasks.save' | translate }}
+            </button>
+            <button (click)="onCancel()"
+                    type="button"
+                    mat-button
+                    class="mr-10"
+            >
+                {{ 'tasks.cancel' | translate }}
+            </button>
+        </div>
     </div>
 </div>

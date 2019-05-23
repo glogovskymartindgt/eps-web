@@ -1,12 +1,12 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { TableCellType, TableColumn, TableConfiguration } from '../../../shared/hazlenut/core-table';
 import { BrowseResponse } from '../../../shared/hazlenut/hazelnut-common/models';
-import { Report } from '../../../shared/interfaces/report.interface';
-import { NotificationService } from '../../../shared/services/notification.service';
-import { ReportService } from '../../../shared/services/data/report.service';
 import { FileManager } from '../../../shared/hazlenut/hazelnut-common/utils/file-manager';
-import { GetFileNameFromContentDisposition } from '../../../shared/utils/headers';
+import { Report } from '../../../shared/interfaces/report.interface';
+import { ReportService } from '../../../shared/services/data/report.service';
+import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
+import { GetFileNameFromContentDisposition } from '../../../shared/utils/headers';
 
 @Component({
     selector: 'report-list',
@@ -22,16 +22,17 @@ export class ReportListComponent implements OnInit {
     public data = new BrowseResponse<Report>();
 
     public constructor(
-            private readonly notificationService: NotificationService,
-            private readonly reportService: ReportService,
-            private readonly projectEventService: ProjectEventService,
+        private readonly notificationService: NotificationService,
+        private readonly reportService: ReportService,
+        private readonly projectEventService: ProjectEventService,
     ) {
     }
 
+    /**
+     * Set table data values and config setup
+     */
     public ngOnInit() {
-
         this.setTableData();
-
         this.config = {
             stickyEnd: 2,
             columns: [
@@ -54,35 +55,37 @@ export class ReportListComponent implements OnInit {
             ],
             paging: false,
         };
-
     }
 
+    /**
+     * Set report table data from API
+     */
     private setTableData() {
         this.loading = true;
         this.reportService.getAllReports().subscribe((data) => {
             this.data.content = data;
             this.data.totalElements = data.length;
             this.loading = false;
-        }, (error) => {
+        }, () => {
             this.loading = false;
             this.notificationService.openErrorNotification('error.api');
         });
     }
 
+    /**
+     * Export excel report from API
+     * @param reportId
+     */
     public export(reportId: number) {
         this.loading = true;
         this.reportService.exportReport(this.projectEventService.instant.id, reportId).subscribe((response) => {
-
-            const contentDisposition = response.headers.get('Content-Disposition');
-            const exportName: string = GetFileNameFromContentDisposition(contentDisposition);
-
             new FileManager().saveFile(
-                exportName,
+                GetFileNameFromContentDisposition(response.headers.get('Content-Disposition')),
                 response.body,
                 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
             );
             this.loading = false;
-        }, (error) => {
+        }, () => {
             this.notificationService.openErrorNotification('error.api');
             this.loading = false;
         });

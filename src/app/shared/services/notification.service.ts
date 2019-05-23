@@ -1,4 +1,4 @@
-import { Injectable, TemplateRef } from '@angular/core';
+import { Injectable, TemplateRef, NgZone } from '@angular/core';
 import { MatSnackBar, MatSnackBarRef } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationSnackBarComponent, NotificationWrapper } from '../hazlenut/small-components/notifications';
@@ -17,24 +17,51 @@ interface NotificationParameters {
 @Injectable({
     providedIn: 'root'
 })
+
+/**
+ * Notification service for showing notifications in snack bar
+ */
 export class NotificationService implements NotificationWrapper {
 
     public constructor(private readonly snackBar: MatSnackBar,
-                       private readonly translateService: TranslateService) {
+                       private readonly translateService: TranslateService,
+                       private readonly zone: NgZone) {
     }
 
+    /**
+     * Error notification when something fails
+     * @param message
+     */
     public openErrorNotification(message: any): MatSnackBarRef<NotificationSnackBarComponent> {
+        this.zone.run(() => this.snackBar.open(message));
         return this.openNotification('snack-error', {message, type: NotificationType.ERROR});
     }
 
+    /**
+     * Info notification
+     * @param message
+     */
     public openInfoNotification(message: any): MatSnackBarRef<NotificationSnackBarComponent> {
+        this.zone.run(() => this.snackBar.open(message));
         return this.openNotification('snack-info', {message, type: NotificationType.WARNING});
     }
 
+    /**
+     * Sucess notification when something done properly
+     * @param message
+     */
     public openSuccessNotification(message: any): MatSnackBarRef<NotificationSnackBarComponent> {
+        this.zone.run(() => this.snackBar.open(message));
         return this.openNotification('snack-success', {message, type: NotificationType.SUCCESS});
     }
 
+    /**
+     * Show snack bar notification
+     * @param styleClass
+     * @param type
+     * @param message
+     * @param duration
+     */
     private openNotification(styleClass: string, {type, message, duration = DEFAULT_DURATION}: NotificationParameters): MatSnackBarRef<NotificationSnackBarComponent> {
         return this.snackBar.openFromComponent(NotificationSnackBarComponent, {
             duration,

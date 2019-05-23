@@ -1,3 +1,4 @@
+<!--Table of predefined reports with title and export button in each report row-->
 <div fxLayout="row" class="basic-screen-header">
     <div class="pl-20" fxLayoutAlign="start center">
         <h2>{{'report.title' | translate}}</h2>
@@ -6,11 +7,9 @@
 
 <haz-indeterminate-progress-bar [loading]="loading"></haz-indeterminate-progress-bar>
 <haz-core-table [configuration]="config" [data]="data"></haz-core-table>
-
 <ng-template #descriptionColumn let-actRow="row" let-context="context">
     <div class="p-5">{{actRow.description}}</div>
 </ng-template>
-
 <ng-template #actionColumn let-actRow="row" let-context="context">
     <button mat-icon-button
             (click)="export(actRow.id)">

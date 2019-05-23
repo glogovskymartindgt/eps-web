@@ -10,7 +10,11 @@ import { ProjectUserService } from './storage/project-user.service';
 @Injectable({
   providedIn: 'root'
 })
-export class TaskCommentService extends ProjectService<any> {// TODO comment from BE interface create
+
+/**
+ * Fact service communicating with 'comment' API url
+ */
+export class TaskCommentService extends ProjectService<any> {
 
   public constructor(
       http: HttpClient,
@@ -20,23 +24,27 @@ export class TaskCommentService extends ProjectService<any> {// TODO comment fro
     super(http, 'comment', notificationService, userService);
 }
 
+    /**
+     * Add comment object with API call
+     * @param taskComment
+     */
   public addComment(taskComment: TaskComment): Observable<TaskCommentResponse> {
-
     return this.http.post<TaskCommentResponse>(
         `${environment.URL_API}/comment`,
         taskComment,
         {headers: this.getHeader()}
     );
-
   }
 
+    /**
+     * Get comment object from API
+     * @param taskId
+     */
   public getAllComment(taskId: number): Observable<TaskCommentResponse[]> {
-
     return this.http.get<TaskCommentResponse[]>(
           `${environment.URL_API}/comment/${taskId}`,
           {headers: this.getHeader()}
     );
-
   }
 
 }

@@ -1,17 +1,19 @@
-import { CoreTableComponent } from './../../../shared/hazlenut/core-table/components/core-table.component';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import {
+    CoreTableComponent,
     ListItem,
-    TableCellType, TableChangeEvent,
+    TableCellType,
+    TableChangeEvent,
     TableColumn,
     TableColumnFilter,
     TableConfiguration,
     TableFilterType
 } from '../../../shared/hazlenut/core-table';
 import { fadeEnterLeave } from '../../../shared/hazlenut/hazelnut-common/animations';
+import { StringUtils } from '../../../shared/hazlenut/hazelnut-common/hazelnut';
 import { BrowseResponse, Filter } from '../../../shared/hazlenut/hazelnut-common/models';
 import { FileManager } from '../../../shared/hazlenut/hazelnut-common/utils/file-manager';
 import { BusinessArea } from '../../../shared/interfaces/bussiness-area.interface';
@@ -19,8 +21,10 @@ import { TaskInterface } from '../../../shared/interfaces/task.interface';
 import { BusinessAreaService } from '../../../shared/services/data/business-area.service';
 import { TaskService } from '../../../shared/services/data/task.service';
 import { NotificationService } from '../../../shared/services/notification.service';
+import { RoutingStorageService } from '../../../shared/services/routing-storage.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 import { SelectedAreaService } from '../../../shared/services/storage/selected-area.service';
+import { TableChangeStorageService } from '../../../shared/services/table-change-storage.service';
 import { GetFileNameFromContentDisposition } from '../../../shared/utils/headers';
 
 @Component({
@@ -51,30 +55,35 @@ export class TaskListComponent implements OnInit {
     private allTaskFilters: Filter[] = [];
     private additionalFilters: Filter[] = [];
 
-    public constructor(private readonly translateService: TranslateService,
+    public constructor(public readonly projectEventService: ProjectEventService,
+                       public readonly selectedAreaService: SelectedAreaService,
+                       public readonly businessAreaService: BusinessAreaService,
+                       public readonly formBuilder: FormBuilder,
+                       private readonly translateService: TranslateService,
                        private readonly router: Router,
                        private readonly taskService: TaskService,
                        private readonly notificationService: NotificationService,
-                       public readonly projectEventService: ProjectEventService,
-                       public readonly selectedAreaService: SelectedAreaService,
-                       public readonly businessAreaService: BusinessAreaService,
-                       public readonly formBuilder: FormBuilder
+                       private readonly routingStorageService: RoutingStorageService,
+                       private readonly tableChangeStorageService: TableChangeStorageService,
     ) {
     }
 
     public ngOnInit() {
-
-        const allThingsKey = 'all.things';
         this.loadBusinessAreaList();
+        // business area form group setup
         this.areaGroup = this.formBuilder.group({
-            businessArea: [this.selectedAreaService.instant.selectedArea]
+            businessArea: [this.getBusinessAreaValue()]
         });
+        // business area input listener and table data reload
         this.areaGroup.valueChanges.subscribe((value) => {
+            // add business area filter if ALL value selected in business area select
             if (value !== 'all') {
                 this.businessAreaFilter = new Filter('BUSINESS_AREA_NAME', value.businessArea);
             }
             this.setTableData();
         });
+        const allThingsKey = 'all.things';
+        // table config setup
         this.config = {
             stickyEnd: 7,
             columns: [
@@ -151,7 +160,7 @@ export class TaskListComponent implements OnInit {
                     tableCellTemplate: this.venueColumn,
                 }),
                 new TableColumn({
-                    columnDef: 'responsibleUserFirstName',
+                    columnDef: 'responsibleUserId',
                     labelKey: 'task.responsible',
                     sorting: true,
                     type: TableCellType.CONTENT,
@@ -200,37 +209,69 @@ export class TaskListComponent implements OnInit {
             ],
             paging: true,
         };
+        // set table change event data from local storage
+        if (
+            !this.isInitialized
+            && this.isReturnFromDetail()
+            && this.tableChangeStorageService.getTasksLastTableChangeEvent()
+        ) {
+            if (this.tableChangeStorageService.getTasksLastTableChangeEvent().filters) {
+                this.config.predefinedFilters = this.tableChangeStorageService.getTasksLastTableChangeEvent().filters;
+            }
+            if (this.tableChangeStorageService.getTasksLastTableChangeEvent().pageIndex) {
+                this.config.predefinedPageIndex = this.tableChangeStorageService.getTasksLastTableChangeEvent().pageIndex;
+            }
+            if (this.tableChangeStorageService.getTasksLastTableChangeEvent().pageSize) {
+                this.config.predefinedPageSize = this.tableChangeStorageService.getTasksLastTableChangeEvent().pageSize;
+            }
+            if (this.tableChangeStorageService.getTasksLastTableChangeEvent().sortDirection) {
+                this.config.predefinedSortDirection =
+                    this.tableChangeStorageService.getTasksLastTableChangeEvent().sortDirection.toLowerCase();
+            }
+            if (this.tableChangeStorageService.getTasksLastTableChangeEvent().sortActive) {
+                this.config.predefinedSortActive =
+                    StringUtils.convertSnakeToCamel(this.tableChangeStorageService.getTasksLastTableChangeEvent().sortActive.toLowerCase());
+            }
+        }
     }
 
+    /**
+     * navigate create task screen
+     */
     public createTask() {
         this.router.navigate(['tasks/create']);
     }
 
+    /**
+     * Export report from API based on selected filters
+     */
     public export() {
         this.loading = true;
         this.taskService.exportTasks(this.lastTableChangeEvent, this.additionalFilters).subscribe((response) => {
-
             const contentDisposition = response.headers.get('Content-Disposition');
             const exportName: string = GetFileNameFromContentDisposition(contentDisposition);
-
             new FileManager().saveFile(
                 exportName,
                 response.body,
                 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
             );
             this.loading = false;
-        }, (error) => {
+        }, () => {
             this.notificationService.openErrorNotification('error.api');
             this.loading = false;
         });
     }
 
+    /**
+     * Navigate to update task screen
+     * @param id
+     */
     public update(id: number) {
         this.router.navigate(['tasks/edit'], {queryParams: {id}});
     }
 
     public setTableData(tableChangeEvent?: TableChangeEvent): void {
-        if (!tableChangeEvent)  {
+        if (!tableChangeEvent) {
             tableChangeEvent = this.taskTable.reset();
         }
         if (tableChangeEvent && tableChangeEvent.filters && tableChangeEvent.filters.length > 0) {
@@ -247,10 +288,13 @@ export class TaskListComponent implements OnInit {
             this.additionalFilters.push(this.businessAreaFilter);
         }
 
-        if (!this.isInitialized) {
+        // Add business area filter to additional filters
+        if (!this.isInitialized && this.getBusinessAreaValue() !== 'all') {
             this.additionalFilters.push(
-                this.businessAreaFilter = new Filter('BUSINESS_AREA_NAME',
-                    this.selectedAreaService.instant.selectedArea)
+                this.businessAreaFilter = new Filter(
+                    'BUSINESS_AREA_NAME',
+                    this.getBusinessAreaValue()
+                )
             );
         }
 
@@ -263,32 +307,88 @@ export class TaskListComponent implements OnInit {
         this.removeDuplicateFilters();
 
         this.loading = true;
-        this.taskService.browseTasks(tableChangeEvent, this.additionalFilters).subscribe((data) => {
+
+        // Update table change event values from local storage
+        if (!this.isInitialized
+            && this.isReturnFromDetail()
+            && this.tableChangeStorageService.getTasksLastTableChangeEvent()
+        ) {
+            tableChangeEvent.pageIndex = this.tableChangeStorageService.getTasksLastTableChangeEvent().pageIndex;
+            tableChangeEvent.pageSize = this.tableChangeStorageService.getTasksLastTableChangeEvent().pageSize;
+            tableChangeEvent.sortDirection = this.tableChangeStorageService.getTasksLastTableChangeEvent().sortDirection;
+            tableChangeEvent.sortActive = this.tableChangeStorageService.getTasksLastTableChangeEvent().sortActive;
+        }
+        this.taskService.browseTasks(
+            tableChangeEvent,
+            this.additionalFilters
+        ).subscribe((data) => {
             this.data = data;
             this.loading = false;
             this.isInitialized = true;
-        }, (error) => {
+        }, () => {
             this.loading = false;
             this.notificationService.openErrorNotification('error.api');
-
         });
+
+        this.tableChangeStorageService.setTasksLastTableChangeEvent(tableChangeEvent, this.additionalFilters);
     }
 
     private removeDuplicateFilters(): void {
-        const userIdFilters = this.additionalFilters.filter((el: Filter) => el.property === "RESPONSIBLE_USER_ID");
+        const userIdFilters = this.additionalFilters.filter((el: Filter) => el.property === 'RESPONSIBLE_USER_ID');
         if (userIdFilters.length > 1) {
-            const allUserIdFilters = this.additionalFilters.filter((el: Filter)=>el.property === "RESPONSIBLE_USER_ID");
-            const oneFilter = allUserIdFilters[allUserIdFilters.length-1];
-            this.additionalFilters = this.additionalFilters.filter((el: Filter) => el.property !== "RESPONSIBLE_USER_ID");
+            const allUserIdFilters = this.additionalFilters.filter((el: Filter) => el.property === 'RESPONSIBLE_USER_ID');
+            const oneFilter = allUserIdFilters[allUserIdFilters.length - 1];
+            this.additionalFilters = this.additionalFilters.filter((el: Filter) => el.property !== 'RESPONSIBLE_USER_ID');
             this.additionalFilters.push(oneFilter);
         }
     }
 
+    /**
+     * Load business area list from API
+     */
     private loadBusinessAreaList() {
         this.businessAreaService.listBusinessAreas().subscribe((data) => {
             this.businessAreaList = data.content
                 .filter((item) => item.codeItem !== null && item.state === 'VALID');
         });
+    }
+
+    /**
+     * Business area selected from business area list or saved local storage value
+     */
+    private getBusinessAreaValue(): string {
+        let businessAreaValue = this.selectedAreaService.instant.selectedArea;
+        const tableChangeEventInStorage = this.tableChangeStorageService.getTasksLastTableChangeEvent();
+        if (!this.isInitialized &&
+            this.isReturnFromDetail() &&
+            tableChangeEventInStorage &&
+            tableChangeEventInStorage.additionalFilters) {
+            businessAreaValue = this.getStorageBusinessAreaFilter(tableChangeEventInStorage) ?
+                this.getStorageBusinessAreaFilter(tableChangeEventInStorage).value :
+                'all';
+        }
+        return businessAreaValue;
+    }
+
+    /**
+     * Get business area filter from local storage value
+     * @param tableChangeEventInStorage
+     */
+    private getStorageBusinessAreaFilter(tableChangeEventInStorage: any): any | undefined {
+        if (!tableChangeEventInStorage || !tableChangeEventInStorage.additionalFilters) {
+            return;
+        }
+        return tableChangeEventInStorage.additionalFilters.find(
+            (filter) => filter.property === 'BUSINESS_AREA_NAME'
+        );
+    }
+
+    /**
+     * If returned from edit task form or create task form
+     */
+    private isReturnFromDetail() {
+        return this.routingStorageService.getPreviousUrl().includes('tasks/edit')
+            || this.routingStorageService.getPreviousUrl().includes('tasks/create');
     }
 
 }

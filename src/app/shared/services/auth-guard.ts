@@ -3,6 +3,9 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from
 import { Observable } from 'rxjs';
 import { ProjectUserService } from './storage/project-user.service';
 
+/**
+ * Authentification guard service for enabling routes when user is authentificated
+ */
 @Injectable()
 export class AuthGuard implements CanActivate {
     public constructor(private readonly userService: ProjectUserService,

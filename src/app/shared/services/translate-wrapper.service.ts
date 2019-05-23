@@ -7,6 +7,9 @@ import { TranslateWrapper } from '../hazlenut/hazelnut-common/interfaces';
   providedIn: 'root'
 })
 
+/**
+ * Translate wrapper
+ */
 export class TranslateWrapperService implements TranslateWrapper {
     public constructor(private readonly translateService: TranslateService) {
     }

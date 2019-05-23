@@ -8,11 +8,14 @@ import {
     TableConfiguration,
     TableFilterType
 } from '../../../shared/hazlenut/core-table';
+import { StringUtils } from '../../../shared/hazlenut/hazelnut-common/hazelnut';
 import { BrowseResponse, Filter } from '../../../shared/hazlenut/hazelnut-common/models';
 import { Fact } from '../../../shared/interfaces/fact.interface';
 import { FactService } from '../../../shared/services/data/fact.service';
 import { NotificationService } from '../../../shared/services/notification.service';
+import { RoutingStorageService } from '../../../shared/services/routing-storage.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
+import { TableChangeStorageService } from '../../../shared/services/table-change-storage.service';
 
 const ALL_FACTS = 'all-facts';
 
@@ -21,6 +24,10 @@ const ALL_FACTS = 'all-facts';
     templateUrl: './fact-list.component.html',
     styleUrls: ['./fact-list.component.scss']
 })
+
+/**
+ * Fact list used in screens Facts and Figures | All Facts and Figures
+ */
 export class FactListComponent implements OnInit {
     @ViewChild('updateColumn') public updateColumn: TemplateRef<any>;
     @ViewChild('firstValueColumn') public firstValueColumn: TemplateRef<any>;
@@ -38,10 +45,13 @@ export class FactListComponent implements OnInit {
                        private readonly notificationService: NotificationService,
                        private readonly factService: FactService,
                        private readonly router: Router,
+                       private readonly routingStorageService: RoutingStorageService,
+                       private readonly tableChangeStorageService: TableChangeStorageService,
     ) {
     }
 
-    public ngOnInit() {      
+    public ngOnInit() {
+        // Default config for table initialization
         this.config = {
             stickyEnd: 4,
             columns: [
@@ -93,7 +103,7 @@ export class FactListComponent implements OnInit {
                     }),
                     sorting: true,
                     tableCellTemplate: this.totalValueColumn,
-                }),                
+                }),
                 new TableColumn({
                     columnDef: ' ',
                     label: ' ',
@@ -107,6 +117,30 @@ export class FactListComponent implements OnInit {
             paging: true,
         };
 
+        if (!this.isInitialized
+            && this.isReturnFromDetail()
+            && this.tableChangeStorageService.getFactsLastTableChangeEvent()
+        ) {
+            if (this.tableChangeStorageService.getFactsLastTableChangeEvent().filters) {
+                this.config.predefinedFilters = this.tableChangeStorageService.getFactsLastTableChangeEvent().filters;
+            }
+            if (this.tableChangeStorageService.getFactsLastTableChangeEvent().pageIndex) {
+                this.config.predefinedPageIndex = this.tableChangeStorageService.getFactsLastTableChangeEvent().pageIndex;
+            }
+            if (this.tableChangeStorageService.getFactsLastTableChangeEvent().pageSize) {
+                this.config.predefinedPageSize = this.tableChangeStorageService.getFactsLastTableChangeEvent().pageSize;
+            }
+            if (this.tableChangeStorageService.getFactsLastTableChangeEvent().sortDirection) {
+                this.config.predefinedSortDirection =
+                    this.tableChangeStorageService.getFactsLastTableChangeEvent().sortDirection.toLowerCase();
+            }
+            if (this.tableChangeStorageService.getFactsLastTableChangeEvent().sortActive) {
+                this.config.predefinedSortActive = StringUtils.convertSnakeToCamel(
+                    this.tableChangeStorageService.getFactsLastTableChangeEvent().sortActive.toLowerCase()
+                );
+            }
+        }
+        // Update config for All Facts and Figures screen
         if (this.router.url.includes(ALL_FACTS)) {
             this.config.stickyEnd = 5;
             this.allFacts = true;
@@ -122,23 +156,36 @@ export class FactListComponent implements OnInit {
                     sorting: true,
                 })
             );
-
             this.setLabel('valueFirst', 'fact.firstValue');
             this.setLabel('valueSecond', 'fact.secondValue');
         }
-                
+
     }
 
+    /**
+     * Set column label
+     * @param columnName
+     * @param replaceLabel
+     */
     private setLabel(columnName: string, replaceLabel: string) {
-        const index = this.config.columns.findIndex((el) => el.columnDef === columnName);
+        const index = this.config.columns.findIndex((column) => column.columnDef === columnName);
         this.config.columns[index].label = null;
         this.config.columns[index].labelKey = replaceLabel;
     }
 
+    /**
+     * Route to create screen of fact
+     */
     public createFact() {
         this.router.navigate(['facts/create']);
     }
 
+    /**
+     * Route to edit screen of fact detail
+     * @param id
+     * @param year
+     * @param projectId
+     */
     public update(id: number, year: number, projectId: number) {
         if (this.router.url.includes(ALL_FACTS)) {
             this.router.navigate(['all-facts/edit'], {queryParams: {id, projectId, year}});
@@ -150,16 +197,39 @@ export class FactListComponent implements OnInit {
     public setTableData(tableChangeEvent?: TableChangeEvent): void {
         this.loading = true;
         let projectFilter = null;
+        // Create filter which will be use in Facts and Figures screen API call
         if (!this.router.url.includes(ALL_FACTS)) {
             projectFilter = new Filter('PROJECT_ID', this.projectEventService.instant.id, 'NUMBER');
         }
+        // Set paging and sort when initializating table
+        if (!this.isInitialized
+            && this.isReturnFromDetail()
+            && this.tableChangeStorageService.getFactsLastTableChangeEvent()
+        ) {
+            tableChangeEvent.pageIndex = this.tableChangeStorageService.getFactsLastTableChangeEvent().pageIndex;
+            tableChangeEvent.pageSize = this.tableChangeStorageService.getFactsLastTableChangeEvent().pageSize;
+            tableChangeEvent.sortDirection = this.tableChangeStorageService.getFactsLastTableChangeEvent().sortDirection;
+            tableChangeEvent.sortActive = this.tableChangeStorageService.getFactsLastTableChangeEvent().sortActive;
+        }
+        // Api call
         this.factService.browseFacts(tableChangeEvent, projectFilter).subscribe((data) => {
             this.data = data;
             this.loading = false;
             this.isInitialized = true;
-        }, (error) => {
+        }, () => {
             this.loading = false;
             this.notificationService.openErrorNotification('error.api');
         });
+
+        this.tableChangeStorageService.setFactsLastTableChangeEvent(tableChangeEvent);
     }
+
+    /**
+     * Function if returned from create or detail screen
+     */
+    private isReturnFromDetail() {
+        return this.routingStorageService.getPreviousUrl().includes('facts/edit')
+            || this.routingStorageService.getPreviousUrl().includes('facts/create');
+    }
+
 }

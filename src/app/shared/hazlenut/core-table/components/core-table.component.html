@@ -4,7 +4,9 @@
            class="styled-table"
            mat-table
            matSort
-           multiTemplateDataRows>
+           multiTemplateDataRows
+           [matSortActive]="configuration.predefinedSortActive ? configuration.predefinedSortActive : null"
+           [matSortDirection]="configuration.predefinedSortDirection ? configuration.predefinedSortDirection : null">
         <!--header cells sticky-->
         <div *ngIf="configuration.stickyEnd">
             <div *ngFor="let columnConfig of configuration.columns; let i = index">
@@ -164,15 +166,17 @@
                               [matColumnDef]="columnConfig.filterElement"
                               stickyEnd>
                     <th *matHeaderCellDef mat-header-cell>
-                        <haz-core-table-filter *ngIf="columnConfig.filter" [columnConfig]="columnConfig" (resetFilters)="resetFilters($event)">
+                        <haz-core-table-filter *ngIf="columnConfig.filter" [columnConfig]="columnConfig"
+                                               (resetFilters)="resetFilters($event)">
                         </haz-core-table-filter>
                     </th>
                 </ng-container>
                 <ng-container *ngIf="i<=configuration.stickyEnd"
                               [matColumnDef]="columnConfig.filterElement"
-                              >
+                >
                     <th *matHeaderCellDef mat-header-cell>
-                        <haz-core-table-filter *ngIf="columnConfig.filter" [columnConfig]="columnConfig" (resetFilters)="resetFilters($event)">
+                        <haz-core-table-filter *ngIf="columnConfig.filter" [columnConfig]="columnConfig"
+                                               (resetFilters)="resetFilters($event)">
                         </haz-core-table-filter>
                     </th>
                 </ng-container>
@@ -183,7 +187,8 @@
             <ng-container *ngFor="let columnConfig of configuration.columns; let i = index"
                           [matColumnDef]="columnConfig.filterElement">
                 <th *matHeaderCellDef mat-header-cell>
-                    <haz-core-table-filter *ngIf="columnConfig.filter" [columnConfig]="columnConfig" (resetFilters)="resetFilters($event)">
+                    <haz-core-table-filter *ngIf="columnConfig.filter" [columnConfig]="columnConfig"
+                                           (resetFilters)="resetFilters($event)">
                     </haz-core-table-filter>
                 </th>
             </ng-container>
@@ -241,6 +246,8 @@
     [length]="data?.totalElements"
     [pageSizeOptions]="configuration.pageSizeOptions"
     [hidePageSize]="!configuration.paging"
+    [pageIndex]="configuration.predefinedPageIndex ? configuration.predefinedPageIndex : 0"
+    [pageSize]="configuration.predefinedPageSize ? configuration.predefinedPageSize : 15"
     class="paginator"
     showFirstLastButtons>
 </mat-paginator>

@@ -1,15 +1,21 @@
 <div>
+    
+    <!--    Simple title of screen-->
     <div fxLayout="row" class="basic-screen-header">
         <div class="pl-20" fxLayoutAlign="start center">
             <h2>{{'businessArea.title' | translate}}</h2>
         </div>
     </div>
+
+    <!--    Core table representing list of business areas with custom column-->
     <haz-indeterminate-progress-bar [loading]="loading"></haz-indeterminate-progress-bar>
     <haz-core-table (requestData)="setTableData($event)"
                     [configuration]="config"
                     [data]="data"
                     style="width: 500px"
     ></haz-core-table>
+
+    <!--    Custom column navigate to Tasks-->
     <ng-template #navigationToTasksColumn let-actRow="row" let-context="context">
         <div class="fr">
             <button (click)="showTasks(actRow.name)" mat-icon-button>
@@ -17,4 +23,5 @@
             </button>
         </div>
     </ng-template>
+
 </div>

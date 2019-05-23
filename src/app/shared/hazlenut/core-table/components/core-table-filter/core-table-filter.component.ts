@@ -1,13 +1,14 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
-import { debounceTime, tap } from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators';
+import { BusinessAreaService } from '../../../../services/data/business-area.service';
 import { UserDataService } from '../../../../services/data/user-data.service';
 import { NotificationService } from '../../../../services/notification.service';
 import { fadeEnterLeave } from '../../../hazelnut-common/animations';
+import { StringUtils } from '../../../hazelnut-common/hazelnut';
 import { CoreTableService } from '../../core-table.service';
 import { TableColumn } from '../../models/table-column.model';
 import { TableFilterType } from '../../models/table-filter-type.enum';
-import { BusinessAreaService } from  '../../../../services/data/business-area.service';
 
 @Component({
     selector: 'haz-core-table-filter',
@@ -28,7 +29,8 @@ export class CoreTableFilterComponent implements OnInit {
                        private readonly userDataService: UserDataService,
                        private readonly notificationService: NotificationService,
                        private readonly businessAreaService: BusinessAreaService,
-                       ) {
+    ) {
+
     }
 
     public get filterDelay(): number {
@@ -51,7 +53,9 @@ export class CoreTableFilterComponent implements OnInit {
         const elementName = this.columnConfig.filterElement;
         const formGroupOptions: { [id: string]: FormControl } = {};
         formGroupOptions[elementName] = new FormControl(
-            this.columnConfig.filter && this.columnConfig.filter.predefinedValue ? this.columnConfig.filter.predefinedValue[0] : null,
+            this.columnConfig.filter && this.columnConfig.filter.predefinedValue ?
+                this.columnConfig.filter.predefinedValue[0] :
+                null,
         );
         this._filtersElement = new FormGroup(formGroupOptions);
         this.processFormChanges();
@@ -59,8 +63,8 @@ export class CoreTableFilterComponent implements OnInit {
         if (this.columnConfig.filter && this.columnConfig.filter.type === TableFilterType.CUSTOM) {
             this._filtersElement.addControl(this.columnConfig.filterElement, new FormControl());
         }
-
         this.loadCategoryList();
+        this.setPredefinedFilterValuesIntoTableFilters();
     }
 
     private loadCategoryList() {
@@ -83,6 +87,76 @@ export class CoreTableFilterComponent implements OnInit {
                 this.coreTableService.addFilter(this.columnConfig, newValue);
             }
         });
+    }
+
+    private setPredefinedFilterValuesIntoTableFilters() {
+        const configuration = this.coreTableService.configuration;
+        const isFilterFromPredefinedFilters = configuration && configuration.predefinedFilters
+            && configuration.predefinedFilters.find((filter) =>
+                filter.property === StringUtils.convertCamelToSnakeUpper(this.columnConfig.columnDef)
+            );
+        const isPredefinedNumberValue = this.columnConfig.filter.type === 'number';
+        const isPredefinedDateValue = this.columnConfig.config
+            && this.columnConfig.config.filter
+            && this.columnConfig.config.filter.valueType === 'DATE_TIME';
+        const isPredefinedTrafficLightValue = this.columnConfig.columnDef === 'trafficLight';
+        if (isFilterFromPredefinedFilters) {
+            if (isPredefinedNumberValue) {
+                this.setFilterElementByPredefinedNumberValues();
+            } else if (isPredefinedDateValue) {
+               // TODO apply set date filter
+            } else if (isPredefinedTrafficLightValue) {
+                this.setFilterElementByPredefinedTrafficLightValues();
+            } else {
+                this.filtersElement.controls[this.columnConfig.filterElement].patchValue(configuration.predefinedFilters
+                    .find((filter) =>
+                        filter.property === StringUtils.convertCamelToSnakeUpper(this.columnConfig.columnDef))
+                    .value
+                );
+            }
+        }
+    }
+
+    private setFilterElementByPredefinedDateValues() {
+        // TODO fix ExpressionChangedAfterItHasBeenCheckedError
+        const lowerFilter = this.getNumberFilterFromPredefinedFiltersByOperator('GOE');
+        const higherFilter = this.getNumberFilterFromPredefinedFiltersByOperator('LOE');
+        this.filtersElement.controls[this.columnConfig.filterElement].patchValue({
+            dateFrom: lowerFilter ? lowerFilter.value : null,
+            dateTo: higherFilter ? higherFilter.value : null,
+        });
+    }
+
+    private setFilterElementByPredefinedNumberValues() {
+        const lowerFilter = this.getNumberFilterFromPredefinedFiltersByOperator('GOE');
+        const higherFilter = this.getNumberFilterFromPredefinedFiltersByOperator('LOE');
+        this.filtersElement.controls[this.columnConfig.filterElement].patchValue({
+            from: lowerFilter ? lowerFilter.value : null,
+            to: higherFilter ? higherFilter.value : null,
+        });
+    }
+
+    private setFilterElementByPredefinedTrafficLightValues() {
+        this.filtersElement.controls[this.columnConfig.filterElement].patchValue(
+            ['RED', 'GREEN', 'AMBER', 'NONE']
+                .map((color) => this.getTrafficLightFromPredefinedFiltersByColor(color))
+                .filter((filter) => filter !== undefined)
+                .map((filter) => filter.value.toString().toLowerCase())
+        );
+    }
+
+    private getNumberFilterFromPredefinedFiltersByOperator(operator: string) {
+        return this.coreTableService.configuration.predefinedFilters
+            .filter((filter) =>
+                filter.property === StringUtils.convertCamelToSnakeUpper(this.columnConfig.columnDef))
+            .find((filter) => filter.operator === operator);
+    }
+
+    private getTrafficLightFromPredefinedFiltersByColor(colorValue: string) {
+        return this.coreTableService.configuration.predefinedFilters
+            .filter((filter) =>
+                filter.property === StringUtils.convertCamelToSnakeUpper(this.columnConfig.columnDef))
+            .find((filter) => filter.value === colorValue);
     }
 
 }

@@ -2,7 +2,6 @@ import { Regex } from '../hazlenut/hazelnut-common/regex/regex';
 
 export function GetFileNameFromContentDisposition(disposition: string): string {
     let exportName = 'EXPORT';
-
     if (disposition && disposition.indexOf('attachment') !== -1) {
         const filenameRegex = Regex.fileNameFromContentDispositionPattern;
         const matches = filenameRegex.exec(disposition);
@@ -10,6 +9,5 @@ export function GetFileNameFromContentDisposition(disposition: string): string {
             exportName = matches[1].replace(/['"]/g, '');
         }
     }
-
     return exportName;
 }

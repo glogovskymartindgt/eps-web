@@ -13,7 +13,6 @@ import { ProjectUserService } from './storage/project-user.service';
 })
 export class DashboardService extends ProjectService<ProjectInterface> {
     private readonly secondaryHeader = new Subject<SecondaryHeader>();
-
     private readonly dashboardFilter = new Subject<string>();
     public dashboardFilterNotifier$ = this.dashboardFilter.asObservable();
 
@@ -24,6 +23,10 @@ export class DashboardService extends ProjectService<ProjectInterface> {
         super(http, 'projects', notificationService, userService);
     }
 
+    /**
+     * Add state filter
+     * @param state
+     */
     public filterProjects(state: string) {
         const filters = [];
         if (state !== 'ALL') {

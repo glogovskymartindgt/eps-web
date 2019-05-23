@@ -1,5 +1,8 @@
 import { LogicalOperator, Operator, Property, Value, ValueType } from './types.model';
 
+/**
+ * Filter object used in API criteria
+ */
 export class Filter {
     public logicalOperator: LogicalOperator;
     public valueType: ValueType;

@@ -17,6 +17,10 @@ import { ProjectUserService } from '../storage/project-user.service';
 @Injectable({
     providedIn: 'root'
 })
+
+/**
+ * Service communicating with 'codeList' API url
+ */
 export class BusinessAreaService extends ProjectService<BusinessArea> {
 
     public constructor(http: HttpClient,
@@ -27,6 +31,10 @@ export class BusinessAreaService extends ProjectService<BusinessArea> {
         super(http, 'codeList', notificationService, userService);
     }
 
+    /**
+     * Get list of business area based on table change event criteria with specified code 'BAREA'
+     * @param tableChangeEvent
+     */
     public browseBusinessAreas(tableChangeEvent: TableChangeEvent): Observable<BrowseResponse<BusinessArea>> {
         let filters = [];
         let sort = [];
@@ -49,18 +57,30 @@ export class BusinessAreaService extends ProjectService<BusinessArea> {
         return this.browseWithSummary(PostContent.create(limit, offset, filters, sort));
     }
 
+    /**
+     * Get list of business area objects
+     */
     public listBusinessAreas(): Observable<BrowseResponse<BusinessArea>> {
         return this.browseWithSummary(PostContent.create(100, 0, [], []));
     }
 
+    /**
+     * Get list of source of agenda objects by code value 'ASO'
+     */
     public listSourceOfAgendas(): Observable<BrowseResponse<SourceOfAgenda>> {
       return this.getListByCode('ASO');
     }
 
+    /**
+     * Get list of category objects by code value 'CAT'
+     */
     public listCategories(): Observable<BrowseResponse<Category>> {
         return this.getListByCode('CAT');
     }
 
+    /**
+     * Get list of subcategory objects
+     */
     public listSubCategories(categoryId: number): Observable<SubCategory[]> {
         return this.http.get<SubCategory[]>(
             `${environment.URL_API}/codeList/${this.projectEventService.instant.id}/${categoryId}`,
@@ -68,6 +88,10 @@ export class BusinessAreaService extends ProjectService<BusinessArea> {
         );
     }
 
+    /**
+     * Browse list of objects from code list by code value
+     * @param code
+     */
     private getListByCode(code: string): Observable<BrowseResponse<any>>{
         return this.browseWithSummary(
             PostContent.create(100, 0, [new Filter('CODE', code)], [])

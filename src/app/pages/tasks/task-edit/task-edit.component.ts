@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { tap } from 'rxjs/internal/operators/tap';
 import { Regex } from '../../../shared/hazlenut/hazelnut-common/regex/regex';
@@ -112,7 +112,7 @@ export class TaskEditComponent implements OnInit {
         }
         return apiObject;
     }
-    
+
     public formDataChange($event) {
         setTimeout(() => {
             this.formData = $event;

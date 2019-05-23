@@ -110,19 +110,9 @@ export class CoreTableService {
                                 color.toString().toLocaleUpperCase(),
                                 'ENUM',
                                 'EQ',
-                                'OR'));
-
+                                'OR')
+                        );
                     });
-                    // const colorFilters = value.toString()
-                    //     .split(',')
-                    //     .map((color) => {
-                    //         new Filter(propertyName,
-                    //             color.toString().toLocaleUpperCase(),
-                    //             'ENUM',
-                    //             'EQ',
-                    //             'OR');
-                    //     });
-                    // this.filters = [...this.filters, ...colorFilters];
                 }
                 break;
             }

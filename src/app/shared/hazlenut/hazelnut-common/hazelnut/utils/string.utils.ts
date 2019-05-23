@@ -39,14 +39,6 @@ export class StringUtils {
         return `${prefix}${data.join(delimiter)}${postfix}`;
     }
 
-    public static isValidEmail(email: string): boolean {
-        if (!email) {
-            return false;
-        }
-
-        return Regexp.validEmailRegex.test(email.trim());
-    }
-
     public static isValidPhoneNumber(phoneNumber: string): boolean {
         if (!phoneNumber) {
             return false;

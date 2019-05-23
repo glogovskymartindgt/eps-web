@@ -1,5 +1,6 @@
 import { TemplateRef } from '@angular/core';
 import { Params } from '@angular/router';
+import { Filter } from '../../hazelnut-common/models';
 import { TableColumn } from './table-column.model';
 
 /**
@@ -103,6 +104,37 @@ export class TableConfiguration {
      *
      */
     public trClassesCond?: (row: any, rows?: number) => string;
+
+    /**
+     * Value for predefined page index
+     *
+     */
+    public predefinedPageIndex?: number;
+
+    /**
+     * Value for predefined page size
+     *
+     */
+    public predefinedPageSize?: number;
+
+    /**
+     * String for predefined sort direction
+     * 'asc' | 'desc'
+     *
+     */
+    public predefinedSortDirection?: string;
+
+    /**
+     * String for predefined sort active
+     * column name in camel case
+     *
+     */
+    public predefinedSortActive?: string;
+
+    /**
+     * Filter object array which are predefined
+     */
+    public predefinedFilters?: Filter[];
 
     /*
     public check: () => void  = () => {
