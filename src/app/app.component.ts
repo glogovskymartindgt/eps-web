@@ -1,6 +1,7 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { RoutingStorageService } from './shared/services/routing-storage.service';
+import { ProjectUserService } from './shared/services/storage/project-user.service';
 
 @Component({
     selector: 'iihf-root',
