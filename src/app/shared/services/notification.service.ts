@@ -1,4 +1,4 @@
-import { Injectable, TemplateRef } from '@angular/core';
+import { Injectable, NgZone, TemplateRef } from '@angular/core';
 import { MatSnackBar, MatSnackBarRef } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationSnackBarComponent, NotificationWrapper } from '../hazlenut/small-components/notifications';
@@ -24,7 +24,8 @@ interface NotificationParameters {
 export class NotificationService implements NotificationWrapper {
 
     public constructor(private readonly snackBar: MatSnackBar,
-                       private readonly translateService: TranslateService) {
+                       private readonly translateService: TranslateService,
+                       private readonly zone: NgZone) {
     }
 
     /**
@@ -32,6 +33,7 @@ export class NotificationService implements NotificationWrapper {
      * @param message
      */
     public openErrorNotification(message: any): MatSnackBarRef<NotificationSnackBarComponent> {
+        this.zone.run(() => this.snackBar.open(message));
         return this.openNotification('snack-error', {message, type: NotificationType.ERROR});
     }
 
@@ -40,6 +42,7 @@ export class NotificationService implements NotificationWrapper {
      * @param message
      */
     public openInfoNotification(message: any): MatSnackBarRef<NotificationSnackBarComponent> {
+        this.zone.run(() => this.snackBar.open(message));
         return this.openNotification('snack-info', {message, type: NotificationType.WARNING});
     }
 
@@ -48,6 +51,7 @@ export class NotificationService implements NotificationWrapper {
      * @param message
      */
     public openSuccessNotification(message: any): MatSnackBarRef<NotificationSnackBarComponent> {
+        this.zone.run(() => this.snackBar.open(message));
         return this.openNotification('snack-success', {message, type: NotificationType.SUCCESS});
     }
 

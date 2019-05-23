@@ -66,8 +66,12 @@
         "edit": "Zmeny sa nepodarilo vykonať",
         "interval": "Prázdny interval",
         "dateFormatIsInvalid": "Nevalidný dátum",
-        "addComment": "Pridanie sa nepodarilo",
-        "loadComments": "Načítanie komentov sa nepodarilo"
+        "addComment": "Pridanie sa nepodarilo.",
+        "loadComments": "Načítanie komentov sa nepodarilo."
+    },
+    "errorCode": {
+        "2": "Podkategória sa už používa",
+        "9002": "Prístup zamietnutý"
     },
     "success": {
         "add": "Pridanie úspešné",
