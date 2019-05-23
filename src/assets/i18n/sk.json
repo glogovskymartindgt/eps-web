@@ -70,6 +70,7 @@
         "loadComments": "Načítanie komentov sa nepodarilo."
     },
     "errorCode": {
+        "1": "Systémová chyba",
         "2": "Podkategória sa už používa",
         "9002": "Prístup zamietnutý"
     },

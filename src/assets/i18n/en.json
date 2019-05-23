@@ -71,6 +71,7 @@
         "loadComments": "Comments loading failed."
     },
     "errorCode": {
+        "1": "System error",
         "2": "Subcategory is already in use",
         "9002": "Access denied"
     },
