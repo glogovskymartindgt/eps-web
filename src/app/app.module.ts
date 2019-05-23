@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 
@@ -27,6 +27,7 @@ import { AuthGuard } from './shared/services/auth-guard';
 import { DashboardService } from './shared/services/dashboard.service';
 import { NotificationService } from './shared/services/notification.service';
 import { TranslateWrapperService } from './shared/services/translate-wrapper.service';
+import { GlobalErrorHandlerService } from './shared/services/global-error-handler.service';
 
 @NgModule({
     declarations: [
@@ -60,6 +61,7 @@ import { TranslateWrapperService } from './shared/services/translate-wrapper.ser
         {provide: NOTIFICATION_WRAPPER_TOKEN, useClass: NotificationService},
         {provide: TRANSLATE_WRAPPER_TOKEN, useClass: TranslateWrapperService},
         {provide: GLOBAL_CONFIG_TOKEN, useValue: {}},
+        {provide: ErrorHandler, useClass: GlobalErrorHandlerService},
         DashboardService
     ],
     entryComponents: [NotificationSnackBarComponent],

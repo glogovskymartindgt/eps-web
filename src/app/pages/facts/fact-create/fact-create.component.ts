@@ -48,8 +48,6 @@ export class FactCreateComponent implements OnInit {
         this.factService.createFact(this.transformTaskToApiObject(this.formData)).subscribe((response) => {
             this.notificationService.openSuccessNotification('success.add');
             this.router.navigate(['facts/list']);
-        }, (error) => {
-            this.notificationService.openErrorNotification('error.add');
         });
     }
 
