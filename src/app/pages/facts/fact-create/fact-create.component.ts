@@ -63,8 +63,8 @@ export class FactCreateComponent implements OnInit {
         return {
             categoryId: formObject.category,
             subCategoryId: formObject.subCategory,
-            valueFirst: +formObject.firstValue,
-            valueSecond: +formObject.secondValue,
+            valueFirst: formObject.firstValue,
+            valueSecond: formObject.secondValue,
             hasOnlyTotalValue: formObject.hasOnlyTotalValue,
             totalValue: (formObject.totalValue) ? formObject.totalValue : (+formObject.firstValue + +formObject.secondValue),
             projectId: this.projectEventService.instant.id
