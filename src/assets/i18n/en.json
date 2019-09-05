@@ -139,7 +139,7 @@
         "subCategory": "Fact item",
         "firstVenue": "First Venue",
         "secondVenue": "Second Venue",
-        "totalValue": "Total Value",
+        "totalValue": "Both Venues",
         "newFact": "New fact",
         "editFact": "Edit fact",
         "detailFact": "Fact detail",
@@ -147,8 +147,8 @@
         "changedBy": "Changed by",
         "hasOnlyTotalValue": "One value for both venues",
         "year": "Year",
-        "firstValue": "First value",
-        "secondValue": "Second value"
+        "firstValue": "First Venue",
+        "secondValue": "Second Venue"
     },
     "color": {
         "green": "Green",
