@@ -2,19 +2,24 @@
     <div style="height: 50px"></div>
     <secondary-header></secondary-header>
     <div>
-        <mat-drawer-container class="menu-container mt-50" autosize>
+        <mat-drawer-container autosize class="menu-container mt-50">
             <mat-drawer #drawer
+                        *ngIf="projectEventService.subject.isEvent | async"
+                        [@fadeEnterLeave]
+                        [disableClose]="true"
                         class="menu-sidenav"
                         mode="side"
                         opened="true"
-                        [disableClose]="true"
-                        *ngIf="projectEventService.subject.isEvent | async"
-                        [@fadeEnterLeave]
             >
-                <div class="layer">
-                    <side-options></side-options>
+                <div class="layer" fxLayout="column">
+                    <div class="close-wrapper" fxFlex="50px">
+                        <button (click)="toggleDrawer()" mat-icon-button>
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </div>
+                    <side-options fxFlex></side-options>
                 </div>
-                <div class="version" (dblclick)="toggleLanguage()">{{version}}</div>
+                <div (dblclick)="toggleLanguage()" class="version">{{version}}</div>
                 <div class="menu-logo mr-10 mb-3">
                     <img [src]="'assets/img/iihf-logo-without-text-transparent.png'"
                          alt="iihf logo"
@@ -24,14 +29,22 @@
             </mat-drawer>
             <div fxLayout="column">
                 <div class="menu-topnav"
+                     fxLayout="row"
                      fxLayoutAlign="space-between center"
-                     fxLayout="row">
+                >
                 </div>
                 <div [@routeAnimations]="animateRoute(outlet)">
+                    <button (click)="toggleDrawer()"
+                            *ngIf="!menuOpen"
+                            class="drawer-open"
+                            mat-icon-button
+                    >
+                        <mat-icon>menu</mat-icon>
+                    </button>
                     <router-outlet #outlet="outlet"></router-outlet>
                 </div>
             </div>
-
+        
         </mat-drawer-container>
     </div>
 </div>

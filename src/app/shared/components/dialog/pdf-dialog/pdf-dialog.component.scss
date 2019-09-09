@@ -1,0 +1,13 @@
+
+.pdf-wrapper {
+    width: 100%;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.close-button-wrapper {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: flex-end;
+    height: 50px;
+}

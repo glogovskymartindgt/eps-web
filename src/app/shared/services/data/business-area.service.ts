@@ -72,6 +72,14 @@ export class BusinessAreaService extends ProjectService<BusinessArea> {
     }
 
     /**
+     * Get list of source of agenda objects by code value 'COUNTRY'
+     */
+    // TODO: create type and check active
+    public listCountries(): Observable<BrowseResponse<any>> {
+        return this.getListByCode('COUNTRY');
+    }
+
+    /**
      * Get list of category objects by code value 'CAT'
      */
     public listCategories(): Observable<BrowseResponse<Category>> {

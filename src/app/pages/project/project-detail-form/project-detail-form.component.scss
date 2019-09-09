@@ -1,0 +1,152 @@
+$color-secondary: #002d62;
+
+.hide-input {
+    width: 100px;
+    height: 100px;
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+}
+
+.container-style {
+    height: 100px;
+    z-index: 1;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px dashed #87c8e7;
+}
+
+.content-style {
+    position: absolute;
+    pointer-events: none;
+    z-index: 0;
+    width: 200px;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+
+    p {
+        font-family: Roboto, sans-serif;
+        color: #87c8e7 !important;
+    }
+
+}
+
+.logo-container-style {
+    height: 110px;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.logo-content-style {
+    position: absolute;
+    pointer-events: none;
+    z-index: 0;
+    width: 100px !important;
+    display: grid;
+    border-radius: 5px;
+    padding-top: 10px;
+
+    .project-logo {
+        margin: auto;
+        max-width: 80px;
+        max-height: 100px;
+        object-fit: cover;
+    }
+
+    .edit-svg-wrapper {
+        display: flex;
+        justify-content: flex-end;
+    }
+}
+
+.logo-content-style-edit {
+    background: #e8f0fe;
+    height: 100px;
+}
+
+.relative-parent {
+    position: relative;
+}
+
+.remove {
+    cursor: pointer;
+}
+
+.map-file {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 180px;
+    font-family: Roboto, sans-serif;
+    font-size: 14px;
+    color: $color-secondary;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.pdf-content {
+    display: block;
+    cursor: pointer;
+}
+
+.pdf-content-bg {
+    display: block;
+}
+
+.pdf-wrapper {
+    width: 205px;
+    height: 100px;
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+}
+
+.add-svg {
+    position: absolute;
+    left: 45%;
+    top: 30%
+}
+
+.drop-text {
+    position: absolute;
+    bottom: 10px;
+    left: 15px;
+}
+
+.edit-svg {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+::ng-deep .mat-primary .mat-pseudo-checkbox-checked {
+    background: #848484;
+}
+
+::ng-deep {
+    .mat-form-field .mat-form-field-flex {
+        background-color: #e8f0fe;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+}
+
+.label-style {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.pdf-indicator {
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-family: Roboto, sans-serif;
+    font-size: 12px;
+    z-index: 3;
+    background: #001c46;
+    color: white;
+    padding: 5px 10px;
+    border-bottom-right-radius: 5px;
+}

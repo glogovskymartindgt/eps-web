@@ -1,4 +1,5 @@
-import { Component, Input, OnInit, TemplateRef } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { MatDrawer } from '@angular/material/sidenav';
 import { RouterOutlet } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { fadeEnterLeave, routeAnimations } from '../../../shared/hazlenut/hazelnut-common/animations';
@@ -9,16 +10,18 @@ import { AppConstants } from '../../../shared/utils/constants';
     selector: 'menu',
     templateUrl: './menu.component.html',
     styleUrls: ['./menu.component.scss'],
-    animations: [routeAnimations, fadeEnterLeave]
+    animations: [
+        routeAnimations,
+        fadeEnterLeave
+    ]
 })
 export class MenuComponent implements OnInit {
     @Input() public template: TemplateRef<any>;
+    @ViewChild('drawer') public drawer: MatDrawer;
     public version = AppConstants.version;
+    public menuOpen = true;
 
-    public constructor(
-        public readonly projectEventService: ProjectEventService,
-        private readonly translateService: TranslateService,
-    ) {
+    public constructor(public readonly projectEventService: ProjectEventService, private readonly translateService: TranslateService) {
     }
 
     public ngOnInit(): void {
@@ -31,4 +34,10 @@ export class MenuComponent implements OnInit {
     public animateRoute(outlet: RouterOutlet): boolean {
         return outlet && outlet.activatedRouteData && outlet.activatedRouteData.title;
     }
+
+    public toggleDrawer() {
+        this.drawer.toggle();
+        this.menuOpen = !this.menuOpen;
+    }
+
 }

@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 })
 export class MenuService implements OnInit {
 
-  public selectedOptionPath = 'business-areas';
+  public selectedOptionPath = 'project';
 
   public constructor(private readonly router: Router) {
   }

@@ -35,6 +35,7 @@
             <mat-select formControlName="trafficLight" required>
                 <mat-select-trigger>
                     <div class="color-circle"
+                         [style.background]="getCircleColor(f?.trafficLight?.value.toString().toLowerCase())"
                          [ngStyle]="{'background': getCircleColor(f?.trafficLight?.value.toString().toLowerCase())}">
                     </div>
                     <span
@@ -42,7 +43,8 @@
                 </mat-select-trigger>
                 <mat-option *ngFor="let trafficLight of trafficLightList"
                             [value]="trafficLight.toUpperCase()">
-                    <div [ngStyle]="{'background': getCircleColor(trafficLight)}" class="color-circle mt-17"></div>
+                    <div [style.background]="getCircleColor(trafficLight)"
+                         class="color-circle mt-17"></div>
                     <span class="ml-20">{{('color.' + trafficLight) | translate}}</span>
                 </mat-option>
             </mat-select>
@@ -58,7 +60,8 @@
                         [appearance]="'fill'"
                         formControlName="title"
                         class="theme-input"
-                        [maxLength]="150"
+                        [type]="'textarea'"
+                        [maxLength]="255"
         >
         </haz-core-input>
     </div>
@@ -110,7 +113,8 @@
     <div class="long-input">
         <haz-core-input [label]="'tasks.sourceDescription' | translate"
                         [appearance]="'fill'"
-                        [maxLength]="5000"
+                        [maxLength]="4092"
+                        [type]="'textarea'"
                         formControlName="sourceDescription"
                         class="theme-input long-input"
         >
@@ -170,7 +174,7 @@
                         [appearance]="'fill'"
                         formControlName="description"
                         class="theme-input"
-                        [maxLength]="5000"
+                        [maxLength]="4092"
         >
         </haz-core-input>
     </div>

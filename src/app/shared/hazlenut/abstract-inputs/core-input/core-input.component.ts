@@ -43,20 +43,21 @@ export class CoreInputComponent implements OnInit, ControlValueAccessor, AfterVi
     @Input() public hintBadCharacter;
 
     @Input() public handleFocusAndBlur = false;
-
-    public errors: { [key: string]: string } = {};
-
-    private pipe: ThousandDelimiterPipe;
-
+    public errors: {[key: string]: string} = {};
     public formControl: FormControl;
     public displayedError: string;
     public displayedHint: string;
     public showErrors: boolean;
+    private pipe: ThousandDelimiterPipe;
 
     public constructor(@Inject(TRANSLATE_WRAPPER_TOKEN) protected readonly translateWrapperService: TranslateWrapper,
                        private readonly changeDetectorRef: ChangeDetectorRef,
-                       protected readonly validatorComposer: ValidatorComposer
-    ) {
+                       protected readonly validatorComposer: ValidatorComposer) {
+    }
+
+    @Input('disabled')
+    public set disable(value: boolean) {
+        this.setDisabledState(value);
     }
 
     public ngOnInit(): void {
@@ -120,20 +121,14 @@ export class CoreInputComponent implements OnInit, ControlValueAccessor, AfterVi
                 if (this.formControl.errors.pattern.requiredPattern.includes(this.allowedCharactersPattern)) {
                     this.removeInsertedCharacterAndShowHint(this.formControl, this.hintBadCharacter);
                 }
-                if (
-                    this.formControl &&
-                    this.formControl.errors &&
-                    this.formControl.errors.pattern &&
-                    this.formControl.errors.pattern.requiredPattern.includes(this.pattern)
-                ) {
+                if (this.formControl && this.formControl.errors && this.formControl.errors.pattern && this.formControl.errors.pattern.requiredPattern.includes(this.pattern)) {
                     this.displayedError = this.showErrors ? this.errorPattern : '';
                 }
                 break;
             case Boolean(this.formControl.errors.minlength):
-                this.displayedError =
-                    this.showErrors && this.exactLength
-                        ? `${this.formControl.errors.minlength.actualLength}/${this.formControl.errors.minlength.requiredLength}`
-                        : `${this.errorMinlength} (${this.formControl.errors.minlength.requiredLength})`;
+                this.displayedError = this.showErrors && this.exactLength ?
+                                      `${this.formControl.errors.minlength.actualLength}/${this.formControl.errors.minlength.requiredLength}` :
+                                      `${this.errorMinlength} (${this.formControl.errors.minlength.requiredLength})`;
                 break;
             default: {
                 this.displayedError = '';
@@ -162,10 +157,7 @@ export class CoreInputComponent implements OnInit, ControlValueAccessor, AfterVi
 
     private onFormControlChanges(): void {
         this.formControl.valueChanges
-            .pipe(
-                tap(() => this.manageUserInput()),
-                debounceTime(2000)
-            )
+            .pipe(tap(() => this.manageUserInput()), debounceTime(2000))
             .subscribe(() => {
                 this.displayedHint = '';
             });
@@ -190,9 +182,7 @@ export class CoreInputComponent implements OnInit, ControlValueAccessor, AfterVi
     }
 
     private setFormControl(): void {
-        const validators = Validators.compose(
-            this.validatorComposer.addValidators(this.required, this.minLength, this.maxLength, this.pattern, this.allowedCharactersPattern)
-        );
+        const validators = Validators.compose(this.validatorComposer.addValidators(this.required, this.minLength, this.maxLength, this.pattern, this.allowedCharactersPattern));
         this.formControl = new FormControl('', {
             validators
         });

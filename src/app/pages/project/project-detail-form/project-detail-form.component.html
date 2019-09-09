@@ -1,0 +1,339 @@
+<form [formGroup]="projectDetailForm">
+    <div fxLayout="row" fxLayoutGap="20px">
+        <div fxFlex="100px" fxLayout="column">
+            <div class="short-input">
+                <div class="relative-parent">
+                    <label *ngIf="editMode"
+                           class="logo-container-style"
+                           for="logo-image"
+                           fxFlex="100px"
+                           mat-ripple
+                    ></label>
+                    <input (change)="onLogoInserted($event)"
+                           *ngIf="editMode"
+                           class="hide-input"
+                           formControlName="logo"
+                           id="logo-image"
+                           type="file"
+                    >
+                    <div [class.logo-content-style-edit]="editMode"
+                         class="logo-content-style"
+                    >
+                        <img [src]="imageSrc"
+                             alt="project logo"
+                             class="project-logo"
+                             height="90"
+                        >
+                        <div class="edit-svg-wrapper">
+                            <img *ngIf="editMode"
+                                 [src]="'assets/img/svg-squares/edit.svg'"
+                                 alt="edit"
+                                 class="edit-svg"
+                            >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div fxFlex fxLayout="column" fxLayoutGap="20px">
+            <div class="long-input">
+                <haz-core-input [appearance]="'fill'"
+                                [label]="'project.name' |  translate"
+                                [maxLength]="50"
+                                [required]="true"
+                                class="theme-input"
+                                formControlName="name"
+                >
+                </haz-core-input>
+            </div>
+            
+            <div fxLayout="row" fxLayoutGap="20px">
+                <div class="short-input">
+                    <haz-core-input [allowedCharactersPattern]="numericPattern"
+                                    [appearance]="'fill'"
+                                    [label]="'project.year' | translate"
+                                    [maxLength]="4"
+                                    [required]="true"
+                                    class="theme-input"
+                                    formControlName="year"
+                    >
+                    </haz-core-input>
+                </div>
+                
+                <mat-form-field appearance="fill" class=" short-input" required>
+                    <mat-label class="label-style">{{ 'project.status' | translate }}</mat-label>
+                    <mat-select formControlName="status" required>
+                        <mat-option [value]="'OPEN'">{{'status.open' | translate}}</mat-option>
+                        <mat-option [value]="'CLOSED'">{{'status.closed' | translate}}</mat-option>
+                    </mat-select>
+                    <mat-hint *ngIf="editMode && !isTouched('status') && isEmpty('status')">
+                        {{'error.required' | translate}}
+                    </mat-hint>
+                    <mat-error *ngIf="editMode && isTouched('status') && hasError('status', 'required')">
+                        {{'error.required' | translate}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            
+            <div fxLayout="row" fxLayoutGap="20px">
+                <mat-form-field appearance="fill" class="short-input">
+                    <mat-label class="label-style">{{ 'project.dateFrom' | translate }}</mat-label>
+                    <input (dateChange)="onDateChanged($event.value)" [matDatepicker]="pickerDateFrom" [max]="projectDetailForm.controls.dateTo.value" formControlName="dateFrom"
+                           matInput
+                    >
+                    <mat-datepicker-toggle [for]="pickerDateFrom" matSuffix></mat-datepicker-toggle>
+                    <mat-datepicker #pickerDateFrom [dateClass]="dateClass"></mat-datepicker>
+                    <mat-error *ngIf="dateInvalid">{{ 'error.dateFormatIsInvalid' | translate }}</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="short-input">
+                    <mat-label class="label-style">{{ 'project.dateTo' | translate }}</mat-label>
+                    <input (dateChange)="onDateChanged($event.value)" [matDatepicker]="pickerDateTo" [min]="projectDetailForm.controls.dateFrom.value" formControlName="dateTo"
+                           matInput
+                    >
+                    <mat-datepicker-toggle [for]="pickerDateTo" matSuffix></mat-datepicker-toggle>
+                    <mat-datepicker #pickerDateTo [dateClass]="dateClass"></mat-datepicker>
+                    <mat-error *ngIf="dateInvalid">{{ 'error.dateFormatIsInvalid' | translate }}</mat-error>
+                </mat-form-field>
+            </div>
+            <div fxLayout="row" fxLayoutGap="20px">
+                
+                <mat-form-field appearance="fill" class="short-input">
+                    <mat-label class="label-style">{{ 'project.firstCountry' | translate }}</mat-label>
+                    <mat-select formControlName="firstCountry">
+                        <mat-option value="''"></mat-option>
+                        <mat-option *ngFor="let country of countryList" [value]="country.id">
+                            {{country.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                
+                <mat-form-field appearance="fill" class="short-input">
+                    <mat-label class="label-style">{{ 'project.secondCountry' | translate }}</mat-label>
+                    <mat-select formControlName="secondCountry">
+                        <mat-option value="''"></mat-option>
+                        <mat-option *ngFor="let country of countryList" [value]="country.id">
+                            {{country.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            
+            </div>
+            <div fxLayout="row" fxLayoutGap="20px">
+                <!--                /**/-->
+                <div class="short-input" fxLayout="column">
+                    <div *ngIf="!editMode">
+                        <div class="pdf-wrapper">
+                            <div *ngIf="firstMapSrc" class="pdf-indicator"><span>.pdf</span></div>
+                            <pdf-viewer (click)="openDialog(firstMapSrc)"
+                                        [@fadeEnterLeave]
+                                        [fit-to-page]="true"
+                                        [original-size]="true"
+                                        [page]="1"
+                                        [render-text-mode]="0"
+                                        [show-all]="false"
+                                        [src]="firstMapSrc"
+                                        class="pdf-content"
+                            >
+                            </pdf-viewer>
+                        </div>
+                        <div class="p-10" fxLayout="row">
+                            <div (click)="openDialog(firstMapSrc)" class="map-file" fxFlex>{{firstMapPdfName}}</div>
+                            <div (click)="downloadFirst()"
+                                 *ngIf="!editMode && firstMapSrc"
+                                 [@enterLeave]
+                                 class="remove"
+                                 fxFlex="20px"
+                                 fxLayoutAlign="end end"
+                                 mat-ripple
+                            >
+                                <img
+                                    [src]="'assets/img/svg-squares/download.svg'"
+                                    alt="remove"
+                                >
+                            </div>
+                        </div>
+                    
+                    </div>
+                    <div (onFileDropped)="onSecondMapDropped($event)" *ngIf="editMode"
+                         class="relative-parent"
+                         dragDrop
+                         fxFlex
+                    >
+                        <label class="container-style"
+                               for="second-map"
+                               fxFlex="205px"
+                               mat-ripple
+                        ></label>
+                        <input (change)="onSecondMapInserted($event)"
+                               class="hide-input"
+                               formControlName="firstMap"
+                               id="first-map"
+                               type="file"
+                        >
+                        <div class="content-style">
+                            <div class="relative-parent" fxLayout="column">
+                                <div class="pdf-wrapper">
+                                    <pdf-viewer
+                                        *ngIf="firstMapSrc"
+                                        [@fadeEnterLeave]
+                                        [fit-to-page]="true"
+                                        [original-size]="true"
+                                        [page]="1"
+                                        [render-text-mode]="0"
+                                        [show-all]="false"
+                                        [src]="firstMapSrc"
+                                        class="pdf-content-bg"
+                                    >
+                                    </pdf-viewer>
+                                </div>
+                                <img *ngIf="editMode && firstMapSrc"
+                                     [src]="'assets/img/svg-squares/edit.svg'"
+                                     alt="edit"
+                                     class="edit-svg"
+                                >
+                                <img *ngIf="editMode && !firstMapSrc"
+                                     [src]="'assets/img/svg-squares/add.svg'"
+                                     alt="add"
+                                     class="add-svg"
+                                >
+                                <p *ngIf="editMode && !firstMapSrc"
+                                   class="drop-text"
+                                >{{'project.drag' | translate}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-10" fxLayout="row">
+                        <div class="map-file" fxFlex>{{projectDetailForm.controls.firstMap.value}}</div>
+                        <div (click)="resetValue('firstMap')"
+                             *ngIf="editMode &&firstMapSrc"
+                             [@enterLeave]
+                             class="remove"
+                             fxFlex="20px"
+                             fxLayoutAlign="end end"
+                             mat-ripple
+                        >
+                            <img
+                                [src]="'assets/img/svg-squares/remove.svg'"
+                                alt="remove"
+                            >
+                        </div>
+                    </div>
+                </div>
+                <!--                /**/-->
+                
+                <div class="short-input" fxLayout="column">
+                    <div *ngIf="!editMode">
+                        <div class="pdf-wrapper">
+                            <div *ngIf="secondMapSrc" class="pdf-indicator"><span>.pdf</span></div>
+                            <pdf-viewer (click)="openDialog(secondMapSrc)"
+                                        [@fadeEnterLeave]
+                                        [fit-to-page]="true"
+                                        [original-size]="true"
+                                        [page]="1"
+                                        [render-text-mode]="0"
+                                        [show-all]="false"
+                                        [src]="secondMapSrc"
+                                        class="pdf-content"
+                            >
+                            </pdf-viewer>
+                        </div>
+                        <div class="p-10" fxLayout="row">
+                            <div (click)="openDialog(secondMapSrc)" class="map-file" fxFlex>{{secondMapPdfName}}</div>
+                            <div (click)="downloadSecond()"
+                                 *ngIf="!editMode && secondMapSrc"
+                                 [@enterLeave]
+                                 class="remove"
+                                 fxFlex="20px"
+                                 fxLayoutAlign="end end"
+                                 mat-ripple
+                            >
+                                <img
+                                    [src]="'assets/img/svg-squares/download.svg'"
+                                    alt="remove"
+                                >
+                            </div>
+                        </div>
+                    
+                    </div>
+                    <div (onFileDropped)="onSecondMapDropped($event)" *ngIf="editMode"
+                         class="relative-parent"
+                         dragDrop
+                         fxFlex
+                    >
+                        <label class="container-style"
+                               for="second-map"
+                               fxFlex="205px"
+                               mat-ripple
+                        ></label>
+                        <input (change)="onSecondMapInserted($event)"
+                               class="hide-input"
+                               formControlName="secondMap"
+                               id="second-map"
+                               type="file"
+                        >
+                        <div class="content-style">
+                            <div class="relative-parent" fxLayout="column">
+                                <div class="pdf-wrapper">
+                                    <pdf-viewer
+                                        *ngIf="secondMapSrc"
+                                        [@fadeEnterLeave]
+                                        [fit-to-page]="true"
+                                        [original-size]="true"
+                                        [page]="1"
+                                        [render-text-mode]="0"
+                                        [show-all]="false"
+                                        [src]="secondMapSrc"
+                                        class="pdf-content-bg"
+                                    >
+                                    </pdf-viewer>
+                                </div>
+                                <img *ngIf="editMode && secondMapSrc"
+                                     [src]="'assets/img/svg-squares/edit.svg'"
+                                     alt="edit"
+                                     class="edit-svg"
+                                >
+                                <img *ngIf="editMode && !secondMapSrc"
+                                     [src]="'assets/img/svg-squares/add.svg'"
+                                     alt="add"
+                                     class="add-svg"
+                                >
+                                <p *ngIf="editMode && !secondMapSrc"
+                                   class="drop-text"
+                                >{{'project.drag' | translate}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-10" fxLayout="row">
+                        <div class="map-file" fxFlex>{{projectDetailForm.controls.secondMap.value}}</div>
+                        <div (click)="resetValue('secondMap')"
+                             *ngIf="editMode && secondMapSrc"
+                             [@enterLeave]
+                             class="remove"
+                             fxFlex="20px"
+                             fxLayoutAlign="end end"
+                             mat-ripple
+                        >
+                            <img
+                                [src]="'assets/img/svg-squares/remove.svg'"
+                                alt="remove"
+                            >
+                        </div>
+                    </div>
+                </div>
+            
+            </div>
+            
+            <div class="long-input">
+                <haz-core-input [appearance]="'fill'"
+                                [label]="'project.description' | translate"
+                                [maxLength]="500"
+                                [type]="'textarea'"
+                                class="theme-input"
+                                formControlName="description"
+                >
+                </haz-core-input>
+            </div>
+        </div>
+    </div>
+
+</form>

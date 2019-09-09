@@ -12,6 +12,8 @@ export class Regex {
 
     public static readonly icoPattern = '^([0-9]{8})$';
 
+    public static readonly yearPattern = '^([0-9]{4})$';
+
     public static readonly numericPattern = '^[0-9]*$';
 
     public static readonly notOnlyWhiteCharactersPattern = '^[\\s \\S]*[\\S]+[\\s \\S]*$';

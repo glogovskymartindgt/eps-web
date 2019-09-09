@@ -6,6 +6,7 @@
     "menu": {
         "businessAreas": "Biznis oblasti a úlohy",
         "dashboard": "Rozvrh",
+        "project": "Projekt",
         "reports": "Reporty",
         "facts": "Fakty a čísla",
         "allFacts": "Všetky Fakty a čísla"
@@ -169,5 +170,9 @@
             "both": "Obe",
             "none": "Žiadna"
         }
+    },
+    "project": {
+        "detailTitle": "Detail projektu",
+        "edit": "Upraviť"
     }
 }

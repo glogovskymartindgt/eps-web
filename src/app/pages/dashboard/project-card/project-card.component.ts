@@ -68,14 +68,14 @@ export class ProjectCardComponent implements OnInit {
     }
 
     /**
-     * Route to business area screen
+     * Route to selected project detail screen
      */
     public openAreas() {
-        this.router.navigate(['business-areas/list']);
+        this.router.navigate(['project/detail']);
     }
 
     /**
-     * Using projectEventService to store selected project informations into local storage
+     * Using projectEventService to store selected project information into local storage
      * Apply changes on second header to show project title logo and unselect project button
      */
     public onProjectSelected() {

@@ -1,20 +1,20 @@
-import { ErrorHandler, NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { AppComponent } from './app.component';
-
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { config } from 'rxjs';
+import { AppComponent } from './app.component';
 import { AppRoutes } from './app.routing';
 import { CompositionModule } from './pages/composition/composition.module';
 import { AdminLayoutComponent } from './pages/layouts/admin-layout/admin-layout.component';
 import { AuthLayoutComponent } from './pages/layouts/auth-layout/auth-layout.component';
 import { ComponentsModule } from './shared/components/components.module';
+import { PdfDialogComponent } from './shared/components/dialog/pdf-dialog/pdf-dialog.component';
 import { CoreTableModule, GLOBAL_CONFIG_TOKEN } from './shared/hazlenut/core-table';
 import { MaterialModule, NOTIFICATION_WRAPPER_TOKEN, TRANSLATE_WRAPPER_TOKEN } from './shared/hazlenut/hazelnut-common';
 import { NotificationSnackBarComponent } from './shared/hazlenut/small-components/notifications';
@@ -49,18 +49,36 @@ import { TranslateWrapperService } from './shared/services/translate-wrapper.ser
         ComponentsModule,
         FlexLayoutModule,
         CoreTableModule,
-        PipesModule
+        PipesModule,
     ],
     providers: [
         AuthGuard,
-        {provide: 'abstractInputConfig', useValue: config},
-        {provide: NOTIFICATION_WRAPPER_TOKEN, useClass: NotificationService},
-        {provide: TRANSLATE_WRAPPER_TOKEN, useClass: TranslateWrapperService},
-        {provide: GLOBAL_CONFIG_TOKEN, useValue: {}},
-        {provide: ErrorHandler, useClass: GlobalErrorHandlerService},
+        {
+            provide: 'abstractInputConfig',
+            useValue: config
+        },
+        {
+            provide: NOTIFICATION_WRAPPER_TOKEN,
+            useClass: NotificationService
+        },
+        {
+            provide: TRANSLATE_WRAPPER_TOKEN,
+            useClass: TranslateWrapperService
+        },
+        {
+            provide: GLOBAL_CONFIG_TOKEN,
+            useValue: {}
+        },
+        {
+            provide: ErrorHandler,
+            useClass: GlobalErrorHandlerService
+        },
         DashboardService
     ],
-    entryComponents: [NotificationSnackBarComponent],
+    entryComponents: [
+        NotificationSnackBarComponent,
+        PdfDialogComponent
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule {

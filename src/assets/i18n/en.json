@@ -6,6 +6,7 @@
     "menu": {
         "businessAreas": "Business Areas and Tasks",
         "dashboard": "Dashboard",
+        "project": "Project",
         "reports": "Reports",
         "facts": "Facts and Figures",
         "allFacts": "All Facts and Figures"
@@ -68,7 +69,10 @@
         "interval": "Empty interval",
         "dateFormatIsInvalid": "Date format is invalid",
         "addComment": "Adding of comment failed.",
-        "loadComments": "Comments loading failed."
+        "loadComments": "Comments loading failed.",
+        "getProjectDetail": "Show project detail failed",
+        "imageDownload": "Image load failed",
+        "attachmentDownload": "Attachment load failed"
     },
     "errorCode": {
         "1": "System error",
@@ -175,5 +179,20 @@
             "both": "Both",
             "none": "None"
         }
+    },
+    "project": {
+        "detailTitle": "Project detail",
+        "edit": "Edit",
+        "name": "Name",
+        "year": "Year",
+        "status": "Status",
+        "dateFrom": "Date from",
+        "dateTo": "Date to",
+        "firstCountry": "First Country",
+        "secondCountry": "Second Country",
+        "firstVenue": "First Venue",
+        "secondVenue": "Second Venue",
+        "description": "Description",
+        "drag": "Drag file here or browse"
     }
 }

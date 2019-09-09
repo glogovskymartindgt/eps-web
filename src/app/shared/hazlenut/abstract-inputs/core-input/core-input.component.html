@@ -3,7 +3,7 @@
     <input *ngIf="type === 'string'"
            [formControl]="formControl"
            [placeholder]="placeholder"
-           [required]="required"           
+           [required]="required"
            (focus)="handleFocus()"
            (blur)="handleBlur()"
            matInput
@@ -16,10 +16,11 @@
               [required]="required"
               (blur)="manageUserInput()"
               matInput
-              cdkAutosizeMinRows="2"
               autocomplete="off"
+              cdkAutosizeMinRows="2"
+              cdkAutosizeMaxRows="10"
               cdkTextareaAutosize
-              style="width: 100%;overflow: hidden;"></textarea>
+              style="width: 100%;"></textarea>
     <span *ngIf="textSuffix" matSuffix [ngStyle]="formControl.disabled ? {'color': '#989898'} : {}">{{textSuffix}}</span>
     <mat-hint align="start">{{ displayedError }}</mat-hint>
     <mat-hint align="end">{{ displayedHint }}</mat-hint>
