@@ -1,5 +1,5 @@
 <form [formGroup]="projectDetailForm">
-    <div fxLayout="row" fxLayoutGap="20px">
+    <div fxLayout="row" fxLayoutGap="10px">
         <div fxFlex="100px" fxLayout="column">
             <div class="short-input">
                 <div class="relative-parent">
@@ -11,6 +11,7 @@
                     ></label>
                     <input (change)="onLogoInserted($event)"
                            *ngIf="editMode"
+                           accept="image/*"
                            class="hide-input"
                            formControlName="logo"
                            id="logo-image"
@@ -35,7 +36,7 @@
                 </div>
             </div>
         </div>
-        <div fxFlex fxLayout="column" fxLayoutGap="20px">
+        <div fxFlex fxLayout="column" fxLayoutGap="0">
             <div class="long-input">
                 <haz-core-input [appearance]="'fill'"
                                 [label]="'project.name' |  translate"
@@ -47,7 +48,7 @@
                 </haz-core-input>
             </div>
             
-            <div fxLayout="row" fxLayoutGap="20px">
+            <div fxLayout="row" fxLayoutGap="10px">
                 <div class="short-input">
                     <haz-core-input [allowedCharactersPattern]="numericPattern"
                                     [appearance]="'fill'"
@@ -75,7 +76,7 @@
                 </mat-form-field>
             </div>
             
-            <div fxLayout="row" fxLayoutGap="20px">
+            <div fxLayout="row" fxLayoutGap="10px">
                 <mat-form-field appearance="fill" class="short-input">
                     <mat-label class="label-style">{{ 'project.dateFrom' | translate }}</mat-label>
                     <input (dateChange)="onDateChanged($event.value)" [matDatepicker]="pickerDateFrom" [max]="projectDetailForm.controls.dateTo.value" formControlName="dateFrom"
@@ -95,12 +96,12 @@
                     <mat-error *ngIf="dateInvalid">{{ 'error.dateFormatIsInvalid' | translate }}</mat-error>
                 </mat-form-field>
             </div>
-            <div fxLayout="row" fxLayoutGap="20px">
+            <div fxLayout="row" fxLayoutGap="10px">
                 
                 <mat-form-field appearance="fill" class="short-input">
                     <mat-label class="label-style">{{ 'project.firstCountry' | translate }}</mat-label>
                     <mat-select formControlName="firstCountry">
-                        <mat-option value="''"></mat-option>
+                        <mat-option [value]="null"></mat-option>
                         <mat-option *ngFor="let country of countryList" [value]="country.id">
                             {{country.name}}
                         </mat-option>
@@ -110,7 +111,7 @@
                 <mat-form-field appearance="fill" class="short-input">
                     <mat-label class="label-style">{{ 'project.secondCountry' | translate }}</mat-label>
                     <mat-select formControlName="secondCountry">
-                        <mat-option value="''"></mat-option>
+                        <mat-option [value]="null"></mat-option>
                         <mat-option *ngFor="let country of countryList" [value]="country.id">
                             {{country.name}}
                         </mat-option>
@@ -118,18 +119,55 @@
                 </mat-form-field>
             
             </div>
-            <div fxLayout="row" fxLayoutGap="20px">
-                <!--                /**/-->
+            
+            <div fxLayout="row" fxLayoutGap="10px">
+                <div class="short-input">
+                    <mat-error class="error-text"
+                               *ngIf="editMode
+                    && projectDetailForm.controls.firstVenue.value
+                    && !projectDetailForm.controls.firstCountry.value">
+                        {{'error.fillCountry' | translate}}
+                    </mat-error>
+                    <haz-core-input [appearance]="'fill'"
+                                    [label]="'project.firstVenue' |  translate"
+                                    [maxLength]="50"
+                                    class="theme-input"
+                                    formControlName="firstVenue"
+                    >
+                    </haz-core-input>
+                </div>
+                <div class="short-input">
+                    <mat-error class="error-text" *ngIf="editMode
+                    && projectDetailForm.controls.secondVenue.value
+                    && !projectDetailForm.controls.secondCountry.value">
+                        {{'error.fillCountry' | translate}}
+                    </mat-error>
+                    <haz-core-input [appearance]="'fill'"
+                                    [label]="'project.secondVenue' |  translate"
+                                    [maxLength]="50"
+                                    class="theme-input"
+                                    formControlName="secondVenue"
+                    >
+                    </haz-core-input>
+                </div>
+            </div>
+            
+            <div fxLayout="row" fxLayoutGap="10px">
                 <div class="short-input" fxLayout="column">
+                    <mat-error *ngIf="editMode
+                    && projectDetailForm.controls.firstMapUploadId.value
+                    && !projectDetailForm.controls.firstVenue.value"
+                               class="error-text"
+                    >
+                        {{'error.fillVenue' | translate}}
+                    </mat-error>
                     <div *ngIf="!editMode">
                         <div class="pdf-wrapper">
                             <div *ngIf="firstMapSrc" class="pdf-indicator"><span>.pdf</span></div>
                             <pdf-viewer (click)="openDialog(firstMapSrc)"
                                         [@fadeEnterLeave]
                                         [fit-to-page]="true"
-                                        [original-size]="true"
                                         [page]="1"
-                                        [render-text-mode]="0"
                                         [show-all]="false"
                                         [src]="firstMapSrc"
                                         class="pdf-content"
@@ -137,34 +175,37 @@
                             </pdf-viewer>
                         </div>
                         <div class="p-10" fxLayout="row">
-                            <div (click)="openDialog(firstMapSrc)" class="map-file" fxFlex>{{firstMapPdfName}}</div>
+                            <div (click)="openDialog(firstMapSrc)" class="map-file" fxFlex>
+                                {{firstMapPdfName}}
+                            </div>
                             <div (click)="downloadFirst()"
                                  *ngIf="!editMode && firstMapSrc"
                                  [@enterLeave]
-                                 class="remove"
+                                 class="download"
                                  fxFlex="20px"
                                  fxLayoutAlign="end end"
                                  mat-ripple
                             >
                                 <img
                                     [src]="'assets/img/svg-squares/download.svg'"
-                                    alt="remove"
+                                    alt="download"
                                 >
                             </div>
                         </div>
                     
                     </div>
-                    <div (onFileDropped)="onSecondMapDropped($event)" *ngIf="editMode"
+                    <div (onFileDropped)="onFirstMapDropped($event)" *ngIf="editMode"
                          class="relative-parent"
                          dragDrop
                          fxFlex
                     >
                         <label class="container-style"
-                               for="second-map"
+                               for="first-map"
                                fxFlex="205px"
                                mat-ripple
                         ></label>
-                        <input (change)="onSecondMapInserted($event)"
+                        <input (change)="onFirstMapInserted($event)"
+                               accept="application/pdf"
                                class="hide-input"
                                formControlName="firstMap"
                                id="first-map"
@@ -177,9 +218,7 @@
                                         *ngIf="firstMapSrc"
                                         [@fadeEnterLeave]
                                         [fit-to-page]="true"
-                                        [original-size]="true"
                                         [page]="1"
-                                        [render-text-mode]="0"
                                         [show-all]="false"
                                         [src]="firstMapSrc"
                                         class="pdf-content-bg"
@@ -203,9 +242,11 @@
                         </div>
                     </div>
                     <div class="p-10" fxLayout="row">
-                        <div class="map-file" fxFlex>{{projectDetailForm.controls.firstMap.value}}</div>
+                        <div *ngIf="editMode && firstMapPdfName" class="map-file-edit" fxFlex>
+                            {{firstMapPdfName}}
+                        </div>
                         <div (click)="resetValue('firstMap')"
-                             *ngIf="editMode &&firstMapSrc"
+                             *ngIf="editMode && firstMapSrc"
                              [@enterLeave]
                              class="remove"
                              fxFlex="20px"
@@ -219,9 +260,15 @@
                         </div>
                     </div>
                 </div>
-                <!--                /**/-->
                 
                 <div class="short-input" fxLayout="column">
+                    <mat-error class="error-text"
+                               *ngIf="editMode
+                    && projectDetailForm.controls.secondMapUploadId.value
+                    && !projectDetailForm.controls.secondVenue.value"
+                    >
+                        {{'error.fillVenue' | translate}}
+                    </mat-error>
                     <div *ngIf="!editMode">
                         <div class="pdf-wrapper">
                             <div *ngIf="secondMapSrc" class="pdf-indicator"><span>.pdf</span></div>
@@ -266,6 +313,7 @@
                                mat-ripple
                         ></label>
                         <input (change)="onSecondMapInserted($event)"
+                               accept="application/pdf"
                                class="hide-input"
                                formControlName="secondMap"
                                id="second-map"
@@ -304,7 +352,9 @@
                         </div>
                     </div>
                     <div class="p-10" fxLayout="row">
-                        <div class="map-file" fxFlex>{{projectDetailForm.controls.secondMap.value}}</div>
+                        <div *ngIf="editMode && secondMapPdfName" class="map-file-edit" fxFlex>
+                            {{secondMapPdfName}}
+                        </div>
                         <div (click)="resetValue('secondMap')"
                              *ngIf="editMode && secondMapSrc"
                              [@enterLeave]

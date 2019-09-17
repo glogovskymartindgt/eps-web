@@ -1,5 +1,6 @@
 import { ErrorHandler, Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { isNullOrUndefined } from 'util';
 import { NotificationService } from './notification.service';
 
 const ERROR = 'errorCode.';
@@ -14,8 +15,8 @@ export class GlobalErrorHandlerService implements ErrorHandler {
     }
 
     public handleError(error: string | any): void {
-        // const errorCode = '';
-        //
+        const errorCode = '';
+
         // if (typeof error === 'string') {
         //     errorCode = error;
         // } else if (!isNullOrUndefined(error) && !isNullOrUndefined(error.error) && !isNullOrUndefined(error.error.code)) {
@@ -25,7 +26,7 @@ export class GlobalErrorHandlerService implements ErrorHandler {
         // } else {
         //     errorCode = 'error.api';
         // }
-
+        //
         // this.notificationService.openErrorNotification(this.translateService.instant(errorCode));
         console.error(error);
     }

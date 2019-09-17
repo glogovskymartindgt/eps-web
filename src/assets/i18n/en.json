@@ -72,7 +72,11 @@
         "loadComments": "Comments loading failed.",
         "getProjectDetail": "Show project detail failed",
         "imageDownload": "Image load failed",
-        "attachmentDownload": "Attachment load failed"
+        "imageUpload": "Image upload failed",
+        "attachmentDownload": "Attachment load failed",
+        "attachmentUpload": "Attachment upload failed",
+        "fillVenue": "Fill venue please",
+        "fillCountry": "Fill country please"
     },
     "errorCode": {
         "1": "System error",
@@ -137,7 +141,7 @@
     },
     "fact": {
         "title": "Facts and Figures",
-        "titleAllFacts":"All Facts and Figures",
+        "titleAllFacts": "All Facts and Figures",
         "category": "Category",
         "factItemType": "Fact item type",
         "subCategory": "Fact item",

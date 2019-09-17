@@ -19,4 +19,12 @@ export class ProjectsService extends ProjectService<ProjectDetail> {
         return this.getDetail(projectId);
     }
 
+    /**
+     * Edit project object API call
+     * @param id
+     * @param taskObject
+     */
+    public editProject(id: number, projectObject: any) {
+        return this.update(id, projectObject);
+    }
 }

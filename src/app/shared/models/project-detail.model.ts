@@ -8,6 +8,6 @@ export class ProjectDetail {
     public logo?: string;
     public dateFrom?: string;
     public dateTo?: string;
-    public projectVenue?: VenueDetail[];
+    public projectVenues?: VenueDetail[];
     public description: string;
 }

@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ExternalLinkDirective } from './click/external-link.directive';
 import { NavigateDirective } from './click/navigate.directive';
-import { ToggleFullscreenDirective } from './click/toggle-fullscreen.directive';
 import { DragDropDirective } from './drag-drop.directive';
 
 @NgModule({
@@ -10,10 +9,10 @@ import { DragDropDirective } from './drag-drop.directive';
         CommonModule,
     ],
     declarations: [
-        ExternalLinkDirective, ToggleFullscreenDirective, NavigateDirective, DragDropDirective
+        ExternalLinkDirective, NavigateDirective, DragDropDirective
     ],
     exports: [
-        ExternalLinkDirective, ToggleFullscreenDirective, NavigateDirective, DragDropDirective
+        ExternalLinkDirective, NavigateDirective, DragDropDirective
     ],
 })
 export class SharedDirectivesModule {

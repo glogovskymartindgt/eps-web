@@ -1,11 +1,11 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
 import * as _moment from 'moment';
-import { PdfViewerComponent } from 'ng2-pdf-viewer';
+import { Subject } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { PdfDialogComponent } from '../../../shared/components/dialog/pdf-dialog/pdf-dialog.component';
 import { enterLeave, fadeEnterLeave } from '../../../shared/hazlenut/hazelnut-common/animations';
@@ -17,11 +17,11 @@ import { ImagesService } from '../../../shared/services/data/images.service';
 import { ProjectsService } from '../../../shared/services/data/projects.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
-import { MY_FORMATS } from '../../tasks/task-form/task-form.component';
+import { BlobManager } from '../../../shared/utils/blob-manager';
 
 const moment = _moment;
 
-export const CUSTOM_FORMATS = {
+export const PROJECT_DATE_FORMATS = {
     parse: {
         dateInput: 'D.M.YYYY',
     },
@@ -49,14 +49,16 @@ export const CUSTOM_FORMATS = {
         },
         {
             provide: MAT_DATE_FORMATS,
-            useValue: MY_FORMATS
+            useValue: PROJECT_DATE_FORMATS
         },
     ],
 })
-export class ProjectDetailFormComponent implements OnInit, OnChanges {
+export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy {
     @Input('editMode') public editMode: boolean;
+    @Input('refreshSubject') public refreshSubject: Subject<any>;
     @Output('formDataChange') public onFormDataChange = new EventEmitter<any>();
-    @ViewChild('secondMapPdf') public secondMapPdf: PdfViewerComponent;
+    public defaultLogoPath = 'assets/img/iihf-logo-without-text-transparent.png';
+
     public projectDetailForm: FormGroup;
     public numericPattern = Regex.numericPattern;
     public dateInvalid = false;
@@ -69,11 +71,10 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges {
     public secondMapPdfName: string;
     public secondMapBlob: any;
 
-    public imageSrc: any = 'assets/img/iihf-logo-without-text-transparent.png';
+    public imageSrc: any = this.defaultLogoPath;
     public dateInvalidClosed = false;
     public countryList = [];
     public countriesLoading = false;
-    public public;
 
     public constructor(private readonly formBuilder: FormBuilder,
                        private readonly domSanitizer: DomSanitizer,
@@ -87,9 +88,8 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges {
     }
 
     public ngOnInit(): void {
-        this.loadCountries();
-        this.loadProjectDetail();
         this.projectDetailForm = this.formBuilder.group({
+            projectId: [''],
             logo: [''],
             name: [''],
             year: [''],
@@ -98,10 +98,19 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges {
             dateTo: [''],
             firstCountry: [''],
             secondCountry: [''],
+            oldFirstVenue: [''],
             firstVenue: [''],
+            firstVenueId: [''],
+            oldSecondVenue: [''],
             secondVenue: [''],
+            secondVenueId: [''],
             firstMap: [''],
             secondMap: [''],
+            logoUploadId: [''],
+            firstMapUploadId: [''],
+            firstMapUploadName: [''],
+            secondMapUploadId: [''],
+            secondMapUploadName: [''],
             description: [
                 {
                     value: '',
@@ -109,9 +118,16 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges {
                 }
             ],
         });
+
+        this.refreshSubject.subscribe((event) => {
+            this.loadProjectDetail();
+        });
+
+        this.loadCountries();
+        this.loadProjectDetail();
+
         this.projectDetailForm.disable();
 
-        // Emit value changes to parent component
         this.projectDetailForm.valueChanges.subscribe(() => {
             this.emitFormDataChangeEmitter();
         });
@@ -126,8 +142,13 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges {
             this.projectDetailForm.disable();
         } else {
             this.projectDetailForm.enable();
+            this.projectDetailForm.markAsUntouched();
             this.projectDetailForm.controls.description.disable();
         }
+    }
+
+    public ngOnDestroy(): void {
+        this.refreshSubject.unsubscribe();
     }
 
     public dateClass = (d: Date) => {
@@ -158,48 +179,45 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges {
     }
 
     public resetValue(controlName: string) {
+
         this.projectDetailForm.controls[controlName].reset();
         if (controlName === 'secondMap') {
+            this.secondMapPdfName = null;
+            this.secondMapBlob = null;
             this.secondMapSrc = null;
+            this.projectDetailForm.controls.secondMapUploadId.reset();
+        } else {
+            this.firstMapPdfName = null;
+            this.firstMapBlob = null;
+            this.firstMapSrc = null;
+            this.projectDetailForm.controls.firstMapUploadId.reset();
         }
     }
 
     public onFirstMapDropped(files: any) {
         const file: File = files[0];
-
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            this.firstMapSrc = reader.result;
-        };
-        reader.readAsDataURL(file);
+        this.firstMapUpdate(file);
     }
 
     public onFirstMapInserted(event) {
         const file = event.target.files[0];
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            this.firstMapSrc = reader.result;
-        };
-        reader.readAsDataURL(file);
+        if (!file) {
+            return;
+        }
+        this.firstMapUpdate(file);
     }
 
     public onSecondMapDropped(files: any) {
         const file: File = files[0];
-
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            this.secondMapSrc = reader.result;
-        };
-        reader.readAsDataURL(file);
+        this.secondMapUpdate(file);
     }
 
     public onSecondMapInserted(event) {
         const file = event.target.files[0];
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            this.secondMapSrc = reader.result;
-        };
-        reader.readAsDataURL(file);
+        if (!file) {
+            return;
+        }
+        this.secondMapUpdate(file);
     }
 
     public onLogoInserted(event) {
@@ -208,38 +226,29 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges {
             return;
         }
         const reader = new FileReader();
-        reader.onload = (e) => {
+        reader.onload = () => {
             this.imageSrc = reader.result;
+            this.imagesService.uploadImages([file])
+                .subscribe((data) => {
+                    this.projectDetailForm.controls.logoUploadId.patchValue(data.fileNames[file.name].replace(/^.*[\\\/]/, ''));
+                }, () => {
+                    this.imageSrc = this.defaultLogoPath;
+                    this.notificationService.openErrorNotification('error.imageUpload');
+                });
         };
         reader.readAsDataURL(file);
     }
 
     public downloadFirst(): void {
-        let link: HTMLAnchorElement;
-        link = document.createElement('a');
-        link.setAttribute('class', 'hide');
-        link.setAttribute('href', '');
-        document.body.appendChild(link);
-        link.href = URL.createObjectURL(new Blob([this.firstMapBlob], {type: 'application/pdf'}));
-        link.download = this.firstMapPdfName;
-        link.click();
-        document.body.removeChild(link);
+        BlobManager.downloadFromBlob(this.firstMapBlob, 'application/pdf', this.firstMapPdfName);
     }
 
     public downloadSecond(): void {
-        let link: HTMLAnchorElement;
-        link = document.createElement('a');
-        link.setAttribute('class', 'hide');
-        link.setAttribute('href', '');
-        document.body.appendChild(link);
-        link.href = URL.createObjectURL(new Blob([this.secondMapBlob], {type: 'application/pdf'}));
-        link.download = this.secondMapPdfName;
-        link.click();
-        document.body.removeChild(link);
+        BlobManager.downloadFromBlob(this.secondMapBlob, 'application/pdf', this.secondMapPdfName);
     }
 
     public openDialog(source: string): void {
-        const dialogRef = this.matDialog.open(PdfDialogComponent, {
+        this.matDialog.open(PdfDialogComponent, {
             maxHeight: '80vh',
             minHeight: '80vh',
             maxWidth: '80vw',
@@ -285,6 +294,14 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges {
     }
 
     private setFormWithDetailData(projectDetail: ProjectDetail) {
+        this.firstMapSrc = null;
+        this.firstMapBlob = null;
+        this.firstMapPdfName = null;
+
+        this.secondMapSrc = null;
+        this.secondMapBlob = null;
+        this.secondMapPdfName = null;
+
         this.projectDetailForm.patchValue({
             name: projectDetail.name,
             year: projectDetail.year,
@@ -299,20 +316,17 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges {
         if (projectDetail.description) {
             this.projectDetailForm.controls.description.patchValue(projectDetail.description);
         }
-        const firstCountryObject = projectDetail.projectVenue.find((projectVenue) => projectVenue.screenPosition === 1);
-        if (firstCountryObject) {
-            this.projectDetailForm.controls.firstCountry.patchValue(firstCountryObject.clCountry.id);
-            if (firstCountryObject.cityName) {
-                this.projectDetailForm.controls.firstVenue.patchValue(firstCountryObject.cityName);
-            }
+        if (projectDetail.logo) {
+            this.projectDetailForm.controls.logoUploadId.patchValue(projectDetail.logo);
         }
-        const secondCountryObject = projectDetail.projectVenue.find((projectVenue) => projectVenue.screenPosition === 2);
-        if (secondCountryObject) {
-            this.projectDetailForm.controls.secondCountry.patchValue(secondCountryObject.clCountry.id);
-            if (secondCountryObject.cityName) {
-                this.projectDetailForm.controls.secondVenue.patchValue(secondCountryObject.cityName);
-            }
+        if (projectDetail.id) {
+            this.projectDetailForm.controls.projectId.patchValue(projectDetail.id);
         }
+
+        const firstCountryObject = projectDetail.projectVenues.find((projectVenue) => projectVenue.screenPosition === 1);
+        this.setFormFromFirstCountry(firstCountryObject);
+        const secondCountryObject = projectDetail.projectVenues.find((projectVenue) => projectVenue.screenPosition === 2);
+        this.setFormFromSecondCountry(secondCountryObject);
 
         if (projectDetail.logo) {
             this.imagesService.getImage(projectDetail.logo)
@@ -327,7 +341,7 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges {
                 });
         }
 
-        if (firstCountryObject.attachment) {
+        if (firstCountryObject && firstCountryObject.attachment) {
             this.firstMapPdfName = firstCountryObject.attachment.fileName;
             this.attachmentService.getAttachment(firstCountryObject.attachment.filePath)
                 .subscribe((blob) => {
@@ -335,16 +349,18 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges {
                     this.firstMapBlob = blob;
 
                     const reader = new FileReader();
-                    reader.onload = (e) => {
+                    reader.onload = () => {
                         this.firstMapSrc = reader.result;
                     };
                     reader.readAsDataURL(blob);
                 }, () => {
                     this.notificationService.openErrorNotification('error.attachmentDownload');
                 });
+        } else if (!firstCountryObject || !firstCountryObject.attachment) {
+            this.firstMapSrc = null;
         }
 
-        if (secondCountryObject.attachment) {
+        if (secondCountryObject && secondCountryObject.attachment) {
             this.secondMapPdfName = secondCountryObject.attachment.fileName;
             this.attachmentService.getAttachment(secondCountryObject.attachment.filePath)
                 .subscribe((blob) => {
@@ -352,15 +368,86 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges {
                     this.secondMapBlob = blob;
 
                     const reader = new FileReader();
-                    reader.onload = (e) => {
+                    reader.onload = () => {
                         this.secondMapSrc = reader.result;
                     };
                     reader.readAsDataURL(blob);
                 }, () => {
                     this.notificationService.openErrorNotification('error.attachmentDownload');
                 });
+        } else if (!secondCountryObject || !secondCountryObject.attachment) {
+            this.secondMapSrc = null;
         }
 
+    }
+
+    // TODO: add type
+    private firstMapUpdate(file: any) {
+        const reader = new FileReader();
+        this.firstMapPdfName = file.name;
+        reader.onload = () => {
+            this.firstMapSrc = reader.result;
+            this.attachmentService.uploadAttachment([file])
+                .subscribe((data) => {
+                    this.projectDetailForm.controls.firstMapUploadId.patchValue(data.fileNames[file.name]);
+                    this.projectDetailForm.controls.firstMapUploadName.patchValue(file.name);
+                }, () => {
+                    this.firstMapSrc = null;
+                    this.firstMapBlob = null;
+                    this.firstMapPdfName = null;
+                    this.notificationService.openErrorNotification('error.attachmentUpload');
+                });
+        };
+        reader.readAsDataURL(file);
+    }
+
+    private secondMapUpdate(file: any) {
+        const reader = new FileReader();
+        this.secondMapPdfName = file.name;
+        reader.onload = () => {
+            this.secondMapSrc = reader.result;
+            this.attachmentService.uploadAttachment([file])
+                .subscribe((data) => {
+                    this.projectDetailForm.controls.secondMapUploadId.patchValue(data.fileNames[file.name]);
+                    this.projectDetailForm.controls.secondMapUploadName.patchValue(file.name);
+                }, () => {
+                    this.secondMapSrc = null;
+                    this.secondMapBlob = null;
+                    this.secondMapPdfName = null;
+                    this.notificationService.openErrorNotification('error.attachmentUpload');
+                });
+        };
+        reader.readAsDataURL(file);
+    }
+
+    private setFormFromFirstCountry(firstCountryObject: any) {
+        if (firstCountryObject) {
+            this.projectDetailForm.controls.firstVenueId.patchValue(firstCountryObject.id);
+            this.projectDetailForm.controls.firstCountry.patchValue(firstCountryObject.clCountry.id);
+            if (firstCountryObject.cityName) {
+                this.projectDetailForm.controls.firstVenue.patchValue(firstCountryObject.cityName);
+                this.projectDetailForm.controls.oldFirstVenue.patchValue(firstCountryObject.cityName);
+                if (firstCountryObject.attachment && firstCountryObject.attachment.filePath) {
+                    this.projectDetailForm.controls.firstMapUploadId.patchValue(firstCountryObject.attachment.filePath);
+                    this.projectDetailForm.controls.firstMapUploadName.patchValue(firstCountryObject.attachment.fileName);
+                }
+            }
+        }
+    }
+
+    private setFormFromSecondCountry(secondCountryObject: any) {
+        if (secondCountryObject) {
+            this.projectDetailForm.controls.secondVenueId.patchValue(secondCountryObject.id);
+            this.projectDetailForm.controls.secondCountry.patchValue(secondCountryObject.clCountry.id);
+            if (secondCountryObject.cityName) {
+                this.projectDetailForm.controls.oldSecondVenue.patchValue(secondCountryObject.cityName);
+                this.projectDetailForm.controls.secondVenue.patchValue(secondCountryObject.cityName);
+                if (secondCountryObject.attachment && secondCountryObject.attachment.filePath) {
+                    this.projectDetailForm.controls.secondMapUploadId.patchValue(secondCountryObject.attachment.filePath);
+                    this.projectDetailForm.controls.secondMapUploadName.patchValue(secondCountryObject.attachment.fileName);
+                }
+            }
+        }
     }
 
 }

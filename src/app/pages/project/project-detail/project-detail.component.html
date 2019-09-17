@@ -3,17 +3,18 @@
     <div class="pl-50" fxFlex="50" fxLayoutAlign="start center">
         <h3>{{'project.detailTitle' | translate}}</h3>
     </div>
-<!--    <div *ngIf="!editMode" class="pr-20" fxFlex fxLayoutAlign="end center">-->
-<!--        <button (click)="toggleEditMode()" color="accent" mat-flat-button>-->
-<!--            {{'project.edit' | translate | uppercase}}-->
-<!--        </button>-->
-<!--    </div>-->
+    <div *ngIf="!editMode" class="pr-20" fxFlex fxLayoutAlign="end center">
+        <button (click)="toggleEditMode()" color="accent" mat-flat-button>
+            {{'project.edit' | translate | uppercase}}
+        </button>
+    </div>
 </div>
 
 <div fxLayout="row" style="overflow: auto;  height: calc(100vh - 160px);">
     <div class="p-30">
         <project-detail-form
             (formDataChange)="formData=$event"
+            [refreshSubject]="refreshSubject"
             [editMode]="editMode"
         >
         </project-detail-form>

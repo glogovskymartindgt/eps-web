@@ -22,7 +22,7 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
 
 const moment = _moment;
 
-export const MY_FORMATS = {
+export const PROJECT_DATE_FORMATS = {
     parse: {
         dateInput: 'D.M.YYYY',
     },
@@ -40,7 +40,7 @@ export const MY_FORMATS = {
     styleUrls: ['./task-form.component.scss'],
     providers: [
         {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
-        {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+        {provide: MAT_DATE_FORMATS, useValue: PROJECT_DATE_FORMATS},
     ],
 })
 export class TaskFormComponent implements OnInit {

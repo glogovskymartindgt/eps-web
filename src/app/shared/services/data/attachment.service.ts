@@ -26,7 +26,7 @@ export class AttachmentService extends ProjectService<any> {
         headers = headers.set('token', this.userService.instant.authToken);
         return this.post({
             headers,
-            url: `${HazelnutConfig.URL_API}/internal/attachment`,
+            url: `${HazelnutConfig.URL_API}/attachment/upload`,
             mapFunction: (e) => e,
             body: formData,
         });

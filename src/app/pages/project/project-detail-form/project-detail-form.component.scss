@@ -85,6 +85,16 @@ $color-secondary: #002d62;
     text-decoration: underline;
 }
 
+.map-file-edit {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 180px;
+    font-family: Roboto, sans-serif;
+    font-size: 14px;
+    color: $color-secondary;
+}
+
 .pdf-content {
     display: block;
     cursor: pointer;
@@ -149,4 +159,11 @@ $color-secondary: #002d62;
     color: white;
     padding: 5px 10px;
     border-bottom-right-radius: 5px;
+}
+
+.error-text {
+    position: absolute;
+    font-family: Roboto, sans-serif;
+    font-size: 12px;
+    bottom: 0;
 }
