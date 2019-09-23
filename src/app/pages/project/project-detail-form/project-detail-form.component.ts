@@ -88,42 +88,13 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
     }
 
     public ngOnInit(): void {
-        this.projectDetailForm = this.formBuilder.group({
-            projectId: [''],
-            logo: [''],
-            name: [''],
-            year: [''],
-            status: [''],
-            dateFrom: [''],
-            dateTo: [''],
-            firstCountry: [''],
-            secondCountry: [''],
-            oldFirstVenue: [''],
-            firstVenue: [''],
-            firstVenueId: [''],
-            oldSecondVenue: [''],
-            secondVenue: [''],
-            secondVenueId: [''],
-            firstMap: [''],
-            secondMap: [''],
-            logoUploadId: [''],
-            firstMapUploadId: [''],
-            firstMapUploadName: [''],
-            secondMapUploadId: [''],
-            secondMapUploadName: [''],
-            description: [
-                {
-                    value: '',
-                    disabled: true
-                }
-            ],
-        });
+        this.initializeForm();
+        this.loadCountries();
 
         this.refreshSubject.subscribe((event) => {
             this.loadProjectDetail();
         });
 
-        this.loadCountries();
         this.loadProjectDetail();
 
         this.projectDetailForm.disable();
@@ -448,6 +419,39 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
                 }
             }
         }
+    }
+
+    private initializeForm(): void {
+        this.projectDetailForm = this.formBuilder.group({
+            projectId: [''],
+            logo: [''],
+            name: [''],
+            year: [''],
+            status: [''],
+            dateFrom: [''],
+            dateTo: [''],
+            firstCountry: [''],
+            secondCountry: [''],
+            oldFirstVenue: [''],
+            firstVenue: [''],
+            firstVenueId: [''],
+            oldSecondVenue: [''],
+            secondVenue: [''],
+            secondVenueId: [''],
+            firstMap: [''],
+            secondMap: [''],
+            logoUploadId: [''],
+            firstMapUploadId: [''],
+            firstMapUploadName: [''],
+            secondMapUploadId: [''],
+            secondMapUploadName: [''],
+            description: [
+                {
+                    value: '',
+                    disabled: true
+                }
+            ],
+        });
     }
 
 }

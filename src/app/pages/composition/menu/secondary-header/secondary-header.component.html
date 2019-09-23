@@ -1,60 +1,65 @@
 <div *ngIf="projectEventService.subject.isEvent | async"
+     class="project-header m-0 p-0"
      fxLayout="row"
-     class="project-header m-0 p-0">
-    <div fxFlex="50px"
+>
+    <div [@fadeEnterLeave]
          class="pt-10 pb-5"
+         fxFlex="50px"
          fxLayoutAlign="center center"
-         [@fadeEnterLeave]
     >
+        
         <div style="background: white; width: 27px; height: 45px; border-radius: 3px;">
             <img [src]="projectEventService.instant.imagePath"
-                 class="project-image p-2"
                  alt="iihf logo"
-                 width="24"
+                 class="project-image p-2"
                  height="41"
+                 width="24"
             >
         </div>
     </div>
-    <div fxFlex="90"
+    <div [@fadeEnterLeave]
          class="mt-7"
+         fxFlex="90"
          fxLayoutAlign="start center"
-         [@fadeEnterLeave]
     >
         <h3 class="secondary-header m-0 ml-10">
             {{projectEventService.instant.year}} {{projectEventService.instant.projectName}}
         </h3>
     </div>
-    <div fxFlex
+    <div [@fadeEnterLeave]
          class="mt-3"
+         fxFlex
          fxLayoutAlign="end center"
-         [@fadeEnterLeave]>
-        <button mat-icon-button (click)="routeToDashboard()">
+    >
+        <button (click)="routeToDashboard()" mat-icon-button>
             <mat-icon>close</mat-icon>
         </button>
     </div>
 </div>
 
 <div *ngIf="!(projectEventService.subject.isEvent | async)" class="project-header" fxLayout="row"
-     fxLayoutAlign="start center">
-    <h3 class="m-0 ml-20 mt-7 dashboard-text" [@fadeEnterLeave]>{{ 'dashboard.dashboard' | translate}}</h3>
-    <a class="ml-50 mt-7 dashboard-filter" mat-ripple [matRippleColor]="'rgba(255,255,255,0.2)'"
+     fxLayoutAlign="start center"
+>
+    <h3 [@fadeEnterLeave] class="m-0 ml-20 mt-7 dashboard-text">{{ 'dashboard.dashboard' | translate}}</h3>
+    <a (click)="toggleFilter('ALL')" [@fadeEnterLeave] [matRippleColor]="'rgba(255,255,255,0.2)'"
        [ngClass]="(activeFilter === 'ALL') ? 'activated' : 'non-activated'"
-       (click)="toggleFilter('ALL')"
-       [@fadeEnterLeave]
+       class="ml-50 mt-7 dashboard-filter"
+       mat-ripple
     >
         {{ 'dashboard.all' | translate}}
     </a>
-    <a class="ml-50 mt-7 dashboard-filter" mat-ripple [matRippleColor]="'rgba(255,255,255,0.2)'"
+    <a (click)="toggleFilter('OPEN')" [@fadeEnterLeave] [matRippleColor]="'rgba(255,255,255,0.2)'"
        [ngClass]="(activeFilter === 'OPEN') ? 'activated' : 'non-activated'"
-       (click)="toggleFilter('OPEN')"
-       [@fadeEnterLeave]
+       class="ml-50 mt-7 dashboard-filter"
+       mat-ripple
     >
         {{ 'dashboard.open' | translate}}
     </a>
-    <a class="ml-50 mt-7 dashboard-filter" mat-ripple [matRippleColor]="'rgba(255,255,255,0.2)'"
+    <a (click)="toggleFilter('CLOSED')" [@fadeEnterLeave] [matRippleColor]="'rgba(255,255,255,0.2)'"
        [ngClass]="(activeFilter === 'CLOSED') ? 'activated' : 'non-activated'"
-       (click)="toggleFilter('CLOSED')"
-       [@fadeEnterLeave]>
+       class="ml-50 mt-7 dashboard-filter"
+       mat-ripple
+    >
         {{ 'dashboard.closed' | translate}}
     </a>
 </div>
