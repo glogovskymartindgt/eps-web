@@ -75,7 +75,7 @@ export class ProjectDetailComponent implements OnInit {
         if (formObject.dateTo) {
             apiObject.dateTo = formObject.dateTo;
         }
-        if (formObject.logo) {
+        if (formObject.logoUploadId) {
             apiObject.logo = formObject.logoUploadId;
         }
         if (formObject.firstCountry || formObject.secondCountry) {

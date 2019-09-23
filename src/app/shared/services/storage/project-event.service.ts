@@ -48,6 +48,8 @@ export class ProjectEventService extends EventService<EventDataInterface> {
     }
 
     private setDetailObject(project: any, isEvent: boolean) {
+        console.log('project ? project.state === \'OPEN\' : null,', project ? project.status === 'OPEN' : null);
+        console.log('project.state', project.status);
         this.setData({
             isEvent,
             imagePath: this.imagePath,
@@ -56,7 +58,7 @@ export class ProjectEventService extends EventService<EventDataInterface> {
             projectName: project ? project.name : null,
             firstVenue: project && project.projectVenues && project.projectVenues[0] ? project.projectVenues[0].cityName : null,
             secondVenue: project && project.projectVenues && project.projectVenues[1] ? project.projectVenues[1].cityName : null,
-            active: project ? project.state === 'OPEN' : null,
+            active: project ? project.status === 'OPEN' : null,
         });
     }
 
