@@ -9,7 +9,7 @@
                         [disableClose]="true"
                         class="menu-sidenav"
                         mode="side"
-                        opened="true"
+                        [opened]="menuOpen"
             >
                 <div class="layer" fxLayout="column">
                     <div class="close-wrapper" fxFlex="50px">
@@ -44,7 +44,6 @@
                     <router-outlet #outlet="outlet"></router-outlet>
                 </div>
             </div>
-        
         </mat-drawer-container>
     </div>
 </div>

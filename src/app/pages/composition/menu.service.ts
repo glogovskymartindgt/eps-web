@@ -1,21 +1,25 @@
 import { Injectable, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class MenuService implements OnInit {
 
-  public selectedOptionPath = 'project';
+    public selectedOptionPath = 'project';
+    public menuOpen = false;
 
-  public constructor(private readonly router: Router) {
-  }
+    public constructor() {
+    }
 
-  public ngOnInit(): void {
-  }
+    public ngOnInit(): void {
+    }
 
-  public setSelectedOption(newSelectedOptionPath): void {
-    this.selectedOptionPath = newSelectedOptionPath;
-  }
+    public setSelectedOption(newSelectedOptionPath): void {
+        this.selectedOptionPath = newSelectedOptionPath;
+    }
+
+    public toggleMenu() {
+        this.menuOpen = !this.menuOpen;
+    }
 
 }
