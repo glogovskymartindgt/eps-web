@@ -114,7 +114,6 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         } else {
             this.projectDetailForm.enable();
             this.projectDetailForm.markAsUntouched();
-            this.projectDetailForm.controls.description.disable();
         }
     }
 
@@ -445,12 +444,7 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
             firstMapUploadName: [''],
             secondMapUploadId: [''],
             secondMapUploadName: [''],
-            description: [
-                {
-                    value: '',
-                    disabled: true
-                }
-            ],
+            description: [''],
         });
     }
 

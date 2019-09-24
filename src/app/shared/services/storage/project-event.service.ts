@@ -48,8 +48,6 @@ export class ProjectEventService extends EventService<EventDataInterface> {
     }
 
     private setDetailObject(project: any, isEvent: boolean) {
-        console.log('project ? project.state === \'OPEN\' : null,', project ? project.status === 'OPEN' : null);
-        console.log('project.state', project.status);
         this.setData({
             isEvent,
             imagePath: this.imagePath,

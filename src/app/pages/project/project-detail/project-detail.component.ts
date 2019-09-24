@@ -113,6 +113,9 @@ export class ProjectDetailComponent implements OnInit {
             }
             apiObject.projectVenues.push(secondVenueObject);
         }
+        if (formObject.description) {
+            apiObject.description = formObject.description;
+        }
         return apiObject;
     }
 
