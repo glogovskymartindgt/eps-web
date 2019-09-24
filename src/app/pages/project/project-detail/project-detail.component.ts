@@ -64,7 +64,6 @@ export class ProjectDetailComponent implements OnInit {
      */
     private transformProjectToApiObject(formObject: any): any {
         const apiObject: any = {
-            id: formObject.projectId,
             name: formObject.name,
             year: formObject.year,
             state: formObject.status,
@@ -84,7 +83,6 @@ export class ProjectDetailComponent implements OnInit {
         if (formObject.firstCountry) {
             const firstVenueObject: any = {};
             firstVenueObject.screenPosition = 1;
-            firstVenueObject.id = formObject.firstVenueId ? formObject.firstVenueId : -1;
             firstVenueObject.clCountry = {id: formObject.firstCountry};
             if (formObject.firstVenue) {
                 firstVenueObject.cityName = formObject.firstVenue;
@@ -100,7 +98,6 @@ export class ProjectDetailComponent implements OnInit {
         if (formObject.secondCountry) {
             const secondVenueObject: any = {};
             secondVenueObject.screenPosition = 2;
-            secondVenueObject.id = formObject.secondVenueId ? formObject.secondVenueId : -1;
             secondVenueObject.clCountry = {id: formObject.secondCountry};
             if (formObject.secondVenue) {
                 secondVenueObject.cityName = formObject.secondVenue;

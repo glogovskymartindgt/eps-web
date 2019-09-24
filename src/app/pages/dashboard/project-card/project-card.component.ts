@@ -90,7 +90,7 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
     }
 
     public getImagePath() {
-        if (this.project.logo === null) {
+        if (!this.project.logo) {
             return;
         }
         this.imagesService.getImage(this.project.logo)

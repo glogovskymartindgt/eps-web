@@ -31,7 +31,7 @@ export class ProjectEventService extends EventService<EventDataInterface> {
     }
 
     public setEventDataFromDetail(project: Project = null, isEvent = false, imagePath: string = null) {
-        if (imagePath === null) {
+        if (!imagePath) {
             this.setDetailObject(project, isEvent);
         } else {
             this.imagesService.getImage(imagePath)

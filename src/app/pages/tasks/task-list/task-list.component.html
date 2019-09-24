@@ -16,8 +16,6 @@
             </mat-select>
         </mat-form-field>
     </div>
-    {{projectEventService.instant.projectName}}
-    {{projectEventService.instant.active}}
     <div fxFlex fxLayoutAlign="end center">
         <button *ngIf="projectEventService.instant.active" mat-flat-button (click)="createTask()" class="mr-10"
                 color="accent">

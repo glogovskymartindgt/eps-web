@@ -395,7 +395,6 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
 
     private setFormFromFirstCountry(firstCountryObject: any) {
         if (firstCountryObject) {
-            this.projectDetailForm.controls.firstVenueId.patchValue(firstCountryObject.id);
             this.projectDetailForm.controls.firstCountry.patchValue(firstCountryObject.clCountry.id);
             if (firstCountryObject.cityName) {
                 this.projectDetailForm.controls.firstVenue.patchValue(firstCountryObject.cityName);
@@ -410,7 +409,6 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
 
     private setFormFromSecondCountry(secondCountryObject: any) {
         if (secondCountryObject) {
-            this.projectDetailForm.controls.secondVenueId.patchValue(secondCountryObject.id);
             this.projectDetailForm.controls.secondCountry.patchValue(secondCountryObject.clCountry.id);
             if (secondCountryObject.cityName) {
                 this.projectDetailForm.controls.oldSecondVenue.patchValue(secondCountryObject.cityName);
@@ -436,10 +434,8 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
             secondCountry: [''],
             oldFirstVenue: [''],
             firstVenue: [''],
-            firstVenueId: [''],
             oldSecondVenue: [''],
             secondVenue: [''],
-            secondVenueId: [''],
             firstMap: [''],
             secondMap: [''],
             logoUploadId: [''],
