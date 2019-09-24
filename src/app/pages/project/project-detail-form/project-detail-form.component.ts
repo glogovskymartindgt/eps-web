@@ -60,6 +60,7 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
     public defaultLogoPath = 'assets/img/iihf-logo-without-text-transparent.png';
 
     public projectDetailForm: FormGroup;
+    public yearPattern = Regex.yearPattern;
     public numericPattern = Regex.numericPattern;
     public dateInvalid = false;
 

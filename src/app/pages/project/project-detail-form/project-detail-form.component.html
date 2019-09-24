@@ -41,8 +41,8 @@
                 <haz-core-input [appearance]="'fill'"
                                 [label]="'project.name' |  translate"
                                 [maxLength]="50"
-                                [required]="true"
                                 [pattern]="notOnlyWhiteCharactersPattern"
+                                [required]="true"
                                 class="theme-input"
                                 formControlName="name"
                 >
@@ -55,6 +55,7 @@
                                     [appearance]="'fill'"
                                     [label]="'project.year' | translate"
                                     [maxLength]="4"
+                                    [pattern]="yearPattern"
                                     [required]="true"
                                     class="theme-input"
                                     formControlName="year"
@@ -123,10 +124,11 @@
             
             <div fxLayout="row" fxLayoutGap="10px">
                 <div class="short-input">
-                    <mat-error class="error-text"
-                               *ngIf="editMode
+                    <mat-error *ngIf="editMode
                     && projectDetailForm.controls.firstVenue.value
-                    && !projectDetailForm.controls.firstCountry.value">
+                    && !projectDetailForm.controls.firstCountry.value"
+                               class="error-text"
+                    >
                         {{'error.fillCountry' | translate}}
                     </mat-error>
                     <haz-core-input [appearance]="'fill'"
@@ -139,9 +141,10 @@
                     </haz-core-input>
                 </div>
                 <div class="short-input">
-                    <mat-error class="error-text" *ngIf="editMode
+                    <mat-error *ngIf="editMode
                     && projectDetailForm.controls.secondVenue.value
-                    && !projectDetailForm.controls.secondCountry.value">
+                    && !projectDetailForm.controls.secondCountry.value" class="error-text"
+                    >
                         {{'error.fillCountry' | translate}}
                     </mat-error>
                     <haz-core-input [appearance]="'fill'"
@@ -265,10 +268,10 @@
                 </div>
                 
                 <div class="short-input" fxLayout="column">
-                    <mat-error class="error-text"
-                               *ngIf="editMode
+                    <mat-error *ngIf="editMode
                     && projectDetailForm.controls.secondMapUploadId.value
                     && !projectDetailForm.controls.secondVenue.value"
+                               class="error-text"
                     >
                         {{'error.fillVenue' | translate}}
                     </mat-error>
@@ -380,8 +383,8 @@
                 <haz-core-input [appearance]="'fill'"
                                 [label]="'project.description' | translate"
                                 [maxLength]="500"
-                                [type]="'textarea'"
                                 [pattern]="notOnlyWhiteCharactersPattern"
+                                [type]="'textarea'"
                                 class="theme-input"
                                 formControlName="description"
                 >
