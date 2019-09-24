@@ -76,6 +76,8 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
     public countryList = [];
     public countriesLoading = false;
 
+    public notOnlyWhiteCharactersPattern = Regex.notOnlyWhiteCharactersPattern;
+
     public constructor(private readonly formBuilder: FormBuilder,
                        private readonly domSanitizer: DomSanitizer,
                        private readonly businessAreaService: BusinessAreaService,

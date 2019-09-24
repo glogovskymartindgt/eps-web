@@ -42,6 +42,7 @@
                                 [label]="'project.name' |  translate"
                                 [maxLength]="50"
                                 [required]="true"
+                                [pattern]="notOnlyWhiteCharactersPattern"
                                 class="theme-input"
                                 formControlName="name"
                 >
@@ -131,6 +132,7 @@
                     <haz-core-input [appearance]="'fill'"
                                     [label]="'project.firstVenue' |  translate"
                                     [maxLength]="50"
+                                    [pattern]="notOnlyWhiteCharactersPattern"
                                     class="theme-input"
                                     formControlName="firstVenue"
                     >
@@ -145,6 +147,7 @@
                     <haz-core-input [appearance]="'fill'"
                                     [label]="'project.secondVenue' |  translate"
                                     [maxLength]="50"
+                                    [pattern]="notOnlyWhiteCharactersPattern"
                                     class="theme-input"
                                     formControlName="secondVenue"
                     >
@@ -378,6 +381,7 @@
                                 [label]="'project.description' | translate"
                                 [maxLength]="500"
                                 [type]="'textarea'"
+                                [pattern]="notOnlyWhiteCharactersPattern"
                                 class="theme-input"
                                 formControlName="description"
                 >
