@@ -59,6 +59,7 @@
     },
     "error": {
         "login": "Log in failed",
+        "loginData": "Incorrect login data",
         "logout": "Log out failed",
         "required": "Required field",
         "api": "Can't connect to server",
