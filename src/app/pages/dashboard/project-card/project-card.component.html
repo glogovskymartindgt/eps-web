@@ -1,12 +1,13 @@
 <!--Project component showing basic information about project and logo-->
-<div fxLayout="row" class="project-card m-13">
-    <div class="project-card-content" fxFlex="95" (click)="onProjectSelected()">
-        <div fxFlex="15" fxLayoutAlign="center center" class="p-10">
+<div class="project-card m-13" fxLayout="row">
+    <div (click)="onProjectSelected()" class="project-card-content" fxFlex="95">
+        <div class="p-10" fxFlex="15" fxLayoutAlign="center center">
             <!--Logo image is from static list in assets, not from API-->
-            <img [src]="imagePath"
+            <img (error)="'assets/img/event-logos/default_logo.png'"
+                 [src]="imagePath"
+                 alt="championship logo"
                  class="project-image"
-                 (error)="'assets/img/event-logos/default_logo.png'"
-                 alt="championship logo">
+            >
         </div>
         <div fxFlex="85">
             <p class="project-card-primary-font mb-0 mt-25">{{project?.year}} {{project?.name}}</p>
@@ -15,10 +16,11 @@
                 <span *ngIf="project?.venues[1]?.country">and {{project?.venues[1]?.country}}</span></p>
             <p *ngIf="showOneCity" class="project-card-location-font m-0 mt-5">{{project?.venues[0]?.city}}</p>
             <p *ngIf="showAllCities" class="project-card-secondary-font m-0 mt-5">{{project?.venues[0]?.city}}
-               <span *ngIf="project?.venues[1]?.city">and {{project?.venues[1]?.city}}</span></p>
+                <span *ngIf="project?.venues[0]?.city && project?.venues[1]?.city">and</span>&nbsp;<span *ngIf="project?.venues[1]?.city">{{project?.venues[1]?.city}}</span></p>
         </div>
     </div>
     <div [ngClass]="(project?.state == 'OPEN') ? 'open' : (project?.state == 'CLOSED')  ? 'closed'  : '' "
-         class="project-card-right" fxFlex="5">
+         class="project-card-right" fxFlex="5"
+    >
     </div>
 </div>
