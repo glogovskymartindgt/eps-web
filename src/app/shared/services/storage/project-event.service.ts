@@ -54,8 +54,8 @@ export class ProjectEventService extends EventService<EventDataInterface> {
             id: project ? project.projectId : null,
             year: project ? +project.year : null,
             projectName: project ? project.name : null,
-            firstVenue: project && project.projectVenues && project.projectVenues[0] ? project.projectVenues[0].cityName : null,
-            secondVenue: project && project.projectVenues && project.projectVenues[1] ? project.projectVenues[1].cityName : null,
+            firstVenue: project && project.firstVenue ? project.firstVenue : null,
+            secondVenue: project && project.secondVenue ? project.secondVenue : null,
             active: project ? project.status === 'OPEN' : null,
         });
     }

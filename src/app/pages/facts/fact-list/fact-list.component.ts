@@ -73,7 +73,7 @@ export class FactListComponent implements OnInit {
                 }),
                 new TableColumn({
                     columnDef: 'valueFirst',
-                    label: this.projectEventService.instant.firstVenue,
+                    label: this.projectEventService.instant.firstVenue ? this.projectEventService.instant.firstVenue : '-',
                     align: 'right',
                     type: TableCellType.CONTENT,
                     filter: new TableColumnFilter({
@@ -84,7 +84,7 @@ export class FactListComponent implements OnInit {
                 }),
                 new TableColumn({
                     columnDef: 'valueSecond',
-                    label: this.projectEventService.instant.secondVenue,
+                    label: this.projectEventService.instant.secondVenue ? this.projectEventService.instant.secondVenue : '-',
                     align: 'right',
                     type: TableCellType.CONTENT,
                     filter: new TableColumnFilter({

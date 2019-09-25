@@ -12,10 +12,10 @@
             <p class="project-card-primary-font mb-0 mt-25">{{project?.year}} {{project?.name}}</p>
             <p *ngIf="showOneCountry" class="project-card-secondary-font m-0 mt-5">{{project?.venues[0]?.country}}</p>
             <p *ngIf="showAllCountries" class="project-card-secondary-font m-0 mt-5">{{project?.venues[0]?.country}}
-                and {{project?.venues[1]?.country}}</p>
+                <span *ngIf="project?.venues[1]?.country">and {{project?.venues[1]?.country}}</span></p>
             <p *ngIf="showOneCity" class="project-card-location-font m-0 mt-5">{{project?.venues[0]?.city}}</p>
             <p *ngIf="showAllCities" class="project-card-secondary-font m-0 mt-5">{{project?.venues[0]?.city}}
-                and {{project?.venues[1]?.city}}</p>
+               <span *ngIf="project?.venues[1]?.city">and {{project?.venues[1]?.city}}</span></p>
         </div>
     </div>
     <div [ngClass]="(project?.state == 'OPEN') ? 'open' : (project?.state == 'CLOSED')  ? 'closed'  : '' "

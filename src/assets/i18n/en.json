@@ -77,7 +77,8 @@
         "attachmentDownload": "Attachment load failed",
         "attachmentUpload": "Attachment upload failed",
         "fillVenue": "Fill venue please",
-        "fillCountry": "Fill country please"
+        "fillCountry": "Fill country please",
+        "fillFirstCountry": "Fill first country please"
     },
     "errorCode": {
         "1": "System error",
