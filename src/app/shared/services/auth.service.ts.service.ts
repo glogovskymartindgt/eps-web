@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
@@ -12,14 +12,12 @@ import { ProjectUserService } from './storage/project-user.service';
 
 /**
  * Service for authentification
- */
-export class AuthService {
+ */ export class AuthService {
     public constructor(private readonly httpClient: HttpClient,
                        private readonly userService: ProjectUserService,
                        private readonly notificationService: NotificationService,
                        private readonly router: Router,
-                       private readonly projectEventService: ProjectEventService,
-    ) {
+                       private readonly projectEventService: ProjectEventService, ) {
     }
 
     /**
@@ -35,11 +33,7 @@ export class AuthService {
      * Logout wrapper function
      */
     public logout(): void {
-        this.logoutBackend(
-            this.userService.instant.masterToken,
-            this.userService.instant.authToken,
-            this.userService.instant.deviceId
-        );
+        this.logoutBackend(this.userService.instant.masterToken, this.userService.instant.authToken, this.userService.instant.deviceId);
     }
 
     /**
@@ -50,17 +44,24 @@ export class AuthService {
      */
     private loginBackend(login: string, password: string, deviceId = 'device1'): void {
         const headers = new HttpHeaders({'Content-Type': 'application/json'});
+        const accessDeniedCode = '9002';
 
-        this.httpClient.post(
-            environment.URL_API + '/security/authenticate',
-            {login, password, deviceId},
-            {headers}
-        ).subscribe((data) => {
+        this.httpClient.post(environment.URL_API + '/security/authenticate', {
+                login,
+                password,
+                deviceId
+            }, {headers})
+            .subscribe((data) => {
                 this.userService.setAuthData(data);
                 this.projectEventService.setEventData();
                 this.router.navigate(['dashboard']);
-            }
-        );
+            }, (error: HttpErrorResponse) => {
+                if (error.error.code === accessDeniedCode) {
+                    this.notificationService.openErrorNotification('error.loginData');
+                } else {
+                    this.notificationService.openErrorNotification('error.login');
+                }
+            });
     }
 
     /**
@@ -73,19 +74,18 @@ export class AuthService {
         const headers = new HttpHeaders({'Content-Type': 'application/json'});
 
         this.projectEventService.setEventData();
-        this.httpClient.post(
-            environment.URL_API + '/security/invalidate',
-            {masterToken, authenticationToken, deviceId},
-            {headers}
-        ).subscribe((data) => {
+        this.httpClient.post(environment.URL_API + '/security/invalidate', {
+                masterToken,
+                authenticationToken,
+                deviceId
+            }, {headers})
+            .subscribe((data) => {
                 this.userService.clearUserData();
                 this.router.navigate(['authentication/login']);
-            }
-            , (error) => {
+            }, (error) => {
                 this.router.navigate(['authentication/login']);
                 this.notificationService.openErrorNotification('error.logout');
-            }
-        );
+            });
     }
 
 }

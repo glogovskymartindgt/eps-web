@@ -10,29 +10,27 @@ import { MenuService } from '../menu.service';
 export class SideOptionsComponent implements OnInit {
 
     @Input() public routes;
-    public menuSelect = false;
+    public menuSelect;
+
+    public constructor(private readonly router: Router, public readonly menuService: MenuService) {
+    }
 
     public getClass(path: string): string {
         return path === this.menuService.selectedOptionPath ? 'side-option-selected' : 'side-option-unselected';
     }
 
-    public constructor(
-        private readonly router: Router,
-        public readonly menuService: MenuService) {
-    }
-
     public ngOnInit(): void {
         if (!this.routes) {
             this.routes = this.router.config
-                .find((group) => group.component && group.component.name === 'AdminLayoutComponent')
-                .children;
+                              .find((group) => group.component && group.component.name === 'AdminLayoutComponent').children;
         }
-
         this.setMenuOptionOnInitFromRouter();
+        this.menuSelect = this.menuService.menuOpen;
     }
 
     public toggleMenuSelect() {
-        this.menuSelect = !this.menuSelect;
+        this.menuService.toggleMenu();
+        this.menuSelect = this.menuService.menuOpen;
     }
 
     public highlightAndNavigateOption(path: string, highlight = true) {
@@ -43,14 +41,17 @@ export class SideOptionsComponent implements OnInit {
     }
 
     public checkRoute(object: any, hasChildren: boolean) {
-        return object &&
-            object.data &&
-            object.data.hasOwnProperty('menu') &&
-            (object.hasOwnProperty('children') === hasChildren);
+        return object && object.data && object.data.hasOwnProperty('menu') && (object.hasOwnProperty('children') === hasChildren);
     }
 
     public setMenuOptionOnInitFromRouter() {
-        ['reports', 'facts', 'business-areas', 'all-facts'].forEach((routeSubstring) => {
+        [
+            'project',
+            'reports',
+            'facts',
+            'business-areas',
+            'all-facts'
+        ].forEach((routeSubstring) => {
             if (this.router.url.includes(routeSubstring)) {
                 this.menuService.setSelectedOption(routeSubstring);
             }

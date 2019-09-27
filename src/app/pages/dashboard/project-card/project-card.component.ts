@@ -4,6 +4,8 @@ import { fadeEnterLeave } from '../../../shared/hazlenut/hazelnut-common/animati
 import { Venue } from '../../../shared/interfaces/venue.interface';
 import { Project } from '../../../shared/models/project.model';
 import { DashboardService } from '../../../shared/services/dashboard.service';
+import { ImagesService } from '../../../shared/services/data/images.service';
+import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 
 @Component({
@@ -15,27 +17,27 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
 
 /**
  * Project card component with logo data
- */
-export class ProjectCardComponent implements OnInit {
+ */ export class ProjectCardComponent implements OnInit {
     @Input() public project: Project;
 
     public showAllCities = false;
     public showOneCity = false;
     public showAllCountries = false;
     public showOneCountry = false;
-    public imagePath = '';
+    public imagePath: any = 'assets/img/event-logos/default_logo.png';
 
     public constructor(private readonly router: Router,
                        private readonly dashboardService: DashboardService,
-                       private readonly projectEventService: ProjectEventService
-    ) {
+                       private readonly projectEventService: ProjectEventService,
+                       private readonly imagesService: ImagesService,
+                       private readonly notificationService: NotificationService) {
     }
 
     /**
      * Project data setup in intialization
      */
     public ngOnInit() {
-        this.imagePath = this.getImagePath();
+        this.getImagePath();
         if (this.project.venues !== null && this.project.venues.length === 1) {
             this.showOneCity = true;
             this.showAllCities = false;
@@ -68,22 +70,18 @@ export class ProjectCardComponent implements OnInit {
     }
 
     /**
-     * Route to business area screen
+     * Route to selected project detail screen
      */
     public openAreas() {
-        this.router.navigate(['business-areas/list']);
+        this.router.navigate(['project/detail']);
     }
 
     /**
-     * Using projectEventService to store selected project informations into local storage
+     * Using projectEventService to store selected project information into local storage
      * Apply changes on second header to show project title logo and unselect project button
      */
     public onProjectSelected() {
-        this.projectEventService.setEventData(
-            this.project,
-            true,
-            this.imagePath
-        );
+        this.projectEventService.setEventData(this.project, true, this.imagePath);
         this.dashboardService.setSecondaryHeaderContent({
             isDashboard: false,
             title: `${this.project.year} ${this.project.name}`
@@ -91,19 +89,18 @@ export class ProjectCardComponent implements OnInit {
         this.openAreas();
     }
 
-    /**
-     * Set default image for years where image logo is unknown
-     */
-    public setDefaultImage() {
-        this.imagePath = `assets/img/event-logos/2020.png`;
-    }
-
-    /**
-     * Return image logo path from assets based on year
-     * images are not from project API
-     */
     public getImagePath() {
-        return `assets/img/event-logos/${this.project.year}.png`;
+        if (!this.project.logo) {
+            return;
+        }
+        this.imagesService.getImage(this.project.logo)
+            .subscribe((blob) => {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    this.imagePath = reader.result;
+                };
+                reader.readAsDataURL(blob);
+            });
     }
 
 }

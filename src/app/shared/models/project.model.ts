@@ -5,6 +5,9 @@ export class Project {
     public name?: string;
     public logo?: string;
     public state?: string;
+    public dateFrom: string;
+    public dateTo: string;
     public year?: string;
     public venues?: Venue[];
+    public description: string;
 }

@@ -1,28 +1,31 @@
 <div *ngFor="let menuItem of routes;">
-    <div *ngIf="checkRoute(menuItem, false)"
+    <div (click)="highlightAndNavigateOption(menuItem.path)"
+         *ngIf="checkRoute(menuItem, false)"
          class="menu-option h-26"
          matRipple
-         (click)="highlightAndNavigateOption(menuItem.path)"
     >
         <div [ngClass]="getClass(menuItem.path)">
         </div>
         <span class="menu-text">{{menuItem.data["title"] | translate}}</span>
         <div class="bottom-border mt-25"></div>
     </div>
-    <div *ngIf="checkRoute(menuItem, true)"
-         (click)="toggleMenuSelect()"
+    <div (click)="toggleMenuSelect()"
+         *ngIf="checkRoute(menuItem, true)"
          class="menu-option h-26"
-         matRipple>
+         matRipple
+    >
         <span class="menu-text">{{menuItem.data["title"] | translate}}</span>
         <mat-icon *ngIf="menuItem.hasOwnProperty('children')"
+                  [ngClass]="{'rotate-180': menuSelect, 'rotate-360': !menuSelect}"
                   class="menu-icon-dropdown"
-                  [ngClass]="{'rotate-180': menuSelect, 'rotate-360': !menuSelect}">
+        >
             keyboard_arrow_down
         </mat-icon>
     </div>
     <div *ngIf="checkRoute(menuItem, true)"
          [ngClass]="{'child-container-open': menuSelect,
-                 'child-container': !menuSelect}">
+                 'child-container': !menuSelect}"
+    >
         <side-options [routes]="menuItem.children"></side-options>
     </div>
 </div>

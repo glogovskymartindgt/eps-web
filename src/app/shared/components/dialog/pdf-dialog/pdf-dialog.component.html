@@ -1,0 +1,15 @@
+<div class="close-button-wrapper">
+    <button (click)="close()" color="priamry" mat-icon-button>
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<div class="pdf-wrapper">
+    <pdf-viewer
+        [fit-to-page]="true"
+        [original-size]="true"
+        [render-text]="true"
+        [show-all]="true"
+        [src]="data.source"
+    >
+    </pdf-viewer>
+</div>

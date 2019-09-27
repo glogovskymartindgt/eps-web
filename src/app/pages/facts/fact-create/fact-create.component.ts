@@ -4,7 +4,6 @@ import { FactService } from '../../../shared/services/data/fact.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 import { checkAndRemoveLastDotComma } from '../../../shared/utils/removeLastChar';
-import { TaskFormComponent } from '../../tasks/task-form/task-form.component';
 
 @Component({
     selector: 'fact-create',
@@ -16,7 +15,6 @@ import { TaskFormComponent } from '../../tasks/task-form/task-form.component';
  * Fact create component
  */
 export class FactCreateComponent implements OnInit {
-    @ViewChild(TaskFormComponent) public taskForm: TaskFormComponent;
     public formData = null;
     public loading = false;
 
@@ -63,8 +61,8 @@ export class FactCreateComponent implements OnInit {
         return {
             categoryId: formObject.category,
             subCategoryId: formObject.subCategory,
-            valueFirst: +formObject.firstValue,
-            valueSecond: +formObject.secondValue,
+            valueFirst: formObject.firstValue,
+            valueSecond: formObject.secondValue,
             hasOnlyTotalValue: formObject.hasOnlyTotalValue,
             totalValue: (formObject.totalValue) ? formObject.totalValue : (+formObject.firstValue + +formObject.secondValue),
             projectId: this.projectEventService.instant.id

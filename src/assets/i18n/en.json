@@ -6,6 +6,7 @@
     "menu": {
         "businessAreas": "Business Areas and Tasks",
         "dashboard": "Dashboard",
+        "project": "Project",
         "reports": "Reports",
         "facts": "Facts and Figures",
         "allFacts": "All Facts and Figures"
@@ -58,6 +59,7 @@
     },
     "error": {
         "login": "Log in failed",
+        "loginData": "Incorrect login data",
         "logout": "Log out failed",
         "required": "Required field",
         "api": "Can't connect to server",
@@ -68,9 +70,18 @@
         "interval": "Empty interval",
         "dateFormatIsInvalid": "Date format is invalid",
         "addComment": "Adding of comment failed.",
-        "loadComments": "Comments loading failed."
+        "loadComments": "Comments loading failed.",
+        "getProjectDetail": "Show project detail failed",
+        "imageDownload": "Image load failed",
+        "imageUpload": "Image upload failed",
+        "attachmentDownload": "Attachment load failed",
+        "attachmentUpload": "Attachment upload failed",
+        "fillVenue": "Fill venue please",
+        "fillCountry": "Fill country please",
+        "fillFirstCountry": "Fill first country please"
     },
     "errorCode": {
+        "1": "System error",
         "2": "Subcategory is already in use",
         "9002": "Access denied"
     },
@@ -132,13 +143,13 @@
     },
     "fact": {
         "title": "Facts and Figures",
-        "titleAllFacts":"All Facts and Figures",
+        "titleAllFacts": "All Facts and Figures",
         "category": "Category",
         "factItemType": "Fact item type",
         "subCategory": "Fact item",
         "firstVenue": "First Venue",
         "secondVenue": "Second Venue",
-        "totalValue": "Total Value",
+        "totalValue": "Both Venues",
         "newFact": "New fact",
         "editFact": "Edit fact",
         "detailFact": "Fact detail",
@@ -146,8 +157,8 @@
         "changedBy": "Changed by",
         "hasOnlyTotalValue": "One value for both venues",
         "year": "Year",
-        "firstValue": "First value",
-        "secondValue": "Second value"
+        "firstValue": "First Venue",
+        "secondValue": "Second Venue"
     },
     "color": {
         "green": "Green",
@@ -174,5 +185,20 @@
             "both": "Both",
             "none": "None"
         }
+    },
+    "project": {
+        "detailTitle": "Project detail",
+        "edit": "Edit",
+        "name": "Name",
+        "year": "Year",
+        "status": "Status",
+        "dateFrom": "Date from",
+        "dateTo": "Date to",
+        "firstCountry": "First Country",
+        "secondCountry": "Second Country",
+        "firstVenue": "First Venue",
+        "secondVenue": "Second Venue",
+        "description": "Description",
+        "drag": "Drag file here or browse"
     }
 }

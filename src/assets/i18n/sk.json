@@ -6,6 +6,7 @@
     "menu": {
         "businessAreas": "Biznis oblasti a úlohy",
         "dashboard": "Rozvrh",
+        "project": "Projekt",
         "reports": "Reporty",
         "facts": "Fakty a čísla",
         "allFacts": "Všetky Fakty a čísla"
@@ -70,6 +71,7 @@
         "loadComments": "Načítanie komentov sa nepodarilo."
     },
     "errorCode": {
+        "1": "Systémová chyba",
         "2": "Podkategória sa už používa",
         "9002": "Prístup zamietnutý"
     },
@@ -168,5 +170,9 @@
             "both": "Obe",
             "none": "Žiadna"
         }
+    },
+    "project": {
+        "detailTitle": "Detail projektu",
+        "edit": "Upraviť"
     }
 }

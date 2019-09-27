@@ -14,9 +14,9 @@
  */
 @import 'generated/generated-by-amount';
 @import 'importable/animations';
-@import 'override/material-override';
-@import 'material-theme';
 @import 'importable/colors';
+@import 'material-theme';
+@import 'override/material-override';
 
 .c-pointer {
     cursor: pointer;

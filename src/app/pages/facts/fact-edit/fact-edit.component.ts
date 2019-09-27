@@ -82,8 +82,8 @@ export class FactEditComponent implements OnInit {
         formObject.secondValue = checkAndRemoveLastDotComma(formObject.secondValue);
         formObject.totalValue = checkAndRemoveLastDotComma(formObject.totalValue);
         return {
-            valueFirst: +formObject.firstValue,
-            valueSecond: +formObject.secondValue,
+            valueFirst: formObject.firstValue,
+            valueSecond: formObject.secondValue,
             hasOnlyTotalValue: formObject.hasOnlyTotalValue,
             totalValue: (formObject.totalValue) ? formObject.totalValue : (+formObject.firstValue + +formObject.secondValue),
         };

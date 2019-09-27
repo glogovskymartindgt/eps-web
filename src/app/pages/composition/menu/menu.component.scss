@@ -70,3 +70,20 @@ $background: rgba(0, 45, 98, .5);
     bottom: 0;
     right: 0;
 }
+
+.close-wrapper {
+    display: none;
+    justify-content: flex-end;
+    align-items: center;
+
+    @media screen and (max-width: 1200px) {
+        display: inline-flex;
+    }
+}
+
+.drawer-open {
+    margin-left: 5px;
+    margin-top: 5px;
+    position: absolute;
+    display: inline;
+}
