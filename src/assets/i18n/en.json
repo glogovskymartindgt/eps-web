@@ -199,6 +199,8 @@
         "firstVenue": "First Venue",
         "secondVenue": "Second Venue",
         "description": "Description",
-        "drag": "Drag file here or browse"
+        "drag": "Drag file here or browse",
+        "noMapAdded": "The stadium map has not been added yet",
+        "toUploadMap": "To upload the map, start by editing the project"
     }
 }

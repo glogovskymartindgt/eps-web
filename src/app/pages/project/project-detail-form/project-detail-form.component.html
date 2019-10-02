@@ -172,9 +172,9 @@
                     >
                         {{'error.fillVenue' | translate}}
                     </mat-error>
-                    <div *ngIf="!editMode">
+                    <div *ngIf="!editMode && firstMapSrc">
                         <div class="pdf-wrapper">
-                            <div *ngIf="firstMapSrc" class="pdf-indicator"><span>.pdf</span></div>
+                            <div class="pdf-indicator"><span>.pdf</span></div>
                             <pdf-viewer (click)="openDialog(firstMapSrc)"
                                         [@fadeEnterLeave]
                                         [fit-to-page]="true"
@@ -252,7 +252,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="p-10" fxLayout="row">
+                    <div *ngIf="editMode" class="p-10" fxLayout="row">
                         <div *ngIf="editMode && firstMapPdfName" class="map-file-edit" fxFlex>
                             {{firstMapPdfName}}
                         </div>
@@ -270,6 +270,19 @@
                             >
                         </div>
                     </div>
+                    <div *ngIf="!editMode && !firstMapSrc" class="empty-map" fxLayout="column">
+                        <div fxFlex="40" fxLayoutAlign="center flex-end">
+                            <img [src]="'assets/img/custom-svg/stadium.svg'"
+                                 alt="stadium"
+                            >
+                        </div>
+                        <div fxFlex="40" fxLayoutAlign="center center">
+                            <p class="text-no-map-added">{{'project.noMapAdded' | translate}}</p>
+                        </div>
+                        <div fxFlex fxLayoutAlign="center center">
+                            <p class="project-to-upload-map">{{'project.toUploadMap' | translate}}</p>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="short-input" fxLayout="column">
@@ -280,9 +293,9 @@
                     >
                         {{'error.fillVenue' | translate}}
                     </mat-error>
-                    <div *ngIf="!editMode">
+                    <div *ngIf="!editMode && secondMapSrc">
                         <div class="pdf-wrapper">
-                            <div *ngIf="secondMapSrc" class="pdf-indicator"><span>.pdf</span></div>
+                            <div class="pdf-indicator"><span>.pdf</span></div>
                             <pdf-viewer (click)="openDialog(secondMapSrc)"
                                         [@fadeEnterLeave]
                                         [fit-to-page]="true"
@@ -362,7 +375,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="p-10" fxLayout="row">
+                    <div *ngIf="editMode" class="p-10" fxLayout="row">
                         <div *ngIf="editMode && secondMapPdfName" class="map-file-edit" fxFlex>
                             {{secondMapPdfName}}
                         </div>
@@ -378,6 +391,20 @@
                                 [src]="'assets/img/svg-squares/remove.svg'"
                                 alt="remove"
                             >
+                        </div>
+                    </div>
+                    
+                    <div *ngIf="!editMode && !secondMapSrc" class="empty-map" fxLayout="column">
+                        <div fxFlex="40" fxLayoutAlign="center flex-end">
+                            <img [src]="'assets/img/custom-svg/stadium.svg'"
+                                 alt="stadium"
+                            >
+                        </div>
+                        <div fxFlex="40" fxLayoutAlign="center center">
+                            <p class="text-no-map-added">{{'project.noMapAdded' | translate}}</p>
+                        </div>
+                        <div fxFlex fxLayoutAlign="center center">
+                            <p class="project-to-upload-map">{{'project.toUploadMap' | translate}}</p>
                         </div>
                     </div>
                 </div>
