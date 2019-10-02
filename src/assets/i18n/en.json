@@ -158,7 +158,8 @@
         "hasOnlyTotalValue": "One value for both venues",
         "year": "Year",
         "firstValue": "First Venue",
-        "secondValue": "Second Venue"
+        "secondValue": "Second Venue",
+        "unavailable": "This function will become available after you set the event venues."
     },
     "color": {
         "green": "Green",
