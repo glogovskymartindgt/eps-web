@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidatorFn } from '@angular/forms';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -421,6 +421,54 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         }
     }
 
+    private filledFirstCountryWhenVenueValidator(): ValidatorFn {
+        return (control: AbstractControl): {[key: string]: any} | null => {
+            const forbidden = this.editMode && this.projectDetailForm.controls.firstVenue.value && !this.projectDetailForm.controls.firstCountry.value;
+            console.log(forbidden);
+            return forbidden ? {noFirstCountry: {value: control.value}} : null;
+        };
+    }
+
+    private firstCountryEmptyWhenFirstVenue() {
+        return (group: FormGroup): {[key: string]: any} => {
+            const firstCountryEmptyWhenFirstVenue = this.editMode && this.projectDetailForm.controls.firstVenue.value && !this.projectDetailForm.controls.firstCountry.value;
+            return firstCountryEmptyWhenFirstVenue ? {firstCountryEmptyWhenSecondCountry: firstCountryEmptyWhenFirstVenue} : null;
+
+        };
+    }
+
+    private secondCountryEmptyWhenSecondVenue() {
+        return (group: FormGroup): {[key: string]: any} => {
+            const secondCountryEmptyWhenSecondVenue = this.editMode && this.projectDetailForm.controls.secondVenue.value && !this.projectDetailForm.controls.secondCountry.value;
+            return secondCountryEmptyWhenSecondVenue ? {secondCountryEmptyWhenSecondVenue} : null;
+
+        };
+    }
+
+    private firstCountryEmptyWhenSecondCountry() {
+        return (group: FormGroup): {[key: string]: any} => {
+            const firstCountryEmptyWhenSecondCountry = this.editMode && this.projectDetailForm.controls.secondCountry.value && !this.projectDetailForm.controls.firstCountry.value;
+            return firstCountryEmptyWhenSecondCountry ? {firstCountryEmptyWhenSecondCountry} : null;
+
+        };
+    }
+
+    private firstVenueEmptyWhenFirstMap() {
+        return (group: FormGroup): {[key: string]: any} => {
+            const firstVenueEmptyWhenFirstMap = this.editMode && this.projectDetailForm.controls.firstMapUploadId.value && !this.projectDetailForm.controls.firstVenue.value;
+            return firstVenueEmptyWhenFirstMap ? {firstVenueEmptyWhenFirstMap} : null;
+
+        };
+    }
+
+    private secondVenueEmptyWhenSecondMap() {
+        return (group: FormGroup): {[key: string]: any} => {
+            const secondVenueEmptyWhenSecondMap = this.editMode && this.projectDetailForm.controls.secondMapUploadId.value && !this.projectDetailForm.controls.secondVenue.value;
+            return secondVenueEmptyWhenSecondMap ? {secondVenueEmptyWhenSecondMap} : null;
+
+        };
+    }
+
     private initializeForm(): void {
         this.projectDetailForm = this.formBuilder.group({
             projectId: [''],
@@ -433,7 +481,7 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
             firstCountry: [''],
             secondCountry: [''],
             oldFirstVenue: [''],
-            firstVenue: [''],
+            firstVenue: ['', ],
             oldSecondVenue: [''],
             secondVenue: [''],
             firstMap: [''],
@@ -444,7 +492,16 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
             secondMapUploadId: [''],
             secondMapUploadName: [''],
             description: [''],
+        }, {
+            validator: [
+                this.firstCountryEmptyWhenFirstVenue(),
+                this.secondCountryEmptyWhenSecondVenue(),
+                this.firstCountryEmptyWhenSecondCountry(),
+                this.firstVenueEmptyWhenFirstMap(),
+                this.secondVenueEmptyWhenSecondMap(),
+            ]
         });
+
     }
 
 }
