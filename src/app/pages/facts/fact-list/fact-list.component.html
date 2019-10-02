@@ -17,12 +17,12 @@
         </div>
     </div>
     
-    <div *ngIf="!projectEventService.instant.firstVenue && !projectEventService.instant.secondVenue && !router.url.includes('all-facts')">
+    <div *ngIf="(!projectEventService.instant.firstVenue || !projectEventService.instant.secondVenue) && !router.url.includes('all-facts')">
         <p class="text-unavailable-facts">{{'fact.unavailable' | translate}}</p>
     </div>
     <!--Core table with custom columns, value columns have measureUnit-->
     <haz-core-table (requestData)="setTableData($event)"
-                    *ngIf="!(!projectEventService.instant.firstVenue && !projectEventService.instant.secondVenue && !router.url.includes('all-facts'))"
+                    *ngIf="!((!projectEventService.instant.firstVenue || !projectEventService.instant.secondVenue) && !router.url.includes('all-facts'))"
                     [configuration]="config"
                     [data]="data"
     >
