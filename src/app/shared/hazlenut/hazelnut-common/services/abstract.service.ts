@@ -2,15 +2,13 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { ReportType } from '../../../enums/report-type.enum';
 // TODO: abstract service shouldn't be dependent od core-table
 import { TableChangeEvent } from '../../core-table/table-change-event';
-import {
-    NOTIFICATION_WRAPPER_TOKEN,
-    NotificationWrapper
-} from '../../small-components/notifications/notification.wrapper';
+import { NOTIFICATION_WRAPPER_TOKEN, NotificationWrapper } from '../../small-components/notifications/notification.wrapper';
 import { HazelnutConfig } from '../config/hazelnut-config';
 import { StringMap } from '../hazelnut';
-import { BrowseResponse, Direction, Filter, PostContent, Property, Sort } from '../models';
+import { BrowseResponse, Direction, Filter, PostContent, Sort } from '../models';
 import { CountModel } from '../models/count.model';
 import { AbstractServiceParams, CoreService } from './core-service.service';
 
@@ -18,9 +16,7 @@ import { AbstractServiceParams, CoreService } from './core-service.service';
  * HTTP methods which find usage in multiple projects are here
  */
 export abstract class AbstractService<T = any> extends CoreService<T> {
-    protected constructor(http: HttpClient,
-                          @Inject(NOTIFICATION_WRAPPER_TOKEN) notificationService: NotificationWrapper,
-                          protected readonly urlKey: string) {
+    protected constructor(http: HttpClient, @Inject(NOTIFICATION_WRAPPER_TOKEN) notificationService: NotificationWrapper, protected readonly urlKey: string) {
         super(http, notificationService);
     }
 
@@ -28,7 +24,8 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
      * Function return results from browse api for {@link CoreTableComponent}
      */
     public browseTable(params: TableChangeEvent, url = this.urlKey + '/browse'): Observable<BrowseResponse<T>> {
-        const filters: Filter[] = Object.keys(params.filters).map((key) => params.filters[key]);
+        const filters: Filter[] = Object.keys(params.filters)
+                                        .map((key) => params.filters[key]);
         const sorts: Sort[] = [];
 
         if (params.sortActive) {
@@ -36,7 +33,8 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
         }
         return this.browseInner(`${HazelnutConfig.URL_API}/${url}`,
             PostContent.create(params.pageSize, params.pageSize * params.pageIndex, filters, sorts),
-            (response) => new BrowseResponse(this.extractListData(response), response.totalElements));
+            (response) => new BrowseResponse(this.extractListData(response), response.totalElements)
+        );
     }
 
     /**
@@ -120,17 +118,12 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
     /**
      *
      */
-    protected browse<S = T>(filter: Filter[] = [],
-                            sort: Sort[] = [new Sort()],
-                            limit: number = HazelnutConfig.BROWSE_LIMIT,
-                            offset = 0): Observable<T[]> {
+    protected browse<S = T>(filter: Filter[] = [], sort: Sort[] = [new Sort()], limit: number = HazelnutConfig.BROWSE_LIMIT, offset = 0): Observable<T[]> {
         if (sort.length === 0) {
             sort.push(new Sort());
         }
 
-        return this.browseInner(`${HazelnutConfig.URL_API}/${this.urlKey}/browse`,
-            PostContent.create(limit, offset, filter, sort),
-            this.extractListData);
+        return this.browseInner(`${HazelnutConfig.URL_API}/${this.urlKey}/browse`, PostContent.create(limit, offset, filter, sort), this.extractListData);
     }
 
     protected browseWithSummary<S = T>(postContent: PostContent, additionalUrl = ''): Observable<BrowseResponse<S>> {
@@ -149,9 +142,7 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
         } else if (!this.urlKey.endsWith('/')) {
             additionalUrl = '/' + additionalUrl;
         }
-        return this.browseInner<BrowseResponse<S>>(`${HazelnutConfig.URL_API}/${this.urlKey}${additionalUrl}browse`,
-            postContent,
-            this.extractDetail);
+        return this.browseInner<BrowseResponse<S>>(`${HazelnutConfig.URL_API}/${this.urlKey}${additionalUrl}browse`, postContent, this.extractDetail);
     }
 
     /**
@@ -198,7 +189,7 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
      * Function extract all data from response
      *
      */
-    protected extractListData<S = T>(res: { content: S[] }): S[] {
+    protected extractListData<S = T>(res: {content: S[]}): S[] {
         return (res && res.content) || [];
     }
 
@@ -231,7 +222,10 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
         if (sort && sort.length === 0) {
             sort.push(new Sort());
         }
-        const content = {filterCriteria: {criteria: filter}, sortingCriteria: {criteria: sort}};
+        const content = {
+            filterCriteria: {criteria: filter},
+            sortingCriteria: {criteria: sort}
+        };
         return this.postBlob(`${HazelnutConfig.URL_API}/${this.urlKey}/report`, content, this.extractDetail);
     }
 
@@ -242,19 +236,14 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
      * @param params
      * @returns {Observable<S>}
      */
-    protected postBlob<S = T[]>(url: string,
-                                body: any,
-                                mapFunction: (response: any) => S,
-                                params: HttpParams | { [param: string]: string | string[]; } = {}): Observable<S> {
+    protected postBlob<S = T[]>(url: string, body: any, mapFunction: (response: any) => S, params: HttpParams | {[param: string]: string | string[]; } = {}): Observable<S> {
         return this.http.post(url, body, {
-            params,
-            headers: this.getHeader(),
-            responseType: 'blob',
-            observe: 'response'
-        }).pipe(
-            map(mapFunction),
-            catchError(this.handleError),
-        );
+                       params,
+                       headers: this.getHeader(),
+                       responseType: 'blob',
+                       observe: 'response'
+                   })
+                   .pipe(map(mapFunction), catchError(this.handleError), );
     }
 
     /**
@@ -264,7 +253,7 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
      * @returns {Observable<T>}
      */
     protected reportGet<S = T>(projectId: number, reportId: number): Observable<any> {
-        return this.getBlob(`${HazelnutConfig.URL_API}/report/${projectId}/${reportId}`, this.extractDetail);
+        return this.getBlob(`${HazelnutConfig.URL_API}/report/${reportId === 1 ? ReportType.ToDoList : ReportType.RedFlagList}/project/${projectId}`, this.extractDetail);
     }
 
     /**
@@ -274,18 +263,14 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
      * @param params
      * @returns {Observable<S>}
      */
-    protected getBlob<S = T[]>(url: string,
-                               mapFunction: (response: any) => S,
-                               params: HttpParams | { [param: string]: string | string[]; } = {}): Observable<S> {
+    protected getBlob<S = T[]>(url: string, mapFunction: (response: any) => S, params: HttpParams | {[param: string]: string | string[]; } = {}): Observable<S> {
         return this.http.get(url, {
-            params,
-            headers: this.getHeader(),
-            responseType: 'blob',
-            observe: 'response'
-        }).pipe(
-            map(mapFunction),
-            catchError(this.handleError),
-        );
+                       params,
+                       headers: this.getHeader(),
+                       responseType: 'blob',
+                       observe: 'response'
+                   })
+                   .pipe(map(mapFunction), catchError(this.handleError), );
     }
 
 }
