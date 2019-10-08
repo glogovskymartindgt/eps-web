@@ -247,7 +247,7 @@ export class TaskListComponent implements OnInit {
      */
     public export() {
         this.loading = true;
-        this.taskService.exportTasks(this.lastTableChangeEvent, this.additionalFilters).subscribe((response) => {
+        this.taskService.exportTasks(this.lastTableChangeEvent, this.additionalFilters, this.projectEventService.instant.id).subscribe((response) => {
             const contentDisposition = response.headers.get('Content-Disposition');
             const exportName: string = GetFileNameFromContentDisposition(contentDisposition);
             new FileManager().saveFile(

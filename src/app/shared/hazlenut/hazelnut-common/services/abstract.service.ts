@@ -218,7 +218,7 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
      * @param {Sort[]} sort
      * @returns {Observable<T>}
      */
-    protected report<S = T>(filter: Filter[] = [], sort: Sort[] = [new Sort()]): Observable<any> {
+    protected report<S = T>(filter: Filter[] = [], sort: Sort[] = [new Sort()], projectId: number): Observable<any> {
         if (sort && sort.length === 0) {
             sort.push(new Sort());
         }
@@ -226,7 +226,7 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
             filterCriteria: {criteria: filter},
             sortingCriteria: {criteria: sort}
         };
-        return this.postBlob(`${HazelnutConfig.URL_API}/${this.urlKey}/report`, content, this.extractDetail);
+        return this.postBlob(`${HazelnutConfig.URL_API}/${this.urlKey}/project/${projectId}/report`, content, this.extractDetail);
     }
 
     /**

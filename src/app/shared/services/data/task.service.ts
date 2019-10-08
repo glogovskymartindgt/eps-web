@@ -67,7 +67,7 @@ export class TaskService extends ProjectService<TaskInterface> {
      * @param tableChangeEvent
      * @param additionalFilters
      */
-    public exportTasks(tableChangeEvent?: TableChangeEvent, additionalFilters?: Filter[]) {
+    public exportTasks(tableChangeEvent?: TableChangeEvent, additionalFilters?: Filter[], projectId?: number) {
         let filters = [];
         let sort = [];
         if (tableChangeEvent && tableChangeEvent.sortActive && tableChangeEvent.sortDirection) {
@@ -77,7 +77,7 @@ export class TaskService extends ProjectService<TaskInterface> {
         }
         filters = filters.concat(additionalFilters);
         filters = this.reorderFiltersToApplyCorectTrafficColor(filters);
-        return this.report(filters, sort);
+        return this.report(filters, sort, projectId);
     }
 
     /**
