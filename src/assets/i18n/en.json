@@ -159,7 +159,7 @@
         "year": "Year",
         "firstValue": "First Venue",
         "secondValue": "Second Venue",
-        "unavailable": "This function will become available after you set the event venues."
+        "unavailable": "This function will become available after you set the project venues."
     },
     "color": {
         "green": "Green",

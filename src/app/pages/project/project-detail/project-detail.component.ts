@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
+import { AttachmentFormat } from '../../../shared/enums/attachment-format.enum';
+import { AttachmentType } from '../../../shared/enums/attachment-type.enum';
 import { enterLeave } from '../../../shared/hazlenut/hazelnut-common/animations';
 import { ProjectsService } from '../../../shared/services/data/projects.service';
 import { NotificationService } from '../../../shared/services/notification.service';
@@ -91,6 +93,8 @@ export class ProjectDetailComponent implements OnInit {
                 firstVenueObject.attachment = {
                     fileName: formObject.firstMapUploadName,
                     filePath: formObject.firstMapUploadId,
+                    type: AttachmentType.Map,
+                    format: AttachmentFormat.Pdf
                 };
             }
             apiObject.projectVenues.push(firstVenueObject);
@@ -106,6 +110,8 @@ export class ProjectDetailComponent implements OnInit {
                 secondVenueObject.attachment = {
                     fileName: formObject.secondMapUploadName,
                     filePath: formObject.secondMapUploadId,
+                    type: AttachmentType.Map,
+                    format: AttachmentFormat.Pdf
                 };
             }
             apiObject.projectVenues.push(secondVenueObject);
