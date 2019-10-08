@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Role } from '../../../shared/enums/role.enum';
 import { ProjectInterface } from '../../../shared/interfaces/project.interface';
+import { AuthService } from '../../../shared/services/auth.service';
 import { DashboardService } from '../../../shared/services/dashboard.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 
@@ -19,6 +21,7 @@ export class ProjectListComponent implements OnInit {
     public constructor(
         private readonly projectEventService: ProjectEventService,
         private readonly dashboardService: DashboardService,
+        private readonly authService: AuthService,
     ) {
     }
 

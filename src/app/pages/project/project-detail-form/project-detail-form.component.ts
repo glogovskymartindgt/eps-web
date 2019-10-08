@@ -421,14 +421,6 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         }
     }
 
-    private filledFirstCountryWhenVenueValidator(): ValidatorFn {
-        return (control: AbstractControl): {[key: string]: any} | null => {
-            const forbidden = this.editMode && this.projectDetailForm.controls.firstVenue.value && !this.projectDetailForm.controls.firstCountry.value;
-            console.log(forbidden);
-            return forbidden ? {noFirstCountry: {value: control.value}} : null;
-        };
-    }
-
     private firstCountryEmptyWhenFirstVenue() {
         return (group: FormGroup): {[key: string]: any} => {
             const firstCountryEmptyWhenFirstVenue = this.editMode && this.projectDetailForm.controls.firstVenue.value && !this.projectDetailForm.controls.firstCountry.value;

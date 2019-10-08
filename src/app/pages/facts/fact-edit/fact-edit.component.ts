@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Role } from '../../../shared/enums/role.enum';
+import { AuthService } from '../../../shared/services/auth.service';
 import { FactService } from '../../../shared/services/data/fact.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
@@ -17,21 +19,19 @@ const FACTS_SCREEN = 'facts';
 
 /**
  * Fact edit form
- */
-export class FactEditComponent implements OnInit {
+ */ export class FactEditComponent implements OnInit {
     @ViewChild(TaskFormComponent) public taskForm: TaskFormComponent;
     public formData = null;
     public canSave = true;
     private factRoute = FACTS_SCREEN;
     private factId: number;
 
-    public constructor(
-        private readonly router: Router,
-        private readonly notificationService: NotificationService,
-        private readonly factService: FactService,
-        private readonly activatedRoute: ActivatedRoute,
-        public readonly projectEventService: ProjectEventService,
-    ) {
+    public constructor(private readonly router: Router,
+                       private readonly notificationService: NotificationService,
+                       private readonly factService: FactService,
+                       private readonly activatedRoute: ActivatedRoute,
+                       public readonly projectEventService: ProjectEventService,
+                       private readonly authService: AuthService) {
     }
 
     /**
@@ -62,8 +62,8 @@ export class FactEditComponent implements OnInit {
      */
     public onSave() {
         if (this.formData) {
-            this.factService.editTask(this.factId, this.transformTaskToApiObject(this.formData)).subscribe(
-                (response) => {
+            this.factService.editTask(this.factId, this.transformTaskToApiObject(this.formData))
+                .subscribe((response) => {
                     this.notificationService.openSuccessNotification('success.edit');
                     this.router.navigate([this.factRoute + '/list']);
                 }, (error) => {
@@ -71,6 +71,10 @@ export class FactEditComponent implements OnInit {
                 });
         }
 
+    }
+
+    public hasUpdateFactItem() {
+        this.authService.hasRole(Role.RoleUpdateFactItem);
     }
 
     /**

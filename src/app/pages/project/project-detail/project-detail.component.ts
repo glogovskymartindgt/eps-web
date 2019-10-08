@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { AttachmentFormat } from '../../../shared/enums/attachment-format.enum';
 import { AttachmentType } from '../../../shared/enums/attachment-type.enum';
+import { Role } from '../../../shared/enums/role.enum';
 import { enterLeave } from '../../../shared/hazlenut/hazelnut-common/animations';
+import { AuthService } from '../../../shared/services/auth.service';
 import { ProjectsService } from '../../../shared/services/data/projects.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
@@ -21,11 +23,11 @@ export class ProjectDetailComponent implements OnInit {
 
     public constructor(private readonly projectsService: ProjectsService,
                        private readonly notificationService: NotificationService,
-                       private readonly projectEventService: ProjectEventService) {
+                       private readonly projectEventService: ProjectEventService,
+                       private readonly authService: AuthService) {
     }
 
     public ngOnInit(): void {
-
     }
 
     /**
@@ -58,6 +60,10 @@ export class ProjectDetailComponent implements OnInit {
      */
     public toggleEditMode() {
         this.editMode = !this.editMode;
+    }
+
+    public hasEditRole() {
+        return this.authService.hasRole(Role.RoleUpdateProject);
     }
 
     /**

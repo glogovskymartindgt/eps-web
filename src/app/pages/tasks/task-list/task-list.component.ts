@@ -2,15 +2,9 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { Role } from '../../../shared/enums/role.enum';
 import {
-    CoreTableComponent,
-    ListItem,
-    TableCellType,
-    TableChangeEvent,
-    TableColumn,
-    TableColumnFilter,
-    TableConfiguration,
-    TableFilterType
+    CoreTableComponent, ListItem, TableCellType, TableChangeEvent, TableColumn, TableColumnFilter, TableConfiguration, TableFilterType
 } from '../../../shared/hazlenut/core-table';
 import { fadeEnterLeave } from '../../../shared/hazlenut/hazelnut-common/animations';
 import { StringUtils } from '../../../shared/hazlenut/hazelnut-common/hazelnut';
@@ -18,6 +12,7 @@ import { BrowseResponse, Filter } from '../../../shared/hazlenut/hazelnut-common
 import { FileManager } from '../../../shared/hazlenut/hazelnut-common/utils/file-manager';
 import { BusinessArea } from '../../../shared/interfaces/bussiness-area.interface';
 import { TaskInterface } from '../../../shared/interfaces/task.interface';
+import { AuthService } from '../../../shared/services/auth.service';
 import { BusinessAreaService } from '../../../shared/services/data/business-area.service';
 import { TaskService } from '../../../shared/services/data/task.service';
 import { NotificationService } from '../../../shared/services/notification.service';
@@ -65,7 +60,7 @@ export class TaskListComponent implements OnInit {
                        private readonly notificationService: NotificationService,
                        private readonly routingStorageService: RoutingStorageService,
                        private readonly tableChangeStorageService: TableChangeStorageService,
-    ) {
+                       private readonly authService: AuthService) {
     }
 
     public ngOnInit() {
@@ -144,14 +139,8 @@ export class TaskListComponent implements OnInit {
                         select: [
                             new ListItem('', this.translateService.instant('venue.value.all')),
                             new ListItem('NONE', this.translateService.instant('venue.value.none')),
-                            new ListItem(
-                                this.projectEventService.instant.firstVenue,
-                                this.projectEventService.instant.firstVenue
-                            ),
-                            new ListItem(
-                                this.projectEventService.instant.secondVenue,
-                                this.projectEventService.instant.secondVenue
-                            ),
+                            new ListItem(this.projectEventService.instant.firstVenue, this.projectEventService.instant.firstVenue),
+                            new ListItem(this.projectEventService.instant.secondVenue, this.projectEventService.instant.secondVenue),
                             new ListItem('BOTH', this.translateService.instant('venue.value.both')),
                         ]
                     }),
@@ -210,11 +199,7 @@ export class TaskListComponent implements OnInit {
             paging: true,
         };
         // set table change event data from local storage
-        if (
-            !this.isInitialized
-            && this.isReturnFromDetail()
-            && this.tableChangeStorageService.getTasksLastTableChangeEvent()
-        ) {
+        if (!this.isInitialized && this.isReturnFromDetail() && this.tableChangeStorageService.getTasksLastTableChangeEvent()) {
             if (this.tableChangeStorageService.getTasksLastTableChangeEvent().filters) {
                 this.config.predefinedFilters = this.tableChangeStorageService.getTasksLastTableChangeEvent().filters;
             }
@@ -225,12 +210,14 @@ export class TaskListComponent implements OnInit {
                 this.config.predefinedPageSize = this.tableChangeStorageService.getTasksLastTableChangeEvent().pageSize;
             }
             if (this.tableChangeStorageService.getTasksLastTableChangeEvent().sortDirection) {
-                this.config.predefinedSortDirection =
-                    this.tableChangeStorageService.getTasksLastTableChangeEvent().sortDirection.toLowerCase();
+                this.config.predefinedSortDirection = this.tableChangeStorageService.getTasksLastTableChangeEvent()
+                                                          .sortDirection
+                                                          .toLowerCase();
             }
             if (this.tableChangeStorageService.getTasksLastTableChangeEvent().sortActive) {
-                this.config.predefinedSortActive =
-                    StringUtils.convertSnakeToCamel(this.tableChangeStorageService.getTasksLastTableChangeEvent().sortActive.toLowerCase());
+                this.config.predefinedSortActive = StringUtils.convertSnakeToCamel(this.tableChangeStorageService.getTasksLastTableChangeEvent()
+                                                                                       .sortActive
+                                                                                       .toLowerCase());
             }
         }
     }
@@ -247,19 +234,16 @@ export class TaskListComponent implements OnInit {
      */
     public export() {
         this.loading = true;
-        this.taskService.exportTasks(this.lastTableChangeEvent, this.additionalFilters, this.projectEventService.instant.id).subscribe((response) => {
-            const contentDisposition = response.headers.get('Content-Disposition');
-            const exportName: string = GetFileNameFromContentDisposition(contentDisposition);
-            new FileManager().saveFile(
-                exportName,
-                response.body,
-                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-            );
-            this.loading = false;
-        }, () => {
-            this.notificationService.openErrorNotification('error.api');
-            this.loading = false;
-        });
+        this.taskService.exportTasks(this.lastTableChangeEvent, this.additionalFilters, this.projectEventService.instant.id)
+            .subscribe((response) => {
+                const contentDisposition = response.headers.get('Content-Disposition');
+                const exportName: string = GetFileNameFromContentDisposition(contentDisposition);
+                new FileManager().saveFile(exportName, response.body, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+                this.loading = false;
+            }, () => {
+                this.notificationService.openErrorNotification('error.api');
+                this.loading = false;
+            });
     }
 
     /**
@@ -290,12 +274,7 @@ export class TaskListComponent implements OnInit {
 
         // Add business area filter to additional filters
         if (!this.isInitialized && this.getBusinessAreaValue() !== 'all') {
-            this.additionalFilters.push(
-                this.businessAreaFilter = new Filter(
-                    'BUSINESS_AREA_NAME',
-                    this.getBusinessAreaValue()
-                )
-            );
+            this.additionalFilters.push(this.businessAreaFilter = new Filter('BUSINESS_AREA_NAME', this.getBusinessAreaValue()));
         }
 
         if (this.allTaskFilters) {
@@ -309,28 +288,35 @@ export class TaskListComponent implements OnInit {
         this.loading = true;
 
         // Update table change event values from local storage
-        if (!this.isInitialized
-            && this.isReturnFromDetail()
-            && this.tableChangeStorageService.getTasksLastTableChangeEvent()
-        ) {
+        if (!this.isInitialized && this.isReturnFromDetail() && this.tableChangeStorageService.getTasksLastTableChangeEvent()) {
             tableChangeEvent.pageIndex = this.tableChangeStorageService.getTasksLastTableChangeEvent().pageIndex;
             tableChangeEvent.pageSize = this.tableChangeStorageService.getTasksLastTableChangeEvent().pageSize;
             tableChangeEvent.sortDirection = this.tableChangeStorageService.getTasksLastTableChangeEvent().sortDirection;
             tableChangeEvent.sortActive = this.tableChangeStorageService.getTasksLastTableChangeEvent().sortActive;
         }
-        this.taskService.browseTasks(
-            tableChangeEvent,
-            this.additionalFilters
-        ).subscribe((data) => {
-            this.data = data;
-            this.loading = false;
-            this.isInitialized = true;
-        }, () => {
-            this.loading = false;
-            this.notificationService.openErrorNotification('error.api');
-        });
+        this.taskService.browseTasks(tableChangeEvent, this.additionalFilters)
+            .subscribe((data) => {
+                this.data = data;
+                this.loading = false;
+                this.isInitialized = true;
+            }, () => {
+                this.loading = false;
+                this.notificationService.openErrorNotification('error.api');
+            });
 
         this.tableChangeStorageService.setTasksLastTableChangeEvent(tableChangeEvent, this.additionalFilters);
+    }
+
+    public hasCreateTaskRole() {
+        return this.authService.hasRole(Role.RoleCreateTask);
+    }
+
+    public hasRoleExportReportTask() {
+        return this.authService.hasRole(Role.RoleExportReportTask);
+    }
+
+    public hasReadOrUpdateTaskRole() {
+        return this.authService.hasRole(Role.RoleReadTask) || this.authService.hasRole(Role.RoleUpdateTask);
     }
 
     private removeDuplicateFilters(): void {
@@ -347,10 +333,11 @@ export class TaskListComponent implements OnInit {
      * Load business area list from API
      */
     private loadBusinessAreaList() {
-        this.businessAreaService.listBusinessAreas().subscribe((data) => {
-            this.businessAreaList = data.content
-                .filter((item) => item.codeItem !== null && item.state === 'VALID');
-        });
+        this.businessAreaService.listBusinessAreas()
+            .subscribe((data) => {
+                this.businessAreaList = data.content
+                                            .filter((item) => item.codeItem !== null && item.state === 'VALID');
+            });
     }
 
     /**
@@ -359,13 +346,8 @@ export class TaskListComponent implements OnInit {
     private getBusinessAreaValue(): string {
         let businessAreaValue = this.selectedAreaService.instant.selectedArea;
         const tableChangeEventInStorage = this.tableChangeStorageService.getTasksLastTableChangeEvent();
-        if (!this.isInitialized &&
-            this.isReturnFromDetail() &&
-            tableChangeEventInStorage &&
-            tableChangeEventInStorage.additionalFilters) {
-            businessAreaValue = this.getStorageBusinessAreaFilter(tableChangeEventInStorage) ?
-                this.getStorageBusinessAreaFilter(tableChangeEventInStorage).value :
-                'all';
+        if (!this.isInitialized && this.isReturnFromDetail() && tableChangeEventInStorage && tableChangeEventInStorage.additionalFilters) {
+            businessAreaValue = this.getStorageBusinessAreaFilter(tableChangeEventInStorage) ? this.getStorageBusinessAreaFilter(tableChangeEventInStorage).value : 'all';
         }
         return businessAreaValue;
     }
@@ -378,17 +360,16 @@ export class TaskListComponent implements OnInit {
         if (!tableChangeEventInStorage || !tableChangeEventInStorage.additionalFilters) {
             return;
         }
-        return tableChangeEventInStorage.additionalFilters.find(
-            (filter) => filter.property === 'BUSINESS_AREA_NAME'
-        );
+        return tableChangeEventInStorage.additionalFilters.find((filter) => filter.property === 'BUSINESS_AREA_NAME');
     }
 
     /**
      * If returned from edit task form or create task form
      */
     private isReturnFromDetail() {
-        return this.routingStorageService.getPreviousUrl().includes('tasks/edit')
-            || this.routingStorageService.getPreviousUrl().includes('tasks/create');
+        return this.routingStorageService.getPreviousUrl()
+                   .includes('tasks/edit') || this.routingStorageService.getPreviousUrl()
+                                                  .includes('tasks/create');
     }
 
 }

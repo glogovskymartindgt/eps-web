@@ -1,5 +1,5 @@
 <!--Edit fact form with predefined values based on id from url parameters-->
-<div fxLayout="row" class="basic-screen-header">
+<div class="basic-screen-header" fxLayout="row">
     <div class="pl-50" fxLayoutAlign="start center">
         <h3>{{'fact.editFact' | translate}}</h3>
     </div>
@@ -10,18 +10,19 @@
         <fact-form (formDataChange)="formData=$event"></fact-form>
         <div>
             <button (click)="onSave()"
+                    *ngIf="hasUpdateFactItem"
                     [disabled]="!formData || !canSave"
-                    type="submit"
-                    mat-flat-button
-                    color="accent"
                     class="mr-10"
+                    color="accent"
+                    mat-flat-button
+                    type="submit"
             >
                 {{ 'tasks.save' | translate }}
             </button>
             <button (click)="onCancel()"
-                    type="button"
-                    mat-button
                     class="mr-10"
+                    mat-button
+                    type="button"
             >
                 {{ 'tasks.cancel' | translate }}
             </button>
