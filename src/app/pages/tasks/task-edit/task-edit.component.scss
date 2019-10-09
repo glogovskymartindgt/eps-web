@@ -18,6 +18,10 @@
     width: 600px;
 }
 
+.attachment-icon {
+    cursor: pointer;
+}
+
 @media screen and (max-width: 2100px) {
     .comment-input {
         width: 450px;

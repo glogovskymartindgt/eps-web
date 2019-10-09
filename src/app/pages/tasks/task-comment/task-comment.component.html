@@ -1,5 +1,30 @@
 <div [ngClass]="isMyComment ? 'my-comment comment-sizing' : 'comment comment-sizing'">
     <div class="comment-user">{{comment.createdBy.firstName}} {{comment.createdBy.lastName}}</div>
-    <div class="comment-content">{{comment.description}}</div>
+    <div class="comment-content">
+        <div *ngIf="comment.attachment" class="content-attachment-container">
+            <span class="attachment-container">
+                <div class="image-container">
+                    <span class="image-format">.{{comment.attachment.format}}</span>
+                    <img *ngIf="imageSrc"
+                         [src]="imageSrc"
+                         alt="Attachment"
+                         (click)="openPreviewAttachment(imageSrc)"
+                         class="image"
+                    />
+                </div>
+                <span (click)="openPreviewAttachment(imageSrc)" class="link">{{comment.attachment.fileName}}</span>
+            </span>
+            <a href="{{imageSrc}}" download="{{comment.attachment.fileName}}" mat-icon-button>
+                <img
+                    [src]="'assets/img/svg-squares/download.svg'"
+                    alt="download"
+                >
+            </a>
+        </div>
+        <div *ngIf="!comment.attachment">
+            {{comment.description}}
+        </div>
+    </div>
+
     <div class="comment-created">{{comment.created | date:'dd.MM.yyyy HH:mm'}}</div>
 </div>
