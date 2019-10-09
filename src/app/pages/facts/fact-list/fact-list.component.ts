@@ -10,12 +10,14 @@ import {
 } from '../../../shared/hazlenut/core-table';
 import { StringUtils } from '../../../shared/hazlenut/hazelnut-common/hazelnut';
 import { BrowseResponse, Filter } from '../../../shared/hazlenut/hazelnut-common/models';
+import {FileManager} from '../../../shared/hazlenut/hazelnut-common/utils/file-manager';
 import { Fact } from '../../../shared/interfaces/fact.interface';
 import { FactService } from '../../../shared/services/data/fact.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { RoutingStorageService } from '../../../shared/services/routing-storage.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 import { TableChangeStorageService } from '../../../shared/services/table-change-storage.service';
+import {GetFileNameFromContentDisposition} from '../../../shared/utils/headers';
 
 const ALL_FACTS = 'all-facts';
 
@@ -39,6 +41,9 @@ export class FactListComponent implements OnInit {
     public isInitialized = false;
     public data = new BrowseResponse<Fact>([]);
     public allFacts = false;
+
+    private lastTableChangeEvent: TableChangeEvent;
+    private allTaskFilters: Filter[] = [];
 
     public constructor(public readonly projectEventService: ProjectEventService,
                        private readonly translateService: TranslateService,
@@ -201,6 +206,11 @@ export class FactListComponent implements OnInit {
         if (!this.router.url.includes(ALL_FACTS)) {
             projectFilter = new Filter('PROJECT_ID', this.projectEventService.instant.id, 'NUMBER');
         }
+
+        if (tableChangeEvent && tableChangeEvent.filters && tableChangeEvent.filters.length > 0) {
+            this.allTaskFilters = tableChangeEvent.filters;
+        }
+
         // Set paging and sort when initializating table
         if (!this.isInitialized
             && this.isReturnFromDetail()
@@ -222,6 +232,7 @@ export class FactListComponent implements OnInit {
         });
 
         this.tableChangeStorageService.setFactsLastTableChangeEvent(tableChangeEvent);
+        this.lastTableChangeEvent = tableChangeEvent;
     }
 
     /**
@@ -230,6 +241,27 @@ export class FactListComponent implements OnInit {
     private isReturnFromDetail() {
         return this.routingStorageService.getPreviousUrl().includes('facts/edit')
             || this.routingStorageService.getPreviousUrl().includes('facts/create');
+    }
+
+
+    /**
+     * Export report from API based on selected filters
+     */
+    public export() {
+        this.loading = true;
+        this.factService.exportTasks(this.lastTableChangeEvent, this.allTaskFilters, this.projectEventService.instant.id).subscribe((response) => {
+            const contentDisposition = response.headers.get('Content-Disposition');
+            const exportName: string = GetFileNameFromContentDisposition(contentDisposition);
+            new FileManager().saveFile(
+                exportName,
+                response.body,
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            );
+            this.loading = false;
+        }, () => {
+            this.notificationService.openErrorNotification('error.api');
+            this.loading = false;
+        });
     }
 
 }

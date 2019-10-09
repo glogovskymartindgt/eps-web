@@ -14,9 +14,12 @@
             >
                 {{'common.create' | translate}}
             </button>
+            <button mat-flat-button (click)="export()" class="mr-10" color="accent">
+                {{'common.export' | translate}}
+            </button>
         </div>
     </div>
-    
+
     <div *ngIf="(!projectEventService.instant.firstVenue || !projectEventService.instant.secondVenue) && !router.url.includes('all-facts')">
         <p class="text-unavailable-facts">{{'fact.unavailable' | translate}}</p>
     </div>
