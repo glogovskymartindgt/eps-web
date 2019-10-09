@@ -33,14 +33,16 @@
         <div class="w-full" fxLayout="row">
             <form [formGroup]="addCommentForm" (ngSubmit)="onCommentAdded()">
                 <div fxFlex="50px" fxLayoutAlign="start end" class="pl-20 pb-50">
-                    <label class="attachment-icon"
-                           for="attachment">
+                    <button class="attachment-icon"
+                            mat-icon-button
+                            (click)="file.click()">
                         <i class="material-icons">attach_file</i>
-                    </label>
+                    </button>
                     <input
                         (change)="onFileChange($event)"
                         accept="image/jpeg, image/jpg, image/png"
                         style="display: none"
+                        #file
                         formControlName="attachment"
                         id="attachment"
                         type="file"/>
