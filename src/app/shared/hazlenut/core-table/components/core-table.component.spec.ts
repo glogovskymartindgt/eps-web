@@ -11,14 +11,15 @@ describe('CoreTableComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [
-                CoreTableModule,
-            ],
-            providers: [
-                NoopTranslationsService,
-                NoopNotificationService,
-            ],
-        }).compileComponents();
+                   imports: [
+                       CoreTableModule,
+                   ],
+                   providers: [
+                       NoopTranslationsService,
+                       NoopNotificationService,
+                   ],
+               })
+               .compileComponents();
     }));
 
     beforeEach(() => {
@@ -28,6 +29,7 @@ describe('CoreTableComponent', () => {
     });
 
     it('should create', () => {
-        expect(component).toBeTruthy();
+        expect(component)
+            .toBeTruthy();
     });
 });

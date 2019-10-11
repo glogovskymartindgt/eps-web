@@ -6,7 +6,7 @@ import { AuthService } from './auth.service';
     providedIn: 'root'
 })
 export class MenuGuard {
-    private menuOptionsVsRoles = [
+    private readonly menuOptionsVsRoles = [
         {
             option: 'menu.project',
             role: Role.RoleMenuProject
@@ -29,7 +29,7 @@ export class MenuGuard {
         },
     ];
 
-    public constructor(private authService: AuthService) {
+    public constructor(private readonly authService: AuthService) {
     }
 
     public menuRoutingCheck(menuOption: string) {

@@ -8,6 +8,7 @@ describe('SharedComponentsModule', () => {
     });
 
     it('should create an instance', () => {
-        expect(sharedComponentsModule).toBeTruthy();
+        expect(sharedComponentsModule)
+            .toBeTruthy();
     });
 });

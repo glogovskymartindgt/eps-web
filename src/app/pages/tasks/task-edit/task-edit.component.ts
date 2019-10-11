@@ -19,7 +19,7 @@ import { TaskFormComponent } from '../task-form/task-form.component';
     styleUrls: ['./task-edit.component.scss']
 })
 export class TaskEditComponent implements OnInit {
-    @ViewChild(TaskFormComponent) public taskForm: TaskFormComponent;
+    @ViewChild(TaskFormComponent, {static: true}) public taskForm: TaskFormComponent;
     public formData = null;
     public addCommentForm: FormGroup;
     public comments: TaskCommentResponse[] = [];

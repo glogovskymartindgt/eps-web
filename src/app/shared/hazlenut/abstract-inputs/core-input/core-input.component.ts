@@ -108,6 +108,7 @@ export class CoreInputComponent implements OnInit, ControlValueAccessor, AfterVi
         if (!this.formControl.errors) {
             this.displayedError = '';
             this.onChange(this.formControl.value);
+
             return;
         }
         switch (true) {
@@ -146,18 +147,20 @@ export class CoreInputComponent implements OnInit, ControlValueAccessor, AfterVi
     }
 
     private handleBlur(): void {
+        const blurTimeout = 250;
         if (this.handleFocusAndBlur) {
             this.formControl.setValue(checkAndRemoveLastDotComma(this.formControl.value));
             this.formControl.setValue(this.formControl.value.replace(/\s/g, ''), {emitEvent: false});
             setTimeout(() => {
                 this.formControl.setValue(this.pipe.transform(this.formControl.value, ','), {emitEvent: false});
-            }, 250);
+            }, blurTimeout);
         }
     }
 
     private onFormControlChanges(): void {
+        const timeoutAfterChange = 2000;
         this.formControl.valueChanges
-            .pipe(tap(() => this.manageUserInput()), debounceTime(2000))
+            .pipe(tap(() => this.manageUserInput()), debounceTime(timeoutAfterChange))
             .subscribe(() => {
                 this.displayedHint = '';
             });

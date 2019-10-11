@@ -20,8 +20,8 @@ import { SelectedAreaService } from '../../../shared/services/storage/selected-a
  * Business area list with title table and loader
  */ export class BusinessAreaListComponent implements OnInit {
     // if expanded content is not used, then we need to remove it
-    @ViewChild('expandedContent') public expandedContent: TemplateRef<any>;
-    @ViewChild('navigationToTasksColumn') public navigationToTasksColumn: TemplateRef<any>;
+    @ViewChild('expandedContent', {static: true}) public expandedContent: TemplateRef<any>;
+    @ViewChild('navigationToTasksColumn', {static: true}) public navigationToTasksColumn: TemplateRef<any>;
     public loading = false;
     public config: TableConfiguration;
     public data: BrowseResponse<BusinessArea> = new BrowseResponse<BusinessArea>();

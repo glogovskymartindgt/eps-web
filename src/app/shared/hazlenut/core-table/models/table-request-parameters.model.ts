@@ -8,13 +8,14 @@ export class TableRequestParameters {
     public sortDirection: string;
     public filter: Filter[];
 
-    public constructor(paginator: { pageSize: number, pageIndex: number }, sort: { active: string, direction: string }) {
-        this.pageSize = paginator ? paginator.pageSize : 10;
+    public constructor(paginator: {pageSize: number, pageIndex: number}, sort: {active: string, direction: string}) {
+        const microPageSize = 10;
+        this.pageSize = paginator ? paginator.pageSize : microPageSize;
         this.pageIndex = paginator ? paginator.pageIndex : 0;
         this.sortActive = (sort ? sort.active : '') as Property;
         this.sortDirection = sort ? sort.direction : '';
 
-        // handle sorting ListItem type fields
+        // Handle sorting ListItem type fields
         if (this.sortActive) {
             this.sortActive = this.sortActive.replace('.value', 'Code') as Property;
         }

@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Inject } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -6,7 +6,7 @@ import { ReportType } from '../../../enums/report-type.enum';
 // TODO: abstract service shouldn't be dependent od core-table
 import { TableChangeEvent } from '../../core-table/table-change-event';
 import { NOTIFICATION_WRAPPER_TOKEN, NotificationWrapper } from '../../small-components/notifications/notification.wrapper';
-import { HazelnutConfig } from '../config/hazelnut-config';
+import { hazelnutConfig } from '../config/hazelnut-config';
 import { StringMap } from '../hazelnut';
 import { BrowseResponse, Direction, Filter, PostContent, Sort } from '../models';
 import { CountModel } from '../models/count.model';
@@ -25,15 +25,16 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
      */
     public browseTable(params: TableChangeEvent, url = this.urlKey + '/browse'): Observable<BrowseResponse<T>> {
         const filters: Filter[] = Object.keys(params.filters)
-                                        .map((key) => params.filters[key]);
+                                        .map((key: string) => params.filters[key]);
         const sorts: Sort[] = [];
 
         if (params.sortActive) {
             sorts.push(new Sort(params.sortActive, params.sortDirection as Direction));
         }
-        return this.browseInner(`${HazelnutConfig.URL_API}/${url}`,
+
+        return this.browseInner(`${hazelnutConfig.URL_API}/${url}`,
             PostContent.create(params.pageSize, params.pageSize * params.pageIndex, filters, sorts),
-            (response) => new BrowseResponse(this.extractListData(response), response.totalElements)
+            (response: any) => new BrowseResponse(this.extractListData(response), response.totalElements)
         );
     }
 
@@ -62,9 +63,10 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
      */
     public getDetail(id: number | string, params?: StringMap): Observable<T> {
         const realId = id ? `/${id}` : '';
+
         return this.get({
             params,
-            url: `${HazelnutConfig.URL_API}/${this.urlKey}${realId}`,
+            url: `${hazelnutConfig.URL_API}/${this.urlKey}${realId}`,
             mapFunction: this.extractDetail
         });
     }
@@ -77,7 +79,7 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
     public add(body: T, additionalUrl = ''): Observable<T> {
         return this.post({
             body,
-            url: `${HazelnutConfig.URL_API}/${this.urlKey}${additionalUrl}`,
+            url: `${hazelnutConfig.URL_API}/${this.urlKey}${additionalUrl}`,
             mapFunction: this.extractDetail,
         });
     }
@@ -91,16 +93,17 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
     public update(id: number, body: T): Observable<T> {
         return this.put({
             body,
-            url: `${HazelnutConfig.URL_API}/${this.urlKey}/${id}`,
+            url: `${hazelnutConfig.URL_API}/${this.urlKey}/${id}`,
             mapFunction: this.extractDetail
         });
     }
 
     public deleteById(id: number, params?: StringMap): Observable<any> {
         const realId = id ? `/${id}` : '';
+
         return this.delete({
             params,
-            url: `${HazelnutConfig.URL_API}/${this.urlKey}${realId}`,
+            url: `${hazelnutConfig.URL_API}/${this.urlKey}${realId}`,
             mapFunction: this.extractDetail
         });
     }
@@ -108,6 +111,7 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
     protected uploadFile<S = T>(url: string, file: File, fileName: string, mapFunction: AbstractServiceParams<S>['mapFunction']): Observable<S> {
         const fd = new FormData();
         fd.append(fileName, file, file ? file.name : undefined);
+
         return this.post({
             url,
             mapFunction,
@@ -118,12 +122,12 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
     /**
      *
      */
-    protected browse<S = T>(filter: Filter[] = [], sort: Sort[] = [new Sort()], limit: number = HazelnutConfig.BROWSE_LIMIT, offset = 0): Observable<T[]> {
+    protected browse<S = T>(filter: Filter[] = [], sort: Sort[] = [new Sort()], limit: number = hazelnutConfig.BROWSE_LIMIT, offset = 0): Observable<T[]> {
         if (sort.length === 0) {
             sort.push(new Sort());
         }
 
-        return this.browseInner(`${HazelnutConfig.URL_API}/${this.urlKey}/browse`, PostContent.create(limit, offset, filter, sort), this.extractListData);
+        return this.browseInner(`${hazelnutConfig.URL_API}/${this.urlKey}/browse`, PostContent.create(limit, offset, filter, sort), this.extractListData);
     }
 
     protected browseWithSummary<S = T>(postContent: PostContent, additionalUrl = ''): Observable<BrowseResponse<S>> {
@@ -142,7 +146,8 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
         } else if (!this.urlKey.endsWith('/')) {
             additionalUrl = '/' + additionalUrl;
         }
-        return this.browseInner<BrowseResponse<S>>(`${HazelnutConfig.URL_API}/${this.urlKey}${additionalUrl}browse`, postContent, this.extractDetail);
+
+        return this.browseInner<BrowseResponse<S>>(`${hazelnutConfig.URL_API}/${this.urlKey}${additionalUrl}browse`, postContent, this.extractDetail);
     }
 
     /**
@@ -154,8 +159,9 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
                 criteria: filter,
             },
         };
+
         return this.post({
-            url: `${HazelnutConfig.URL_API}/${this.urlKey}${infix}/count`,
+            url: `${hazelnutConfig.URL_API}/${this.urlKey}${infix}/count`,
             body: content,
             mapFunction: this.extractDetail
         });
@@ -180,7 +186,7 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
 
         return this.post<S[]>({
             body,
-            url: `${HazelnutConfig.URL_API}/${this.urlKey}/filter`,
+            url: `${hazelnutConfig.URL_API}/${this.urlKey}/filter`,
             mapFunction: this.extractListData,
         });
     }
@@ -208,7 +214,7 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
         return this.post({
             url,
             mapFunction,
-            body: content.prepareAndGet(HazelnutConfig.BROWSE_LIMIT)
+            body: content.prepareAndGet(hazelnutConfig.BROWSE_LIMIT)
         });
     }
 
@@ -226,7 +232,8 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
             filterCriteria: {criteria: filter},
             sortingCriteria: {criteria: sort}
         };
-        return this.postBlob(`${HazelnutConfig.URL_API}/${this.urlKey}/project/${projectId}/report`, content, this.extractDetail);
+
+        return this.postBlob(`${hazelnutConfig.URL_API}/${this.urlKey}/project/${projectId}/report`, content, this.extractDetail);
     }
 
     /**
@@ -243,7 +250,7 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
                        responseType: 'blob',
                        observe: 'response'
                    })
-                   .pipe(map(mapFunction), catchError(this.handleError), );
+                   .pipe(map(mapFunction), catchError(this.handleError),);
     }
 
     /**
@@ -253,7 +260,7 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
      * @returns {Observable<T>}
      */
     protected reportGet<S = T>(projectId: number, reportId: number): Observable<any> {
-        return this.getBlob(`${HazelnutConfig.URL_API}/report/${reportId === 1 ? ReportType.ToDoList : ReportType.RedFlagList}/project/${projectId}`, this.extractDetail);
+        return this.getBlob(`${hazelnutConfig.URL_API}/report/${reportId === 1 ? ReportType.ToDoList : ReportType.RedFlagList}/project/${projectId}`, this.extractDetail);
     }
 
     /**
@@ -270,7 +277,7 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
                        responseType: 'blob',
                        observe: 'response'
                    })
-                   .pipe(map(mapFunction), catchError(this.handleError), );
+                   .pipe(map(mapFunction), catchError(this.handleError),);
     }
 
 }

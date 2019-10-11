@@ -14,7 +14,7 @@ import { CompositionModule } from './pages/composition/composition.module';
 import { AdminLayoutComponent } from './pages/layouts/admin-layout/admin-layout.component';
 import { AuthLayoutComponent } from './pages/layouts/auth-layout/auth-layout.component';
 import { ComponentsModule } from './shared/components/components.module';
-import {ImageDialogComponent} from './shared/components/dialog/image-dialog/image-dialog.component';
+import { ImageDialogComponent } from './shared/components/dialog/image-dialog/image-dialog.component';
 import { PdfDialogComponent } from './shared/components/dialog/pdf-dialog/pdf-dialog.component';
 import { CoreTableModule, GLOBAL_CONFIG_TOKEN } from './shared/hazlenut/core-table';
 import { MaterialModule, NOTIFICATION_WRAPPER_TOKEN, TRANSLATE_WRAPPER_TOKEN } from './shared/hazlenut/hazelnut-common';

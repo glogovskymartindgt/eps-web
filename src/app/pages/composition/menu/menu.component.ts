@@ -17,7 +17,7 @@ import { AppConstants } from '../../../shared/utils/constants';
 })
 export class MenuComponent implements OnInit {
     @Input() public template: TemplateRef<any>;
-    @ViewChild('drawer') public drawer: MatDrawer;
+    @ViewChild('drawer', {static: true}) public drawer: MatDrawer;
     public version = AppConstants.version;
     public menuOpen = true;
 

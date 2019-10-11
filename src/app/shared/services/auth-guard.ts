@@ -10,7 +10,7 @@ import { ProjectUserService } from './storage/project-user.service';
 @Injectable()
 export class AuthGuard implements CanActivate {
 
-    public constructor(private readonly userService: ProjectUserService, private readonly router: Router, private menuGuard: MenuGuard) {
+    public constructor(private readonly userService: ProjectUserService, private readonly router: Router, private readonly menuGuard: MenuGuard) {
     }
 
     public canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {

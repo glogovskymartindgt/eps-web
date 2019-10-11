@@ -25,8 +25,15 @@ export const FORMAT = {
     templateUrl: './input-date.component.html',
     styleUrls: ['./input-date.component.scss'],
     providers: [
-        {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
-        {provide: MAT_DATE_FORMATS, useValue: FORMAT},
+        {
+            provide: DateAdapter,
+            useClass: MomentDateAdapter,
+            deps: [MAT_DATE_LOCALE]
+        },
+        {
+            provide: MAT_DATE_FORMATS,
+            useValue: FORMAT
+        },
         {
             provide: NG_VALUE_ACCESSOR,
             useExisting: forwardRef(() => InputDateComponent),
@@ -39,18 +46,22 @@ export class InputDateComponent implements OnInit, ControlValueAccessor {
     @Input() public dateWidth = 100;
     @Input() public min: Date;
     @Input() public max: Date;
-    private lastValue;
     public formControl = new FormControl();
+    private lastValue;
 
     public constructor() {
     }
 
-    public dateClass = (d: Date) => {
-        const day = moment(d).toDate().getDay();
-        return (day === 0 || day === 6) ? 'custom-date-class' : undefined;
+    public dateClass = (date: Date) => {
+        const dayInWeekMinusOne = 6;
+        const day = moment(date)
+            .toDate()
+            .getDay();
+
+        return (day === 0 || day === dayInWeekMinusOne) ? 'custom-date-class' : undefined;
     }
 
-    public ngOnInit() {
+    public ngOnInit(): void {
         this.onFormControlChanges();
     }
 
@@ -81,9 +92,10 @@ export class InputDateComponent implements OnInit, ControlValueAccessor {
     }
 
     private onFormControlChanges(): void {
-        this.formControl.valueChanges.pipe(filter((newValue) => newValue !== this.lastValue)).subscribe((newValue) => {
-            this.lastValue = newValue;
-            this.onChange(this.formControl.value);
-        });
+        this.formControl.valueChanges.pipe(filter((newValue: any) => newValue !== this.lastValue))
+            .subscribe((newValue: any) => {
+                this.lastValue = newValue;
+                this.onChange(this.formControl.value);
+            });
     }
 }

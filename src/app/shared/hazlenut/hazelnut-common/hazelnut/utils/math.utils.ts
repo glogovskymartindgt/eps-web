@@ -11,16 +11,18 @@ export interface NumberFormatterParameter<T = number | string> {
 const groupingSeparatorsRegexp = '[ _]';
 const decimalSeparatorsRegexp = '[.,]';
 
-const replaceGroupingSeparators = (value: string, groupingSeparator: string) => {
-    if (value.match(new RegExp(groupingSeparatorsRegexp + '\\d{3}'))) { // if number contains grouping separator
+const replaceGroupingSeparators = (value: string, groupingSeparator: string): string => {
+    if (value.match(new RegExp(groupingSeparatorsRegexp + '\\d{3}'))) { // If number contains grouping separator
         return value.replace(new RegExp(groupingSeparatorsRegexp, 'g'), groupingSeparator);
     }
+
     return value;
 };
-const replaceDecimalSeparators = (value: string, decimalSeparator: string) => {
-    if (value.match(new RegExp(`\\d${decimalSeparatorsRegexp}\\d`))) { // if number contains grouping separator
+const replaceDecimalSeparators = (value: string, decimalSeparator: string): string => {
+    if (value.match(new RegExp(`\\d${decimalSeparatorsRegexp}\\d`))) { // If number contains grouping separator
         return value.replace(new RegExp(decimalSeparatorsRegexp, 'g'), decimalSeparator);
     }
+
     return value;
 };
 
@@ -39,6 +41,7 @@ export class MathUtils {
         if (hexString.length % 2) {
             return '0' + hexString;
         }
+
         return hexString;
     }
 
@@ -48,12 +51,14 @@ export class MathUtils {
                 if (typeof value === 'string') {
                     value = replaceGroupingSeparators(String(value), groupingSeparator) as any;
                 }
+
                 return value;
             case NumberType.POSITIVE_INTEGER:
                 if (typeof value === 'string') {
                     value = value.replace(/-/, '') as any;
                     value = replaceGroupingSeparators(String(value), groupingSeparator) as any;
                 }
+
                 return value;
             case NumberType.HEXA:
                 return MathUtils.intToHexa(parseInt(String(value), 10) as any || defaultValue) as any;
@@ -63,12 +68,14 @@ export class MathUtils {
                     value = replaceGroupingSeparators(String(value), groupingSeparator) as any;
                     value = replaceDecimalSeparators(String(value), decimalSeparator) as any;
                 }
+
                 return value;
             case NumberType.FLOAT:
                 if (typeof value === 'string') {
                     value = replaceGroupingSeparators(String(value), groupingSeparator) as any;
                     value = replaceDecimalSeparators(String(value), decimalSeparator) as any;
                 }
+
                 return value;
             default:
                 throw new Error('Unknown number type: ' + type);

@@ -28,11 +28,11 @@ const ALL_FACTS = 'all-facts';
  */
 
 export class FactListComponent implements OnInit {
-    @ViewChild('updateColumn') public updateColumn: TemplateRef<any>;
-    @ViewChild('firstValueColumn') public firstValueColumn: TemplateRef<any>;
-    @ViewChild('secondValueColumn') public secondValueColumn: TemplateRef<any>;
-    @ViewChild('totalValueColumn') public totalValueColumn: TemplateRef<any>;
-    @ViewChild('categoryColumn') public categoryColumn: TemplateRef<any>;
+    @ViewChild('updateColumn', {static: true}) public updateColumn: TemplateRef<any>;
+    @ViewChild('firstValueColumn', {static: true}) public firstValueColumn: TemplateRef<any>;
+    @ViewChild('secondValueColumn', {static: true}) public secondValueColumn: TemplateRef<any>;
+    @ViewChild('totalValueColumn', {static: true}) public totalValueColumn: TemplateRef<any>;
+    @ViewChild('categoryColumn', {static: true}) public categoryColumn: TemplateRef<any>;
     public config: TableConfiguration;
     public loading = false;
     public isInitialized = false;

@@ -1,6 +1,6 @@
 export class BlobManager {
 
-    public static downloadFromBlob(blob: any, type: string, filename: string) {
+    public static downloadFromBlob(blob: any, type: string, filename: string): void {
         let link: HTMLAnchorElement;
         link = document.createElement('a');
         link.setAttribute('class', 'hide');

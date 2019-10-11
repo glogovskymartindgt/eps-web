@@ -20,7 +20,7 @@ const FACTS_SCREEN = 'facts';
 /**
  * Fact edit form
  */ export class FactEditComponent implements OnInit {
-    @ViewChild(TaskFormComponent) public taskForm: TaskFormComponent;
+    @ViewChild(TaskFormComponent, {static: true}) public taskForm: TaskFormComponent;
     public formData = null;
     public canSave = true;
     private factRoute = FACTS_SCREEN;

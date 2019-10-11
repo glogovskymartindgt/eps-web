@@ -16,6 +16,7 @@ describe('HazelnutCommonModule', () => {
     });
 
     it('should create an instance', () => {
-        expect(hazelnutCommonModule).toBeTruthy();
+        expect(hazelnutCommonModule)
+            .toBeTruthy();
     });
 });

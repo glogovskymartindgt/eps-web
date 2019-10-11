@@ -8,6 +8,7 @@ describe('SharedDirectivesModule', () => {
     });
 
     it('should create an instance', () => {
-        expect(sharedDirectivesModule).toBeTruthy();
+        expect(sharedDirectivesModule)
+            .toBeTruthy();
     });
 });

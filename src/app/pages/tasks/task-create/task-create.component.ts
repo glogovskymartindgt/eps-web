@@ -13,7 +13,7 @@ import { TaskFormComponent } from '../task-form/task-form.component';
     animations: [fadeEnterLeave],
 })
 export class TaskCreateComponent implements OnInit {
-    @ViewChild(TaskFormComponent) public taskForm: TaskFormComponent;
+    @ViewChild(TaskFormComponent, {static: true}) public taskForm: TaskFormComponent;
     public formData = null;
     public loading: false;
 

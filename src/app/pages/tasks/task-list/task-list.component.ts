@@ -29,14 +29,14 @@ import { GetFileNameFromContentDisposition } from '../../../shared/utils/headers
     animations: [fadeEnterLeave]
 })
 export class TaskListComponent implements OnInit {
-    @ViewChild('trafficLightColumn') public trafficLightColumn: TemplateRef<any>;
-    @ViewChild('statusColumn') public statusColumn: TemplateRef<any>;
-    @ViewChild('updateColumn') public updateColumn: TemplateRef<any>;
-    @ViewChild('taskTypeColumn') public taskTypeColumn: TemplateRef<any>;
-    @ViewChild('userColumn') public userColumn: TemplateRef<any>;
-    @ViewChild('dateColumn') public dateColumn: TemplateRef<any>;
-    @ViewChild('venueColumn') public venueColumn: TemplateRef<any>;
-    @ViewChild('taskTable') public taskTable: CoreTableComponent;
+    @ViewChild('trafficLightColumn', {static: true}) public trafficLightColumn: TemplateRef<any>;
+    @ViewChild('statusColumn', {static: true}) public statusColumn: TemplateRef<any>;
+    @ViewChild('updateColumn', {static: true}) public updateColumn: TemplateRef<any>;
+    @ViewChild('taskTypeColumn', {static: true}) public taskTypeColumn: TemplateRef<any>;
+    @ViewChild('userColumn', {static: true}) public userColumn: TemplateRef<any>;
+    @ViewChild('dateColumn', {static: true}) public dateColumn: TemplateRef<any>;
+    @ViewChild('venueColumn', {static: true}) public venueColumn: TemplateRef<any>;
+    @ViewChild('taskTable', {static: true}) public taskTable: CoreTableComponent;
 
     public areaGroup: FormGroup;
     public config: TableConfiguration;

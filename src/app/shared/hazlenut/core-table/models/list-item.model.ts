@@ -1,8 +1,6 @@
 import { Observable, of } from 'rxjs';
 
 export class ListItem {
-    public static readonly Unselected = new ListItem('unselected', '');
-
     public readonly value: Observable<string>;
     public readonly code: Observable<string>;
 

@@ -16,8 +16,8 @@ import { GetFileNameFromContentDisposition } from '../../../shared/utils/headers
     styleUrls: ['./report-list.component.scss']
 })
 export class ReportListComponent implements OnInit {
-    @ViewChild('descriptionColumn') public descriptionColumn: TemplateRef<any>;
-    @ViewChild('actionColumn') public actionColumn: TemplateRef<any>;
+    @ViewChild('descriptionColumn', {static: true}) public descriptionColumn: TemplateRef<any>;
+    @ViewChild('actionColumn', {static: true}) public actionColumn: TemplateRef<any>;
 
     public loading = false;
     public config: TableConfiguration;
