@@ -73,8 +73,16 @@ const FACTS_SCREEN = 'facts';
 
     }
 
-    public hasUpdateFactItem() {
-        this.authService.hasRole(Role.RoleUpdateFactItem);
+    private allowSaveButton(): boolean {
+        return this.hasRoleUpdateFactItem() || this.hasRoleUpdateFactItemInAssignProject();
+    }
+
+    private hasRoleUpdateFactItem(): boolean {
+        return this.authService.hasRole(Role.RoleUpdateFactItem);
+    }
+
+    private hasRoleUpdateFactItemInAssignProject(): boolean {
+        return this.authService.hasRole(Role.RoleUpdateFactItemInAssignProject);
     }
 
     /**

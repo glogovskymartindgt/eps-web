@@ -10,7 +10,7 @@
         <fact-form (formDataChange)="formData=$event"></fact-form>
         <div>
             <button (click)="onSave()"
-                    *ngIf="hasUpdateFactItem"
+                    *ngIf="allowSaveButton()"
                     [disabled]="!formData || !canSave"
                     class="mr-10"
                     color="accent"

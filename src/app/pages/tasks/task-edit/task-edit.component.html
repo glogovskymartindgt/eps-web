@@ -8,7 +8,7 @@
     <div fxFlex="65" fxFlex.gt-sm="100%" class="p-30 form-content" fxLayout="column">
         <task-form (formDataChange)="formDataChange($event)"></task-form>
         <div>
-            <button *ngIf="projectEventService.instant.active && hasRoleUpdateTask()"
+            <button *ngIf="projectEventService.instant.active && allowUpdateTask()"
                     type="submit"
                     mat-flat-button
                     color="accent"
@@ -28,7 +28,7 @@
         </div>
     </div>
 
-    <div fxFlex="35" style="background:#f4f4f4" fxLayout="column" *ngIf="hasRoleReadComment()">
+    <div fxFlex="35" style="background:#f4f4f4" fxLayout="column" *ngIf="allowReadComment()">
         <div class="w-full" fxLayout="row">
             <form [formGroup]="addCommentForm" (ngSubmit)="onCommentAdded()">
                 <div fxFlex="50px" fxLayoutAlign="start end" class="pl-20 pb-50" *ngIf="hasRoleUploadImage()">
@@ -54,11 +54,11 @@
                                 [pattern]="notOnlyWhiteCharactersPattern"
                                 class="theme-input m-20 comment-input"
                                 [maxLength]="2000"
-                                *ngIf="hasRoleCreateComment()"
+                                *ngIf="allowCreateComment()"
                 >
                 </haz-core-input>
 
-                <div fxFlex="50px" fxLayoutAlign="end end" class="pr-20 pb-50" *ngIf="hasRoleCreateComment()">
+                <div fxFlex="50px" fxLayoutAlign="end end" class="pr-20 pb-50" *ngIf="allowCreateComment()">
                     <button mat-icon-button
                             [disabled]="addCommentForm?.controls?.newComment?.errors"
                     >

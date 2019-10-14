@@ -125,18 +125,6 @@ export class TaskEditComponent implements OnInit {
 
     }
 
-    public hasRoleUpdateTask() {
-        return this.authService.hasRole(Role.RoleUpdateTask);
-    }
-
-    public hasRoleReadComment() {
-        return this.authService.hasRole(Role.RoleReadComment);
-    }
-
-    public hasRoleCreateComment() {
-        return this.authService.hasRole(Role.RoleCreateComment);
-    }
-
     public hasRoleUploadImage() {
         return this.authService.hasRole(Role.RoleUploadImage);
     }
@@ -170,6 +158,42 @@ export class TaskEditComponent implements OnInit {
                 });
         };
         reader.readAsDataURL(file);
+    }
+
+    public allowReadComment(): boolean {
+        return this.hasRoleReadComment() || this.hasRoleReadCommentInAssignProject();
+    }
+
+    public allowUpdateTask(): boolean {
+        return this.hasRoleUpdateTask() || this.hasRoleUpdateTaskInAssignProject();
+    }
+
+    public allowCreateComment(): boolean {
+        return this.hasRoleCreateComment() || this.hasRoleCreateCommentInAssignProject();
+    }
+
+    private hasRoleUpdateTask(): boolean {
+        return this.authService.hasRole(Role.RoleUpdateTask);
+    }
+
+    private hasRoleUpdateTaskInAssignProject(): boolean {
+        return this.authService.hasRole(Role.RoleUpdateTaskInAssignProject);
+    }
+
+    private hasRoleReadComment(): boolean {
+        return this.authService.hasRole(Role.RoleReadComment);
+    }
+
+    private hasRoleReadCommentInAssignProject(): boolean {
+        return this.authService.hasRole(Role.RoleReadCommentInAssignProject);
+    }
+
+    private hasRoleCreateComment(): boolean {
+        return this.authService.hasRole(Role.RoleCreateComment);
+    }
+
+    private hasRoleCreateCommentInAssignProject(): boolean {
+        return this.authService.hasRole(Role.RoleCreateCommentInAssignProject);
     }
 
     private transformTaskToApiObject(formObject: any): any {

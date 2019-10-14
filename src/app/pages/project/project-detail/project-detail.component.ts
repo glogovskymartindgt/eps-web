@@ -44,11 +44,11 @@ export class ProjectDetailComponent implements OnInit {
     public onSave() {
         if (this.formData) {
             this.projectsService.editProject(this.formData.projectId, this.transformProjectToApiObject(this.formData))
-                .subscribe((response) => {
+                .subscribe(() => {
                     this.notificationService.openSuccessNotification('success.edit');
                     this.refreshSubject.next('Refresh after save');
                     this.projectEventService.setEventDataFromDetail(this.formData, true, this.formData.logoUploadId);
-                }, (error) => {
+                }, () => {
                     this.notificationService.openErrorNotification('error.edit');
                 });
         }
@@ -62,8 +62,16 @@ export class ProjectDetailComponent implements OnInit {
         this.editMode = !this.editMode;
     }
 
-    public hasEditRole() {
+    public allowEditButton(): boolean {
+        return !this.editMode && this.hasRoleUpdateProject() && this.hasRoleUpdateProjectInAssignProject();
+    }
+
+    private hasRoleUpdateProject(): boolean {
         return this.authService.hasRole(Role.RoleUpdateProject);
+    }
+
+    private hasRoleUpdateProjectInAssignProject(): boolean {
+        return this.authService.hasRole(Role.RoleUpdateProjectInAssignProject);
     }
 
     /**

@@ -226,20 +226,20 @@ export class FactListComponent implements OnInit {
         this.lastTableChangeEvent = tableChangeEvent;
     }
 
-    public hasRoleCreateFactItem() {
-        return this.authService.hasRole(Role.RoleCreateFactItem);
+    public allowCreateFactButton(): boolean {
+        return this.hasRoleCreateFactItem() || this.hasRoleCreateFactItemInAssignProject();
     }
 
-    public hasRoleReadFactOrUpdateFact() {
-        return !this.allFacts && this.authService.hasRole(Role.RoleReadFactItem) || this.authService.hasRole(Role.RoleUpdateFactItem);
+    public allowExportAllFactItemButton(): boolean {
+        return this.allFacts && this.hasRoleExportAllFactItem();
     }
 
-    public hasRoleReadAllFact() {
-        return this.allFacts && this.authService.hasRole(Role.RoleReadAllFactItem);
-    }
-
-    public hasRoleExportAllFactItem() {
-        return this.authService.hasRole(Role.RoleExportAllFactItem);
+    public allowFactDetailButton(): boolean {
+        return (!this.allFacts &&
+            (this.authService.hasRole(Role.RoleReadFactItem) ||
+                this.authService.hasRole(Role.RoleReadFactItemInAssignProject) ||
+                this.authService.hasRole(Role.RoleUpdateFactItem) ||
+                this.authService.hasRole(Role.RoleUpdateFactItemInAssignProject))) || (this.allFacts && this.authService.hasRole(Role.RoleReadAllFactItem));
     }
 
     /**
@@ -257,6 +257,18 @@ export class FactListComponent implements OnInit {
                 this.notificationService.openErrorNotification('error.api');
                 this.loading = false;
             });
+    }
+
+    private hasRoleCreateFactItem(): boolean {
+        return this.authService.hasRole(Role.RoleCreateFactItem);
+    }
+
+    private hasRoleCreateFactItemInAssignProject(): boolean {
+        return this.authService.hasRole(Role.RoleCreateFactItemInAssignProject);
+    }
+
+    private hasRoleExportAllFactItem(): boolean {
+        return this.authService.hasRole(Role.RoleExportAllFactItem);
     }
 
     /**

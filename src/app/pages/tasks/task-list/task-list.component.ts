@@ -65,20 +65,20 @@ export class TaskListComponent implements OnInit {
 
     public ngOnInit() {
         this.loadBusinessAreaList();
-        // business area form group setup
+        // Business area form group setup
         this.areaGroup = this.formBuilder.group({
             businessArea: [this.getBusinessAreaValue()]
         });
-        // business area input listener and table data reload
+        // Business area input listener and table data reload
         this.areaGroup.valueChanges.subscribe((value) => {
-            // add business area filter if ALL value selected in business area select
+            // Add business area filter if ALL value selected in business area select
             if (value !== 'all') {
                 this.businessAreaFilter = new Filter('BUSINESS_AREA_NAME', value.businessArea);
             }
             this.setTableData();
         });
         const allThingsKey = 'all.things';
-        // table config setup
+        // Table config setup
         this.config = {
             stickyEnd: 7,
             columns: [
@@ -198,7 +198,7 @@ export class TaskListComponent implements OnInit {
             ],
             paging: true,
         };
-        // set table change event data from local storage
+        // Set table change event data from local storage
         if (!this.isInitialized && this.isReturnFromDetail() && this.tableChangeStorageService.getTasksLastTableChangeEvent()) {
             if (this.tableChangeStorageService.getTasksLastTableChangeEvent().filters) {
                 this.config.predefinedFilters = this.tableChangeStorageService.getTasksLastTableChangeEvent().filters;
@@ -307,16 +307,35 @@ export class TaskListComponent implements OnInit {
         this.tableChangeStorageService.setTasksLastTableChangeEvent(tableChangeEvent, this.additionalFilters);
     }
 
-    public hasCreateTaskRole() {
+    public allowCreateTaskButton(): boolean {
+        return this.hasCreateTaskRole() || this.hasCreateTaskRoleInAssignProject();
+    }
+
+    public allowExportReportTaskButton(): boolean {
+        return this.hasRoleExportReportTask() || this.hasRoleExportReportTaskInAssignProject();
+    }
+
+    public allowTaskDetailButton(): boolean {
+        return this.authService.hasRole(Role.RoleReadTask) ||
+            this.authService.hasRole(Role.RoleReadTaskInAssignProject) ||
+            this.authService.hasRole(Role.RoleUpdateTask) ||
+            this.authService.hasRole(Role.RoleUpdateTaskInAssignProject);
+    }
+
+    private hasCreateTaskRole(): boolean {
         return this.authService.hasRole(Role.RoleCreateTask);
     }
 
-    public hasRoleExportReportTask() {
+    private hasCreateTaskRoleInAssignProject(): boolean {
+        return this.authService.hasRole(Role.RoleCreateTaskInAssignProject);
+    }
+
+    private hasRoleExportReportTask(): boolean {
         return this.authService.hasRole(Role.RoleExportReportTask);
     }
 
-    public hasReadOrUpdateTaskRole() {
-        return this.authService.hasRole(Role.RoleReadTask) || this.authService.hasRole(Role.RoleUpdateTask);
+    private hasRoleExportReportTaskInAssignProject(): boolean {
+        return this.authService.hasRole(Role.RoleExportReportTaskInAssignProject);
     }
 
     private removeDuplicateFilters(): void {

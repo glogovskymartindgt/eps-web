@@ -5,7 +5,7 @@
             <h2>{{ (allFacts ? 'fact.titleAllFacts' : 'fact.title') | translate}}</h2>
         </div>
         <!--Fact create button is only in Facts and Figures screen in active project, not in All Facts and Figures-->
-        <div *ngIf="hasRoleCreateFactItem()" fxFlex fxLayoutAlign="end center">
+        <div *ngIf="allowCreateFactButton()" fxFlex fxLayoutAlign="end center">
             <button (click)="createFact()"
                     *ngIf="projectEventService.instant.active && !allFacts"
                     class="mr-10"
@@ -14,7 +14,7 @@
             >
                 {{'common.create' | translate}}
             </button>
-            <button mat-flat-button (click)="export()" class="mr-10" color="accent" *ngIf="allFacts && hasRoleExportAllFactItem()">
+            <button mat-flat-button (click)="export()" class="mr-10" color="accent" *ngIf="allowExportAllFactItemButton()">
                 {{'common.export' | translate}}
             </button>
         </div>
@@ -49,7 +49,7 @@
         </div>
     </ng-template>
     <ng-template #updateColumn let-actRow="row" let-context="context">
-        <div class="fr" *ngIf="hasRoleReadFactOrUpdateFact() || hasRoleReadAllFact()">
+        <div class="fr" *ngIf="allowFactDetailButton()">
             <button (click)="update(actRow.id, actRow.year, actRow.projectId)"
                     mat-icon-button
             >

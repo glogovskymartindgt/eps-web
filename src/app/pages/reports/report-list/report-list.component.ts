@@ -78,12 +78,28 @@ export class ReportListComponent implements OnInit {
             });
     }
 
-    public hasRoleExportReportRedFlagList() {
+    public allowButtonRedFlagList(): boolean {
+        return this.hasRoleExportReportRedFlagList() || this.hasRoleExportReportRedFlagListInAssignProject();
+    }
+
+    public allowButtonToDoList(): boolean {
+        return this.hasRoleExportReportToDoList() || this.hasRoleExportReportToDoListInAssignProject();
+    }
+
+    private hasRoleExportReportToDoList(): boolean {
+        return this.authService.hasRole(Role.RoleExportReportToDoList);
+    }
+
+    private hasRoleExportReportToDoListInAssignProject(): boolean {
+        return this.authService.hasRole(Role.RoleExportReportToDoListInAssignProject);
+    }
+
+    private hasRoleExportReportRedFlagList(): boolean {
         return this.authService.hasRole(Role.RoleExportReportRedFlagList);
     }
 
-    public hasRoleExportReportToDoList() {
-        return this.authService.hasRole(Role.RoleExportReportToDoList);
+    private hasRoleExportReportRedFlagListInAssignProject(): boolean {
+        return this.authService.hasRole(Role.RoleExportReportRedFlagListInAssignProject);
     }
 
     /**
