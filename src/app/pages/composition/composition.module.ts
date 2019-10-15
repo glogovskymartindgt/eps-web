@@ -5,14 +5,18 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { MaterialModule, SharedDirectivesModule } from '../../shared/hazlenut/hazelnut-common';
 import { MenuComponent } from './menu/menu.component';
-import { SecondaryHeaderComponent } from './menu/secondary-header/secondary-header.component';
-import { SideOptionsComponent } from './side-options/side-options.component';
+import { SecondaryHeaderProjectComponent } from './menu/secondary-header-project/secondary-header-project.component';
+import { SecondaryHeaderSettingsComponent } from './menu/secondary-header-settings/secondary-header-settings.component';
+import { SideOptionsProjectComponent } from './side-options-project/side-options-project.component';
+import { SideOptionsSettingsComponent } from './side-options-settings/side-options-settings.component';
 
 @NgModule({
     declarations: [
         MenuComponent,
-        SideOptionsComponent,
-        SecondaryHeaderComponent
+        SideOptionsProjectComponent,
+        SideOptionsSettingsComponent,
+        SecondaryHeaderProjectComponent,
+        SecondaryHeaderSettingsComponent,
     ],
     imports: [
         CommonModule,

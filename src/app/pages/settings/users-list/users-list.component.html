@@ -1,0 +1,30 @@
+<!--Edit fact form with predefined values based on id from url parameters-->
+<div class="basic-screen-header" fxLayout="row">
+    <div class="pl-50" fxFlex="50" fxLayoutAlign="start center">
+        <h3>{{'users.title' | translate}}</h3>
+    </div>
+</div>
+
+<!--Core table with custom columns, value columns have measureUnit-->
+<haz-core-table (requestData)="setTableData($event)"
+                [configuration]="config"
+                [data]="data"
+>
+<ng-template #idColumn let-actRow="row" let-context="context">
+    <div class="p-5">{{actRow.id}}</div>
+</ng-template>
+<ng-template #firstNameColumn let-actRow="row" let-context="context">
+    <div class="p-5">{{actRow.firstName}}</div>
+</ng-template>
+<ng-template #lastNameColumn let-actRow="row" let-context="context">
+    <div class="p-5">{{actRow.lastName}}</div>
+</ng-template>
+<ng-template #visibleColumn let-actRow="row" let-context="context">
+    <div class="p-5">{{actRow.visibleUser ? 'Yes' : 'No'}}</div>
+</ng-template>
+<ng-template #emailColumn let-actRow="row" let-context="context">
+    <div class="p-5">{{actRow.email}}</div>
+</ng-template>
+<ng-template #stateColumn let-actRow="row" let-context="context">
+    <div class="p-5">{{actRow.accountState}}</div>
+</ng-template>

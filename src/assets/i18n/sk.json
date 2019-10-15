@@ -9,7 +9,11 @@
         "project": "Projekt",
         "reports": "Reporty",
         "facts": "Fakty a čísla",
-        "allFacts": "Všetky Fakty a čísla"
+        "allFacts": "Všetky Fakty a čísla",
+        "settings": {
+            "settings": "Nastavenia",
+            "users": "Použivatelia"
+        }
     },
     "login": {
         "login": "Prihlásenie",
@@ -21,7 +25,8 @@
         "dashboard": "Rozvrh",
         "all": "Všetko",
         "open": "Otvorené",
-        "closed": "Uzatvorené"
+        "closed": "Uzatvorené",
+        "settings": "Nastavenia"
     },
     "tasks": {
         "cancel": "ZRUŠIŤ",
@@ -174,5 +179,14 @@
     "project": {
         "detailTitle": "Detail projektu",
         "edit": "Upraviť"
+    },
+    "users": {
+        "title": "Použivatelia",
+        "userId": "ID použivateľa",
+        "firstName": "Meno",
+        "lastName": "Priezvisko",
+        "visible": "Zobrazenie použivateľa",
+        "email": "Email",
+        "state": "Stav"
     }
 }

@@ -3,14 +3,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TableChangeEvent } from '../../hazlenut/core-table';
 import { StringUtils } from '../../hazlenut/hazelnut-common/hazelnut';
-import { BrowseResponse, PostContent, Sort } from '../../hazlenut/hazelnut-common/models';
+import {BrowseResponse, Filter, PostContent, Sort} from '../../hazlenut/hazelnut-common/models';
 import { User } from '../../interfaces/user.interface';
 import { NotificationService } from '../notification.service';
 import { ProjectService } from '../project.service';
 import { ProjectUserService } from '../storage/project-user.service';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 
 /**
@@ -22,7 +22,7 @@ export class UsersService extends ProjectService<User> {
                        notificationService: NotificationService,
                        userService: ProjectUserService,
     ) {
-        super(http, 'internal/users', notificationService, userService);
+        super(http, 'user', notificationService, userService);
     }
 
     /**
@@ -31,9 +31,7 @@ export class UsersService extends ProjectService<User> {
      */
     public browseUsers(tableChangeEvent: TableChangeEvent): Observable<BrowseResponse<User>> {
         let filters = [];
-        let sort = [
-            new Sort('CREATED', 'DESC'),
-        ];
+        let sort = [];
         let limit = 15;
         let offset = 0;
 

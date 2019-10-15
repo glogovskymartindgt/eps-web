@@ -4,11 +4,11 @@ import { MenuGuard } from '../../../shared/services/menu-guard';
 import { MenuService } from '../menu.service';
 
 @Component({
-    selector: 'side-options',
-    templateUrl: './side-options.component.html',
-    styleUrls: ['./side-options.component.scss']
+    selector: 'side-options-project',
+    templateUrl: './side-options-project.component.html',
+    styleUrls: ['./side-options-project.component.scss']
 })
-export class SideOptionsComponent implements OnInit {
+export class SideOptionsProjectComponent implements OnInit {
 
     @Input() public routes;
     public menuSelect;
@@ -23,9 +23,10 @@ export class SideOptionsComponent implements OnInit {
     public ngOnInit(): void {
         if (!this.routes) {
             this.routes = this.router.config
-                              .find((group) => group.component && group.component.name === 'AdminLayoutComponent')
+                .find((group) => group.component && group.component.name === 'AdminLayoutComponent')
                               .children
-                              .filter((route) => this.menuGuard.menuRoutingCheck(route.data.title));
+                .filter((item) => !item.data.section)
+                .filter((route) => this.menuGuard.menuRoutingCheck(route.data.title));
         }
         this.setMenuOptionOnInitFromRouter();
         this.menuSelect = this.menuService.menuOpen;

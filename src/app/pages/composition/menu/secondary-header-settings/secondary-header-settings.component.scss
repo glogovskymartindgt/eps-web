@@ -1,0 +1,44 @@
+.project-header {
+    height: 56px;
+    background: #002d62;
+}
+
+.secondary-header {
+    color: white;
+}
+
+.mat-icon {
+    color: white;
+}
+
+.non-activated {
+    border: 1.5px solid rgba(255, 255, 255, 0);
+    border-radius: 30px;
+    padding: 5px 20px;
+    transition: border 0.3s ease-in-out;
+}
+
+.activated {
+    border: 1.5px solid red;
+    border-radius: 30px;
+    padding: 5px 20px;
+    transition: border 0.3s ease-in-out;
+}
+
+.dashboard-filter {
+    text-decoration: none;
+    color: #ddd;
+    cursor: pointer;
+    font-family: 'Roboto-Bold', sans-serif;
+    transition: .3s;
+
+    &:hover {
+        color: #fff;
+    }
+}
+
+.dashboard-text {
+    color: #fff;
+    font-family: 'Roboto-Bold', sans-serif;
+    font-size: 20px;
+}

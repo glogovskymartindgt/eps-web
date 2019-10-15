@@ -1,0 +1,23 @@
+<div
+     class="project-header m-0 p-0"
+     fxLayout="row"
+>
+    <div [@fadeEnterLeave]
+         class="mt-7"
+         fxFlex="90"
+         fxLayoutAlign="start center"
+    >
+        <h3 class="secondary-header m-0 ml-10">
+            {{'dashboard.settings' | translate}}
+        </h3>
+    </div>
+    <div [@fadeEnterLeave]
+         class="mt-3"
+         fxFlex
+         fxLayoutAlign="end center"
+    >
+        <button (click)="routeToDashboard()" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+</div>

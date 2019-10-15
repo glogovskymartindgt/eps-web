@@ -92,6 +92,29 @@ export const AppRoutes: Routes = [
                 },
                 canActivate: [AuthGuard]
             },
+            {
+                path: 'settings',
+                loadChildren: './pages/settings/settings.module#SettingsModule',
+                data: {
+                    title: 'menu.settings.settings',
+                    icon: 'person',
+                    animation: 'tasks',
+                    section: 'settings'
+                },
+                canActivate: [AuthGuard]
+            },
+            {
+                path: 'settings/users',
+                loadChildren: './pages/settings/settings.module#SettingsModule',
+                data: {
+                    title: 'menu.settings.users',
+                    icon: 'person',
+                    menu: true,
+                    animation: 'tasks',
+                    section: 'settings'
+                },
+                canActivate: [AuthGuard]
+            }
         ],
     },
     {

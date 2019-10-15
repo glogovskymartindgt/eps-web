@@ -1,20 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 import { fadeEnterLeave } from '../../../../shared/hazlenut/hazelnut-common/animations';
 import { DashboardService } from '../../../../shared/services/dashboard.service';
 import { ProjectEventService } from '../../../../shared/services/storage/project-event.service';
+import {SettingsService} from '../../../../shared/services/storage/settings.service';
 
 @Component({
-    selector: 'secondary-header',
-    templateUrl: './secondary-header.component.html',
-    styleUrls: ['./secondary-header.component.scss'],
+    selector: 'secondary-header-settings',
+    templateUrl: './secondary-header-settings.component.html',
+    styleUrls: ['./secondary-header-settings.component.scss'],
     animations: [fadeEnterLeave]
 })
-export class SecondaryHeaderComponent implements OnInit {
+export class SecondaryHeaderSettingsComponent implements OnInit {
 
     public dashboardVisible = true;
     public activeFilter = 'ALL';
     public imagePath = '';
+
+    @Output() onSectionSelected: EventEmitter<any> = new EventEmitter<any>();
 
     public constructor(public readonly projectEventService: ProjectEventService,
                        private readonly router: Router,
@@ -28,17 +31,16 @@ export class SecondaryHeaderComponent implements OnInit {
         this.dashboardVisible = this.projectEventService.instant.active;
     }
 
-    public toggleFilter(filterValue: string) {
-        this.dashboardService.setDashboardFilter(filterValue);
-        this.activeFilter = filterValue;
-        this.imagePath = this.projectEventService.instant.imagePath;
-    }
-
     public routeToDashboard() {
+        this.setSection('project');
         this.activeFilter = 'ALL';
         this.router.navigate(['dashboard']);
         this.dashboardService.setSecondaryHeaderContent({isDashboard: true});
         this.projectEventService.setEventData();
     }
 
+    public setSection(type) {
+        this.projectEventService.setEventData(null, true, this.imagePath);
+        this.onSectionSelected.emit(type);
+    }
 }

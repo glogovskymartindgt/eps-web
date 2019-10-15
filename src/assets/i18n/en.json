@@ -9,7 +9,11 @@
         "project": "Project",
         "reports": "Reports",
         "facts": "Facts and Figures",
-        "allFacts": "All Facts and Figures"
+        "allFacts": "All Facts and Figures",
+        "settings": {
+            "settings": "Settings",
+            "users": "Users"
+        }
     },
     "login": {
         "login": "Log in",
@@ -21,7 +25,8 @@
         "dashboard": "Dashboard",
         "all": "All",
         "open": "Open",
-        "closed": "Closed"
+        "closed": "Closed",
+        "settings": "Settings"
     },
     "tasks": {
         "cancel": "CANCEL",
@@ -204,5 +209,14 @@
         "drag": "Drag file here or browse",
         "noMapAdded": "The stadium map has not been added yet",
         "toUploadMap": "To upload the map, start by editing the project"
+    },
+    "users": {
+        "title": "Users",
+        "userId": "User ID",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "visible": "Visible user",
+        "email": "Email",
+        "state": "Account status"
     }
 }

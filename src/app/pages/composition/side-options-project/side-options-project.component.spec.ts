@@ -1,11 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TestingModule } from '@hazelnut/lib/testing.module';
 
-import { SideOptionsComponent } from './side-options.component';
+import { SideOptionsProjectComponent } from './side-options-project.component';
 
 describe('SideOptionsComponent', () => {
-    let component: SideOptionsComponent;
-    let fixture: ComponentFixture<SideOptionsComponent>;
+    let component: SideOptionsProjectComponent;
+    let fixture: ComponentFixture<SideOptionsProjectComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -13,13 +13,13 @@ describe('SideOptionsComponent', () => {
                 TestingModule,
             ],
             declarations: [
-                SideOptionsComponent,
+                SideOptionsProjectComponent,
             ]
         }).compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(SideOptionsComponent);
+        fixture = TestBed.createComponent(SideOptionsProjectComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
