@@ -17,7 +17,7 @@
 
     <!--    Custom column navigate to Tasks-->
     <ng-template #navigationToTasksColumn let-actRow="row" let-context="context">
-        <div class="fr" *ngIf="hasRoleReadTask()">
+        <div class="fr" *ngIf="allowTaskListButton()">
             <button (click)="showTasks(actRow.name)" mat-icon-button>
                 <mat-icon>keyboard_arrow_right</mat-icon>
             </button>

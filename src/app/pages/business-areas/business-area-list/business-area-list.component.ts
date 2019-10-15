@@ -19,7 +19,7 @@ import { SelectedAreaService } from '../../../shared/services/storage/selected-a
 /**
  * Business area list with title table and loader
  */ export class BusinessAreaListComponent implements OnInit {
-    // if expanded content is not used, then we need to remove it
+    // If expanded content is not used, then we need to remove it
     @ViewChild('expandedContent', {static: true}) public expandedContent: TemplateRef<any>;
     @ViewChild('navigationToTasksColumn', {static: true}) public navigationToTasksColumn: TemplateRef<any>;
     public loading = false;
@@ -98,8 +98,16 @@ import { SelectedAreaService } from '../../../shared/services/storage/selected-a
             });
     }
 
-    public hasRoleReadTask() {
+    public allowTaskListButton(): boolean {
+        return this.hasRoleReadTask() || this.hasRoleReadTaskInAssignProject();
+    }
+
+    private hasRoleReadTask(): boolean {
         return this.authService.hasRole(Role.RoleReadTask);
+    }
+
+    private hasRoleReadTaskInAssignProject(): boolean {
+        return this.authService.hasRole(Role.RoleReadTaskInAssignProject);
     }
 
 }
