@@ -45,6 +45,7 @@
         "sourceDescription": "Source description",
         "changedAt": "Changed at",
         "changedBy": "Changed by",
+        "video": "video",
         "new": {
             "newTask": "New task"
         },

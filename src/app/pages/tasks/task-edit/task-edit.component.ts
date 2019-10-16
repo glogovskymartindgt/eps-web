@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { tap } from 'rxjs/internal/operators/tap';
+import { finalize } from 'rxjs/operators';
+import { CommentType } from '../../../shared/enums/comment-type.enum';
 import { Role } from '../../../shared/enums/role.enum';
 import { Regex } from '../../../shared/hazlenut/hazelnut-common/regex/regex';
 import { TaskComment, TaskCommentResponse } from '../../../shared/interfaces/task-comment.interface';
@@ -62,33 +64,32 @@ export class TaskEditComponent implements OnInit {
     public onSave() {
         if (this.formData) {
             this.taskService.editTask(this.taskId, this.transformTaskToApiObject(this.formData))
-                .subscribe((response) => {
+                .subscribe(() => {
                     this.notificationService.openSuccessNotification('success.edit');
                     this.router.navigate(['tasks/list']);
-                }, (error) => {
+                }, () => {
                     this.notificationService.openErrorNotification('error.edit');
                 });
         }
     }
 
-    public onCommentAdded() {
+    public  onCommentAdded() {
         if (this.addCommentForm.invalid) {
             return;
         }
-        const taskComment: TaskComment = {
-            description: this.addCommentForm.value.newComment.toString(),
-            taskId: this.taskId,
-            type: 'TEXT'
-        };
-
-        this.onSendCommentService(taskComment);
+        const comment = this.addCommentForm.value.newComment.toString();
+        if (RegExp(Regex.youtubeLinkPattern).test(comment)) {
+            this.sendUrlMessage(comment);
+        } else {
+            this.sendTextMessage(comment);
+        }
     }
 
     public onAttachmentAdded() {
         const taskComment: TaskComment = {
             description: '',
             taskId: this.taskId,
-            type: 'ATTACHMENT',
+            type: CommentType.Attachment,
             attachment: {
                 type: 'COMMENT',
                 format: this.attachmentFormat,
@@ -103,13 +104,12 @@ export class TaskEditComponent implements OnInit {
     public onSendCommentService(taskComment) {
         this.loading = true;
         this.taskCommentService.addComment(taskComment)
+            .pipe(finalize(() => this.loading = false))
             .subscribe((commentResponse: TaskCommentResponse) => {
                 this.getAllComments();
                 this.addCommentForm.controls.newComment.reset();
-                this.loading = false;
-            }, (error) => {
+            }, () => {
                 this.notificationService.openErrorNotification('error.addComment');
-                this.loading = false;
             });
     }
 
@@ -170,6 +170,24 @@ export class TaskEditComponent implements OnInit {
 
     public allowCreateComment(): boolean {
         return this.hasRoleCreateComment() || this.hasRoleCreateCommentInAssignProject();
+    }
+
+    private sendTextMessage(comment: string) {
+        const taskComment: TaskComment = {
+            description: comment,
+            taskId: this.taskId,
+            type: CommentType.Text
+        };
+        this.onSendCommentService(taskComment);
+    }
+
+    private sendUrlMessage(comment: string) {
+        const taskComment: TaskComment = {
+            description: comment,
+            taskId: this.taskId,
+            type: CommentType.Url
+        };
+        this.onSendCommentService(taskComment);
     }
 
     private hasRoleUpdateTask(): boolean {

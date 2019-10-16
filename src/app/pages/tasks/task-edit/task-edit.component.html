@@ -5,7 +5,7 @@
 </div>
 
 <div fxLayout="row" style="overflow: auto;  height: calc(100vh - 160px);">
-    <div fxFlex="65" fxFlex.gt-sm="100%" class="p-30 form-content" fxLayout="column">
+    <div fxFlex fxFlex.gt-sm="100%" class="p-30 form-content" fxLayout="column">
         <task-form (formDataChange)="formDataChange($event)"></task-form>
         <div>
             <button *ngIf="projectEventService.instant.active && allowUpdateTask()"
@@ -28,7 +28,7 @@
         </div>
     </div>
 
-    <div fxFlex="35" style="background:#f4f4f4" fxLayout="column" *ngIf="allowReadComment()">
+    <div fxFlex="400px" style="background:#f4f4f4" fxLayout="column" *ngIf="allowReadComment()">
         <div class="w-full" fxLayout="row">
             <form [formGroup]="addCommentForm" (ngSubmit)="onCommentAdded()">
                 <div fxFlex="50px" fxLayoutAlign="start end" class="pl-20 pb-50" *ngIf="hasRoleUploadImage()">
@@ -47,17 +47,18 @@
                         type="file"/>
 
                 </div>
-                <haz-core-input [label]="'comment.newComment' | translate"
-                                [type]="'textarea'"
-                                [appearance]="'fill'"
-                                formControlName="newComment"
-                                [pattern]="notOnlyWhiteCharactersPattern"
-                                class="theme-input m-20 comment-input"
-                                [maxLength]="2000"
-                                *ngIf="allowCreateComment()"
-                >
-                </haz-core-input>
-
+           
+                    <haz-core-input [label]="'comment.newComment' | translate"
+                                    [type]="'textarea'"
+                                    [appearance]="'fill'"
+                                    formControlName="newComment"
+                                    [pattern]="notOnlyWhiteCharactersPattern"
+                                    class="theme-input m-20 w-260"
+                                    [maxLength]="2000"
+                                    *ngIf="allowCreateComment()"
+                    >
+                    </haz-core-input>
+                
                 <div fxFlex="50px" fxLayoutAlign="end end" class="pr-20 pb-50" *ngIf="allowCreateComment()">
                     <button mat-icon-button
                             [disabled]="addCommentForm?.controls?.newComment?.errors"

@@ -1,8 +1,7 @@
+import { CommentType } from '../enums/comment-type.enum';
 import { UserDataComment } from './user-data-comment.interface';
 
-export type TaskType = 'TEXT' | 'ATTACHMENT'| 'URL' | 'NOTIFICATION';
-
-export interface TaskAttachment {
+export interface CommentAttachment {
     type: string;
     format: string;
     fileName: string;
@@ -12,8 +11,8 @@ export interface TaskAttachment {
 export interface TaskComment {
     description: string;
     taskId: number;
-    type: TaskType;
-    attachment?: TaskAttachment;
+    type: CommentType;
+    attachment?: CommentAttachment;
 }
 
 export interface TaskCommentResponse extends TaskComment {

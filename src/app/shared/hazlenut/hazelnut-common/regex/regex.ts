@@ -3,7 +3,7 @@
  */
 
 export class Regex {
-    // format d.M.yyyy
+    // Format d.M.yyyy
     public static readonly dateDotPattern = '^(((0?[1-9])|([12][0-9])|([3][0-1]))\\.((0?[1-9])|(1[0-2]))\\.[0-9]{4})?$';
 
     public static readonly numberPattern = '^-?(0|[1-9]\\d*)?$';
@@ -39,4 +39,8 @@ export class Regex {
      * )                # end of lookahead
      */
     public static readonly thousandSeparatorOccurenceWithMaxTwoDecimal = /(?!^)(?=(?:\d{3})+(?:\.|$))/gm;
+
+    public static readonly youtubeLinkTextPattern = '^.*(http(?:s?):\\/\\/(?:www\\.)?youtu(?:be\\.com\\/watch\\?v=|\\.be\\/)([\\w\\-\\_]*)(&(amp;)?‌ [\\w\\?‌ =]*)?){1}.*$';
+    public static readonly youtubeLinkPattern = '^http(?:s?):\\/\\/(?:www\\.)?youtu(?:be\\.com\\/watch\\?v=|\\.be\\/)([\\w\\-\\_]*)(&(amp;)?‌ [\\w\\?‌ =]*)?$';
+
 }
