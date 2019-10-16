@@ -3,7 +3,7 @@
     <div class="pl-50" fxFlex="50" fxLayoutAlign="start center">
         <h3>{{'project.detailTitle' | translate}}</h3>
     </div>
-    <div *ngIf="!editMode" class="pr-20" fxFlex fxLayoutAlign="end center">
+    <div *ngIf="allowEditButton()" class="pr-20" fxFlex fxLayoutAlign="end center">
         <button (click)="toggleEditMode()" color="accent" mat-flat-button>
             {{'project.edit' | translate | uppercase}}
         </button>

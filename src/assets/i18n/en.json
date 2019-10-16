@@ -76,9 +76,9 @@
         "imageUpload": "Image upload failed",
         "attachmentDownload": "Attachment load failed",
         "attachmentUpload": "Attachment upload failed",
-        "fillVenue": "Fill venue please",
-        "fillCountry": "Fill country please",
-        "fillFirstCountry": "Fill first country please"
+        "fillVenue": "Fill venue when attachment uploaded",
+        "fillCountry": "Pick country when venue filled",
+        "fillFirstCountry": "Pick first country please"
     },
     "errorCode": {
         "1": "System error",
@@ -158,7 +158,8 @@
         "hasOnlyTotalValue": "One value for both venues",
         "year": "Year",
         "firstValue": "First Venue",
-        "secondValue": "Second Venue"
+        "secondValue": "Second Venue",
+        "unavailable": "This function will become available after you set the project venues."
     },
     "color": {
         "green": "Green",
@@ -199,6 +200,8 @@
         "firstVenue": "First Venue",
         "secondVenue": "Second Venue",
         "description": "Description",
-        "drag": "Drag file here or browse"
+        "drag": "Drag file here or browse",
+        "noMapAdded": "The stadium map has not been added yet",
+        "toUploadMap": "To upload the map, start by editing the project"
     }
 }

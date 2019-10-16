@@ -1,5 +1,4 @@
 import { ValidatorFn, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
 import { TranslateWrapper } from '../interfaces/translate.interface';
 
 export class InputUtils {
@@ -29,22 +28,27 @@ export class InputUtils {
             target.hintMaxlength = target.hintMaxlength || translationService.instant('hint.maxlength');
             target.hintBadCharacter = target.hintBadCharacter || translationService.instant('hint.badCharacter');
         } else {
-            translationService.get('error.required').subscribe((translate) => {
-                target.errorRequired = translate;
-            });
-            translationService.get('error.minlength').subscribe((translate) => {
-                target.errorMinlength = translate;
-            });
-            translationService.get('error.pattern').subscribe((translate) => {
-                target.errorPattern = translate;
-            });
+            translationService.get('error.required')
+                              .subscribe((translate: string) => {
+                                  target.errorRequired = translate;
+                              });
+            translationService.get('error.minlength')
+                              .subscribe((translate: string) => {
+                                  target.errorMinlength = translate;
+                              });
+            translationService.get('error.pattern')
+                              .subscribe((translate: string) => {
+                                  target.errorPattern = translate;
+                              });
 
-            translationService.get('hint.maxlength').subscribe((translate) => {
-                target.hintMaxlength = translate;
-            });
-            translationService.get('hint.badCharacter').subscribe((translate) => {
-                target.hintBadCharacter = translate;
-            });
+            translationService.get('hint.maxlength')
+                              .subscribe((translate: string) => {
+                                  target.hintMaxlength = translate;
+                              });
+            translationService.get('hint.badCharacter')
+                              .subscribe((translate: string) => {
+                                  target.hintBadCharacter = translate;
+                              });
         }
     }
 

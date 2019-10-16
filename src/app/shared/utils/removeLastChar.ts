@@ -11,6 +11,7 @@ export function checkAndRemoveLastDotComma(value: string): string {
                      .substring(0, value.toString().length - 1);
     }
     value = value.replace(',', '.');
+    value = value.split(' ').join('');
     return value;
 
 }

@@ -8,8 +8,9 @@ describe('TableCellClickableComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [TableCellClickableComponent],
-        }).compileComponents();
+                   declarations: [TableCellClickableComponent],
+               })
+               .compileComponents();
     }));
 
     beforeEach(() => {
@@ -23,6 +24,7 @@ describe('TableCellClickableComponent', () => {
     });
 
     it('should create', () => {
-        expect(component).toBeTruthy();
+        expect(component)
+            .toBeTruthy();
     });
 });

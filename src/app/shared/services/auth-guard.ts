@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
+import { MenuGuard } from './menu-guard';
 import { ProjectUserService } from './storage/project-user.service';
 
 /**
@@ -8,17 +9,16 @@ import { ProjectUserService } from './storage/project-user.service';
  */
 @Injectable()
 export class AuthGuard implements CanActivate {
-    public constructor(private readonly userService: ProjectUserService,
-                       private readonly router: Router) {
+
+    public constructor(private readonly userService: ProjectUserService, private readonly router: Router, private readonly menuGuard: MenuGuard) {
     }
 
-    public canActivate(next: ActivatedRouteSnapshot,
-                       state: RouterStateSnapshot): Observable<boolean> | boolean {
+    public canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
         if (this.userService.isLoggedIn) {
-            return true;
+            return this.menuGuard.menuRoutingCheck(next.data.title);
         }
         this.router.navigate(['authentication/login']);
         return false;
-
     }
+
 }

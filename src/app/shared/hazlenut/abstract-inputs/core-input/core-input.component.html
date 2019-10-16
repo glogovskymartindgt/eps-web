@@ -1,27 +1,29 @@
 <mat-form-field [appearance]="appearance" [ngStyle]="styles">
     <mat-label>{{ label }}</mat-label>
-    <input *ngIf="type === 'string'"
+    <input (blur)="handleBlur()"
+           (focus)="handleFocus()"
+           *ngIf="type === 'string'"
            [formControl]="formControl"
+           [ngStyle]="inputStyles"
            [placeholder]="placeholder"
            [required]="required"
-           (focus)="handleFocus()"
-           (blur)="handleBlur()"
-           matInput
            autocomplete="off"
+           matInput
            style="width: 100%;"
-           [ngStyle]="inputStyles"/>
-    <textarea *ngIf="type === 'textarea'"
+    />
+    <textarea (blur)="manageUserInput()"
+              *ngIf="type === 'textarea'"
               [formControl]="formControl"
               [placeholder]="placeholder"
               [required]="required"
-              (blur)="manageUserInput()"
-              matInput
               autocomplete="off"
-              cdkAutosizeMinRows="2"
               cdkAutosizeMaxRows="10"
+              cdkAutosizeMinRows="2"
               cdkTextareaAutosize
-              style="width: 100%;"></textarea>
-    <span *ngIf="textSuffix" matSuffix [ngStyle]="formControl.disabled ? {'color': '#989898'} : {}">{{textSuffix}}</span>
+              matInput
+              style="width: 100%;"
+    ></textarea>
+    <span *ngIf="textSuffix" [ngStyle]="formControl.disabled ? {'color': '#989898'} : {}" matSuffix>{{textSuffix}}</span>
     <mat-hint align="start">{{ displayedError }}</mat-hint>
     <mat-hint align="end">{{ displayedHint }}</mat-hint>
     <mat-error *ngIf="showErrors">{{ displayedError }}</mat-error>

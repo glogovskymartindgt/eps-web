@@ -1,4 +1,4 @@
-import { HazelnutConfig } from '../config/hazelnut-config';
+import { hazelnutConfig } from '../config/hazelnut-config';
 import { Filter } from './filter.model';
 import { Sort } from './sort.model';
 
@@ -27,7 +27,7 @@ export class PostContent implements PostContentInterface {
     public paging: {
         offset: number;
         limit: number;
-    } = {offset: 0, limit: HazelnutConfig.BROWSE_LIMIT};
+    } = {offset: 0, limit: hazelnutConfig.BROWSE_LIMIT};
 
     public static create(limit: number,
                          offset: number,

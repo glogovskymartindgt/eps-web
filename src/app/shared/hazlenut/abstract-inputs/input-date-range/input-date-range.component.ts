@@ -26,17 +26,20 @@ export interface DateRangeModel {
             useExisting: forwardRef(() => InputDateRangeComponent),
             multi: true
         },
-        {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+        {
+            provide: DateAdapter,
+            useClass: MomentDateAdapter,
+            deps: [MAT_DATE_LOCALE]
+        },
     ]
 })
 export class InputDateRangeComponent implements OnInit, ControlValueAccessor, AfterViewChecked {
+
     @Input() public fromLabel: Observable<string>;
     @Input() public toLabel: Observable<string>;
     @Input() public type: 'date' | 'dateTime' = 'dateTime'; // TODO: create enum
     @Input() public dateWidth;
-
     @Input() public errorMessageMinmax = '';
-
     public minmaxError = true;
     public dateRangeForm: FormGroup;
     public showColumnErrorMessage: boolean;
@@ -45,10 +48,9 @@ export class InputDateRangeComponent implements OnInit, ControlValueAccessor, Af
     private readonly tooltipMessage = this.errorMessageMinmax;
     private errorMessage: string;
 
-    public constructor(
-        private readonly cdRef: ChangeDetectorRef,
-        private readonly formBuilder: FormBuilder,
-        @Inject(TRANSLATE_WRAPPER_TOKEN) protected readonly translateWrapperService: TranslateWrapper) {
+    public constructor(private readonly cdRef: ChangeDetectorRef,
+                       private readonly formBuilder: FormBuilder,
+                       @Inject(TRANSLATE_WRAPPER_TOKEN) protected readonly translateWrapperService: TranslateWrapper) {
     }
 
     public get fromFormControl(): FormControl {
@@ -59,7 +61,7 @@ export class InputDateRangeComponent implements OnInit, ControlValueAccessor, Af
         return this.dateRangeForm.get('to') as FormControl;
     }
 
-    private static areDateEquals(currentDate: DateRangeModel, newDate: DateRangeModel) {
+    private static areDateEquals(currentDate: DateRangeModel, newDate: DateRangeModel): boolean {
         if (currentDate === newDate) {
             return true;
         }
@@ -70,8 +72,11 @@ export class InputDateRangeComponent implements OnInit, ControlValueAccessor, Af
         if (currentDate.dateTo === newDate.dateTo && currentDate.dateFrom === newDate.dateFrom) {
             return true;
         }
-        return (currentDate.dateTo && currentDate.dateTo._d) === (newDate.dateTo && newDate.dateTo._d) &&
-            (currentDate.dateFrom && currentDate.dateFrom._d) === (newDate.dateFrom && newDate.dateFrom._d);
+
+        return (currentDate.dateTo && currentDate.dateTo._d) ===
+            (newDate.dateTo && newDate.dateTo._d) &&
+            (currentDate.dateFrom && currentDate.dateFrom._d) ===
+            (newDate.dateFrom && newDate.dateFrom._d);
     }
 
     public ngOnInit(): void {
@@ -102,46 +107,53 @@ export class InputDateRangeComponent implements OnInit, ControlValueAccessor, Af
 
     public writeValue(value: DateRangeModel): void {
         if (!value) {
-            return this.writeValue({dateFrom: null, dateTo: null});
+            return this.writeValue({
+                dateFrom: null,
+                dateTo: null
+            });
         }
         this.toFormControl.setValue(value.dateTo, {emitEvent: false});
         this.fromFormControl.setValue(value.dateFrom, {emitEvent: false});
         this.cdRef.detectChanges();
     }
 
-    private minMaxValidator(formGroup: FormGroup): ValidationErrors {
+    public transformToDate(object: any): Date | null {
+        return object ? new Date(object) : null;
+    }
 
+    private minMaxValidator(formGroup: FormGroup): ValidationErrors {
         const fromFormControl = formGroup.get('from');
         const toFormControl = formGroup.get('to');
 
-        this.minmaxError = fromFormControl.value && toFormControl.value &&
-            (Number(fromFormControl.value) > Number(toFormControl.value));
+        this.minmaxError = fromFormControl.value && toFormControl.value && (Number(fromFormControl.value) > Number(toFormControl.value));
 
-        return fromFormControl.value &&
-        toFormControl.value &&
-        (Number(fromFormControl.value) > Number(toFormControl.value)) ? {minmax: true} : null;
-    }
-
-    public transformToDate(object: any) {
-        return object ? new Date(object) : null;
+        return fromFormControl.value && toFormControl.value && (Number(fromFormControl.value) > Number(toFormControl.value)) ? {minmax: true} : null;
     }
 
     private createForm(): FormGroup {
         return this
             .formBuilder.group({
-                from: [null, {
-                    validators: Validators.compose([
-                        Validators.required])
-                }],
-                to: [null, {
-                    validators: Validators.compose([
-                        Validators.required])
-                }]
+                from: [
+                    null,
+                    {
+                        validators: Validators.compose([
+                            Validators.required
+                        ])
+                    }
+                ],
+                to: [
+                    null,
+                    {
+                        validators: Validators.compose([
+                            Validators.required
+                        ])
+                    }
+                ]
             }, {validator: this.minMaxValidator});
     }
 
     private onFormGroupChanges(formGroup: FormGroup): void {
-        formGroup.valueChanges.subscribe((value) => {
+        formGroup.valueChanges.subscribe(() => {
             if (!this.momentDateIsValid(this.fromFormControl) || !this.momentDateIsValid(this.toFormControl)) {
                 return;
             }
@@ -151,10 +163,14 @@ export class InputDateRangeComponent implements OnInit, ControlValueAccessor, Af
             }
 
             const newValue: DateRangeModel = {
-                dateFrom: !this.momentDateIsFullDate(this.fromFormControl) ? null
-                    : (this.fromFormControl.value.startOf('day').format()),
-                dateTo: !this.momentDateIsFullDate(this.toFormControl) ? null
-                    : (this.toFormControl.value.endOf('day').format())
+                dateFrom: !this.momentDateIsFullDate(this.fromFormControl) ?
+                          null :
+                          (this.fromFormControl.value.startOf('day')
+                               .format()),
+                dateTo: !this.momentDateIsFullDate(this.toFormControl) ?
+                        null :
+                        (this.toFormControl.value.endOf('day')
+                             .format())
             };
 
             this.onChange(newValue);
@@ -162,7 +178,7 @@ export class InputDateRangeComponent implements OnInit, ControlValueAccessor, Af
     }
 
     private onFormControlChanges(formControl: FormControl): void {
-        formControl.valueChanges.subscribe((value) => {
+        formControl.valueChanges.subscribe(() => {
             this.manageUserInput(this.dateRangeForm);
         });
     }
@@ -171,18 +187,24 @@ export class InputDateRangeComponent implements OnInit, ControlValueAccessor, Af
         if (!formControl.value || !formControl.value._i) {
             return true;
         }
-        return (typeof formControl.value._i === 'string')
-            ? RegExp(Regex.dateDotPattern).test(formControl.value._i)
-            : RegExp(Regex.dateDotPattern).test(StringUtils.convertDateStringToDotString(formControl.value._d));
+
+        return (typeof formControl.value._i === 'string') ?
+               RegExp(Regex.dateDotPattern)
+                   .test(formControl.value._i) :
+               RegExp(Regex.dateDotPattern)
+                   .test(StringUtils.convertDateStringToDotString(formControl.value._d));
     }
 
     private momentDateIsFullDate(formControl: FormControl): boolean {
         if (!formControl.value || !formControl.value._i) {
             return false;
         }
-        return (typeof formControl.value._i === 'string')
-            ? RegExp(Regex.dateDotPattern).test(formControl.value._i)
-            : RegExp(Regex.dateDotPattern).test(StringUtils.convertDateStringToDotString(formControl.value._d));
+
+        return (typeof formControl.value._i === 'string') ?
+               RegExp(Regex.dateDotPattern)
+                   .test(formControl.value._i) :
+               RegExp(Regex.dateDotPattern)
+                   .test(StringUtils.convertDateStringToDotString(formControl.value._d));
     }
 
     private manageUserInput(formGroup: FormGroup): void {
@@ -192,7 +214,13 @@ export class InputDateRangeComponent implements OnInit, ControlValueAccessor, Af
         }
         if (formGroup.errors && formGroup.errors.minmax) {
             this.showColumnErrorMessage = true;
-            this.errorMessage = StringUtils.format(this.errorMessageMinmax, {from: 'Od', to: 'Do'});
+            this.errorMessage = StringUtils.format(
+                this.errorMessageMinmax,
+                {
+                    from: 'Od',
+                    to: 'Do'
+                }
+            );
         }
     }
 

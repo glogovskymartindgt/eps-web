@@ -7,24 +7,32 @@
                         *ngIf="projectEventService.subject.isEvent | async"
                         [@fadeEnterLeave]
                         [disableClose]="true"
+                        [opened]="menuOpen"
                         class="menu-sidenav"
                         mode="side"
-                        [opened]="menuOpen"
             >
-                <div class="layer" fxLayout="column">
-                    <div class="close-wrapper" fxFlex="50px">
-                        <button (click)="toggleDrawer()" mat-icon-button>
-                            <mat-icon>close</mat-icon>
-                        </button>
+                <div class="layer" fxLayout="column" fxLayoutAlign="space-between">
+                    <div fxFlex fxLayout="column">
+                        <div class="close-wrapper" fxFlex="50px">
+                            <button (click)="toggleDrawer()" mat-icon-button>
+                                <mat-icon>close</mat-icon>
+                            </button>
+                        </div>
+                        <side-options fxFlex></side-options>
                     </div>
-                    <side-options fxFlex></side-options>
-                </div>
-                <div (dblclick)="toggleLanguage()" class="version">{{version}}</div>
-                <div class="menu-logo mr-10 mb-3">
-                    <img [src]="'assets/img/iihf-logo-without-text-transparent.png'"
-                         alt="iihf logo"
-                         width="100"
-                    >
+                    <div fxFlex="230px" fxLayout="row" fxLayoutAlign="space-between">
+                        <div (dblclick)="toggleLanguage()"
+                             class="version"
+                             fxFlex
+                             fxLayoutAlign="flex-start flex-end"
+                        >{{version}}</div>
+                        <div class="mr-10 mb-5" fxFlex fxLayoutAlign="flex-end flex-end">
+                            <img [src]="'assets/img/iihf-logo-without-text-transparent.png'"
+                                 alt="iihf logo"
+                                 height="170"
+                            >
+                        </div>
+                    </div>
                 </div>
             </mat-drawer>
             <div fxLayout="column">

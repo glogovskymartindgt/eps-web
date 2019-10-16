@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { HazelnutConfig } from '../../hazlenut/hazelnut-common/config/hazelnut-config';
+import { hazelnutConfig } from '../../hazlenut/hazelnut-common/config/hazelnut-config';
 import { NotificationService } from '../notification.service';
 import { ProjectService } from '../project.service';
 import { ProjectUserService } from '../storage/project-user.service';
@@ -12,7 +12,7 @@ import { ProjectUserService } from '../storage/project-user.service';
 })
 export class AttachmentService extends ProjectService<any> {
 
-    public constructor(http: HttpClient, notificationService: NotificationService, userService: ProjectUserService, ) {
+    public constructor(http: HttpClient, notificationService: NotificationService, userService: ProjectUserService,) {
         super(http, 'attachment', notificationService, userService);
     }
 
@@ -26,19 +26,19 @@ export class AttachmentService extends ProjectService<any> {
         headers = headers.set('token', this.userService.instant.authToken);
         return this.post({
             headers,
-            url: `${HazelnutConfig.URL_API}/attachment/upload`,
+            url: `${hazelnutConfig.URL_API}/attachment/upload`,
             mapFunction: (e) => e,
             body: formData,
         });
     }
 
     public getAttachment(attachmentName: string): Observable<Blob> {
-        return this.http.get(`${HazelnutConfig.URL_API}/attachment/${attachmentName}`, {
+        return this.http.get(`${hazelnutConfig.URL_API}/attachment/${attachmentName}`, {
                        headers: this.getHeader(),
                        responseType: 'blob',
                    })
                    .pipe(map((result) => {
                        return result as any;
-                   }), catchError(this.handleError), );
+                   }), catchError(this.handleError),);
     }
 }

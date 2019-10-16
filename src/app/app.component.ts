@@ -17,8 +17,7 @@ export class AppComponent implements OnInit {
      */
     public constructor(private readonly translateService: TranslateService,
                        private readonly routingStorageService: RoutingStorageService,
-                       private readonly projectUserService: ProjectUserService
-    ) {
+                       private readonly projectUserService: ProjectUserService) {
         translateService.setDefaultLang('en');
         this.routingStorageService.loadRouting();
     }
@@ -26,7 +25,7 @@ export class AppComponent implements OnInit {
     /**
      * Use english language
      */
-    public ngOnInit() {
+    public ngOnInit(): void {
         this.translateService.use('en');
     }
 
@@ -35,7 +34,7 @@ export class AppComponent implements OnInit {
      * Handy, when multiple users are logged in in the same browser.
      */
     @HostListener('window:beforeunload')
-    public unloadNotification() {
+    public unloadNotification(): void {
         localStorage.setItem('lastUser', this.projectUserService.instant.login);
     }
 

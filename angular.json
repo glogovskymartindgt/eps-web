@@ -22,7 +22,7 @@
                                 "src/app/shared/hazelnut/hazelnut-common/hazelnut/styles"
                             ]
                         },
-                        "outputPath": "dist/iihf-web",
+                        "outputPath": "dist",
                         "index": "src/index.html",
                         "main": "src/main.ts",
                         "polyfills": "src/polyfills.ts",
@@ -70,11 +70,11 @@
                                 }
                             ]
                         },
-                        "docker": {
+                        "test": {
                             "fileReplacements": [
                                 {
                                     "replace": "src/environments/environment.ts",
-                                    "with": "src/environments/environment.docker.ts"
+                                    "with": "src/environments/environment.test.ts"
                                 }
                             ]
                         },

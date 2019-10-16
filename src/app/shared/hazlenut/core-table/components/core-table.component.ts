@@ -1,18 +1,5 @@
 import { SelectionChange, SelectionModel } from '@angular/cdk/collections';
-import {
-    Component,
-    EventEmitter,
-    Inject,
-    Input,
-    OnChanges,
-    OnDestroy,
-    OnInit,
-    Output,
-    QueryList,
-    SimpleChanges,
-    ViewChild,
-    ViewChildren
-} from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnChanges, OnDestroy, OnInit, Output, QueryList, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
 import { MatPaginator, MatSort } from '@angular/material';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -52,8 +39,8 @@ export class CoreTableComponent<T = any> implements OnInit, OnChanges, OnDestroy
     @Output() public readonly selectionChange: EventEmitter<any[]> = new EventEmitter<any[]>(true);
     @Output() public readonly rowClick: EventEmitter<T> = new EventEmitter<T>(true);
 
-    @ViewChild(MatPaginator) public paginator: MatPaginator;
-    @ViewChild(MatSort) public sort: MatSort;
+    @ViewChild(MatPaginator, {static: true}) public paginator: MatPaginator;
+    @ViewChild(MatSort, {static: true}) public sort: MatSort;
     @ViewChildren(CoreTableFilterComponent) public filtersElementHolder: QueryList<CoreTableFilterComponent>;
     @ViewChildren(ExpandedDetailDirective) public expandedDetailHosts: QueryList<ExpandedDetailDirective>;
 
@@ -61,11 +48,9 @@ export class CoreTableComponent<T = any> implements OnInit, OnChanges, OnDestroy
     public selection: SelectionModel<any>;
     public selectedRow: T;
 
-    public constructor(
-        @Inject(TRANSLATE_WRAPPER_TOKEN) private readonly translateWrapperService: TranslateWrapper,
-        @Inject(NOTIFICATION_WRAPPER_TOKEN) private readonly notificationService: NotificationWrapper,
-        private readonly coreTableService: CoreTableService,
-    ) {
+    public constructor(@Inject(TRANSLATE_WRAPPER_TOKEN) private readonly translateWrapperService: TranslateWrapper,
+                       @Inject(NOTIFICATION_WRAPPER_TOKEN) private readonly notificationService: NotificationWrapper,
+                       private readonly coreTableService: CoreTableService, ) {
     }
 
     public get filtersRowDisplayed(): boolean {
@@ -81,11 +66,7 @@ export class CoreTableComponent<T = any> implements OnInit, OnChanges, OnDestroy
     }
 
     public get anyFilter(): boolean {
-        return (
-            this.configuration &&
-            this.configuration.columns &&
-            this.configuration.columns.some((row: TableColumn) => row.filter && row.filter.enabled)
-        );
+        return (this.configuration && this.configuration.columns && this.configuration.columns.some((row: TableColumn) => row.filter && row.filter.enabled));
     }
 
     public get dataRowsDisplayed(): boolean {
@@ -121,13 +102,11 @@ export class CoreTableComponent<T = any> implements OnInit, OnChanges, OnDestroy
             }
         });
 
-        const constructRequestParameters$ = filters$.pipe(
-            map((filters: Filter[]) => {
-                const requestParameters = new TableRequestParameters(this.paginator, this.sort);
-                requestParameters.filter = filters;
-                return requestParameters;
-            }),
-        );
+        const constructRequestParameters$ = filters$.pipe(map((filters: Filter[]) => {
+            const requestParameters = new TableRequestParameters(this.paginator, this.sort);
+            requestParameters.filter = filters;
+            return requestParameters;
+        }), );
 
         if (this.sort) {
             this.sort.sortChange
@@ -137,13 +116,15 @@ export class CoreTableComponent<T = any> implements OnInit, OnChanges, OnDestroy
                 });
         }
 
-        this.paginator.page.pipe(switchMap(() => constructRequestParameters$)).subscribe((requestParameters: TableRequestParameters) => {
-            this.requestData.emit(TableChangeEvent.Create(TableChangeType.PAGINATE, requestParameters, requestParameters.filter));
-        });
+        this.paginator.page.pipe(switchMap(() => constructRequestParameters$))
+            .subscribe((requestParameters: TableRequestParameters) => {
+                this.requestData.emit(TableChangeEvent.Create(TableChangeType.PAGINATE, requestParameters, requestParameters.filter));
+            });
 
-        filters$.pipe(switchMap(() => constructRequestParameters$)).subscribe((requestParameters: TableRequestParameters) => {
-            this.emitRequestParameters(TableChangeEvent.Create(TableChangeType.FILTER, requestParameters, requestParameters.filter));
-        });
+        filters$.pipe(switchMap(() => constructRequestParameters$))
+                .subscribe((requestParameters: TableRequestParameters) => {
+                    this.emitRequestParameters(TableChangeEvent.Create(TableChangeType.FILTER, requestParameters, requestParameters.filter));
+                });
     }
 
     public ngOnChanges(simpleChanges: SimpleChanges): void {
@@ -160,7 +141,7 @@ export class CoreTableComponent<T = any> implements OnInit, OnChanges, OnDestroy
                 this.configuration.columns.unshift(new TableColumn({columnDef: 'nothing'}));
                 this.selection = new SelectionModel<any>(this.configuration.selection === 'multi', []);
                 this.selection.changed.subscribe((data: SelectionChange<any>) => {
-                    // filter out deleted items from selected items
+                    // Filter out deleted items from selected items
                     data.source.selected.forEach((selectedItem: any) => {
                         if (!this.data.content || !this.data.content.some((item: any) => item.id === selectedItem.id)) {
                             data.source.deselect(selectedItem);
@@ -176,12 +157,13 @@ export class CoreTableComponent<T = any> implements OnInit, OnChanges, OnDestroy
         if (columnConfig.label) {
             return of(columnConfig.label);
         }
-        return this.translateWrapperService.get(columnConfig.labelKey).pipe(map((label) => {
-            if (typeof label === 'string' && this.configuration.uppercaseHeader !== false) {
-                return label.toUpperCase();
-            }
-            return label;
-        }));
+        return this.translateWrapperService.get(columnConfig.labelKey)
+                   .pipe(map((label) => {
+                       if (typeof label === 'string' && this.configuration.uppercaseHeader !== false) {
+                           return label.toUpperCase();
+                       }
+                       return label;
+                   }));
     }
 
     public rowClicked(row: T): void {
@@ -189,12 +171,12 @@ export class CoreTableComponent<T = any> implements OnInit, OnChanges, OnDestroy
     }
 
     public onExpandableRowClicked(row: T): void {
-        // rows are not expandable
+        // Rows are not expandable
         if (!this.configuration.expandedRowTemplate) {
             return;
         }
 
-        // click on an already selected row
+        // Click on an already selected row
         if (this.selectedRow === row) {
             this.selectedRow = undefined;
             return;
@@ -232,6 +214,12 @@ export class CoreTableComponent<T = any> implements OnInit, OnChanges, OnDestroy
         return this.configuration.trClasses;
     }
 
+    public resetFilters(guard: boolean) {
+        if (guard) {
+            this.filtersElementHolder.forEach((filter) => filter.filtersElement.reset());
+        }
+    }
+
     private emitRequestParameters(changeEvent: TableChangeEvent): void {
         if (MiscUtils.isFunction(this.paginator.firstPage)) {
             const hasPrev = this.paginator.hasPreviousPage();
@@ -264,11 +252,5 @@ export class CoreTableComponent<T = any> implements OnInit, OnChanges, OnDestroy
                 column.label = column.label.toUpperCase();
             }
         });
-    }
-
-    public resetFilters(guard: boolean) {
-        if (guard) {
-            this.filtersElementHolder.forEach((filter) => filter.filtersElement.reset());
-        }
     }
 }

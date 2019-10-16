@@ -4,7 +4,11 @@ import { MathUtils } from './math.utils';
 describe('MathUtils', () => {
     describe('roundToDecimals', () => {
         it('Returns decimal number rounded off to N decimal places', () => {
-            expect(MathUtils.roundToDecimals(1.23456)).to.be.equal('1.23');
+            const testValue = 1.23456;
+            expect(MathUtils.roundToDecimals(testValue))
+                .to
+                .be
+                .equal('1.23');
         });
     });
 });

@@ -1,23 +1,31 @@
 <!--List of facts and figures with title, create button and table with loader-->
 <div>
-    <div fxLayout="row" class="basic-screen-header">
+    <div class="basic-screen-header" fxLayout="row">
         <div class="pl-50" fxFlex="400px" fxLayoutAlign="start center">
             <h2>{{ (allFacts ? 'fact.titleAllFacts' : 'fact.title') | translate}}</h2>
         </div>
         <!--Fact create button is only in Facts and Figures screen in active project, not in All Facts and Figures-->
-        <div fxFlex fxLayoutAlign="end center">
-            <button *ngIf="projectEventService.instant.active && !allFacts"
-                    (click)="createFact()"
-                    mat-raised-button
+        <div *ngIf="allowCreateFactButton()" fxFlex fxLayoutAlign="end center">
+            <button (click)="createFact()"
+                    *ngIf="projectEventService.instant.active && !allFacts"
                     class="mr-10"
-                    color="accent">
+                    color="accent"
+                    mat-raised-button
+            >
                 {{'common.create' | translate}}
+            </button>
+            <button mat-flat-button (click)="export()" class="mr-10" color="accent" *ngIf="allowExportAllFactItemButton()">
+                {{'common.export' | translate}}
             </button>
         </div>
     </div>
 
+    <div *ngIf="(!projectEventService.instant.firstVenue || !projectEventService.instant.secondVenue) && !router.url.includes('all-facts')">
+        <p class="text-unavailable-facts">{{'fact.unavailable' | translate}}</p>
+    </div>
     <!--Core table with custom columns, value columns have measureUnit-->
     <haz-core-table (requestData)="setTableData($event)"
+                    *ngIf="!((!projectEventService.instant.firstVenue || !projectEventService.instant.secondVenue) && !router.url.includes('all-facts'))"
                     [configuration]="config"
                     [data]="data"
     >
@@ -41,9 +49,10 @@
         </div>
     </ng-template>
     <ng-template #updateColumn let-actRow="row" let-context="context">
-        <div class="fr">
-            <button mat-icon-button
-                    (click)="update(actRow.id, actRow.year, actRow.projectId)">
+        <div class="fr" *ngIf="allowFactDetailButton()">
+            <button (click)="update(actRow.id, actRow.year, actRow.projectId)"
+                    mat-icon-button
+            >
                 <mat-icon>keyboard_arrow_right</mat-icon>
             </button>
         </div>

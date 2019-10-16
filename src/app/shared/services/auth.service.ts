@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
+import { Role } from '../enums/role.enum';
 import { NotificationService } from './notification.service';
 import { ProjectEventService } from './storage/project-event.service';
 import { ProjectUserService } from './storage/project-user.service';
@@ -17,7 +18,8 @@ import { ProjectUserService } from './storage/project-user.service';
                        private readonly userService: ProjectUserService,
                        private readonly notificationService: NotificationService,
                        private readonly router: Router,
-                       private readonly projectEventService: ProjectEventService, ) {
+                       private readonly projectEventService: ProjectEventService,
+                       private readonly projectUserService: ProjectUserService) {
     }
 
     /**
@@ -34,6 +36,16 @@ import { ProjectUserService } from './storage/project-user.service';
      */
     public logout(): void {
         this.logoutBackend(this.userService.instant.masterToken, this.userService.instant.authToken, this.userService.instant.deviceId);
+    }
+
+    /**
+     * Logged user role validation
+     * @param {Role} role
+     * @returns {boolean}
+     */
+    public hasRole(role: Role): boolean {
+        const roles = this.projectUserService.instant.roles;
+        return roles && roles.indexOf(role) >= 0;
     }
 
     /**

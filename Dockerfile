@@ -6,4 +6,4 @@ RUN rm -fr /etc/localtime && ln -s /usr/share/zoneinfo/Europe/Bratislava /etc/lo
 
 WORKDIR /usr/share/nginx/html
 
-COPY dist/iihf-web .
+COPY dist .

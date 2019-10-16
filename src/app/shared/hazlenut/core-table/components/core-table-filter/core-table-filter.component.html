@@ -1,4 +1,4 @@
-<ng-container [ngSwitch]="columnConfig.filter?.type" [formGroup]="filtersElement">
+<ng-container [formGroup]="filtersElement" [ngSwitch]="columnConfig.filter?.type">
     <mat-form-field *ngSwitchCase="filterTypeEnum.STRING"
                     [ngClass]="widthClass"
                     class="custom-filter-input"
@@ -7,18 +7,19 @@
                [formControlName]="columnConfig.filterElement"
                autocomplete="off"
                matInput
+               maxlength="255"
                type="text"
-               maxlength="255">
-        <mat-icon *ngIf="filtersElement.value[columnConfig.filterElement]"
-                  matSuffix
-                  (click)="filtersElement.reset()"
-                  style="cursor: pointer; position: absolute; right: 10px; bottom: -5px;"
+        >
+        <mat-icon (click)="filtersElement.reset()"
+                  *ngIf="filtersElement.value[columnConfig.filterElement]"
                   [@fadeEnterLeave]
+                  class="suffix-close"
+                  matSuffix
         >
             close
         </mat-icon>
     </mat-form-field>
-
+    
     <mat-form-field *ngSwitchCase="filterTypeEnum.SELECT" [ngClass]="widthClass">
         <mat-select [formControlName]="columnConfig.filterElement">
             <mat-option *ngFor="let option of columnConfig.filter.select" [value]="option.code | async">
@@ -26,10 +27,10 @@
             </mat-option>
         </mat-select>
     </mat-form-field>
-
+    
     <mat-form-field *ngSwitchCase="filterTypeEnum.RESPONSIBLE" [ngClass]="widthClass">
         <mat-select [formControlName]="columnConfig.filterElement">
-            <mat-option  [value]="'All'">
+            <mat-option [value]="'All'">
                 {{ 'all.persons' | translate }}
             </mat-option>
             <mat-option *ngFor="let option of userList$ | async" [value]="option.id">
@@ -37,10 +38,10 @@
             </mat-option>
         </mat-select>
     </mat-form-field>
-
+    
     <mat-form-field *ngSwitchCase="filterTypeEnum.CATEGORY" [ngClass]="widthClass">
         <mat-select [formControlName]="columnConfig.filterElement">
-            <mat-option  [value]="'All'">
+            <mat-option [value]="'All'">
                 {{ 'venue.value.all' | translate }}
             </mat-option>
             <mat-option *ngFor="let option of categoryList$" [value]="option.name">
@@ -48,7 +49,7 @@
             </mat-option>
         </mat-select>
     </mat-form-field>
-
+    
     <mat-form-field *ngSwitchCase="filterTypeEnum.TYPE" [ngClass]="widthClass">
         <mat-select [formControlName]="columnConfig.filterElement">
             <mat-option *ngFor="let option of columnConfig.filter.select" [value]="option.code | async">
@@ -56,7 +57,7 @@
             </mat-option>
         </mat-select>
     </mat-form-field>
-
+    
     <mat-form-field *ngSwitchCase="filterTypeEnum.SELECT_STRING" [ngClass]="widthClass">
         <mat-select [formControlName]="columnConfig.filterElement">
             <mat-option *ngFor="let option of columnConfig.filter.select" [value]="option.code | async">
@@ -64,18 +65,20 @@
             </mat-option>
         </mat-select>
     </mat-form-field>
-
+    
     <mat-form-field *ngSwitchCase="filterTypeEnum.SELECT_NUMBER"
-                    [ngClass]="widthClass">
+                    [ngClass]="widthClass"
+    >
         <mat-select [formControlName]="columnConfig.filterElement">
             <mat-option *ngFor="let option of columnConfig.filter.select" [value]="option.value">
                 {{ option.code | async }}
             </mat-option>
         </mat-select>
     </mat-form-field>
-
+    
     <mat-form-field *ngSwitchCase="filterTypeEnum.SELECT_ANY_DATE_TIME"
-                    [ngClass]="widthClass">
+                    [ngClass]="widthClass"
+    >
         <mat-select [formControlName]="columnConfig.filterElement">
             <mat-option *ngFor="let option of columnConfig.filter.select" [value]="option.code | async">
                 {{ option.value | async }}
@@ -91,17 +94,20 @@
         <mat-select [formControlName]="columnConfig.filterElement" multiple>
             <mat-option [value]="'green'">
                 <div
-                    style="width: 12px;height: 12px;background:#20bf55;border-radius:50%; position: absolute;right: 12px;top:12px;"></div>
+                    style="width: 12px;height: 12px;background:#20bf55;border-radius:50%; position: absolute;right: 12px;top:12px;"
+                ></div>
                 {{'color.green' | translate}}
             </mat-option>
             <mat-option [value]="'amber'">
                 <div
-                    style="width: 12px;height: 12px;background:#f79824;border-radius:50%; position: absolute;right: 12px;top:12px;"></div>
+                    style="width: 12px;height: 12px;background:#f79824;border-radius:50%; position: absolute;right: 12px;top:12px;"
+                ></div>
                 {{'color.amber' | translate}}
             </mat-option>
             <mat-option [value]="'red'">
                 <div
-                    style="width: 12px;height: 12px;background:#ce211f;border-radius:50%; position: absolute;right: 12px;top:12px;"></div>
+                    style="width: 12px;height: 12px;background:#ce211f;border-radius:50%; position: absolute;right: 12px;top:12px;"
+                ></div>
                 {{'color.red' | translate}}
             </mat-option>
             <mat-option [value]="'none'">
@@ -109,33 +115,36 @@
             </mat-option>
         </mat-select>
     </mat-form-field>
-
+    
     <ng-container *ngSwitchCase="filterTypeEnum.CUSTOM">
         <ng-container
-            *ngTemplateOutlet="columnConfig.filter.template; context: { columnConfig: columnConfig, control: control }"></ng-container>
+            *ngTemplateOutlet="columnConfig.filter.template; context: { columnConfig: columnConfig, control: control }"
+        ></ng-container>
     </ng-container>
-
-    <haz-input-date-range *ngSwitchCase="filterTypeEnum.DATERANGE" class="min-w-165"
-                          [formControlName]="columnConfig.filterElement">
+    
+    <haz-input-date-range *ngSwitchCase="filterTypeEnum.DATERANGE" [formControlName]="columnConfig.filterElement"
+                          class="min-w-165"
+    >
     </haz-input-date-range>
-
+    
     <div *ngSwitchCase="filterTypeEnum.DATETIME_AS_DATERANGE" class="min-w-210">
         <haz-input-date-range
-            [formControlName]="columnConfig.filterElement">
+            [formControlName]="columnConfig.filterElement"
+        >
         </haz-input-date-range>
     </div>
-
-    <div *ngSwitchCase="filterTypeEnum.NUMBER" fxLayout="row" style="justify-content: flex-end;" class="min-w-130">
+    
+    <div *ngSwitchCase="filterTypeEnum.NUMBER" class="min-w-130" fxLayout="row" style="justify-content: flex-end;">
         <haz-input-number-range [formControlName]="columnConfig.filterElement">
         </haz-input-number-range>
     </div>
-
+    
     <div *ngSwitchCase="filterTypeEnum.CLEAR_FILTERS" fxLayout="row" style="justify-content: flex-end;">
-        <button mat-icon-button (click)="clearFilters()">
+        <button (click)="clearFilters()" mat-icon-button>
             <mat-icon>cancel</mat-icon>
         </button>
     </div>
-
+    
     <span *ngSwitchDefault></span>
 </ng-container>
 

@@ -1,0 +1,12 @@
+<div class="close-button-wrapper">
+    <button (click)="close()" color="priamry" mat-icon-button>
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<div class="image-wrapper">
+    <img *ngIf="data.image"
+         [src]="data.image"
+         alt="attachment image"
+         class="image"
+    />
+</div>

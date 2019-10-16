@@ -1,4 +1,4 @@
-import { Regexp } from '../others/regexp';
+import { Regexp } from '..';
 
 const accentedLowerCharacters = 'ąàáäâãåæăćčĉďęèéëêĝĥìíïîĵłľńňòóöőôõðøśșşšŝťțţŭùúüűûñÿýçżźž';
 const normalLowerCharacters = 'aaaaaaaaacccdeeeeeghiiiijllnnoooooooossssstttuuuuuunyyczzz';
@@ -12,7 +12,8 @@ function addLeadingZero(text: string): string {
 export class StringUtils {
 
     public static toLowerCaseWithDot(value: string): string {
-        return value.replace(' ', '.').toLowerCase();
+        return value.replace(' ', '.')
+                    .toLowerCase();
     }
 
     public static compareInDotLowerCase(firstString: string, secondString: string) {
@@ -64,7 +65,8 @@ export class StringUtils {
     }
 
     public static contains(text: string, substring: string): boolean {
-        return !!text && StringUtils.removeAccentedCharacters(text.toLowerCase()).indexOf(substring) >= 0;
+        return !!text && StringUtils.removeAccentedCharacters(text.toLowerCase())
+                                    .indexOf(substring) >= 0;
     }
 
     public static getFormattedNumber(phoneNumber: string, prefix = '+421'): string {
@@ -93,16 +95,17 @@ export class StringUtils {
     }
 
     public static convertDateStringToDotString(date: string): string {
-        const d = new Date(date);
-        const day = d.getDate() + '';
-        const month = (d.getMonth() + 1) + '';
-        const year = d.getFullYear();
+        const dateObject = new Date(date);
+        const day = dateObject.getDate() + '';
+        const month = (dateObject.getMonth() + 1) + '';
+        const year = dateObject.getFullYear();
 
         return `${day}.${month}.${year}`;
     }
 
     public static convertCamelToSnakeUpper(camelCaseString: string): string {
-        return StringUtils.convertCamelToSnake(camelCaseString).toUpperCase();
+        return StringUtils.convertCamelToSnake(camelCaseString)
+                          .toUpperCase();
     }
 
     public static convertCamelToSnake(camelCaseString: string): string {
@@ -113,14 +116,17 @@ export class StringUtils {
         if (!snakeCaseString) {
             return snakeCaseString;
         }
-        return snakeCaseString.toLowerCase().replace(/(_[a-z])+/g, (e) => e.toUpperCase()).replace('_', '');
+
+        return snakeCaseString.toLowerCase()
+                              .replace(/(_[a-z])+/g, (element) => element.toUpperCase())
+                              .replace('_', '');
     }
 
     public static convertDateStringToIsoString(date: string): string {
-        const d = new Date(date);
-        let day = d.getDate() + '';
-        let month = (d.getMonth() + 1) + '';
-        const year = d.getFullYear();
+        const dateObject = new Date(date);
+        let day = dateObject.getDate() + '';
+        let month = (dateObject.getMonth() + 1) + '';
+        const year = dateObject.getFullYear();
 
         if (month.length < 2) {
             month = addLeadingZero(month);
@@ -146,8 +152,10 @@ function fuzzy_match_simple(pattern: string, str: string): boolean {
     const strLength = str.length;
 
     while (patternIdx !== patternLength && strIdx !== strLength) {
-        const patternChar = pattern.charAt(patternIdx).toLowerCase();
-        const strChar = str.charAt(strIdx).toLowerCase();
+        const patternChar = pattern.charAt(patternIdx)
+                                   .toLowerCase();
+        const strChar = str.charAt(strIdx)
+                           .toLowerCase();
         if (patternChar === strChar) {
             ++patternIdx;
         }

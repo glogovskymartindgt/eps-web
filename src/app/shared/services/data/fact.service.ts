@@ -77,4 +77,48 @@ export class FactService extends ProjectService<Fact> {
         return this.update(id, taskObject);
     }
 
+
+    /**
+     * Report task objects into report file and download from API
+     * @param tableChangeEvent
+     * @param additionalFilters
+     */
+    public exportTasks(tableChangeEvent?: TableChangeEvent, additionalFilters?: Filter[], projectId?: number) {
+        let filters = [];
+        let sort = [];
+        if (tableChangeEvent && tableChangeEvent.sortActive && tableChangeEvent.sortDirection) {
+            sort = [new Sort(tableChangeEvent.sortActive,
+                tableChangeEvent.sortDirection
+            )];
+        }
+        filters = filters.concat(additionalFilters);
+        filters = this.reorderFiltersToApplyCorectTrafficColor(filters);
+        return this.report(filters, sort, projectId);
+    }
+
+    /**
+     * Reorder filters with conditiona that traffic light filters are first
+     * @param filters
+     */
+    private reorderFiltersToApplyCorectTrafficColor(filters) {
+        return filters.sort(this.compare);
+    }
+
+
+    /**
+     * Compare sort function with traffic light property preselection
+     * @param a
+     * @param b
+     */
+    private compare(a, b) {
+        if (a.property === 'TRAFFIC_LIGHT') {
+            return -1;
+        }
+        if (a.property !== 'TRAFFIC_LIGHT') {
+            return 1;
+        }
+        return 0;
+    }
+
+
 }

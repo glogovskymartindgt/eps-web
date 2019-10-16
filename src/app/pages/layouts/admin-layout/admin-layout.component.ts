@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { fadeEnterLeave, moveDown, moveLeft, routeAnimations } from '../../../shared/hazlenut/hazelnut-common/animations';
-import { HazelnutConfig } from '../../../shared/hazlenut/hazelnut-common/config/hazelnut-config';
-import { AuthService } from '../../../shared/services/auth.service.ts.service';
+import { hazelnutConfig } from '../../../shared/hazlenut/hazelnut-common/config/hazelnut-config';
+import { AuthService } from '../../../shared/services/auth.service';
 import { ProjectUserService } from '../../../shared/services/storage/project-user.service';
 
 @Component({
@@ -11,7 +11,7 @@ import { ProjectUserService } from '../../../shared/services/storage/project-use
     animations: [fadeEnterLeave, routeAnimations, moveDown, moveLeft],
 })
 export class AdminLayoutComponent implements OnInit {
-    public language = HazelnutConfig.LANGUAGE;
+    public language = hazelnutConfig.LANGUAGE;
     public data;
     public login = '';
 

@@ -13,16 +13,20 @@ describe('TableCellComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [
-                CoreTableModule,
-                TestingModule,
-                SharedPipesModule,
-            ],
-            declarations: [],
-            providers: [
-                {provide: NOTIFICATION_WRAPPER_TOKEN, useClass: NoopNotificationService},
-            ]
-        }).compileComponents();
+                   imports: [
+                       CoreTableModule,
+                       TestingModule,
+                       SharedPipesModule,
+                   ],
+                   declarations: [],
+                   providers: [
+                       {
+                           provide: NOTIFICATION_WRAPPER_TOKEN,
+                           useClass: NoopNotificationService
+                       },
+                   ]
+               })
+               .compileComponents();
     }));
 
     beforeEach(() => {
@@ -32,22 +36,36 @@ describe('TableCellComponent', () => {
     });
 
     it('should create', () => {
-        expect(component).toBeTruthy();
+        expect(component)
+            .toBeTruthy();
     });
 
     it('getNestedProperty method functioning', () => {
-        component.row = {property1: {nestedProperty1: 13, nestedProperty2: 35}, property2: 2};
+        component.row = {
+            property1: {
+                nestedProperty1: 13,
+                nestedProperty2: 35
+            },
+            property2: 2
+        };
 
         component.columnConfig.columnDef = 'property1';
-        expect(component.cellValue).toEqual({nestedProperty1: 13, nestedProperty2: 35});
+        expect(component.cellValue)
+            .toEqual({
+                nestedProperty1: 13,
+                nestedProperty2: 35
+            });
 
         component.columnConfig.columnDef = 'property2';
-        expect(component.cellValue).toEqual(2);
+        expect(component.cellValue)
+            .toEqual(2);
 
         component.columnConfig.columnDef = 'property1.nestedProperty1';
-        expect(component.cellValue).toEqual(13);
+        expect(component.cellValue)
+            .toEqual(13);
 
         component.columnConfig.columnDef = 'property1.nestedProperty2';
-        expect(component.cellValue).toEqual(35);
+        expect(component.cellValue)
+            .toEqual(35);
     });
 });

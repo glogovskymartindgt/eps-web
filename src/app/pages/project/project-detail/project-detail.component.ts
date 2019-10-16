@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
+import { AttachmentFormat } from '../../../shared/enums/attachment-format.enum';
+import { AttachmentType } from '../../../shared/enums/attachment-type.enum';
+import { Role } from '../../../shared/enums/role.enum';
 import { enterLeave } from '../../../shared/hazlenut/hazelnut-common/animations';
+import { AuthService } from '../../../shared/services/auth.service';
 import { ProjectsService } from '../../../shared/services/data/projects.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
@@ -19,11 +23,11 @@ export class ProjectDetailComponent implements OnInit {
 
     public constructor(private readonly projectsService: ProjectsService,
                        private readonly notificationService: NotificationService,
-                       private readonly projectEventService: ProjectEventService) {
+                       private readonly projectEventService: ProjectEventService,
+                       private readonly authService: AuthService) {
     }
 
     public ngOnInit(): void {
-
     }
 
     /**
@@ -40,11 +44,11 @@ export class ProjectDetailComponent implements OnInit {
     public onSave() {
         if (this.formData) {
             this.projectsService.editProject(this.formData.projectId, this.transformProjectToApiObject(this.formData))
-                .subscribe((response) => {
+                .subscribe(() => {
                     this.notificationService.openSuccessNotification('success.edit');
                     this.refreshSubject.next('Refresh after save');
                     this.projectEventService.setEventDataFromDetail(this.formData, true, this.formData.logoUploadId);
-                }, (error) => {
+                }, () => {
                     this.notificationService.openErrorNotification('error.edit');
                 });
         }
@@ -56,6 +60,18 @@ export class ProjectDetailComponent implements OnInit {
      */
     public toggleEditMode() {
         this.editMode = !this.editMode;
+    }
+
+    public allowEditButton(): boolean {
+        return !this.editMode && this.hasRoleUpdateProject() && this.hasRoleUpdateProjectInAssignProject();
+    }
+
+    private hasRoleUpdateProject(): boolean {
+        return this.authService.hasRole(Role.RoleUpdateProject);
+    }
+
+    private hasRoleUpdateProjectInAssignProject(): boolean {
+        return this.authService.hasRole(Role.RoleUpdateProjectInAssignProject);
     }
 
     /**
@@ -91,6 +107,8 @@ export class ProjectDetailComponent implements OnInit {
                 firstVenueObject.attachment = {
                     fileName: formObject.firstMapUploadName,
                     filePath: formObject.firstMapUploadId,
+                    type: AttachmentType.Map,
+                    format: AttachmentFormat.Pdf
                 };
             }
             apiObject.projectVenues.push(firstVenueObject);
@@ -106,6 +124,8 @@ export class ProjectDetailComponent implements OnInit {
                 secondVenueObject.attachment = {
                     fileName: formObject.secondMapUploadName,
                     filePath: formObject.secondMapUploadId,
+                    type: AttachmentType.Map,
+                    format: AttachmentFormat.Pdf
                 };
             }
             apiObject.projectVenues.push(secondVenueObject);

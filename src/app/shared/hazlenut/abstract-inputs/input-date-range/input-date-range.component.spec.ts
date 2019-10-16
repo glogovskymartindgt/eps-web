@@ -10,14 +10,18 @@ describe('InputDateRangeComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [
-                AbstractInputsModule,
-            ],
-            providers: [
-                {provide: TRANSLATE_WRAPPER_TOKEN, useValue: new NoopTranslationsService()},
-                // NoopTranslationsService,
-            ]
-        }).compileComponents();
+                   imports: [
+                       AbstractInputsModule,
+                   ],
+                   providers: [
+                       {
+                           provide: TRANSLATE_WRAPPER_TOKEN,
+                           useValue: new NoopTranslationsService()
+                       },
+                       // NoopTranslationsService,
+                   ]
+               })
+               .compileComponents();
     }));
 
     beforeEach(() => {
@@ -27,6 +31,7 @@ describe('InputDateRangeComponent', () => {
     });
 
     it('should create', () => {
-        expect(component).toBeTruthy();
+        expect(component)
+            .toBeTruthy();
     });
 });

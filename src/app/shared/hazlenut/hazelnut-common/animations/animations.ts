@@ -1,5 +1,7 @@
 import { animate, animateChild, group, query, state, style, transition, trigger } from '@angular/animations';
 
+const smallAmountOfTime = 400;
+
 export const detailExpand = trigger('detailExpand', [
     state('collapsed', style({height: '0px', minHeight: '0', display: 'none'})),
     state('expanded', style({height: '*'})),
@@ -24,7 +26,7 @@ export const fadeEnterLeave = trigger('fadeEnterLeave', [
 export const enterLeave = trigger('enterLeave', [
     transition(':enter', [
         style({transform: 'translateY(-20%)'}),
-        animate(400),
+        animate(smallAmountOfTime),
     ]),
     transition(':leave', [
         group([
@@ -37,7 +39,7 @@ export const enterLeave = trigger('enterLeave', [
 export const enterLeaveSmooth = trigger('enterLeaveSmooth', [
     transition(':enter', [
         style({transform: 'translateY(-20%)', height: '*'}),
-        animate(400),
+        animate(smallAmountOfTime),
     ]),
     transition(':leave', [
         group([

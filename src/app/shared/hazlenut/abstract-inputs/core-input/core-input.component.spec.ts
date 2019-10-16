@@ -12,18 +12,22 @@ describe('CoreInputComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [
-                MatInputModule,
-                FormsModule,
-                ReactiveFormsModule,
-                MatFormFieldModule,
-                NoopAnimationsModule
-            ],
-            providers: [
-                {provide: TRANSLATE_WRAPPER_TOKEN, useValue: new NoopTranslationsService()}
-            ],
-            declarations: [CoreInputComponent]
-        }).compileComponents();
+                   imports: [
+                       MatInputModule,
+                       FormsModule,
+                       ReactiveFormsModule,
+                       MatFormFieldModule,
+                       NoopAnimationsModule
+                   ],
+                   providers: [
+                       {
+                           provide: TRANSLATE_WRAPPER_TOKEN,
+                           useValue: new NoopTranslationsService()
+                       }
+                   ],
+                   declarations: [CoreInputComponent]
+               })
+               .compileComponents();
     }));
 
     beforeEach(() => {
@@ -33,6 +37,7 @@ describe('CoreInputComponent', () => {
     });
 
     it('should create', () => {
-        expect(component).toBeTruthy();
+        expect(component)
+            .toBeTruthy();
     });
 });

@@ -1,5 +1,5 @@
 <!--Table of predefined reports with title and export button in each report row-->
-<div fxLayout="row" class="basic-screen-header">
+<div class="basic-screen-header" fxLayout="row">
     <div class="pl-50" fxLayoutAlign="start center">
         <h2>{{'report.title' | translate}}</h2>
     </div>
@@ -11,8 +11,10 @@
     <div class="p-5">{{actRow.description}}</div>
 </ng-template>
 <ng-template #actionColumn let-actRow="row" let-context="context">
-    <button mat-icon-button
-            (click)="export(actRow.id)">
+    <button (click)="export(actRow.id)"
+            *ngIf="(actRow.id === 1 && allowButtonToDoList()) || (actRow.id === 2 && allowButtonRedFlagList())"
+            mat-icon-button
+    >
         <mat-icon>save_alt</mat-icon>
     </button>
 </ng-template>

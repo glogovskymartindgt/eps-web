@@ -7,29 +7,35 @@ import { TableColumn } from './models/table-column.model';
 import { TableConfiguration } from './models/table-configuration.model';
 import { TableFilterType } from './models/table-filter-type.enum';
 
-const DEFAULT_DEBOUNCE_TIME = 500;
+const defaultDebounceTime = 500;
+const microPageSizeOption = 10;
+const miniPageSizeOption = 15;
+const smallPageSizeOption = 20;
+const mediumPageSizeOption = 50;
+const largePageSizeOption = 100;
 
-const DEFAULT_PAGE_SIZE_OPTIONS = [10, 15, 20, 50, 100];
-
-const DEFAULT_PAGE_SIZE = 15;
-
-const DEFAULT_NO_DATA_KEY = 'No data';
+const DEFAULT_PAGE_SIZE_OPTIONS = [
+    microPageSizeOption,
+    miniPageSizeOption,
+    smallPageSizeOption,
+    mediumPageSizeOption,
+    largePageSizeOption
+];
 
 @Injectable()
 export class CoreTableService {
-    private readonly filtersSubject$: Subject<Filter[]> = new BehaviorSubject<Filter[]>([]);
-    public filters$: Observable<Filter[]> = this.filtersSubject$.asObservable();
-    private readonly filters: Filter[] = [];
-
-    public constructor(
-        @Inject(GLOBAL_CONFIG_TOKEN) private readonly globalTableConfig: CoreTableConfigInterface,
-    ) {
-    }
-
-    private _configuration: TableConfiguration;
 
     public get configuration(): TableConfiguration {
         return this._configuration;
+    }
+
+    public filtersSubject$: Subject<Filter[]> = new BehaviorSubject<Filter[]>([]);
+    public filters$: Observable<Filter[]> = this.filtersSubject$.asObservable();
+    private readonly filters: Filter[] = [];
+
+    private _configuration: TableConfiguration;
+
+    public constructor(@Inject(GLOBAL_CONFIG_TOKEN) private readonly globalTableConfig: CoreTableConfigInterface,) {
     }
 
     public clearFilters(): void {
@@ -42,6 +48,7 @@ export class CoreTableService {
 
         if (!value) {
             this.filtersSubject$.next(this.filters);
+
             return;
         }
         switch (column.filter.type) {
@@ -103,15 +110,11 @@ export class CoreTableService {
             }
             case TableFilterType.TRAFFIC_LIGHT: {
                 if (value.length > 0) {
-                    const colorArray = value.toString().split(',');
+                    const colorArray = value.toString()
+                                            .split(',');
                     colorArray.forEach((color) => {
-                        this.filters.push(
-                            new Filter(propertyName,
-                                color.toString().toLocaleUpperCase(),
-                                'ENUM',
-                                'EQ',
-                                'OR')
-                        );
+                        this.filters.push(new Filter(propertyName, color.toString()
+                                                                        .toLocaleUpperCase(), 'ENUM', 'EQ', 'OR'));
                     });
                 }
                 break;
@@ -123,31 +126,30 @@ export class CoreTableService {
     public processConfiguration(localConfig: TableConfiguration): TableConfiguration {
         this._configuration = {...localConfig};
 
-        // paging config
+        // Paging config
         this.setPagingByProcessingConfiguration();
 
-        // uppercase header
+        // Uppercase header
         if (this._configuration.uppercaseHeader === undefined) {
-            this._configuration.uppercaseHeader = this.globalTableConfig.uppercaseHeader !== undefined
-                                                  ? this.globalTableConfig.uppercaseHeader : true;
+            this._configuration.uppercaseHeader = this.globalTableConfig.uppercaseHeader !== undefined ? this.globalTableConfig.uppercaseHeader : true;
         }
 
-        // table row classes
+        // Table row classes
         if (!this._configuration.trClasses) {
             this._configuration.trClasses = this.globalTableConfig.trClasses || '';
         }
 
-        // column borders displayed
+        // Column borders displayed
         if (this._configuration.columnBorders === undefined) {
             this._configuration.columnBorders = this.globalTableConfig.columnBorders || false;
         }
 
-        // filter delay debounce
+        // Filter delay debounce
         if (!this._configuration.filterDebounceTime) {
-            this._configuration.filterDebounceTime = this.globalTableConfig.filterDebounceTime || DEFAULT_DEBOUNCE_TIME;
+            this._configuration.filterDebounceTime = this.globalTableConfig.filterDebounceTime || defaultDebounceTime;
         }
 
-        // text displayed when no data
+        // Text displayed when no data
         if (!this._configuration.noDataText) {
             this._configuration.noDataText = this.globalTableConfig.noDataText || '';
         }
@@ -180,7 +182,7 @@ export class CoreTableService {
             this._configuration.paging = this.globalTableConfig.paging !== undefined ? this.globalTableConfig.paging : true;
         }
         if (!this._configuration.pageSize) {
-            this._configuration.pageSize = this.globalTableConfig.pageSize || DEFAULT_PAGE_SIZE;
+            this._configuration.pageSize = this.globalTableConfig.pageSize || miniPageSizeOption;
         }
     }
 }

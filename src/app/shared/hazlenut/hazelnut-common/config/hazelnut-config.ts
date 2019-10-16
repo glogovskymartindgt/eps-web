@@ -16,10 +16,10 @@ const createConfig = <T extends HazelnutConfigInterface>(data: T, lastInit: bool
     lastCall = lastInit;
 
     const proxyHandler: ProxyHandler<any> = {
-        get: (obj: any, prop: string) => {
+        get: (obj: any, prop: string): any => {
             return obj[prop];
         },
-        set: () => {
+        set: (): any => {
             throw new Error('Cannot rewrite config property');
         },
     };
@@ -78,4 +78,4 @@ export function initHazelnutConfig<T extends HazelnutConfigInterface = HazelnutC
 /**
  * immutable instance of {@link ClassAppConfig}
  */
-export const HazelnutConfig = new ClassAppConfig();
+export const hazelnutConfig = new ClassAppConfig();
