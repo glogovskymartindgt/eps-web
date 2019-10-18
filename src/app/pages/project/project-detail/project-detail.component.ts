@@ -63,7 +63,7 @@ export class ProjectDetailComponent implements OnInit {
     }
 
     public allowEditButton(): boolean {
-        return !this.editMode && this.hasRoleUpdateProject() && this.hasRoleUpdateProjectInAssignProject();
+        return !this.editMode && (this.hasRoleUpdateProject() || this.hasRoleUpdateProjectInAssignProject());
     }
 
     private hasRoleUpdateProject(): boolean {
