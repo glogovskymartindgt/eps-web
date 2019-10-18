@@ -160,14 +160,20 @@ export class CoreInputComponent implements OnInit, ControlValueAccessor, AfterVi
     private onFormControlChanges(): void {
         const timeoutAfterChange = 2000;
         this.formControl.valueChanges
-            .pipe(tap(() => this.manageUserInput()), debounceTime(timeoutAfterChange))
+            .pipe(tap(() => {
+                this.manageUserInput();
+            }), debounceTime(timeoutAfterChange))
             .subscribe(() => {
                 this.displayedHint = '';
             });
     }
 
     private removeInsertedCharacterAndShowHint(abstractControl: AbstractControl, hint: string): void {
-        abstractControl.setValue(abstractControl.value.slice(0, -1));
+        if (this.maxLength && abstractControl.value.length >= this.maxLength) {
+            abstractControl.setValue(abstractControl.value.substring(0, this.maxLength));
+        } else {
+            abstractControl.setValue(abstractControl.value.slice(0, -1));
+        }
         this.displayedHint = hint;
     }
 
