@@ -118,8 +118,8 @@ export class TaskEditComponent implements OnInit {
         this.taskCommentService.getAllComment(this.taskId)
             .pipe(tap(() => this.loading = false))
             .subscribe((comments: TaskCommentResponse[]) => {
-                this.comments = [...comments].reverse();
-            }, (error) => {
+                this.comments = [...comments].sort((a, b) => (a.created > b.created) ? 1 : -1).reverse();
+            }, () => {
                 this.notificationService.openErrorNotification('error.loadComments');
             });
 
