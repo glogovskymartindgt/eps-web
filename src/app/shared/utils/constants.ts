@@ -1,4 +1,4 @@
 export class AppConstants {
     // Current project version, also need to be changed in package.json file
-    public static readonly version = '1.3.1';
+    public static readonly version = '1.4.0';
 }
