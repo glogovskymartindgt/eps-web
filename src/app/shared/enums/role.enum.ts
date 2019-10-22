@@ -31,7 +31,6 @@ export enum Role {
     RoleReadProject = 'ROLE_READ_PROJECT',
     RoleReadAssignProject = 'ROLE_READ_ASSIGN_PROJECT',
     RoleUpdateProject = 'ROLE_UPDATE_PROJECT',
-    RoleUpdateProjectInAssignProject = 'ROLE_UPDATE_PROJECT_IN_ASSIGN_PROJECT',
     RoleUpdateAssignProject = 'ROLE_UPDATE_ASSIGN_PROJECT',
     RoleMenuBusinessArea = 'ROLE_MENU_BUSINESS_AREA',
     RoleReadComment = 'ROLE_READ_COMMENT',
