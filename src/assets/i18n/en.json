@@ -10,10 +10,8 @@
         "reports": "Reports",
         "facts": "Facts and Figures",
         "allFacts": "All Facts and Figures",
-        "settings": {
-            "settings": "Settings",
-            "users": "Users"
-        }
+        "users": "Users",
+        "profile": "Profile"
     },
     "login": {
         "login": "Log in",
@@ -218,5 +216,16 @@
         "visible": "Visible user",
         "email": "Email",
         "state": "Account status"
+    },
+    "profile": {
+        "detailTitle": "User Profile",
+        "firstName": "Name",
+        "lastName": "Last name",
+        "email": "Email",
+        "login": "Login",
+        "password": "Password",
+        "account": "Account is ",
+        "active": "active",
+        "inactive": "inactive"
     }
 }

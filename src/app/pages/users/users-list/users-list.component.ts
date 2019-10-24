@@ -1,17 +1,14 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { finalize } from 'rxjs/operators';
 import { ListItem, TableCellType, TableChangeEvent, TableColumn, TableColumnFilter, TableConfiguration, TableFilterType } from '../../../shared/hazlenut/core-table';
 import { BrowseResponse, Filter } from '../../../shared/hazlenut/hazelnut-common/models';
-import { Fact } from '../../../shared/interfaces/fact.interface';
-import { FactService } from '../../../shared/services/data/fact.service';
-import { UsersService } from '../../../shared/services/data/users.service';
+import { UserDataService } from '../../../shared/services/data/user-data.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { RoutingStorageService } from '../../../shared/services/routing-storage.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 import { TableChangeStorageService } from '../../../shared/services/table-change-storage.service';
-
-const SETTINGS_USERS = 'settings/users';
 
 @Component({
     selector: 'users-list',
@@ -36,12 +33,13 @@ export class UsersListComponent implements OnInit {
     private allTaskFilters: Filter[] = [];
 
     public constructor(public readonly projectEventService: ProjectEventService,
-                private readonly translateService: TranslateService,
-                private readonly notificationService: NotificationService,
-                private readonly usersService: UsersService,
-                private readonly router: Router,
-                private readonly routingStorageService: RoutingStorageService,
-                private readonly tableChangeStorageService: TableChangeStorageService) {}
+                       private readonly translateService: TranslateService,
+                       private readonly notificationService: NotificationService,
+                       private readonly userDataService: UserDataService,
+                       private readonly router: Router,
+                       private readonly routingStorageService: RoutingStorageService,
+                       private readonly tableChangeStorageService: TableChangeStorageService) {
+    }
 
     public ngOnInit() {
         this.setTableData();
@@ -54,6 +52,7 @@ export class UsersListComponent implements OnInit {
                     filter: new TableColumnFilter({}),
                     type: TableCellType.CONTENT,
                     tableCellTemplate: this.idColumn,
+                    sorting: true,
                 }),
                 new TableColumn({
                     columnDef: 'first_name',
@@ -61,6 +60,7 @@ export class UsersListComponent implements OnInit {
                     filter: new TableColumnFilter({}),
                     type: TableCellType.CONTENT,
                     tableCellTemplate: this.firstNameColumn,
+                    sorting: true,
                 }),
                 new TableColumn({
                     columnDef: 'last_name',
@@ -68,6 +68,7 @@ export class UsersListComponent implements OnInit {
                     filter: new TableColumnFilter({}),
                     type: TableCellType.CONTENT,
                     tableCellTemplate: this.lastNameColumn,
+                    sorting: true,
                 }),
                 new TableColumn({
                     columnDef: 'flag_active',
@@ -83,6 +84,7 @@ export class UsersListComponent implements OnInit {
                     }),
                     type: TableCellType.CONTENT,
                     tableCellTemplate: this.visibleColumn,
+                    sorting: true,
                 }),
                 new TableColumn({
                     columnDef: 'email',
@@ -90,6 +92,7 @@ export class UsersListComponent implements OnInit {
                     filter: new TableColumnFilter({}),
                     type: TableCellType.CONTENT,
                     tableCellTemplate: this.emailColumn,
+                    sorting: true,
                 }),
                 new TableColumn({
                     columnDef: 'account_status',
@@ -104,6 +107,7 @@ export class UsersListComponent implements OnInit {
                     }),
                     type: TableCellType.CONTENT,
                     tableCellTemplate: this.stateColumn,
+                    sorting: true,
                 }),
                 new TableColumn({
                     columnDef: ' ',
@@ -113,6 +117,7 @@ export class UsersListComponent implements OnInit {
                     filter: new TableColumnFilter({
                         type: TableFilterType.CLEAR_FILTERS,
                     }),
+                    sorting: true,
                 }),
             ],
             paging: true,
@@ -131,25 +136,34 @@ export class UsersListComponent implements OnInit {
 
         if (tableChangeEvent) {
             // Set paging and sort when initializating table
-            if (!this.isInitialized && this.tableChangeStorageService.getFactsLastTableChangeEvent()
-            ) {
+            if (!this.isInitialized && this.tableChangeStorageService.getFactsLastTableChangeEvent()) {
                 tableChangeEvent.pageIndex = this.tableChangeStorageService.getFactsLastTableChangeEvent().pageIndex;
                 tableChangeEvent.pageSize = this.tableChangeStorageService.getFactsLastTableChangeEvent().pageSize;
                 tableChangeEvent.sortDirection = this.tableChangeStorageService.getFactsLastTableChangeEvent().sortDirection;
                 tableChangeEvent.sortActive = this.tableChangeStorageService.getFactsLastTableChangeEvent().sortActive;
             }
-            // Api call
-            this.usersService.browseUsers(tableChangeEvent).subscribe((data) => {
-                this.data = data;
-                this.loading = false;
-                this.isInitialized = true;
-            }, (e) => {
-                this.loading = false;
-                this.notificationService.openErrorNotification('error.api');
-            });
 
+            // Api call
+            this.userDataService.browseUsers(tableChangeEvent)
+                .pipe(finalize(() => this.loading = false))
+                .subscribe((data) => {
+                    this.data = data;
+                    this.isInitialized = true;
+                }, (error) => {
+                    this.notificationService.openErrorNotification('error.api');
+                });
             this.tableChangeStorageService.setFactsLastTableChangeEvent(tableChangeEvent);
             this.lastTableChangeEvent = tableChangeEvent;
         }
+    }
+
+    public edit(id: number): void {
+        this.router.navigate(['users/edit'], {
+            queryParams: {id}
+        });
+    }
+
+    public createUser() {
+        this.router.navigate(['users/create']);
     }
 }

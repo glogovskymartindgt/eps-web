@@ -1,9 +1,8 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {ActivatedRoute, Params, Router} from '@angular/router';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { fadeEnterLeave } from '../../../../shared/hazlenut/hazelnut-common/animations';
 import { DashboardService } from '../../../../shared/services/dashboard.service';
 import { ProjectEventService } from '../../../../shared/services/storage/project-event.service';
-import {SettingsService} from '../../../../shared/services/storage/settings.service';
 
 @Component({
     selector: 'secondary-header-settings',
@@ -17,12 +16,9 @@ export class SecondaryHeaderSettingsComponent implements OnInit {
     public activeFilter = 'ALL';
     public imagePath = '';
 
-    @Output() onSectionSelected: EventEmitter<any> = new EventEmitter<any>();
+    @Output() public onSectionSelected: EventEmitter<any> = new EventEmitter<any>();
 
-    public constructor(public readonly projectEventService: ProjectEventService,
-                       private readonly router: Router,
-                       private readonly dashboardService: DashboardService,
-    ) {
+    public constructor(public readonly projectEventService: ProjectEventService, private readonly router: Router, private readonly dashboardService: DashboardService) {
     }
 
     public ngOnInit() {

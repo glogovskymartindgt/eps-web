@@ -3,6 +3,13 @@
     <div class="pl-50" fxFlex="50" fxLayoutAlign="start center">
         <h3>{{'users.title' | translate}}</h3>
     </div>
+    <div fxFlex fxLayoutAlign="end center">
+        <button (click)="createUser()" class="mr-10" color="accent"
+                mat-flat-button
+        >
+            {{'common.create' | translate}}
+        </button>
+    </div>
 </div>
 
 <!--Core table with custom columns, value columns have measureUnit-->
@@ -10,6 +17,7 @@
                 [configuration]="config"
                 [data]="data"
 >
+</haz-core-table>
 <ng-template #idColumn let-actRow="row" let-context="context">
     <div class="p-5">{{actRow.id}}</div>
 </ng-template>
@@ -27,4 +35,13 @@
 </ng-template>
 <ng-template #stateColumn let-actRow="row" let-context="context">
     <div class="p-5">{{actRow.accountState}}</div>
+</ng-template>
+<ng-template #updateColumn let-actRow="row" let-context="context">
+    <div class="fr">
+        <button (click)="edit(actRow.id)"
+                mat-icon-button
+        >
+            <mat-icon>keyboard_arrow_right</mat-icon>
+        </button>
+    </div>
 </ng-template>

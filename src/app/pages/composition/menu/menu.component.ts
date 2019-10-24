@@ -1,6 +1,6 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges, TemplateRef, ViewChild} from '@angular/core';
+import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
-import {ActivatedRoute, Router, RouterOutlet} from '@angular/router';
+import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { fadeEnterLeave, routeAnimations } from '../../../shared/hazlenut/hazelnut-common/animations';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
@@ -23,7 +23,8 @@ export class MenuComponent implements OnInit {
 
     public section;
 
-    public constructor(public readonly projectEventService: ProjectEventService, private readonly translateService: TranslateService, private readonly route: ActivatedRoute) {}
+    public constructor(public readonly projectEventService: ProjectEventService, private readonly translateService: TranslateService, private readonly route: ActivatedRoute) {
+    }
 
     public ngOnInit(): void {
         this.route.children[0].data.subscribe((data) => {
