@@ -47,7 +47,7 @@
                         type="file"/>
 
                 </div>
-           
+
                     <haz-core-input [label]="'comment.newComment' | translate"
                                     [type]="'textarea'"
                                     [appearance]="'fill'"
@@ -58,7 +58,7 @@
                                     *ngIf="allowCreateComment()"
                     >
                     </haz-core-input>
-                
+
                 <div fxFlex="50px" fxLayoutAlign="end end" class="pr-20 pb-50" *ngIf="allowCreateComment()">
                     <button mat-icon-button
                             [disabled]="addCommentForm?.controls?.newComment?.errors"

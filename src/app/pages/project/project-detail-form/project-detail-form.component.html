@@ -48,7 +48,7 @@
                 >
                 </haz-core-input>
             </div>
-            
+
             <div fxLayout="row" fxLayoutGap="10px">
                 <div class="short-input">
                     <haz-core-input [allowedCharactersPattern]="numericPattern"
@@ -62,7 +62,7 @@
                     >
                     </haz-core-input>
                 </div>
-                
+
                 <mat-form-field appearance="fill" class=" short-input" required>
                     <mat-label class="label-style">{{ 'project.status' | translate }}</mat-label>
                     <mat-select formControlName="status" required>
@@ -77,7 +77,7 @@
                     </mat-error>
                 </mat-form-field>
             </div>
-            
+
             <div fxLayout="row" fxLayoutGap="10px">
                 <mat-form-field appearance="fill" class="short-input">
                     <mat-label class="label-style">{{ 'project.dateFrom' | translate }}</mat-label>
@@ -99,7 +99,7 @@
                 </mat-form-field>
             </div>
             <div fxLayout="row" fxLayoutGap="10px">
-                
+
                 <mat-form-field appearance="fill" class="short-input">
                     <mat-label class="label-style">{{ 'project.firstCountry' | translate }}</mat-label>
                     <mat-select formControlName="firstCountry">
@@ -109,7 +109,7 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-                
+
                 <mat-form-field appearance="fill" class="short-input">
                     <mat-label class="label-style">{{ 'project.secondCountry' | translate }}</mat-label>
                     <mat-select formControlName="secondCountry">
@@ -127,7 +127,7 @@
                     </mat-hint>
                 </mat-form-field>
             </div>
-            
+
             <div fxLayout="row" fxLayoutGap="10px">
                 <div class="short-input">
                     <mat-error *ngIf="editMode
@@ -163,7 +163,7 @@
                     </haz-core-input>
                 </div>
             </div>
-            
+
             <div fxLayout="row" fxLayoutGap="10px">
                 <div class="short-input" fxLayout="column">
                     <mat-error *ngIf="editMode
@@ -204,7 +204,7 @@
                                 >
                             </div>
                         </div>
-                    
+
                     </div>
                     <div (onFileDropped)="onFirstMapDropped($event)" *ngIf="editMode"
                          class="relative-parent"
@@ -285,7 +285,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="short-input" fxLayout="column">
                     <mat-error *ngIf="editMode
                     && projectDetailForm.controls.secondMapUploadId.value
@@ -325,7 +325,7 @@
                                 >
                             </div>
                         </div>
-                    
+
                     </div>
                     <div (onFileDropped)="onSecondMapDropped($event)" *ngIf="editMode"
                          class="relative-parent"
@@ -394,7 +394,7 @@
                             >
                         </div>
                     </div>
-                    
+
                     <div *ngIf="!editMode && !secondMapSrc" class="empty-map" fxLayout="column">
                         <div fxFlex="40" fxLayoutAlign="center flex-end">
                             <img [src]="'assets/img/custom-svg/stadium.svg'"
@@ -409,9 +409,9 @@
                         </div>
                     </div>
                 </div>
-            
+
             </div>
-            
+
             <div class="long-input">
                 <haz-core-input [appearance]="'fill'"
                                 [label]="'project.description' | translate"
