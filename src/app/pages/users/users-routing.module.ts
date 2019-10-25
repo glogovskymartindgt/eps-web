@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { FactCreateComponent } from '../facts/fact-create/fact-create.component';
-import { FactEditComponent } from '../facts/fact-edit/fact-edit.component';
 import { UserCreateComponent } from './user-create/user-create.component';
 import { UserEditComponent } from './user-edit/user-edit.component';
 import { UsersListComponent } from './users-list/users-list.component';

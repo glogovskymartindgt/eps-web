@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Role } from '../../../shared/enums/role.enum';
 import { ProjectInterface } from '../../../shared/interfaces/project.interface';
 import { AuthService } from '../../../shared/services/auth.service';
 import { DashboardService } from '../../../shared/services/dashboard.service';
+import { UserDataService } from '../../../shared/services/data/user-data.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
+import { ProjectUserService } from '../../../shared/services/storage/project-user.service';
+import { UserPhotoService } from '../../../shared/services/user-photo.service';
 
 @Component({
     selector: 'project-list',
@@ -13,16 +15,16 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
 
 /**
  * Custom responsive design project list of cards with filter option
- */
-export class ProjectListComponent implements OnInit {
+ */ export class ProjectListComponent implements OnInit {
 
     public projects: ProjectInterface[] = [];
 
-    public constructor(
-        private readonly projectEventService: ProjectEventService,
-        private readonly dashboardService: DashboardService,
-        private readonly authService: AuthService,
-    ) {
+    public constructor(private readonly projectEventService: ProjectEventService,
+                       private readonly dashboardService: DashboardService,
+                       private readonly authService: AuthService,
+                       private readonly userPhotoService: UserPhotoService,
+                       private readonly userDataService: UserDataService,
+                       private readonly projectUserService: ProjectUserService) {
     }
 
     /**
@@ -34,6 +36,7 @@ export class ProjectListComponent implements OnInit {
         });
         this.filterProjects('ALL');
         this.dashboardService.setSecondaryHeaderContent({isDashboard: true});
+        this.initializeUserPhoto();
     }
 
     /**
@@ -41,10 +44,21 @@ export class ProjectListComponent implements OnInit {
      * @param filterValue
      */
     private filterProjects(filterValue = 'ALL') {
-        this.dashboardService.filterProjects(filterValue).subscribe((data: ProjectInterface[]) => {
-            this.projects = data;
-            this.dashboardService.setSecondaryHeaderContent({isDashboard: true});
-        });
+        this.dashboardService.filterProjects(filterValue)
+            .subscribe((data: ProjectInterface[]) => {
+                this.projects = data;
+                this.dashboardService.setSecondaryHeaderContent({isDashboard: true});
+            });
+    }
+
+    private initializeUserPhoto(): void {
+        this.userDataService.getUserDetail(this.projectUserService.instant.id)
+            .subscribe((user) => {
+                if (user.avatar) {
+                    this.userPhotoService.changePhoto(user.avatar);
+                }
+            });
+
     }
 
 }

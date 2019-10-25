@@ -3,9 +3,11 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { Role } from '../enums/role.enum';
+import { ImagesService } from './data/images.service';
 import { NotificationService } from './notification.service';
 import { ProjectEventService } from './storage/project-event.service';
 import { ProjectUserService } from './storage/project-user.service';
+import { UserPhotoService } from './user-photo.service';
 
 @Injectable({
     providedIn: 'root'
@@ -19,7 +21,8 @@ import { ProjectUserService } from './storage/project-user.service';
                        private readonly notificationService: NotificationService,
                        private readonly router: Router,
                        private readonly projectEventService: ProjectEventService,
-                       private readonly projectUserService: ProjectUserService) {
+                       private readonly projectUserService: ProjectUserService,
+                       private readonly userPhotoService: UserPhotoService) {
     }
 
     /**

@@ -11,6 +11,12 @@
     height: 100px;
 }
 
+.edit-svg {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
 .avatar-content-style {
     position: absolute;
     pointer-events: none;
@@ -23,7 +29,7 @@
     .profile-avatar {
         margin: auto;
         max-width: 80px;
-        max-height: 100px;
+        max-height: 80px;
         object-fit: cover;
     }
 

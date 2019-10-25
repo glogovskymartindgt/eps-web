@@ -1,9 +1,11 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {ActivatedRoute, Params, Router} from '@angular/router';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { fadeEnterLeave } from '../../../../shared/hazlenut/hazelnut-common/animations';
 import { DashboardService } from '../../../../shared/services/dashboard.service';
 import { ProjectEventService } from '../../../../shared/services/storage/project-event.service';
-import {SettingsService} from '../../../../shared/services/storage/settings.service';
+import { ProjectUserService } from '../../../../shared/services/storage/project-user.service';
+import { SettingsService } from '../../../../shared/services/storage/settings.service';
+import { UserPhotoService } from '../../../../shared/services/user-photo.service';
 
 @Component({
     selector: 'secondary-header-project',
@@ -17,11 +19,13 @@ export class SecondaryHeaderProjectComponent implements OnInit {
     public activeFilter = 'ALL';
     public imagePath = '';
 
-    @Output() onSectionSelected: EventEmitter<any> = new EventEmitter<any>();
+    @Output() public onSectionSelected: EventEmitter<any> = new EventEmitter<any>();
 
     public constructor(public readonly projectEventService: ProjectEventService,
                        private readonly router: Router,
                        private readonly dashboardService: DashboardService,
+                       private readonly userPhotoService: UserPhotoService,
+                       private readonly projectUserService: ProjectUserService,
     ) {
     }
 

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MenuGuard } from '../../../shared/services/menu-guard';
 import { MenuService } from '../menu.service';
 
 @Component({
@@ -12,7 +13,7 @@ export class SideOptionsSettingsComponent implements OnInit {
     @Input() public routes;
     public menuSelect;
 
-    public constructor(private readonly router: Router, public readonly menuService: MenuService) {
+    public constructor(private readonly router: Router, public readonly menuService: MenuService, private readonly menuGuard: MenuGuard) {
     }
 
     public getClass(path: string): string {
@@ -27,9 +28,10 @@ export class SideOptionsSettingsComponent implements OnInit {
                               .find((group) => group.component && group.component.name === 'AdminLayoutComponent').children
                               .filter((item) => {
                                   if (item.data.section) {
-                                      return item.data.section === 'settings'
+                                      return item.data.section === 'settings';
                                   }
-                              });
+                              })
+                              .filter((route) => this.menuGuard.menuRoutingCheck(route.data.title));
         }
         this.setMenuOptionOnInitFromRouter();
         this.menuSelect = this.menuService.menuOpen;

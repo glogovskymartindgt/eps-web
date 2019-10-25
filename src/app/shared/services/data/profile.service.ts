@@ -11,8 +11,8 @@ import { ProjectUserService } from '../storage/project-user.service';
 })
 export class ProfileService extends ProjectService<Profile> {
 
-    public constructor(http: HttpClient, notificationService: NotificationService, userService: ProjectUserService, ) {
-        super(http, 'profile', notificationService, userService);
+    public constructor(http: HttpClient, notificationService: NotificationService, userService: ProjectUserService,) {
+        super(http, 'user/profile', notificationService, userService);
     }
 
     public getProfileById(id: number): Observable<Profile> {

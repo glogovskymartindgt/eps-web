@@ -26,4 +26,9 @@ export class ProjectUserService extends UserService<UserDataInterface> {
             deviceId: 'device1',
         });
     }
+
+    public setProperty(key: keyof UserDataInterface, value: any): UserDataInterface {
+        return super.setProperty(key, value);
+    }
+
 }

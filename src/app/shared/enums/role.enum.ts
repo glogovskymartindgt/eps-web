@@ -62,5 +62,19 @@ export enum Role {
     RoleReadFactItem = 'ROLE_READ_FACT_ITEM',
     RoleReadFactItemInAssignProject = 'ROLE_READ_FACT_ITEM_IN_ASSIGN_PROJECT',
     RoleFilterProject = 'ROLE_FILTER_PROJECT',
-    RoleReadOwnUser = 'ROLE_READ_OWN_USER'
+    RoleReadOwnUser = 'ROLE_READ_OWN_USER',
+    RoleMenuUser = 'ROLE_MENU_USER',
+    RoleCreateUser = 'ROLE_CREATE_USER',
+    RoleReadUser = 'ROLE_READ_USER',
+    RoleUpdateUser = 'ROLE_UPDATE_USER',
+    RoleAssignGroup = 'ROLE_ASSIGN_GROUP X',
+    RoleUnassignGroup = 'ROLE_UNASSIGN_GROUP',
+    RoleMenuGroup = 'ROLE_MENU_GROUP',
+    RoleCreateGroup = 'ROLE_CREATE_GROUP',
+    RoleReadGroup = 'ROLE_READ_GROUP',
+    RoleUpdateGroup = 'ROLE_UPDATE_GROUP',
+    RoleAssignRole = 'ROLE_ASSIGN_ROLE',
+    RoleUnassignRole = 'ROLE_UNASSIGN_ROLE',
+    RoleAccessSettings = 'ROLE_ACCESS_SETTINGS'
+
 }

@@ -1,11 +1,10 @@
-
 <div class="top-bar" fxLayout="row">
     <div class="p-5">
         <img [src]="'assets/img/iihf-logo-without-text-transparent.png'"
-             class="project-image p-2"
              alt="iihf logo"
-             width="24"
+             class="project-image p-2"
              height="41"
+             width="24"
         >
     </div>
     <div class="mt-10 ml-19 no-select title-text" fxLayout="row">
@@ -16,24 +15,33 @@
             {{'app.planningSystem' | translate}}
         </span>
         <span *ngIf="projectUserService.subject.authToken | async"
-              style="position:absolute; right: 20px;"
               [@moveLeft]
+              style="position:absolute; right: 20px;"
         >
             <div fxLayout="row">
                 <div>
-                    <mat-icon class="pr-20 user-icon">account_circle</mat-icon>
+<!--                    toImageUrl(projectUserService.subject.avatar)-->
+                    <img
+                        [src]="userPhotoService.userPhoto | async"
+                        alt="avatar"
+                        class="pr-5 user-icon"
+                    >
                 </div>
 
                 <div>
                     <span class="small-text">{{login}}</span>
-                    <button mat-icon-button [matMenuTriggerFor]="menu">
+                    <button [matMenuTriggerFor]="menu" mat-icon-button>
                         <mat-icon>keyboard_arrow_down</mat-icon>
                     </button>
                     <mat-menu #menu="matMenu">
-                      <button mat-menu-item class="small-text" (click)="logout()">
-                           <mat-icon>exit_to_app</mat-icon>
-                          {{'app.logout' | translate}}
-                      </button>
+                        <button *ngIf="hasRoleReadOwnUser()" (click)="openProfile()" class="small-text" mat-menu-item>
+                           <mat-icon>person</mat-icon>
+                            {{'app.profile' | translate}}
+                        </button>
+                        <button (click)="logout()" class="small-text" mat-menu-item>
+                               <mat-icon>exit_to_app</mat-icon>
+                              {{'app.logout' | translate}}
+                        </button>
                     </mat-menu>
                 </div>
             </div>

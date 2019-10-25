@@ -1,1 +1,30 @@
-<p>user-edit works!</p>
+<div class="basic-screen-header" fxLayout="row">
+    <div class="pl-50" fxFlex="50" fxLayoutAlign="start center">
+        <h3>{{'user.edit' | translate}}</h3>
+    </div>
+</div>
+
+<div fxLayout="row" style="overflow: auto;  height: calc(100vh - 160px);">
+    <div fxFlex fxFlex.gt-sm="100%" class="p-30 form-content" fxLayout="column">
+        <user-form (formDataChange)="formDataChange($event)"></user-form>
+        <div class="pl-110">
+            <button *ngIf="hasRoleUpdateUser()"
+                    type="submit"
+                    mat-flat-button
+                    color="accent"
+                    class="mr-10"
+                    (click)="onSave()"
+                    [disabled]="!formData"
+            >
+                {{ 'user.save' | translate }}
+            </button>
+            <button type="button"
+                    mat-button
+                    class="mr-10"
+                    (click)="onCancel()"
+            >
+                {{ 'user.cancel' | translate }}
+            </button>
+        </div>
+    </div>
+</div>

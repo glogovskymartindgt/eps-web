@@ -82,7 +82,10 @@
         "attachmentUpload": "Attachment upload failed",
         "fillVenue": "Fill venue when attachment uploaded",
         "fillCountry": "Pick country when venue filled",
-        "fillFirstCountry": "Pick first country please"
+        "fillFirstCountry": "Pick first country please",
+        "loginUsed": "Update profile failed",
+        "unsupportedType": "Update profile failed",
+        "profileUpdateFailed": "Update profile failed"
     },
     "errorCode": {
         "1": "System error",
@@ -107,7 +110,8 @@
         "event": "EVENT",
         "planning": "PLANNING",
         "system": "SYSTEM",
-        "logout": "Log out"
+        "logout": "Log out",
+        "profile": "Profile"
     },
     "businessArea": {
         "title": "Business Area",
@@ -219,13 +223,42 @@
     },
     "profile": {
         "detailTitle": "User Profile",
-        "firstName": "Name",
+        "firstName": "First name",
         "lastName": "Last name",
         "email": "Email",
         "login": "Login",
-        "password": "Password",
+        "password": "New password",
         "account": "Account is ",
         "active": "active",
-        "inactive": "inactive"
+        "inactive": "inactive",
+        "invalidPassword": "Invalid format (min 8 characters, one capital, one non-alphabetic)"
+    },
+    "user": {
+        "new": "New user",
+        "edit": "Edit user",
+        "save": "Save",
+        "cancel": "Cancel",
+        "id": "ID",
+        "account": "Account is ",
+        "active": "active",
+        "inactive": "inactive",
+        "visibility": "User is ",
+        "visible": "visible",
+        "invisible": "invisible",
+        "type": "Type",
+        "organizer": "Organizer",
+        "iihf": "IIHF",
+        "groups": "Groups",
+        "projects": "Projects",
+        "password": "Password",
+        "newPassword": "New password",
+        "error": {
+            "loginUsed": "Login is used",
+            "unsupportedType": "Unsupported user type",
+            "isNotAllowed": "Create user with IIHF type is not allowed",
+            "typeCannotBeNull": "User type cannot be null",
+            "requestCannotBeNull": "Request cannot be null",
+            "add": "Create user failed"
+        }
     }
 }

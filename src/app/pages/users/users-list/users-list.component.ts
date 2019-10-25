@@ -2,8 +2,10 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { finalize } from 'rxjs/operators';
+import { Role } from '../../../shared/enums/role.enum';
 import { ListItem, TableCellType, TableChangeEvent, TableColumn, TableColumnFilter, TableConfiguration, TableFilterType } from '../../../shared/hazlenut/core-table';
 import { BrowseResponse, Filter } from '../../../shared/hazlenut/hazelnut-common/models';
+import { AuthService } from '../../../shared/services/auth.service';
 import { UserDataService } from '../../../shared/services/data/user-data.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { RoutingStorageService } from '../../../shared/services/routing-storage.service';
@@ -38,7 +40,8 @@ export class UsersListComponent implements OnInit {
                        private readonly userDataService: UserDataService,
                        private readonly router: Router,
                        private readonly routingStorageService: RoutingStorageService,
-                       private readonly tableChangeStorageService: TableChangeStorageService) {
+                       private readonly tableChangeStorageService: TableChangeStorageService,
+                       private readonly authService: AuthService) {
     }
 
     public ngOnInit() {
@@ -166,4 +169,21 @@ export class UsersListComponent implements OnInit {
     public createUser() {
         this.router.navigate(['users/create']);
     }
+
+    public hasRoleCreateUser(): boolean {
+        return this.authService.hasRole(Role.RoleCreateUser);
+    }
+
+    public hasRoleReadUser(): boolean {
+        return this.authService.hasRole(Role.RoleReadUser);
+    }
+
+    public hasRoleUpdateUser(): boolean {
+        return this.authService.hasRole(Role.RoleUpdateUser);
+    }
+
+    public canSeeDetail(): boolean {
+        return this. hasRoleUpdateUser() || this.hasRoleReadUser();
+    }
+
 }

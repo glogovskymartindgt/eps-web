@@ -27,6 +27,15 @@ export class MenuGuard {
             option: 'menu.reports',
             role: Role.RoleMenuReports
         },
+        {
+            option: 'menu.users',
+            role: Role.RoleMenuUser
+        },
+        {
+            option: 'menu.group',
+            role: Role.RoleMenuGroup
+        },
+
     ];
 
     public constructor(private readonly authService: AuthService) {

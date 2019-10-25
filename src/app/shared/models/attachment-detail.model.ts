@@ -6,5 +6,5 @@ export class AttachmentDetail {
     public type: AttachmentType;
     public fileName: string;
     public filePath: string;
-    public id: number;
+    public id?: number;
 }

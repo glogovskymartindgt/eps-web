@@ -61,8 +61,12 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
      * @param params
      * @param params
      */
-    public getDetail(id: number | string, params?: StringMap): Observable<T> {
-        const realId = id ? `/${id}` : '';
+    public getDetail(id: number | string, params?: StringMap, addition?: string): Observable<T> {
+        let endpoint = `/${id}`;
+        if (addition) {
+            endpoint = `/${addition}/${id}`;
+        }
+        const realId = id ? endpoint : '';
 
         return this.get({
             params,

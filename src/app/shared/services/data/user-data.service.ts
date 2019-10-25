@@ -10,18 +10,14 @@ import { ProjectService } from '../project.service';
 import { ProjectUserService } from '../storage/project-user.service';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 
 /**
  * Fact service communicating with 'user' API url
- */
-export class UserDataService extends ProjectService<User[]> {
+ */ export class UserDataService extends ProjectService<any> {
 
-    public constructor(http: HttpClient,
-                       notificationService: NotificationService,
-                       userService: ProjectUserService,
-    ) {
+    public constructor(http: HttpClient, notificationService: NotificationService, userService: ProjectUserService, ) {
         super(http, 'user', notificationService, userService);
     }
 
@@ -30,6 +26,14 @@ export class UserDataService extends ProjectService<User[]> {
      */
     public getUsers(): Observable<User[]> {
         return this.getDetail('');
+    }
+
+    public updateUser(id: number, user: any): Observable<User> {
+        return this.update(id, user);
+    }
+
+    public createUser(user: any): Observable<User> {
+        return this.add(user);
     }
 
     /**
@@ -48,10 +52,16 @@ export class UserDataService extends ProjectService<User[]> {
             filters = Object.values(tableChangeEvent.filters);
             filters.forEach((filter) => filter.property = StringUtils.convertCamelToSnakeUpper(filter.property));
             if (tableChangeEvent.sortActive && tableChangeEvent.sortDirection) {
-                sort = [new Sort(tableChangeEvent.sortActive,
-                    tableChangeEvent.sortDirection)];
+                sort = [
+                    new Sort(tableChangeEvent.sortActive, tableChangeEvent.sortDirection)
+                ];
             }
         }
         return this.browseWithSummary(PostContent.create(limit, offset, filters, sort));
     }
+
+    public getUserDetail(id: number): Observable<User> {
+        return this.getDetail(id);
+    }
+
 }

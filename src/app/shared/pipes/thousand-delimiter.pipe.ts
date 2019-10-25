@@ -17,7 +17,7 @@ export class ThousandDelimiterPipe implements PipeTransform {
             ? parseFloat(value.toString()).toFixed(2).toString()
             : value.toString();
         return element
-            .replace(Regex.thousandSeparatorOccurenceWithMaxTwoDecimal, ' ')
+            .replace(Regex.thousandSeparatorOccurrenceWithMaxTwoDecimal, ' ')
             .replace('.', decimalSeparator);
     }
 }

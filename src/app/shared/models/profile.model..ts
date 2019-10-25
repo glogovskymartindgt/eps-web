@@ -7,6 +7,6 @@ export class Profile {
     public email: string;
     public login: string;
     public password: string;
-    public active: boolean;
-    public attachment: AttachmentDetail;
+    public state: string;
+    public avatar: string;
 }

@@ -1,1 +1,30 @@
-<p>user-create works!</p>
+<div class="basic-screen-header" fxLayout="row">
+    <div class="pl-50" fxFlex="50" fxLayoutAlign="start center">
+        <h3>{{'user.new' | translate}}</h3>
+    </div>
+</div>
+
+<div fxLayout="row" style="overflow: auto;  height: calc(100vh - 160px);">
+    <div class="p-30">
+        <user-form (formDataChange)="formData=$event"></user-form>
+        
+        <div>
+            <button type="submit"
+                    mat-flat-button
+                    color="accent"
+                    class="mr-10"
+                    (click)="onSave()"
+                    [disabled]="formData === null"
+            >
+                {{ 'tasks.save' | translate }}
+            </button>
+            <button type="button"
+                    mat-button
+                    class="mr-10"
+                    (click)="onCancel()"
+            >
+                {{ 'tasks.cancel' | translate }}
+            </button>
+        </div>
+    </div>
+</div>

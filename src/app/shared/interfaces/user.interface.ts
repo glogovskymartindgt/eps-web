@@ -10,4 +10,9 @@ export interface User {
     profilePicture?: string;
     state?: string;
     created?: string;
+    isVisible?: boolean;
+    type?: string;
+    avatar?: string;
+    projectIdList?: number[];
+    groupIdList?: number[];
 }
