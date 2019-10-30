@@ -7,4 +7,5 @@ export interface UserDataInterface {
     masterToken?: string;
     authToken?: string;
     userId?: number;
+    avatar?: string;
 }

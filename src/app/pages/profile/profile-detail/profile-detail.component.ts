@@ -1,26 +1,39 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { enterLeave } from '../../../shared/hazlenut/hazelnut-common/animations';
+import { Regex } from '../../../shared/hazlenut/hazelnut-common/regex/regex';
 import { Profile } from '../../../shared/models/profile.model.';
 import { ImagesService } from '../../../shared/services/data/images.service';
 import { ProfileService } from '../../../shared/services/data/profile.service';
+import { UpdateProfileService } from '../../../shared/services/data/update-profile.service';
 import { NotificationService } from '../../../shared/services/notification.service';
-import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
+import { ProjectUserService } from '../../../shared/services/storage/project-user.service';
+import { UserPhotoService } from '../../../shared/services/user-photo.service';
 
 @Component({
     selector: 'profile-detail',
     templateUrl: './profile-detail.component.html',
-    styleUrls: ['./profile-detail.component.scss']
+    styleUrls: ['./profile-detail.component.scss'],
+    animations: [enterLeave]
 })
 export class ProfileDetailComponent implements OnInit {
 
     public profileDetailForm: FormGroup;
-    public imageSrc;
+    public imageSrc: any = 'assets/img/avatar.svg';
+    public userPasswordPattern = Regex.userPassword;
+    public notOnlyWhiteCharactersPattern = Regex.notOnlyWhiteCharactersPattern;
+    public emailPattern = Regex.emailPattern;
+    public hidePassword = true;
 
     public constructor(private readonly formBuilder: FormBuilder,
                        private readonly imagesService: ImagesService,
                        private readonly notificationService: NotificationService,
                        private readonly profileService: ProfileService,
-                       private readonly projectEventService: ProjectEventService) {
+                       private readonly projectUserService: ProjectUserService,
+                       private readonly updateProfileService: UpdateProfileService,
+                       private readonly userPhotoService: UserPhotoService,
+                       private readonly location: Location) {
     }
 
     public ngOnInit(): void {
@@ -47,11 +60,27 @@ export class ProfileDetailComponent implements OnInit {
     }
 
     public onSave(): void {
-
+        const profileObject = new Profile();
+        profileObject.firstName = this.profileDetailForm.controls.firstName.value;
+        profileObject.lastName = this.profileDetailForm.controls.lastName.value;
+        profileObject.email = this.profileDetailForm.controls.email.value;
+        if (this.profileDetailForm.controls.password && this.profileDetailForm.controls.password.value.length > 0) {
+            profileObject.password = this.profileDetailForm.controls.password.value;
+        }
+        if (this.profileDetailForm.controls.avatarUploadId) {
+            profileObject.avatar = this.profileDetailForm.controls.avatarUploadId.value;
+        }
+        this.updateProfileService.updateProfile(this.projectUserService.instant.userId, profileObject)
+            .subscribe(() => {
+                if (profileObject.avatar) {
+                    this.userPhotoService.changePhoto(profileObject.avatar);
+                }
+                this.location.back();
+            }, () => this.notificationService.openErrorNotification('error.profileUpdateFailed'));
     }
 
     public onCancel(): void {
-
+        this.location.back();
     }
 
     private initializeFrom(): void {
@@ -62,18 +91,21 @@ export class ProfileDetailComponent implements OnInit {
             lastName: [''],
             email: [''],
             login: [''],
-            password: [''],
-            active: [''],
+            password: [
+                '',
+                Validators.compose([
+                    Validators.pattern(this.userPasswordPattern),
+                    Validators.maxLength(50)
+                ])
+            ],
+            state: [''],
         });
         this.profileDetailForm.controls.login.disable();
     }
 
     private loadProfileDetail() {
-        // TODO id is project id, we need profile id
-        console.log('profile', this.projectEventService.instant.id);
-        this.profileService.getProfileById(this.projectEventService.instant.id)
+        this.profileService.getProfileById(this.projectUserService.instant.userId)
             .subscribe((data) => {
-                console.log(data);
                 this.setFormWithDetailData(data);
             }, () => {
                 this.notificationService.openErrorNotification('error.getProjectDetail');
@@ -81,7 +113,26 @@ export class ProfileDetailComponent implements OnInit {
     }
 
     private setFormWithDetailData(projectDetail: Profile) {
-
+        this.profileDetailForm.controls.firstName.patchValue(projectDetail.firstName);
+        this.profileDetailForm.controls.lastName.patchValue(projectDetail.lastName);
+        this.profileDetailForm.controls.email.patchValue(projectDetail.email);
+        this.profileDetailForm.controls.login.patchValue(projectDetail.login);
+        this.profileDetailForm.controls.state.patchValue(projectDetail.state);
+        if (!projectDetail.avatar) {
+            this.imageSrc = 'assets/img/avatar.svg';
+        } else {
+            this.profileDetailForm.controls.avatarUploadId.patchValue(projectDetail.avatar);
+            this.imagesService.getImage(projectDetail.avatar)
+                .subscribe((blob) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        this.imageSrc = reader.result;
+                    };
+                    reader.readAsDataURL(blob);
+                }, () => {
+                    this.notificationService.openErrorNotification('error.imageDownload');
+                });
+        }
     }
 
 }

@@ -39,32 +39,37 @@
             </div>
         </div>
         <div fxFlex fxLayout="column" fxLayoutGap="0">
-            <div class="long-input">
-                <haz-core-input [appearance]="'fill'"
-                                [label]="'profile.firstName' |  translate"
-                                [maxLength]="50"
-                                [required]="true"
-                                class="theme-input"
-                                formControlName="firstName"
-                >
-                </haz-core-input>
-            </div>
-            
-            <div class="long-input">
-                <haz-core-input [appearance]="'fill'"
-                                [label]="'profile.lastName' |  translate"
-                                [maxLength]="50"
-                                [required]="true"
-                                class="theme-input"
-                                formControlName="lastName"
-                >
-                </haz-core-input>
+            <div fxLayout="row" fxLayoutGap="10px">
+                <div class="small-input">
+                    <haz-core-input [appearance]="'fill'"
+                                    [label]="'profile.firstName' |  translate"
+                                    [maxLength]="50"
+                                    [required]="true"
+                                    [pattern]="notOnlyWhiteCharactersPattern"
+                                    class="theme-input"
+                                    formControlName="firstName"
+                    >
+                    </haz-core-input>
+                </div>
+                
+                <div class="small-input">
+                    <haz-core-input [appearance]="'fill'"
+                                    [label]="'profile.lastName' |  translate"
+                                    [maxLength]="50"
+                                    [required]="true"
+                                    [pattern]="notOnlyWhiteCharactersPattern"
+                                    class="theme-input"
+                                    formControlName="lastName"
+                    >
+                    </haz-core-input>
+                </div>
             </div>
             
             <div class="long-input">
                 <haz-core-input [appearance]="'fill'"
                                 [label]="'profile.email' |  translate"
                                 [maxLength]="50"
+                                [pattern]="emailPattern"
                                 class="theme-input"
                                 formControlName="email"
                 >
@@ -82,17 +87,34 @@
             </div>
             
             <div class="long-input">
-                <haz-core-input [appearance]="'fill'"
-                                [label]="'profile.password' |  translate"
-                                [maxLength]="50"
-                                class="theme-input"
-                                formControlName="password"
-                >
-                </haz-core-input>
+                <mat-form-field appearance="fill" class="mt-8 theme-input w-full">
+                    <mat-label class="label-style">{{'profile.password' | translate}}</mat-label>
+                    <input [type]="hidePassword ? 'password' : 'text'"
+                           class="input-style"
+                           formControlName="password"
+                           matInput
+                    >
+                    <mat-icon (click)="hidePassword = !hidePassword " class="cursor-pointer"
+                              matSuffix
+                              matTooltip="{{ 'login.toggleVisibility' | translate}}"
+                    >
+                        {{hidePassword ? 'visibility_off' : 'visibility'}}
+                    </mat-icon>
+                    <mat-error *ngIf="profileDetailForm?.controls?.password?.hasError('pattern')">
+                        {{'profile.invalidPassword' | translate}}
+                    </mat-error>
+                    <mat-error *ngIf="!profileDetailForm?.controls?.password?.hasError('pattern') &&
+                    profileDetailForm?.controls?.password?.hasError('maxlength')">
+                        {{'hint.maxlength' | translate}}
+                    </mat-error>
+                </mat-form-field>
             </div>
             
             <div>
-                <mat-slide-toggle>{{"profile.account" | translate}} {{"profile.inactive" | translate}}</mat-slide-toggle>
+                <mat-slide-toggle formControlName="state" disabled>
+                    {{"profile.account" | translate}}
+                    {{(this.profileDetailForm.controls.state && this.profileDetailForm.controls.state.value === 'ACTIVE' ? "profile.active" : "profile.inactive") | translate}}
+                </mat-slide-toggle>
             </div>
         
         </div>
@@ -100,6 +122,7 @@
     
     <div [@enterLeave] class="pl-130">
         <button (click)="onSave()"
+                [disabled]="!this.profileDetailForm.valid"
                 class="mr-10"
                 color="accent"
                 mat-flat-button
@@ -115,5 +138,5 @@
             {{ 'tasks.cancel' | translate }}
         </button>
     </div>
-    
+
 </form>

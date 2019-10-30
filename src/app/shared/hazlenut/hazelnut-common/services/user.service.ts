@@ -9,11 +9,19 @@ type Proxify<T> = {
 };
 
 export abstract class UserService<T extends object> {
+
+    public get instant(): T {
+        return this._instant;
+    }
+
+    public get subject(): Proxify<T> {
+        return this._subject;
+    }
+
+    public login: string;
     private readonly _behaviorSubject: BehaviorSubject<T>;
     private readonly _instant: T;
     private readonly _subject: Proxify<T>;
-
-    public login: string;
 
     protected constructor(@Inject(ABSTRACT_STORAGE_TOKEN) private readonly storageService: AbstractStorageService) {
         const value = (this.loadData() || {}) as T;
@@ -36,18 +44,11 @@ export abstract class UserService<T extends object> {
         this._behaviorSubject = new BehaviorSubject<T>(value);
     }
 
-    public get instant(): T {
-        return this._instant;
-    }
-
-    public get subject(): Proxify<T> {
-        return this._subject;
-    }
-
     public setProperty(key: keyof T, value: any): T {
         const newValue: T = {...this._behaviorSubject.value as any};
         newValue[key] = value;
         this._behaviorSubject.next(newValue);
+        this.storeData(newValue);
         return newValue;
     }
 

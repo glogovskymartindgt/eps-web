@@ -3,7 +3,7 @@
     <div class="pl-50" fxFlex="50" fxLayoutAlign="start center">
         <h3>{{'users.title' | translate}}</h3>
     </div>
-    <div fxFlex fxLayoutAlign="end center">
+    <div fxFlex fxLayoutAlign="end center" *ngIf="hasRoleCreateUser()">
         <button (click)="createUser()" class="mr-10" color="accent"
                 mat-flat-button
         >
@@ -37,7 +37,7 @@
     <div class="p-5">{{actRow.accountState}}</div>
 </ng-template>
 <ng-template #updateColumn let-actRow="row" let-context="context">
-    <div class="fr">
+    <div class="fr" *ngIf="canSeeDetail()">
         <button (click)="edit(actRow.id)"
                 mat-icon-button
         >

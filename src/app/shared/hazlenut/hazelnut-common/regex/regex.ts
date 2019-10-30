@@ -30,6 +30,10 @@ export class Regex {
 
     public static readonly fileNameFromContentDispositionPattern = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
 
+    public static readonly userPassword = '^(?=.*[A-Z])(?=.*[\\d !"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~])[A-Za-z\\d !"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~]{8,}$';
+
+    public static readonly loginStringPattern = '^([a-zA-Z0-9.-_]*)$';
+
     /**
      *
      * (?!^)            # Assert we are not at start of line
@@ -38,9 +42,8 @@ export class Regex {
      *      (?:\.|$)    # followed by decimal point or end of string
      * )                # end of lookahead
      */
-    public static readonly thousandSeparatorOccurenceWithMaxTwoDecimal = /(?!^)(?=(?:\d{3})+(?:\.|$))/gm;
+    public static readonly thousandSeparatorOccurrenceWithMaxTwoDecimal = /(?!^)(?=(?:\d{3})+(?:\.|$))/gm;
 
-    public static readonly youtubeLinkTextPattern = '^.*(http(?:s?):\\/\\/(?:www\\.)?youtu(?:be\\.com\\/watch\\?v=|\\.be\\/)([\\w\\-\\_]*)(&(amp;)?‌ [\\w\\?‌ =]*)?){1}.*$';
     public static readonly youtubeLinkPattern = '^http(?:s?):\\/\\/(?:www\\.)?youtu(?:be\\.com\\/watch\\?v=|\\.be\\/)([\\w\\-\\_]*)(&(amp;)?‌ [\\w\\?‌ =]*)?$';
 
 }

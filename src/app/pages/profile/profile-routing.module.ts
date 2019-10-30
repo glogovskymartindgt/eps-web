@@ -8,14 +8,9 @@ const routes: Routes = [
         children: [
             {
                 path: '',
-                pathMatch: 'full',
-                redirectTo: 'profile',
-            },
-            {
-                path: 'profile',
                 component: ProfileDetailComponent,
                 data: {title: 'profileDetail'}
-            },
+            }
         ],
     }
 ];

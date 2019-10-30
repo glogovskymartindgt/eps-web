@@ -10,8 +10,7 @@ export interface PostContentInterface {
         criteria: Sort[];
     };
     paging: {
-        offset: number;
-        limit: number;
+        offset: number; limit: number;
     };
 }
 
@@ -25,15 +24,17 @@ export class PostContent implements PostContentInterface {
     } = {criteria: []};
 
     public paging: {
-        offset: number;
-        limit: number;
-    } = {offset: 0, limit: hazelnutConfig.BROWSE_LIMIT};
+        offset: number; limit: number;
+    } = {
+        offset: 0,
+        limit: hazelnutConfig.BROWSE_LIMIT
+    };
 
-    public static create(limit: number,
-                         offset: number,
-                         filter: Filter[] = [],
-                         sort: Sort[] = [new Sort()]): PostContent {
-        return new PostContent().setLimit(limit).setOffset(offset).addFilters(...filter).addSorts(...sort);
+    public static create(limit: number, offset: number, filter: Filter[] = [], sort: Sort[] = [new Sort()]): PostContent {
+        return new PostContent().setLimit(limit)
+                                .setOffset(offset)
+                                .addFilters(...filter)
+                                .addSorts(...sort);
     }
 
     public static parse(object: any): PostContent {
@@ -59,13 +60,11 @@ export class PostContent implements PostContentInterface {
 
     public setLimit(limit: number): PostContent {
         this.paging.limit = limit;
-
         return this;
     }
 
     public setOffset(offset: number): PostContent {
         this.paging.offset = offset;
-
         return this;
     }
 
@@ -87,9 +86,7 @@ export class PostContent implements PostContentInterface {
                 criteria: [],
             };
         }
-
         this.sortingCriteria.criteria.push(...sorts);
-
         return this;
     }
 
@@ -102,12 +99,16 @@ export class PostContent implements PostContentInterface {
             this.addSorts(new Sort());
         }
 
-        if (!this.paging.offset) {
-            this.paging.offset = 0;
-        }
+        if (isNaN(this.paging.limit) && isNaN(this.paging.offset)) {
+            delete this.paging;
+        } else {
+            if (!this.paging.offset) {
+                this.paging.offset = 0;
+            }
 
-        if (!this.paging.limit) {
-            this.paging.limit = browseLimit;
+            if (!this.paging.limit) {
+                this.paging.limit = browseLimit;
+            }
         }
 
         return this;

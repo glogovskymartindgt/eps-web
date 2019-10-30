@@ -1,1 +1,144 @@
-<p>user-form works!</p>
+<form [formGroup]="userForm">
+    
+    <div fxLayout="row" fxLayoutGap="10px">
+        
+        <div *ngIf="isUpdate" fxFlex="100px">
+            <img [src]="userImageSrc" alt="avatar" class="avatar-image">
+        </div>
+        <div fxFlex>
+            <div *ngIf="isUpdate" fxLayout="row">
+                <div class="short-input mr-10">
+                    <haz-core-input [appearance]="'fill'"
+                                    [label]="'user.id' | translate"
+                                    class="theme-input"
+                                    formControlName="id"
+                    >
+                    </haz-core-input>
+                </div>
+                <div fxLayoutAlign="flex-start center">
+                    <mat-slide-toggle formControlName="isVisible">
+                        {{"user.visibility" | translate}}
+                        {{(this.userForm.controls.isVisible && this.userForm.controls.isVisible.value ? "user.visible" : "user.invisible") | translate}}
+                    </mat-slide-toggle>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayoutGap="10px">
+                <div class="small-input">
+                    <haz-core-input [appearance]="'fill'"
+                                    [label]="'profile.firstName' |  translate"
+                                    [maxLength]="50"
+                                    [pattern]="notOnlyWhiteCharactersPattern"
+                                    [required]="true"
+                                    class="theme-input"
+                                    formControlName="firstName"
+                    >
+                    </haz-core-input>
+                </div>
+                
+                <div class="small-input">
+                    <haz-core-input [appearance]="'fill'"
+                                    [label]="'profile.lastName' |  translate"
+                                    [maxLength]="50"
+                                    [pattern]="notOnlyWhiteCharactersPattern"
+                                    [required]="true"
+                                    class="theme-input"
+                                    formControlName="lastName"
+                    >
+                    </haz-core-input>
+                </div>
+            </div>
+            
+            <div class="long-input">
+                <haz-core-input [appearance]="'fill'"
+                                [label]="'profile.email' |  translate"
+                                [maxLength]="50"
+                                [pattern]="emailPattern"
+                                class="theme-input"
+                                formControlName="email"
+                >
+                </haz-core-input>
+            </div>
+            
+            <div class="long-input">
+                <haz-core-input [allowedCharactersPattern]="loginStringPattern"
+                                [appearance]="'fill'"
+                                [label]="'profile.login' |  translate"
+                                [maxLength]="50"
+                                [required]="!isUpdate"
+                                class="theme-input"
+                                formControlName="login"
+                >
+                </haz-core-input>
+            </div>
+            
+            <div class="long-input">
+                <mat-form-field appearance="fill" class="mt-8 theme-input w-full">
+                    <mat-label class="label-style">{{'user.password' | translate}}</mat-label>
+                    <input [required]="isUpdate"
+                           [type]="hidePassword ? 'password' : 'text'"
+                           class="input-style"
+                           formControlName="password"
+                           matInput
+                    >
+                    <mat-icon (click)="hidePassword = !hidePassword " class="cursor-pointer"
+                              matSuffix
+                              matTooltip="{{ 'login.toggleVisibility' | translate}}"
+                    >
+                        {{hidePassword ? 'visibility_off' : 'visibility'}}
+                    </mat-icon>
+                    <mat-error *ngIf="userForm?.controls?.password?.hasError('pattern')">
+                        {{'profile.invalidPassword' | translate}}
+                    </mat-error>
+                    <mat-error *ngIf="!userForm?.controls?.password?.hasError('pattern') &&
+                    userForm?.controls?.password?.hasError('maxlength')"
+                    >
+                        {{'hint.maxlength' | translate}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            
+            <div fxLayout="row">
+                <mat-form-field appearance="fill" class="small-input mr-10">
+                    <mat-label>{{'user.type' | translate}}</mat-label>
+                    <mat-select formControlName="type" required>
+                        <mat-option></mat-option>
+                        <mat-option [value]="'IIHF'">{{'user.iihf' | translate}}</mat-option>
+                        <mat-option [value]="'ORGANIZER'">{{'user.organizer' | translate}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="this.userForm.controls.type.hasError('required')">{{'error.required' | translate}}</mat-error>
+                </mat-form-field>
+                <div *ngIf="isUpdate" fxLayoutAlign="flex-start center">
+                    <mat-slide-toggle formControlName="state">
+                        {{"user.account" | translate}}
+                        {{(this.userForm.controls.state && this.userForm.controls.state.value ? "user.active" : "user.inactive") | translate}}
+                    </mat-slide-toggle>
+                </div>
+            </div>
+            
+            <div>
+                <mat-form-field appearance="fill" class="long-input">
+                    <mat-label>{{'user.groups' | translate}}</mat-label>
+                    <mat-select formControlName="groupIdList" multiple>
+<!--                     TODO implement logic with roles-->
+                        <mat-option *ngFor="let group of groupList"
+                                    [value]="group.id"
+                                    [disabled]="!hasRoleAssignGroup() && !hasRoleUnAssignGroup()"
+                        >
+                            {{group.code}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            
+            <div *ngIf="this.userForm.controls.type.value === 'ORGANIZER'">
+                <mat-form-field appearance="fill" class="long-input">
+                    <mat-label>{{'user.projects' | translate}}</mat-label>
+                    <mat-select formControlName="projectIdList" multiple>
+                        <mat-option *ngFor="let project of projectList" [value]="project.id">{{project.year}} {{project.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+
+</form>

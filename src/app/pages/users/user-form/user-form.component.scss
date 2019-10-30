@@ -1,0 +1,16 @@
+::ng-deep .mat-primary .mat-pseudo-checkbox-checked {
+    background: #848484;
+}
+
+::ng-deep {
+    .mat-form-field .mat-form-field-flex {
+        background-color: #e8f0fe;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+}
+
+.avatar-image{
+    width: 100px;
+    height: 100px;
+}
