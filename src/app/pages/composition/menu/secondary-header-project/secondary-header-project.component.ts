@@ -1,11 +1,10 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Router } from '@angular/router';
+import { Role } from '../../../../shared/enums/role.enum';
 import { fadeEnterLeave } from '../../../../shared/hazlenut/hazelnut-common/animations';
+import { AuthService } from '../../../../shared/services/auth.service';
 import { DashboardService } from '../../../../shared/services/dashboard.service';
 import { ProjectEventService } from '../../../../shared/services/storage/project-event.service';
-import { ProjectUserService } from '../../../../shared/services/storage/project-user.service';
-import { SettingsService } from '../../../../shared/services/storage/settings.service';
-import { UserPhotoService } from '../../../../shared/services/user-photo.service';
 
 @Component({
     selector: 'secondary-header-project',
@@ -24,9 +23,7 @@ export class SecondaryHeaderProjectComponent implements OnInit {
     public constructor(public readonly projectEventService: ProjectEventService,
                        private readonly router: Router,
                        private readonly dashboardService: DashboardService,
-                       private readonly userPhotoService: UserPhotoService,
-                       private readonly projectUserService: ProjectUserService,
-    ) {
+                       private readonly authService: AuthService) {
     }
 
     public ngOnInit() {
@@ -52,4 +49,9 @@ export class SecondaryHeaderProjectComponent implements OnInit {
         this.projectEventService.setEventData(null, true, this.imagePath);
         this.onSectionSelected.emit(data);
     }
+
+    public hasRoleAccessSettings(): boolean {
+        return this.authService.hasRole(Role.RoleAccessSettings);
+    }
+
 }

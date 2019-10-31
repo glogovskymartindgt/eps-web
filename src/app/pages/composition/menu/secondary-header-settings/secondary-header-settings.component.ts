@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { fadeEnterLeave } from '../../../../shared/hazlenut/hazelnut-common/animations';
+import { AuthService } from '../../../../shared/services/auth.service';
 import { DashboardService } from '../../../../shared/services/dashboard.service';
 import { ProjectEventService } from '../../../../shared/services/storage/project-event.service';
 
@@ -18,7 +19,10 @@ export class SecondaryHeaderSettingsComponent implements OnInit {
 
     @Output() public onSectionSelected: EventEmitter<any> = new EventEmitter<any>();
 
-    public constructor(public readonly projectEventService: ProjectEventService, private readonly router: Router, private readonly dashboardService: DashboardService) {
+    public constructor(public readonly projectEventService: ProjectEventService,
+                       private readonly router: Router,
+                       private readonly dashboardService: DashboardService,
+                       private readonly authService: AuthService) {
     }
 
     public ngOnInit() {
@@ -39,4 +43,5 @@ export class SecondaryHeaderSettingsComponent implements OnInit {
         this.projectEventService.setEventData(null, true, this.imagePath);
         this.onSectionSelected.emit(type);
     }
+
 }

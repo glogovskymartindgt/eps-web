@@ -12,7 +12,7 @@ let actualStorage: Storage = localStorage;
 @Injectable({
     providedIn: 'root'
 })
-export abstract class AbstractStorageService {
+export class AbstractStorageService {
     /**
      * Method set actual storage
      */
