@@ -110,7 +110,6 @@ export const AppRoutes: Routes = [
                 data: {
                     title: 'menu.profile',
                     icon: 'person',
-                    menu: true,
                     animation: 'profile',
                 },
                 canActivate: [AuthGuard]

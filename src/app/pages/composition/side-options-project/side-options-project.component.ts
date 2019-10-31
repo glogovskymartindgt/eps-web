@@ -49,6 +49,7 @@ export class SideOptionsProjectComponent implements OnInit {
     }
 
     public setMenuOptionOnInitFromRouter() {
+        this.menuService.setSelectedOption('project');
         [
             'project',
             'reports',
