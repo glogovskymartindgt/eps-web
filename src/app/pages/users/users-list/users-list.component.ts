@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { finalize } from 'rxjs/operators';
 import { Role } from '../../../shared/enums/role.enum';
 import { ListItem, TableCellType, TableChangeEvent, TableColumn, TableColumnFilter, TableConfiguration, TableFilterType } from '../../../shared/hazlenut/core-table';
+import { StringUtils } from '../../../shared/hazlenut/hazelnut-common/hazelnut';
 import { BrowseResponse, Filter } from '../../../shared/hazlenut/hazelnut-common/models';
 import { AuthService } from '../../../shared/services/auth.service';
 import { UserDataService } from '../../../shared/services/data/user-data.service';
@@ -125,6 +126,27 @@ export class UsersListComponent implements OnInit {
             ],
             paging: true,
         };
+        if (!this.isInitialized && this.isReturnFromDetail() && this.tableChangeStorageService.getFactsLastTableChangeEvent()) {
+            if (this.tableChangeStorageService.getFactsLastTableChangeEvent().filters) {
+                this.config.predefinedFilters = this.tableChangeStorageService.getFactsLastTableChangeEvent().filters;
+            }
+            if (this.tableChangeStorageService.getFactsLastTableChangeEvent().pageIndex) {
+                this.config.predefinedPageIndex = this.tableChangeStorageService.getFactsLastTableChangeEvent().pageIndex;
+            }
+            if (this.tableChangeStorageService.getFactsLastTableChangeEvent().pageSize) {
+                this.config.predefinedPageSize = this.tableChangeStorageService.getFactsLastTableChangeEvent().pageSize;
+            }
+            if (this.tableChangeStorageService.getFactsLastTableChangeEvent().sortDirection) {
+                this.config.predefinedSortDirection = this.tableChangeStorageService.getFactsLastTableChangeEvent()
+                                                          .sortDirection
+                                                          .toLowerCase();
+            }
+            if (this.tableChangeStorageService.getFactsLastTableChangeEvent().sortActive) {
+                this.config.predefinedSortActive = StringUtils.convertSnakeToCamel(this.tableChangeStorageService.getFactsLastTableChangeEvent()
+                                                                                       .sortActive
+                                                                                       .toLowerCase());
+            }
+        }
     }
 
     /**
@@ -184,6 +206,12 @@ export class UsersListComponent implements OnInit {
 
     public canSeeDetail(): boolean {
         return this. hasRoleUpdateUser() || this.hasRoleReadUser();
+    }
+
+    private isReturnFromDetail() {
+        return this.routingStorageService.getPreviousUrl()
+                   .includes('users/edit') || this.routingStorageService.getPreviousUrl()
+                                                  .includes('users/create');
     }
 
 }
