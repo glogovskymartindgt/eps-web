@@ -54,8 +54,6 @@ export class SideOptionsSettingsComponent implements OnInit {
     }
 
     public setMenuOptionOnInitFromRouter() {
-        console.log('here ', this.router.url);
-
         this.menuService.setSelectedOption('users');
         ['users'].forEach((routeSubstring) => {
             if (this.router.url.includes(routeSubstring)) {

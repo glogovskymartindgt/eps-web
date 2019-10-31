@@ -16,14 +16,14 @@
                     (click)="onSave()"
                     [disabled]="!formData"
             >
-                {{ 'user.save' | translate }}
+                {{ 'user.save' | translate | uppercase }}
             </button>
             <button type="button"
                     mat-button
                     class="mr-10"
                     (click)="onCancel()"
             >
-                {{ 'user.cancel' | translate }}
+                {{ 'user.cancel' | translate | uppercase }}
             </button>
         </div>
     </div>
