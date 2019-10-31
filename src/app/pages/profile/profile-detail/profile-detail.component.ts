@@ -67,7 +67,7 @@ export class ProfileDetailComponent implements OnInit {
         if (this.profileDetailForm.controls.password && this.profileDetailForm.controls.password.value.length > 0) {
             profileObject.password = this.profileDetailForm.controls.password.value;
         }
-        if (this.profileDetailForm.controls.avatarUploadId) {
+        if (this.profileDetailForm.controls.avatarUploadId && this.profileDetailForm.controls.avatarUploadId.value.length > 0) {
             profileObject.avatar = this.profileDetailForm.controls.avatarUploadId.value;
         }
         this.updateProfileService.updateProfile(this.projectUserService.instant.userId, profileObject)
