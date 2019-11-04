@@ -1,5 +1,49 @@
 $color-secondary: #002d62;
 
+h3, h4 {
+    color: $color-secondary !important;
+}
+
+.mat-card {
+    margin-bottom: 20px !important;
+
+    .attachment-form {
+        .container-style {
+            height: 100px;
+            z-index: 1;
+            cursor: pointer;
+            border-radius: 5px;
+            border: 1px dashed #87c8e7;
+        }
+
+        p {
+            font-family: Roboto, sans-serif;
+            color: #87c8e7 !important;
+        }
+    }
+
+    .attachment-item {
+        margin-top: 15px;
+
+        .content-style {
+            pointer-events: none;
+            z-index: 0;
+            width: 200px;
+            display: grid;
+            align-items: center;
+            justify-items: center;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid $color-secondary;
+
+            p {
+                font-family: Roboto, sans-serif;
+                color: #87c8e7 !important;
+            }
+        }
+    }
+}
+
 .hide-input {
     width: 100px;
     height: 100px;
@@ -8,29 +52,7 @@ $color-secondary: #002d62;
     z-index: -1;
 }
 
-.container-style {
-    height: 100px;
-    z-index: 1;
-    cursor: pointer;
-    border-radius: 5px;
-    border: 1px dashed #87c8e7;
-}
 
-.content-style {
-    position: absolute;
-    pointer-events: none;
-    z-index: 0;
-    width: 200px;
-    display: grid;
-    align-items: center;
-    justify-items: center;
-
-    p {
-        font-family: Roboto, sans-serif;
-        color: #87c8e7 !important;
-    }
-
-}
 
 .logo-container-style {
     height: 110px;
@@ -170,7 +192,7 @@ $color-secondary: #002d62;
 
 .empty-map {
     width: 205px;
-    height: 100px;
+    height: 56px;
     border-radius: 5px;
     position: relative;
     background: #f5f5f5;
@@ -181,8 +203,6 @@ $color-secondary: #002d62;
     font-family: Roboto, sans-serif;
     font-size: 12px;
     color: #525252;
-    width: 140px;
-    margin: 20px 5px 0 5px
 }
 
 .project-to-upload-map {

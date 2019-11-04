@@ -394,8 +394,25 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
                 this.projectDetailForm.controls.firstVenue.patchValue(firstCountryObject.cityName);
                 this.projectDetailForm.controls.oldFirstVenue.patchValue(firstCountryObject.cityName);
                 if (firstCountryObject.attachment && firstCountryObject.attachment.filePath) {
-                    this.projectDetailForm.controls.firstMapUploadId.patchValue(firstCountryObject.attachment.filePath);
-                    this.projectDetailForm.controls.firstMapUploadName.patchValue(firstCountryObject.attachment.fileName);
+                    const attachments = [];
+                    const attachmentsUpload = [];
+                    if (firstCountryObject.attachment instanceof Array) {
+                        attachments.concat(firstCountryObject.attachment);
+                        firstCountryObject.attachment.forEach((item) => {
+                            attachmentsUpload.push({
+                                id: item.filePath,
+                                name: item.fileName
+                            });
+                        });
+                    } else {
+                        attachments.push(firstCountryObject.attachment);
+                        attachmentsUpload.push({
+                            id: firstCountryObject.attachment.filePath,
+                            name: firstCountryObject.attachment.fileName
+                        });
+                    }
+                    this.projectDetailForm.controls.firstMap.patchValue(attachments);
+                    this.projectDetailForm.controls.firstMapUpload.patchValue(attachmentsUpload);
                 }
             }
         }
@@ -441,7 +458,7 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
 
     private firstVenueEmptyWhenFirstMap() {
         return (group: FormGroup): {[key: string]: any} => {
-            const firstVenueEmptyWhenFirstMap = this.editMode && this.projectDetailForm.controls.firstMapUploadId.value && !this.projectDetailForm.controls.firstVenue.value;
+            const firstVenueEmptyWhenFirstMap = this.editMode && this.projectDetailForm.controls.firstMapUpload.value.id && !this.projectDetailForm.controls.firstVenue.value;
             return firstVenueEmptyWhenFirstMap ? {firstVenueEmptyWhenFirstMap} : null;
 
         };
@@ -473,8 +490,7 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
             firstMap: [''],
             secondMap: [''],
             logoUploadId: [''],
-            firstMapUploadId: [''],
-            firstMapUploadName: [''],
+            firstMapUpload: [[]],
             secondMapUploadId: [''],
             secondMapUploadName: [''],
             description: [''],
