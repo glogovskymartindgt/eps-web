@@ -216,8 +216,8 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
 
     public openDialog(source: string): void {
         this.matDialog.open(PdfDialogComponent, {
-            maxHeight: '80vh',
-            minHeight: '80vh',
+            maxHeight: '90vh',
+            minHeight: '90vh',
             maxWidth: '80vw',
             minWidth: '80vw',
             data: {

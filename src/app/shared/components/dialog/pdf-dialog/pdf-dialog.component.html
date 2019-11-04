@@ -1,15 +1,24 @@
-<div class="close-button-wrapper">
-    <button (click)="close()" color="priamry" mat-icon-button>
-        <mat-icon>close</mat-icon>
-    </button>
+<div class="close-button-wrapper" fxLayout="row">
+    <div fxFlex fxLayoutAlign="center center">
+        <button (click)="zoomOut()" mat-mini-fab color="primary" class="zoom-button m-5">+</button>
+        <button (click)="zoomIn()" mat-mini-fab color="primary" class="zoom-button m-5">-</button>
+    </div>
+    <div fxFlex="30px" fxLayoutAlign="flex-end center">
+        <button (click)="close()" color="priamry" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
 </div>
-<div class="pdf-wrapper">
-    <pdf-viewer
-        [fit-to-page]="true"
-        [original-size]="true"
-        [render-text]="true"
-        [show-all]="true"
-        [src]="data.source"
-    >
-    </pdf-viewer>
+<div fxLayoutAlign="center center">
+    <div class="pdf-wrapper">
+        <pdf-viewer
+            [fit-to-page]="true"
+            [original-size]="true"
+            [render-text]="true"
+            [show-all]="true"
+            [zoom]="zoom"
+            [src]="data.source"
+        >
+        </pdf-viewer>
+    </div>
 </div>

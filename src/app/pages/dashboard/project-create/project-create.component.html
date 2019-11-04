@@ -6,7 +6,6 @@
 
 <div fxLayout="row" style="overflow: auto;  height: calc(100vh - 160px);">
     <div class="p-30">
-<!--////////////////////////-->
         <form [formGroup]="projectDetailForm">
             <div fxLayout="row" fxLayoutGap="10px">
                 <div fxFlex="100px" fxLayout="column">
@@ -169,10 +168,7 @@
                     </div>
                 </div>
             </div>
-    
         </form>
-
-<!--        //////////////////////////////-->
         <div [@enterLeave] class="pl-110">
 <!--            [disabled]="!formData || !canSave"-->
             <button (click)="onSave()"

@@ -1,13 +1,17 @@
 
 .pdf-wrapper {
-    width: 100%;
-    max-height: 70vh;
+    width: 80vw;
+    height: calc(80vh - 30px);
+
     overflow-y: auto;
 }
 
 .close-button-wrapper {
     margin-bottom: 10px;
-    display: flex;
-    justify-content: flex-end;
-    height: 50px;
+    height: 60px;
+}
+
+.zoom-button {
+    font-size: 36px;
+    font-family: Roboto, sans-serif;
 }
