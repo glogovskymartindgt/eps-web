@@ -62,6 +62,7 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
     public projectDetailForm: FormGroup;
     public yearPattern = Regex.yearPattern;
     public numericPattern = Regex.numericPattern;
+    public notOnlyWhiteCharactersPattern = Regex.notOnlyWhiteCharactersPattern;
     public dateInvalid = false;
 
     public firstMapSrc: any = '';
@@ -73,11 +74,8 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
     public secondMapBlob: any;
 
     public imageSrc: any = this.defaultLogoPath;
-    public dateInvalidClosed = false;
     public countryList = [];
     public countriesLoading = false;
-
-    public notOnlyWhiteCharactersPattern = Regex.notOnlyWhiteCharactersPattern;
 
     public constructor(private readonly formBuilder: FormBuilder,
                        private readonly domSanitizer: DomSanitizer,
@@ -133,10 +131,6 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
 
     public onDateChanged(event) {
         this.dateInvalid = true;
-    }
-
-    public onDateChangedClosed(event) {
-        this.dateInvalidClosed = true;
     }
 
     public hasError(controlName: string, errorName: string) {

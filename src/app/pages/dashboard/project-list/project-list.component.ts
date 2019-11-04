@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ProjectInterface } from '../../../shared/interfaces/project.interface';
 import { AuthService } from '../../../shared/services/auth.service';
 import { DashboardService } from '../../../shared/services/dashboard.service';
@@ -26,7 +27,9 @@ import { ProjectUserService } from '../../../shared/services/storage/project-use
                        private readonly userDataService: UserDataService,
                        private readonly projectUserService: ProjectUserService,
                        private readonly imagesService: ImagesService,
-                       private readonly notificationService: NotificationService,) {
+                       private readonly notificationService: NotificationService,
+                       private readonly router: Router,
+                       ) {
     }
 
     /**
@@ -39,6 +42,10 @@ import { ProjectUserService } from '../../../shared/services/storage/project-use
         });
         this.dashboardService.setSecondaryHeaderContent({isDashboard: true});
         this.initializeUserPhoto();
+    }
+
+    public openCreateProjectDetail(): void {
+        this.router.navigate(['dashboard/create']);
     }
 
     /**

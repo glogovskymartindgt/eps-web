@@ -1,5 +1,19 @@
 <!--Project components showing basic information about project and logo responsive design on project cards-->
 <div class="wrapper mb-40" fxLayout="row wrap" fxLayoutAlign="start center">
+    <div class="project-card m-13" fxLayout="row" fxLayoutAlign="center center" (click)="openCreateProjectDetail()">
+        <div>
+            <img
+                [src]="'assets/img/svg-squares/add.svg'"
+                alt="add"
+                class="add-icon"
+            >
+        </div>
+        <div>
+            <p class="add-text m-20">
+                {{'project.add' | translate | uppercase}}
+            </p>
+        </div>
+    </div>
     <project-card *ngFor="let project of projects" [project]="project">
     </project-card>
 </div>

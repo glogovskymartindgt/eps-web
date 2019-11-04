@@ -197,6 +197,7 @@
     },
     "project": {
         "detailTitle": "Project detail",
+        "createTitle": "New project",
         "edit": "Edit",
         "name": "Name",
         "year": "Year",
@@ -209,6 +210,7 @@
         "secondVenue": "Second Venue",
         "description": "Description",
         "drag": "Drag file here or browse",
+        "add": "Create a new project",
         "noMapAdded": "The stadium map has not been added yet",
         "toUploadMap": "To upload the map, start by editing the project"
     },

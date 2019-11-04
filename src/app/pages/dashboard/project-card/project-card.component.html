@@ -2,7 +2,6 @@
 <div class="project-card m-13" fxLayout="row">
     <div (click)="onProjectSelected()" class="project-card-content" fxFlex="95">
         <div class="p-10" fxFlex="15" fxLayoutAlign="center center">
-            <!--Logo image is from static list in assets, not from API-->
             <img (error)="'assets/img/event-logos/default_logo.png'"
                  [src]="imagePath"
                  alt="championship logo"
