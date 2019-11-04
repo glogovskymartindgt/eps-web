@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ProjectInterface } from '../../../shared/interfaces/project.interface';
 import { AuthService } from '../../../shared/services/auth.service';
 import { DashboardService } from '../../../shared/services/dashboard.service';
+import { ImagesService } from '../../../shared/services/data/images.service';
 import { UserDataService } from '../../../shared/services/data/user-data.service';
+import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 import { ProjectUserService } from '../../../shared/services/storage/project-user.service';
-import { UserPhotoService } from '../../../shared/services/user-photo.service';
 
 @Component({
     selector: 'project-list',
@@ -22,19 +23,20 @@ import { UserPhotoService } from '../../../shared/services/user-photo.service';
     public constructor(private readonly projectEventService: ProjectEventService,
                        private readonly dashboardService: DashboardService,
                        private readonly authService: AuthService,
-                       private readonly userPhotoService: UserPhotoService,
                        private readonly userDataService: UserDataService,
-                       private readonly projectUserService: ProjectUserService) {
+                       private readonly projectUserService: ProjectUserService,
+                       private readonly imagesService: ImagesService,
+                       private readonly notificationService: NotificationService,) {
     }
 
     /**
      * Create filter listener on projects and set default value to ALL
      */
     public ngOnInit() {
+        this.filterProjects('ALL');
         this.dashboardService.dashboardFilterNotifier$.subscribe((filterValue: string) => {
             this.filterProjects(filterValue);
         });
-        this.filterProjects('ALL');
         this.dashboardService.setSecondaryHeaderContent({isDashboard: true});
         this.initializeUserPhoto();
     }
@@ -52,10 +54,19 @@ import { UserPhotoService } from '../../../shared/services/user-photo.service';
     }
 
     private initializeUserPhoto(): void {
-        this.userDataService.getUserDetail(this.projectUserService.instant.id)
+        this.userDataService.getUserDetail(this.projectUserService.instant.userId)
             .subscribe((user) => {
                 if (user.avatar) {
-                    this.userPhotoService.changePhoto(user.avatar);
+                    this.imagesService.getImage(user.avatar)
+                        .subscribe((blob) => {
+                            const reader = new FileReader();
+                            reader.onload = () => {
+                                this.projectUserService.setProperty('avatar', (reader.result) as string);
+                            };
+                            reader.readAsDataURL(blob);
+                        }, () => {
+                            this.notificationService.openErrorNotification('error.imageDownload');
+                        });
                 }
             });
 

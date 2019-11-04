@@ -8,7 +8,7 @@
         >
     </div>
     <div class="mt-10 ml-19 no-select title-text" fxLayout="row">
-        <span class="red-title" style="margin-left: 19px;">
+        <span class="red-title ml-19">
             {{'app.iihf' | translate}}
         </span> &nbsp;
         <span class="blue-title">
@@ -20,14 +20,13 @@
         >
             <div fxLayout="row">
                 <div>
-<!--                    toImageUrl(projectUserService.subject.avatar)-->
                     <img
-                        [src]="userPhotoService.userPhoto | async"
+                        [src]="avatar ? avatar : defaultAvatarPath"
                         alt="avatar"
                         class="pr-5 user-icon"
                     >
                 </div>
-
+                
                 <div>
                     <span class="small-text">{{login}}</span>
                     <button [matMenuTriggerFor]="menu" mat-icon-button>

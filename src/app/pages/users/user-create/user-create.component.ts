@@ -30,6 +30,7 @@ export class UserCreateComponent implements OnInit {
                 this.notificationService.openSuccessNotification('success.add');
                 this.router.navigate(['users/list']);
             }, (e) => {
+                console.log('error', this.getTranslationFromErrorCode(e.error.code));
                 this.notificationService.openErrorNotification(this.getTranslationFromErrorCode(e.error.code));
             });
     }
@@ -54,17 +55,18 @@ export class UserCreateComponent implements OnInit {
         return apiObject;
     }
 
-    private getTranslationFromErrorCode(code: number): string {
+    private getTranslationFromErrorCode(code: string): string {
+        console.log('code', code);
         switch (code) {
-            case 10002:
+            case '10002':
                 return 'user.error.loginUsed';
-            case 20:
+            case '20':
                 return 'user.error.unsupportedType';
-            case 21:
-                return 'user.error.isNotAllowed';
-            case 22:
+            case '21':
+                return 'user.error.requireProject';
+            case '22':
                 return 'user.error.typeCannotBeNull';
-            case 23:
+            case '23':
                 return 'user.error.requestCannotBeNull';
             default:
                 return 'user.error.add';

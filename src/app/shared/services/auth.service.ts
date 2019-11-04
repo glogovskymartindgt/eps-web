@@ -1,13 +1,12 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { Role } from '../enums/role.enum';
-import { ImagesService } from './data/images.service';
 import { NotificationService } from './notification.service';
 import { ProjectEventService } from './storage/project-event.service';
 import { ProjectUserService } from './storage/project-user.service';
-import { UserPhotoService } from './user-photo.service';
 
 @Injectable({
     providedIn: 'root'
@@ -21,24 +20,7 @@ import { UserPhotoService } from './user-photo.service';
                        private readonly notificationService: NotificationService,
                        private readonly router: Router,
                        private readonly projectEventService: ProjectEventService,
-                       private readonly projectUserService: ProjectUserService,
-                       private readonly userPhotoService: UserPhotoService) {
-    }
-
-    /**
-     * Login wrapper function
-     * @param loginName
-     * @param password
-     */
-    public login(loginName: string, password: string) {
-        this.loginBackend(loginName, password);
-    }
-
-    /**
-     * Logout wrapper function
-     */
-    public logout(): void {
-        this.logoutBackend(this.userService.instant.masterToken, this.userService.instant.authToken, this.userService.instant.deviceId);
+                       private readonly projectUserService: ProjectUserService) {
     }
 
     /**
@@ -57,7 +39,7 @@ import { UserPhotoService } from './user-photo.service';
      * @param password
      * @param deviceId
      */
-    private loginBackend(login: string, password: string, deviceId = 'device1'): void {
+    public loginBackend(login: string, password: string, deviceId = 'device1'): void {
         const headers = new HttpHeaders({'Content-Type': 'application/json'});
         const accessDeniedCode = '9002';
 
@@ -85,7 +67,10 @@ import { UserPhotoService } from './user-photo.service';
      * @param authenticationToken
      * @param deviceId
      */
-    private logoutBackend(masterToken: string, authenticationToken: string, deviceId = 'device1'): void {
+    public logoutBackend(): void {
+        const masterToken = this.userService.instant.masterToken;
+        const authenticationToken = this.userService.instant.authToken;
+        const deviceId = this.userService.instant.deviceId ? this.userService.instant.deviceId : 'device1';
         const headers = new HttpHeaders({'Content-Type': 'application/json'});
 
         this.projectEventService.setEventData();
@@ -94,11 +79,10 @@ import { UserPhotoService } from './user-photo.service';
                 authenticationToken,
                 deviceId
             }, {headers})
+            .pipe(finalize(() => this.router.navigate(['authentication/login'])))
             .subscribe((data) => {
                 this.userService.clearUserData();
-                this.router.navigate(['authentication/login']);
             }, (error) => {
-                this.router.navigate(['authentication/login']);
                 this.notificationService.openErrorNotification('error.logout');
             });
     }

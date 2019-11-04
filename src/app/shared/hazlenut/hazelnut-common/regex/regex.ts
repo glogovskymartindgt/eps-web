@@ -44,6 +44,6 @@ export class Regex {
      */
     public static readonly thousandSeparatorOccurrenceWithMaxTwoDecimal = /(?!^)(?=(?:\d{3})+(?:\.|$))/gm;
 
-    public static readonly youtubeLinkPattern = '^http(?:s?):\\/\\/(?:www\\.)?youtu(?:be\\.com\\/watch\\?v=|\\.be\\/)([\\w\\-\\_]*)(&(amp;)?‌ [\\w\\?‌ =]*)?$';
+    public static readonly youtubeLinkPattern = '^((?:http(?:s?):)?\\/\\/)?((?:www|m)\\.)?((?:youtube\\.com|youtu.be))(\\/(?:[\\w\\-]+\\?v=|embed\\/|v\\/)?)([\\w\\-]+)(\\S+)?$';
 
 }

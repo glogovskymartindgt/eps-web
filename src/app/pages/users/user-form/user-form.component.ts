@@ -11,6 +11,7 @@ import { GroupService } from '../../../shared/services/data/group.service';
 import { ImagesService } from '../../../shared/services/data/images.service';
 import { UserDataService } from '../../../shared/services/data/user-data.service';
 import { NotificationService } from '../../../shared/services/notification.service';
+import { AppConstants } from '../../../shared/utils/constants';
 
 @Component({
     selector: 'user-form',
@@ -25,8 +26,9 @@ export class UserFormComponent implements OnInit {
     public hidePassword = true;
     public isUpdate = false;
     public groupList = [];
+    public userGroups = [];
     public projectList = [];
-    public userImageSrc: any = 'assets/img/avatar.svg';
+    public userImageSrc: any = AppConstants.defaultAvatarPath;
     public userPasswordPattern = Regex.userPassword;
     public loginStringPattern = Regex.loginStringPattern;
 
@@ -37,8 +39,7 @@ export class UserFormComponent implements OnInit {
                        private readonly groupService: GroupService,
                        private readonly dashboardService: DashboardService,
                        private readonly authService: AuthService,
-                       private readonly imagesService: ImagesService
-                       ) {
+                       private readonly imagesService: ImagesService) {
     }
 
     public ngOnInit() {
@@ -57,16 +58,11 @@ export class UserFormComponent implements OnInit {
     }
 
     public canEditGroupOption(groupId: number): boolean {
-        // Console.log('checked', this.userForm.controls.groups.value.includes(groupId));
-        // Console.log('!this.hasRoleUnAssignGroup()', !this.hasRoleUnAssignGroup());
-        // Console.log('unchecked', !this.userForm.controls.groups.value.includes(groupId));
-        // Console.log('!this.hasRoleAssignGroup()', !this.hasRoleAssignGroup());
-        // Console.log('anti RESULT',
-        //     (this.userForm.controls.groups.value.includes(groupId) && !this.hasRoleUnAssignGroup()) ||
-        //     (!this.userForm.controls.groups.value.includes(groupId) && !this.hasRoleAssignGroup())
-        // );
-        return !(this.userForm.controls.groups.value.includes(groupId) && !this.hasRoleUnAssignGroup()) ||
-            (!this.userForm.controls.groups.value.includes(groupId) && !this.hasRoleAssignGroup());
+        const haveAssignAndUnAssignRoles = this.hasRoleAssignGroup() && this.hasRoleUnAssignGroup();
+        const checkedAndCantUnAssign = this.userGroups.includes(groupId) && !this.hasRoleUnAssignGroup();
+        const uncheckedAndCantAssign = !this.userGroups.includes(groupId) && !this.hasRoleAssignGroup();
+        return haveAssignAndUnAssignRoles || !(checkedAndCantUnAssign || uncheckedAndCantAssign);
+
     }
 
     private checkIfUpdate() {
@@ -92,17 +88,18 @@ export class UserFormComponent implements OnInit {
         this.userForm.controls.groupIdList.patchValue(user.groupIdList);
         this.userForm.controls.projectIdList.patchValue(user.projectIdList);
         if (user.avatar) {
-                this.imagesService.getImage(user.avatar)
-                    .subscribe((blob) => {
-                        const reader = new FileReader();
-                        reader.onload = (e) => {
-                            this.userImageSrc = reader.result;
-                        };
-                        reader.readAsDataURL(blob);
-                    }, () => {
-                        this.notificationService.openErrorNotification('error.imageDownload');
-                    });
+            this.imagesService.getImage(user.avatar)
+                .subscribe((blob) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        this.userImageSrc = reader.result;
+                    };
+                    reader.readAsDataURL(blob);
+                }, () => {
+                    this.notificationService.openErrorNotification('error.imageDownload');
+                });
         }
+        this.userGroups = user.groupIdList ? user.groupIdList : [];
     }
 
     private getIdFromRouteParamsAndSetDetail(param: any): void {

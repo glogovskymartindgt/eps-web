@@ -17,6 +17,13 @@ import { AppConstants } from '../../../shared/utils/constants';
  */
 export class LoginComponent implements OnInit {
 
+    /**
+     * Getter for login form  controls
+     */
+    public get loginFormControls() {
+        return this.loginForm.controls;
+    }
+
     public hidePassword = true;
     public version = AppConstants.version;
     public loginForm: FormGroup;
@@ -31,6 +38,16 @@ export class LoginComponent implements OnInit {
     }
 
     /**
+     * Call login in API
+     */
+    public login() {
+        if (this.loginForm.invalid) {
+            return;
+        }
+        this.authService.loginBackend(this.loginForm.value.userName, this.loginForm.value.password);
+    }
+
+    /**
      * Default form setup
      */
     private createForm() {
@@ -38,23 +55,6 @@ export class LoginComponent implements OnInit {
             userName: [null, [Validators.required]],
             password: [null, [Validators.required]]
         });
-    }
-
-    /**
-     * Getter for login form  controls
-     */
-    public get loginFormControls() {
-        return this.loginForm.controls;
-    }
-
-    /**
-     * Call login in API
-     */
-    public login() {
-        if (this.loginForm.invalid) {
-            return;
-        }
-        this.authService.login(this.loginForm.value.userName, this.loginForm.value.password);
     }
 
 }

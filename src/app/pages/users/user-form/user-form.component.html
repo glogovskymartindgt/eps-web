@@ -74,7 +74,7 @@
             <div class="long-input">
                 <mat-form-field appearance="fill" class="mt-8 theme-input w-full">
                     <mat-label class="label-style">{{'user.password' | translate}}</mat-label>
-                    <input [required]="isUpdate"
+                    <input [required]="!isUpdate"
                            [type]="hidePassword ? 'password' : 'text'"
                            class="input-style"
                            formControlName="password"
@@ -119,12 +119,11 @@
                 <mat-form-field appearance="fill" class="long-input">
                     <mat-label>{{'user.groups' | translate}}</mat-label>
                     <mat-select formControlName="groupIdList" multiple>
-<!--                     TODO implement logic with roles-->
                         <mat-option *ngFor="let group of groupList"
+                                    [disabled]="!canEditGroupOption(group.id)"
                                     [value]="group.id"
-                                    [disabled]="!hasRoleAssignGroup() && !hasRoleUnAssignGroup()"
                         >
-                            {{group.code}}
+                        {{group.code}} {{this.userGroups.includes(group.id)}} {{this.hasRoleAssignGroup()}} {{this.hasRoleUnAssignGroup()}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>

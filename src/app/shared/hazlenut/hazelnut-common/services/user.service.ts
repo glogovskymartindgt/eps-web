@@ -23,7 +23,7 @@ export abstract class UserService<T extends object> {
     private readonly _instant: T;
     private readonly _subject: Proxify<T>;
 
-    protected constructor(@Inject(ABSTRACT_STORAGE_TOKEN) private readonly storageService: AbstractStorageService) {
+    protected constructor(@Inject(ABSTRACT_STORAGE_TOKEN) private readonly storageService: AbstractStorageService, ) {
         const value = (this.loadData() || {}) as T;
         this._instant = new Proxy<any>(value, {
             get: (target, name: keyof T) => {

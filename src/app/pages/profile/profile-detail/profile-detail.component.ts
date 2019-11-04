@@ -9,7 +9,7 @@ import { ProfileService } from '../../../shared/services/data/profile.service';
 import { UpdateProfileService } from '../../../shared/services/data/update-profile.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectUserService } from '../../../shared/services/storage/project-user.service';
-import { UserPhotoService } from '../../../shared/services/user-photo.service';
+import { AppConstants } from '../../../shared/utils/constants';
 
 @Component({
     selector: 'profile-detail',
@@ -20,7 +20,7 @@ import { UserPhotoService } from '../../../shared/services/user-photo.service';
 export class ProfileDetailComponent implements OnInit {
 
     public profileDetailForm: FormGroup;
-    public imageSrc: any = 'assets/img/avatar.svg';
+    public imageSrc: any = AppConstants.defaultAvatarPath;
     public userPasswordPattern = Regex.userPassword;
     public notOnlyWhiteCharactersPattern = Regex.notOnlyWhiteCharactersPattern;
     public emailPattern = Regex.emailPattern;
@@ -32,7 +32,6 @@ export class ProfileDetailComponent implements OnInit {
                        private readonly profileService: ProfileService,
                        private readonly projectUserService: ProjectUserService,
                        private readonly updateProfileService: UpdateProfileService,
-                       private readonly userPhotoService: UserPhotoService,
                        private readonly location: Location) {
     }
 
@@ -73,7 +72,16 @@ export class ProfileDetailComponent implements OnInit {
         this.updateProfileService.updateProfile(this.projectUserService.instant.userId, profileObject)
             .subscribe(() => {
                 if (profileObject.avatar) {
-                    this.userPhotoService.changePhoto(profileObject.avatar);
+                    this.imagesService.getImage(profileObject.avatar)
+                        .subscribe((blob) => {
+                            const reader = new FileReader();
+                            reader.onload = () => {
+                                this.projectUserService.setProperty('avatar', (reader.result) as string);
+                            };
+                            reader.readAsDataURL(blob);
+                        }, () => {
+                            this.notificationService.openErrorNotification('error.imageDownload');
+                        });
                 }
                 this.location.back();
             }, () => this.notificationService.openErrorNotification('error.profileUpdateFailed'));
@@ -119,7 +127,7 @@ export class ProfileDetailComponent implements OnInit {
         this.profileDetailForm.controls.login.patchValue(projectDetail.login);
         this.profileDetailForm.controls.state.patchValue(projectDetail.state);
         if (!projectDetail.avatar) {
-            this.imageSrc = 'assets/img/avatar.svg';
+            this.imageSrc = AppConstants.defaultAvatarPath;
         } else {
             this.profileDetailForm.controls.avatarUploadId.patchValue(projectDetail.avatar);
             this.imagesService.getImage(projectDetail.avatar)

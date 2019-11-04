@@ -67,7 +67,7 @@ export enum Role {
     RoleCreateUser = 'ROLE_CREATE_USER',
     RoleReadUser = 'ROLE_READ_USER',
     RoleUpdateUser = 'ROLE_UPDATE_USER',
-    RoleAssignGroup = 'ROLE_ASSIGN_GROUP X',
+    RoleAssignGroup = 'ROLE_ASSIGN_GROUP',
     RoleUnassignGroup = 'ROLE_UNASSIGN_GROUP',
     RoleMenuGroup = 'ROLE_MENU_GROUP',
     RoleCreateGroup = 'ROLE_CREATE_GROUP',
