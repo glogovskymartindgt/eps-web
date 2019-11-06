@@ -219,7 +219,9 @@
         "lastName": "Last Name",
         "visible": "Visible user",
         "email": "Email",
-        "state": "Account status"
+        "state": "Account status",
+        "active": "Active",
+        "inactive": "Inactive"
     },
     "profile": {
         "detailTitle": "User Profile",

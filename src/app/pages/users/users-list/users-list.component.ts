@@ -20,7 +20,6 @@ import { TableChangeStorageService } from '../../../shared/services/table-change
 })
 export class UsersListComponent implements OnInit {
     @ViewChild('updateColumn', {static: true}) public updateColumn: TemplateRef<any>;
-    @ViewChild('idColumn', {static: true}) public idColumn: TemplateRef<any>;
     @ViewChild('firstNameColumn', {static: true}) public firstNameColumn: TemplateRef<any>;
     @ViewChild('lastNameColumn', {static: true}) public lastNameColumn: TemplateRef<any>;
     @ViewChild('visibleColumn', {static: true}) public visibleColumn: TemplateRef<any>;
@@ -53,9 +52,11 @@ export class UsersListComponent implements OnInit {
                 new TableColumn({
                     columnDef: 'id',
                     labelKey: 'users.userId',
-                    filter: new TableColumnFilter({}),
-                    type: TableCellType.CONTENT,
-                    tableCellTemplate: this.idColumn,
+                    align: 'right',
+                    type: TableCellType.NUMBER_SIMPLE,
+                    filter: new TableColumnFilter({
+                        type: TableFilterType.NUMBER,
+                    }),
                     sorting: true,
                 }),
                 new TableColumn({
@@ -106,7 +107,8 @@ export class UsersListComponent implements OnInit {
                         type: TableFilterType.SELECT,
                         select: [
                             new ListItem('', null),
-                            new ListItem('ACTIVE', 'Active')
+                            new ListItem('ACTIVE', this.translateService.instant('users.active')),
+                            new ListItem('INACTIVE', this.translateService.instant('users.inactive'))
                         ]
                     }),
                     type: TableCellType.CONTENT,

@@ -77,7 +77,7 @@ export class UserEditComponent implements OnInit {
         if (this.formData.groupIdList && this.formData.groupIdList.length > 0) {
             apiObject.groupIdList = this.formData.groupIdList;
         }
-        if (this.formData.state) {
+        if (this.formData.state !== null) {
             apiObject.state = this.formData.state ? 'ACTIVE' : 'INACTIVE';
         }
         return apiObject;

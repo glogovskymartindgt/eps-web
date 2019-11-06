@@ -40,7 +40,7 @@ export class UserCreateComponent implements OnInit {
             firstName: this.formData.firstName,
             lastName: this.formData.lastName,
             type: this.formData.type,
-            login: this.formData.login,
+            login: this.formData.login.toLowerCase(),
             password: this.formData.password,
         };
         if (this.formData.email) {
