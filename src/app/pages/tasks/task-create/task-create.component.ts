@@ -38,7 +38,6 @@ export class TaskCreateComponent implements OnInit {
         }, (error) => {
             this.notificationService.openErrorNotification('error.add');
         });
-
     }
 
     private transformTaskToApiObject(formObject: any): any {

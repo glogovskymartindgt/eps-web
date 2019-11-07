@@ -11,7 +11,7 @@ import { ProjectUserService } from '../storage/project-user.service';
 })
 export class ProjectsService extends ProjectService<ProjectDetail> {
 
-    public constructor(http: HttpClient, notificationService: NotificationService, userService: ProjectUserService, ) {
+    public constructor(http: HttpClient, notificationService: NotificationService, userService: ProjectUserService,) {
         super(http, 'projects', notificationService, userService);
     }
 
@@ -27,4 +27,9 @@ export class ProjectsService extends ProjectService<ProjectDetail> {
     public editProject(id: number, projectObject: any) {
         return this.update(id, projectObject);
     }
+
+    public createProject(projectObject: any) {
+        return this.add(projectObject);
+    }
+
 }

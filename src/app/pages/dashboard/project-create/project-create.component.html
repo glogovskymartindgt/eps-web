@@ -11,22 +11,22 @@
                 <div fxFlex="100px" fxLayout="column">
                     <div class="short-input">
                         <div class="relative-parent">
-                            <label
-                                   class="logo-container-style"
-                                   for="logo-image"
-                                   fxFlex="100px"
-                                   mat-ripple
+                            <label *ngIf="hasRoleUploadImage()"
+                                class="logo-container-style"
+                                for="logo-image"
+                                fxFlex="100px"
+                                mat-ripple
                             ></label>
                             <input (change)="onLogoInserted($event)"
-                                   
+                                   *ngIf="hasRoleUploadImage()"
                                    accept="image/*"
                                    class="hide-input"
                                    formControlName="logo"
                                    id="logo-image"
                                    type="file"
                             >
-                            <div
-                                 class="logo-content-style logo-content-style-edit"
+                            <div *ngIf="hasRoleUploadImage()"
+                                class="logo-content-style logo-content-style-edit"
                             >
                                 <img [src]="imageSrc"
                                      alt="project logo"
@@ -35,9 +35,9 @@
                                 >
                                 <div class="edit-svg-wrapper">
                                     <img
-                                         [src]="'assets/img/svg-squares/edit.svg'"
-                                         alt="edit"
-                                         class="edit-svg"
+                                        [src]="'assets/img/svg-squares/edit.svg'"
+                                        alt="edit"
+                                        class="edit-svg"
                                     >
                                 </div>
                             </div>
@@ -56,7 +56,7 @@
                         >
                         </haz-core-input>
                     </div>
-                
+                    
                     <div fxLayout="row" fxLayoutGap="10px">
                         <div class="short-input">
                             <haz-core-input [allowedCharactersPattern]="numericPattern"
@@ -71,11 +71,14 @@
                             </haz-core-input>
                         </div>
                     </div>
-                
+                    
                     <div fxLayout="row" fxLayoutGap="10px">
                         <mat-form-field appearance="fill" class="short-input">
                             <mat-label class="label-style">{{ 'project.dateFrom' | translate }}</mat-label>
-                            <input (dateChange)="onDateChanged($event.value)" [matDatepicker]="pickerDateFrom" [max]="projectDetailForm.controls.dateTo.value" formControlName="dateFrom"
+                            <input (dateChange)="onDateChanged($event.value)"
+                                   [matDatepicker]="pickerDateFrom"
+                                   [max]="projectDetailForm.controls.dateTo.value"
+                                   formControlName="dateFrom"
                                    matInput
                             >
                             <mat-datepicker-toggle [for]="pickerDateFrom" matSuffix></mat-datepicker-toggle>
@@ -84,7 +87,10 @@
                         </mat-form-field>
                         <mat-form-field appearance="fill" class="short-input">
                             <mat-label class="label-style">{{ 'project.dateTo' | translate }}</mat-label>
-                            <input (dateChange)="onDateChanged($event.value)" [matDatepicker]="pickerDateTo" [min]="projectDetailForm.controls.dateFrom.value" formControlName="dateTo"
+                            <input (dateChange)="onDateChanged($event.value)"
+                                   [matDatepicker]="pickerDateTo"
+                                   [min]="projectDetailForm.controls.dateFrom.value"
+                                   formControlName="dateTo"
                                    matInput
                             >
                             <mat-datepicker-toggle [for]="pickerDateTo" matSuffix></mat-datepicker-toggle>
@@ -93,7 +99,7 @@
                         </mat-form-field>
                     </div>
                     <div fxLayout="row" fxLayoutGap="10px">
-                    
+                        
                         <mat-form-field appearance="fill" class="short-input">
                             <mat-label class="label-style">{{ 'project.firstCountry' | translate }}</mat-label>
                             <mat-select formControlName="firstCountry">
@@ -103,7 +109,7 @@
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
-                    
+                        
                         <mat-form-field appearance="fill" class="short-input">
                             <mat-label class="label-style">{{ 'project.secondCountry' | translate }}</mat-label>
                             <mat-select formControlName="secondCountry">
@@ -120,7 +126,7 @@
                             </mat-hint>
                         </mat-form-field>
                     </div>
-                
+                    
                     <div fxLayout="row" fxLayoutGap="10px">
                         <div class="short-input">
                             <mat-error *ngIf="projectDetailForm.controls.firstVenue.value
@@ -170,8 +176,8 @@
             </div>
         </form>
         <div [@enterLeave] class="pl-110">
-<!--            [disabled]="!formData || !canSave"-->
             <button (click)="onSave()"
+                    [disabled]="this.projectDetailForm.invalid"
                     class="mr-10"
                     color="accent"
                     mat-flat-button

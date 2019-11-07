@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Role } from '../../../shared/enums/role.enum';
 import { ProjectInterface } from '../../../shared/interfaces/project.interface';
 import { AuthService } from '../../../shared/services/auth.service';
 import { DashboardService } from '../../../shared/services/dashboard.service';
@@ -28,8 +29,7 @@ import { ProjectUserService } from '../../../shared/services/storage/project-use
                        private readonly projectUserService: ProjectUserService,
                        private readonly imagesService: ImagesService,
                        private readonly notificationService: NotificationService,
-                       private readonly router: Router,
-                       ) {
+                       private readonly router: Router, ) {
     }
 
     /**
@@ -46,6 +46,10 @@ import { ProjectUserService } from '../../../shared/services/storage/project-use
 
     public openCreateProjectDetail(): void {
         this.router.navigate(['dashboard/create']);
+    }
+
+    public hasRoleCreateProject(): boolean {
+        return this.authService.hasRole(Role.RoleCreateProject);
     }
 
     /**

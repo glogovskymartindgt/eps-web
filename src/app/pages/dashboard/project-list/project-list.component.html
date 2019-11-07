@@ -1,6 +1,6 @@
 <!--Project components showing basic information about project and logo responsive design on project cards-->
 <div class="wrapper mb-40" fxLayout="row wrap" fxLayoutAlign="start center">
-    <div class="project-card m-13" fxLayout="row" fxLayoutAlign="center center" (click)="openCreateProjectDetail()">
+    <div (click)="openCreateProjectDetail()" *ngIf="hasRoleCreateProject()" class="project-card m-13" fxLayout="row" fxLayoutAlign="center center">
         <div>
             <img
                 [src]="'assets/img/custom-svg/add-project.svg'"

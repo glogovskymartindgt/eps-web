@@ -5,10 +5,13 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 import { Router } from '@angular/router';
 import * as _moment from 'moment';
 import { finalize } from 'rxjs/operators';
+import { Role } from '../../../shared/enums/role.enum';
 import { enterLeave, fadeEnterLeave } from '../../../shared/hazlenut/hazelnut-common/animations';
 import { Regex } from '../../../shared/hazlenut/hazelnut-common/regex/regex';
+import { AuthService } from '../../../shared/services/auth.service';
 import { BusinessAreaService } from '../../../shared/services/data/business-area.service';
 import { ImagesService } from '../../../shared/services/data/images.service';
+import { ProjectsService } from '../../../shared/services/data/projects.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 
 const moment = _moment;
@@ -61,7 +64,9 @@ export class ProjectCreateComponent implements OnInit {
                        private readonly notificationService: NotificationService,
                        private readonly router: Router,
                        private readonly formBuilder: FormBuilder,
-                       private readonly businessAreaService: BusinessAreaService) {
+                       private readonly businessAreaService: BusinessAreaService,
+                       private readonly authService: AuthService,
+                       private readonly projectsService: ProjectsService) {
     }
 
     public ngOnInit(): void {
@@ -70,8 +75,12 @@ export class ProjectCreateComponent implements OnInit {
     }
 
     public onSave(): void {
-        // + add roles
-        console.log(this.projectDetailForm.value);
+        this.projectsService.createProject(this.transformProjectToApiObject()).subscribe(() => {
+            this.notificationService.openSuccessNotification('success.add');
+            this.router.navigate(['dashboard/list']);
+        }, () => {
+            this.notificationService.openErrorNotification('error.add');
+        });
     }
 
     public onCancel(): void {
@@ -119,6 +128,52 @@ export class ProjectCreateComponent implements OnInit {
 
     public onDateChanged(event) {
         this.dateInvalid = true;
+    }
+
+    public hasRoleUploadImage(): boolean {
+        return this.authService.hasRole(Role.RoleUploadImage);
+    }
+
+    private transformProjectToApiObject(): any {
+        const formObject = this.projectDetailForm.value;
+        const apiObject: any = {
+            name: formObject.name,
+            year: formObject.year,
+        };
+        if (formObject.dateFrom) {
+            apiObject.dateFrom = formObject.dateFrom;
+        }
+        if (formObject.dateTo) {
+            apiObject.dateTo = formObject.dateTo;
+        }
+        if (formObject.logoUploadId) {
+            apiObject.logo = formObject.logoUploadId;
+        }
+        if (formObject.firstCountry || formObject.secondCountry) {
+            apiObject.projectVenues = [];
+        }
+        if (formObject.firstCountry) {
+            const firstVenueObject: any = {};
+            firstVenueObject.screenPosition = 1;
+            firstVenueObject.clCountry = {id: formObject.firstCountry};
+            if (formObject.firstVenue) {
+                firstVenueObject.cityName = formObject.firstVenue;
+            }
+            apiObject.projectVenues.push(firstVenueObject);
+        }
+        if (formObject.secondCountry) {
+            const secondVenueObject: any = {};
+            secondVenueObject.screenPosition = 2;
+            secondVenueObject.clCountry = {id: formObject.secondCountry};
+            if (formObject.secondVenue) {
+                secondVenueObject.cityName = formObject.secondVenue;
+            }
+            apiObject.projectVenues.push(secondVenueObject);
+        }
+        if (formObject.description) {
+            apiObject.description = formObject.description;
+        }
+        return apiObject;
     }
 
     private initializeForm(): void {

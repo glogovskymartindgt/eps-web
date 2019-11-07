@@ -30,7 +30,6 @@ export class UserCreateComponent implements OnInit {
                 this.notificationService.openSuccessNotification('success.add');
                 this.router.navigate(['users/list']);
             }, (e) => {
-                console.log('error', this.getTranslationFromErrorCode(e.error.code));
                 this.notificationService.openErrorNotification(this.getTranslationFromErrorCode(e.error.code));
             });
     }
@@ -56,7 +55,6 @@ export class UserCreateComponent implements OnInit {
     }
 
     private getTranslationFromErrorCode(code: string): string {
-        console.log('code', code);
         switch (code) {
             case '10002':
                 return 'user.error.loginUsed';
