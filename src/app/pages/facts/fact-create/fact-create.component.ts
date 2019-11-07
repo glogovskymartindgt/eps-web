@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FactService } from '../../../shared/services/data/fact.service';
 import { NotificationService } from '../../../shared/services/notification.service';
@@ -13,17 +13,14 @@ import { checkAndRemoveLastDotComma } from '../../../shared/utils/removeLastChar
 
 /**
  * Fact create component
- */
-export class FactCreateComponent implements OnInit {
+ */ export class FactCreateComponent implements OnInit {
     public formData = null;
     public loading = false;
 
-    public constructor(
-        private readonly router: Router,
-        private readonly factService: FactService,
-        private readonly notificationService: NotificationService,
-        private readonly projectEventService: ProjectEventService,
-    ) {
+    public constructor(private readonly router: Router,
+                       private readonly factService: FactService,
+                       private readonly notificationService: NotificationService,
+                       private readonly projectEventService: ProjectEventService, ) {
     }
 
     /**
@@ -43,10 +40,11 @@ export class FactCreateComponent implements OnInit {
      * Save fact with formm values and navigate to list component
      */
     public onSave(): void {
-        this.factService.createFact(this.transformTaskToApiObject(this.formData)).subscribe((response) => {
-            this.notificationService.openSuccessNotification('success.add');
-            this.router.navigate(['facts/list']);
-        });
+        this.factService.createFact(this.transformTaskToApiObject(this.formData))
+            .subscribe((response) => {
+                this.notificationService.openSuccessNotification('success.add');
+                this.router.navigate(['facts/list']);
+            });
     }
 
     /**
@@ -57,8 +55,7 @@ export class FactCreateComponent implements OnInit {
         formObject.firstValue = checkAndRemoveLastDotComma(formObject.firstValue);
         formObject.secondValue = checkAndRemoveLastDotComma(formObject.secondValue);
         formObject.totalValue = checkAndRemoveLastDotComma(formObject.totalValue);
-
-        return {
+        const apiObject: any = {
             categoryId: formObject.category,
             subCategoryId: formObject.subCategory,
             valueFirst: formObject.firstValue,
@@ -67,6 +64,10 @@ export class FactCreateComponent implements OnInit {
             totalValue: (formObject.totalValue) ? formObject.totalValue : (+formObject.firstValue + +formObject.secondValue),
             projectId: this.projectEventService.instant.id
         };
+        if (formObject.description) {
+            apiObject.description = formObject.description;
+        }
+        return apiObject;
     }
 
 }

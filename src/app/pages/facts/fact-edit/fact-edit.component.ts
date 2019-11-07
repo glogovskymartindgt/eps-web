@@ -93,12 +93,16 @@ const FACTS_SCREEN = 'facts';
         formObject.firstValue = checkAndRemoveLastDotComma(formObject.firstValue);
         formObject.secondValue = checkAndRemoveLastDotComma(formObject.secondValue);
         formObject.totalValue = checkAndRemoveLastDotComma(formObject.totalValue);
-        return {
+        const apiObject: any = {
             valueFirst: formObject.firstValue,
             valueSecond: formObject.secondValue,
             hasOnlyTotalValue: formObject.hasOnlyTotalValue,
             totalValue: (formObject.totalValue) ? formObject.totalValue : (+formObject.firstValue + +formObject.secondValue),
         };
+        if (formObject.description) {
+            apiObject.description = formObject.description;
+        }
+        return apiObject;
     }
 
 }

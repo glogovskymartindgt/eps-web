@@ -101,4 +101,15 @@
         </haz-core-input>
     </div>
     
+    <div class="long-input">
+        <haz-core-input [label]="'fact.description' | translate"
+                        [type]="'textarea'"
+                        [appearance]="'fill'"
+                        formControlName="description"
+                        class="theme-input"
+                        [maxLength]="4092"
+        >
+        </haz-core-input>
+    </div>
+    
 </form>

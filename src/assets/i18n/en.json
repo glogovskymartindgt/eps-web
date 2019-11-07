@@ -167,6 +167,7 @@
         "year": "Year",
         "firstValue": "First Venue",
         "secondValue": "Second Venue",
+        "description": "Description",
         "unavailable": "This function will become available after you set the project venues."
     },
     "color": {

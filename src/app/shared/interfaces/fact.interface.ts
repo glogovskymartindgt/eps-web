@@ -8,4 +8,5 @@ export interface Fact {
     venue2: string;
     venueValue2: number;
     factItemState: string;
+    description?: string;
 }
