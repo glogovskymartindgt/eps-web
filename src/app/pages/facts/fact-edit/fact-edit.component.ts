@@ -5,7 +5,7 @@ import { AuthService } from '../../../shared/services/auth.service';
 import { FactService } from '../../../shared/services/data/fact.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
-import { checkAndRemoveLastDotComma } from '../../../shared/utils/removeLastChar';
+import { checkAndRemoveLastDotComma } from '../../../shared/utils/remove-last-char';
 import { TaskFormComponent } from '../../tasks/task-form/task-form.component';
 
 const ALL_FACTS_SCREEN = 'all-facts';

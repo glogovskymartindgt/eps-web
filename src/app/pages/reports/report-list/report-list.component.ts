@@ -78,11 +78,15 @@ export class ReportListComponent implements OnInit {
             });
     }
 
-    public allowButtonRedFlagList(): boolean {
+    public checkReportActionByRole(id: number): boolean {
+        return (id === 1 && this.allowButtonToDoList()) || (id === 2 && this.allowButtonRedFlagList());
+    }
+
+    private allowButtonRedFlagList(): boolean {
         return this.hasRoleExportReportRedFlagList() || this.hasRoleExportReportRedFlagListInAssignProject();
     }
 
-    public allowButtonToDoList(): boolean {
+    private allowButtonToDoList(): boolean {
         return this.hasRoleExportReportToDoList() || this.hasRoleExportReportToDoListInAssignProject();
     }
 

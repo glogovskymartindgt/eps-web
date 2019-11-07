@@ -8,9 +8,9 @@ import { StringMap } from '../hazelnut';
 export interface AbstractServiceParams<T> {
     url: string;
     body?: any;
-    mapFunction: (response: any) => T;
     headers?: HttpHeaders;
     params?: HttpParams | { [param: string]: string | string[]; };
+    mapFunction(response: any): T;
 }
 
 /**

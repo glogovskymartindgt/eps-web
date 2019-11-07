@@ -8,8 +8,7 @@ import { Filter } from '../hazlenut/hazelnut-common/models';
 
 /**
  * Store table change events
- */
-export class TableChangeStorageService {
+ */ export class TableChangeStorageService {
     private tasksLastTableChangeEvent: any;
     private factsLastTableChangeEvent: TableChangeEvent;
 
@@ -22,7 +21,7 @@ export class TableChangeStorageService {
      * @param changeEvent
      * @param additionalFilers
      */
-    public setTasksLastTableChangeEvent(changeEvent: TableChangeEvent, additionalFilers: Filter[]) {
+    public setTasksLastTableChangeEvent(changeEvent: TableChangeEvent, additionalFilers: Filter[]): void {
         this.tasksLastTableChangeEvent = {
             ...changeEvent,
             filters: [...changeEvent.filters],
@@ -34,21 +33,24 @@ export class TableChangeStorageService {
      * Store table change event in facts
      * @param changeEvent
      */
-    public setFactsLastTableChangeEvent(changeEvent?: TableChangeEvent) {
-        this.factsLastTableChangeEvent = {...changeEvent, filters: [...changeEvent.filters]};
+    public setFactsLastTableChangeEvent(changeEvent?: TableChangeEvent): void {
+        this.factsLastTableChangeEvent = {
+            ...changeEvent,
+            filters: [...changeEvent.filters]
+        };
     }
 
     /**
      * Get stored tasks table change event
      */
-    public getTasksLastTableChangeEvent() {
+    public getTasksLastTableChangeEvent(): any {
         return this.tasksLastTableChangeEvent;
     }
 
     /**
      * Get stored facts table change event
      */
-    public getFactsLastTableChangeEvent() {
+    public getFactsLastTableChangeEvent(): TableChangeEvent {
         return this.factsLastTableChangeEvent;
     }
 

@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { TestingModule } from '@hazelnut/lib/testing.module';
 
 import { NotificationSnackBarComponent } from './notification-snack-bar.component';
 
@@ -9,13 +8,11 @@ describe('NotificationSnackBarComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [
-                TestingModule,
-            ],
-            declarations: [
-                NotificationSnackBarComponent
-            ],
-        }).compileComponents();
+                   declarations: [
+                       NotificationSnackBarComponent
+                   ],
+               })
+               .compileComponents();
     }));
 
     beforeEach(() => {
@@ -25,6 +22,7 @@ describe('NotificationSnackBarComponent', () => {
     });
 
     it('should create', () => {
-        expect(component).toBeTruthy();
+        expect(component)
+            .toBeTruthy();
     });
 });

@@ -56,7 +56,6 @@ export class ProjectCreateComponent implements OnInit {
     public notOnlyWhiteCharactersPattern = Regex.notOnlyWhiteCharactersPattern;
     public dateInvalid = false;
     public imageSrc: any = this.defaultLogoPath;
-    public dateInvalidClosed = false;
     public countryList = [];
     public countriesLoading = false;
 
@@ -104,18 +103,6 @@ export class ProjectCreateComponent implements OnInit {
                 });
         };
         reader.readAsDataURL(file);
-    }
-
-    public hasError(controlName: string, errorName: string) {
-        return this.projectDetailForm.controls[controlName].hasError(errorName);
-    }
-
-    public isTouched(controlName: string) {
-        return this.projectDetailForm.controls[controlName].touched;
-    }
-
-    public isEmpty(controlName: string) {
-        return !this.projectDetailForm.controls[controlName].value as boolean;
     }
 
     public dateClass = (d: Date) => {

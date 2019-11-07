@@ -9,13 +9,14 @@ describe('SideOptionsComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [
-                TestingModule,
-            ],
-            declarations: [
-                SideOptionsSettingsComponent,
-            ]
-        }).compileComponents();
+                   imports: [
+                       TestingModule,
+                   ],
+                   declarations: [
+                       SideOptionsSettingsComponent,
+                   ]
+               })
+               .compileComponents();
     }));
 
     beforeEach(() => {
@@ -25,6 +26,7 @@ describe('SideOptionsComponent', () => {
     });
 
     it('should create', () => {
-        expect(component).toBeTruthy();
+        expect(component)
+            .toBeTruthy();
     });
 });

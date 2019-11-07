@@ -12,6 +12,7 @@ describe('MenuService', () => {
 
     it('should be created', () => {
         const service: MenuService = TestBed.get(MenuService);
-        expect(service).toBeTruthy();
+        expect(service)
+            .toBeTruthy();
     });
 });

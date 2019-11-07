@@ -1,3 +1,4 @@
+import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -52,7 +53,7 @@ export class FactListComponent implements OnInit {
                        private readonly authService: AuthService) {
     }
 
-    public ngOnInit() {
+    public ngOnInit(): void {
         // Default config for table initialization
         this.config = {
             stickyEnd: 4,
@@ -163,7 +164,7 @@ export class FactListComponent implements OnInit {
     /**
      * Route to create screen of fact
      */
-    public createFact() {
+    public createFact(): void {
         this.router.navigate(['facts/create']);
     }
 
@@ -173,7 +174,7 @@ export class FactListComponent implements OnInit {
      * @param year
      * @param projectId
      */
-    public update(id: number, year: number, projectId: number) {
+    public update(id: number, year: number, projectId: number): void {
         if (this.router.url.includes(ALL_FACTS)) {
             this.router.navigate(['all-facts/edit'], {
                 queryParams: {
@@ -248,7 +249,7 @@ export class FactListComponent implements OnInit {
     public export() {
         this.loading = true;
         this.factService.exportTasks(this.lastTableChangeEvent, this.allTaskFilters, this.projectEventService.instant.id)
-            .subscribe((response) => {
+            .subscribe((response: HttpResponse<any>) => {
                 const contentDisposition = response.headers.get('Content-Disposition');
                 const exportName: string = GetFileNameFromContentDisposition(contentDisposition);
                 new FileManager().saveFile(exportName, response.body, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');

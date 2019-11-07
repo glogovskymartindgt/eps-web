@@ -17,6 +17,12 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
 })
 export class ProjectDetailComponent implements OnInit {
     public formData = null;
+    public firstVenueMaps = null;
+    public secondVenueMaps = null;
+    public firstVenueImages = null;
+    public secondVenueImages = null;
+    public firstVenueDocuments = null;
+    public secondVenueDocuments = null;
     public canSave = true;
     public editMode = false;
     public refreshSubject: Subject<any> = new Subject();
@@ -103,13 +109,36 @@ export class ProjectDetailComponent implements OnInit {
             if (formObject.firstVenue) {
                 firstVenueObject.cityName = formObject.firstVenue;
             }
-            if (formObject.firstVenue && formObject.firstMapUploadId) {
-                firstVenueObject.attachment = {
-                    fileName: formObject.firstMapUploadName,
-                    filePath: formObject.firstMapUploadId,
+            firstVenueObject.attachments = [];
+            if(this.firstVenueMaps && this.firstVenueMaps.names.length > 0){
+                for (var i = 0; i < this.firstVenueMaps.names.length; i++) {
+                    firstVenueObject.attachments.push({
+                    fileName: this.firstVenueMaps.names[i],
+                    filePath: this.firstVenueMaps.paths[i],
                     type: AttachmentType.Map,
                     format: AttachmentFormat.Pdf
-                };
+                    });
+                }
+            }
+            if(this.firstVenueImages && this.firstVenueImages.names.length > 0){
+                for (var i = 0; i < this.firstVenueImages.names.length; i++) {
+                    firstVenueObject.attachments.push({
+                    fileName: this.firstVenueImages.names[i],
+                    filePath: this.firstVenueImages.paths[i],
+                    type: AttachmentType.Image,
+                    format: this.firstVenueImages.paths[i].substr(this.firstVenueImages.paths[i].lastIndexOf(".") + 1).toUpperCase()
+                    });
+                }
+            }
+            if(this.firstVenueDocuments && this.firstVenueDocuments.names.length > 0){
+                for (var i = 0; i < this.firstVenueDocuments.names.length; i++) {
+                    firstVenueObject.attachments.push({
+                    fileName: this.firstVenueDocuments.names[i],
+                    filePath: this.firstVenueDocuments.paths[i],
+                    type: AttachmentType.Document,
+                    format: this.firstVenueDocuments.paths[i].substr(this.firstVenueDocuments.paths[i].lastIndexOf(".") + 1).toUpperCase()
+                    });
+                }
             }
             apiObject.projectVenues.push(firstVenueObject);
         }
@@ -120,13 +149,36 @@ export class ProjectDetailComponent implements OnInit {
             if (formObject.secondVenue) {
                 secondVenueObject.cityName = formObject.secondVenue;
             }
-            if (formObject.secondVenue && formObject.secondMapUploadId) {
-                secondVenueObject.attachment = {
-                    fileName: formObject.secondMapUploadName,
-                    filePath: formObject.secondMapUploadId,
+            secondVenueObject.attachments = [];
+            if(this.secondVenueMaps.names.length > 0){
+                for (var i = 0; i < this.secondVenueMaps.names.length; i++) {
+                    secondVenueObject.attachments.push({
+                    fileName: this.secondVenueMaps.names[i],
+                    filePath: this.secondVenueMaps.paths[i],
                     type: AttachmentType.Map,
                     format: AttachmentFormat.Pdf
-                };
+                    });
+                }
+            }
+            if(this.secondVenueImages && this.secondVenueImages.names.length > 0){
+                for (var i = 0; i < this.secondVenueImages.names.length; i++) {
+                    secondVenueObject.attachments.push({
+                    fileName: this.secondVenueImages.names[i],
+                    filePath: this.secondVenueImages.paths[i],
+                    type: AttachmentType.Image,
+                    format: this.secondVenueImages.paths[i].substr(this.secondVenueImages.paths[i].lastIndexOf(".") + 1).toUpperCase()
+                    });
+                }
+            }
+            if(this.secondVenueDocuments && this.secondVenueDocuments.names.length > 0){
+                for (var i = 0; i < this.secondVenueDocuments.names.length; i++) {
+                    secondVenueObject.attachments.push({
+                    fileName: this.secondVenueDocuments.names[i],
+                    filePath: this.secondVenueDocuments.paths[i],
+                    type: AttachmentType.Document,
+                    format: this.secondVenueDocuments.paths[i].substr(this.secondVenueDocuments.paths[i].lastIndexOf(".") + 1).toUpperCase()
+                    });
+                }
             }
             apiObject.projectVenues.push(secondVenueObject);
         }

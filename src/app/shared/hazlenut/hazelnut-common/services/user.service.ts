@@ -1,7 +1,6 @@
 import { Inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { isNullOrUndefined } from 'util';
 import { ABSTRACT_STORAGE_TOKEN, AbstractStorageService } from './abstract-storage.service';
 
 type Proxify<T> = {
@@ -9,14 +8,6 @@ type Proxify<T> = {
 };
 
 export abstract class UserService<T extends object> {
-
-    public get instant(): T {
-        return this._instant;
-    }
-
-    public get subject(): Proxify<T> {
-        return this._subject;
-    }
 
     public login: string;
     private readonly _behaviorSubject: BehaviorSubject<T>;
@@ -44,6 +35,14 @@ export abstract class UserService<T extends object> {
         this._behaviorSubject = new BehaviorSubject<T>(value);
     }
 
+    public get instant(): T {
+        return this._instant;
+    }
+
+    public get subject(): Proxify<T> {
+        return this._subject;
+    }
+
     public setProperty(key: keyof T, value: any): T {
         const newValue: T = {...this._behaviorSubject.value as any};
         newValue[key] = value;
@@ -68,7 +67,7 @@ export abstract class UserService<T extends object> {
      * when user refreshes the page, 'lastUser' is used
      */
     private loadData(): T {
-        if ((!isNullOrUndefined(localStorage.getItem('lastUser')))) {
+        if ((!(localStorage.getItem('lastUser') === null || localStorage.getItem('lastUser') === undefined))) {
             this.login = localStorage.getItem('lastUser');
         }
         return this.storageService.getObjectItem(this.login) as T;

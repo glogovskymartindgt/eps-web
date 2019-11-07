@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 
 export class TimeUtils {
-    // convert time from HH:mm:ss to HH:mm
+    // Convert time from HH:mm:ss to HH:mm
     public static formatTime(time: string): string {
         const splitTime = time.split(':');
         if (splitTime.length >= 2) {
@@ -12,7 +12,7 @@ export class TimeUtils {
     }
 
     public static getDurationInMinutes(from: string, to: string): number {
-        // format HH:mm:ss
+        // Format HH:mm:ss
         const fromDate = moment('1970-01-01T' + from);
         const toDate = moment('1970-01-01T' + to);
 
@@ -28,11 +28,13 @@ export class TimeUtils {
     }
 
     public static getDateShort(date: Date): string {
-        return moment(date).format('YYYY-MM-DD');
+        return moment(date)
+            .format('YYYY-MM-DD');
     }
 
     public static formatDateAndTime(date: Date): string {
-        return moment(date).format('YYYY-MM-DD[T]HH:mm:ss');
+        return moment(date)
+            .format('YYYY-MM-DD[T]HH:mm:ss');
     }
 
     public static formatDateUTC(date: Date): string {
@@ -40,7 +42,9 @@ export class TimeUtils {
             return '';
         }
 
-        return moment(date).utc().format();
+        return moment(date)
+            .utc()
+            .format();
 
     }
 
@@ -49,7 +53,8 @@ export class TimeUtils {
             return NaN;
         }
 
-        return moment('2000-01-01T' + time).valueOf();
+        return moment('2000-01-01T' + time)
+            .valueOf();
     }
 
     public static getStartOfTheDay(date: Date): Date {
@@ -57,7 +62,9 @@ export class TimeUtils {
             return new Date('');
         }
 
-        return moment(date).startOf('day').toDate();
+        return moment(date)
+            .startOf('day')
+            .toDate();
     }
 
     public static getEndOfTheDay(date: Date): Date {
@@ -65,14 +72,18 @@ export class TimeUtils {
             return new Date('');
         }
 
-        return moment(date).endOf('day').toDate();
+        return moment(date)
+            .endOf('day')
+            .toDate();
     }
 
     public static formatDate(date: Date): string {
-        return moment(date).format();
+        return moment(date)
+            .format();
     }
 
     public static getTimeFromDate(date: Date): string {
-        return moment(date).format('HH:mm');
+        return moment(date)
+            .format('HH:mm');
     }
 }

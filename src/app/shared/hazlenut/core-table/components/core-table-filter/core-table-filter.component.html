@@ -22,7 +22,7 @@
     
     <mat-form-field *ngSwitchCase="filterTypeEnum.SELECT" [ngClass]="widthClass">
         <mat-select [formControlName]="columnConfig.filterElement">
-            <mat-option *ngFor="let option of columnConfig.filter.select" [value]="option.code | async">
+            <mat-option *ngFor="let option of columnConfig.filter.select; trackBy:trackListItemByCode" [value]="option.code | async">
                 {{ option.value | async }}
             </mat-option>
         </mat-select>
@@ -33,7 +33,7 @@
             <mat-option [value]="'All'">
                 {{ 'all.persons' | translate }}
             </mat-option>
-            <mat-option *ngFor="let option of userList$ | async" [value]="option.id">
+            <mat-option *ngFor="let option of userList$ | async; trackBy:trackUserById" [value]="option.id">
                 {{ option.firstName }} {{ option.lastName }}
             </mat-option>
         </mat-select>
@@ -44,7 +44,7 @@
             <mat-option [value]="'All'">
                 {{ 'venue.value.all' | translate }}
             </mat-option>
-            <mat-option *ngFor="let option of categoryList$" [value]="option.name">
+            <mat-option *ngFor="let option of categoryList$; trackBy:trackCategoryById" [value]="option.name">
                 {{ option.name }}
             </mat-option>
         </mat-select>
@@ -52,7 +52,7 @@
     
     <mat-form-field *ngSwitchCase="filterTypeEnum.TYPE" [ngClass]="widthClass">
         <mat-select [formControlName]="columnConfig.filterElement">
-            <mat-option *ngFor="let option of columnConfig.filter.select" [value]="option.code | async">
+            <mat-option *ngFor="let option of columnConfig.filter.select; trackBy:trackListItemByCode" [value]="option.code | async">
                 {{ option.value | async }}
             </mat-option>
         </mat-select>
@@ -60,7 +60,7 @@
     
     <mat-form-field *ngSwitchCase="filterTypeEnum.SELECT_STRING" [ngClass]="widthClass">
         <mat-select [formControlName]="columnConfig.filterElement">
-            <mat-option *ngFor="let option of columnConfig.filter.select" [value]="option.code | async">
+            <mat-option *ngFor="let option of columnConfig.filter.select; trackBy:trackListItemByCode" [value]="option.code | async">
                 {{ option.value | async }}
             </mat-option>
         </mat-select>
@@ -70,7 +70,7 @@
                     [ngClass]="widthClass"
     >
         <mat-select [formControlName]="columnConfig.filterElement">
-            <mat-option *ngFor="let option of columnConfig.filter.select" [value]="option.value">
+            <mat-option *ngFor="let option of columnConfig.filter.select; trackBy:trackListItemByCode" [value]="option.value">
                 {{ option.code | async }}
             </mat-option>
         </mat-select>
@@ -80,7 +80,7 @@
                     [ngClass]="widthClass"
     >
         <mat-select [formControlName]="columnConfig.filterElement">
-            <mat-option *ngFor="let option of columnConfig.filter.select" [value]="option.code | async">
+            <mat-option *ngFor="let option of columnConfig.filter.select; trackBy:trackListItemByCode" [value]="option.code | async">
                 {{ option.value | async }}
             </mat-option>
         </mat-select>

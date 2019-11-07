@@ -77,13 +77,14 @@ export class FactService extends ProjectService<Fact> {
         return this.update(id, taskObject);
     }
 
-
     /**
-     * Report task objects into report file and download from API
-     * @param tableChangeEvent
-     * @param additionalFilters
+     *  Report task objects into report file and download from API
+     * @param {TableChangeEvent} tableChangeEvent
+     * @param {Filter[]} additionalFilters
+     * @param {number} projectId
+     * @returns {any}
      */
-    public exportTasks(tableChangeEvent?: TableChangeEvent, additionalFilters?: Filter[], projectId?: number) {
+    public exportTasks(tableChangeEvent?: TableChangeEvent, additionalFilters?: Filter[], projectId?: number): any {
         let filters = [];
         let sort = [];
         if (tableChangeEvent && tableChangeEvent.sortActive && tableChangeEvent.sortDirection) {
@@ -100,25 +101,23 @@ export class FactService extends ProjectService<Fact> {
      * Reorder filters with conditiona that traffic light filters are first
      * @param filters
      */
-    private reorderFiltersToApplyCorectTrafficColor(filters) {
+    private reorderFiltersToApplyCorectTrafficColor(filters): any {
         return filters.sort(this.compare);
     }
 
-
     /**
      * Compare sort function with traffic light property preselection
-     * @param a
-     * @param b
+     * @param firstValue
+     * @param secondValue
      */
-    private compare(a, b) {
-        if (a.property === 'TRAFFIC_LIGHT') {
+    private compare(firstValue, secondValue): number {
+        if (firstValue.property === 'TRAFFIC_LIGHT') {
             return -1;
         }
-        if (a.property !== 'TRAFFIC_LIGHT') {
+        if (firstValue.property !== 'TRAFFIC_LIGHT') {
             return 1;
         }
         return 0;
     }
-
 
 }

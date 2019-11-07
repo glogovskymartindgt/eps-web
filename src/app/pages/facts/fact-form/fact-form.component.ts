@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 import { finalize } from 'rxjs/operators';
-import { isNullOrUndefined } from 'util';
 import { enterLeaveSmooth } from '../../../shared/hazlenut/hazelnut-common/animations';
 import { Regex } from '../../../shared/hazlenut/hazelnut-common/regex/regex';
 import { Category } from '../../../shared/interfaces/category.interface';
@@ -105,7 +104,7 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
         // Subcategory input listener
         this.factForm.controls.subCategory.valueChanges.subscribe((value) => {
             const subcategory = this.subCategories.find((subCategory) => subCategory.id === value);
-            if (!isNullOrUndefined(subcategory)) {
+            if (!(subcategory === null || subcategory === undefined)) {
                 this.actualUnitShortName = subcategory.unitShortName;
             }
         });
@@ -257,24 +256,22 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
                 Validators.required
             ],
             firstValue: [
-                !isNullOrUndefined(fact.valueFirst) ? this.pipe.transform(fact.valueFirst.toString(), ',') : '',
+                !(fact.valueFirst === null || fact.valueFirst === undefined) ? this.pipe.transform(fact.valueFirst.toString(), ',') : '',
                 Validators.required
             ],
             secondValue: [
-                !isNullOrUndefined(fact.valueSecond) ? this.pipe.transform(fact.valueSecond.toString(), ',') : '',
+                !(fact.valueSecond === null || fact.valueSecond === undefined) ? this.pipe.transform(fact.valueSecond.toString(), ',') : '',
                 Validators.required
             ],
             hasOnlyTotalValue: [fact.hasOnlyTotalValue],
             totalValue: [
-                !isNullOrUndefined(fact.totalValue) ?
-                this.pipe.transform(parseFloat(fact.totalValue)
+                !(fact.totalValue === null || fact.totalValue === undefined) ? this.pipe.transform(parseFloat(fact.totalValue)
                     .toFixed(2)
-                    .toString(), ',') :
-                ''
+                    .toString(), ',') : ''
             ],
             changedAt: [fact.changedAt ? this.formatDateTime(new Date(fact.changedAt)) : ''],
             changedBy: [hasChangedBy ? `${fact.changedBy.firstName} ${fact.changedBy.lastName}` : ''],
-            description : fact.description ? fact.description : ''
+            description: fact.description ? fact.description : ''
         });
 
         this.factForm.controls.firstValue.valueChanges.subscribe((value) => {
@@ -337,14 +334,11 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
      * @param value
      */
     private transformNumberValue(formValue: any, value: any) {
-        return formValue ?
-               (+value.replace(',', '.')
-                      .replace(' ', '') +
-                   parseFloat(formValue.replace(',', '.')
-                                       .replace(' ', '')))
-                   .toFixed(2) :
-               +value.replace(',', '.')
-                     .replace(' ', '');
+        return formValue ? (+value.replace(',', '.')
+                                  .replace(' ', '') + parseFloat(formValue.replace(',', '.')
+                                                                          .replace(' ', '')))
+            .toFixed(2) : +value.replace(',', '.')
+                                .replace(' ', '');
     }
 
 }

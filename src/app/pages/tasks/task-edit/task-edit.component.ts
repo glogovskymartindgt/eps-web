@@ -57,11 +57,11 @@ export class TaskEditComponent implements OnInit {
         });
     }
 
-    public onCancel() {
+    public onCancel(): void {
         this.router.navigate(['tasks/list']);
     }
 
-    public onSave() {
+    public onSave(): void {
         if (this.formData) {
             this.taskService.editTask(this.taskId, this.transformTaskToApiObject(this.formData))
                 .subscribe(() => {
@@ -73,19 +73,20 @@ export class TaskEditComponent implements OnInit {
         }
     }
 
-    public  onCommentAdded() {
+    public onCommentAdded(): void {
         if (this.addCommentForm.invalid) {
             return;
         }
         const comment = this.addCommentForm.value.newComment.toString();
-        if (RegExp(Regex.youtubeLinkPattern).test(comment)) {
+        if (RegExp(Regex.youtubeLinkPattern)
+            .test(comment)) {
             this.sendUrlMessage(comment);
         } else {
             this.sendTextMessage(comment);
         }
     }
 
-    public onAttachmentAdded() {
+    public onAttachmentAdded(): void {
         const taskComment: TaskComment = {
             description: '',
             taskId: this.taskId,
@@ -101,7 +102,7 @@ export class TaskEditComponent implements OnInit {
         this.onSendCommentService(taskComment);
     }
 
-    public onSendCommentService(taskComment) {
+    public onSendCommentService(taskComment): void {
         this.loading = true;
         this.taskCommentService.addComment(taskComment)
             .pipe(finalize(() => this.loading = false))
@@ -113,29 +114,31 @@ export class TaskEditComponent implements OnInit {
             });
     }
 
-    public getAllComments() {
+    public getAllComments(): void {
         this.loading = true;
         this.taskCommentService.getAllComment(this.taskId)
             .pipe(tap(() => this.loading = false))
             .subscribe((comments: TaskCommentResponse[]) => {
-                this.comments = [...comments].sort((a, b) => (a.created > b.created) ? 1 : -1).reverse();
+                this.comments = [...comments].sort((a, b) => (a.created > b.created) ? 1 : -1)
+                                             .reverse();
             }, () => {
                 this.notificationService.openErrorNotification('error.loadComments');
             });
 
     }
 
-    public hasRoleUploadImage() {
+    public hasRoleUploadImage(): boolean {
         return this.authService.hasRole(Role.RoleUploadImage);
     }
 
-    public formDataChange($event) {
+    public formDataChange($event): void {
+        const formChangeTimeout = 200;
         setTimeout(() => {
             this.formData = $event;
-        }, 200);
+        }, formChangeTimeout);
     }
 
-    public onFileChange(event) {
+    public onFileChange(event): void {
         const file = event.target.files[0];
         if (!file) {
             return;
@@ -143,7 +146,7 @@ export class TaskEditComponent implements OnInit {
         const reader = new FileReader();
         reader.onload = () => {
             this.imagesService.uploadImages([file])
-                .subscribe((data) => {
+                .subscribe((data: any) => {
                     this.attachmentFormat = file.name.split('.')
                                                 .pop()
                                                 .toUpperCase();
@@ -172,7 +175,11 @@ export class TaskEditComponent implements OnInit {
         return this.hasRoleCreateComment() || this.hasRoleCreateCommentInAssignProject();
     }
 
-    private sendTextMessage(comment: string) {
+    public trackCommentById(index: number, item: TaskCommentResponse): any {
+        return item.id;
+    }
+
+    private sendTextMessage(comment: string): void {
         const taskComment: TaskComment = {
             description: comment,
             taskId: this.taskId,
@@ -181,7 +188,7 @@ export class TaskEditComponent implements OnInit {
         this.onSendCommentService(taskComment);
     }
 
-    private sendUrlMessage(comment: string) {
+    private sendUrlMessage(comment: string): void {
         const taskComment: TaskComment = {
             description: comment,
             taskId: this.taskId,
@@ -229,6 +236,7 @@ export class TaskEditComponent implements OnInit {
         if (formObject.trafficLight !== '') {
             apiObject.trafficLight = formObject.trafficLight;
         }
+
         return apiObject;
     }
 

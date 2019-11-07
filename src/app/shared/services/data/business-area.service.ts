@@ -9,6 +9,7 @@ import { BusinessArea } from '../../interfaces/bussiness-area.interface';
 import { Category } from '../../interfaces/category.interface';
 import { SourceOfAgenda } from '../../interfaces/source-of-agenda.interface';
 import { SubCategory } from '../../interfaces/subcategory.interface';
+import { Country } from '../../models/country.model';
 import { NotificationService } from '../notification.service';
 import { ProjectService } from '../project.service';
 import { ProjectEventService } from '../storage/project-event.service';
@@ -74,8 +75,7 @@ export class BusinessAreaService extends ProjectService<BusinessArea> {
     /**
      * Get list of source of agenda objects by code value 'COUNTRY'
      */
-    // TODO: create type and check active
-    public listCountries(): Observable<BrowseResponse<any>> {
+    public listCountries(): Observable<BrowseResponse<Country>> {
         return this.getListByCode('COUNTRY');
     }
 
@@ -100,7 +100,7 @@ export class BusinessAreaService extends ProjectService<BusinessArea> {
      * Browse list of objects from code list by code value
      * @param code
      */
-    private getListByCode(code: string): Observable<BrowseResponse<any>>{
+    private getListByCode(code: string): Observable<BrowseResponse<any>> {
         return this.browseWithSummary(
             PostContent.create(100, 0, [new Filter('CODE', code)], [])
         );

@@ -4,6 +4,7 @@ import { MatPaginator, MatSort } from '@angular/material';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Error } from 'tslint/lib/error';
+import { BusinessArea } from '../../../interfaces/bussiness-area.interface';
 import { detailExpand } from '../../hazelnut-common/animations';
 import { MiscUtils } from '../../hazelnut-common/hazelnut';
 import { TRANSLATE_WRAPPER_TOKEN, TranslateWrapper } from '../../hazelnut-common/interfaces';
@@ -30,28 +31,6 @@ const DEFAULT_NO_DATA_KEY = 'common.noData';
     providers: [CoreTableService],
 })
 export class CoreTableComponent<T = any> implements OnInit, OnChanges, OnDestroy {
-    public toggle = true;
-
-    @Input() public configuration: TableConfiguration = new TableConfiguration();
-    @Input() public data: TableResponse<T>;
-
-    @Output() public readonly requestData: EventEmitter<TableChangeEvent> = new EventEmitter<TableChangeEvent>(true);
-    @Output() public readonly selectionChange: EventEmitter<any[]> = new EventEmitter<any[]>(true);
-    @Output() public readonly rowClick: EventEmitter<T> = new EventEmitter<T>(true);
-
-    @ViewChild(MatPaginator, {static: true}) public paginator: MatPaginator;
-    @ViewChild(MatSort, {static: true}) public sort: MatSort;
-    @ViewChildren(CoreTableFilterComponent) public filtersElementHolder: QueryList<CoreTableFilterComponent>;
-    @ViewChildren(ExpandedDetailDirective) public expandedDetailHosts: QueryList<ExpandedDetailDirective>;
-
-    public readonly filters: FilterMap = {};
-    public selection: SelectionModel<any>;
-    public selectedRow: T;
-
-    public constructor(@Inject(TRANSLATE_WRAPPER_TOKEN) private readonly translateWrapperService: TranslateWrapper,
-                       @Inject(NOTIFICATION_WRAPPER_TOKEN) private readonly notificationService: NotificationWrapper,
-                       private readonly coreTableService: CoreTableService, ) {
-    }
 
     public get filtersRowDisplayed(): boolean {
         return this.configuration && this.configuration.columns && this.anyFilter;
@@ -83,6 +62,28 @@ export class CoreTableComponent<T = any> implements OnInit, OnChanges, OnDestroy
         }
 
         return this.configuration.pageSizeOptions && this.data.totalElements < this.configuration.pageSizeOptions[0];
+    }
+    public toggle = true;
+
+    @Input() public configuration: TableConfiguration = new TableConfiguration();
+    @Input() public data: TableResponse<T>;
+
+    @Output() public readonly requestData: EventEmitter<TableChangeEvent> = new EventEmitter<TableChangeEvent>(true);
+    @Output() public readonly selectionChange: EventEmitter<any[]> = new EventEmitter<any[]>(true);
+    @Output() public readonly rowClick: EventEmitter<T> = new EventEmitter<T>(true);
+
+    @ViewChild(MatPaginator, {static: true}) public paginator: MatPaginator;
+    @ViewChild(MatSort, {static: true}) public sort: MatSort;
+    @ViewChildren(CoreTableFilterComponent) public filtersElementHolder: QueryList<CoreTableFilterComponent>;
+    @ViewChildren(ExpandedDetailDirective) public expandedDetailHosts: QueryList<ExpandedDetailDirective>;
+
+    public readonly filters: FilterMap = {};
+    public selection: SelectionModel<any>;
+    public selectedRow: T;
+
+    public constructor(@Inject(TRANSLATE_WRAPPER_TOKEN) private readonly translateWrapperService: TranslateWrapper,
+                       @Inject(NOTIFICATION_WRAPPER_TOKEN) private readonly notificationService: NotificationWrapper,
+                       private readonly coreTableService: CoreTableService, ) {
     }
 
     public ngOnDestroy(): void {
@@ -218,6 +219,10 @@ export class CoreTableComponent<T = any> implements OnInit, OnChanges, OnDestroy
         if (guard) {
             this.filtersElementHolder.forEach((filter) => filter.filtersElement.reset());
         }
+    }
+
+    public trackColumnConfigByColumnDef(index: number, item: TableColumn): any {
+        return item.columnDef;
     }
 
     private emitRequestParameters(changeEvent: TableChangeEvent): void {

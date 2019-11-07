@@ -11,11 +11,13 @@ import { PipesModule } from '../../shared/pipes/pipes.module';
 import { ProjectDetailFormComponent } from './project-detail-form/project-detail-form.component';
 import { ProjectDetailComponent } from './project-detail/project-detail.component';
 import { ProjectRoutingModule } from './project-routing.module';
+import { ProjectFilePlaceholderComponent } from './project-file-placeholder/project-file-placeholder.component';
 
 @NgModule({
     declarations: [
         ProjectDetailComponent,
-        ProjectDetailFormComponent
+        ProjectDetailFormComponent,
+        ProjectFilePlaceholderComponent
     ],
     imports: [
         CommonModule,

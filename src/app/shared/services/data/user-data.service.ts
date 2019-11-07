@@ -17,7 +17,7 @@ import { ProjectUserService } from '../storage/project-user.service';
  * Fact service communicating with 'user' API url
  */ export class UserDataService extends ProjectService<any> {
 
-    public constructor(http: HttpClient, notificationService: NotificationService, userService: ProjectUserService, ) {
+    public constructor(http: HttpClient, notificationService: NotificationService, userService: ProjectUserService,) {
         super(http, 'user', notificationService, userService);
     }
 
@@ -57,6 +57,7 @@ import { ProjectUserService } from '../storage/project-user.service';
                 ];
             }
         }
+
         return this.browseWithSummary(PostContent.create(limit, offset, filters, sort));
     }
 

@@ -2,7 +2,7 @@ import { AfterViewChecked, ChangeDetectorRef, Component, forwardRef, Inject, Inp
 import { AbstractControl, ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 import { MatFormFieldAppearance } from '@angular/material';
 import { debounceTime, tap } from 'rxjs/operators';
-import { checkAndRemoveLastDotComma } from '../../../utils/removeLastChar';
+import { checkAndRemoveLastDotComma } from '../../../utils/remove-last-char';
 import { TRANSLATE_WRAPPER_TOKEN, TranslateWrapper } from '../../hazelnut-common/interfaces/translate.interface';
 import { InputUtils } from '../../hazelnut-common/utils/input-utils';
 import { ValidatorComposer } from '../validator-composer';

@@ -9,7 +9,7 @@
            [matSortDirection]="configuration.predefinedSortDirection ? configuration.predefinedSortDirection : null">
         <!--header cells sticky-->
         <div *ngIf="configuration.stickyEnd">
-            <div *ngFor="let columnConfig of configuration.columns; let i = index">
+            <div *ngFor="let columnConfig of configuration.columns; let i = index; trackBy:trackColumnConfigByColumnDef">
                 <ng-container *ngIf="i>configuration.stickyEnd"
                               [matColumnDef]="columnConfig.columnDef" stickyEnd>
                     <!-- header cell -->
@@ -109,7 +109,7 @@
 
         <!--header cells-->
         <div *ngIf="!configuration.stickyEnd">
-            <ng-container *ngFor="let columnConfig of configuration.columns; let i = index"
+            <ng-container *ngFor="let columnConfig of configuration.columns; let i = index; trackBy:trackColumnConfigByColumnDef"
                           [matColumnDef]="columnConfig.columnDef">
                 <!-- header cell -->
 
@@ -161,7 +161,7 @@
         <!--filter row cell-->
 
         <div *ngIf="configuration.stickyEnd">
-            <div *ngFor="let columnConfig of configuration.columns; let i = index">
+            <div *ngFor="let columnConfig of configuration.columns; let i = index; trackBy:trackColumnConfigByColumnDef">
                 <ng-container *ngIf="i>configuration.stickyEnd"
                               [matColumnDef]="columnConfig.filterElement"
                               stickyEnd>
@@ -184,7 +184,7 @@
         </div>
 
         <div *ngIf="!configuration.stickyEnd">
-            <ng-container *ngFor="let columnConfig of configuration.columns; let i = index"
+            <ng-container *ngFor="let columnConfig of configuration.columns; let i = index; trackBy:trackColumnConfigByColumnDef"
                           [matColumnDef]="columnConfig.filterElement">
                 <th *matHeaderCellDef mat-header-cell>
                     <haz-core-table-filter *ngIf="columnConfig.filter" [columnConfig]="columnConfig"
@@ -207,7 +207,7 @@
 
         <!--  header row -->
         <tr *matHeaderRowDef="displayedColumns; sticky: true"
-            [ngClass]="{ headerColor: configuration.headerColor, 'last-header-row': !anyFilter }"
+            [ngClass]="{ 'last-header-row': !anyFilter }"
             class=" p-0 m-0 first-header-row"
             mat-header-row
         ></tr>

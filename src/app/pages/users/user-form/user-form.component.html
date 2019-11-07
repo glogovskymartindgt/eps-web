@@ -119,7 +119,7 @@
                 <mat-form-field appearance="fill" class="long-input">
                     <mat-label>{{'user.groups' | translate}}</mat-label>
                     <mat-select formControlName="groupIdList" multiple>
-                        <mat-option *ngFor="let group of groupList"
+                        <mat-option *ngFor="let group of groupList; trackBy:trackGroupIdBySelf"
                                     [disabled]="!canEditGroupOption(group.id)"
                                     [value]="group.id"
                         >
@@ -133,7 +133,9 @@
                 <mat-form-field appearance="fill" class="long-input">
                     <mat-label>{{'user.projects' | translate}}</mat-label>
                     <mat-select formControlName="projectIdList" multiple>
-                        <mat-option *ngFor="let project of projectList" [value]="project.id">{{project.year}} {{project.name}}</mat-option>
+                        <mat-option *ngFor="let project of projectList;trackBy:trackProjectById" [value]="project.id">
+                            {{project.year}} {{project.name}}
+                        </mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
