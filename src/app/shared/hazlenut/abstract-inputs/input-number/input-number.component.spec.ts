@@ -9,13 +9,14 @@ describe('InputNumberComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [
-                TestingModule
-            ],
-            declarations: [
-                InputNumberComponent
-            ]
-        }).compileComponents();
+                   imports: [
+                       TestingModule
+                   ],
+                   declarations: [
+                       InputNumberComponent
+                   ]
+               })
+               .compileComponents();
     }));
 
     beforeEach(() => {
@@ -25,6 +26,7 @@ describe('InputNumberComponent', () => {
     });
 
     it('should create', () => {
-        expect(component).toBeTruthy();
+        expect(component)
+            .toBeTruthy();
     });
 });

@@ -5,7 +5,6 @@ import { Venue } from '../../../shared/interfaces/venue.interface';
 import { Project } from '../../../shared/models/project.model';
 import { DashboardService } from '../../../shared/services/dashboard.service';
 import { ImagesService } from '../../../shared/services/data/images.service';
-import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 
 @Component({
@@ -15,9 +14,7 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
     animations: [fadeEnterLeave]
 })
 
-/**
- * Project card component with logo data
- */ export class ProjectCardComponent implements OnInit {
+export class ProjectCardComponent implements OnInit {
     @Input() public project: Project;
 
     public showAllCities = false;
@@ -29,14 +26,13 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
     public constructor(private readonly router: Router,
                        private readonly dashboardService: DashboardService,
                        private readonly projectEventService: ProjectEventService,
-                       private readonly imagesService: ImagesService,
-                       private readonly notificationService: NotificationService) {
+                       private readonly imagesService: ImagesService) {
     }
 
     /**
      * Project data setup in intialization
      */
-    public ngOnInit() {
+    public ngOnInit(): void {
         this.getImagePath();
         if (this.project.venues !== null && this.project.venues.length === 1) {
             this.showOneCity = true;
@@ -72,7 +68,7 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
     /**
      * Route to selected project detail screen
      */
-    public openAreas() {
+    public openAreas(): void {
         this.router.navigate(['project/detail']);
     }
 
@@ -80,7 +76,7 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
      * Using projectEventService to store selected project information into local storage
      * Apply changes on second header to show project title logo and unselect project button
      */
-    public onProjectSelected() {
+    public onProjectSelected(): void {
         this.projectEventService.setEventData(this.project, true, this.imagePath);
         this.dashboardService.setSecondaryHeaderContent({
             isDashboard: false,
@@ -89,12 +85,12 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
         this.openAreas();
     }
 
-    public getImagePath() {
+    public getImagePath(): void {
         if (!this.project.logo) {
             return;
         }
         this.imagesService.getImage(this.project.logo)
-            .subscribe((blob) => {
+            .subscribe((blob: Blob) => {
                 const reader = new FileReader();
                 reader.onload = () => {
                     this.imagePath = reader.result;

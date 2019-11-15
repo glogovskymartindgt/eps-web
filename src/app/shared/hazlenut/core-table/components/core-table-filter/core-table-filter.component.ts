@@ -1,6 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
+import { ListItem } from '../..';
+import { Category } from '../../../../interfaces/category.interface';
+import { User } from '../../../../interfaces/user.interface';
 import { BusinessAreaService } from '../../../../services/data/business-area.service';
 import { UserDataService } from '../../../../services/data/user-data.service';
 import { NotificationService } from '../../../../services/notification.service';
@@ -50,7 +53,7 @@ export class CoreTableFilterComponent implements OnInit {
     public constructor(private readonly coreTableService: CoreTableService,
                        private readonly userDataService: UserDataService,
                        private readonly notificationService: NotificationService,
-                       private readonly businessAreaService: BusinessAreaService, ) {
+                       private readonly businessAreaService: BusinessAreaService,) {
 
     }
 
@@ -73,6 +76,18 @@ export class CoreTableFilterComponent implements OnInit {
     public clearFilters(): void {
         this.resetFilters.next(true);
         this.coreTableService.clearFilters();
+    }
+
+    public trackListItemByCode(index: number, item: ListItem): any {
+        return item.code;
+    }
+
+    public trackCategoryById(index: number, item: Category): any {
+        return item.id;
+    }
+
+    public trackUserById(index: number, item: User): any {
+        return item.id;
     }
 
     private loadCategoryList(): void {

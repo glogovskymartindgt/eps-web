@@ -4,7 +4,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Role } from '../../../shared/enums/role.enum';
 import { Regex } from '../../../shared/hazlenut/hazelnut-common/regex/regex';
 import { ProjectInterface } from '../../../shared/interfaces/project.interface';
+import { TaskCommentResponse } from '../../../shared/interfaces/task-comment.interface';
 import { User } from '../../../shared/interfaces/user.interface';
+import { Project } from '../../../shared/models/project.model';
 import { AuthService } from '../../../shared/services/auth.service';
 import { DashboardService } from '../../../shared/services/dashboard.service';
 import { GroupService } from '../../../shared/services/data/group.service';
@@ -63,6 +65,14 @@ export class UserFormComponent implements OnInit {
         const uncheckedAndCantAssign = !this.userGroups.includes(groupId) && !this.hasRoleAssignGroup();
         return haveAssignAndUnAssignRoles || !(checkedAndCantUnAssign || uncheckedAndCantAssign);
 
+    }
+
+    public trackGroupIdBySelf(index: number, item: number): any {
+        return item;
+    }
+
+    public trackProjectById(index: number, item: Project): any {
+        return item.id;
     }
 
     private checkIfUpdate() {

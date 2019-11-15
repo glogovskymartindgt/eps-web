@@ -1,11 +1,11 @@
-<form [formGroup]="taskForm" *ngIf="(isUpdate && formLoaded) || !isUpdate">
-
-    <div fxLayout="row" *ngIf="isUpdate">
+<form *ngIf="(isUpdate && formLoaded) || !isUpdate" [formGroup]="taskForm">
+    
+    <div *ngIf="isUpdate" fxLayout="row">
         <div class="short-input mr-10">
-            <haz-core-input [label]="'tasks.code' | translate"
-                            [appearance]="'fill'"
-                            formControlName="code"
+            <haz-core-input [appearance]="'fill'"
+                            [label]="'tasks.code' | translate"
                             class="theme-input"
+                            formControlName="code"
             >
             </haz-core-input>
         </div>
@@ -17,34 +17,41 @@
             </mat-select>
         </mat-form-field>
     </div>
-
+    
     <div fxLayout="row">
         <mat-form-field appearance="fill" class="theme-input short-input mr-10">
             <mat-label class="label-style">{{ 'tasks.type' | translate }}</mat-label>
             <mat-select formControlName="taskType" required>
-                <mat-option *ngFor="let taskType of taskTypeList" [value]="taskType.toUpperCase()">
+                <mat-option *ngFor="let taskType of taskTypeList; trackBy: trackTaskTypeBySelf" [value]="taskType.toUpperCase()">
                     {{('task.taskTypeValue.' + taskType.toLowerCase()) | translate}}
                 </mat-option>
             </mat-select>
             <mat-error
-                *ngIf="f?.taskType?.errors?.required">{{ 'error.required' | translate }}</mat-error>
+                *ngIf="f?.taskType?.errors?.required"
+            >{{ 'error.required' | translate }}</mat-error>
         </mat-form-field>
-
+        
         <mat-form-field *ngIf="f.taskType.value == 'ISSUE'" appearance="fill" class="theme-input short-input">
             <mat-label class="label-style">{{ 'tasks.trafficLight' | translate }}</mat-label>
             <mat-select formControlName="trafficLight" required>
                 <mat-select-trigger>
-                    <div class="color-circle"
+                    <div [ngStyle]="{'background': getCircleColor(f?.trafficLight?.value.toString().toLowerCase())}"
                          [style.background]="getCircleColor(f?.trafficLight?.value.toString().toLowerCase())"
-                         [ngStyle]="{'background': getCircleColor(f?.trafficLight?.value.toString().toLowerCase())}">
+                         class="color-circle"
+                    >
                     </div>
                     <span
-                        class="ml-20">{{('color.' + f?.trafficLight?.value.toString().toLowerCase()) | translate}}</span>
+                        class="ml-20"
+                    >{{('color.' +
+                        f?.trafficLight?.value.toString()
+                         .toLowerCase()) | translate}}</span>
                 </mat-select-trigger>
-                <mat-option *ngFor="let trafficLight of trafficLightList"
-                            [value]="trafficLight.toUpperCase()">
+                <mat-option *ngFor="let trafficLight of trafficLightList; trackBy:trackTrafficLightBySelf"
+                            [value]="trafficLight.toUpperCase()"
+                >
                     <div [style.background]="getCircleColor(trafficLight)"
-                         class="color-circle mt-17"></div>
+                         class="color-circle mt-17"
+                    ></div>
                     <span class="ml-20">{{('color.' + trafficLight) | translate}}</span>
                 </mat-option>
             </mat-select>
@@ -53,41 +60,42 @@
             </mat-error>
         </mat-form-field>
     </div>
-
+    
     <div class="long-input">
-        <haz-core-input [label]="'tasks.title' | translate"
-                        [required]="true"
-                        [appearance]="'fill'"
-                        formControlName="title"
-                        class="theme-input"
-                        [type]="'textarea'"
+        <haz-core-input [appearance]="'fill'"
+                        [label]="'tasks.title' | translate"
                         [maxLength]="255"
+                        [required]="true"
+                        [type]="'textarea'"
+                        class="theme-input"
+                        formControlName="title"
         >
         </haz-core-input>
     </div>
-
+    
     <div>
         <mat-form-field appearance="fill" class="long-input theme-input">
             <mat-label class="label-style">{{'businessArea.title' | translate}}</mat-label>
             <mat-select formControlName="businessArea" required>
                 <mat-option class="color-none" value="">{{'all.empty' | translate}}</mat-option>
-                <mat-option *ngFor="let businessArea of businessAreaList"
+                <mat-option *ngFor="let businessArea of businessAreaList; trackBy: trackBusinessAreaById"
                             [value]="businessArea.id"
                 >
                     {{businessArea.codeItem}} - {{businessArea.name}}
                 </mat-option>
             </mat-select>
             <mat-error
-                *ngIf="f?.businessArea?.errors?.required">{{ 'error.required' | translate }}</mat-error>
+                *ngIf="f?.businessArea?.errors?.required"
+            >{{ 'error.required' | translate }}</mat-error>
         </mat-form-field>
     </div>
-
+    
     <div>
         <mat-form-field appearance="fill" class="theme-input long-input">
             <mat-label class="label-style">{{ 'tasks.responsible' | translate }}</mat-label>
             <mat-select formControlName="responsible">
-                <mat-option value="" class="color-none">{{'all.empty' | translate}}</mat-option>
-                <mat-option *ngFor="let user of userList"
+                <mat-option class="color-none" value="">{{'all.empty' | translate}}</mat-option>
+                <mat-option *ngFor="let user of userList; trackBy:trackUserById"
                             [value]="user.id"
                 >
                     {{user.firstName}} {{user.lastName}}
@@ -95,13 +103,13 @@
             </mat-select>
         </mat-form-field>
     </div>
-
+    
     <div>
         <mat-form-field appearance="fill" class="theme-input long-input">
             <mat-label class="label-style">{{ 'tasks.sourceOfAgenda' | translate }}</mat-label>
             <mat-select formControlName="sourceOfAgenda">
-                <mat-option value="" class="color-none">{{'all.empty' | translate}}</mat-option>
-                <mat-option *ngFor="let sourceOfAgenda of sourceOfAgendaList"
+                <mat-option class="color-none" value="">{{'all.empty' | translate}}</mat-option>
+                <mat-option *ngFor="let sourceOfAgenda of sourceOfAgendaList; trackBy:trackSourceOfAgendaById"
                             [value]="sourceOfAgenda.id"
                 >
                     {{sourceOfAgenda.name}}
@@ -109,25 +117,26 @@
             </mat-select>
         </mat-form-field>
     </div>
-
+    
     <div class="long-input">
-        <haz-core-input [label]="'tasks.sourceDescription' | translate"
-                        [appearance]="'fill'"
+        <haz-core-input [appearance]="'fill'"
+                        [label]="'tasks.sourceDescription' | translate"
                         [maxLength]="4092"
                         [type]="'textarea'"
-                        formControlName="sourceDescription"
                         class="theme-input long-input"
+                        formControlName="sourceDescription"
         >
         </haz-core-input>
     </div>
-
+    
     <div>
         <mat-form-field appearance="fill" class="theme-input long-input">
             <mat-label class="label-style">{{ 'tasks.phase' | translate }}</mat-label>
             <mat-select formControlName="phase">
-                <mat-option value="" class="color-none">{{'all.empty' | translate}}</mat-option>
-                <mat-option *ngFor="let phase of phaseList"
-                            [value]="phase.id">
+                <mat-option class="color-none" value="">{{'all.empty' | translate}}</mat-option>
+                <mat-option *ngFor="let phase of phaseList; trackBy:trackPhaseById"
+                            [value]="phase.id"
+                >
                     <span>
                         {{phase.checkPointFrom  | date:'d.M.yyyy'}} - {{phase.checkPointTo  | date:'d.M.yyyy'}}
                     </span>
@@ -136,63 +145,65 @@
             </mat-select>
         </mat-form-field>
     </div>
-
+    
     <div fxLayout="row">
         <mat-form-field appearance="fill" class="short-input theme-input mr-10">
             <mat-label class="label-style">{{ 'tasks.dueDate' | translate }}</mat-label>
-            <input matInput [matDatepicker]="picker" (dateChange)="onDateChanged($event.value)"
-                   formControlName="dueDate">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker [dateClass]="dateClass" #picker></mat-datepicker>
+            <input (dateChange)="onDateChanged($event.value)" [matDatepicker]="picker" formControlName="dueDate"
+                   matInput
+            >
+            <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
+            <mat-datepicker #picker [dateClass]="dateClass"></mat-datepicker>
             <mat-error *ngIf="dateInvalid">{{ 'error.dateFormatIsInvalid' | translate }}</mat-error>
         </mat-form-field>
-
+        
         <mat-form-field appearance="fill" class="short-input theme-input">
             <mat-label class="label-style">{{ 'tasks.venue' | translate }}</mat-label>
             <mat-select formControlName="venue">
-                <mat-option value='NONE' class="color-none">{{ 'tasks.none' | translate }}</mat-option>
-                <mat-option *ngFor="let venue of venueList" [value]="venue.city">
+                <mat-option class="color-none" value='NONE'>{{ 'tasks.none' | translate }}</mat-option>
+                <mat-option *ngFor="let venue of venueList; trackBy:trackVenueById" [value]="venue.city">
                     {{venue.city}}
                 </mat-option>
                 <mat-option value="BOTH">{{ 'tasks.both' | translate }}</mat-option>
             </mat-select>
         </mat-form-field>
     </div>
-
-    <mat-form-field appearance="fill" class="short-input theme-input mr-10" *ngIf="isUpdate">
+    
+    <mat-form-field *ngIf="isUpdate" appearance="fill" class="short-input theme-input mr-10">
         <mat-label class="label-style">{{ 'tasks.closedDate' | translate }}</mat-label>
-        <input matInput [matDatepicker]="pickerClosed" (dateChange)="onDateChangedClosed($event.value)"
-               formControlName="closedDate">
-        <mat-datepicker-toggle matSuffix [for]="pickerClosed"></mat-datepicker-toggle>
-        <mat-datepicker [dateClass]="dateClass" #pickerClosed></mat-datepicker>
+        <input (dateChange)="onDateChangedClosed($event.value)" [matDatepicker]="pickerClosed" formControlName="closedDate"
+               matInput
+        >
+        <mat-datepicker-toggle [for]="pickerClosed" matSuffix></mat-datepicker-toggle>
+        <mat-datepicker #pickerClosed [dateClass]="dateClass"></mat-datepicker>
         <mat-error *ngIf="dateInvalid">{{ 'error.dateFormatIsInvalid' | translate }}</mat-error>
     </mat-form-field>
-
+    
     <div class="long-input">
-        <haz-core-input [label]="'tasks.description' | translate"
-                        [type]="'textarea'"
-                        [appearance]="'fill'"
-                        formControlName="description"
-                        class="theme-input"
+        <haz-core-input [appearance]="'fill'"
+                        [label]="'tasks.description' | translate"
                         [maxLength]="4092"
+                        [type]="'textarea'"
+                        class="theme-input"
+                        formControlName="description"
         >
         </haz-core-input>
     </div>
-
-    <div class="long-input" *ngIf="isUpdate">
-        <haz-core-input [label]="'tasks.changedAt' |  translate"
-                        [appearance]="'fill'"
+    
+    <div *ngIf="isUpdate" class="long-input">
+        <haz-core-input [appearance]="'fill'"
+                        [label]="'tasks.changedAt' |  translate"
+                        class="theme-input"
                         formControlName="changedAt"
-                        class="theme-input"
         >
         </haz-core-input>
     </div>
-
-    <div class="long-input" *ngIf="isUpdate">
-        <haz-core-input [label]="'tasks.changedBy' | translate"
-                        [appearance]="'fill'"
-                        formControlName="changedBy"
+    
+    <div *ngIf="isUpdate" class="long-input">
+        <haz-core-input [appearance]="'fill'"
+                        [label]="'tasks.changedBy' | translate"
                         class="theme-input"
+                        formControlName="changedBy"
         >
         </haz-core-input>
     </div>

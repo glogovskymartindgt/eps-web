@@ -266,6 +266,7 @@
             [
                 "S",
                 "T",
+                "P",
                 "x",
                 "y"
             ]
@@ -338,11 +339,11 @@
         "relative-url-prefix": true,
         "template-conditional-complexity": [
             true,
-            3
+            4
         ],
         "template-cyclomatic-complexity": [
             true,
-            8
+            15
         ],
         "template-no-call-expression": false,
         "template-use-track-by-function": true,

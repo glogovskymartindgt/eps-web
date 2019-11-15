@@ -12,7 +12,7 @@ import { ProjectUserService } from '../../../shared/services/storage/project-use
 import { AppConstants } from '../../../shared/utils/constants';
 
 @Component({
-    selector: 'profile-detail',
+    selector: 'iihf-profile-detail',
     templateUrl: './profile-detail.component.html',
     styleUrls: ['./profile-detail.component.scss'],
     animations: [enterLeave]
@@ -133,7 +133,7 @@ export class ProfileDetailComponent implements OnInit {
             this.imagesService.getImage(projectDetail.avatar)
                 .subscribe((blob) => {
                     const reader = new FileReader();
-                    reader.onload = (e) => {
+                    reader.onload = () => {
                         this.imageSrc = reader.result;
                     };
                     reader.readAsDataURL(blob);

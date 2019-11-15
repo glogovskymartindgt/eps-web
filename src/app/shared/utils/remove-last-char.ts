@@ -1,7 +1,5 @@
-import { isNullOrUndefined } from 'util';
-
 export function checkAndRemoveLastDotComma(value: string): string {
-    if (isNullOrUndefined(value)) {
+    if ((value === null || value === undefined)) {
         return null;
     }
     const lastCharacter = value.toString()
@@ -11,7 +9,8 @@ export function checkAndRemoveLastDotComma(value: string): string {
                      .substring(0, value.toString().length - 1);
     }
     value = value.replace(',', '.');
-    value = value.split(' ').join('');
+    value = value.split(' ')
+                 .join('');
     return value;
 
 }

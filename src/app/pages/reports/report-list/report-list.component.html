@@ -12,7 +12,7 @@
 </ng-template>
 <ng-template #actionColumn let-actRow="row" let-context="context">
     <button (click)="export(actRow.id)"
-            *ngIf="(actRow.id === 1 && allowButtonToDoList()) || (actRow.id === 2 && allowButtonRedFlagList())"
+            *ngIf="checkReportActionByRole(actRow.id)"
             mat-icon-button
     >
         <mat-icon>save_alt</mat-icon>

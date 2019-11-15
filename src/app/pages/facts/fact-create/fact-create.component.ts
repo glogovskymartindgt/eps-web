@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FactService } from '../../../shared/services/data/fact.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
-import { checkAndRemoveLastDotComma } from '../../../shared/utils/removeLastChar';
+import { checkAndRemoveLastDotComma } from '../../../shared/utils/remove-last-char';
 
 @Component({
     selector: 'fact-create',
@@ -20,7 +20,7 @@ import { checkAndRemoveLastDotComma } from '../../../shared/utils/removeLastChar
     public constructor(private readonly router: Router,
                        private readonly factService: FactService,
                        private readonly notificationService: NotificationService,
-                       private readonly projectEventService: ProjectEventService, ) {
+                       private readonly projectEventService: ProjectEventService,) {
     }
 
     /**

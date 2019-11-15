@@ -6,5 +6,5 @@ export class VenueDetail {
     public screenPosition: number;
     public cityName: string;
     public clCountry: CountryDetail;
-    public attachment: AttachmentDetail;
+    public attachments: AttachmentDetail[];
 }

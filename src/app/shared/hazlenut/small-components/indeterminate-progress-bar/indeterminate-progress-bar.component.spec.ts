@@ -9,14 +9,14 @@ describe('IndeterminateProgressBarComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [
-                MatProgressBarModule,
-            ],
-            declarations: [
-                IndeterminateProgressBarComponent
-            ]
-        })
-            .compileComponents();
+                   imports: [
+                       MatProgressBarModule,
+                   ],
+                   declarations: [
+                       IndeterminateProgressBarComponent
+                   ]
+               })
+               .compileComponents();
     }));
 
     beforeEach(() => {
@@ -26,6 +26,7 @@ describe('IndeterminateProgressBarComponent', () => {
     });
 
     it('should create', () => {
-        expect(component).toBeTruthy();
+        expect(component)
+            .toBeTruthy();
     });
 });

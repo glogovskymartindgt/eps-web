@@ -8,9 +8,9 @@ describe('MenuComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [
-            ],
-        }).compileComponents();
+                   imports: [],
+               })
+               .compileComponents();
     }));
 
     beforeEach(() => {
@@ -20,6 +20,7 @@ describe('MenuComponent', () => {
     });
 
     it('should create', () => {
-        expect(component).toBeTruthy();
+        expect(component)
+            .toBeTruthy();
     });
 });

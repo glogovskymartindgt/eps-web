@@ -28,11 +28,11 @@ export class AdminLayoutComponent implements OnInit {
     public constructor(public readonly projectUserService: ProjectUserService, private readonly authService: AuthService, private readonly router: Router) {
     }
 
-    public ngOnInit() {
-        this.projectUserService.subject.login.subscribe((login) => {
+    public ngOnInit(): void {
+        this.projectUserService.subject.login.subscribe((login: string) => {
             this.login = login;
         });
-        this.projectUserService.subject.avatar.subscribe((avatar) => {
+        this.projectUserService.subject.avatar.subscribe((avatar: string) => {
             this.avatar = avatar;
         });
     }

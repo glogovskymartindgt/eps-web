@@ -11,7 +11,7 @@ import { ProjectUserService } from '../storage/project-user.service';
     providedIn: 'root'
 })
 
-// TODO: remove project Service or add function to porject service
+// TODO: remove project Service or add function to project service
 export class ImagesService extends ProjectService<any> {
 
     public constructor(http: HttpClient, notificationService: NotificationService, userService: ProjectUserService,) {
@@ -36,13 +36,11 @@ export class ImagesService extends ProjectService<any> {
 
     public getImage(imageName: string): Observable<Blob> {
         return this.http.get(`${hazelnutConfig.URL_API}/internal/images/0/${imageName}`, {
-            headers: this.getHeader(),
-            responseType: 'blob',
-        }).pipe(
-            map((result) => {
-                return result as any;
-            }),
-            catchError(this.handleError),
-        );
+                       headers: this.getHeader(),
+                       responseType: 'blob',
+                   })
+                   .pipe(map((result) => {
+                       return result as any;
+                   }), catchError(this.handleError),);
     }
 }

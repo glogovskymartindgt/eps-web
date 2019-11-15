@@ -12,12 +12,18 @@
 
 <div fxLayout="row" style="overflow: auto;  height: calc(100vh - 160px);">
     <div class="p-30">
-        <project-detail-form
+        <iihf-project-detail-form
             (formDataChange)="formData=$event"
+            (firstVenueMapsChange)="firstVenueMaps=$event"
+            (secondVenueMapsChange)="secondVenueMaps=$event"
+            (firstVenueImagesChange)="firstVenueImages=$event"
+            (secondVenueImagesChange)="secondVenueImages=$event"
+            (firstVenueDocumentsChange)="firstVenueDocuments=$event"
+            (secondVenueDocumentsChange)="secondVenueDocuments=$event"
             [refreshSubject]="refreshSubject"
             [editMode]="editMode"
         >
-        </project-detail-form>
+        </iihf-project-detail-form>
         <div *ngIf="editMode" [@enterLeave] class="pl-110">
             <button (click)="onSave()"
                     [disabled]="!formData || !canSave"

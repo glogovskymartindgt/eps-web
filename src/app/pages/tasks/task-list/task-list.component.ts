@@ -11,6 +11,7 @@ import { StringUtils } from '../../../shared/hazlenut/hazelnut-common/hazelnut';
 import { BrowseResponse, Filter } from '../../../shared/hazlenut/hazelnut-common/models';
 import { FileManager } from '../../../shared/hazlenut/hazelnut-common/utils/file-manager';
 import { BusinessArea } from '../../../shared/interfaces/bussiness-area.interface';
+import { TaskCommentResponse } from '../../../shared/interfaces/task-comment.interface';
 import { TaskInterface } from '../../../shared/interfaces/task.interface';
 import { AuthService } from '../../../shared/services/auth.service';
 import { BusinessAreaService } from '../../../shared/services/data/business-area.service';
@@ -43,7 +44,6 @@ export class TaskListComponent implements OnInit {
     public data: BrowseResponse<TaskInterface> = new BrowseResponse<TaskInterface>();
     public businessAreaList: BusinessArea[];
     public loading = false;
-    public loadingExport = false;
     private lastTableChangeEvent: TableChangeEvent;
     private isInitialized = false;
     private businessAreaFilter: Filter;
@@ -320,6 +320,10 @@ export class TaskListComponent implements OnInit {
             this.authService.hasRole(Role.RoleReadTaskInAssignProject) ||
             this.authService.hasRole(Role.RoleUpdateTask) ||
             this.authService.hasRole(Role.RoleUpdateTaskInAssignProject);
+    }
+
+    public trackBusinessAreaById(index: number, item: BusinessArea): number {
+        return item.id;
     }
 
     private hasCreateTaskRole(): boolean {

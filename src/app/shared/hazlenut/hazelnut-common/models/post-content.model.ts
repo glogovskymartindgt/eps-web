@@ -60,11 +60,13 @@ export class PostContent implements PostContentInterface {
 
     public setLimit(limit: number): PostContent {
         this.paging.limit = limit;
+
         return this;
     }
 
     public setOffset(offset: number): PostContent {
         this.paging.offset = offset;
+
         return this;
     }
 
@@ -87,6 +89,7 @@ export class PostContent implements PostContentInterface {
             };
         }
         this.sortingCriteria.criteria.push(...sorts);
+
         return this;
     }
 

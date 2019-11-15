@@ -8,8 +8,12 @@ import * as _moment from 'moment';
 import { Subject } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { PdfDialogComponent } from '../../../shared/components/dialog/pdf-dialog/pdf-dialog.component';
+import { ImageDialogComponent } from '../../../shared/components/dialog/image-dialog/image-dialog.component';
+
+import { AttachmentType } from '../../../shared/enums/attachment-type.enum';
 import { enterLeave, fadeEnterLeave } from '../../../shared/hazlenut/hazelnut-common/animations';
 import { Regex } from '../../../shared/hazlenut/hazelnut-common/regex/regex';
+import { Country } from '../../../shared/models/country.model';
 import { ProjectDetail } from '../../../shared/models/project-detail.model';
 import { AttachmentService } from '../../../shared/services/data/attachment.service';
 import { BusinessAreaService } from '../../../shared/services/data/business-area.service';
@@ -34,7 +38,7 @@ export const PROJECT_DATE_FORMATS = {
 };
 
 @Component({
-    selector: 'project-detail-form',
+    selector: 'iihf-project-detail-form',
     templateUrl: './project-detail-form.component.html',
     styleUrls: ['./project-detail-form.component.scss'],
     animations: [
@@ -54,9 +58,15 @@ export const PROJECT_DATE_FORMATS = {
     ],
 })
 export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy {
-    @Input('editMode') public editMode: boolean;
-    @Input('refreshSubject') public refreshSubject: Subject<any>;
+    @Input() public editMode: boolean;
+    @Input() public refreshSubject: Subject<any>;
     @Output('formDataChange') public onFormDataChange = new EventEmitter<any>();
+    @Output('firstVenueMapsChange') public onFirstVenueMapsChange = new EventEmitter<any>();
+    @Output('secondVenueMapsChange') public onSecondVenueMapsChange = new EventEmitter<any>();
+    @Output('firstVenueImagesChange') public onFirstVenueImagesChange = new EventEmitter<any>();
+    @Output('secondVenueImagesChange') public onSecondVenueImagesChange = new EventEmitter<any>();
+    @Output('firstVenueDocumentsChange') public onFirstVenueDocumentsChange = new EventEmitter<any>();
+    @Output('secondVenueDocumentsChange') public onSecondVenueDocumentsChange = new EventEmitter<any>();
     public defaultLogoPath = 'assets/img/iihf-logo-without-text-transparent.png';
 
     public projectDetailForm: FormGroup;
@@ -65,17 +75,39 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
     public notOnlyWhiteCharactersPattern = Regex.notOnlyWhiteCharactersPattern;
     public dateInvalid = false;
 
-    public firstMapSrc: any = '';
-    public firstMapPdfName: string;
-    public firstMapBlob: any;
+    public firstVenueMapSources: any[] = [];
+    public firstVenueImageSources: any[] = [];
+    public firstVenueDocumentSources: any[] = [];
+    public firstVenueMapNames: string[];
+    public firstVenueImageNames: string[];
+    public firstVenueDocumentNames: string[];
+    public firstVenueMapBlobs: any[];
+    public firstVenueImageBlobs: any[];
+    public firstVenueDocumentBlobs: any[];
+    public firstVenueMapPaths: any[];
+    public firstVenueImagePaths: any[];
+    public firstVenueDocumentPaths: any[];
 
-    public secondMapSrc: any = '';
-    public secondMapPdfName: string;
-    public secondMapBlob: any;
+    public secondVenueMapSources: any[] = [];
+    public secondVenueImageSources: any[] = [];
+    public secondVenueDocumentSources: any[] = [];
+    public secondVenueMapNames: string[];
+    public secondVenueImageNames: string[];
+    public secondVenueDocumentNames: string[];
+    public secondVenueMapBlobs: any[];
+    public secondVenueImageBlobs: any[];
+    public secondVenueDocumentBlobs: any[];
+    public secondVenueMapPaths: any[];
+    public secondVenueImagePaths: any[];
+    public secondVenueDocumentPaths: any[];
 
     public imageSrc: any = this.defaultLogoPath;
     public countryList = [];
     public countriesLoading = false;
+
+    public viewMaps = false;
+    public viewImages = false;
+    public viewDocuments = false;
 
     public constructor(private readonly formBuilder: FormBuilder,
                        private readonly domSanitizer: DomSanitizer,
@@ -86,6 +118,10 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
                        private readonly attachmentService: AttachmentService,
                        private readonly matDialog: MatDialog,
                        public readonly projectEventService: ProjectEventService) {
+    }
+
+    public get attachmentType() {
+        return AttachmentType;
     }
 
     public ngOnInit(): void {
@@ -102,6 +138,12 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
 
         this.projectDetailForm.valueChanges.subscribe(() => {
             this.emitFormDataChangeEmitter();
+            this.emitFirstVenueMapsChangeEmitter();
+            this.emitSecondVenueMapsChangeEmitter();
+            this.emitFirstVenueImagesChangeEmitter();
+            this.emitSecondVenueImagesChangeEmitter();
+            this.emitFirstVenueDocumentsChangeEmitter();
+            this.emitSecondVenueDocumentsChangeEmitter();
         });
     }
 
@@ -142,23 +184,49 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
     }
 
     public isEmpty(controlName: string) {
-        return !this.projectDetailForm.controls[controlName].value as boolean;
+        return !this.projectDetailForm.controls[controlName].value;
     }
 
-    public resetValue(controlName: string) {
+    public resetFirstVenueMap(i: number){
+        this.firstVenueMapNames.splice(i, 1);
+        this.firstVenueMapBlobs.splice(i, 1);
+        this.firstVenueMapSources.splice(i, 1);
+        this.firstVenueMapPaths.splice(i, 1);
+    }
 
-        this.projectDetailForm.controls[controlName].reset();
-        if (controlName === 'secondMap') {
-            this.secondMapPdfName = null;
-            this.secondMapBlob = null;
-            this.secondMapSrc = null;
-            this.projectDetailForm.controls.secondMapUploadId.reset();
-        } else {
-            this.firstMapPdfName = null;
-            this.firstMapBlob = null;
-            this.firstMapSrc = null;
-            this.projectDetailForm.controls.firstMapUploadId.reset();
-        }
+    public resetSecondVenueMap(i: number){
+        this.secondVenueMapNames.splice(i, 1);
+        this.secondVenueMapBlobs.splice(i, 1);
+        this.secondVenueMapSources.splice(i, 1);
+        this.secondVenueMapPaths.splice(i, 1);
+    }
+
+    public resetFirstVenueImage(i: number){
+        this.firstVenueImageNames.splice(i, 1);
+        this.firstVenueImageBlobs.splice(i, 1);
+        this.firstVenueImageSources.splice(i, 1);
+        this.firstVenueImagePaths.splice(i, 1);
+    }
+
+    public resetSecondVenueImage(i: number){
+        this.secondVenueImageNames.splice(i, 1);
+        this.secondVenueImageBlobs.splice(i, 1);
+        this.secondVenueImageSources.splice(i, 1);
+        this.secondVenueImagePaths.splice(i, 1);
+    }
+
+    public resetFirstVenueDocument(i: number){
+        this.firstVenueDocumentNames.splice(i, 1);
+        this.firstVenueDocumentBlobs.splice(i, 1);
+        this.firstVenueDocumentSources.splice(i, 1);
+        this.firstVenueDocumentPaths.splice(i, 1);
+    }
+
+    public resetSecondVenueDocument(i: number){
+        this.secondVenueDocumentNames.splice(i, 1);
+        this.secondVenueDocumentBlobs.splice(i, 1);
+        this.secondVenueDocumentSources.splice(i, 1);
+        this.secondVenueDocumentPaths.splice(i, 1);
     }
 
     public onFirstMapDropped(files: any) {
@@ -187,6 +255,70 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         this.secondMapUpdate(file);
     }
 
+    public onFirstImageDropped(files: any) {
+        const file: File = files[0];
+        this.firstImageUpdate(file);
+    }
+
+    public onFirstImageInserted(event) {
+        const file = event.target.files[0];
+        if (!file) {
+            return;
+        }
+        this.firstImageUpdate(file);
+    }
+
+    public onSecondImageDropped(files: any) {
+        const file: File = files[0];
+        this.secondImageUpdate(file);
+    }
+
+    public onSecondImageInserted(event) {
+        const file = event.target.files[0];
+        if (!file) {
+            return;
+        }
+        this.secondImageUpdate(file);
+    }
+
+    public onFirstDocumentDropped(files: any) {
+        const file: File = files[0];
+        this.firstDocumentUpdate(file);
+    }
+
+    public onFirstDocumentInserted(event) {
+        const file = event.target.files[0];
+        if (!file) {
+            return;
+        }
+        this.firstDocumentUpdate(file);
+    }
+
+    public onSecondDocumentDropped(files: any) {
+        const file: File = files[0];
+        this.secondDocumentUpdate(file);
+    }
+
+    public onSecondDocumentInserted(event) {
+        const file = event.target.files[0];
+        if (!file) {
+            return;
+        }
+        this.secondDocumentUpdate(file);
+    }
+
+    public toggleMaps(){
+        this.viewMaps = !this.viewMaps;
+    }
+
+    public toggleImages(){
+        this.viewImages = !this.viewImages;
+    }
+
+    public toggleDocuments(){
+        this.viewDocuments = !this.viewDocuments;
+    }
+
     public onLogoInserted(event) {
         const file = event.target.files[0];
         if (!file) {
@@ -205,16 +337,60 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         };
         reader.readAsDataURL(file);
     }
-
-    public downloadFirst(): void {
-        BlobManager.downloadFromBlob(this.firstMapBlob, 'application/pdf', this.firstMapPdfName);
+ 
+    public download(blob: Blob, type: string, name: string): void {
+        BlobManager.downloadFromBlob(blob, 'application/pdf', name);
     }
 
-    public downloadSecond(): void {
-        BlobManager.downloadFromBlob(this.secondMapBlob, 'application/pdf', this.secondMapPdfName);
+    public isAnyFirstVenueFile(): boolean{
+        return this.firstVenueMapNames && (this.firstVenueMapNames.length > 0 || this.firstVenueImageNames.length > 0 || this.firstVenueDocumentNames.length > 0);   
     }
 
-    public openDialog(source: string): void {
+    public isAnySecondVenueFile(): boolean{
+        return this.secondVenueMapNames && (this.secondVenueMapNames.length > 0 || this.secondVenueImageNames.length > 0 || this.secondVenueDocumentNames.length > 0);   
+    }
+
+    public downloadFirstVenueDocs(): void{
+        for(var i=0; i < this.firstVenueMapNames.length; i++){
+            BlobManager.downloadFromBlob(this.firstVenueMapBlobs[i], 'application/pdf', this.firstVenueMapNames[i]);
+        }
+        for(var i=0; i < this.firstVenueImageNames.length; i++){
+            BlobManager.downloadFromBlob(this.firstVenueImageBlobs[i], 'image/*', this.firstVenueImageNames[i]);
+        }
+        for(var i=0; i < this.firstVenueDocumentNames.length; i++){
+            BlobManager.downloadFromBlob(this.firstVenueDocumentBlobs[i], this.getContentTypeFromFileName(this.firstVenueDocumentNames[i]), this.firstVenueDocumentNames[i]);
+        }
+    }
+
+    public downloadSecondVenueDocs(): void{
+        for(var i=0; i < this.secondVenueMapNames.length; i++){
+            BlobManager.downloadFromBlob(this.secondVenueMapBlobs[i], 'application/pdf', this.secondVenueMapNames[i]);
+        }
+        for(var i=0; i < this.secondVenueImageNames.length; i++){
+            BlobManager.downloadFromBlob(this.secondVenueImageBlobs[i], 'image/*', this.secondVenueImageNames[i]);
+        }
+        for(var i=0; i < this.secondVenueDocumentNames.length; i++){
+            BlobManager.downloadFromBlob(this.secondVenueDocumentBlobs[i], this.getContentTypeFromFileName(this.secondVenueDocumentNames[i]), this.secondVenueDocumentNames[i]);
+        }
+    }
+
+    public openDialogByType(source: any, name: string): void {
+        const type = this.getFileEnding(name);
+        if(!this.isJpegJpgOrPdfFromName(name)){
+            return;
+        }
+        if(type === 'pdf'){
+            this.openDialog(source);
+        } else {
+            this.openImageDialog(source);
+        }
+    }
+
+    public isJpegJpgOrPdfFromName(name: string){
+        return ['jpg', 'jpeg', 'pdf'].includes(this.getFileEnding(name));
+    }
+
+    public openDialog(source: any): void {
         this.matDialog.open(PdfDialogComponent, {
             maxHeight: '90vh',
             minHeight: '90vh',
@@ -224,6 +400,22 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
                 source
             }
         });
+    }
+
+    public openImageDialog(source: any): void {
+        this.matDialog.open(ImageDialogComponent, {
+            maxHeight: '90vh',
+            minHeight: '90vh',
+            maxWidth: '80vw',
+            minWidth: '80vw',
+            data: {
+                image: source
+            }
+        });
+    }
+
+    public trackCountryById(index: number, item: Country): any {
+        return item.id;
     }
 
     /**
@@ -238,6 +430,66 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
             };
             this.onFormDataChange.emit(actualValue);
         }
+    }
+
+    private emitFirstVenueMapsChangeEmitter(): void {
+        const actualValue = {
+            "sources": this.firstVenueMapSources,
+            "names": this.firstVenueMapNames,
+            "blobs": this.firstVenueMapBlobs,
+            "paths": this.firstVenueMapPaths,
+        };
+        this.onFirstVenueMapsChange.emit(actualValue);
+    }
+
+    private emitSecondVenueMapsChangeEmitter(): void {
+        const actualValue = {
+            "sources": this.secondVenueMapSources,
+            "names": this.secondVenueMapNames,
+            "blobs": this.secondVenueMapBlobs,
+            "paths": this.secondVenueMapPaths,
+        };
+        this.onSecondVenueMapsChange.emit(actualValue);
+    }
+
+    private emitFirstVenueImagesChangeEmitter(): void {
+        const actualValue = {
+            "sources": this.firstVenueImageSources,
+            "names": this.firstVenueImageNames,
+            "blobs": this.firstVenueImageBlobs,
+            "paths": this.firstVenueImagePaths,
+        };
+        this.onFirstVenueImagesChange.emit(actualValue);
+    }
+
+    private emitSecondVenueImagesChangeEmitter(): void {
+        const actualValue = {
+            "sources": this.secondVenueImageSources,
+            "names": this.secondVenueImageNames,
+            "blobs": this.secondVenueImageBlobs,
+            "paths": this.secondVenueImagePaths,
+        };
+        this.onSecondVenueImagesChange.emit(actualValue);
+    }
+
+    private emitFirstVenueDocumentsChangeEmitter(): void {
+        const actualValue = {
+            "sources": this.firstVenueDocumentSources,
+            "names": this.firstVenueDocumentNames,
+            "blobs": this.firstVenueDocumentBlobs,
+            "paths": this.firstVenueDocumentPaths,
+        };
+        this.onFirstVenueDocumentsChange.emit(actualValue);
+    }
+
+    private emitSecondVenueDocumentsChangeEmitter(): void {
+        const actualValue = {
+            "sources": this.secondVenueDocumentSources,
+            "names": this.secondVenueDocumentNames,
+            "blobs": this.secondVenueDocumentBlobs,
+            "paths": this.secondVenueDocumentPaths,
+        };
+        this.onSecondVenueDocumentsChange.emit(actualValue);
     }
 
     private loadCountries() {
@@ -261,13 +513,35 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
     }
 
     private setFormWithDetailData(projectDetail: ProjectDetail) {
-        this.firstMapSrc = null;
-        this.firstMapBlob = null;
-        this.firstMapPdfName = null;
+        this.firstVenueMapNames = [];
+        this.firstVenueMapBlobs = [];
+        this.firstVenueMapSources = [];
+        this.firstVenueMapPaths = [];
 
-        this.secondMapSrc = null;
-        this.secondMapBlob = null;
-        this.secondMapPdfName = null;
+        this.secondVenueMapNames = [];
+        this.secondVenueMapBlobs = [];
+        this.secondVenueMapSources = [];
+        this.secondVenueMapPaths = [];
+
+        this.firstVenueImageNames = [];
+        this.firstVenueImageBlobs = [];
+        this.firstVenueImageSources = [];
+        this.firstVenueImagePaths = [];
+
+        this.secondVenueImageNames = [];
+        this.secondVenueImageBlobs = [];
+        this.secondVenueImageSources = [];
+        this.secondVenueImagePaths = [];
+
+        this.firstVenueDocumentNames = [];
+        this.firstVenueDocumentBlobs = [];
+        this.firstVenueDocumentSources = [];
+        this.firstVenueDocumentPaths = [];
+
+        this.secondVenueDocumentNames = [];
+        this.secondVenueDocumentBlobs = [];
+        this.secondVenueDocumentSources = [];
+        this.secondVenueDocumentPaths = [];
 
         this.projectDetailForm.patchValue({
             name: projectDetail.name,
@@ -308,60 +582,181 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
                 });
         }
 
-        if (firstCountryObject && firstCountryObject.attachment) {
-            this.firstMapPdfName = firstCountryObject.attachment.fileName;
-            this.attachmentService.getAttachment(firstCountryObject.attachment.filePath)
-                .subscribe((blob) => {
+        if (firstCountryObject && firstCountryObject.attachments.length > 0) {
+            const firstVenueMaps = firstCountryObject.attachments.filter((attachment) => attachment.type === AttachmentType.Map);
+            const firstVenueImages = firstCountryObject.attachments.filter((attachment) => attachment.type === AttachmentType.Image);
+            const firstVenueDocuments = firstCountryObject.attachments.filter((attachment) => attachment.type === AttachmentType.Document);
+        
+            firstVenueMaps.forEach((attachment) => {
+                this.attachmentService.getAttachment(attachment.filePath)
+                    .subscribe((blob) => {
+                        const reader = new FileReader();
+                        reader.onload = () => {
+                            this.firstVenueMapSources.unshift(reader.result);
+                            this.firstVenueMapPaths.unshift(attachment.filePath);
+                            this.firstVenueMapNames.unshift(attachment.fileName);
+                            this.firstVenueMapBlobs.unshift(blob);
+                        };
+                        reader.readAsDataURL(blob);
+                    }, () => {
+                        this.notificationService.openErrorNotification('error.attachmentDownload');
+                    });
+            });
 
-                    this.firstMapBlob = blob;
+            firstVenueImages.forEach((attachment) => {
+                this.imagesService.getImage(attachment.filePath)
+                    .subscribe((blob) => {
+                        const reader = new FileReader();
+                        reader.onload = () => {
+                            this.firstVenueImageSources.unshift(reader.result);
+                            this.firstVenueImagePaths.unshift(attachment.filePath);
+                            this.firstVenueImageNames.unshift(attachment.fileName);
+                            this.firstVenueImageBlobs.unshift(blob);
+                        };
+                        reader.readAsDataURL(blob);
+                    }, () => {
+                        this.notificationService.openErrorNotification('error.attachmentDownload');
+                    });
+            });
 
-                    const reader = new FileReader();
-                    reader.onload = () => {
-                        this.firstMapSrc = reader.result;
-                    };
-                    reader.readAsDataURL(blob);
-                }, () => {
-                    this.notificationService.openErrorNotification('error.attachmentDownload');
-                });
-        } else if (!firstCountryObject || !firstCountryObject.attachment) {
-            this.firstMapSrc = null;
+            firstVenueDocuments.forEach((attachment) => {
+                if(this.getFileEnding(attachment.filePath) === "jpeg" || this.getFileEnding(attachment.filePath) === "jpg"){
+                    this.imagesService.getImage(attachment.filePath)
+                    .subscribe((blob) => {
+                        const reader = new FileReader();
+                        reader.onload = () => {
+                            // this.firstVenueDocumentSources.unshift( this.domSanitizer.bypassSecurityTrustUrl(reader.result as string));
+                            this.firstVenueDocumentSources.unshift(reader.result);
+                            this.firstVenueDocumentPaths.unshift(attachment.filePath);
+                            this.firstVenueDocumentBlobs.unshift(blob);
+                            this.firstVenueDocumentNames.unshift(attachment.fileName);
+                        };
+                        reader.readAsDataURL(blob);
+                    }, () => {
+                        this.notificationService.openErrorNotification('error.attachmentDownload');
+                    });
+                } else {
+                    this.attachmentService.getAttachment(attachment.filePath)
+                    .subscribe((blob) => {
+                        const reader = new FileReader();
+                        reader.onload = () => {
+                            // this.firstVenueDocumentSources.unshift( this.domSanitizer.bypassSecurityTrustUrl(reader.result as string));
+                            this.firstVenueDocumentSources.unshift(reader.result);
+                            this.firstVenueDocumentPaths.unshift(attachment.filePath);
+                            this.firstVenueDocumentBlobs.unshift(blob);
+                            this.firstVenueDocumentNames.unshift(attachment.fileName);
+                        };
+                        reader.readAsDataURL(blob);
+                    }, () => {
+                        this.notificationService.openErrorNotification('error.attachmentDownload');
+                    });
+                }
+                
+            });
+
+        } else if (!firstCountryObject || !(firstCountryObject.attachments.length > 0)) {
+            this.firstVenueMapSources = [];
+            this.firstVenueMapPaths = [];
+            this.firstVenueImageSources = [];
+            this.firstVenueImagePaths = [];
+            this.firstVenueDocumentSources = [];
+            this.firstVenueDocumentPaths = [];
         }
 
-        if (secondCountryObject && secondCountryObject.attachment) {
-            this.secondMapPdfName = secondCountryObject.attachment.fileName;
-            this.attachmentService.getAttachment(secondCountryObject.attachment.filePath)
-                .subscribe((blob) => {
+        if (secondCountryObject && secondCountryObject.attachments.length > 0) {
+            const secondVenueMaps = secondCountryObject.attachments.filter((attachment) => attachment.type === AttachmentType.Map);
+            const secondVenueImages = secondCountryObject.attachments.filter((attachment) => attachment.type === AttachmentType.Image);
+            const secondVenueDocuments = secondCountryObject.attachments.filter((attachment) => attachment.type === AttachmentType.Document);
+        
+            secondVenueMaps.forEach((attachment) => {
+                this.attachmentService.getAttachment(attachment.filePath)
+                    .subscribe((blob) => {
+                        const reader = new FileReader();
+                        reader.onload = () => {
+                            this.secondVenueMapSources.unshift(reader.result);
+                            this.secondVenueMapPaths.unshift(attachment.filePath);
+                            this.secondVenueMapNames.unshift(attachment.fileName);
+                            this.secondVenueMapBlobs.unshift(blob);
+                        };
+                        reader.readAsDataURL(blob);
+                    }, () => {
+                        this.notificationService.openErrorNotification('error.attachmentDownload');
+                    });
+            });
 
-                    this.secondMapBlob = blob;
+            secondVenueImages.forEach((attachment) => {
+                
+                this.imagesService.getImage(attachment.filePath)
+                    .subscribe((blob) => {
+                        const reader = new FileReader();
+                        reader.onload = () => {
+                            this.secondVenueImageBlobs.unshift(blob);
+                            this.secondVenueImageSources.unshift(reader.result);
+                            this.secondVenueImagePaths.unshift(attachment.filePath);
+                            this.secondVenueImageNames.unshift(attachment.fileName);
+                        };
+                        reader.readAsDataURL(blob);
+                    }, () => {
+                        this.notificationService.openErrorNotification('error.attachmentDownload');
+                    });
+            });
 
-                    const reader = new FileReader();
-                    reader.onload = () => {
-                        this.secondMapSrc = reader.result;
-                    };
-                    reader.readAsDataURL(blob);
-                }, () => {
-                    this.notificationService.openErrorNotification('error.attachmentDownload');
-                });
-        } else if (!secondCountryObject || !secondCountryObject.attachment) {
-            this.secondMapSrc = null;
+            secondVenueDocuments.forEach((attachment) => {
+                
+                if(this.getFileEnding(attachment.filePath) === "jpeg" || this.getFileEnding(attachment.filePath) === "jpg"){
+                    this.imagesService.getImage(attachment.filePath)
+                    .subscribe((blob) => {
+                        const reader = new FileReader();
+                        reader.onload = () => {
+                            // this.secondVenueDocumentSources.unshift( this.domSanitizer.bypassSecurityTrustUrl(reader.result as string));
+                            this.secondVenueDocumentSources.unshift(reader.result);
+                            this.secondVenueDocumentPaths.unshift(attachment.filePath);
+                            this.secondVenueDocumentBlobs.unshift(blob);
+                            this.secondVenueDocumentNames.unshift(attachment.fileName);
+                        };
+                        reader.readAsDataURL(blob);
+                    }, () => {
+                        this.notificationService.openErrorNotification('error.attachmentDownload');
+                    });
+                } else {
+                    this.attachmentService.getAttachment(attachment.filePath)
+                    .subscribe((blob) => {
+                        const reader = new FileReader();
+                        reader.onload = () => {
+                            // this.secondVenueDocumentSources.unshift( this.domSanitizer.bypassSecurityTrustUrl(reader.result as string));
+                            this.secondVenueDocumentSources.unshift(reader.result);
+                            this.secondVenueDocumentPaths.unshift(attachment.filePath);
+                            this.secondVenueDocumentBlobs.unshift(blob);
+                            this.secondVenueDocumentNames.unshift(attachment.fileName);
+                        };
+                        reader.readAsDataURL(blob);
+                    }, () => {
+                        this.notificationService.openErrorNotification('error.attachmentDownload');
+                    });
+                }
+            });
+
+        } else if (!secondCountryObject || !(secondCountryObject.attachments.length > 0)) {
+            this.secondVenueMapSources = [];
+            this.secondVenueMapPaths = [];
+            this.secondVenueImageSources = [];
+            this.secondVenueImagePaths = [];
+            this.secondVenueDocumentSources = [];
+            this.secondVenueDocumentPaths = [];
         }
-
+        
     }
 
     // TODO: add type
     private firstMapUpdate(file: any) {
         const reader = new FileReader();
-        this.firstMapPdfName = file.name;
         reader.onload = () => {
-            this.firstMapSrc = reader.result;
             this.attachmentService.uploadAttachment([file])
                 .subscribe((data) => {
-                    this.projectDetailForm.controls.firstMapUploadId.patchValue(data.fileNames[file.name]);
-                    this.projectDetailForm.controls.firstMapUploadName.patchValue(file.name);
+                    this.firstVenueMapNames.unshift(file.name);
+                    this.firstVenueMapSources.unshift(reader.result);
+                    this.firstVenueMapPaths.unshift(data.fileNames[file.name]);
                 }, () => {
-                    this.firstMapSrc = null;
-                    this.firstMapBlob = null;
-                    this.firstMapPdfName = null;
                     this.notificationService.openErrorNotification('error.attachmentUpload');
                 });
         };
@@ -370,19 +765,98 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
 
     private secondMapUpdate(file: any) {
         const reader = new FileReader();
-        this.secondMapPdfName = file.name;
         reader.onload = () => {
-            this.secondMapSrc = reader.result;
             this.attachmentService.uploadAttachment([file])
                 .subscribe((data) => {
-                    this.projectDetailForm.controls.secondMapUploadId.patchValue(data.fileNames[file.name]);
-                    this.projectDetailForm.controls.secondMapUploadName.patchValue(file.name);
+                    this.secondVenueMapNames.unshift(file.name);
+                    this.secondVenueMapSources.unshift(reader.result);
+                    this.secondVenueMapPaths.unshift(data.fileNames[file.name]);
                 }, () => {
-                    this.secondMapSrc = null;
-                    this.secondMapBlob = null;
-                    this.secondMapPdfName = null;
                     this.notificationService.openErrorNotification('error.attachmentUpload');
                 });
+        };
+        reader.readAsDataURL(file);
+    }
+
+    private firstImageUpdate(file: any) {
+        const reader = new FileReader();
+        reader.onload = () => {
+            this.imagesService.uploadImages([file])
+                .subscribe((data) => {
+                    this.firstVenueImageNames.unshift(file.name);
+                    this.firstVenueImageSources.unshift(reader.result);
+                    this.firstVenueImagePaths.unshift(data.fileNames[file.name]);
+                    this.emitFirstVenueImagesChangeEmitter();
+                }, () => {
+                    this.notificationService.openErrorNotification('error.attachmentUpload');
+                });
+        };
+        reader.readAsDataURL(file);
+    }
+
+    private secondImageUpdate(file: any) {
+        const reader = new FileReader();
+        reader.onload = () => {
+            this.imagesService.uploadImages([file])
+                .subscribe((data) => {
+                    this.secondVenueImageNames.unshift(file.name);
+                    this.secondVenueImageSources.unshift(reader.result);
+                    this.secondVenueImagePaths.unshift(data.fileNames[file.name]);
+                }, () => {
+                    this.notificationService.openErrorNotification('error.attachmentUpload');
+                });
+        };
+        reader.readAsDataURL(file);
+    }
+
+    private firstDocumentUpdate(file: any) {
+        const reader = new FileReader();
+        reader.onload = () => {
+            if (this.fileIsImage(file)) {
+                this.imagesService.uploadImages([file])
+                .subscribe((data) => {
+                    this.firstVenueDocumentNames.unshift(file.name);
+                    this.firstVenueDocumentSources.unshift(reader.result);
+                    this.firstVenueDocumentPaths.unshift(data.fileNames[file.name]);
+                }, () => {
+                    this.notificationService.openErrorNotification('error.attachmentUpload');
+                });
+            } else {
+                this.attachmentService.uploadAttachment([file])
+                .subscribe((data) => {
+                    this.firstVenueDocumentNames.unshift(file.name);
+                    this.firstVenueDocumentSources.unshift(reader.result);
+                    this.firstVenueDocumentPaths.unshift(data.fileNames[file.name]);
+                }, () => {
+                    this.notificationService.openErrorNotification('error.attachmentUpload');
+                });
+            }
+        };
+        reader.readAsDataURL(file);
+    }
+
+    private secondDocumentUpdate(file: any) {
+        const reader = new FileReader();
+        reader.onload = () => {
+            if (this.fileIsImage(file)) {
+                this.imagesService.uploadImages([file])
+                .subscribe((data) => {
+                    this.secondVenueDocumentNames.unshift(file.name);
+                    this.secondVenueDocumentSources.unshift(reader.result);
+                    this.secondVenueDocumentPaths.unshift(data.fileNames[file.name]);
+                }, () => {
+                    this.notificationService.openErrorNotification('error.attachmentUpload');
+                });
+            } else {
+                this.attachmentService.uploadAttachment([file])
+                .subscribe((data) => {
+                    this.secondVenueDocumentNames.unshift(file.name);
+                    this.secondVenueDocumentSources.unshift(reader.result);
+                    this.secondVenueDocumentPaths.unshift(data.fileNames[file.name]);
+                }, () => {
+                    this.notificationService.openErrorNotification('error.attachmentUpload');
+                });
+            }
         };
         reader.readAsDataURL(file);
     }
@@ -394,8 +868,25 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
                 this.projectDetailForm.controls.firstVenue.patchValue(firstCountryObject.cityName);
                 this.projectDetailForm.controls.oldFirstVenue.patchValue(firstCountryObject.cityName);
                 if (firstCountryObject.attachment && firstCountryObject.attachment.filePath) {
-                    this.projectDetailForm.controls.firstMapUploadId.patchValue(firstCountryObject.attachment.filePath);
-                    this.projectDetailForm.controls.firstMapUploadName.patchValue(firstCountryObject.attachment.fileName);
+                    const attachments = [];
+                    const attachmentsUpload = [];
+                    if (firstCountryObject.attachment instanceof Array) {
+                        attachments.concat(firstCountryObject.attachment);
+                        firstCountryObject.attachment.forEach((item) => {
+                            attachmentsUpload.push({
+                                id: item.filePath,
+                                name: item.fileName
+                            });
+                        });
+                    } else {
+                        attachments.push(firstCountryObject.attachment);
+                        attachmentsUpload.push({
+                            id: firstCountryObject.attachment.filePath,
+                            name: firstCountryObject.attachment.fileName
+                        });
+                    }
+                    this.projectDetailForm.controls.firstMap.patchValue(attachments);
+                    this.projectDetailForm.controls.firstMapUpload.patchValue(attachmentsUpload);
                 }
             }
         }
@@ -408,11 +899,32 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
                 this.projectDetailForm.controls.oldSecondVenue.patchValue(secondCountryObject.cityName);
                 this.projectDetailForm.controls.secondVenue.patchValue(secondCountryObject.cityName);
                 if (secondCountryObject.attachment && secondCountryObject.attachment.filePath) {
-                    this.projectDetailForm.controls.secondMapUploadId.patchValue(secondCountryObject.attachment.filePath);
-                    this.projectDetailForm.controls.secondMapUploadName.patchValue(secondCountryObject.attachment.fileName);
+                    const attachments = [];
+                    const attachmentsUpload = [];
+                    if (secondCountryObject.attachment instanceof Array) {
+                        attachments.concat(secondCountryObject.attachment);
+                        secondCountryObject.attachment.forEach((item) => {
+                            attachmentsUpload.push({
+                                id: item.filePath,
+                                name: item.fileName
+                            });
+                        });
+                    } else {
+                        attachments.push(secondCountryObject.attachment);
+                        attachmentsUpload.push({
+                            id: secondCountryObject.attachment.filePath,
+                            name: secondCountryObject.attachment.fileName
+                        });
+                    }
+                    this.projectDetailForm.controls.secondMap.patchValue(attachments);
+                    this.projectDetailForm.controls.secondMapUpload.patchValue(attachmentsUpload);
                 }
             }
         }
+    }
+
+    private fileIsImage(file: any): boolean {
+        return file.type.startsWith("image");
     }
 
     private firstCountryEmptyWhenFirstVenue() {
@@ -441,7 +953,7 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
 
     private firstVenueEmptyWhenFirstMap() {
         return (group: FormGroup): {[key: string]: any} => {
-            const firstVenueEmptyWhenFirstMap = this.editMode && this.projectDetailForm.controls.firstMapUploadId.value && !this.projectDetailForm.controls.firstVenue.value;
+            const firstVenueEmptyWhenFirstMap = this.editMode && this.projectDetailForm.controls.firstMapUpload.value.id && !this.projectDetailForm.controls.firstVenue.value;
             return firstVenueEmptyWhenFirstMap ? {firstVenueEmptyWhenFirstMap} : null;
 
         };
@@ -449,7 +961,7 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
 
     private secondVenueEmptyWhenSecondMap() {
         return (group: FormGroup): {[key: string]: any} => {
-            const secondVenueEmptyWhenSecondMap = this.editMode && this.projectDetailForm.controls.secondMapUploadId.value && !this.projectDetailForm.controls.secondVenue.value;
+            const secondVenueEmptyWhenSecondMap = this.editMode && this.projectDetailForm.controls.secondMapUpload.value && !this.projectDetailForm.controls.secondVenue.value;
             return secondVenueEmptyWhenSecondMap ? {secondVenueEmptyWhenSecondMap} : null;
 
         };
@@ -467,16 +979,24 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
             firstCountry: [''],
             secondCountry: [''],
             oldFirstVenue: [''],
-            firstVenue: ['', ],
+            firstVenue: [''],
             oldSecondVenue: [''],
             secondVenue: [''],
+            logoUploadId: [''],
+
             firstMap: [''],
             secondMap: [''],
-            logoUploadId: [''],
-            firstMapUploadId: [''],
-            firstMapUploadName: [''],
-            secondMapUploadId: [''],
-            secondMapUploadName: [''],
+            firstMapUpload: [[]],
+            secondMapUpload: [[]],
+            firstImage: [''],
+            secondImage: [''],
+            firstImageUpload: [[]],
+            secondImageUpload: [[]],
+            firstDocument: [''],
+            secondDocument: [''],
+            firstDocumentUpload: [[]],
+            secondDocumentUpload: [[]],
+
             description: [''],
         }, {
             validator: [
@@ -488,6 +1008,51 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
             ]
         });
 
+    }
+
+    public getFileEnding(filePath: string): string {
+        return filePath.substr(filePath.lastIndexOf(".") + 1).toLowerCase();
+    }
+
+    accept=".zip,image/jpeg"
+                                  
+
+    private getContentTypeFromFileName(fileName: string): string {
+        switch(this.getFileEnding(fileName)) {
+            case "pdf": {
+                return "application/pdf";
+            }
+            case "jpeg": {
+                return "image/jpeg";
+            }
+            case "txt": {
+                return "text/plain";
+            }
+            case "rtf": {
+                return ".rtf";
+            }
+            case "csv": {
+                return ".csv";
+            }
+            case "doc": {
+                return ".doc";
+            }
+            case "docx": {
+                return ".docx";
+            }
+            case "xls": {
+                return ".application/vnd.ms-excel";
+            }
+            case "xlsx": {
+                return ".application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            }
+            case "zip": {
+                return ".zip";
+            }
+            default:{
+                return "*";
+            }     
+        }
     }
 
 }

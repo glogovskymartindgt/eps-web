@@ -8,7 +8,7 @@
             <mat-label>{{'businessArea.title' | translate}}</mat-label>
             <mat-select (selectionChange)="setTableData()" formControlName="businessArea">
                 <mat-option value="all">{{'all.things' | translate}}</mat-option>
-                <mat-option *ngFor="let businessArea of businessAreaList"
+                <mat-option *ngFor="let businessArea of businessAreaList; trackBy:trackBusinessAreaById"
                             [value]="businessArea.name"
                 >
                     {{businessArea.codeItem}} - {{businessArea.name}}

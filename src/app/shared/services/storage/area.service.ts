@@ -8,7 +8,7 @@ type Proxify<T> = {
 };
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class AreaService<T extends object> {
     private readonly _behaviorSubject: BehaviorSubject<T>;
@@ -48,12 +48,14 @@ export class AreaService<T extends object> {
         const newValue: T = {...this._behaviorSubject.value as any};
         newValue[key] = value;
         this._behaviorSubject.next(newValue);
+
         return newValue;
     }
 
     public setData(data: T): T {
         this._behaviorSubject.next(data);
         this.storeData(data);
+
         return data;
     }
 

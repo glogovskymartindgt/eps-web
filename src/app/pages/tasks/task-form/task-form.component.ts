@@ -1,17 +1,17 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { BusinessArea } from '../../../shared/interfaces/bussiness-area.interface';
-import { Phase } from '../../../shared/interfaces/phase.interface';
-import { User } from '../../../shared/interfaces/user.interface';
-import { Task } from '../../../shared/models/task.model';
 
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 
 import { ActivatedRoute } from '@angular/router';
 import * as _moment from 'moment';
+import { BusinessArea } from '../../../shared/interfaces/bussiness-area.interface';
+import { Phase } from '../../../shared/interfaces/phase.interface';
 import { SourceOfAgenda } from '../../../shared/interfaces/source-of-agenda.interface';
+import { User } from '../../../shared/interfaces/user.interface';
 import { Venue } from '../../../shared/interfaces/venue.interface';
+import { Task } from '../../../shared/models/task.model';
 import { BusinessAreaService } from '../../../shared/services/data/business-area.service';
 import { PhaseService } from '../../../shared/services/data/phase.service';
 import { TaskService } from '../../../shared/services/data/task.service';
@@ -39,19 +39,35 @@ export const PROJECT_DATE_FORMATS = {
     templateUrl: './task-form.component.html',
     styleUrls: ['./task-form.component.scss'],
     providers: [
-        {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
-        {provide: MAT_DATE_FORMATS, useValue: PROJECT_DATE_FORMATS},
+        {
+            provide: DateAdapter,
+            useClass: MomentDateAdapter,
+            deps: [MAT_DATE_LOCALE]
+        },
+        {
+            provide: MAT_DATE_FORMATS,
+            useValue: PROJECT_DATE_FORMATS
+        },
     ],
 })
 export class TaskFormComponent implements OnInit {
+
     @Output('formDataChange') public onFormDataChange = new EventEmitter<any>();
     public businessAreaList: BusinessArea[];
     public sourceOfAgendaList: SourceOfAgenda[];
     public phaseList: Phase[];
     public venueList: Venue[];
     public userList: User[];
-    public taskTypeList = ['Task', 'Issue'];
-    public trafficLightList: string[] = ['red', 'amber', 'green', 'none'];
+    public taskTypeList = [
+        'Task',
+        'Issue'
+    ];
+    public trafficLightList: string[] = [
+        'red',
+        'amber',
+        'green',
+        'none'
+    ];
     public taskForm: FormGroup;
     public task: Task;
     public dateInvalid = false;
@@ -67,12 +83,17 @@ export class TaskFormComponent implements OnInit {
                        private readonly projectEventService: ProjectEventService,
                        private readonly activatedRoute: ActivatedRoute,
                        private readonly notificationService: NotificationService,
-                       private readonly taskService: TaskService,
-    ) {
+                       private readonly taskService: TaskService,) {
+    }
+
+    public get f() {
+        return this.taskForm.controls;
     }
 
     public dateClass = (d: Date) => {
-        const day = moment(d).toDate().getDay();
+        const day = moment(d)
+            .toDate()
+            .getDay();
         return (day === 0 || day === 6) ? 'custom-date-class' : undefined;
     }
 
@@ -84,13 +105,11 @@ export class TaskFormComponent implements OnInit {
         this.loadUserList();
         this.createForm();
         this.checkIfUpdate();
-        this.taskForm.get('taskType').valueChanges.subscribe((value) => {
-            this.onTypeChanged(value);
-        });
-    }
-
-    public get f() {
-        return this.taskForm.controls;
+        this.taskForm.get('taskType')
+            .valueChanges
+            .subscribe((value) => {
+                this.onTypeChanged(value);
+            });
     }
 
     public onDateChanged(event) {
@@ -114,53 +133,96 @@ export class TaskFormComponent implements OnInit {
         }
     }
 
-    private loadBusinessAreaList() {
-        this.businessAreaService.listBusinessAreas().subscribe((data) => {
-            this.businessAreaList = data.content
-                .filter((item) => item.codeItem !== null && item.state === 'VALID');
-        });
-    }
-
-    private loadSourceOfAgendaList() {
-        this.businessAreaService.listSourceOfAgendas().subscribe((data) => {
-            this.sourceOfAgendaList = data.content
-                .filter((item) => item.state === 'VALID');
-        });
-    }
-
-    private loadPhaseList() {
-        this.phaseService.getPhasesByProjectId(this.projectEventService.instant.id).subscribe((data) => {
-            this.phaseList = data;
-        });
-    }
-
-    private loadVenueList() {
-        this.venueService.getVenuesByProjectId(this.projectEventService.instant.id).subscribe((data) => {
-            this.venueList = data;
-        });
-    }
-
-    private loadUserList() {
-        this.userDataService.getUsers().subscribe((data) => {
-            this.userList = data;
-        });
-    }
-
     public onTypeChanged(type: string) {
         if (type === 'ISSUE' && this.taskForm.get('trafficLight') === null) {
             this.taskForm.addControl('trafficLight', this.formBuilder.control(null, [Validators.required]));
-            this.taskForm.get('trafficLight').setValue('');
+            this.taskForm.get('trafficLight')
+                .setValue('');
         }
         if (type === 'TASK') {
             this.taskForm.removeControl('trafficLight');
         }
     }
 
+    public trackTaskTypeBySelf(index: number, item: string): string {
+        return item;
+    }
+
+    public trackTrafficLightBySelf(index: number, item: string): string {
+        return item;
+    }
+
+    public trackBusinessAreaById(index: number, item: BusinessArea): number {
+        return item.id;
+    }
+
+    public trackVenueById(index: number, item: Venue): number {
+        return item.id;
+    }
+
+    public trackUserById(index: number, item: User): number {
+        return item.id;
+    }
+
+    public trackSourceOfAgendaById(index: number, item: SourceOfAgenda): number {
+        return item.id;
+    }
+
+    public trackPhaseById(index: number, item: Phase): number {
+        return item.id;
+    }
+
+    private loadBusinessAreaList() {
+        this.businessAreaService.listBusinessAreas()
+            .subscribe((data) => {
+                this.businessAreaList = data.content
+                                            .filter((item) => item.codeItem !== null && item.state === 'VALID');
+            });
+    }
+
+    private loadSourceOfAgendaList() {
+        this.businessAreaService.listSourceOfAgendas()
+            .subscribe((data) => {
+                this.sourceOfAgendaList = data.content
+                                              .filter((item) => item.state === 'VALID');
+            });
+    }
+
+    private loadPhaseList() {
+        this.phaseService.getPhasesByProjectId(this.projectEventService.instant.id)
+            .subscribe((data) => {
+                this.phaseList = data;
+            });
+    }
+
+    private loadVenueList() {
+        this.venueService.getVenuesByProjectId(this.projectEventService.instant.id)
+            .subscribe((data) => {
+                this.venueList = data;
+            });
+    }
+
+    private loadUserList() {
+        this.userDataService.getUsers()
+            .subscribe((data) => {
+                this.userList = data;
+            });
+    }
+
     private createForm() {
         this.taskForm = this.formBuilder.group({
-            taskType: ['TASK', Validators.required],
-            title: [null, Validators.required],
-            businessArea: ['', Validators.required],
+            taskType: [
+                'TASK',
+                Validators.required
+            ],
+            title: [
+                null,
+                Validators.required
+            ],
+            businessArea: [
+                '',
+                Validators.required
+            ],
             sourceOfAgenda: [''],
             phase: [''],
             dueDate: [null],
@@ -200,16 +262,26 @@ export class TaskFormComponent implements OnInit {
     }
 
     private getIdFromRouteParamsAndSetDetail(param: any): void {
-        this.taskService.getTaskById(param.id).subscribe((apiTask) => {
-            this.setForm(apiTask);
-        }, (error) => this.notificationService.openErrorNotification(error));
+        this.taskService.getTaskById(param.id)
+            .subscribe((apiTask) => {
+                this.setForm(apiTask);
+            }, (error) => this.notificationService.openErrorNotification(error));
     }
 
     private setForm(task: any) {
         this.taskForm = this.formBuilder.group({
-            taskType: ['TASK', Validators.required],
-            title: ['', Validators.required],
-            businessArea: ['', Validators.required],
+            taskType: [
+                'TASK',
+                Validators.required
+            ],
+            title: [
+                '',
+                Validators.required
+            ],
+            businessArea: [
+                '',
+                Validators.required
+            ],
             sourceOfAgenda: [''],
             phase: [''],
             dueDate: [null],
@@ -257,13 +329,13 @@ export class TaskFormComponent implements OnInit {
             this.taskForm.controls.code.patchValue(task.code);
         }
         if (task.trafficLight) {
-            this.taskForm.addControl('trafficLight',
-                this.formBuilder.control(null, [Validators.required])
-            );
-            this.taskForm.get('trafficLight').setValue(task.trafficLight);
+            this.taskForm.addControl('trafficLight', this.formBuilder.control(null, [Validators.required]));
+            this.taskForm.get('trafficLight')
+                .setValue(task.trafficLight);
         }
         if (task.changedAt) {
-            this.taskForm.controls.changedAt.patchValue(moment(task.changedAt).format('D.M.YYYY - HH:mm:ss'));
+            this.taskForm.controls.changedAt.patchValue(moment(task.changedAt)
+                .format('D.M.YYYY - HH:mm:ss'));
         }
         if (task.changedBy) {
             this.taskForm.controls.changedBy.patchValue(`${task.changedBy.firstName} ${task.changedBy.lastName}`);
