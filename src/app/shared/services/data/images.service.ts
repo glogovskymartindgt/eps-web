@@ -14,7 +14,7 @@ import { ProjectUserService } from '../storage/project-user.service';
 // TODO: remove project Service or add function to project service
 export class ImagesService extends ProjectService<any> {
 
-    public constructor(http: HttpClient, notificationService: NotificationService, userService: ProjectUserService,) {
+    public constructor(http: HttpClient, notificationService: NotificationService, userService: ProjectUserService, ) {
         super(http, 'images', notificationService, userService);
     }
 
@@ -41,6 +41,6 @@ export class ImagesService extends ProjectService<any> {
                    })
                    .pipe(map((result) => {
                        return result as any;
-                   }), catchError(this.handleError),);
+                   }), catchError(this.handleError), );
     }
 }

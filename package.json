@@ -10,7 +10,7 @@
         "buildProd": "ng build --configuration=production",
         "test": "ng test",
         "lint": "ng lint",
-        "lint:fix": "ng lint --fix",
+        "lint:fix": "ng lint iihf-web --fix",
         "e2e": "ng e2e",
         "zipDist": "cd dist && zip -r iihf-eps-web.zip *"
     },

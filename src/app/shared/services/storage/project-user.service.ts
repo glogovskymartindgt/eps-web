@@ -6,7 +6,7 @@ import { UserDataInterface } from '../../interfaces/user-data.interface';
     providedIn: 'root'
 })
 export class ProjectUserService extends UserService<UserDataInterface> {
-    public constructor(storageService: AbstractStorageService, ) {
+    public constructor(storageService: AbstractStorageService,) {
         super(storageService);
     }
 

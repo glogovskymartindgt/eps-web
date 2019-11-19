@@ -254,7 +254,7 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
                        responseType: 'blob',
                        observe: 'response'
                    })
-                   .pipe(map(mapFunction), catchError(this.handleError),);
+                   .pipe(map(mapFunction), catchError(this.handleError), );
     }
 
     /**
@@ -281,7 +281,7 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
                        responseType: 'blob',
                        observe: 'response'
                    })
-                   .pipe(map(mapFunction), catchError(this.handleError),);
+                   .pipe(map(mapFunction), catchError(this.handleError), );
     }
 
 }
