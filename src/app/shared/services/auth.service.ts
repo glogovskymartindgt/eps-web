@@ -49,7 +49,6 @@ import { ProjectUserService } from './storage/project-user.service';
                 deviceId
             }, {headers})
             .subscribe((data) => {
-                console.log('data', data);
                 this.userService.setAuthData(data);
                 this.projectEventService.setEventData();
                 this.router.navigate(['dashboard']);

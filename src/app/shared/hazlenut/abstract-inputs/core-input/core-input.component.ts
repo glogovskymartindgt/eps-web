@@ -111,7 +111,6 @@ export class CoreInputComponent implements OnInit, ControlValueAccessor, AfterVi
 
             return;
         }
-        console.log('this.formControl.errors', this.formControl.errors);
         switch (true) {
             case Boolean(this.formControl.errors.required):
                 this.displayedError = this.showErrors ? this.errorRequired : (this.displayedError = '');

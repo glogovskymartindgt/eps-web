@@ -33,12 +33,12 @@ $background: rgba(0, 45, 98, .5);
 }
 
 .layer {
-    background: $background;
     height: calc(100vh - 106px);
 }
 
 .menu-sidenav {
     min-width: 245px;
+    background: $background;
     box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
 }
 

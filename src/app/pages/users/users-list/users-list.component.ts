@@ -131,7 +131,6 @@ export class UsersListComponent implements OnInit {
                 this.config.predefinedFilters = this.tableChangeStorageService.getUsersLastTableChangeEvent().filters;
             }
             if (this.tableChangeStorageService.getUsersLastTableChangeEvent().pageIndex) {
-                console.log(this.tableChangeStorageService.getUsersLastTableChangeEvent().pageIndex);
                 this.config.predefinedPageIndex = this.tableChangeStorageService.getUsersLastTableChangeEvent().pageIndex;
             }
             if (this.tableChangeStorageService.getUsersLastTableChangeEvent().pageSize) {
