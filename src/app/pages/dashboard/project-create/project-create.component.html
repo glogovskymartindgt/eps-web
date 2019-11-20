@@ -12,10 +12,10 @@
                     <div class="short-input">
                         <div class="relative-parent">
                             <label *ngIf="hasRoleUploadImage()"
-                                class="logo-container-style"
-                                for="logo-image"
-                                fxFlex="100px"
-                                mat-ripple
+                                   class="logo-container-style"
+                                   for="logo-image"
+                                   fxFlex="100px"
+                                   mat-ripple
                             ></label>
                             <input (change)="onLogoInserted($event)"
                                    *ngIf="hasRoleUploadImage()"
@@ -26,7 +26,7 @@
                                    type="file"
                             >
                             <div *ngIf="hasRoleUploadImage()"
-                                class="logo-content-style logo-content-style-edit"
+                                 class="logo-content-style logo-content-style-edit"
                             >
                                 <img [src]="imageSrc"
                                      alt="project logo"
@@ -195,3 +195,5 @@
         </div>
     </div>
 </div>
+
+

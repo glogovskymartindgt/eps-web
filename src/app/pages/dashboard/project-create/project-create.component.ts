@@ -74,12 +74,13 @@ export class ProjectCreateComponent implements OnInit {
     }
 
     public onSave(): void {
-        this.projectsService.createProject(this.transformProjectToApiObject()).subscribe(() => {
-            this.notificationService.openSuccessNotification('success.add');
-            this.router.navigate(['dashboard/list']);
-        }, () => {
-            this.notificationService.openErrorNotification('error.add');
-        });
+        this.projectsService.createProject(this.transformProjectToApiObject())
+            .subscribe(() => {
+                this.notificationService.openSuccessNotification('success.add');
+                this.router.navigate(['dashboard/list']);
+            }, () => {
+                this.notificationService.openErrorNotification('error.add');
+            });
     }
 
     public onCancel(): void {
@@ -176,7 +177,46 @@ export class ProjectCreateComponent implements OnInit {
             secondVenue: [''],
             logoUploadId: [''],
             description: [''],
+        }, {
+            validator: [
+                this.firstCountryEmptyWhenFirstVenue(),
+                this.secondCountryEmptyWhenSecondVenue(),
+                this.firstCountryEmptyWhenSecondCountry(),
+            ]
         });
+    }
+
+    private firstCountryEmptyWhenFirstVenue() {
+        return (group: FormGroup): {[key: string]: any} => {
+            let firstCountryEmptyWhenFirstVenue;
+            if (this.projectDetailForm) {
+                firstCountryEmptyWhenFirstVenue = this.projectDetailForm.controls.firstVenue.value && !this.projectDetailForm.controls.firstCountry.value;
+            }
+            return firstCountryEmptyWhenFirstVenue ? {firstCountryEmptyWhenSecondCountry: firstCountryEmptyWhenFirstVenue} : null;
+
+        };
+    }
+
+    private secondCountryEmptyWhenSecondVenue() {
+        return (group: FormGroup): {[key: string]: any} => {
+            let secondCountryEmptyWhenSecondVenue;
+            if (this.projectDetailForm) {
+                secondCountryEmptyWhenSecondVenue = this.projectDetailForm.controls.secondVenue.value && !this.projectDetailForm.controls.secondCountry.value;
+            }
+            return secondCountryEmptyWhenSecondVenue ? {secondCountryEmptyWhenSecondVenue} : null;
+
+        };
+    }
+
+    private firstCountryEmptyWhenSecondCountry() {
+        return (group: FormGroup): {[key: string]: any} => {
+            let firstCountryEmptyWhenSecondCountry;
+            if (this.projectDetailForm) {
+                firstCountryEmptyWhenSecondCountry = this.projectDetailForm.controls.secondCountry.value && !this.projectDetailForm.controls.firstCountry.value;
+            }
+            return firstCountryEmptyWhenSecondCountry ? {firstCountryEmptyWhenSecondCountry} : null;
+
+        };
     }
 
     private loadCountries() {

@@ -87,6 +87,13 @@ $color-secondary: #002d62;
     bottom: 0;
 }
 
+.error-text {
+    position: absolute;
+    font-family: Roboto, sans-serif;
+    font-size: 12px;
+    bottom: 5px;
+}
+
 ::ng-deep .mat-primary .mat-pseudo-checkbox-checked {
     background: #848484;
 }
