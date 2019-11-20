@@ -59,9 +59,6 @@ export const PROJECT_DATE_FORMATS = {
 })
 export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy {
 
-    public get attachmentType() {
-        return AttachmentType;
-    }
     @Input() public editMode: boolean;
     @Input() public refreshSubject: Subject<any>;
     @Output('formDataChange') public onFormDataChange = new EventEmitter<any>();
@@ -72,13 +69,11 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
     @Output('firstVenueDocumentsChange') public onFirstVenueDocumentsChange = new EventEmitter<any>();
     @Output('secondVenueDocumentsChange') public onSecondVenueDocumentsChange = new EventEmitter<any>();
     public defaultLogoPath = 'assets/img/iihf-logo-without-text-transparent.png';
-
     public projectDetailForm: FormGroup;
     public yearPattern = Regex.yearPattern;
     public numericPattern = Regex.numericPattern;
     public notOnlyWhiteCharactersPattern = Regex.notOnlyWhiteCharactersPattern;
     public dateInvalid = false;
-
     public firstVenueMapSources: any[] = [];
     public firstVenueImageSources: any[] = [];
     public firstVenueDocumentSources: any[] = [];
@@ -91,7 +86,6 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
     public firstVenueMapPaths: any[];
     public firstVenueImagePaths: any[];
     public firstVenueDocumentPaths: any[];
-
     public secondVenueMapSources: any[] = [];
     public secondVenueImageSources: any[] = [];
     public secondVenueDocumentSources: any[] = [];
@@ -104,16 +98,24 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
     public secondVenueMapPaths: any[];
     public secondVenueImagePaths: any[];
     public secondVenueDocumentPaths: any[];
-
     public imageSrc: any = this.defaultLogoPath;
     public countryList = [];
     public countriesLoading = false;
-
     public viewMaps = false;
     public viewImages = false;
     public viewDocuments = false;
-
-    public documentFileTypes = ['pdf', 'txt', 'doc', 'docx', 'rtf', 'xls', 'xlsx', 'csv', 'zip', 'jpeg'];
+    public documentFileTypes = [
+        'pdf',
+        'txt',
+        'doc',
+        'docx',
+        'rtf',
+        'xls',
+        'xlsx',
+        'csv',
+        'zip',
+        'jpeg'
+    ];
 
     public constructor(private readonly formBuilder: FormBuilder,
                        private readonly domSanitizer: DomSanitizer,
@@ -124,6 +126,10 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
                        private readonly attachmentService: AttachmentService,
                        private readonly matDialog: MatDialog,
                        public readonly projectEventService: ProjectEventService) {
+    }
+
+    public get attachmentType() {
+        return AttachmentType;
     }
 
     public ngOnInit(): void {
@@ -395,7 +401,11 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
     }
 
     public isJpegJpgOrPdfFromName(name: string) {
-        return ['jpg', 'jpeg', 'pdf'].includes(this.getFileEnding(name));
+        return [
+            'jpg',
+            'jpeg',
+            'pdf'
+        ].includes(this.getFileEnding(name));
     }
 
     public openDialog(source: any): void {
@@ -430,7 +440,8 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         if (!filePath) {
             return;
         }
-        return filePath.substr(filePath.lastIndexOf('.') + 1).toLowerCase();
+        return filePath.substr(filePath.lastIndexOf('.') + 1)
+                       .toLowerCase();
     }
 
     /**
@@ -565,15 +576,25 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         });
         if (projectDetail.dateFrom) {
             this.projectDetailForm.controls.dateFrom.patchValue(projectDetail.dateFrom);
+        } else {
+            this.projectDetailForm.controls.dateFrom.patchValue('');
         }
         if (projectDetail.dateTo) {
             this.projectDetailForm.controls.dateTo.patchValue(projectDetail.dateTo);
+        } else {
+            this.projectDetailForm.controls.dateTo.patchValue('');
         }
         if (projectDetail.description) {
             this.projectDetailForm.controls.description.patchValue(projectDetail.description);
+        } else {
+            this.projectDetailForm.controls.description.patchValue('');
         }
         if (projectDetail.logo) {
             this.projectDetailForm.controls.logoUploadId.patchValue(projectDetail.logo);
+        } else {
+            this.projectDetailForm.controls.logoUploadId.patchValue('');
+            this.projectDetailForm.controls.logo.patchValue('');
+            this.imageSrc = this.defaultLogoPath;
         }
         if (projectDetail.id) {
             this.projectDetailForm.controls.projectId.patchValue(projectDetail.id);
@@ -581,6 +602,7 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
 
         const firstCountryObject = projectDetail.projectVenues.find((projectVenue) => projectVenue.screenPosition === 1);
         this.setFormFromFirstCountry(firstCountryObject);
+
         const secondCountryObject = projectDetail.projectVenues.find((projectVenue) => projectVenue.screenPosition === 2);
         this.setFormFromSecondCountry(secondCountryObject);
 
@@ -653,32 +675,32 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
             firstVenueDocuments.forEach((attachment) => {
                 if (this.getFileEnding(attachment.filePath) === 'jpeg') {
                     this.imagesService.getImage(attachment.filePath)
-                    .subscribe((blob) => {
-                        const reader = new FileReader();
-                        reader.onload = () => {
-                            this.firstVenueDocumentSources.unshift(reader.result);
-                            this.firstVenueDocumentPaths.unshift(attachment.filePath);
-                            this.firstVenueDocumentBlobs.unshift(blob);
-                            this.firstVenueDocumentNames.unshift(attachment.fileName);
-                        };
-                        reader.readAsDataURL(blob);
-                    }, () => {
-                        this.notificationService.openErrorNotification('error.attachmentDownload');
-                    });
+                        .subscribe((blob) => {
+                            const reader = new FileReader();
+                            reader.onload = () => {
+                                this.firstVenueDocumentSources.unshift(reader.result);
+                                this.firstVenueDocumentPaths.unshift(attachment.filePath);
+                                this.firstVenueDocumentBlobs.unshift(blob);
+                                this.firstVenueDocumentNames.unshift(attachment.fileName);
+                            };
+                            reader.readAsDataURL(blob);
+                        }, () => {
+                            this.notificationService.openErrorNotification('error.attachmentDownload');
+                        });
                 } else {
                     this.attachmentService.getAttachment(attachment.filePath)
-                    .subscribe((blob) => {
-                        const reader = new FileReader();
-                        reader.onload = () => {
-                            this.firstVenueDocumentSources.unshift(reader.result);
-                            this.firstVenueDocumentPaths.unshift(attachment.filePath);
-                            this.firstVenueDocumentBlobs.unshift(blob);
-                            this.firstVenueDocumentNames.unshift(attachment.fileName);
-                        };
-                        reader.readAsDataURL(blob);
-                    }, () => {
-                        this.notificationService.openErrorNotification('error.attachmentDownload');
-                    });
+                        .subscribe((blob) => {
+                            const reader = new FileReader();
+                            reader.onload = () => {
+                                this.firstVenueDocumentSources.unshift(reader.result);
+                                this.firstVenueDocumentPaths.unshift(attachment.filePath);
+                                this.firstVenueDocumentBlobs.unshift(blob);
+                                this.firstVenueDocumentNames.unshift(attachment.fileName);
+                            };
+                            reader.readAsDataURL(blob);
+                        }, () => {
+                            this.notificationService.openErrorNotification('error.attachmentDownload');
+                        });
                 }
 
             });
@@ -748,32 +770,32 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
             secondVenueDocuments.forEach((attachment) => {
                 if (this.getFileEnding(attachment.filePath) === 'jpeg') {
                     this.imagesService.getImage(attachment.filePath)
-                    .subscribe((blob) => {
-                        const reader = new FileReader();
-                        reader.onload = () => {
-                            this.secondVenueDocumentSources.unshift(reader.result);
-                            this.secondVenueDocumentPaths.unshift(attachment.filePath);
-                            this.secondVenueDocumentBlobs.unshift(blob);
-                            this.secondVenueDocumentNames.unshift(attachment.fileName);
-                        };
-                        reader.readAsDataURL(blob);
-                    }, () => {
-                        this.notificationService.openErrorNotification('error.attachmentDownload');
-                    });
+                        .subscribe((blob) => {
+                            const reader = new FileReader();
+                            reader.onload = () => {
+                                this.secondVenueDocumentSources.unshift(reader.result);
+                                this.secondVenueDocumentPaths.unshift(attachment.filePath);
+                                this.secondVenueDocumentBlobs.unshift(blob);
+                                this.secondVenueDocumentNames.unshift(attachment.fileName);
+                            };
+                            reader.readAsDataURL(blob);
+                        }, () => {
+                            this.notificationService.openErrorNotification('error.attachmentDownload');
+                        });
                 } else {
                     this.attachmentService.getAttachment(attachment.filePath)
-                    .subscribe((blob) => {
-                        const reader = new FileReader();
-                        reader.onload = () => {
-                            this.secondVenueDocumentSources.unshift(reader.result);
-                            this.secondVenueDocumentPaths.unshift(attachment.filePath);
-                            this.secondVenueDocumentBlobs.unshift(blob);
-                            this.secondVenueDocumentNames.unshift(attachment.fileName);
-                        };
-                        reader.readAsDataURL(blob);
-                    }, () => {
-                        this.notificationService.openErrorNotification('error.attachmentDownload');
-                    });
+                        .subscribe((blob) => {
+                            const reader = new FileReader();
+                            reader.onload = () => {
+                                this.secondVenueDocumentSources.unshift(reader.result);
+                                this.secondVenueDocumentPaths.unshift(attachment.filePath);
+                                this.secondVenueDocumentBlobs.unshift(blob);
+                                this.secondVenueDocumentNames.unshift(attachment.fileName);
+                            };
+                            reader.readAsDataURL(blob);
+                        }, () => {
+                            this.notificationService.openErrorNotification('error.attachmentDownload');
+                        });
                 }
             });
 
@@ -879,22 +901,22 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         reader.onload = () => {
             if (this.fileIsImage(file)) {
                 this.imagesService.uploadImages([file])
-                .subscribe((data) => {
-                    this.firstVenueDocumentNames.unshift(file.name);
-                    this.firstVenueDocumentSources.unshift(reader.result);
-                    this.firstVenueDocumentPaths.unshift(data.fileNames[file.name]);
-                }, () => {
-                    this.notificationService.openErrorNotification('error.attachmentUpload');
-                });
+                    .subscribe((data) => {
+                        this.firstVenueDocumentNames.unshift(file.name);
+                        this.firstVenueDocumentSources.unshift(reader.result);
+                        this.firstVenueDocumentPaths.unshift(data.fileNames[file.name]);
+                    }, () => {
+                        this.notificationService.openErrorNotification('error.attachmentUpload');
+                    });
             } else {
                 this.attachmentService.uploadAttachment([file])
-                .subscribe((data) => {
-                    this.firstVenueDocumentNames.unshift(file.name);
-                    this.firstVenueDocumentSources.unshift(reader.result);
-                    this.firstVenueDocumentPaths.unshift(data.fileNames[file.name]);
-                }, () => {
-                    this.notificationService.openErrorNotification('error.attachmentUpload');
-                });
+                    .subscribe((data) => {
+                        this.firstVenueDocumentNames.unshift(file.name);
+                        this.firstVenueDocumentSources.unshift(reader.result);
+                        this.firstVenueDocumentPaths.unshift(data.fileNames[file.name]);
+                    }, () => {
+                        this.notificationService.openErrorNotification('error.attachmentUpload');
+                    });
             }
         };
         reader.readAsDataURL(file);
@@ -905,22 +927,22 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         reader.onload = () => {
             if (this.fileIsImage(file)) {
                 this.imagesService.uploadImages([file])
-                .subscribe((data) => {
-                    this.secondVenueDocumentNames.unshift(file.name);
-                    this.secondVenueDocumentSources.unshift(reader.result);
-                    this.secondVenueDocumentPaths.unshift(data.fileNames[file.name]);
-                }, () => {
-                    this.notificationService.openErrorNotification('error.attachmentUpload');
-                });
+                    .subscribe((data) => {
+                        this.secondVenueDocumentNames.unshift(file.name);
+                        this.secondVenueDocumentSources.unshift(reader.result);
+                        this.secondVenueDocumentPaths.unshift(data.fileNames[file.name]);
+                    }, () => {
+                        this.notificationService.openErrorNotification('error.attachmentUpload');
+                    });
             } else {
                 this.attachmentService.uploadAttachment([file])
-                .subscribe((data) => {
-                    this.secondVenueDocumentNames.unshift(file.name);
-                    this.secondVenueDocumentSources.unshift(reader.result);
-                    this.secondVenueDocumentPaths.unshift(data.fileNames[file.name]);
-                }, () => {
-                    this.notificationService.openErrorNotification('error.attachmentUpload');
-                });
+                    .subscribe((data) => {
+                        this.secondVenueDocumentNames.unshift(file.name);
+                        this.secondVenueDocumentSources.unshift(reader.result);
+                        this.secondVenueDocumentPaths.unshift(data.fileNames[file.name]);
+                    }, () => {
+                        this.notificationService.openErrorNotification('error.attachmentUpload');
+                    });
             }
         };
         reader.readAsDataURL(file);
@@ -953,7 +975,14 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
                     this.projectDetailForm.controls.firstMap.patchValue(attachments);
                     this.projectDetailForm.controls.firstMapUpload.patchValue(attachmentsUpload);
                 }
+            } else {
+                this.projectDetailForm.controls.firstVenue.patchValue('');
+                this.projectDetailForm.controls.oldFirstVenue.patchValue('');
             }
+        } else {
+            this.projectDetailForm.controls.firstCountry.patchValue('');
+            this.projectDetailForm.controls.firstVenue.patchValue('');
+            this.projectDetailForm.controls.oldFirstVenue.patchValue('');
         }
     }
 
@@ -984,8 +1013,16 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
                     this.projectDetailForm.controls.secondMap.patchValue(attachments);
                     this.projectDetailForm.controls.secondMapUpload.patchValue(attachmentsUpload);
                 }
+            } else {
+                this.projectDetailForm.controls.secondVenue.patchValue('');
+                this.projectDetailForm.controls.oldSecondVenue.patchValue('');
             }
+        } else {
+            this.projectDetailForm.controls.secondCountry.patchValue('');
+            this.projectDetailForm.controls.secondVenue.patchValue('');
+            this.projectDetailForm.controls.oldSecondVenue.patchValue('');
         }
+
     }
 
     private fileIsImage(file: any): boolean {
@@ -1048,7 +1085,6 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
             oldSecondVenue: [''],
             secondVenue: [''],
             logoUploadId: [''],
-
             firstMap: [''],
             secondMap: [''],
             firstMapUpload: [[]],
@@ -1061,7 +1097,6 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
             secondDocument: [''],
             firstDocumentUpload: [[]],
             secondDocumentUpload: [[]],
-
             description: [''],
         }, {
             validator: [
