@@ -94,6 +94,9 @@
                     >
                         {{'hint.maxlength' | translate}}
                     </mat-error>
+                    <mat-error *ngIf="userForm?.controls?.password?.hasError('required')">
+                        {{'error.required' | translate}}
+                    </mat-error>
                 </mat-form-field>
             </div>
             

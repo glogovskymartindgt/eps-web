@@ -123,23 +123,29 @@ export class UserFormComponent implements OnInit {
         this.userForm = this.formBuilder.group({
             id: [''],
             isVisible: [''],
-            firstName: [''],
-            lastName: [''],
+            firstName: ['', Validators.required],
+            lastName: ['', Validators.required],
             email: [''],
-            login: [''],
+            login: ['', Validators.required],
             password: [
                 '',
                 Validators.compose([
+                    Validators.required,
                     Validators.pattern(this.userPasswordPattern),
                     Validators.maxLength(50)
                 ])
             ],
-            type: [''],
+            type: ['', Validators.required],
             state: [''],
             groupIdList: [''],
             projectIdList: [''],
         });
         this.userForm.controls.id.disable();
+        this.userForm.controls.firstName.setValidators(Validators.required);
+        this.userForm.controls.lastName.setValidators(Validators.required);
+        this.userForm.controls.login.setValidators(Validators.required);
+        this.userForm.controls.password.setValidators(Validators.required);
+        this.userForm.controls.type.setValidators(Validators.required);
         this.userForm.valueChanges.subscribe(() => {
             this.emitFormDataChangeEmitter();
         });

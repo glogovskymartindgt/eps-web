@@ -1,6 +1,6 @@
 <mat-form-field [appearance]="appearance" [ngStyle]="styles">
     <mat-label>{{ label }}</mat-label>
-    <input (blur)="handleBlur()"
+    <input (blur)="handleBlur(); manageUserInput()"
            (focus)="handleFocus()"
            *ngIf="type === 'string'"
            [formControl]="formControl"

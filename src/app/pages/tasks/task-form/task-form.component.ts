@@ -6,6 +6,7 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 
 import { ActivatedRoute } from '@angular/router';
 import * as _moment from 'moment';
+import { Regex } from '../../../shared/hazlenut/hazelnut-common/regex/regex';
 import { BusinessArea } from '../../../shared/interfaces/bussiness-area.interface';
 import { Phase } from '../../../shared/interfaces/phase.interface';
 import { SourceOfAgenda } from '../../../shared/interfaces/source-of-agenda.interface';
@@ -58,6 +59,7 @@ export class TaskFormComponent implements OnInit {
     public phaseList: Phase[];
     public venueList: Venue[];
     public userList: User[];
+    public notOnlyWhiteCharactersPattern = Regex.notOnlyWhiteCharactersPattern;
     public taskTypeList = [
         'Task',
         'Issue'

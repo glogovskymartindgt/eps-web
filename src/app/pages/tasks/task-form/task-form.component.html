@@ -65,6 +65,7 @@
         <haz-core-input [appearance]="'fill'"
                         [label]="'tasks.title' | translate"
                         [maxLength]="255"
+                        [pattern]="notOnlyWhiteCharactersPattern"
                         [required]="true"
                         [type]="'textarea'"
                         class="theme-input"
