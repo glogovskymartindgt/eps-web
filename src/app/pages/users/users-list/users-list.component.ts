@@ -25,12 +25,10 @@ export class UsersListComponent implements OnInit {
     @ViewChild('visibleColumn', {static: true}) public visibleColumn: TemplateRef<any>;
     @ViewChild('emailColumn', {static: true}) public emailColumn: TemplateRef<any>;
     @ViewChild('stateColumn', {static: true}) public stateColumn: TemplateRef<any>;
-
     public config: TableConfiguration;
     public loading = false;
     public isInitialized = false;
     public data = new BrowseResponse<any>([]);
-
     private lastTableChangeEvent: TableChangeEvent;
     private allTaskFilters: Filter[] = [];
 
@@ -128,23 +126,24 @@ export class UsersListComponent implements OnInit {
             ],
             paging: true,
         };
-        if (!this.isInitialized && this.isReturnFromDetail() && this.tableChangeStorageService.getFactsLastTableChangeEvent()) {
-            if (this.tableChangeStorageService.getFactsLastTableChangeEvent().filters) {
-                this.config.predefinedFilters = this.tableChangeStorageService.getFactsLastTableChangeEvent().filters;
+        if (!this.isInitialized && this.isReturnFromDetail() && this.tableChangeStorageService.getUsersLastTableChangeEvent()) {
+            if (this.tableChangeStorageService.getUsersLastTableChangeEvent().filters) {
+                this.config.predefinedFilters = this.tableChangeStorageService.getUsersLastTableChangeEvent().filters;
             }
-            if (this.tableChangeStorageService.getFactsLastTableChangeEvent().pageIndex) {
-                this.config.predefinedPageIndex = this.tableChangeStorageService.getFactsLastTableChangeEvent().pageIndex;
+            if (this.tableChangeStorageService.getUsersLastTableChangeEvent().pageIndex) {
+                console.log(this.tableChangeStorageService.getUsersLastTableChangeEvent().pageIndex);
+                this.config.predefinedPageIndex = this.tableChangeStorageService.getUsersLastTableChangeEvent().pageIndex;
             }
-            if (this.tableChangeStorageService.getFactsLastTableChangeEvent().pageSize) {
-                this.config.predefinedPageSize = this.tableChangeStorageService.getFactsLastTableChangeEvent().pageSize;
+            if (this.tableChangeStorageService.getUsersLastTableChangeEvent().pageSize) {
+                this.config.predefinedPageSize = this.tableChangeStorageService.getUsersLastTableChangeEvent().pageSize;
             }
-            if (this.tableChangeStorageService.getFactsLastTableChangeEvent().sortDirection) {
-                this.config.predefinedSortDirection = this.tableChangeStorageService.getFactsLastTableChangeEvent()
+            if (this.tableChangeStorageService.getUsersLastTableChangeEvent().sortDirection) {
+                this.config.predefinedSortDirection = this.tableChangeStorageService.getUsersLastTableChangeEvent()
                                                           .sortDirection
                                                           .toLowerCase();
             }
-            if (this.tableChangeStorageService.getFactsLastTableChangeEvent().sortActive) {
-                this.config.predefinedSortActive = StringUtils.convertSnakeToCamel(this.tableChangeStorageService.getFactsLastTableChangeEvent()
+            if (this.tableChangeStorageService.getUsersLastTableChangeEvent().sortActive) {
+                this.config.predefinedSortActive = StringUtils.convertSnakeToCamel(this.tableChangeStorageService.getUsersLastTableChangeEvent()
                                                                                        .sortActive
                                                                                        .toLowerCase());
             }
@@ -163,11 +162,11 @@ export class UsersListComponent implements OnInit {
 
         if (tableChangeEvent) {
             // Set paging and sort when initializating table
-            if (!this.isInitialized && this.tableChangeStorageService.getFactsLastTableChangeEvent()) {
-                tableChangeEvent.pageIndex = this.tableChangeStorageService.getFactsLastTableChangeEvent().pageIndex;
-                tableChangeEvent.pageSize = this.tableChangeStorageService.getFactsLastTableChangeEvent().pageSize;
-                tableChangeEvent.sortDirection = this.tableChangeStorageService.getFactsLastTableChangeEvent().sortDirection;
-                tableChangeEvent.sortActive = this.tableChangeStorageService.getFactsLastTableChangeEvent().sortActive;
+            if (!this.isInitialized && this.isReturnFromDetail() && this.tableChangeStorageService.getUsersLastTableChangeEvent()) {
+                tableChangeEvent.pageIndex = this.tableChangeStorageService.getUsersLastTableChangeEvent().pageIndex;
+                tableChangeEvent.pageSize = this.tableChangeStorageService.getUsersLastTableChangeEvent().pageSize;
+                tableChangeEvent.sortDirection = this.tableChangeStorageService.getUsersLastTableChangeEvent().sortDirection;
+                tableChangeEvent.sortActive = this.tableChangeStorageService.getUsersLastTableChangeEvent().sortActive;
             }
 
             // Api call
@@ -179,7 +178,7 @@ export class UsersListComponent implements OnInit {
                 }, (error) => {
                     this.notificationService.openErrorNotification('error.api');
                 });
-            this.tableChangeStorageService.setFactsLastTableChangeEvent(tableChangeEvent);
+            this.tableChangeStorageService.setUsersLastTableChangeEvent(tableChangeEvent);
             this.lastTableChangeEvent = tableChangeEvent;
         }
     }
@@ -207,7 +206,7 @@ export class UsersListComponent implements OnInit {
     }
 
     public canSeeDetail(): boolean {
-        return this. hasRoleUpdateUser() || this.hasRoleReadUser();
+        return this.hasRoleUpdateUser() || this.hasRoleReadUser();
     }
 
     private isReturnFromDetail() {

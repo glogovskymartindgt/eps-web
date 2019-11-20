@@ -11,6 +11,7 @@ import { Filter } from '../hazlenut/hazelnut-common/models';
  */ export class TableChangeStorageService {
     private tasksLastTableChangeEvent: any;
     private factsLastTableChangeEvent: TableChangeEvent;
+    private usersLastTableChangeEvent: TableChangeEvent;
 
     public constructor() {
     }
@@ -40,6 +41,13 @@ import { Filter } from '../hazlenut/hazelnut-common/models';
         };
     }
 
+    public setUsersLastTableChangeEvent(changeEvent?: TableChangeEvent): void {
+        this.usersLastTableChangeEvent = {
+            ...changeEvent,
+            filters: [...changeEvent.filters]
+        };
+    }
+
     /**
      * Get stored tasks table change event
      */
@@ -52,6 +60,10 @@ import { Filter } from '../hazlenut/hazelnut-common/models';
      */
     public getFactsLastTableChangeEvent(): TableChangeEvent {
         return this.factsLastTableChangeEvent;
+    }
+
+    public getUsersLastTableChangeEvent(): TableChangeEvent {
+        return this.usersLastTableChangeEvent;
     }
 
 }
