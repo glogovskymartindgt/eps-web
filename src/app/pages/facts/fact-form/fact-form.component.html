@@ -82,6 +82,17 @@
         >
         </haz-core-input>
     </div>
+    
+    <div class="long-input">
+        <haz-core-input [label]="'fact.description' | translate"
+                        [type]="'textarea'"
+                        [appearance]="'fill'"
+                        formControlName="description"
+                        class="theme-input"
+                        [maxLength]="4092"
+        >
+        </haz-core-input>
+    </div>
 
     <div class="long-input" *ngIf="formLoaded">
         <haz-core-input [label]="'fact.changedAt' |  translate"
@@ -97,17 +108,6 @@
                         [appearance]="'fill'"
                         formControlName="changedBy"
                         class="theme-input"
-        >
-        </haz-core-input>
-    </div>
-    
-    <div class="long-input">
-        <haz-core-input [label]="'fact.description' | translate"
-                        [type]="'textarea'"
-                        [appearance]="'fill'"
-                        formControlName="description"
-                        class="theme-input"
-                        [maxLength]="4092"
         >
         </haz-core-input>
     </div>

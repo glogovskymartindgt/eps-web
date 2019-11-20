@@ -1,10 +1,14 @@
 <div class="close-button-wrapper" fxLayout="row">
     <div fxFlex fxLayoutAlign="center center">
-        <button (click)="zoomOut()" mat-mini-fab color="primary" class="zoom-button m-5">+</button>
-        <button (click)="zoomIn()" mat-mini-fab color="primary" class="zoom-button m-5">-</button>
+        <button (click)="zoomOut()" mat-mini-fab color="primary" class="m-5" tabindex="-1">
+            <img [src]="'assets/img/custom-svg/plus.svg'" alt="plus" class="zoom-svg">
+        </button>
+        <button (click)="zoomIn()" mat-mini-fab color="primary" class="m-5" tabindex="-1">
+            <img [src]="'assets/img/custom-svg/minus.svg'" alt="plus" class="zoom-svg">
+        </button>
     </div>
     <div fxFlex="30px" fxLayoutAlign="flex-end center">
-        <button (click)="close()" color="priamry" mat-icon-button>
+        <button (click)="close()" color="priamry" mat-icon-button tabindex="-1">
             <mat-icon>close</mat-icon>
         </button>
     </div>
