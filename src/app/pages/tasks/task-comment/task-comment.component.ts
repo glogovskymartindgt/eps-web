@@ -70,7 +70,11 @@ export class TaskCommentComponent implements OnInit {
      * @returns {string}
      */
     public getVideoId(): string {
-        return this.comment.description.split('v=')[1].split('&')[0];
+        const splitUrlByVideId = this.comment.description.split('v=');
+        if (splitUrlByVideId.length < 2) {
+            return;
+        }
+        return splitUrlByVideId[1].split('&')[0];
     }
 
     public openUrl() {

@@ -23,10 +23,9 @@
         </div>
         <div *ngIf="commentIsUrl()" class="content-attachment-container">
                 <span class="attachment-container">
-                <div class="image-container">
+                <div class="image-container" *ngIf="getVideoId()">
                     <span class="image-format">{{'tasks.video' | translate}}</span>
                     <img
-                        *ngIf="comment.description"
                         (click)="openUrl()"
                         [src]="'https://img.youtube.com/vi/' + getVideoId() + '/0.jpg'"
                         alt="Url image"
