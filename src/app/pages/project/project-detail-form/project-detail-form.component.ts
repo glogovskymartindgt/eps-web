@@ -200,6 +200,9 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         this.firstVenueMapBlobs.splice(i, 1);
         this.firstVenueMapSources.splice(i, 1);
         this.firstVenueMapPaths.splice(i, 1);
+        if (this.firstVenueMapNames && this.firstVenueMapNames.length === 0) {
+            this.projectDetailForm.controls.firstMap.patchValue('');
+        }
     }
 
     public resetSecondVenueMap(i: number) {
@@ -207,6 +210,9 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         this.secondVenueMapBlobs.splice(i, 1);
         this.secondVenueMapSources.splice(i, 1);
         this.secondVenueMapPaths.splice(i, 1);
+        if (this.secondVenueMapNames && this.secondVenueMapNames.length === 0) {
+            this.projectDetailForm.controls.secondMap.patchValue('');
+        }
     }
 
     public resetFirstVenueImage(i: number) {
@@ -214,6 +220,9 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         this.firstVenueImageBlobs.splice(i, 1);
         this.firstVenueImageSources.splice(i, 1);
         this.firstVenueImagePaths.splice(i, 1);
+        if (this.firstVenueImageNames && this.firstVenueImageNames.length === 0) {
+            this.projectDetailForm.controls.firstImage.patchValue('');
+        }
     }
 
     public resetSecondVenueImage(i: number) {
@@ -221,6 +230,9 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         this.secondVenueImageBlobs.splice(i, 1);
         this.secondVenueImageSources.splice(i, 1);
         this.secondVenueImagePaths.splice(i, 1);
+        if (this.secondVenueImageNames && this.secondVenueImageNames.length === 0) {
+            this.projectDetailForm.controls.secondImage.patchValue('');
+        }
     }
 
     public resetFirstVenueDocument(i: number) {
@@ -228,6 +240,9 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         this.firstVenueDocumentBlobs.splice(i, 1);
         this.firstVenueDocumentSources.splice(i, 1);
         this.firstVenueDocumentPaths.splice(i, 1);
+        if (this.firstVenueDocumentNames && this.firstVenueDocumentNames.length === 0) {
+            this.projectDetailForm.controls.firstDocument.patchValue('');
+        }
     }
 
     public resetSecondVenueDocument(i: number) {
@@ -235,16 +250,24 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         this.secondVenueDocumentBlobs.splice(i, 1);
         this.secondVenueDocumentSources.splice(i, 1);
         this.secondVenueDocumentPaths.splice(i, 1);
+        if (this.secondVenueDocumentNames && this.secondVenueDocumentNames.length === 0) {
+            this.projectDetailForm.controls.secondDocument.patchValue('');
+        }
     }
 
     public onFirstMapDropped(files: any) {
         const file: File = files[0];
+        if (!file) {
+            this.projectDetailForm.controls.firstMap.patchValue('');
+            return;
+        }
         this.firstMapUpdate(file);
     }
 
     public onFirstMapInserted(event) {
         const file = event.target.files[0];
         if (!file) {
+            this.projectDetailForm.controls.firstMap.patchValue('');
             return;
         }
         this.firstMapUpdate(file);
@@ -252,12 +275,17 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
 
     public onSecondMapDropped(files: any) {
         const file: File = files[0];
+        if (!file) {
+            this.projectDetailForm.controls.secondMap.patchValue('');
+            return;
+        }
         this.secondMapUpdate(file);
     }
 
     public onSecondMapInserted(event) {
         const file = event.target.files[0];
         if (!file) {
+            this.projectDetailForm.controls.secondMap.patchValue('');
             return;
         }
         this.secondMapUpdate(file);
@@ -265,12 +293,17 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
 
     public onFirstImageDropped(files: any) {
         const file: File = files[0];
+        if (!file) {
+            this.projectDetailForm.controls.firstImage.patchValue('');
+            return;
+        }
         this.firstImageUpdate(file);
     }
 
     public onFirstImageInserted(event) {
         const file = event.target.files[0];
         if (!file) {
+            this.projectDetailForm.controls.firstImage.patchValue('');
             return;
         }
         this.firstImageUpdate(file);
@@ -278,12 +311,17 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
 
     public onSecondImageDropped(files: any) {
         const file: File = files[0];
+        if (!file) {
+            this.projectDetailForm.controls.secondImage.patchValue('');
+            return;
+        }
         this.secondImageUpdate(file);
     }
 
     public onSecondImageInserted(event) {
         const file = event.target.files[0];
         if (!file) {
+            this.projectDetailForm.controls.secondImage.patchValue('');
             return;
         }
         this.secondImageUpdate(file);
@@ -292,6 +330,7 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
     public onFirstDocumentDropped(files: any) {
         const file: File = files[0];
         if (!file || !this.documentFileTypes.includes(this.getFileEnding(file.name))) {
+            this.projectDetailForm.controls.firstDocument.patchValue('');
             return;
         }
         this.firstDocumentUpdate(file);
@@ -300,6 +339,7 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
     public onFirstDocumentInserted(event) {
         const file = event.target.files[0];
         if (!file || !this.documentFileTypes.includes(this.getFileEnding(file.name))) {
+            this.projectDetailForm.controls.firstDocument.patchValue('');
             return;
         }
         this.firstDocumentUpdate(file);
@@ -308,6 +348,7 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
     public onSecondDocumentDropped(files: any) {
         const file: File = files[0];
         if (!file || !this.documentFileTypes.includes(this.getFileEnding(file.name))) {
+            this.projectDetailForm.controls.secondDocument.patchValue('');
             return;
         }
         this.secondDocumentUpdate(file);
@@ -316,6 +357,7 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
     public onSecondDocumentInserted(event) {
         const file = event.target.files[0];
         if (!file || !this.documentFileTypes.includes(this.getFileEnding(file.name))) {
+            this.projectDetailForm.controls.secondDocument.patchValue('');
             return;
         }
         this.secondDocumentUpdate(file);
@@ -357,11 +399,15 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
     }
 
     public isAnyFirstVenueFile(): boolean {
-        return this.firstVenueMapNames && (this.firstVenueMapNames.length > 0 || this.firstVenueImageNames.length > 0 || this.firstVenueDocumentNames.length > 0);
+        return (this.firstVenueMapNames && this.firstVenueMapNames.length > 0) ||
+            (this.firstVenueImageNames && this.firstVenueImageNames.length > 0) ||
+            (this.firstVenueDocumentNames && this.firstVenueDocumentNames.length > 0);
     }
 
     public isAnySecondVenueFile(): boolean {
-        return this.secondVenueMapNames && (this.secondVenueMapNames.length > 0 || this.secondVenueImageNames.length > 0 || this.secondVenueDocumentNames.length > 0);
+        return (this.secondVenueMapNames && this.secondVenueMapNames.length > 0) ||
+            (this.secondVenueImageNames && this.secondVenueImageNames.length > 0) ||
+            (this.secondVenueDocumentNames && this.secondVenueDocumentNames.length > 0);
     }
 
     public downloadFirstVenueDocs(): void {
@@ -624,6 +670,9 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
             const firstVenueImages = firstCountryObject.attachments.filter((attachment) => attachment.type === AttachmentType.Image);
             const firstVenueDocuments = firstCountryObject.attachments.filter((attachment) => attachment.type === AttachmentType.Document);
 
+            if (firstVenueMaps.length === 0) {
+                this.projectDetailForm.controls.firstMap.patchValue('');
+            }
             firstVenueMaps.forEach((attachment) => {
                 this.attachmentService.getAttachment(attachment.filePath)
                     .subscribe((blob) => {
@@ -640,6 +689,9 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
                     });
             });
 
+            if (firstVenueImages.length === 0) {
+                this.projectDetailForm.controls.firstImage.patchValue('');
+            }
             firstVenueImages.forEach((attachment) => {
                 if (this.getFileEnding(attachment.filePath) !== 'pdf') {
                     this.imagesService.getImage(attachment.filePath)
@@ -672,6 +724,9 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
                 }
             });
 
+            if (firstVenueDocuments.length === 0) {
+                this.projectDetailForm.controls.firstDocument.patchValue('');
+            }
             firstVenueDocuments.forEach((attachment) => {
                 if (this.getFileEnding(attachment.filePath) === 'jpeg') {
                     this.imagesService.getImage(attachment.filePath)
@@ -712,6 +767,9 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
             this.firstVenueImagePaths = [];
             this.firstVenueDocumentSources = [];
             this.firstVenueDocumentPaths = [];
+            this.projectDetailForm.controls.firstMap.patchValue('');
+            this.projectDetailForm.controls.firstImage.patchValue('');
+            this.projectDetailForm.controls.firstDocument.patchValue('');
         }
 
         if (secondCountryObject && secondCountryObject.attachments.length > 0) {
@@ -719,6 +777,9 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
             const secondVenueImages = secondCountryObject.attachments.filter((attachment) => attachment.type === AttachmentType.Image);
             const secondVenueDocuments = secondCountryObject.attachments.filter((attachment) => attachment.type === AttachmentType.Document);
 
+            if (secondVenueMaps.length === 0) {
+                this.projectDetailForm.controls.secondMap.patchValue('');
+            }
             secondVenueMaps.forEach((attachment) => {
                 this.attachmentService.getAttachment(attachment.filePath)
                     .subscribe((blob) => {
@@ -735,6 +796,9 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
                     });
             });
 
+            if (secondVenueImages.length === 0) {
+                this.projectDetailForm.controls.secondImage.patchValue('');
+            }
             secondVenueImages.forEach((attachment) => {
                 if (this.getFileEnding(attachment.filePath) !== 'pdf') {
                     this.imagesService.getImage(attachment.filePath)
@@ -767,6 +831,9 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
                 }
             });
 
+            if (secondVenueDocuments.length === 0) {
+                this.projectDetailForm.controls.secondDocument.patchValue('');
+            }
             secondVenueDocuments.forEach((attachment) => {
                 if (this.getFileEnding(attachment.filePath) === 'jpeg') {
                     this.imagesService.getImage(attachment.filePath)
@@ -806,6 +873,9 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
             this.secondVenueImagePaths = [];
             this.secondVenueDocumentSources = [];
             this.secondVenueDocumentPaths = [];
+            this.projectDetailForm.controls.secondMap.patchValue('');
+            this.projectDetailForm.controls.secondImage.patchValue('');
+            this.projectDetailForm.controls.secondDocument.patchValue('');
         }
 
     }
@@ -1053,19 +1123,22 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         };
     }
 
-    private firstVenueEmptyWhenFirstMap() {
+    private firstVenueEmptyWhenFirstVenueFile() {
         return (group: FormGroup): {[key: string]: any} => {
-            const firstVenueEmptyWhenFirstMap = this.editMode && this.isAnyFirstVenueFile() && !this.projectDetailForm.controls.firstVenue.value;
-            return firstVenueEmptyWhenFirstMap ? {firstVenueEmptyWhenFirstMap} : null;
+            const firstVenueEmptyWhenFirstVenueAnyFile = this.editMode &&
+                (this.projectDetailForm.value.firstMap || this.projectDetailForm.value.firstImage || this.projectDetailForm.value.firstDocument) &&
+                !this.projectDetailForm.controls.firstVenue.value;
+            return firstVenueEmptyWhenFirstVenueAnyFile ? {firstVenueEmptyWhenFirstVenueAnyFile} : null;
 
         };
     }
 
-    private secondVenueEmptyWhenSecondMap() {
+    private secondVenueEmptyWhenSecondVenueFile() {
         return (group: FormGroup): {[key: string]: any} => {
-            const secondVenueEmptyWhenSecondMap = this.editMode && this.isAnySecondVenueFile() && !this.projectDetailForm.controls.secondVenue.value;
-            return secondVenueEmptyWhenSecondMap ? {secondVenueEmptyWhenSecondMap} : null;
-
+            const secondVenueEmptyWhenSecondVenueAnyFile = this.editMode &&
+                (this.projectDetailForm.value.secondMap || this.projectDetailForm.value.secondImage || this.projectDetailForm.value.secondDocument) &&
+                !this.projectDetailForm.controls.secondVenue.value;
+            return secondVenueEmptyWhenSecondVenueAnyFile ? {secondVenueEmptyWhenSecondVenueAnyFile} : null;
         };
     }
 
@@ -1103,8 +1176,8 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
                 this.firstCountryEmptyWhenFirstVenue(),
                 this.secondCountryEmptyWhenSecondVenue(),
                 this.firstCountryEmptyWhenSecondCountry(),
-                this.firstVenueEmptyWhenFirstMap(),
-                this.secondVenueEmptyWhenSecondMap(),
+                this.firstVenueEmptyWhenFirstVenueFile(),
+                this.secondVenueEmptyWhenSecondVenueFile(),
             ]
         });
 

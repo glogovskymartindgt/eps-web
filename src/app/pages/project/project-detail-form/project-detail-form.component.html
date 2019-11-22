@@ -1030,6 +1030,7 @@
                             <input (change)="onFirstDocumentInserted($event)"
                                    accept="application/pdf,text/plain,.rtf,.csv,.doc,.docx,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.zip,image/jpeg"
                                    class="hide-input"
+                                   formControlName="firstDocument"
                                    id="first-document"
                                    type="file"
                             >
@@ -1255,6 +1256,7 @@
                             <input (change)="onSecondDocumentInserted($event)"
                                    accept="application/pdf,text/plain,.rtf,.csv,.doc,.docx,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.zip,image/jpeg"
                                    class="hide-input"
+                                   formControlName="secondDocument"
                                    id="second-document"
                                    type="file"
                             >
@@ -1375,6 +1377,7 @@
                             class="pl-5 pb-5"
                         >
                     </button>
+                    
                 </div>
             </mat-card>
             <div class="long-input">
