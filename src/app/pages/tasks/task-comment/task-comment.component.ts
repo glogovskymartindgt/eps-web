@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ImageDialogComponent } from '../../../shared/components/dialog/image-dialog/image-dialog.component';
 import { CommentType } from '../../../shared/enums/comment-type.enum';
+import { Regex } from '../../../shared/hazlenut/hazelnut-common/regex/regex';
 import { TaskCommentResponse } from '../../../shared/interfaces/task-comment.interface';
 import { ImagesService } from '../../../shared/services/data/images.service';
 import { NotificationService } from '../../../shared/services/notification.service';
@@ -59,6 +60,11 @@ export class TaskCommentComponent implements OnInit {
 
     public commentIsUrl(): boolean {
         return this.comment.type === CommentType.Url;
+    }
+
+    public commentIsYoutubeUrl(): boolean {
+        return RegExp(Regex.youtubeLinkPattern)
+            .test(this.comment.description);
     }
 
     public commentIsText(): boolean {

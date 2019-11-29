@@ -23,7 +23,7 @@
         </div>
         <div *ngIf="commentIsUrl()" class="content-attachment-container">
                 <span class="attachment-container">
-                <div class="image-container" *ngIf="getVideoId()">
+                <div *ngIf="getVideoId()" class="image-container">
                     <span class="image-format">{{'tasks.video' | translate}}</span>
                     <img
                         (click)="openUrl()"
@@ -32,21 +32,21 @@
                         class="image"
                     />
                 </div>
-                <span class="link" (click)="openUrl()">
+                <span (click)="openUrl()" class="link">
                     {{comment.description}}
                 </span>
             </span>
-                <button mat-icon-button (click)="openUrl()">
-                    <img
-                        [src]="'assets/img/svg-squares/play.svg'"
-                        alt="play"
-                    >
-                </button>
+            <button (click)="openUrl()" *ngIf="commentIsYoutubeUrl()" mat-icon-button>
+                <img
+                    [src]="'assets/img/svg-squares/play.svg'"
+                    alt="play"
+                >
+            </button>
         </div>
         <div *ngIf="commentIsText()">
             <pre class="message-text">{{comment.description}}</pre>
         </div>
     </div>
-    
+
     <div class="comment-created">{{comment.created | date:'dd.MM.yyyy HH:mm'}}</div>
 </div>

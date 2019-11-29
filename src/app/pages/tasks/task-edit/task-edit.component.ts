@@ -78,11 +78,13 @@ export class TaskEditComponent implements OnInit {
             return;
         }
         const comment = this.addCommentForm.value.newComment.toString();
-        if (RegExp(Regex.youtubeLinkPattern)
+        if (RegExp(Regex.httpsStringPattern)
             .test(comment)) {
+            console.log('is url');
             this.sendUrlMessage(comment);
         } else {
             this.sendTextMessage(comment);
+            console.log('is text');
         }
     }
 
