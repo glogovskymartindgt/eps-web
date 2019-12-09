@@ -314,9 +314,9 @@ export class ActionPointFormComponent implements OnInit {
     }
 
     private isAllowedToChangeStatus(createdBy: User, responsibleUsers: any[]) {
-        responsibleUsers.push(createdBy);
+        const actualUserId = this.projectUserService.instant.userId;
         responsibleUsers = responsibleUsers.map((user) => user.id);
 
-        return responsibleUsers.includes(this.projectUserService.instant.userId);
+        return responsibleUsers.includes(actualUserId) || createdBy.id === actualUserId;
     }
 }
