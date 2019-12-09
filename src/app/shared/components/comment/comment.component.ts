@@ -1,19 +1,19 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ImageDialogComponent } from '../../../shared/components/dialog/image-dialog/image-dialog.component';
-import { CommentType } from '../../../shared/enums/comment-type.enum';
-import { Regex } from '../../../shared/hazlenut/hazelnut-common/regex/regex';
-import { TaskCommentResponse } from '../../../shared/interfaces/task-comment.interface';
-import { ImagesService } from '../../../shared/services/data/images.service';
-import { NotificationService } from '../../../shared/services/notification.service';
-import { ProjectUserService } from '../../../shared/services/storage/project-user.service';
+import { CommentType } from '../../enums/comment-type.enum';
+import { Regex } from '../../hazlenut/hazelnut-common/regex/regex';
+import { TaskCommentResponse } from '../../interfaces/task-comment.interface';
+import { ImagesService } from '../../services/data/images.service';
+import { NotificationService } from '../../services/notification.service';
+import { ProjectUserService } from '../../services/storage/project-user.service';
+import { ImageDialogComponent } from '../dialog/image-dialog/image-dialog.component';
 
 @Component({
-    selector: 'task-comment',
-    templateUrl: './task-comment.component.html',
-    styleUrls: ['./task-comment.component.scss']
+    selector: 'iihf-comment',
+    templateUrl: './comment.component.html',
+    styleUrls: ['./comment.component.scss']
 })
-export class TaskCommentComponent implements OnInit {
+export class CommentComponent implements OnInit {
 
     @Input() public comment: TaskCommentResponse;
     @Input() public index: number;

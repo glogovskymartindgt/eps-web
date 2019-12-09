@@ -20,7 +20,6 @@ export class MenuComponent implements OnInit {
     @ViewChild('drawer', {static: false}) public drawer: MatDrawer;
     public version = AppConstants.version;
     public menuOpen = true;
-
     public section;
 
     public constructor(public readonly projectEventService: ProjectEventService, private readonly translateService: TranslateService, private readonly route: ActivatedRoute) {

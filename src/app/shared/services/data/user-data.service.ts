@@ -17,14 +17,14 @@ import { ProjectUserService } from '../storage/project-user.service';
  * Fact service communicating with 'user' API url
  */ export class UserDataService extends ProjectService<any> {
 
-    public constructor(http: HttpClient, notificationService: NotificationService, userService: ProjectUserService,) {
+    public constructor(http: HttpClient, notificationService: NotificationService, userService: ProjectUserService, ) {
         super(http, 'user', notificationService, userService);
     }
 
     /**
      * Get users object from API
      */
-    public getUsers(): Observable<User[]> {
+    public getUsers(): Observable<any[]> {
         return this.getDetail('');
     }
 
@@ -63,6 +63,10 @@ import { ProjectUserService } from '../storage/project-user.service';
 
     public getUserDetail(id: number): Observable<User> {
         return this.getDetail(id);
+    }
+
+    public getOwnUserDetail(id: number): Observable<User> {
+        return this.getDetail(id, null, 'own');
     }
 
 }

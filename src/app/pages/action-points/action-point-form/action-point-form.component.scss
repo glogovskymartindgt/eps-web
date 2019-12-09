@@ -1,0 +1,56 @@
+$color-primary: #1595d3;
+$color-secondary: #002d62;
+
+$colors: (
+    red: #ff0000,
+    amber: #ff7b00,
+    green: #038f03,
+    nocolor: #bebebe
+);
+
+@each $color-name, $color in $colors {
+    .color-#{$color-name} {
+        color: $color;
+    }
+}
+
+.label-style {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+::ng-deep {
+    .mat-form-field-appearance-fill.mat-form-field-disabled .mat-form-field-flex {
+        background-color: #e8f0fe;
+    }
+}
+
+::ng-deep {
+    .theme-input .mat-form-field-flex {
+        background-color: #e8f0fe;
+    }
+}
+
+
+
+
+.input-w {
+    width: 100%;
+}
+
+.color-none {
+    color: #bebebe;
+}
+
+.color-circle {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    position: absolute;
+}
+
+.chips-input{
+    max-height: 310px;
+    overflow-y: auto;
+}

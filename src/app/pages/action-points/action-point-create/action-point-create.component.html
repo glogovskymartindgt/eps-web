@@ -1,0 +1,30 @@
+<div fxLayout="row" class="basic-screen-header">
+    <div class="pl-50" fxLayoutAlign="start center">
+        <h3>{{'actionPoint.new.newActionPoint' | translate}}</h3>
+    </div>
+</div>
+
+<div fxLayout="row" style="overflow: auto;  height: calc(100vh - 160px);">
+    <div class="p-30">
+        <iihf-action-point-form (formDataChange)="formData=$event"></iihf-action-point-form>
+
+        <div>
+            <button type="submit"
+                    mat-flat-button
+                    color="accent"
+                    class="mr-10"
+                    (click)="onSave()"
+                    [disabled]="formData === null"
+            >
+                {{ 'actionPoint.save' | translate }}
+            </button>
+            <button type="button"
+                    mat-button
+                    class="mr-10"
+                    (click)="onCancel()"
+            >
+                {{ 'actionPoint.cancel' | translate }}
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,5 +1,3 @@
-import { AttachmentDetail } from './attachment-detail.model';
-
 export class Profile {
     public id: number;
     public firstName: string;

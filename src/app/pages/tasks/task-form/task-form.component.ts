@@ -52,7 +52,6 @@ export const PROJECT_DATE_FORMATS = {
     ],
 })
 export class TaskFormComponent implements OnInit {
-
     @Output('formDataChange') public onFormDataChange = new EventEmitter<any>();
     public businessAreaList: BusinessArea[];
     public sourceOfAgendaList: SourceOfAgenda[];
@@ -85,7 +84,7 @@ export class TaskFormComponent implements OnInit {
                        private readonly projectEventService: ProjectEventService,
                        private readonly activatedRoute: ActivatedRoute,
                        private readonly notificationService: NotificationService,
-                       private readonly taskService: TaskService,) {
+                       private readonly taskService: TaskService, ) {
     }
 
     public get f() {

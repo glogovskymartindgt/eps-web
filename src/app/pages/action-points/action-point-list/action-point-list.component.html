@@ -1,0 +1,51 @@
+<!--Complex task list screen for task management and report export-->
+<div class="basic-screen-header" fxLayout="row">
+    <div class="pl-50" fxFlex="220px" fxLayoutAlign="start center">
+        <h2>{{'actionPoint.screenTitle' | translate}}</h2>
+    </div>
+    <div fxFlex fxLayoutAlign="end center">
+        <button (click)="createTask()"
+                *ngIf="projectEventService.instant.active && allowCreateActionPointButton()"
+                class="mr-10"
+                color="accent"
+                mat-flat-button
+        >
+            {{'common.create' | translate}}
+        </button>
+        <button (click)="export()"
+                *ngIf="allowExportReportActionPointButton()"
+                class="mr-10"
+                color="accent"
+                mat-flat-button>
+            {{'common.export' | translate}}
+        </button>
+    </div>
+</div>
+
+<haz-indeterminate-progress-bar [loading]="loading"></haz-indeterminate-progress-bar>
+<haz-core-table #actionPointTable
+                (requestData)="setTableData($event)"
+                [configuration]="config"
+                [data]="data"
+></haz-core-table>
+<ng-template #updateColumn let-actRow="row" let-context="context">
+    <div *ngIf="allowActionPointDetailButton()" class="fr">
+        <button (click)="update(actRow.id)"
+                mat-icon-button
+        >
+            <mat-icon>keyboard_arrow_right</mat-icon>
+        </button>
+    </div>
+</ng-template>
+<ng-template #statusColumn let-actRow="row" let-context="context">
+    {{('task.statusValue.' + actRow.state.toLowerCase()) | translate}}
+</ng-template>
+<ng-template #venueColumn let-actRow="row" let-context="context">
+    {{actRow.cityName | venue}}
+</ng-template>
+<ng-template #dateColumn let-actRow="row" let-context="context">
+    {{actRow.dueDate  | date:'d.M.yyyy'}}
+</ng-template>
+<ng-template #closedDateColumn let-actRow="row" let-context="context">
+    {{actRow.closedDate  | date:'d.M.yyyy'}}
+</ng-template>

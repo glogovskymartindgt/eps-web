@@ -29,7 +29,7 @@ import { ProjectUserService } from '../../../shared/services/storage/project-use
                        private readonly projectUserService: ProjectUserService,
                        private readonly imagesService: ImagesService,
                        private readonly notificationService: NotificationService,
-                       private readonly router: Router, ) {
+                       private readonly router: Router,) {
     }
 
     /**
@@ -65,7 +65,7 @@ import { ProjectUserService } from '../../../shared/services/storage/project-use
     }
 
     private initializeUserPhoto(): void {
-        this.userDataService.getUserDetail(this.projectUserService.instant.userId)
+        this.userDataService.getOwnUserDetail(this.projectUserService.instant.userId)
             .subscribe((user) => {
                 if (user.avatar) {
                     this.imagesService.getImage(user.avatar)

@@ -9,7 +9,6 @@ import { MenuService } from '../menu.service';
     styleUrls: ['./side-options-project.component.scss']
 })
 export class SideOptionsProjectComponent implements OnInit {
-
     @Input() public routes;
     public menuSelect;
 
@@ -23,10 +22,10 @@ export class SideOptionsProjectComponent implements OnInit {
     public ngOnInit(): void {
         if (!this.routes) {
             this.routes = this.router.config
-                .find((group) => group.component && group.component.name === 'AdminLayoutComponent')
+                              .find((group) => group.component && group.component.name === 'AdminLayoutComponent')
                               .children
-                .filter((item) => !item.data.section)
-                .filter((route) => this.menuGuard.menuRoutingCheck(route.data.title));
+                              .filter((item) => !item.data.section)
+                              .filter((route) => this.menuGuard.menuRoutingCheck(route.data.title));
         }
         this.setMenuOptionOnInitFromRouter();
         this.menuSelect = this.menuService.menuOpen;
@@ -55,7 +54,8 @@ export class SideOptionsProjectComponent implements OnInit {
             'reports',
             'facts',
             'business-areas',
-            'all-facts'
+            'all-facts',
+            'action-points',
         ].forEach((routeSubstring) => {
             if (this.router.url.includes(routeSubstring)) {
                 this.menuService.setSelectedOption(routeSubstring);

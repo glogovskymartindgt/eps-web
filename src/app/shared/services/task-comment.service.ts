@@ -36,13 +36,9 @@ export class TaskCommentService extends ProjectService<any> {
     );
   }
 
-    /**
-     * Get comment object from API
-     * @param taskId
-     */
-  public getAllComment(taskId: number): Observable<TaskCommentResponse[]> {
+  public getAllComment(id: number, type: string): Observable<TaskCommentResponse[]> {
     return this.http.get<TaskCommentResponse[]>(
-          `${environment.URL_API}/comment/${taskId}`,
+          `${environment.URL_API}/comment/${type}/${id}`,
           {headers: this.getHeader()}
     );
   }

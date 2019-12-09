@@ -15,6 +15,13 @@ export interface TaskComment {
     attachment?: CommentAttachment;
 }
 
+export interface ActionPointComment {
+    description: string;
+    actionPointId: number;
+    type: CommentType;
+    attachment?: CommentAttachment;
+}
+
 export interface TaskCommentResponse extends TaskComment {
     id: number;
     createdBy: UserDataComment;

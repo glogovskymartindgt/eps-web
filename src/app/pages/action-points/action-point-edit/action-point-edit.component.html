@@ -1,12 +1,12 @@
 <div fxLayout="row" class="basic-screen-header">
     <div class="pl-50" fxLayoutAlign="start center">
-        <h3>{{'tasks.edit.editTask' | translate}}</h3>
+        <h3>{{'actionPoint.edit.editActionPoint' | translate}}</h3>
     </div>
 </div>
 
 <div fxLayout="row" style="overflow: auto;  height: calc(100vh - 160px);">
     <div fxFlex fxFlex.gt-sm="100%" class="p-30 form-content" fxLayout="column">
-        <task-form (formDataChange)="formDataChange($event)"></task-form>
+        <iihf-action-point-form (formDataChange)="formDataChange($event)"></iihf-action-point-form>
         <div>
             <button *ngIf="projectEventService.instant.active && allowUpdateTask()"
                     type="submit"
@@ -48,16 +48,16 @@
 
                 </div>
 
-                    <haz-core-input [label]="'comment.newComment' | translate"
-                                    [type]="'textarea'"
-                                    [appearance]="'fill'"
-                                    formControlName="newComment"
-                                    [pattern]="notOnlyWhiteCharactersPattern"
-                                    class="theme-input m-20 w-260"
-                                    [maxLength]="2000"
-                                    *ngIf="allowCreateComment()"
-                    >
-                    </haz-core-input>
+                <haz-core-input [label]="'comment.newComment' | translate"
+                                [type]="'textarea'"
+                                [appearance]="'fill'"
+                                formControlName="newComment"
+                                [pattern]="notOnlyWhiteCharactersPattern"
+                                class="theme-input m-20 w-260"
+                                [maxLength]="2000"
+                                *ngIf="allowCreateComment()"
+                >
+                </haz-core-input>
 
                 <div fxFlex="50px" fxLayoutAlign="end end" class="pr-20 pb-50" *ngIf="allowCreateComment()">
                     <button mat-icon-button

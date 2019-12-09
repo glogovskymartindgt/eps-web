@@ -94,8 +94,7 @@
         "arrow-return-shorthand": true,
         "comment-format": [
             true,
-            "check-space",
-            "check-uppercase"
+            "check-space"
         ],
         "encoding": true,
         "file-name-casing": [

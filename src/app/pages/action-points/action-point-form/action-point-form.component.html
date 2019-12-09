@@ -1,0 +1,178 @@
+<form *ngIf="(isUpdate && formLoaded) || !isUpdate" [formGroup]="actionPointForm">
+
+    <div *ngIf="isUpdate" fxLayout="row">
+        <div class="short-input mr-10">
+            <haz-core-input [appearance]="'fill'"
+                            [label]="'tasks.code' | translate"
+                            class="theme-input"
+                            formControlName="code"
+            >
+            </haz-core-input>
+        </div>
+        <mat-form-field appearance="fill" class="theme-input short-input">
+            <mat-label class="label-style">{{ 'tasks.status' | translate }}</mat-label>
+            <mat-select formControlName="state" required>
+                <mat-option [value]="'OPEN'">{{'status.open' | translate}}</mat-option>
+                <mat-option [value]="'PENDING'">{{'status.pending' | translate}}</mat-option>
+                <mat-option [value]="'CLOSED'">{{'status.closed' | translate}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div class="long-input">
+        <haz-core-input [appearance]="'fill'"
+                        [label]="'tasks.title' | translate"
+                        [maxLength]="255"
+                        [pattern]="notOnlyWhiteCharactersPattern"
+                        [required]="true"
+                        [type]="'textarea'"
+                        class="theme-input"
+                        formControlName="title"
+        >
+        </haz-core-input>
+    </div>
+
+    <div class="long-input">
+        <haz-core-input [appearance]="'fill'"
+                        [label]="'actionPoint.area' | translate"
+                        [maxLength]="255"
+                        [pattern]="notOnlyWhiteCharactersPattern"
+                        [type]="'textarea'"
+                        class="theme-input"
+                        formControlName="area"
+        >
+        </haz-core-input>
+    </div>
+
+    <div class="long-input">
+        <haz-core-input [appearance]="'fill'"
+                        [label]="'actionPoint.actionPointText' | translate"
+                        [maxLength]="255"
+                        [pattern]="notOnlyWhiteCharactersPattern"
+                        [type]="'textarea'"
+                        class="theme-input"
+                        formControlName="actionPointText"
+        >
+        </haz-core-input>
+    </div>
+
+    <div>
+
+        <mat-form-field appearance="fill" class="long-input theme-input chips-input">
+            <mat-label>{{ 'actionPoint.responsible' | translate }}</mat-label>
+            <mat-chip-list #chipList>
+                <mat-chip
+                    (removed)="remove(responsible)"
+                    *ngFor="let responsible of selectedResponsibles"
+                    [removable]="true"
+                    [selectable]="true"
+                >
+                    {{responsible.firstName}} {{responsible.lastName}}
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                </mat-chip>
+
+                <input #responsibleInput
+                       (matChipInputTokenEnd)="add($event)"
+                       (focus)="onFocus()"
+                       [formControl]="responsibleControl"
+                       [matAutocomplete]="auto"
+                       [matChipInputAddOnBlur]="true"
+                       [matChipInputFor]="chipList"
+                       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                >
+            </mat-chip-list>
+            <mat-autocomplete #auto="matAutocomplete"
+                              (optionSelected)="selected($event)"
+            >
+                <mat-option *ngFor="let responsible of filteredResponsibles | async" [value]="responsible">
+                    {{responsible.firstName}} {{responsible.lastName}}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="fill" class="short-input theme-input mr-10">
+        <mat-label class="label-style">{{ 'actionPoint.meetingDate' | translate }}</mat-label>
+        <input (dateChange)="onDateChangedClosed($event.value)" [matDatepicker]="pickerClosed" formControlName="meetingDate"
+               matInput
+        >
+        <mat-datepicker-toggle [for]="pickerClosed" matSuffix></mat-datepicker-toggle>
+        <mat-datepicker #pickerClosed [dateClass]="dateClass"></mat-datepicker>
+        <mat-error *ngIf="dateInvalid">{{ 'error.dateFormatIsInvalid' | translate }}</mat-error>
+    </mat-form-field>
+
+    <div class="long-input">
+        <haz-core-input [appearance]="'fill'"
+                        [label]="'actionPoint.meetingText' | translate"
+                        [maxLength]="255"
+                        [pattern]="notOnlyWhiteCharactersPattern"
+                        [type]="'textarea'"
+                        class="theme-input"
+                        formControlName="meetingText"
+        >
+        </haz-core-input>
+    </div>
+
+    <div fxLayout="row">
+        <mat-form-field appearance="fill" class="short-input theme-input mr-10">
+            <mat-label class="label-style">{{ 'tasks.dueDate' | translate }}</mat-label>
+            <input (dateChange)="onDateChanged($event.value)" [matDatepicker]="picker" formControlName="dueDate"
+                   matInput
+            >
+            <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
+            <mat-datepicker #picker [dateClass]="dateClass"></mat-datepicker>
+            <mat-error *ngIf="dateInvalid">{{ 'error.dateFormatIsInvalid' | translate }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="short-input theme-input">
+            <mat-label class="label-style">{{ 'tasks.venue' | translate }}</mat-label>
+            <mat-select formControlName="venue">
+                <mat-option class="color-none" value='NONE'>{{ 'tasks.none' | translate }}</mat-option>
+                <mat-option *ngFor="let venue of venueList; trackBy:trackVenueById" [value]="venue.city">
+                    {{venue.city}}
+                </mat-option>
+                <mat-option value="BOTH">{{ 'tasks.both' | translate }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <mat-form-field *ngIf="isUpdate" appearance="fill" class="short-input theme-input mr-10">
+        <mat-label class="label-style">{{ 'tasks.closedDate' | translate }}</mat-label>
+        <input (dateChange)="onDateChangedClosed($event.value)" [matDatepicker]="pickerClosed" formControlName="closedDate"
+               matInput
+        >
+        <mat-datepicker-toggle [for]="pickerClosed" matSuffix></mat-datepicker-toggle>
+        <mat-datepicker #pickerClosed [dateClass]="dateClass"></mat-datepicker>
+        <mat-error *ngIf="dateInvalid">{{ 'error.dateFormatIsInvalid' | translate }}</mat-error>
+    </mat-form-field>
+
+    <div class="long-input">
+        <haz-core-input [appearance]="'fill'"
+                        [label]="'tasks.description' | translate"
+                        [maxLength]="4092"
+                        [type]="'textarea'"
+                        class="theme-input"
+                        formControlName="description"
+        >
+        </haz-core-input>
+    </div>
+
+    <div *ngIf="isUpdate" class="long-input">
+        <haz-core-input [appearance]="'fill'"
+                        [label]="'tasks.changedAt' |  translate"
+                        class="theme-input"
+                        formControlName="changedAt"
+        >
+        </haz-core-input>
+    </div>
+
+    <div *ngIf="isUpdate" class="long-input">
+        <haz-core-input [appearance]="'fill'"
+                        [label]="'tasks.changedBy' | translate"
+                        class="theme-input"
+                        formControlName="changedBy"
+        >
+        </haz-core-input>
+    </div>
+
+</form>

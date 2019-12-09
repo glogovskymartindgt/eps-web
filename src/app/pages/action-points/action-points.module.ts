@@ -1,10 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { CommentComponent } from '../../shared/components/comment/comment.component';
 import { ComponentsModule } from '../../shared/components/components.module';
 import { AbstractInputsModule } from '../../shared/hazlenut/abstract-inputs';
 import { CoreTableModule } from '../../shared/hazlenut/core-table';
@@ -12,17 +10,22 @@ import { MaterialModule } from '../../shared/hazlenut/hazelnut-common';
 import { SmallComponentsModule } from '../../shared/hazlenut/small-components';
 import { PipesModule } from '../../shared/pipes/pipes.module';
 import { TranslateWrapperService } from '../../shared/services/translate-wrapper.service';
-import { TaskCreateComponent } from './task-create/task-create.component';
-import { TaskEditComponent } from './task-edit/task-edit.component';
-import { TaskFormComponent } from './task-form/task-form.component';
-import { TaskListComponent } from './task-list/task-list.component';
-import { TasksRoutingModule } from './tasks-routing.module';
+import { ActionPointCreateComponent } from './action-point-create/action-point-create.component';
+import { ActionPointEditComponent } from './action-point-edit/action-point-edit.component';
+import { ActionPointFormComponent } from './action-point-form/action-point-form.component';
+import { ActionPointListComponent } from './action-point-list/action-point-list.component';
+import { ActionPointsRoutingModule } from './action-points-routing.module';
 
 @NgModule({
-    declarations: [TaskListComponent, TaskCreateComponent, TaskEditComponent, CommentComponent, TaskFormComponent],
+    declarations: [
+        ActionPointListComponent,
+        ActionPointCreateComponent,
+        ActionPointEditComponent,
+        ActionPointFormComponent
+    ],
     imports: [
         CommonModule,
-        TasksRoutingModule,
+        ActionPointsRoutingModule,
         MaterialModule,
         FlexLayoutModule,
         TranslateModule.forChild(),
@@ -36,5 +39,5 @@ import { TasksRoutingModule } from './tasks-routing.module';
     ],
     providers: [TranslateWrapperService]
 })
-export class TasksModule {
+export class ActionPointsModule {
 }

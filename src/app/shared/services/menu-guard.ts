@@ -32,6 +32,10 @@ export class MenuGuard {
             role: Role.RoleMenuUser
         },
         {
+            option: 'menu.actionPoints',
+            role: Role.RoleMenuActionPoint
+        },
+        {
             option: 'menu.group',
             role: Role.RoleMenuGroup
         },

@@ -50,6 +50,17 @@ export const AppRoutes: Routes = [
                 canActivate: [AuthGuard]
             },
             {
+                path: 'action-points',
+                loadChildren: './pages/action-points/action-points.module#ActionPointsModule',
+                data: {
+                    title: 'menu.actionPoints',
+                    icon: 'person',
+                    menu: true,
+                    animation: 'action-points'
+                },
+                canActivate: [AuthGuard]
+            },
+            {
                 path: 'tasks',
                 loadChildren: './pages/tasks/tasks.module#TasksModule',
                 data: {

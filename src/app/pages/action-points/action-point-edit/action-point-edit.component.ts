@@ -1,27 +1,26 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { tap } from 'rxjs/internal/operators/tap';
 import { finalize } from 'rxjs/operators';
 import { CommentType } from '../../../shared/enums/comment-type.enum';
 import { Role } from '../../../shared/enums/role.enum';
 import { Regex } from '../../../shared/hazlenut/hazelnut-common/regex/regex';
-import { TaskComment, TaskCommentResponse } from '../../../shared/interfaces/task-comment.interface';
+import { ActionPointComment, TaskCommentResponse } from '../../../shared/interfaces/task-comment.interface';
 import { AuthService } from '../../../shared/services/auth.service';
+import { ActionPointService } from '../../../shared/services/data/action-point.service';
 import { ImagesService } from '../../../shared/services/data/images.service';
-import { TaskService } from '../../../shared/services/data/task.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 import { TaskCommentService } from '../../../shared/services/task-comment.service';
-import { TaskFormComponent } from '../task-form/task-form.component';
+import { ActionPointFormComponent } from '../action-point-form/action-point-form.component';
 
 @Component({
-    selector: 'task-edit',
-    templateUrl: './task-edit.component.html',
-    styleUrls: ['./task-edit.component.scss']
+    selector: 'iihf-action-point-edit',
+    templateUrl: './action-point-edit.component.html',
+    styleUrls: ['./action-point-edit.component.scss']
 })
-export class TaskEditComponent implements OnInit {
-    @ViewChild(TaskFormComponent, {static: true}) public taskForm: TaskFormComponent;
+export class ActionPointEditComponent implements OnInit {
+    @ViewChild(ActionPointFormComponent, {static: true}) public actionPointForm: ActionPointFormComponent;
     public formData = null;
     public addCommentForm: FormGroup;
     public comments: TaskCommentResponse[] = [];
@@ -30,13 +29,13 @@ export class TaskEditComponent implements OnInit {
     public attachmentFormat = '';
     public attachmentFileName = '';
     public attachmentPathName = '';
-    private taskId: number;
+    private actionPointId: number;
 
     public constructor(private readonly router: Router,
                        private readonly taskCommentService: TaskCommentService,
                        private readonly notificationService: NotificationService,
                        private readonly activatedRoute: ActivatedRoute,
-                       private readonly taskService: TaskService,
+                       private readonly actionPointService: ActionPointService,
                        private readonly formBuilder: FormBuilder,
                        private readonly imagesService: ImagesService,
                        public readonly projectEventService: ProjectEventService,
@@ -45,7 +44,7 @@ export class TaskEditComponent implements OnInit {
 
     public ngOnInit(): void {
         this.activatedRoute.queryParams.subscribe((param) => {
-            this.taskId = param.id;
+            this.actionPointId = param.id;
             this.getAllComments();
         });
         this.addCommentForm = this.formBuilder.group({
@@ -58,15 +57,15 @@ export class TaskEditComponent implements OnInit {
     }
 
     public onCancel(): void {
-        this.router.navigate(['tasks/list']);
+        this.router.navigate(['action-points/list']);
     }
 
     public onSave(): void {
         if (this.formData) {
-            this.taskService.editTask(this.taskId, this.transformTaskToApiObject(this.formData))
+            this.actionPointService.editActionPoint(this.actionPointId, this.transformActionPointToApiObject(this.formData))
                 .subscribe(() => {
                     this.notificationService.openSuccessNotification('success.edit');
-                    this.router.navigate(['tasks/list']);
+                    this.router.navigate(['action-points/list']);
                 }, () => {
                     this.notificationService.openErrorNotification('error.edit');
                 });
@@ -87,9 +86,9 @@ export class TaskEditComponent implements OnInit {
     }
 
     public onAttachmentAdded(): void {
-        const taskComment: TaskComment = {
+        const actionPointComment: ActionPointComment = {
             description: '',
-            taskId: this.taskId,
+            actionPointId: this.actionPointId,
             type: CommentType.Attachment,
             attachment: {
                 type: 'COMMENT',
@@ -99,12 +98,12 @@ export class TaskEditComponent implements OnInit {
             }
         };
 
-        this.onSendCommentService(taskComment);
+        this.onSendCommentService(actionPointComment);
     }
 
-    public onSendCommentService(taskComment): void {
+    public onSendCommentService(actionPointComment): void {
         this.loading = true;
-        this.taskCommentService.addComment(taskComment)
+        this.taskCommentService.addComment(actionPointComment)
             .pipe(finalize(() => this.loading = false))
             .subscribe((commentResponse: TaskCommentResponse) => {
                 this.getAllComments();
@@ -116,15 +115,14 @@ export class TaskEditComponent implements OnInit {
 
     public getAllComments(): void {
         this.loading = true;
-        this.taskCommentService.getAllComment(this.taskId, 'task')
-            .pipe(tap(() => this.loading = false))
+        this.taskCommentService.getAllComment(this.actionPointId, 'actionPoint')
+            .pipe(finalize(() => this.loading = false))
             .subscribe((comments: TaskCommentResponse[]) => {
                 this.comments = [...comments].sort((a, b) => (a.created > b.created) ? 1 : -1)
                                              .reverse();
             }, () => {
                 this.notificationService.openErrorNotification('error.loadComments');
             });
-
     }
 
     public hasRoleUploadImage(): boolean {
@@ -180,21 +178,21 @@ export class TaskEditComponent implements OnInit {
     }
 
     private sendTextMessage(comment: string): void {
-        const taskComment: TaskComment = {
+        const actionPointComment: ActionPointComment = {
             description: comment,
-            taskId: this.taskId,
+            actionPointId: this.actionPointId,
             type: CommentType.Text
         };
-        this.onSendCommentService(taskComment);
+        this.onSendCommentService(actionPointComment);
     }
 
     private sendUrlMessage(comment: string): void {
-        const taskComment: TaskComment = {
+        const actionPointComment: ActionPointComment = {
             description: comment,
-            taskId: this.taskId,
+            actionPointId: this.actionPointId,
             type: CommentType.Url
         };
-        this.onSendCommentService(taskComment);
+        this.onSendCommentService(actionPointComment);
     }
 
     private hasRoleUpdateTask(): boolean {
@@ -221,20 +219,36 @@ export class TaskEditComponent implements OnInit {
         return this.authService.hasRole(Role.RoleCreateCommentInAssignProject);
     }
 
-    private transformTaskToApiObject(formObject: any): any {
+    private transformActionPointToApiObject(formObject: any): any {
         const apiObject: any = {
-            name: formObject.title,
+            id: this.actionPointId,
+            title: formObject.title,
             state: formObject.state,
-            dueDate: formObject.dueDate,
-            clSourceOfAgendaId: formObject.sourceOfAgenda,
-            projectPhaseId: formObject.phase,
-            responsibleUserId: formObject.responsible,
-            cityName: formObject.venue,
-            description: formObject.description,
-            sourceDescription: formObject.sourceDescription,
+            projectId: this.projectEventService.instant.id
         };
-        if (formObject.trafficLight !== '') {
-            apiObject.trafficLight = formObject.trafficLight;
+        if (formObject.actionPointText !== '') {
+            apiObject.actionPointText = formObject.actionPointText;
+        }
+        if (formObject.dueDate !== null) {
+            apiObject.dueDate = formObject.dueDate;
+        }
+        if (formObject.area !== '') {
+            apiObject.area = formObject.area;
+        }
+        if (formObject.meetingDate !== null) {
+            apiObject.meetingDate = formObject.meetingDate;
+        }
+        if (formObject.meetingText !== '') {
+            apiObject.meetingDescription = formObject.meetingText;
+        }
+        if (formObject.venue !== '') {
+            apiObject.cityName = formObject.venue;
+        }
+        if (formObject.description !== '') {
+            apiObject.description = formObject.description;
+        }
+        if (formObject.responsibleUsers && formObject.responsibleUsers.length > 0) {
+            apiObject.responsibles = formObject.responsibleUsers.map((responsible) => responsible.id);
         }
 
         return apiObject;

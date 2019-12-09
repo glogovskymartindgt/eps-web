@@ -75,6 +75,14 @@ export enum Role {
     RoleUpdateGroup = 'ROLE_UPDATE_GROUP',
     RoleAssignRole = 'ROLE_ASSIGN_ROLE',
     RoleUnassignRole = 'ROLE_UNASSIGN_ROLE',
-    RoleAccessSettings = 'ROLE_ACCESS_SETTINGS'
-
+    RoleAccessSettings = 'ROLE_ACCESS_SETTINGS',
+    RoleMenuActionPoint = 'ROLE_MENU_ACTION_POINT',
+    RoleReadActionPoint = 'ROLE_READ_ACTION_POINT',
+    RoleUpdateActionPoint = 'ROLE_UPDATE_ACTION_POINT',
+    RoleReadActionPointInAssignProject = 'ROLE_READ_ACTION_POINT_IN_ASSIGN_PROJECT',
+    RoleUpdateActionPointInAssignProject = 'ROLE_UPDATE_ACTION_POINT_IN_ASSIGN_PROJECT',
+    RoleCreateActionPoint = 'ROLE_CREATE_ACTION_POINT',
+    RoleCreateActionPointInAssignProject = 'ROLE_CREATE_ACTION_POINT_IN_ASSIGN_PROJECT',
+    RoleExportReportActionPoint = 'ROLE_EXPORT_REPORT_ACTION_POINT',
+    RoleExportReportActionPointInAssignProject = 'ROLE_EXPORT_REPORT_ACTION_POINT_IN_ASSIGN_PROJECT',
 }
