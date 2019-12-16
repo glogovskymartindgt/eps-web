@@ -47,7 +47,7 @@ export class FactListComponent implements OnInit {
                        private readonly translateService: TranslateService,
                        private readonly notificationService: NotificationService,
                        private readonly factService: FactService,
-                       private readonly router: Router,
+                       public readonly router: Router,
                        private readonly routingStorageService: RoutingStorageService,
                        private readonly tableChangeStorageService: TableChangeStorageService,
                        private readonly authService: AuthService) {

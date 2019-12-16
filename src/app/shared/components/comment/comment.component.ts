@@ -27,12 +27,12 @@ export class CommentComponent implements OnInit {
                        private readonly matDialog: MatDialog) {
     }
 
-    public ngOnInit() {
+    public ngOnInit(): void {
         if (this.comment.attachment) {
             this.imagesService.getImage(this.comment.attachment.filePath)
-                .subscribe((blob) => {
+                .subscribe((blob: Blob) => {
                     const reader = new FileReader();
-                    reader.onload = () => {
+                    reader.onload = (): void => {
                         this.imageSrc = reader.result;
                     };
                     reader.readAsDataURL(blob);
@@ -41,12 +41,12 @@ export class CommentComponent implements OnInit {
                 });
         }
 
-        this.projectUserService.subject.userId.subscribe((userId) => {
+        this.projectUserService.subject.userId.subscribe((userId: number) => {
             this.isMyComment = userId === this.comment.createdBy.id;
         });
     }
 
-    public openPreviewAttachment(image) {
+    public openPreviewAttachment(image): void {
         this.matDialog.open(ImageDialogComponent, {
             data: {
                 image
@@ -75,15 +75,16 @@ export class CommentComponent implements OnInit {
      * YouTube url consist of https://www.youtube.com/watch?v=<video-id>&optional parameters..., so we extract id
      * @returns {string}
      */
-    public getVideoId(): string {
-        const splitUrlByVideId = this.comment.description.split('v=');
-        if (splitUrlByVideId.length < 2) {
+    public getVideoId(): string | undefined {
+        const splitUrlByVideoId = this.comment.description.split('v=');
+        if (splitUrlByVideoId.length <= 1) {
             return;
         }
-        return splitUrlByVideId[1].split('&')[0];
+
+        return splitUrlByVideoId[1].split('&')[0];
     }
 
-    public openUrl() {
+    public openUrl(): void {
         window.open(this.comment.description, '_blank');
     }
 }

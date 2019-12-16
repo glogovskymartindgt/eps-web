@@ -73,7 +73,7 @@ const FACTS_SCREEN = 'facts';
 
     }
 
-    private allowSaveButton(): boolean {
+    public allowSaveButton(): boolean {
         return this.hasRoleUpdateFactItem() || this.hasRoleUpdateFactItemInAssignProject();
     }
 

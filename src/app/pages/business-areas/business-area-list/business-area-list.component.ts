@@ -1,6 +1,7 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { finalize } from 'rxjs/operators';
 import { Role } from '../../../shared/enums/role.enum';
 import { TableCellType, TableChangeEvent, TableColumn, TableColumnFilter, TableConfiguration, TableFilterType } from '../../../shared/hazlenut/core-table';
 import { BrowseResponse } from '../../../shared/hazlenut/hazelnut-common/models';
@@ -11,7 +12,7 @@ import { NotificationService } from '../../../shared/services/notification.servi
 import { SelectedAreaService } from '../../../shared/services/storage/selected-area.service';
 
 @Component({
-    selector: 'business-area-list',
+    selector: 'iihf-business-area-list',
     templateUrl: './business-area-list.component.html',
     styleUrls: ['./business-area-list.component.scss']
 })
@@ -19,7 +20,6 @@ import { SelectedAreaService } from '../../../shared/services/storage/selected-a
 /**
  * Business area list with title table and loader
  */ export class BusinessAreaListComponent implements OnInit {
-    // If expanded content is not used, then we need to remove it
     @ViewChild('expandedContent', {static: true}) public expandedContent: TemplateRef<any>;
     @ViewChild('navigationToTasksColumn', {static: true}) public navigationToTasksColumn: TemplateRef<any>;
     public loading = false;
@@ -38,7 +38,7 @@ import { SelectedAreaService } from '../../../shared/services/storage/selected-a
     /**
      * Config setup on initialization
      */
-    public ngOnInit() {
+    public ngOnInit(): void {
         this.config = {
             columns: [
                 new TableColumn({
@@ -75,7 +75,7 @@ import { SelectedAreaService } from '../../../shared/services/storage/selected-a
      * Navigate to task list screen and save value of selectedArea
      * @param selectedArea
      */
-    public showTasks(selectedArea) {
+    public showTasks(selectedArea): any {
         this.selectedAreaService.setSelectedArea(selectedArea);
         this.router.navigate(['tasks/list']);
     }
@@ -88,12 +88,11 @@ import { SelectedAreaService } from '../../../shared/services/storage/selected-a
     public setTableData(tableChangeEvent?: TableChangeEvent): void {
         this.loading = true;
         this.businessAreaService.browseBusinessAreas(tableChangeEvent)
-            .subscribe((data) => {
+            .pipe(finalize(() => this.loading = false))
+            .subscribe((data: BrowseResponse<BusinessArea>) => {
                 this.data = data;
-                this.loading = false;
                 this.isInitialized = true;
             }, () => {
-                this.loading = false;
                 this.notificationService.openErrorNotification('error.api');
             });
     }

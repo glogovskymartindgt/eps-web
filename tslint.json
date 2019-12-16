@@ -10,7 +10,8 @@
     "linterOptions": {
         "exclude": [
             "out",
-            "**/polyfills.ts"
+            "**/polyfills.ts",
+            "src/app/shared/hazelnut/**"
         ]
     },
     "rules": {
@@ -87,7 +88,7 @@
         ],
         "max-file-line-count": {
             "options": [
-                400
+                1000
             ],
             "severity": "warning"
         },
@@ -202,7 +203,7 @@
         "new-parens": true,
         "unnecessary-else": true,
         "unnecessary-bind": true,
-        "trailing-comma": true,
+        "trailing-comma": false,
         "space-within-parens": true,
         "switch-final-break": [
             true,
@@ -243,7 +244,7 @@
         "object-literal-key-quotes": false,
         "file-header": false,
         "comment-type": false,
-        "no-parameter-reassignment": false,
+        "no-parameter-reassignment": true,
         "no-magic-numbers": true,
         "interface-over-type-literal": true,
         "no-for-each-push": true,
@@ -265,7 +266,6 @@
             [
                 "S",
                 "T",
-                "P",
                 "x",
                 "y"
             ]
@@ -275,7 +275,18 @@
             true,
             15
         ],
-        "early-exit": true,
+        "no-big-function": true,
+        "no-duplicate-string": true,
+        "no-inconsistent-return": true,
+        "no-duplicated-branches": true,
+        "no-identical-conditions": true,
+        "no-identical-functions": true,
+        "max-union-size": true,
+        "parameters-max-number": [
+            true,
+            7
+        ],
+        "early-exit": false,
         "no-collapsible-if": true,
         "no-else-after-return": true,
         "no-return-undefined": true,
@@ -338,7 +349,7 @@
         "relative-url-prefix": true,
         "template-conditional-complexity": [
             true,
-            4
+            15
         ],
         "template-cyclomatic-complexity": [
             true,

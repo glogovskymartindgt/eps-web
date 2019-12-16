@@ -11,6 +11,7 @@ import { fadeEnterLeave } from '../../../shared/hazlenut/hazelnut-common/animati
 import { StringUtils } from '../../../shared/hazlenut/hazelnut-common/hazelnut';
 import { BrowseResponse, Filter } from '../../../shared/hazlenut/hazelnut-common/models';
 import { FileManager } from '../../../shared/hazlenut/hazelnut-common/utils/file-manager';
+import { TaskInterface } from '../../../shared/interfaces/task.interface';
 import { ActionPoint } from '../../../shared/models/action-point.model';
 import { AuthService } from '../../../shared/services/auth.service';
 import { ActionPointService } from '../../../shared/services/data/action-point.service';
@@ -40,7 +41,7 @@ export class ActionPointListComponent implements OnInit {
     public loading = false;
     private lastTableChangeEvent: TableChangeEvent;
     private isInitialized = false;
-    private businessAreaFilter: Filter;
+    private readonly businessAreaFilter: Filter;
     private allActionPointFilters: Filter[] = [];
     private additionalFilters: Filter[] = [];
 
@@ -55,9 +56,8 @@ export class ActionPointListComponent implements OnInit {
                        private readonly authService: AuthService) {
     }
 
-    public ngOnInit() {
+    public ngOnInit(): void {
         const allThingsKey = 'all.things';
-        // Table config setup
         this.config = {
             stickyEnd: 6,
             columns: [
@@ -145,7 +145,7 @@ export class ActionPointListComponent implements OnInit {
             ],
             paging: true,
         };
-        // Set table change event data from local storage
+
         if (!this.isInitialized && this.isReturnFromDetail() && this.tableChangeStorageService.getTasksLastTableChangeEvent()) {
             if (this.tableChangeStorageService.getTasksLastTableChangeEvent().filters) {
                 this.config.predefinedFilters = this.tableChangeStorageService.getTasksLastTableChangeEvent().filters;
@@ -172,18 +172,18 @@ export class ActionPointListComponent implements OnInit {
     /**
      * navigate create task screen
      */
-    public createTask() {
+    public createTask(): void {
         this.router.navigate(['action-points/create']);
     }
 
     /**
      * Export report from API based on selected filters
      */
-    public export() {
+    public export(): void {
         this.loading = true;
         this.actionPointService.exportActionPoints(this.lastTableChangeEvent, this.additionalFilters, this.projectEventService.instant.id)
             .pipe(finalize(() => this.loading = false))
-            .subscribe((response) => {
+            .subscribe((response: any): any => {
                 const contentDisposition = response.headers.get('Content-Disposition');
                 const exportName: string = GetFileNameFromContentDisposition(contentDisposition);
                 new FileManager().saveFile(exportName, response.body, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
@@ -196,7 +196,7 @@ export class ActionPointListComponent implements OnInit {
      * Navigate to update task screen
      * @param id
      */
-    public update(id: number) {
+    public update(id: number): void {
         this.router.navigate(['action-points/edit'], {queryParams: {id}});
     }
 
@@ -235,7 +235,7 @@ export class ActionPointListComponent implements OnInit {
         }
         this.actionPointService.browseActionPoints(tableChangeEvent, this.additionalFilters)
             .pipe(finalize(() => this.loading = false))
-            .subscribe((data) => {
+            .subscribe((data: BrowseResponse<TaskInterface>) => {
                 this.data = data;
                 this.isInitialized = true;
             }, () => {
@@ -247,10 +247,6 @@ export class ActionPointListComponent implements OnInit {
 
     public allowCreateActionPointButton(): boolean {
         return this.hasCreateActionPointRole() || this.hasCreateActionPointRoleInAssignProject();
-    }
-
-    public allowExportReportActionPointButton(): boolean {
-        return this.hasRoleExportReportActionPoint() || this.hasRoleExportReportActionPointInAssignProject();
     }
 
     public allowActionPointDetailButton(): boolean {
@@ -268,20 +264,12 @@ export class ActionPointListComponent implements OnInit {
         return this.authService.hasRole(Role.RoleCreateActionPointInAssignProject);
     }
 
-    private hasRoleExportReportActionPoint(): boolean {
-        return this.authService.hasRole(Role.RoleExportReportActionPoint);
-    }
-
-    private hasRoleExportReportActionPointInAssignProject(): boolean {
-        return this.authService.hasRole(Role.RoleExportReportActionPointInAssignProject);
-    }
-
     /**
      * If returned from edit task form or create task form
      */
-    private isReturnFromDetail() {
+    private isReturnFromDetail(): any {
         return this.routingStorageService.getPreviousUrl()
                    .includes('action-points/edit') || this.routingStorageService.getPreviousUrl()
-                                                  .includes('action-points/create');
+                                                          .includes('action-points/create');
     }
 }

@@ -9,7 +9,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { config } from 'rxjs';
 import { AppComponent } from './app.component';
-import { AppRoutes } from './app.routing';
+import { routes } from './app.routing';
 import { CompositionModule } from './pages/composition/composition.module';
 import { AdminLayoutComponent } from './pages/layouts/admin-layout/admin-layout.component';
 import { AuthLayoutComponent } from './pages/layouts/auth-layout/auth-layout.component';
@@ -38,7 +38,7 @@ import { TranslateWrapperService } from './shared/services/translate-wrapper.ser
         HttpClientModule,
         CompositionModule,
         FormsModule,
-        RouterModule.forRoot(AppRoutes, {useHash: true}),
+        RouterModule.forRoot(routes, {useHash: true}),
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
@@ -86,6 +86,6 @@ import { TranslateWrapperService } from './shared/services/translate-wrapper.ser
 export class AppModule {
 }
 
-export function HttpLoaderFactory(http: HttpClient) {
+export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http);
 }

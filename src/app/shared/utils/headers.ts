@@ -9,5 +9,6 @@ export function GetFileNameFromContentDisposition(disposition: string): string {
             exportName = matches[1].replace(/['"]/g, '');
         }
     }
+
     return exportName;
 }

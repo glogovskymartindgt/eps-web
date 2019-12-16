@@ -46,10 +46,10 @@ export class ProfileDetailComponent implements OnInit {
             return;
         }
         const reader = new FileReader();
-        reader.onload = () => {
+        reader.onload = (): void => {
             this.imageSrc = reader.result;
             this.imagesService.uploadImages([file])
-                .subscribe((data) => {
+                .subscribe((data: any) => {
                     this.profileDetailForm.controls.avatarUploadId.patchValue(data.fileNames[file.name].replace(/^.*[\\\/]/, ''));
                 }, () => {
                     this.notificationService.openErrorNotification('error.imageUpload');
@@ -73,9 +73,9 @@ export class ProfileDetailComponent implements OnInit {
             .subscribe(() => {
                 if (profileObject.avatar) {
                     this.imagesService.getImage(profileObject.avatar)
-                        .subscribe((blob) => {
+                        .subscribe((blob: Blob) => {
                             const reader = new FileReader();
-                            reader.onload = () => {
+                            reader.onload = (): void => {
                                 this.projectUserService.setProperty('avatar', (reader.result) as string);
                             };
                             reader.readAsDataURL(blob);
@@ -92,6 +92,7 @@ export class ProfileDetailComponent implements OnInit {
     }
 
     private initializeFrom(): void {
+        const passwordInputLength = 50;
         this.profileDetailForm = this.formBuilder.group({
             avatar: [''],
             avatarUploadId: [''],
@@ -103,7 +104,7 @@ export class ProfileDetailComponent implements OnInit {
                 '',
                 Validators.compose([
                     Validators.pattern(this.userPasswordPattern),
-                    Validators.maxLength(50)
+                    Validators.maxLength(passwordInputLength)
                 ])
             ],
             state: [''],
@@ -111,16 +112,16 @@ export class ProfileDetailComponent implements OnInit {
         this.profileDetailForm.controls.login.disable();
     }
 
-    private loadProfileDetail() {
+    private loadProfileDetail(): void {
         this.profileService.getProfileById(this.projectUserService.instant.userId)
-            .subscribe((data) => {
+            .subscribe((data: Profile) => {
                 this.setFormWithDetailData(data);
             }, () => {
                 this.notificationService.openErrorNotification('error.getProjectDetail');
             });
     }
 
-    private setFormWithDetailData(projectDetail: Profile) {
+    private setFormWithDetailData(projectDetail: Profile): void {
         this.profileDetailForm.controls.firstName.patchValue(projectDetail.firstName);
         this.profileDetailForm.controls.lastName.patchValue(projectDetail.lastName);
         this.profileDetailForm.controls.email.patchValue(projectDetail.email);
@@ -131,9 +132,9 @@ export class ProfileDetailComponent implements OnInit {
         } else {
             this.profileDetailForm.controls.avatarUploadId.patchValue(projectDetail.avatar);
             this.imagesService.getImage(projectDetail.avatar)
-                .subscribe((blob) => {
+                .subscribe((blob: Blob): void => {
                     const reader = new FileReader();
-                    reader.onload = () => {
+                    reader.onload = (): void => {
                         this.imageSrc = reader.result;
                     };
                     reader.readAsDataURL(blob);

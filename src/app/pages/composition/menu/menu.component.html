@@ -1,15 +1,17 @@
 <div fxLayout="column">
     <div style="height: 50px"></div>
-    
-    <secondary-header-project
-        (onSectionSelected)="getSectionType($event)"
-        *ngIf="!isSectionSettings()">
-    </secondary-header-project>
 
-    <secondary-header-settings
-        (onSectionSelected)="getSectionType($event)"
-        *ngIf="isSectionSettings()">
-    </secondary-header-settings>
+    <iihf-secondary-header-project
+        (sectionSelected)="getSectionType($event)"
+        *ngIf="!isSectionSettings()"
+    >
+    </iihf-secondary-header-project>
+
+    <iihf-secondary-header-settings
+        (sectionSelected)="getSectionType($event)"
+        *ngIf="isSectionSettings()"
+    >
+    </iihf-secondary-header-settings>
     <div>
         <mat-drawer-container autosize class="menu-container mt-50">
             <mat-drawer #drawer
@@ -27,8 +29,8 @@
                                 <mat-icon>close</mat-icon>
                             </button>
                         </div>
-                        <side-options-project fxFlex *ngIf="!isSectionSettings()"></side-options-project>
-                        <side-options-settings fxFlex *ngIf="isSectionSettings()"></side-options-settings>
+                        <iihf-side-options-project *ngIf="!isSectionSettings()" fxFlex></iihf-side-options-project>
+                        <iihf-side-options-settings *ngIf="isSectionSettings()" fxFlex></iihf-side-options-settings>
                     </div>
                     <div fxFlex="230px" fxLayout="row" fxLayoutAlign="space-between">
                         <div (dblclick)="toggleLanguage()"

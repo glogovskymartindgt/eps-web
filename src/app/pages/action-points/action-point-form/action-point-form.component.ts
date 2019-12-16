@@ -1,16 +1,18 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { HttpResponse } from '@angular/common/http';
 import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import * as _moment from 'moment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { StringUtils } from '../../../shared/hazlenut/hazelnut-common/hazelnut';
 import { Regex } from '../../../shared/hazlenut/hazelnut-common/regex/regex';
+import { TaskInterface } from '../../../shared/interfaces/task.interface';
 import { User } from '../../../shared/interfaces/user.interface';
 import { Venue } from '../../../shared/interfaces/venue.interface';
 import { Responsible } from '../../../shared/models/responsible.model';
@@ -42,7 +44,7 @@ const moment = _moment;
     ],
 })
 export class ActionPointFormComponent implements OnInit {
-    @Output('formDataChange') public onFormDataChange = new EventEmitter<any>();
+    @Output() public readonly formDataChange = new EventEmitter<any>();
     @ViewChild('responsibleInput', {static: false}) public responsibleInput: ElementRef<HTMLInputElement>;
     @ViewChild('auto', {static: false}) public matAutocomplete: MatAutocomplete;
     public venueList: Venue[];
@@ -74,22 +76,26 @@ export class ActionPointFormComponent implements OnInit {
                        private readonly projectUserService: ProjectUserService) {
         this.filteredResponsibles = this.responsibleControl
                                         .valueChanges
-                                        .pipe(map((c: string | null) => c ? this._filter(c) : this.responsibles.filter((a) => {
-                                            this.emitFormDataChangeEmitter();
+                                        .pipe(map((responsibleUser: string | null) => {
+                                            return responsibleUser ? this._filter(responsibleUser) : this.responsibles.filter((actualResponsibleUser: Responsible) => {
+                                                this.emitFormDataChangeEmitter();
 
-                                            return !this.selectedResponsibles.some((s) => s.id === a.id);
-                                        })));
+                                                return !this.selectedResponsibles.some((selectedResponsibleUser: Responsible) => selectedResponsibleUser.id ===
+                                                    actualResponsibleUser.id);
+                                            });
+                                        }));
     }
 
-    public dateClass = (d: Date) => {
-        const day = moment(d)
+    public dateClass = (date: Date): string | undefined => {
+        const weekDayCountMinusOne = 6;
+        const day = moment(date)
             .toDate()
             .getDay();
 
-        return (day === 0 || day === 6) ? 'custom-date-class' : undefined;
+        return (day === 0 || day === weekDayCountMinusOne) ? 'custom-date-class' : undefined;
     }
 
-    public ngOnInit() {
+    public ngOnInit(): void {
         this.createForm();
         this.loadVenueList();
         this.loadUserList();
@@ -98,11 +104,11 @@ export class ActionPointFormComponent implements OnInit {
         this.actionPointForm.controls.responsible.patchValue('ad');
     }
 
-    public onDateChanged(event) {
+    public onDateChanged(event): void {
         this.dateInvalid = true;
     }
 
-    public onDateChangedClosed(event) {
+    public onDateChangedClosed(event): void {
         this.dateInvalidClosed = true;
     }
 
@@ -110,8 +116,8 @@ export class ActionPointFormComponent implements OnInit {
         return item.id;
     }
 
-    public remove(category: Responsible): void {
-        const index = this.selectedResponsibles.findIndex((e) => e.id === category.id);
+    public remove(responsibleUser: Responsible): void {
+        const index = this.selectedResponsibles.findIndex((selectedResponsibleUser: Responsible) => selectedResponsibleUser.id === responsibleUser.id);
         if (index >= 0) {
             this.selectedResponsibles.splice(index, 1);
             this.autocomplete.closePanel();
@@ -135,48 +141,48 @@ export class ActionPointFormComponent implements OnInit {
 
     public add(event: MatChipInputEvent): void {
         // To make sure this does not conflict with OptionSelected Event
-        if (!this.matAutocomplete.isOpen) {
-            const input = event.input;
-            if (!event.value) {
-                return;
-            }
-            if (input) {
-                input.value = '';
-            }
-            this.actionPointForm.controls.responsible.setValue(null);
+        if (this.matAutocomplete.isOpen || !event.value) {
+            return;
         }
+
+        const input = event.input;
+
+        if (input) {
+            input.value = '';
+        }
+        this.actionPointForm.controls.responsible.setValue(null);
+
     }
 
     private _filter(value: any): Responsible[] {
         const filterValue = typeof value === 'string' ? value.toLowerCase() : value.firstName;
 
-        // TODO merge filter
-        return this.responsibles.filter((responsible) => {
+        return this.responsibles.filter((responsible: Responsible) => {
                        return responsible && (StringUtils.removeAccentedCharacters(responsible.firstName.toLowerCase())
                                                          .indexOf(filterValue) === 0 || StringUtils.removeAccentedCharacters(responsible.lastName.toLowerCase())
                                                                                                    .indexOf(filterValue) === 0);
                    })
-                   .filter((responsible) => {
-                       return !this.selectedResponsibles.find((e) => e.id === responsible.id);
+                   .filter((responsible: Responsible) => {
+                       return !this.selectedResponsibles.find((selectedResponsibleUser: Responsible) => selectedResponsibleUser.id === responsible.id);
                    });
     }
 
-    private loadVenueList() {
+    private loadVenueList(): void {
         this.venueService.getVenuesByProjectId(this.projectEventService.instant.id)
-            .subscribe((data) => {
+            .subscribe((data: Venue[]) => {
                 this.venueList = data;
             });
     }
 
-    private loadUserList() {
+    private loadUserList(): void {
         this.userDataService.getUsers()
-            .subscribe((data) => {
+            .subscribe((data: any[]) => {
                 this.userList = data;
                 this.responsibles = data;
             });
     }
 
-    private createForm() {
+    private createForm(): void {
         this.actionPointForm = this.formBuilder.group({
             title: [
                 null,
@@ -205,19 +211,20 @@ export class ActionPointFormComponent implements OnInit {
 
     private emitFormDataChangeEmitter(): void {
         if (this.actionPointForm.invalid) {
-            this.onFormDataChange.emit(null);
-        } else {
-            const actualValue = {
-                ...this.actionPointForm.value,
-                state: this.actionPointForm.controls.state.value,
-                responsibleUsers: this.selectedResponsibles
-            };
-            this.onFormDataChange.emit(actualValue);
+            this.formDataChange.emit(null);
+
+            return;
         }
+        const actualValue = {
+            ...this.actionPointForm.value,
+            state: this.actionPointForm.controls.state.value,
+            responsibleUsers: this.selectedResponsibles
+        };
+        this.formDataChange.emit(actualValue);
     }
 
-    private checkIfUpdate() {
-        this.activatedRoute.queryParams.subscribe((param) => {
+    private checkIfUpdate(): void {
+        this.activatedRoute.queryParams.subscribe((param: Params) => {
             if (Object.keys(param).length > 0) {
                 this.isUpdate = true;
                 this.getIdFromRouteParamsAndSetDetail(param);
@@ -227,12 +234,12 @@ export class ActionPointFormComponent implements OnInit {
 
     private getIdFromRouteParamsAndSetDetail(param: any): void {
         this.actionPointService.getActionPointById(param.id)
-            .subscribe((apiTask) => {
+            .subscribe((apiTask: TaskInterface) => {
                 this.setForm(apiTask);
-            }, (error) => this.notificationService.openErrorNotification(error));
+            }, (error: HttpResponse<any>) => this.notificationService.openErrorNotification(error));
     }
 
-    private setForm(actionPoint: any) {
+    private setForm(actionPoint: any): void {
         this.actionPointForm = this.formBuilder.group({
             title: [
                 '',
@@ -255,43 +262,19 @@ export class ActionPointFormComponent implements OnInit {
 
         this.selectedResponsibles = actionPoint.responsibles ? actionPoint.responsibles : [];
         this.actionPointForm.controls.title.patchValue(actionPoint.title);
-        if (actionPoint.actionPointText) {
-            this.actionPointForm.controls.actionPointText.patchValue(actionPoint.actionPointText);
-        }
-        if (actionPoint.dueDate) {
-            this.actionPointForm.controls.dueDate.patchValue(actionPoint.dueDate);
-        }
-        if (actionPoint.closedDate) {
-            this.actionPointForm.controls.closedDate.patchValue(actionPoint.closedDate);
-        }
-        if (actionPoint.responsibleUser) {
+        this.addFormValue('actionPointText', actionPoint.actionPointText);
+        this.addFormValue('dueDate', actionPoint.dueDate);
+        this.addFormValue('closedDate', actionPoint.closedDate);
+        this.addFormValue('responsible', actionPoint.responsibleUser);
+        this.addFormValue('venue', actionPoint.cityName);
+        this.addFormValue('description', actionPoint.description);
+        this.addFormValue('state', actionPoint.state);
+        this.addFormValue('meetingText', actionPoint.meetingDescription);
+        this.addFormValue('meetingDate', actionPoint.meetingDate);
+        this.addFormValue('closedDate', actionPoint.closedDate);
+        this.addFormValue('code', actionPoint.code);
+        this.addFormValue('area', actionPoint.area);
 
-            this.actionPointForm.controls.responsible.patchValue(actionPoint.responsibleUser.id);
-        }
-        if (actionPoint.cityName) {
-            this.actionPointForm.controls.venue.patchValue(actionPoint.cityName);
-        }
-        if (actionPoint.description) {
-            this.actionPointForm.controls.description.patchValue(actionPoint.description);
-        }
-        if (actionPoint.state) {
-            this.actionPointForm.controls.state.patchValue(actionPoint.state);
-        }
-        if (actionPoint.meetingDescription) {
-            this.actionPointForm.controls.meetingText.patchValue(actionPoint.meetingDescription);
-        }
-        if (actionPoint.meetingDate) {
-            this.actionPointForm.controls.meetingDate.patchValue(actionPoint.meetingDate);
-        }
-        if (actionPoint.closedDate) {
-            this.actionPointForm.controls.closedDate.patchValue(actionPoint.closedDate);
-        }
-        if (actionPoint.code) {
-            this.actionPointForm.controls.code.patchValue(actionPoint.code);
-        }
-        if (actionPoint.area) {
-            this.actionPointForm.controls.area.patchValue(actionPoint.area);
-        }
         if (actionPoint.changedAt) {
             this.actionPointForm.controls.changedAt.patchValue(moment(actionPoint.changedAt)
                 .format('D.M.YYYY - HH:mm:ss'));
@@ -313,10 +296,17 @@ export class ActionPointFormComponent implements OnInit {
         });
     }
 
-    private isAllowedToChangeStatus(createdBy: User, responsibleUsers: any[]) {
+    private isAllowedToChangeStatus(createdBy: User, responsibleUsers: any[]): boolean {
         const actualUserId = this.projectUserService.instant.userId;
-        responsibleUsers = responsibleUsers.map((user) => user.id);
+        const responsibles = responsibleUsers.map((user: any): number => user.id);
 
-        return responsibleUsers.includes(actualUserId) || createdBy.id === actualUserId;
+        return responsibles.includes(actualUserId) || createdBy.id === actualUserId;
+    }
+
+    private addFormValue(controlAsString: string, value: any): void {
+        if (value) {
+            this.actionPointForm.controls[controlAsString].patchValue(value);
+        }
+
     }
 }

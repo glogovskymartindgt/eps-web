@@ -6,7 +6,7 @@ import { AuthGuard } from './shared/services/auth-guard';
 /**
  * Menu property in routes for showing screen option in app menu
  */
-export const AppRoutes: Routes = [
+export const routes: Routes = [
     {
         path: '',
         redirectTo: 'authentication',

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Role } from '../../../shared/enums/role.enum';
 import { ProjectInterface } from '../../../shared/interfaces/project.interface';
+import { User } from '../../../shared/interfaces/user.interface';
 import { AuthService } from '../../../shared/services/auth.service';
 import { DashboardService } from '../../../shared/services/dashboard.service';
 import { ImagesService } from '../../../shared/services/data/images.service';
@@ -11,7 +12,7 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
 import { ProjectUserService } from '../../../shared/services/storage/project-user.service';
 
 @Component({
-    selector: 'project-list',
+    selector: 'iihf-project-list',
     templateUrl: './project-list.component.html',
     styleUrls: ['./project-list.component.scss'],
 })
@@ -29,13 +30,13 @@ import { ProjectUserService } from '../../../shared/services/storage/project-use
                        private readonly projectUserService: ProjectUserService,
                        private readonly imagesService: ImagesService,
                        private readonly notificationService: NotificationService,
-                       private readonly router: Router,) {
+                       private readonly router: Router) {
     }
 
     /**
      * Create filter listener on projects and set default value to ALL
      */
-    public ngOnInit() {
+    public ngOnInit(): void {
         this.filterProjects('ALL');
         this.dashboardService.dashboardFilterNotifier$.subscribe((filterValue: string) => {
             this.filterProjects(filterValue);
@@ -56,7 +57,7 @@ import { ProjectUserService } from '../../../shared/services/storage/project-use
      * Filter projects based on selected filter
      * @param filterValue
      */
-    private filterProjects(filterValue = 'ALL') {
+    private filterProjects(filterValue = 'ALL'): void {
         this.dashboardService.filterProjects(filterValue)
             .subscribe((data: ProjectInterface[]) => {
                 this.projects = data;
@@ -66,12 +67,12 @@ import { ProjectUserService } from '../../../shared/services/storage/project-use
 
     private initializeUserPhoto(): void {
         this.userDataService.getOwnUserDetail(this.projectUserService.instant.userId)
-            .subscribe((user) => {
+            .subscribe((user: User) => {
                 if (user.avatar) {
                     this.imagesService.getImage(user.avatar)
-                        .subscribe((blob) => {
+                        .subscribe((blob: Blob) => {
                             const reader = new FileReader();
-                            reader.onload = () => {
+                            reader.onload = (): void => {
                                 this.projectUserService.setProperty('avatar', (reader.result) as string);
                             };
                             reader.readAsDataURL(blob);

@@ -1,16 +1,17 @@
 export function checkAndRemoveLastDotComma(value: string): string {
-    if ((value === null || value === undefined)) {
+    let checked = value;
+    if ((checked === null || checked === undefined)) {
         return null;
     }
-    const lastCharacter = value.toString()
+    const lastCharacter = checked.toString()
                                .slice(-1);
     if (lastCharacter !== '' && (lastCharacter === '.' || lastCharacter === ',')) {
-        value = value.toString()
-                     .substring(0, value.toString().length - 1);
+        checked = checked.toString()
+                     .substring(0, checked.toString().length - 1);
     }
-    value = value.replace(',', '.');
-    value = value.split(' ')
+    checked = checked.replace(',', '.');
+    checked = checked.split(' ')
                  .join('');
-    return value;
 
+    return checked;
 }

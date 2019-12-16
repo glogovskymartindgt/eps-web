@@ -6,7 +6,7 @@ import { UserDataInterface } from '../../interfaces/user-data.interface';
     providedIn: 'root'
 })
 export class ProjectUserService extends UserService<UserDataInterface> {
-    public constructor(storageService: AbstractStorageService,) {
+    public constructor(storageService: AbstractStorageService) {
         super(storageService);
     }
 
@@ -14,7 +14,7 @@ export class ProjectUserService extends UserService<UserDataInterface> {
         return Boolean(this.instant && this.instant.authToken);
     }
 
-    public setAuthData(data: any) {
+    public setAuthData(data: any): void {
         this.setData({
             id: data.accountData.id,
             login: data.accountData.login,

@@ -6,7 +6,7 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
 import { checkAndRemoveLastDotComma } from '../../../shared/utils/remove-last-char';
 
 @Component({
-    selector: 'fact-create',
+    selector: 'iihf-fact-create',
     templateUrl: './fact-create.component.html',
     styleUrls: ['./fact-create.component.scss']
 })
@@ -20,13 +20,13 @@ import { checkAndRemoveLastDotComma } from '../../../shared/utils/remove-last-ch
     public constructor(private readonly router: Router,
                        private readonly factService: FactService,
                        private readonly notificationService: NotificationService,
-                       private readonly projectEventService: ProjectEventService,) {
+                       private readonly projectEventService: ProjectEventService) {
     }
 
     /**
      * Default form initialization is in child form component
      */
-    public ngOnInit() {
+    public ngOnInit(): void {
     }
 
     /**
@@ -41,7 +41,7 @@ import { checkAndRemoveLastDotComma } from '../../../shared/utils/remove-last-ch
      */
     public onSave(): void {
         this.factService.createFact(this.transformTaskToApiObject(this.formData))
-            .subscribe((response) => {
+            .subscribe(() => {
                 this.notificationService.openSuccessNotification('success.add');
                 this.router.navigate(['facts/list']);
             });
@@ -67,6 +67,7 @@ import { checkAndRemoveLastDotComma } from '../../../shared/utils/remove-last-ch
         if (formObject.description) {
             apiObject.description = formObject.description;
         }
+
         return apiObject;
     }
 

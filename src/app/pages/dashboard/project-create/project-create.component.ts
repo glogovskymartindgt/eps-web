@@ -7,7 +7,9 @@ import * as _moment from 'moment';
 import { finalize } from 'rxjs/operators';
 import { Role } from '../../../shared/enums/role.enum';
 import { enterLeave, fadeEnterLeave } from '../../../shared/hazlenut/hazelnut-common/animations';
+import { BrowseResponse } from '../../../shared/hazlenut/hazelnut-common/models';
 import { Regex } from '../../../shared/hazlenut/hazelnut-common/regex/regex';
+import { Country } from '../../../shared/models/country.model';
 import { AuthService } from '../../../shared/services/auth.service';
 import { BusinessAreaService } from '../../../shared/services/data/business-area.service';
 import { ImagesService } from '../../../shared/services/data/images.service';
@@ -29,7 +31,7 @@ export const PROJECT_DATE_FORMATS = {
 };
 
 @Component({
-    selector: 'project-create',
+    selector: 'iihf-project-create',
     templateUrl: './project-create.component.html',
     styleUrls: ['./project-create.component.scss'],
     animations: [
@@ -87,18 +89,18 @@ export class ProjectCreateComponent implements OnInit {
         this.router.navigate(['dashboard/list']);
     }
 
-    public onLogoInserted(event) {
+    public onLogoInserted(event): void {
         const file = event.target.files[0];
         if (!file) {
             return;
         }
         const reader = new FileReader();
-        reader.onload = () => {
+        reader.onload = (): void => {
             this.imageSrc = reader.result;
             this.imagesService.uploadImages([file])
-                .subscribe((data) => {
+                .subscribe((data: any) => {
                     this.projectDetailForm.controls.logoUploadId.patchValue(data.fileNames[file.name].replace(/^.*[\\\/]/, ''));
-                }, () => {
+                }, (): void => {
                     this.imageSrc = this.defaultLogoPath;
                     this.notificationService.openErrorNotification('error.imageUpload');
                 });
@@ -106,15 +108,16 @@ export class ProjectCreateComponent implements OnInit {
         reader.readAsDataURL(file);
     }
 
-    public dateClass = (d: Date) => {
-        const day = moment(d)
+    public dateClass = (date: Date): string | undefined => {
+        const daysInWeekMinusOne = 6;
+        const day = moment(date)
             .toDate()
             .getDay();
 
-        return (day === 0 || day === 6) ? 'custom-date-class' : undefined;
+        return (day === 0 || day === daysInWeekMinusOne) ? 'custom-date-class' : undefined;
     }
 
-    public onDateChanged(event) {
+    public onDateChanged(event): void {
         this.dateInvalid = true;
     }
 
@@ -123,6 +126,7 @@ export class ProjectCreateComponent implements OnInit {
     }
 
     private transformProjectToApiObject(): any {
+        const secondScreenPosition = 2;
         const formObject = this.projectDetailForm.value;
         const apiObject: any = {
             name: formObject.name,
@@ -151,7 +155,7 @@ export class ProjectCreateComponent implements OnInit {
         }
         if (formObject.secondCountry) {
             const secondVenueObject: any = {};
-            secondVenueObject.screenPosition = 2;
+            secondVenueObject.screenPosition = secondScreenPosition;
             secondVenueObject.clCountry = {id: formObject.secondCountry};
             if (formObject.secondVenue) {
                 secondVenueObject.cityName = formObject.secondVenue;
@@ -161,6 +165,7 @@ export class ProjectCreateComponent implements OnInit {
         if (formObject.description) {
             apiObject.description = formObject.description;
         }
+
         return apiObject;
     }
 
@@ -186,45 +191,48 @@ export class ProjectCreateComponent implements OnInit {
         });
     }
 
-    private firstCountryEmptyWhenFirstVenue() {
+    private firstCountryEmptyWhenFirstVenue(): any {
         return (group: FormGroup): {[key: string]: any} => {
             let firstCountryEmptyWhenFirstVenue;
             if (this.projectDetailForm) {
                 firstCountryEmptyWhenFirstVenue = this.projectDetailForm.controls.firstVenue.value && !this.projectDetailForm.controls.firstCountry.value;
             }
+
             return firstCountryEmptyWhenFirstVenue ? {firstCountryEmptyWhenSecondCountry: firstCountryEmptyWhenFirstVenue} : null;
 
         };
     }
 
-    private secondCountryEmptyWhenSecondVenue() {
+    private secondCountryEmptyWhenSecondVenue(): any {
         return (group: FormGroup): {[key: string]: any} => {
             let secondCountryEmptyWhenSecondVenue;
             if (this.projectDetailForm) {
                 secondCountryEmptyWhenSecondVenue = this.projectDetailForm.controls.secondVenue.value && !this.projectDetailForm.controls.secondCountry.value;
             }
+
             return secondCountryEmptyWhenSecondVenue ? {secondCountryEmptyWhenSecondVenue} : null;
 
         };
     }
 
-    private firstCountryEmptyWhenSecondCountry() {
+    private firstCountryEmptyWhenSecondCountry(): any {
         return (group: FormGroup): {[key: string]: any} => {
             let firstCountryEmptyWhenSecondCountry;
             if (this.projectDetailForm) {
                 firstCountryEmptyWhenSecondCountry = this.projectDetailForm.controls.secondCountry.value && !this.projectDetailForm.controls.firstCountry.value;
             }
+
             return firstCountryEmptyWhenSecondCountry ? {firstCountryEmptyWhenSecondCountry} : null;
 
         };
     }
 
-    private loadCountries() {
+    private loadCountries(): any {
         this.countriesLoading = true;
         this.businessAreaService.listCountries()
             .pipe(finalize(() => this.countriesLoading = false))
-            .subscribe((data) => {
-                this.countryList = data.content.filter((item) => item.state === 'VALID');
+            .subscribe((data: BrowseResponse<Country>) => {
+                this.countryList = data.content.filter((item: Country) => item.state === 'VALID');
             }, () => {
                 this.notificationService.openErrorNotification('error.api');
             });

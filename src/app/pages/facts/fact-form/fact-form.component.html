@@ -29,7 +29,8 @@
                     </mat-option>
                 </ng-container>
                 <mat-option
-                    *ngIf="subCategories && subCategories.length === 0 && !formLoaded">{{'all.empty' | translate}}</mat-option>
+                    *ngIf="subCategories && subCategories.length === 0 && !formLoaded"
+                >{{'all.empty' | translate}}</mat-option>
                 <mat-option *ngIf="formLoaded" [value]="factForm?.value?.subCategory">
                     {{factForm?.value?.subCategory}}
                 </mat-option>
@@ -41,28 +42,28 @@
     </div>
 
     <div class="long-input">
-        <haz-core-input formControlName="firstValue"
-                        [label]="firstVenueLabel"
-                        appearance="fill"
-                        [textSuffix]="actualUnitShortName"
-                        [allowedCharactersPattern]="decimalPattern"
-                        [maxLength]="15"
-                        [required]="'isFirstValueRequired'"
+        <haz-core-input [allowedCharactersPattern]="decimalPattern"
                         [handleFocusAndBlur]='true'
                         [inputStyles]="{width: '100%', 'position': 'relative', 'right': '5px', 'text-align': 'right'}"
+                        [label]="firstVenueLabel"
+                        [maxLength]="15"
+                        [required]="'isFirstValueRequired'"
+                        [textSuffix]="actualUnitShortName"
+                        appearance="fill"
+                        formControlName="firstValue"
         >
         </haz-core-input>
     </div>
     <div class="long-input">
-        <haz-core-input formControlName="secondValue"
-                        [label]="secondVenueLabel"
-                        appearance="fill"
-                        [textSuffix]="actualUnitShortName"
-                        [allowedCharactersPattern]="decimalPattern"
-                        [maxLength]="15"
-                        [required]="'isSecondValueRequired'"
+        <haz-core-input [allowedCharactersPattern]="decimalPattern"
                         [handleFocusAndBlur]='true'
                         [inputStyles]="{width: '100%', 'position': 'relative', 'right': '5px', 'text-align': 'right'}"
+                        [label]="secondVenueLabel"
+                        [maxLength]="15"
+                        [required]="'isSecondValueRequired'"
+                        [textSuffix]="actualUnitShortName"
+                        appearance="fill"
+                        formControlName="secondValue"
         >
         </haz-core-input>
     </div>
@@ -70,46 +71,46 @@
         <mat-checkbox formControlName="hasOnlyTotalValue">{{'fact.hasOnlyTotalValue' | translate}}</mat-checkbox>
     </div>
     <div class="long-input">
-        <haz-core-input formControlName="totalValue"
-                        [label]="'fact.totalValue' | translate"
-                        appearance="fill"
-                        [textSuffix]="actualUnitShortName"
-                        [allowedCharactersPattern]="decimalPattern"
-                        [maxLength]="15"
-                        [required]="'isTotalRequired'"
+        <haz-core-input [allowedCharactersPattern]="decimalPattern"
                         [handleFocusAndBlur]='true'
                         [inputStyles]="{width: '100%', 'position': 'relative', 'right': '5px', 'text-align': 'right'}"
+                        [label]="'fact.totalValue' | translate"
+                        [maxLength]="15"
+                        [required]="'isTotalRequired'"
+                        [textSuffix]="actualUnitShortName"
+                        appearance="fill"
+                        formControlName="totalValue"
         >
         </haz-core-input>
     </div>
-    
+
     <div class="long-input">
-        <haz-core-input [label]="'fact.description' | translate"
-                        [type]="'textarea'"
-                        [appearance]="'fill'"
-                        formControlName="description"
-                        class="theme-input"
+        <haz-core-input [appearance]="'fill'"
+                        [label]="'fact.description' | translate"
                         [maxLength]="4092"
+                        [type]="'textarea'"
+                        class="theme-input"
+                        formControlName="description"
         >
         </haz-core-input>
     </div>
 
-    <div class="long-input" *ngIf="formLoaded">
-        <haz-core-input [label]="'fact.changedAt' |  translate"
-                        [appearance]="'fill'"
+    <div *ngIf="formLoaded" class="long-input">
+        <haz-core-input [appearance]="'fill'"
+                        [label]="'fact.changedAt' |  translate"
+                        class="theme-input"
                         formControlName="changedAt"
-                        class="theme-input"
         >
         </haz-core-input>
     </div>
 
-    <div class="long-input" *ngIf="formLoaded">
-        <haz-core-input [label]="'fact.changedBy' | translate"
-                        [appearance]="'fill'"
-                        formControlName="changedBy"
+    <div *ngIf="formLoaded" class="long-input">
+        <haz-core-input [appearance]="'fill'"
+                        [label]="'fact.changedBy' | translate"
                         class="theme-input"
+                        formControlName="changedBy"
         >
         </haz-core-input>
     </div>
-    
+
 </form>

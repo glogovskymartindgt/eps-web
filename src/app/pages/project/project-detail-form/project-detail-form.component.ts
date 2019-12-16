@@ -9,7 +9,6 @@ import { Subject } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { ImageDialogComponent } from '../../../shared/components/dialog/image-dialog/image-dialog.component';
 import { PdfDialogComponent } from '../../../shared/components/dialog/pdf-dialog/pdf-dialog.component';
-
 import { AttachmentType } from '../../../shared/enums/attachment-type.enum';
 import { enterLeave, fadeEnterLeave } from '../../../shared/hazlenut/hazelnut-common/animations';
 import { Regex } from '../../../shared/hazlenut/hazelnut-common/regex/regex';
@@ -141,7 +140,6 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         });
 
         this.loadProjectDetail();
-
         this.projectDetailForm.disable();
 
         this.projectDetailForm.valueChanges.subscribe(() => {

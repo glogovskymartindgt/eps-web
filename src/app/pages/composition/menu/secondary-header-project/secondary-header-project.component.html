@@ -63,8 +63,8 @@
         {{ 'dashboard.closed' | translate}}
     </a>
 
-    <div fxFlex fxLayoutAlign="end center" *ngIf="hasRoleAccessSettings()">
-        <a routerLink="/users" (click)="setSection('settings')" mat-flat-button class="mt-3 mr-10" color="primary">
+    <div *ngIf="hasRoleAccessSettings()" fxFlex fxLayoutAlign="end center">
+        <a (click)="setSection('settings')" class="mt-3 mr-10" color="primary" mat-flat-button routerLink="/users">
             {{'dashboard.settings' | translate |uppercase}}
         </a>
     </div>

@@ -8,7 +8,7 @@ import { ImagesService } from '../../../shared/services/data/images.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 
 @Component({
-    selector: 'project-card',
+    selector: 'iihf-project-card',
     templateUrl: './project-card.component.html',
     styleUrls: ['./project-card.component.scss'],
     animations: [fadeEnterLeave]
@@ -16,7 +16,6 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
 
 export class ProjectCardComponent implements OnInit {
     @Input() public project: Project;
-
     public showAllCities = false;
     public showOneCity = false;
     public showAllCountries = false;
@@ -33,6 +32,7 @@ export class ProjectCardComponent implements OnInit {
      * Project data setup in intialization
      */
     public ngOnInit(): void {
+        const maxVenues = 2;
         this.getImagePath();
         if (this.project.venues !== null && this.project.venues.length === 1) {
             this.showOneCity = true;
@@ -40,7 +40,7 @@ export class ProjectCardComponent implements OnInit {
             this.showOneCountry = true;
             this.showAllCountries = false;
         }
-        if (this.project.venues !== null && this.project.venues.length === 2) {
+        if (this.project.venues !== null && this.project.venues.length === maxVenues) {
             const firstPosition = this.project.venues[0].screenPosition;
             const secondPosition = this.project.venues[1].screenPosition;
             if ((firstPosition !== null && secondPosition !== null) && (secondPosition < firstPosition)) {
@@ -92,7 +92,7 @@ export class ProjectCardComponent implements OnInit {
         this.imagesService.getImage(this.project.logo)
             .subscribe((blob: Blob) => {
                 const reader = new FileReader();
-                reader.onload = () => {
+                reader.onload = (): void => {
                     this.imagePath = reader.result;
                 };
                 reader.readAsDataURL(blob);

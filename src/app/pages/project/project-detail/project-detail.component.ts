@@ -110,33 +110,35 @@ export class ProjectDetailComponent implements OnInit {
                 firstVenueObject.cityName = formObject.firstVenue;
             }
             firstVenueObject.attachments = [];
-            if(this.firstVenueMaps && this.firstVenueMaps.names.length > 0){
-                for (var i = 0; i < this.firstVenueMaps.names.length; i++) {
+            if (this.firstVenueMaps && this.firstVenueMaps.names.length > 0) {
+                for (let i = 0; i < this.firstVenueMaps.names.length; i++) {
                     firstVenueObject.attachments.push({
-                    fileName: this.firstVenueMaps.names[i],
-                    filePath: this.firstVenueMaps.paths[i],
-                    type: AttachmentType.Map,
-                    format: AttachmentFormat.Pdf
+                        fileName: this.firstVenueMaps.names[i],
+                        filePath: this.firstVenueMaps.paths[i],
+                        type: AttachmentType.Map,
+                        format: AttachmentFormat.Pdf
                     });
                 }
             }
-            if(this.firstVenueImages && this.firstVenueImages.names.length > 0){
-                for (var i = 0; i < this.firstVenueImages.names.length; i++) {
+            if (this.firstVenueImages && this.firstVenueImages.names.length > 0) {
+                for (let i = 0; i < this.firstVenueImages.names.length; i++) {
                     firstVenueObject.attachments.push({
-                    fileName: this.firstVenueImages.names[i],
-                    filePath: this.firstVenueImages.paths[i],
-                    type: AttachmentType.Image,
-                    format: this.firstVenueImages.paths[i].substr(this.firstVenueImages.paths[i].lastIndexOf(".") + 1).toUpperCase()
+                        fileName: this.firstVenueImages.names[i],
+                        filePath: this.firstVenueImages.paths[i],
+                        type: AttachmentType.Image,
+                        format: this.firstVenueImages.paths[i].substr(this.firstVenueImages.paths[i].lastIndexOf('.') + 1)
+                                                              .toUpperCase()
                     });
                 }
             }
-            if(this.firstVenueDocuments && this.firstVenueDocuments.names.length > 0){
-                for (var i = 0; i < this.firstVenueDocuments.names.length; i++) {
+            if (this.firstVenueDocuments && this.firstVenueDocuments.names.length > 0) {
+                for (let i = 0; i < this.firstVenueDocuments.names.length; i++) {
                     firstVenueObject.attachments.push({
-                    fileName: this.firstVenueDocuments.names[i],
-                    filePath: this.firstVenueDocuments.paths[i],
-                    type: AttachmentType.Document,
-                    format: this.firstVenueDocuments.paths[i].substr(this.firstVenueDocuments.paths[i].lastIndexOf(".") + 1).toUpperCase()
+                        fileName: this.firstVenueDocuments.names[i],
+                        filePath: this.firstVenueDocuments.paths[i],
+                        type: AttachmentType.Document,
+                        format: this.firstVenueDocuments.paths[i].substr(this.firstVenueDocuments.paths[i].lastIndexOf('.') + 1)
+                                                                 .toUpperCase()
                     });
                 }
             }
@@ -150,33 +152,35 @@ export class ProjectDetailComponent implements OnInit {
                 secondVenueObject.cityName = formObject.secondVenue;
             }
             secondVenueObject.attachments = [];
-            if(this.secondVenueMaps.names.length > 0){
-                for (var i = 0; i < this.secondVenueMaps.names.length; i++) {
+            if (this.secondVenueMaps.names.length > 0) {
+                for (let i = 0; i < this.secondVenueMaps.names.length; i++) {
                     secondVenueObject.attachments.push({
-                    fileName: this.secondVenueMaps.names[i],
-                    filePath: this.secondVenueMaps.paths[i],
-                    type: AttachmentType.Map,
-                    format: AttachmentFormat.Pdf
+                        fileName: this.secondVenueMaps.names[i],
+                        filePath: this.secondVenueMaps.paths[i],
+                        type: AttachmentType.Map,
+                        format: AttachmentFormat.Pdf
                     });
                 }
             }
-            if(this.secondVenueImages && this.secondVenueImages.names.length > 0){
-                for (var i = 0; i < this.secondVenueImages.names.length; i++) {
+            if (this.secondVenueImages && this.secondVenueImages.names.length > 0) {
+                for (let i = 0; i < this.secondVenueImages.names.length; i++) {
                     secondVenueObject.attachments.push({
-                    fileName: this.secondVenueImages.names[i],
-                    filePath: this.secondVenueImages.paths[i],
-                    type: AttachmentType.Image,
-                    format: this.secondVenueImages.paths[i].substr(this.secondVenueImages.paths[i].lastIndexOf(".") + 1).toUpperCase()
+                        fileName: this.secondVenueImages.names[i],
+                        filePath: this.secondVenueImages.paths[i],
+                        type: AttachmentType.Image,
+                        format: this.secondVenueImages.paths[i].substr(this.secondVenueImages.paths[i].lastIndexOf('.') + 1)
+                                                               .toUpperCase()
                     });
                 }
             }
-            if(this.secondVenueDocuments && this.secondVenueDocuments.names.length > 0){
-                for (var i = 0; i < this.secondVenueDocuments.names.length; i++) {
+            if (this.secondVenueDocuments && this.secondVenueDocuments.names.length > 0) {
+                for (let i = 0; i < this.secondVenueDocuments.names.length; i++) {
                     secondVenueObject.attachments.push({
-                    fileName: this.secondVenueDocuments.names[i],
-                    filePath: this.secondVenueDocuments.paths[i],
-                    type: AttachmentType.Document,
-                    format: this.secondVenueDocuments.paths[i].substr(this.secondVenueDocuments.paths[i].lastIndexOf(".") + 1).toUpperCase()
+                        fileName: this.secondVenueDocuments.names[i],
+                        filePath: this.secondVenueDocuments.paths[i],
+                        type: AttachmentType.Document,
+                        format: this.secondVenueDocuments.paths[i].substr(this.secondVenueDocuments.paths[i].lastIndexOf('.') + 1)
+                                                                  .toUpperCase()
                     });
                 }
             }

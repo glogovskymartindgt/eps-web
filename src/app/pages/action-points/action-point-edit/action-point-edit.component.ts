@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { CommentType } from '../../../shared/enums/comment-type.enum';
 import { Role } from '../../../shared/enums/role.enum';
@@ -13,6 +13,7 @@ import { NotificationService } from '../../../shared/services/notification.servi
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 import { TaskCommentService } from '../../../shared/services/task-comment.service';
 import { ActionPointFormComponent } from '../action-point-form/action-point-form.component';
+import { ActionPointStructureService } from '../action-point-structure.service';
 
 @Component({
     selector: 'iihf-action-point-edit',
@@ -39,11 +40,12 @@ export class ActionPointEditComponent implements OnInit {
                        private readonly formBuilder: FormBuilder,
                        private readonly imagesService: ImagesService,
                        public readonly projectEventService: ProjectEventService,
-                       private readonly authService: AuthService) {
+                       private readonly authService: AuthService,
+                       private readonly actionPointStructureService: ActionPointStructureService) {
     }
 
     public ngOnInit(): void {
-        this.activatedRoute.queryParams.subscribe((param) => {
+        this.activatedRoute.queryParams.subscribe((param: Params) => {
             this.actionPointId = param.id;
             this.getAllComments();
         });
@@ -61,15 +63,16 @@ export class ActionPointEditComponent implements OnInit {
     }
 
     public onSave(): void {
-        if (this.formData) {
-            this.actionPointService.editActionPoint(this.actionPointId, this.transformActionPointToApiObject(this.formData))
-                .subscribe(() => {
-                    this.notificationService.openSuccessNotification('success.edit');
-                    this.router.navigate(['action-points/list']);
-                }, () => {
-                    this.notificationService.openErrorNotification('error.edit');
-                });
+        if (!this.formData) {
+            return;
         }
+        this.actionPointService.editActionPoint(this.actionPointId, this.transformActionPointToApiObject(this.formData))
+            .subscribe(() => {
+                this.notificationService.openSuccessNotification('success.edit');
+                this.router.navigate(['action-points/list']);
+            }, () => {
+                this.notificationService.openErrorNotification('error.edit');
+            });
     }
 
     public onCommentAdded(): void {
@@ -105,7 +108,7 @@ export class ActionPointEditComponent implements OnInit {
         this.loading = true;
         this.taskCommentService.addComment(actionPointComment)
             .pipe(finalize(() => this.loading = false))
-            .subscribe((commentResponse: TaskCommentResponse) => {
+            .subscribe(() => {
                 this.getAllComments();
                 this.addCommentForm.controls.newComment.reset();
             }, () => {
@@ -118,7 +121,9 @@ export class ActionPointEditComponent implements OnInit {
         this.taskCommentService.getAllComment(this.actionPointId, 'actionPoint')
             .pipe(finalize(() => this.loading = false))
             .subscribe((comments: TaskCommentResponse[]) => {
-                this.comments = [...comments].sort((a, b) => (a.created > b.created) ? 1 : -1)
+                this.comments = [...comments].sort((comparableCommentTaskResponse: TaskCommentResponse,
+                                                    comparedCommentTaskResponse: TaskCommentResponse) => (comparableCommentTaskResponse.created >
+                    comparedCommentTaskResponse.created) ? 1 : -1)
                                              .reverse();
             }, () => {
                 this.notificationService.openErrorNotification('error.loadComments');
@@ -142,9 +147,9 @@ export class ActionPointEditComponent implements OnInit {
             return;
         }
         const reader = new FileReader();
-        reader.onload = () => {
+        reader.onload = (): void => {
             this.imagesService.uploadImages([file])
-                .subscribe((data: any) => {
+                .subscribe((data: any): void => {
                     this.attachmentFormat = file.name.split('.')
                                                 .pop()
                                                 .toUpperCase();
@@ -226,32 +231,8 @@ export class ActionPointEditComponent implements OnInit {
             state: formObject.state,
             projectId: this.projectEventService.instant.id
         };
-        if (formObject.actionPointText !== '') {
-            apiObject.actionPointText = formObject.actionPointText;
-        }
-        if (formObject.dueDate !== null) {
-            apiObject.dueDate = formObject.dueDate;
-        }
-        if (formObject.area !== '') {
-            apiObject.area = formObject.area;
-        }
-        if (formObject.meetingDate !== null) {
-            apiObject.meetingDate = formObject.meetingDate;
-        }
-        if (formObject.meetingText !== '') {
-            apiObject.meetingDescription = formObject.meetingText;
-        }
-        if (formObject.venue !== '') {
-            apiObject.cityName = formObject.venue;
-        }
-        if (formObject.description !== '') {
-            apiObject.description = formObject.description;
-        }
-        if (formObject.responsibleUsers && formObject.responsibleUsers.length > 0) {
-            apiObject.responsibles = formObject.responsibleUsers.map((responsible) => responsible.id);
-        }
 
-        return apiObject;
+        return this.actionPointStructureService.addOptionalAttributesToApiObject(apiObject, formObject);
     }
 
 }
