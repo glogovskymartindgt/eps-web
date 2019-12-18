@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { CommentComponent } from '../../shared/components/comment/comment.component';
 import { ComponentsModule } from '../../shared/components/components.module';
 import { AbstractInputsModule } from '../../shared/hazlenut/abstract-inputs';
 import { CoreTableModule } from '../../shared/hazlenut/core-table';
