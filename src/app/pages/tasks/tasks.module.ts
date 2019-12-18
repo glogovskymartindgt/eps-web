@@ -18,7 +18,7 @@ import { TaskListComponent } from './task-list/task-list.component';
 import { TasksRoutingModule } from './tasks-routing.module';
 
 @NgModule({
-    declarations: [TaskListComponent, TaskCreateComponent, TaskEditComponent, CommentComponent, TaskFormComponent],
+    declarations: [TaskListComponent, TaskCreateComponent, TaskEditComponent, TaskFormComponent],
     imports: [
         CommonModule,
         TasksRoutingModule,
