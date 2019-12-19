@@ -2,15 +2,18 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-    selector: 'pdf-dialog',
+    selector: 'iihf-pdf-dialog',
     templateUrl: './pdf-dialog.component.html',
     styleUrls: ['./pdf-dialog.component.scss']
 })
 export class PdfDialogComponent {
-
     public zoom = 1;
 
     public constructor(public dialogRef: MatDialogRef<PdfDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
+    }
+
+    private static get zoomChangeValue(): number {
+        return 0.1;
     }
 
     public close(): void {
@@ -18,13 +21,14 @@ export class PdfDialogComponent {
     }
 
     public zoomIn(): void {
-        if (this.zoom > 0.21) {
-            this.zoom -= 0.1;
+        const minimalZoom = 0.21;
+        if (this.zoom > minimalZoom) {
+            this.zoom -= PdfDialogComponent.zoomChangeValue;
         }
     }
 
     public zoomOut(): void {
-        this.zoom += 0.1;
+        this.zoom += PdfDialogComponent.zoomChangeValue;
     }
 
 }

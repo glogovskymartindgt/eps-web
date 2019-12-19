@@ -7,7 +7,7 @@
 
 <div fxLayout="row" style="overflow: auto;  height: calc(100vh - 160px);">
     <div class="p-30">
-        <fact-form (formDataChange)="formData=$event"></fact-form>
+        <iihf-fact-form (formDataChange)="formData=$event"></iihf-fact-form>
         <div>
             <button (click)="onSave()"
                     *ngIf="allowSaveButton()"

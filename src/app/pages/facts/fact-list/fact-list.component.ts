@@ -2,6 +2,7 @@ import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { finalize } from 'rxjs/operators';
 import { Role } from '../../../shared/enums/role.enum';
 import { TableCellType, TableChangeEvent, TableColumn, TableColumnFilter, TableConfiguration, TableFilterType } from '../../../shared/hazlenut/core-table';
 import { StringUtils } from '../../../shared/hazlenut/hazelnut-common/hazelnut';
@@ -19,7 +20,7 @@ import { GetFileNameFromContentDisposition } from '../../../shared/utils/headers
 const ALL_FACTS = 'all-facts';
 
 @Component({
-    selector: 'fact-list',
+    selector: 'iihf-fact-list',
     templateUrl: './fact-list.component.html',
     styleUrls: ['./fact-list.component.scss']
 })
@@ -142,8 +143,9 @@ export class FactListComponent implements OnInit {
             }
         }
         // Update config for All Facts and Figures screen
+        const columnsStickyEndStart = 5;
         if (this.router.url.includes(ALL_FACTS)) {
-            this.config.stickyEnd = 5;
+            this.config.stickyEnd = columnsStickyEndStart;
             this.allFacts = true;
             this.config.columns.splice(0, 0, new TableColumn({
                 columnDef: 'year',
@@ -214,12 +216,11 @@ export class FactListComponent implements OnInit {
         }
         // Api call
         this.factService.browseFacts(tableChangeEvent, projectFilter)
-            .subscribe((data) => {
+            .pipe(finalize(() => this.loading = false))
+            .subscribe((data: BrowseResponse<Fact>): void => {
                 this.data = data;
-                this.loading = false;
                 this.isInitialized = true;
             }, () => {
-                this.loading = false;
                 this.notificationService.openErrorNotification('error.api');
             });
 
@@ -246,17 +247,16 @@ export class FactListComponent implements OnInit {
     /**
      * Export report from API based on selected filters
      */
-    public export() {
+    public export(): void {
         this.loading = true;
         this.factService.exportTasks(this.lastTableChangeEvent, this.allTaskFilters, this.projectEventService.instant.id)
+            .pipe(finalize(() => this.loading = false))
             .subscribe((response: HttpResponse<any>) => {
                 const contentDisposition = response.headers.get('Content-Disposition');
                 const exportName: string = GetFileNameFromContentDisposition(contentDisposition);
                 new FileManager().saveFile(exportName, response.body, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-                this.loading = false;
             }, () => {
                 this.notificationService.openErrorNotification('error.api');
-                this.loading = false;
             });
     }
 
@@ -277,8 +277,8 @@ export class FactListComponent implements OnInit {
      * @param columnName
      * @param replaceLabel
      */
-    private setLabel(columnName: string, replaceLabel: string) {
-        const index = this.config.columns.findIndex((column) => column.columnDef === columnName);
+    private setLabel(columnName: string, replaceLabel: string): void {
+        const index = this.config.columns.findIndex((column: TableColumn) => column.columnDef === columnName);
         this.config.columns[index].label = null;
         this.config.columns[index].labelKey = replaceLabel;
     }
@@ -286,7 +286,7 @@ export class FactListComponent implements OnInit {
     /**
      * Function if returned from create or detail screen
      */
-    private isReturnFromDetail() {
+    private isReturnFromDetail(): boolean {
         return this.routingStorageService.getPreviousUrl()
                    .includes('facts/edit') || this.routingStorageService.getPreviousUrl()
                                                   .includes('facts/create');

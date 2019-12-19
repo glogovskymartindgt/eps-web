@@ -12,7 +12,7 @@ import { ProjectUserService } from '../storage/project-user.service';
 })
 export class AttachmentService extends ProjectService<any> {
 
-    public constructor(http: HttpClient, notificationService: NotificationService, userService: ProjectUserService,) {
+    public constructor(http: HttpClient, notificationService: NotificationService, userService: ProjectUserService) {
         super(http, 'attachment', notificationService, userService);
     }
 
@@ -24,10 +24,11 @@ export class AttachmentService extends ProjectService<any> {
         let headers = new HttpHeaders();
         headers = headers.set('device-id', this.userService.instant.deviceId);
         headers = headers.set('token', this.userService.instant.authToken);
+
         return this.post({
             headers,
             url: `${hazelnutConfig.URL_API}/attachment/upload`,
-            mapFunction: (e) => e,
+            mapFunction: (response: any): any => response,
             body: formData,
         });
     }
@@ -37,8 +38,8 @@ export class AttachmentService extends ProjectService<any> {
                        headers: this.getHeader(),
                        responseType: 'blob',
                    })
-                   .pipe(map((result) => {
+                   .pipe(map((result: Blob) => {
                        return result as any;
-                   }), catchError(this.handleError),);
+                   }), catchError(this.handleError), );
     }
 }

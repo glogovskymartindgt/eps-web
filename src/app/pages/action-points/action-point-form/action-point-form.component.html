@@ -20,6 +20,36 @@
     </div>
 
     <div class="long-input">
+        <mat-form-field appearance="fill" class="theme-input short-input">
+            <mat-label class="label-style">{{ 'tasks.trafficLight' | translate }}</mat-label>
+            <mat-select formControlName="trafficLight" required>
+                <mat-select-trigger>
+                    <div [ngStyle]="{'background': getCircleColor(actionPointForm.controls?.trafficLight?.value.toString().toLowerCase())}"
+                         [style.background]="getCircleColor(actionPointForm.controls?.trafficLight?.value.toString().toLowerCase())"
+                         class="color-circle"
+                    >
+                    </div>
+                    <span
+                        class="ml-20"
+                    >{{('color.' + actionPointForm.controls?.trafficLight?.value.toString()
+                                                  .toLowerCase()) | translate}}</span>
+                </mat-select-trigger>
+                <mat-option *ngFor="let trafficLight of trafficLightList; trackBy:trackTrafficLightBySelf"
+                            [value]="trafficLight.toUpperCase()"
+                >
+                    <div [style.background]="getCircleColor(trafficLight)"
+                         class="color-circle mt-17"
+                    ></div>
+                    <span class="ml-20">{{('color.' + trafficLight) | translate}}</span>
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="actionPointForm.controls?.trafficLight?.errors?.required">
+                {{ 'error.required' | translate }}
+            </mat-error>
+        </mat-form-field>
+    </div>
+
+    <div class="long-input">
         <haz-core-input [appearance]="'fill'"
                         [label]="'tasks.title' | translate"
                         [maxLength]="255"
@@ -72,8 +102,8 @@
                 </mat-chip>
 
                 <input #responsibleInput
-                       (matChipInputTokenEnd)="add($event)"
                        (focus)="onFocus()"
+                       (matChipInputTokenEnd)="add($event)"
                        [formControl]="responsibleControl"
                        [matAutocomplete]="auto"
                        [matChipInputAddOnBlur]="true"

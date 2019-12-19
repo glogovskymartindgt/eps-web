@@ -43,6 +43,7 @@ export class ActionPointCreateComponent implements OnInit {
     private transformActionPointToApiObject(formObject: any): any {
         const apiObject: any = {
             title: formObject.title,
+            trafficLight: formObject.trafficLight,
             projectId: this.projectEventService.instant.id
         };
 

@@ -11,7 +11,6 @@ import { fadeEnterLeave } from '../../../shared/hazlenut/hazelnut-common/animati
 import { StringUtils } from '../../../shared/hazlenut/hazelnut-common/hazelnut';
 import { BrowseResponse, Filter } from '../../../shared/hazlenut/hazelnut-common/models';
 import { FileManager } from '../../../shared/hazlenut/hazelnut-common/utils/file-manager';
-import { TaskInterface } from '../../../shared/interfaces/task.interface';
 import { ActionPoint } from '../../../shared/models/action-point.model';
 import { AuthService } from '../../../shared/services/auth.service';
 import { ActionPointService } from '../../../shared/services/data/action-point.service';
@@ -61,6 +60,23 @@ export class ActionPointListComponent implements OnInit {
         this.config = {
             stickyEnd: 6,
             columns: [
+                new TableColumn({
+                    columnDef: 'trafficLight',
+                    labelKey: 'task.trafficLight',
+                    type: TableCellType.CONTENT,
+                    tableCellTemplate: this.trafficLightColumn,
+                    filter: new TableColumnFilter({
+                        valueType: 'ENUM',
+                        type: TableFilterType.TRAFFIC_LIGHT,
+                        select: [
+                            new ListItem('', this.translateService.instant(allThingsKey)),
+                            new ListItem('RED', this.translateService.instant('color.red')),
+                            new ListItem('GREEN', this.translateService.instant('color.green')),
+                            new ListItem('AMBER', this.translateService.instant('color.amber')),
+                        ]
+                    }),
+                    sorting: true,
+                }),
                 new TableColumn({
                     columnDef: 'code',
                     labelKey: 'actionPoint.code',
@@ -235,7 +251,7 @@ export class ActionPointListComponent implements OnInit {
         }
         this.actionPointService.browseActionPoints(tableChangeEvent, this.additionalFilters)
             .pipe(finalize(() => this.loading = false))
-            .subscribe((data: BrowseResponse<TaskInterface>) => {
+            .subscribe((data: BrowseResponse<ActionPoint>) => {
                 this.data = data;
                 this.isInitialized = true;
             }, () => {

@@ -1,11 +1,14 @@
+import { HttpResponse } from '@angular/common/http';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import * as moment from 'moment';
 import { finalize } from 'rxjs/operators';
 import { enterLeaveSmooth } from '../../../shared/hazlenut/hazelnut-common/animations';
+import { BrowseResponse } from '../../../shared/hazlenut/hazelnut-common/models';
 import { Regex } from '../../../shared/hazlenut/hazelnut-common/regex/regex';
 import { Category } from '../../../shared/interfaces/category.interface';
+import { Fact } from '../../../shared/interfaces/fact.interface';
 import { SubCategory } from '../../../shared/interfaces/subcategory.interface';
 import { ThousandDelimiterPipe } from '../../../shared/pipes/thousand-delimiter.pipe';
 import { BusinessAreaService } from '../../../shared/services/data/business-area.service';
@@ -14,17 +17,14 @@ import { NotificationService } from '../../../shared/services/notification.servi
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 
 @Component({
-    selector: 'fact-form',
+    selector: 'iihf-fact-form',
     templateUrl: './fact-form.component.html',
     styleUrls: ['./fact-form.component.scss'],
     animations: [enterLeaveSmooth]
 })
 
-/**
- * Fact form component for multiple usage: edit | create | detail
- */ export class FactFormComponent implements OnInit {
-    @Output('formDataChange') public onFormDataChange = new EventEmitter<any>();
-    // Regex pattern for number with two decimal places
+export class FactFormComponent implements OnInit {
+    @Output() public readonly formDataChange = new EventEmitter<any>();
     public decimalPattern = Regex.decimalPattern;
     public factForm: FormGroup;
     public categories: Category[] = [];
@@ -33,14 +33,11 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
     public actualUnitShortName = '';
     public isUpdate = false;
     public formLoaded = false;
-    // Venue labels are set from local storage
     public firstVenueLabel = this.projectEventService.instant.firstVenue;
     public secondVenueLabel = this.projectEventService.instant.secondVenue;
-
     public isTotalRequired = false;
     public isFirstValueRequired = false;
     public isSecondValueRequired = false;
-
     private pipe: ThousandDelimiterPipe;
 
     public constructor(private readonly projectEventService: ProjectEventService,
@@ -48,20 +45,20 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
                        private readonly businessAreaService: BusinessAreaService,
                        private readonly activatedRoute: ActivatedRoute,
                        private readonly factService: FactService,
-                       private readonly notificationService: NotificationService, ) {
+                       private readonly notificationService: NotificationService) {
     }
 
     /**
      * Fact form getter of controls
      */
-    public get controls() {
+    public get controls(): any {
         return this.factForm.controls;
     }
 
     /**
      * Set listeners and default form in initialization
      */
-    public ngOnInit() {
+    public ngOnInit(): void {
         // Set default form group
         this.factForm = this.formBuilder.group({
             category: [
@@ -93,7 +90,7 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
         this.checkIfUpdate();
 
         // Category input listener
-        this.factForm.controls.category.valueChanges.subscribe((value) => {
+        this.factForm.controls.category.valueChanges.subscribe((value: any): void => {
             this.actualUnitShortName = '';
             this.factForm.controls.subCategory.patchValue('');
             if (value && Number(value)) {
@@ -102,23 +99,23 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
         });
 
         // Subcategory input listener
-        this.factForm.controls.subCategory.valueChanges.subscribe((value) => {
-            const subcategory = this.subCategories.find((subCategory) => subCategory.id === value);
+        this.factForm.controls.subCategory.valueChanges.subscribe((value: any): void => {
+            const subcategory = this.subCategories.find((subCategory: SubCategory) => subCategory.id === value);
             if (!(subcategory === null || subcategory === undefined)) {
                 this.actualUnitShortName = subcategory.unitShortName;
             }
         });
 
         // First value input listener
-        this.factForm.controls.firstValue.valueChanges.subscribe((value) => {
-            const number = this.transformNumberValue(this.factForm.value.secondValue, value);
-            this.factForm.controls.totalValue.patchValue(this.pipe.transform(number.toString(), ','));
+        this.factForm.controls.firstValue.valueChanges.subscribe((firstValue: any): void => {
+            const numberValue = this.transformNumberValue(this.factForm.value.secondValue, firstValue);
+            this.factForm.controls.totalValue.patchValue(this.pipe.transform(numberValue.toString(), ','));
         });
 
         // Second value input listener
-        this.factForm.controls.secondValue.valueChanges.subscribe((value) => {
-            const number = this.transformNumberValue(this.factForm.value.firstValue, value);
-            this.factForm.controls.totalValue.patchValue(this.pipe.transform(number.toString(), ','));
+        this.factForm.controls.secondValue.valueChanges.subscribe((secondValue: any): void => {
+            const numberValue = this.transformNumberValue(this.factForm.value.firstValue, secondValue);
+            this.factForm.controls.totalValue.patchValue(this.pipe.transform(numberValue.toString(), ','));
         });
 
         // Emit value changes to parent component
@@ -138,11 +135,11 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
     /**
      * Load categories from API into selected array
      */
-    private loadCategories() {
+    private loadCategories(): void {
         this.categoryLoading = true;
         this.businessAreaService.listCategories()
             .pipe(finalize(() => this.categoryLoading = false))
-            .subscribe((data) => {
+            .subscribe((data: BrowseResponse<Category>) => {
                 this.categories = data.content;
             });
     }
@@ -151,11 +148,11 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
      * Load specified category subcategories from API into selected array
      * @param categoryId
      */
-    private loadSubCategories(categoryId) {
+    private loadSubCategories(categoryId): void {
         this.categoryLoading = true;
         this.businessAreaService.listSubCategories(categoryId)
             .pipe(finalize(() => this.categoryLoading = false))
-            .subscribe((data) => {
+            .subscribe((data: SubCategory[]) => {
                 this.subCategories = data;
             });
     }
@@ -167,20 +164,20 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
         const isInvalid = (this.factForm.value.firstValue === '.' || this.factForm.value.secondValue === '.' || this.factForm.value.totalValue === '.') ||
             (this.factForm.value.firstValue === ',' || this.factForm.value.secondValue === ',' || this.factForm.value.totalValue === ',');
         if (this.factForm.invalid || isInvalid) {
-            this.onFormDataChange.emit(null);
+            this.formDataChange.emit(null);
         } else {
             const actualValue = {
                 ...this.factForm.value,
             };
-            this.onFormDataChange.emit(actualValue);
+            this.formDataChange.emit(actualValue);
         }
     }
 
     /**
      * Check if form is for update fact screen based on url parameters
      */
-    private checkIfUpdate() {
-        this.activatedRoute.queryParams.subscribe((param) => {
+    private checkIfUpdate(): void {
+        this.activatedRoute.queryParams.subscribe((param: Params) => {
             if (Object.keys(param).length > 0) {
                 this.isUpdate = true;
                 this.getIdFromRouteParamsAndSetDetail(param);
@@ -194,15 +191,15 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
      */
     private getIdFromRouteParamsAndSetDetail(param: any): void {
         this.factService.getFactById(param.id, param.projectId)
-            .subscribe((apiTask) => {
+            .subscribe((apiTask: Fact) => {
                 this.setForm(apiTask);
-            }, (error) => this.notificationService.openErrorNotification(error));
+            }, (error: HttpResponse<any>) => this.notificationService.openErrorNotification(error));
     }
 
     /**
      * Set controls of fact form if has only total value
      */
-    private oneValueSelected() {
+    private oneValueSelected(): void {
         const hasOnlyTotalValue = this.factForm.controls.hasOnlyTotalValue.value;
 
         if (hasOnlyTotalValue) {
@@ -238,7 +235,7 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
      * Set form for update fact commponent, listeners update and form controls update
      * @param fact
      */
-    private setForm(fact: any) {
+    private setForm(fact: any): void {
         this.firstVenueLabel = fact.venueFirst;
         this.secondVenueLabel = fact.venueSecond;
         this.actualUnitShortName = fact.subCategory.unitShortName;
@@ -274,14 +271,14 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
             description: fact.description ? fact.description : ''
         });
 
-        this.factForm.controls.firstValue.valueChanges.subscribe((value) => {
-            const number = this.transformNumberValue(this.factForm.value.secondValue, value);
-            this.factForm.controls.totalValue.patchValue(this.pipe.transform(number.toString(), ','));
+        this.factForm.controls.firstValue.valueChanges.subscribe((firstValue: any) => {
+            const numberValue = this.transformNumberValue(this.factForm.value.secondValue, firstValue);
+            this.factForm.controls.totalValue.patchValue(this.pipe.transform(numberValue.toString(), ','));
         });
 
-        this.factForm.controls.secondValue.valueChanges.subscribe((value) => {
-            const number = this.transformNumberValue(this.factForm.value.firstValue, value);
-            this.factForm.controls.totalValue.patchValue(this.pipe.transform(number.toString(), ','));
+        this.factForm.controls.secondValue.valueChanges.subscribe((secondValue: any) => {
+            const numberValue = this.transformNumberValue(this.factForm.value.firstValue, secondValue);
+            this.factForm.controls.totalValue.patchValue(this.pipe.transform(numberValue.toString(), ','));
         });
 
         this.factForm.valueChanges.subscribe(() => {
@@ -305,14 +302,14 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
             this.isFirstValueRequired = false;
             this.isSecondValueRequired = false;
             this.isTotalRequired = true;
-
+            const updateTotalTimeout = 200;
             setTimeout(() => {
                 this.factForm.controls.firstValue.disable();
                 this.factForm.controls.secondValue.disable();
                 this.factForm.controls.totalValue.enable();
 
                 this.factForm.controls.totalValue.patchValue(fact.totalValue.toString());
-            }, 200);
+            }, updateTotalTimeout);
         }
     }
 
@@ -324,6 +321,7 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
         if (!date) {
             return '';
         }
+
         return moment(date)
             .format('D.M.YYYY - HH:mm:ss');
     }
@@ -333,7 +331,7 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
      * @param formValue
      * @param value
      */
-    private transformNumberValue(formValue: any, value: any) {
+    private transformNumberValue(formValue: any, value: any): any {
         return formValue ? (+value.replace(',', '.')
                                   .replace(' ', '') + parseFloat(formValue.replace(',', '.')
                                                                           .replace(' ', '')))

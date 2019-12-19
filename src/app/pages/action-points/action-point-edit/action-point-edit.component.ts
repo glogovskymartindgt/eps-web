@@ -228,6 +228,7 @@ export class ActionPointEditComponent implements OnInit {
         const apiObject: any = {
             id: this.actionPointId,
             title: formObject.title,
+            trafficLight: formObject.trafficLight,
             state: formObject.state,
             projectId: this.projectEventService.instant.id
         };
