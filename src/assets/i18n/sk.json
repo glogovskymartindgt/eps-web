@@ -4,22 +4,74 @@
         "country": "Slovensko"
     },
     "menu": {
+        "users": "Používatelia",
         "businessAreas": "Biznis oblasti a úlohy",
         "dashboard": "Rozvrh",
         "project": "Projekt",
         "reports": "Reporty",
         "facts": "Fakty a čísla",
         "allFacts": "Všetky Fakty a čísla",
-        "settings": {
-            "settings": "Nastavenia",
-            "users": "Použivatelia"
-        }
+        "profile": "Profil",
+        "actionPoints": "Akčné body"
     },
     "login": {
-        "login": "Prihlásenie",
         "username": "Používateľské meno",
         "password": "Heslo",
+        "login": "Prihlásenie",
         "toggleVisibility": "Zmeniť zobrazenie"
+    },
+    "error": {
+        "required": "Povinné pole",
+        "api": "Nepodarilo sa nadviazať spojenie so serverom",
+        "minlength": "Pole má minimálnu dĺžku",
+        "pattern": "Nesprávny tvar",
+        "add": "Vytvorenie sa nepodarilo",
+        "interval": "Prázdny interval",
+        "login": "Prihlásenie sa nepodarilo",
+        "loginData": "Nesprávne prihlasovacie údaje",
+        "logout": "Odhlásenie sa nepodarilo",
+        "edit": "Zmeny sa nepodarilo vykonať",
+        "dateFormatIsInvalid": "Nevalidný dátum",
+        "addComment": "Pridanie sa nepodarilo.",
+        "loadComments": "Načítanie komentov sa nepodarilo.",
+        "getProjectDetail": "Zobrazenie detail projektu zlyhalo",
+        "imageDownload": "Zobrazenie obrázku zlyhalo",
+        "imageUpload": "Načítanie obrázku zlyhalo",
+        "attachmentDownload": "Načítavanie príloh zlyhalo",
+        "attachmentUpload": "Nahrávanie príloh zlyhalo",
+        "toContinue": "Pre pokračovanie nastavte príslušné miesto",
+        "fillCountry": "Vyberte krajinu pre vyplnené miesto",
+        "fillFirstCountry": "Začnite prvou krajinou",
+        "loginUsed": "Načítavanie obrázku zlyhalo",
+        "unsupportedType": "Zmena profilu sa nepodarila",
+        "profileUpdateFailed": "Zmena profilu sa nepodarila"
+    },
+    "hint": {
+        "maxlength": "Prekročený limit znakov",
+        "badCharacter": "Nepovolený znak"
+    },
+    "success": {
+        "add": "Pridanie úspešné",
+        "edit": "Úprava úspešná"
+    },
+    "common": {
+        "from": "Od",
+        "to": "Do",
+        "create": "VYTVORIŤ",
+        "export": "EXPORTOVAŤ"
+    },
+    "all": {
+        "things": "Všetko",
+        "persons": "Všetci",
+        "empty": "Prázdne"
+    },
+    "paginator": {
+        "itemsPerPage": "Maximálny počet na stránku",
+        "nextPage": "Ďalšia stránka",
+        "previousPage": "Predchádzajúca stránka",
+        "firstPage": "Prvá stránka",
+        "lastPage": "Posledná stránka",
+        "from": "od"
     },
     "dashboard": {
         "dashboard": "Rozvrh",
@@ -27,6 +79,28 @@
         "open": "Otvorené",
         "closed": "Uzatvorené",
         "settings": "Nastavenia"
+    },
+    "actionPoint": {
+        "code": "Kód",
+        "title": "Názov",
+        "area": "Oblasť",
+        "screenTitle": "Akčné body",
+        "venue": "Miesto",
+        "dueDate": "Dátum trvania do",
+        "closedDate": "Dátum uzatvorenia",
+        "status": "Status",
+        "actionPointText": "Akčný bod",
+        "meetingDate": "Dátum stretnutia",
+        "meetingText": "Text stretnutia",
+        "responsible": "Zodpovedný",
+        "save": "Uložiť",
+        "cancel": "Zatvoriť",
+        "new": {
+            "newActionPoint": "Nový akčný bod"
+        },
+        "edit": {
+            "editActionPoint": "Upraviť akčný bod"
+        }
     },
     "tasks": {
         "cancel": "ZRUŠIŤ",
@@ -50,47 +124,24 @@
         "sourceDescription": "Zdrojový popis",
         "changedAt": "Zmenené",
         "changedBy": "Zmenil",
+        "video": "video",
         "new": {
             "newTask": "Nová úloha"
         },
         "edit": {
-            "editTask": "Upraviť úlohu"
+            "editTask": "Upraviť úlohu",
+            "detailTask": "Detail úlohy"
         }
     },
     "status": {
         "open": "Otvorené",
+        "pending": "Čakájúci",
         "closed": "Uzatvorené"
-    },
-    "error": {
-        "login": "Prihlásenie sa nepodarilo",
-        "logout": "Odhlásenie sa nepodarilo",
-        "required": "Povinné pole",
-        "api": "Nepodarilo sa nadviazať spojenie so serverom",
-        "minlength": "Pole má minimálnu dĺžku",
-        "pattern": "Nesprávny tvar",
-        "add": "Vytvorenie sa nepodarilo",
-        "edit": "Zmeny sa nepodarilo vykonať",
-        "interval": "Prázdny interval",
-        "dateFormatIsInvalid": "Nevalidný dátum",
-        "addComment": "Pridanie sa nepodarilo.",
-        "loadComments": "Načítanie komentov sa nepodarilo."
     },
     "errorCode": {
         "1": "Systémová chyba",
         "2": "Podkategória sa už používa",
         "9002": "Prístup zamietnutý"
-    },
-    "success": {
-        "add": "Pridanie úspešné",
-        "edit": "Úprava úspešná"
-    },
-    "paginator": {
-        "itemsPerPage": "Maximálny počet na stránku",
-        "nextPage": "Ďalšia stránka",
-        "previousPage": "Predchádzajúca stránka",
-        "firstPage": "Prvá stránka",
-        "lastPage": "Posledná stránka",
-        "from": "od"
     },
     "app": {
         "iihf": "IIHF",
@@ -98,7 +149,8 @@
         "event": "EVENT",
         "planning": "PLANNING",
         "system": "SYSTEM",
-        "logout": "Odhlásenie"
+        "logout": "Odhlásenie",
+        "profile": "Profil"
     },
     "businessArea": {
         "title": "Podnikateľská oblasť",
@@ -118,6 +170,7 @@
         "status": "Stav",
         "statusValue": {
             "open": "Otvorené",
+            "pending": "Čaká",
             "closed": "Zatvorené"
         },
         "taskTypeValue": {
@@ -125,19 +178,9 @@
             "issue": "Problém"
         }
     },
-    "common": {
-        "create": "VYTVORIŤ",
-        "export": "EXPORTOVAŤ",
-        "from": "Od",
-        "to": "Do"
-    },
-    "all": {
-        "things": "Všetko",
-        "persons": "Všetci",
-        "empty": "Prázdne"
-    },
     "fact": {
         "title": "Fakty a čísla",
+        "titleAllFacts": "Všetky fakty a hodnoty",
         "category": "Kategória",
         "factItemType": "Typ faktu",
         "subCategory": "Podkategória",
@@ -146,10 +189,15 @@
         "totalValue": "Celková hodnota",
         "newFact": "Nový fakt",
         "editFact": "Upraviť fakt",
+        "detailFact": "Detail Faktu",
+        "changedAt": "Zmenené",
+        "changedBy": "Zmenil",
         "hasOnlyTotalValue": "Jedna hodnota pre obe mestá",
         "year": "Rok",
         "firstValue": "Prvá hodnota",
-        "secondValue": "Druhá hodnota"
+        "secondValue": "Druhá hodnota",
+        "description": "Opis",
+        "unavailable": "Je potrebné nastaviť miesta projektu"
     },
     "color": {
         "green": "Zelená",
@@ -166,9 +214,6 @@
         "name": "Názov",
         "description": "Popis"
     },
-    "hint": {
-        "maxlength": "Prekročený limit znakov"
-    },
     "venue": {
         "value": {
             "all": "Všetky",
@@ -178,7 +223,42 @@
     },
     "project": {
         "detailTitle": "Detail projektu",
-        "edit": "Upraviť"
+        "createTitle": "Nový projekt",
+        "edit": "Upraviť",
+        "name": "Názov",
+        "year": "Rok",
+        "status": "Status",
+        "dateFrom": "Dátum začiatku",
+        "dateTo": "Dátum ukončenia",
+        "firstCountry": "Prvá krajina",
+        "secondCountry": "Druhá krajina",
+        "firstVenue": "Prvé miesto",
+        "secondVenue": "Druhé miesto",
+        "description": "Opis",
+        "attachments": "Prílohy",
+        "venueMaps": "Mapy miesta",
+        "venueImages": "Obrázky miesta",
+        "otherDocuments": "Ďalšie dokumenty",
+        "add": "Vytvoriť nový projekt",
+        "venue1": "Miesto 1",
+        "venue2": "Miesto 2",
+        "dragMapStart": "Presunte mapu pre",
+        "dragImageStart": "Presunte obrázokpre",
+        "dragDocumentStart": "Presunte dokument pre",
+        "dragEnd": "štadión sem alebo prehľadávať",
+        "the": "",
+        "noMapsAdded": "mepy neboli pridané",
+        "noImagesAdded": "obrázky neboli pridané",
+        "noDocumentsAdded": "dokumenty neboli pridané",
+        "toUploadAttachment": "Pre nahranie príloh začnite úpravou projektu",
+        "toAddBoth": "Prenahranie príloh je potrebné vyplniť miesto",
+        "toAddFirst": "Pre pridanie príloh Miesta 1 je potrebné vyplniť Miesto 1",
+        "toAddSecond": "Pre pridanie príloh Miesta 2 je potrebné vyplniť Miesto 2",
+        "seeAll": "Vidieť všetko",
+        "seeLess": "Skryť",
+        "downloadAll": "Stiahnuť všetko",
+        "downloadFirst": "Stiahnuť súbory pre",
+        "downloadSecond": "Stiahnuť súbory pre"
     },
     "users": {
         "title": "Použivatelia",
@@ -187,6 +267,49 @@
         "lastName": "Priezvisko",
         "visible": "Zobrazenie použivateľa",
         "email": "Email",
-        "state": "Stav"
+        "state": "Stav",
+        "active": "Aktívny",
+        "inactive": "Neaktívny"
+    },
+    "profile": {
+        "detailTitle": "Profil používateľa",
+        "firstName": "Meno",
+        "lastName": "Priezvisko",
+        "email": "Email",
+        "login": "Login",
+        "password": "Nové heslo",
+        "account": "Účet je ",
+        "active": "aktívny",
+        "inactive": "neaktívny",
+        "invalidPassword": "Nevhodný formát(8 znakov, veľké písmeno, špeciálny znak)"
+    },
+    "user": {
+        "new": "Nový používateľ",
+        "edit": "Úprava používateľa",
+        "save": "Uložiť",
+        "cancel": "Zrušiť",
+        "id": "Id",
+        "account": "Účet je ",
+        "active": "aktívny",
+        "inactive": "neaktívny",
+        "visibility": "Používateľ je ",
+        "visible": "viditeľný",
+        "invisible": "skrytý",
+        "type": "typ",
+        "organizer": "Organizátor",
+        "iihf": "IIHF",
+        "groups": "Skupiny",
+        "projects": "Projekty",
+        "password": "Heslo",
+        "newPassword": "Nové heslo",
+        "error": {
+            "loginUsed": "Login je použitý",
+            "unsupportedType": "Nepodporavaný typ používateľa",
+            "isNotAllowed": "Vytvoriť používateľa s typom IIHf nie je povolené",
+            "typeCannotBeNull": "Typ používateľa nemôže byť prázdny",
+            "requestCannotBeNull": "Požiadavka nemôže byť prázdna",
+            "requireProject": "K použivateľovi je potrebné priradiť projekt",
+            "add": "Vytvorenie používateľa sa nevykonalo"
+        }
     }
 }

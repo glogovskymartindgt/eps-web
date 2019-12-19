@@ -308,7 +308,7 @@
             "isNotAllowed": "Create user with IIHF type is not allowed",
             "typeCannotBeNull": "User type cannot be null",
             "requestCannotBeNull": "Request cannot be null",
-            "requireProject": "Create user require project",
+            "requireProject": "User require project",
             "add": "Create user failed"
         }
     }

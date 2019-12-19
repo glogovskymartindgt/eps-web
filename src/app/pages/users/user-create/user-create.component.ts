@@ -29,8 +29,8 @@ export class UserCreateComponent implements OnInit {
             .subscribe(() => {
                 this.notificationService.openSuccessNotification('success.add');
                 this.router.navigate(['users/list']);
-            }, (e) => {
-                this.notificationService.openErrorNotification(this.getTranslationFromErrorCode(e.error.code));
+            }, (error) => {
+                this.notificationService.openErrorNotification(this.getTranslationFromErrorCode(error.error.code));
             });
     }
 

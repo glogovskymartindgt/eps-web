@@ -41,9 +41,8 @@ export class UserEditComponent implements OnInit {
                 .subscribe(() => {
                     this.notificationService.openSuccessNotification('success.edit');
                     this.router.navigate(['users/list']);
-                }, () => {
-                    // TODO add error states
-                    this.notificationService.openErrorNotification('error.edit');
+                }, (error) => {
+                    this.notificationService.openErrorNotification(this.getTranslationFromErrorCode(error.error.code));
                 });
         }
     }
@@ -81,6 +80,23 @@ export class UserEditComponent implements OnInit {
             apiObject.state = this.formData.state ? 'ACTIVE' : 'INACTIVE';
         }
         return apiObject;
+    }
+
+    private getTranslationFromErrorCode(code: string): string {
+        switch (code) {
+            case '10002':
+                return 'user.error.loginUsed';
+            case '20':
+                return 'user.error.unsupportedType';
+            case '21':
+                return 'user.error.requireProject';
+            case '22':
+                return 'user.error.typeCannotBeNull';
+            case '23':
+                return 'user.error.requestCannotBeNull';
+            default:
+                return 'user.error.add';
+        }
     }
 
 }
