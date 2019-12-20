@@ -14,7 +14,7 @@ import { ProjectUserService } from '../storage/project-user.service';
 })
 export class ActionPointService extends ProjectService<ActionPoint> {
 
-    public constructor(http: HttpClient, notificationService: NotificationService, userService: ProjectUserService, ) {
+    public constructor(http: HttpClient, notificationService: NotificationService, userService: ProjectUserService,) {
         super(http, 'actionPoint', notificationService, userService);
     }
 
@@ -51,6 +51,8 @@ export class ActionPointService extends ProjectService<ActionPoint> {
             }
         }
 
+        // Traffic color must be first to proper filtering
+        filters = this.reorderFiltersToApplyCorectTrafficColor(filters);
         return this.browseWithSummary(PostContent.create(limit, offset, filters, sort));
     }
 
@@ -96,6 +98,29 @@ export class ActionPointService extends ProjectService<ActionPoint> {
      */
     public getActionPointById(id: number): any {
         return this.getDetail(id);
+    }
+
+    /**
+     * Reorder filters with conditiona that traffic light filters are first
+     * @param filters
+     */
+    private reorderFiltersToApplyCorectTrafficColor(filters) {
+        return filters.sort(this.compare);
+    }
+
+    /**
+     * Compare sort function with traffic light property preselection
+     * @param a
+     * @param b
+     */
+    private compare(a, b) {
+        if (a.property === 'TRAFFIC_LIGHT') {
+            return -1;
+        }
+        if (a.property !== 'TRAFFIC_LIGHT') {
+            return 1;
+        }
+        return 0;
     }
 
 }
