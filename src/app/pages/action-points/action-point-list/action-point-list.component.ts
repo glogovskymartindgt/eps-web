@@ -230,10 +230,6 @@ export class ActionPointListComponent implements OnInit {
             new Filter('PROJECT_ID', this.projectEventService.instant.id, 'NUMBER'),
         ];
 
-        if (this.businessAreaFilter && this.businessAreaFilter.value !== 'all') {
-            this.additionalFilters.push(this.businessAreaFilter);
-        }
-
         if (this.allActionPointFilters) {
             this.allActionPointFilters.forEach((filter: Filter) => {
                 this.additionalFilters.push(filter);
