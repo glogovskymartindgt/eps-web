@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Role } from '../../../shared/enums/role.enum';
 import { AuthService } from '../../../shared/services/auth.service';
 import { FactService } from '../../../shared/services/data/fact.service';
@@ -12,7 +12,7 @@ const ALL_FACTS_SCREEN = 'all-facts';
 const FACTS_SCREEN = 'facts';
 
 @Component({
-    selector: 'fact-edit',
+    selector: 'iihf-fact-edit',
     templateUrl: './fact-edit.component.html',
     styleUrls: ['./fact-edit.component.scss']
 })
@@ -37,8 +37,8 @@ const FACTS_SCREEN = 'facts';
     /**
      * Sect fact id from url parameter and set can save property if screen is Facts and Figures and not All Facts and Figures
      */
-    public ngOnInit() {
-        this.activatedRoute.queryParams.subscribe((param) => {
+    public ngOnInit(): void {
+        this.activatedRoute.queryParams.subscribe((param: Params) => {
             this.factId = param.id;
         });
 
@@ -53,20 +53,20 @@ const FACTS_SCREEN = 'facts';
     /**
      * Cancel form, navigate to facts list screen
      */
-    public onCancel() {
+    public onCancel(): void {
         this.router.navigate([`${this.factRoute}/list`]);
     }
 
     /**
      * Edit task with form values on save and navigate to facts list
      */
-    public onSave() {
+    public onSave(): void {
         if (this.formData) {
             this.factService.editTask(this.factId, this.transformTaskToApiObject(this.formData))
-                .subscribe((response) => {
+                .subscribe(() => {
                     this.notificationService.openSuccessNotification('success.edit');
                     this.router.navigate([this.factRoute + '/list']);
-                }, (error) => {
+                }, () => {
                     this.notificationService.openErrorNotification('error.edit');
                 });
         }
@@ -102,6 +102,7 @@ const FACTS_SCREEN = 'facts';
         if (formObject.description) {
             apiObject.description = formObject.description;
         }
+
         return apiObject;
     }
 

@@ -30,6 +30,7 @@ import { ProjectUserService } from './storage/project-user.service';
      */
     public hasRole(role: Role): boolean {
         const roles = this.projectUserService.instant.roles;
+
         return roles && roles.indexOf(role) >= 0;
     }
 
@@ -48,7 +49,7 @@ import { ProjectUserService } from './storage/project-user.service';
                 password,
                 deviceId
             }, {headers})
-            .subscribe((data) => {
+            .subscribe((data: Object) => {
                 this.userService.setAuthData(data);
                 this.projectEventService.setEventData();
                 this.router.navigate(['dashboard']);
@@ -80,9 +81,9 @@ import { ProjectUserService } from './storage/project-user.service';
                 deviceId
             }, {headers})
             .pipe(finalize(() => this.router.navigate(['authentication/login'])))
-            .subscribe((data) => {
+            .subscribe(() => {
                 this.userService.clearUserData();
-            }, (error) => {
+            }, () => {
                 this.notificationService.openErrorNotification('error.logout');
             });
     }

@@ -5,7 +5,7 @@ import { NotificationService } from '../../../shared/services/notification.servi
 import { TaskFormComponent } from '../../tasks/task-form/task-form.component';
 
 @Component({
-    selector: 'user-create',
+    selector: 'iihf-user-create',
     templateUrl: './user-create.component.html',
     styleUrls: ['./user-create.component.scss']
 })
@@ -29,12 +29,12 @@ export class UserCreateComponent implements OnInit {
             .subscribe(() => {
                 this.notificationService.openSuccessNotification('success.add');
                 this.router.navigate(['users/list']);
-            }, (error) => {
+            }, (error: any) => {
                 this.notificationService.openErrorNotification(this.getTranslationFromErrorCode(error.error.code));
             });
     }
 
-    private transformUserToApiObject() {
+    private transformUserToApiObject(): {} {
         const apiObject: any = {
             firstName: this.formData.firstName,
             lastName: this.formData.lastName,
@@ -51,6 +51,7 @@ export class UserCreateComponent implements OnInit {
         if (this.formData.groupIdList && this.formData.groupIdList.length > 0) {
             apiObject.groupIdList = this.formData.groupIdList;
         }
+
         return apiObject;
     }
 

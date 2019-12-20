@@ -20,7 +20,7 @@ export class ProjectFilePlaceholderComponent implements OnInit {
         this.initializeValuesByType();
     }
 
-    private initializeValuesByType() {
+    private initializeValuesByType(): void {
         if (this.attachmentType === AttachmentType.Map) {
             this.placeholderImageSrc = 'assets/img/custom-svg/stadium.svg';
             this.alt = 'map';

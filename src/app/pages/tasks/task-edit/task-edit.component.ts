@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { tap } from 'rxjs/internal/operators/tap';
 import { finalize } from 'rxjs/operators';
 import { CommentType } from '../../../shared/enums/comment-type.enum';
@@ -16,7 +16,7 @@ import { TaskCommentService } from '../../../shared/services/task-comment.servic
 import { TaskFormComponent } from '../task-form/task-form.component';
 
 @Component({
-    selector: 'task-edit',
+    selector: 'iihf-task-edit',
     templateUrl: './task-edit.component.html',
     styleUrls: ['./task-edit.component.scss']
 })
@@ -44,7 +44,7 @@ export class TaskEditComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.activatedRoute.queryParams.subscribe((param) => {
+        this.activatedRoute.queryParams.subscribe((param: Params) => {
             this.taskId = param.id;
             this.getAllComments();
         });
@@ -119,7 +119,9 @@ export class TaskEditComponent implements OnInit {
         this.taskCommentService.getAllComment(this.taskId, 'task')
             .pipe(tap(() => this.loading = false))
             .subscribe((comments: TaskCommentResponse[]) => {
-                this.comments = [...comments].sort((a, b) => (a.created > b.created) ? 1 : -1)
+                this.comments = [...comments].sort((taskCommentResponseComparable: TaskCommentResponse, taskCommentResponseCompared: TaskCommentResponse) => {
+                                                 return (taskCommentResponseComparable.created > taskCommentResponseCompared.created) ? 1 : -1;
+                                             })
                                              .reverse();
             }, () => {
                 this.notificationService.openErrorNotification('error.loadComments');
@@ -144,7 +146,7 @@ export class TaskEditComponent implements OnInit {
             return;
         }
         const reader = new FileReader();
-        reader.onload = () => {
+        reader.onload = (): void => {
             this.imagesService.uploadImages([file])
                 .subscribe((data: any) => {
                     this.attachmentFormat = file.name.split('.')

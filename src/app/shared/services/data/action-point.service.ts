@@ -4,20 +4,17 @@ import { Observable } from 'rxjs';
 import { TableChangeEvent } from '../../hazlenut/core-table';
 import { StringUtils } from '../../hazlenut/hazelnut-common/hazelnut';
 import { BrowseResponse, Filter, PostContent, Sort } from '../../hazlenut/hazelnut-common/models';
-import { TaskInterface } from '../../interfaces/task.interface';
+import { ActionPoint } from '../../models/action-point.model';
 import { NotificationService } from '../notification.service';
 import { ProjectService } from '../project.service';
 import { ProjectUserService } from '../storage/project-user.service';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
-export class ActionPointService extends ProjectService<TaskInterface> {
+export class ActionPointService extends ProjectService<ActionPoint> {
 
-    public constructor(http: HttpClient,
-                       notificationService: NotificationService,
-                       userService: ProjectUserService,
-    ) {
+    public constructor(http: HttpClient, notificationService: NotificationService, userService: ProjectUserService, ) {
         super(http, 'actionPoint', notificationService, userService);
     }
 
@@ -26,7 +23,7 @@ export class ActionPointService extends ProjectService<TaskInterface> {
      * @param tableChangeEvent
      * @param additionalFilters
      */
-    public browseActionPoints(tableChangeEvent: TableChangeEvent, additionalFilters: Filter[]): Observable<BrowseResponse<TaskInterface>> {
+    public browseActionPoints(tableChangeEvent: TableChangeEvent, additionalFilters: Filter[]): Observable<BrowseResponse<ActionPoint>> {
         let filters = [];
         let sort = [];
         let limit = 15;
@@ -38,8 +35,9 @@ export class ActionPointService extends ProjectService<TaskInterface> {
             filters = Object.values(tableChangeEvent.filters);
             filters.forEach((filter) => filter.property = StringUtils.convertCamelToSnakeUpper(filter.property));
             if (tableChangeEvent.sortActive && tableChangeEvent.sortDirection) {
-                sort = [new Sort(tableChangeEvent.sortActive,
-                    tableChangeEvent.sortDirection)];
+                sort = [
+                    new Sort(tableChangeEvent.sortActive, tableChangeEvent.sortDirection)
+                ];
             }
         }
         filters = filters.concat(additionalFilters);
@@ -57,17 +55,19 @@ export class ActionPointService extends ProjectService<TaskInterface> {
     }
 
     /**
-     * Report task objects into report file and download from API
-     * @param tableChangeEvent
-     * @param additionalFilters
+     *
+     * @param {TableChangeEvent} tableChangeEvent
+     * @param {Filter[]} additionalFilters
+     * @param {number} projectId
+     * @returns {Observable<any>}
      */
-    public exportActionPoints(tableChangeEvent?: TableChangeEvent, additionalFilters?: Filter[], projectId?: number) {
+    public exportActionPoints(tableChangeEvent?: TableChangeEvent, additionalFilters?: Filter[], projectId?: number): any {
         let filters = [];
         let sort = [];
         if (tableChangeEvent && tableChangeEvent.sortActive && tableChangeEvent.sortDirection) {
-            sort = [new Sort(tableChangeEvent.sortActive,
-                tableChangeEvent.sortDirection
-            )];
+            sort = [
+                new Sort(tableChangeEvent.sortActive, tableChangeEvent.sortDirection)
+            ];
         }
         filters = filters.concat(additionalFilters);
 
@@ -76,9 +76,8 @@ export class ActionPointService extends ProjectService<TaskInterface> {
 
     /**
      * Create task object with API call
-     * @param taskObject
      */
-    public createActionPoint(actionPointObject: any) {
+    public createActionPoint(actionPointObject: any): any {
         return this.add(actionPointObject);
     }
 
@@ -87,7 +86,7 @@ export class ActionPointService extends ProjectService<TaskInterface> {
      * @param id
      * @param taskObject
      */
-    public editActionPoint(id: number, taskObject: any) {
+    public editActionPoint(id: number, taskObject: any): any {
         return this.update(id, taskObject);
     }
 
@@ -95,7 +94,7 @@ export class ActionPointService extends ProjectService<TaskInterface> {
      * Get task object from API
      * @param id
      */
-    public getActionPointById(id: number) {
+    public getActionPointById(id: number): any {
         return this.getDetail(id);
     }
 

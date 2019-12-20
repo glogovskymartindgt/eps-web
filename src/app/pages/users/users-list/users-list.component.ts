@@ -6,6 +6,7 @@ import { Role } from '../../../shared/enums/role.enum';
 import { ListItem, TableCellType, TableChangeEvent, TableColumn, TableColumnFilter, TableConfiguration, TableFilterType } from '../../../shared/hazlenut/core-table';
 import { StringUtils } from '../../../shared/hazlenut/hazelnut-common/hazelnut';
 import { BrowseResponse, Filter } from '../../../shared/hazlenut/hazelnut-common/models';
+import { User } from '../../../shared/interfaces/user.interface';
 import { AuthService } from '../../../shared/services/auth.service';
 import { UserDataService } from '../../../shared/services/data/user-data.service';
 import { NotificationService } from '../../../shared/services/notification.service';
@@ -14,7 +15,7 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
 import { TableChangeStorageService } from '../../../shared/services/table-change-storage.service';
 
 @Component({
-    selector: 'users-list',
+    selector: 'iihf-users-list',
     templateUrl: './users-list.component.html',
     styleUrls: ['./users-list.component.scss']
 })
@@ -42,7 +43,7 @@ export class UsersListComponent implements OnInit {
                        private readonly authService: AuthService) {
     }
 
-    public ngOnInit() {
+    public ngOnInit(): void {
         this.setTableData();
         this.config = {
             stickyEnd: 7,
@@ -171,10 +172,10 @@ export class UsersListComponent implements OnInit {
             // Api call
             this.userDataService.browseUsers(tableChangeEvent)
                 .pipe(finalize(() => this.loading = false))
-                .subscribe((data) => {
+                .subscribe((data: BrowseResponse<User>) => {
                     this.data = data;
                     this.isInitialized = true;
-                }, (error) => {
+                }, () => {
                     this.notificationService.openErrorNotification('error.api');
                 });
             this.tableChangeStorageService.setUsersLastTableChangeEvent(tableChangeEvent);
@@ -188,7 +189,7 @@ export class UsersListComponent implements OnInit {
         });
     }
 
-    public createUser() {
+    public createUser(): void {
         this.router.navigate(['users/create']);
     }
 
@@ -208,7 +209,7 @@ export class UsersListComponent implements OnInit {
         return this.hasRoleUpdateUser() || this.hasRoleReadUser();
     }
 
-    private isReturnFromDetail() {
+    private isReturnFromDetail(): boolean {
         return this.routingStorageService.getPreviousUrl()
                    .includes('users/edit') || this.routingStorageService.getPreviousUrl()
                                                   .includes('users/create');

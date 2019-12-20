@@ -12,34 +12,34 @@ import { ProjectUserService } from './storage/project-user.service';
     providedIn: 'root'
 })
 export class DashboardService extends ProjectService<ProjectInterface> {
+    public dashboardFilterNotifier$;
+
     private readonly secondaryHeader = new Subject<SecondaryHeader>();
     private readonly dashboardFilter = new Subject<string>();
-    public dashboardFilterNotifier$ = this.dashboardFilter.asObservable();
 
-    public constructor(http: HttpClient,
-                       notificationService: NotificationService,
-                       userService: ProjectUserService,
-    ) {
+    public constructor(http: HttpClient, notificationService: NotificationService, userService: ProjectUserService, ) {
         super(http, 'projects', notificationService, userService);
+        this.dashboardFilterNotifier$ = this.dashboardFilter.asObservable();
     }
 
     /**
      * Add state filter
      * @param state
      */
-    public filterProjects(state: string) {
+    public filterProjects(state: string): any {
         const filters = [];
         if (state !== 'ALL') {
             filters.push(new Filter('STATE', state, 'ENUM'));
         }
+
         return this.filter(filters);
     }
 
-    public setSecondaryHeaderContent(secondaryHeader: SecondaryHeader) {
+    public setSecondaryHeaderContent(secondaryHeader: SecondaryHeader): void {
         this.secondaryHeader.next(secondaryHeader);
     }
 
-    public setDashboardFilter(filterValue: string) {
+    public setDashboardFilter(filterValue: string): void {
         this.dashboardFilter.next(filterValue);
     }
 

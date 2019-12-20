@@ -4,12 +4,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import * as _moment from 'moment';
+import { BrowseResponse } from '../../../shared/hazlenut/hazelnut-common/models';
 import { Regex } from '../../../shared/hazlenut/hazelnut-common/regex/regex';
 import { BusinessArea } from '../../../shared/interfaces/bussiness-area.interface';
 import { Phase } from '../../../shared/interfaces/phase.interface';
 import { SourceOfAgenda } from '../../../shared/interfaces/source-of-agenda.interface';
+import { TaskInterface } from '../../../shared/interfaces/task.interface';
 import { User } from '../../../shared/interfaces/user.interface';
 import { Venue } from '../../../shared/interfaces/venue.interface';
 import { Task } from '../../../shared/models/task.model';
@@ -36,7 +38,7 @@ export const PROJECT_DATE_FORMATS = {
 };
 
 @Component({
-    selector: 'task-form',
+    selector: 'iihf-task-form',
     templateUrl: './task-form.component.html',
     styleUrls: ['./task-form.component.scss'],
     providers: [
@@ -52,7 +54,7 @@ export const PROJECT_DATE_FORMATS = {
     ],
 })
 export class TaskFormComponent implements OnInit {
-    @Output('formDataChange') public onFormDataChange = new EventEmitter<any>();
+    @Output() public readonly formDataChange = new EventEmitter<any>();
     public businessAreaList: BusinessArea[];
     public sourceOfAgendaList: SourceOfAgenda[];
     public phaseList: Phase[];
@@ -84,21 +86,23 @@ export class TaskFormComponent implements OnInit {
                        private readonly projectEventService: ProjectEventService,
                        private readonly activatedRoute: ActivatedRoute,
                        private readonly notificationService: NotificationService,
-                       private readonly taskService: TaskService, ) {
+                       private readonly taskService: TaskService) {
     }
 
-    public get f() {
+    public get controls(): any {
         return this.taskForm.controls;
     }
 
-    public dateClass = (d: Date) => {
-        const day = moment(d)
+    public dateClass = (date: Date): string | undefined => {
+        const weekDaysMinusOne = 6;
+        const day = moment(date)
             .toDate()
             .getDay();
-        return (day === 0 || day === 6) ? 'custom-date-class' : undefined;
+
+        return (day === 0 || day === weekDaysMinusOne) ? 'custom-date-class' : undefined;
     }
 
-    public ngOnInit() {
+    public ngOnInit(): void {
         this.loadBusinessAreaList();
         this.loadSourceOfAgendaList();
         this.loadPhaseList();
@@ -108,20 +112,20 @@ export class TaskFormComponent implements OnInit {
         this.checkIfUpdate();
         this.taskForm.get('taskType')
             .valueChanges
-            .subscribe((value) => {
+            .subscribe((value: any): void => {
                 this.onTypeChanged(value);
             });
     }
 
-    public onDateChanged(event) {
+    public onDateChanged(event): void {
         this.dateInvalid = true;
     }
 
-    public onDateChangedClosed(event) {
+    public onDateChangedClosed(event): void {
         this.dateInvalidClosed = true;
     }
 
-    public getCircleColor(value) {
+    public getCircleColor(value): string {
         switch (value) {
             case 'red':
                 return '#ce211f';
@@ -134,7 +138,7 @@ export class TaskFormComponent implements OnInit {
         }
     }
 
-    public onTypeChanged(type: string) {
+    public onTypeChanged(type: string): void {
         if (type === 'ISSUE' && this.taskForm.get('trafficLight') === null) {
             this.taskForm.addControl('trafficLight', this.formBuilder.control(null, [Validators.required]));
             this.taskForm.get('trafficLight')
@@ -173,44 +177,44 @@ export class TaskFormComponent implements OnInit {
         return item.id;
     }
 
-    private loadBusinessAreaList() {
+    private loadBusinessAreaList(): void {
         this.businessAreaService.listBusinessAreas()
-            .subscribe((data) => {
+            .subscribe((data: BrowseResponse<BusinessArea>) => {
                 this.businessAreaList = data.content
-                                            .filter((item) => item.codeItem !== null && item.state === 'VALID');
+                                            .filter((item: BusinessArea) => item.codeItem !== null && item.state === 'VALID');
             });
     }
 
-    private loadSourceOfAgendaList() {
+    private loadSourceOfAgendaList(): void {
         this.businessAreaService.listSourceOfAgendas()
-            .subscribe((data) => {
+            .subscribe((data: BrowseResponse<SourceOfAgenda>) => {
                 this.sourceOfAgendaList = data.content
-                                              .filter((item) => item.state === 'VALID');
+                                              .filter((item: SourceOfAgenda) => item.state === 'VALID');
             });
     }
 
-    private loadPhaseList() {
+    private loadPhaseList(): void {
         this.phaseService.getPhasesByProjectId(this.projectEventService.instant.id)
-            .subscribe((data) => {
+            .subscribe((data: Phase[]) => {
                 this.phaseList = data;
             });
     }
 
-    private loadVenueList() {
+    private loadVenueList(): void {
         this.venueService.getVenuesByProjectId(this.projectEventService.instant.id)
-            .subscribe((data) => {
+            .subscribe((data: Venue[]) => {
                 this.venueList = data;
             });
     }
 
-    private loadUserList() {
+    private loadUserList(): void {
         this.userDataService.getUsers()
-            .subscribe((data) => {
+            .subscribe((data: any[]) => {
                 this.userList = data;
             });
     }
 
-    private createForm() {
+    private createForm(): void {
         this.taskForm = this.formBuilder.group({
             taskType: [
                 'TASK',
@@ -244,17 +248,17 @@ export class TaskFormComponent implements OnInit {
 
     private emitFormDataChangeEmitter(): void {
         if (this.taskForm.invalid) {
-            this.onFormDataChange.emit(null);
+            this.formDataChange.emit(null);
         } else {
             const actualValue = {
                 ...this.taskForm.value,
             };
-            this.onFormDataChange.emit(actualValue);
+            this.formDataChange.emit(actualValue);
         }
     }
 
-    private checkIfUpdate() {
-        this.activatedRoute.queryParams.subscribe((param) => {
+    private checkIfUpdate(): void {
+        this.activatedRoute.queryParams.subscribe((param: Params) => {
             if (Object.keys(param).length > 0) {
                 this.isUpdate = true;
                 this.getIdFromRouteParamsAndSetDetail(param);
@@ -264,12 +268,12 @@ export class TaskFormComponent implements OnInit {
 
     private getIdFromRouteParamsAndSetDetail(param: any): void {
         this.taskService.getTaskById(param.id)
-            .subscribe((apiTask) => {
+            .subscribe((apiTask: TaskInterface) => {
                 this.setForm(apiTask);
-            }, (error) => this.notificationService.openErrorNotification(error));
+            }, (error: any) => this.notificationService.openErrorNotification(error));
     }
 
-    private setForm(task: any) {
+    private setForm(task: any): void {
         this.taskForm = this.formBuilder.group({
             taskType: [
                 'TASK',

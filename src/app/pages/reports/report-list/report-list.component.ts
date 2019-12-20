@@ -1,4 +1,5 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { finalize } from 'rxjs/operators';
 import { Role } from '../../../shared/enums/role.enum';
 import { TableCellType, TableColumn, TableConfiguration } from '../../../shared/hazlenut/core-table';
 import { BrowseResponse } from '../../../shared/hazlenut/hazelnut-common/models';
@@ -11,7 +12,7 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
 import { GetFileNameFromContentDisposition } from '../../../shared/utils/headers';
 
 @Component({
-    selector: 'report-list',
+    selector: 'iihf-report-list',
     templateUrl: './report-list.component.html',
     styleUrls: ['./report-list.component.scss']
 })
@@ -32,7 +33,7 @@ export class ReportListComponent implements OnInit {
     /**
      * Set table data values and config setup
      */
-    public ngOnInit() {
+    public ngOnInit(): void {
         this.setTableData();
         this.config = {
             stickyEnd: 2,
@@ -62,24 +63,25 @@ export class ReportListComponent implements OnInit {
      * Export excel report from API
      * @param reportId
      */
-    public export(reportId: number) {
+    public export(reportId: number): void {
         this.loading = true;
         this.reportService.exportReport(this.projectEventService.instant.id, reportId)
-            .subscribe((response) => {
+            .pipe(finalize(() => this.loading = false))
+            .subscribe((response: any): any => {
                 new FileManager().saveFile(
                     GetFileNameFromContentDisposition(response.headers.get('Content-Disposition')),
                     response.body,
                     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
                 );
-                this.loading = false;
             }, () => {
                 this.notificationService.openErrorNotification('error.api');
-                this.loading = false;
             });
     }
 
     public checkReportActionByRole(id: number): boolean {
-        return (id === 1 && this.allowButtonToDoList()) || (id === 2 && this.allowButtonRedFlagList());
+        const redFlagId = 2;
+
+        return (id === 1 && this.allowButtonToDoList()) || (id === redFlagId && this.allowButtonRedFlagList());
     }
 
     private allowButtonRedFlagList(): boolean {
@@ -109,15 +111,14 @@ export class ReportListComponent implements OnInit {
     /**
      * Set report table data from API
      */
-    private setTableData() {
+    private setTableData(): void {
         this.loading = true;
         this.reportService.getAllReports()
-            .subscribe((data) => {
+            .pipe(finalize(() => this.loading = false))
+            .subscribe((data: Report[]) => {
                 this.data.content = data;
                 this.data.totalElements = data.length;
-                this.loading = false;
             }, () => {
-                this.loading = false;
                 this.notificationService.openErrorNotification('error.api');
             });
     }

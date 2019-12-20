@@ -7,6 +7,7 @@ describe('NoopNotificationService', () => {
 
     it('should be created', () => {
         const service: NoopNotificationService = TestBed.get(NoopNotificationService);
-        expect(service).toBeTruthy();
+        expect(service)
+            .toBeTruthy();
     });
 });

@@ -42,3 +42,14 @@
 <ng-template #closedDateColumn let-actRow="row" let-context="context">
     {{actRow.closedDate  | date:'d.M.yyyy'}}
 </ng-template>
+<ng-template #trafficLightColumn let-actRow="row" let-context="context">
+    <div *ngIf="actRow.trafficLight === 'RED'"
+         style="width: 12px;height: 12px;background:#ce211f;border-radius:50%;"
+    ></div>
+    <div *ngIf="actRow.trafficLight === 'GREEN'"
+         style="width: 12px;height: 12px;background:#20bf55;border-radius:50%;"
+    ></div>
+    <div *ngIf="actRow.trafficLight === 'AMBER'"
+         style="width: 12px;height: 12px;background:#f79824;border-radius:50%;"
+    ></div>
+</ng-template>

@@ -9,14 +9,12 @@ import { Regex } from '../hazlenut/hazelnut-common/regex/regex';
  * Transform value to number with two decimal parameter and specified decimal separator
  */ export class ThousandDelimiterPipe implements PipeTransform {
     public transform(value: string | number, decimalSeparator = '.'): any {
-        value = (value === null || value === undefined) ? '' : value;
-        const decimalPart = value.toString()
+        const inputValue = (value === null || value === undefined) ? '' : value;
+        const decimalPart = inputValue.toString()
                                  .split('.')[1];
-        const element = (decimalPart && (decimalPart.length > 0)) ?
-                        parseFloat(value.toString())
-                            .toFixed(2)
-                            .toString() :
-                        value.toString();
+        const element = (decimalPart && (decimalPart.length > 0)) ? parseFloat(inputValue.toString())
+            .toFixed(2)
+            .toString() : inputValue.toString();
         return element
             .replace(Regex.thousandSeparatorOccurrenceWithMaxTwoDecimal, ' ')
             .replace('.', decimalSeparator);

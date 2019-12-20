@@ -1,11 +1,12 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { Role } from '../../../shared/enums/role.enum';
+import { BrowseResponse } from '../../../shared/hazlenut/hazelnut-common/models';
 import { Regex } from '../../../shared/hazlenut/hazelnut-common/regex/regex';
 import { ProjectInterface } from '../../../shared/interfaces/project.interface';
-import { TaskCommentResponse } from '../../../shared/interfaces/task-comment.interface';
 import { User } from '../../../shared/interfaces/user.interface';
+import { Group } from '../../../shared/models/group.model';
 import { Project } from '../../../shared/models/project.model';
 import { AuthService } from '../../../shared/services/auth.service';
 import { DashboardService } from '../../../shared/services/dashboard.service';
@@ -16,12 +17,12 @@ import { NotificationService } from '../../../shared/services/notification.servi
 import { AppConstants } from '../../../shared/utils/constants';
 
 @Component({
-    selector: 'user-form',
+    selector: 'iihf-user-form',
     templateUrl: './user-form.component.html',
     styleUrls: ['./user-form.component.scss']
 })
 export class UserFormComponent implements OnInit {
-    @Output('formDataChange') public onFormDataChange = new EventEmitter<any>();
+    @Output() public readonly formDataChange = new EventEmitter<any>();
     public userForm: FormGroup;
     public notOnlyWhiteCharactersPattern = Regex.notOnlyWhiteCharactersPattern;
     public emailPattern = Regex.emailPattern;
@@ -44,7 +45,7 @@ export class UserFormComponent implements OnInit {
                        private readonly imagesService: ImagesService) {
     }
 
-    public ngOnInit() {
+    public ngOnInit(): void {
         this.initializeGroups();
         this.initializeProjects();
         this.createForm();
@@ -63,8 +64,8 @@ export class UserFormComponent implements OnInit {
         const haveAssignAndUnAssignRoles = this.hasRoleAssignGroup() && this.hasRoleUnAssignGroup();
         const checkedAndCantUnAssign = this.userGroups.includes(groupId) && !this.hasRoleUnAssignGroup();
         const uncheckedAndCantAssign = !this.userGroups.includes(groupId) && !this.hasRoleAssignGroup();
-        return haveAssignAndUnAssignRoles || !(checkedAndCantUnAssign || uncheckedAndCantAssign);
 
+        return haveAssignAndUnAssignRoles || !(checkedAndCantUnAssign || uncheckedAndCantAssign);
     }
 
     public trackGroupIdBySelf(index: number, item: number): any {
@@ -75,8 +76,8 @@ export class UserFormComponent implements OnInit {
         return item.id;
     }
 
-    private checkIfUpdate() {
-        this.activatedRoute.queryParams.subscribe((param) => {
+    private checkIfUpdate(): void {
+        this.activatedRoute.queryParams.subscribe((param: Params) => {
             if (Object.keys(param).length > 0) {
                 this.isUpdate = true;
                 this.userForm.controls.login.disable();
@@ -99,9 +100,9 @@ export class UserFormComponent implements OnInit {
         this.userForm.controls.projectIdList.patchValue(user.projectIdList);
         if (user.avatar) {
             this.imagesService.getImage(user.avatar)
-                .subscribe((blob) => {
+                .subscribe((blob: Blob): void => {
                     const reader = new FileReader();
-                    reader.onload = (e) => {
+                    reader.onload = (): void => {
                         this.userImageSrc = reader.result;
                     };
                     reader.readAsDataURL(blob);
@@ -114,28 +115,41 @@ export class UserFormComponent implements OnInit {
 
     private getIdFromRouteParamsAndSetDetail(param: any): void {
         this.userDataService.getUserDetail(param.id)
-            .subscribe((apiUser) => {
+            .subscribe((apiUser: User) => {
                 this.setForm(apiUser);
-            }, (error) => this.notificationService.openErrorNotification(error));
+            }, (error: any) => this.notificationService.openErrorNotification(error));
     }
 
     private createForm(): void {
+        const passwordMaxLength = 50;
         this.userForm = this.formBuilder.group({
             id: [''],
             isVisible: [''],
-            firstName: ['', Validators.required],
-            lastName: ['', Validators.required],
+            firstName: [
+                '',
+                Validators.required
+            ],
+            lastName: [
+                '',
+                Validators.required
+            ],
             email: [''],
-            login: ['', Validators.required],
+            login: [
+                '',
+                Validators.required
+            ],
             password: [
                 '',
                 Validators.compose([
                     Validators.required,
                     Validators.pattern(this.userPasswordPattern),
-                    Validators.maxLength(50)
+                    Validators.maxLength(passwordMaxLength)
                 ])
             ],
-            type: ['', Validators.required],
+            type: [
+                '',
+                Validators.required
+            ],
             state: [''],
             groupIdList: [''],
             projectIdList: [''],
@@ -153,18 +167,18 @@ export class UserFormComponent implements OnInit {
 
     private emitFormDataChangeEmitter(): void {
         if (this.userForm.invalid) {
-            this.onFormDataChange.emit(null);
+            this.formDataChange.emit(null);
         } else {
             const actualValue = {
                 ...this.userForm.value,
             };
-            this.onFormDataChange.emit(actualValue);
+            this.formDataChange.emit(actualValue);
         }
     }
 
     private initializeGroups(): void {
         this.groupService.browseGroups()
-            .subscribe((groups) => {
+            .subscribe((groups: BrowseResponse<Group>) => {
                 this.groupList = groups.content;
             });
     }

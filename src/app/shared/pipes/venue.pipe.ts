@@ -7,8 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 /**
  * Venue value transformation
- */
-export class VenuePipe implements PipeTransform {
+ */ export class VenuePipe implements PipeTransform {
 
     public constructor(private readonly translateService: TranslateService) {
     }
@@ -17,7 +16,8 @@ export class VenuePipe implements PipeTransform {
         if (!value) {
             return;
         }
-        switch (value.toString().toLowerCase()) {
+        switch (value.toString()
+                     .toLowerCase()) {
             case 'all':
                 return this.translateService.instant('venue.value.all');
             case 'both':
@@ -25,8 +25,8 @@ export class VenuePipe implements PipeTransform {
             case  'none':
                 return '';
             default:
+                return value;
         }
-        return value;
     }
 
 }

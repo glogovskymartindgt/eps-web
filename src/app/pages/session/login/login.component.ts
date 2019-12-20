@@ -14,33 +14,30 @@ import { AppConstants } from '../../../shared/utils/constants';
 
 /**
  * Login component
- */
-export class LoginComponent implements OnInit {
-
-    /**
-     * Getter for login form  controls
-     */
-    public get loginFormControls() {
-        return this.loginForm.controls;
-    }
+ */ export class LoginComponent implements OnInit {
 
     public hidePassword = true;
     public version = AppConstants.version;
     public loginForm: FormGroup;
 
-    public constructor(private readonly router: Router,
-                       private readonly formBuilder: FormBuilder,
-                       private readonly authService: AuthService) {
+    public constructor(private readonly router: Router, private readonly formBuilder: FormBuilder, private readonly authService: AuthService) {
     }
 
-    public ngOnInit() {
+    /**
+     * Getter for login form  controls
+     */
+    public get loginFormControls(): any {
+        return this.loginForm.controls;
+    }
+
+    public ngOnInit(): void {
         this.createForm();
     }
 
     /**
      * Call login in API
      */
-    public login() {
+    public login(): void | undefined {
         if (this.loginForm.invalid) {
             return;
         }
@@ -50,10 +47,16 @@ export class LoginComponent implements OnInit {
     /**
      * Default form setup
      */
-    private createForm() {
+    private createForm(): void {
         this.loginForm = this.formBuilder.group({
-            userName: [null, [Validators.required]],
-            password: [null, [Validators.required]]
+            userName: [
+                null,
+                [Validators.required]
+            ],
+            password: [
+                null,
+                [Validators.required]
+            ]
         });
     }
 

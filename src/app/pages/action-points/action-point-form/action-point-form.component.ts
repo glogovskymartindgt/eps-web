@@ -61,6 +61,12 @@ export class ActionPointFormComponent implements OnInit {
         ENTER,
         COMMA
     ];
+    public trafficLightList: string[] = [
+        'red',
+        'amber',
+        'green',
+        'none'
+    ];
     public selectedResponsibles: Responsible[] = [];
     public filteredResponsibles: Observable<Responsible[]>;
     public responsibles: Responsible[];
@@ -154,6 +160,23 @@ export class ActionPointFormComponent implements OnInit {
 
     }
 
+    public getCircleColor(value): string {
+        switch (value) {
+            case 'red':
+                return '#ce211f';
+            case 'amber':
+                return '#f79824';
+            case 'green':
+                return '#20bf55';
+            default:
+                return 'none';
+        }
+    }
+
+    public trackTrafficLightBySelf(index: number, item: string): string {
+        return item;
+    }
+
     private _filter(value: any): Responsible[] {
         const filterValue = typeof value === 'string' ? value.toLowerCase() : value.firstName;
 
@@ -184,6 +207,10 @@ export class ActionPointFormComponent implements OnInit {
 
     private createForm(): void {
         this.actionPointForm = this.formBuilder.group({
+            trafficLight: [
+                'NONE',
+                Validators.required
+            ],
             title: [
                 null,
                 Validators.required
@@ -241,6 +268,10 @@ export class ActionPointFormComponent implements OnInit {
 
     private setForm(actionPoint: any): void {
         this.actionPointForm = this.formBuilder.group({
+            trafficLight: [
+                'NONE',
+                Validators.required
+            ],
             title: [
                 '',
                 Validators.required
@@ -262,6 +293,7 @@ export class ActionPointFormComponent implements OnInit {
 
         this.selectedResponsibles = actionPoint.responsibles ? actionPoint.responsibles : [];
         this.actionPointForm.controls.title.patchValue(actionPoint.title);
+        this.actionPointForm.controls.trafficLight.patchValue(actionPoint.trafficLight);
         this.addFormValue('actionPointText', actionPoint.actionPointText);
         this.addFormValue('dueDate', actionPoint.dueDate);
         this.addFormValue('closedDate', actionPoint.closedDate);
@@ -309,4 +341,5 @@ export class ActionPointFormComponent implements OnInit {
         }
 
     }
+
 }

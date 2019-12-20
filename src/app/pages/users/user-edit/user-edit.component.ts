@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Role } from '../../../shared/enums/role.enum';
 import { AuthService } from '../../../shared/services/auth.service';
 import { UserDataService } from '../../../shared/services/data/user-data.service';
@@ -7,7 +7,7 @@ import { NotificationService } from '../../../shared/services/notification.servi
 import { UserFormComponent } from '../user-form/user-form.component';
 
 @Component({
-    selector: 'user-edit',
+    selector: 'iihf-user-edit',
     templateUrl: './user-edit.component.html',
     styleUrls: ['./user-edit.component.scss']
 })
@@ -25,39 +25,40 @@ export class UserEditComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.activatedRoute.queryParams.subscribe((param) => {
+        this.activatedRoute.queryParams.subscribe((param: Params) => {
             this.userId = param.id;
         });
     }
 
-    public onCancel() {
+    public onCancel(): void {
         this.router.navigate(['users/list']);
     }
 
-    public onSave() {
+    public onSave(): void {
         this.transformUserToApiObject();
         if (this.formData) {
             this.userDataService.updateUser(this.userId, this.transformUserToApiObject())
                 .subscribe(() => {
                     this.notificationService.openSuccessNotification('success.edit');
                     this.router.navigate(['users/list']);
-                }, (error) => {
+                }, (error: any) => {
                     this.notificationService.openErrorNotification(this.getTranslationFromErrorCode(error.error.code));
                 });
         }
     }
 
-    public formDataChange($event) {
+    public formDataChange($event): void {
+        const formChangeTimeout = 200;
         setTimeout(() => {
             this.formData = $event;
-        }, 200);
+        }, formChangeTimeout);
     }
 
     public hasRoleUpdateUser(): boolean {
         return this.authService.hasRole(Role.RoleUpdateUser);
     }
 
-    private transformUserToApiObject() {
+    private transformUserToApiObject(): {} {
         const apiObject: any = {
             firstName: this.formData.firstName,
             lastName: this.formData.lastName,
@@ -79,6 +80,7 @@ export class UserEditComponent implements OnInit {
         if (this.formData.state !== null) {
             apiObject.state = this.formData.state ? 'ACTIVE' : 'INACTIVE';
         }
+
         return apiObject;
     }
 

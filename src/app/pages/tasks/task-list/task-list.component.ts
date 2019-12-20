@@ -2,6 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { finalize } from 'rxjs/operators';
 import { Role } from '../../../shared/enums/role.enum';
 import {
     CoreTableComponent, ListItem, TableCellType, TableChangeEvent, TableColumn, TableColumnFilter, TableConfiguration, TableFilterType
@@ -62,22 +63,18 @@ export class TaskListComponent implements OnInit {
                        private readonly authService: AuthService) {
     }
 
-    public ngOnInit() {
+    public ngOnInit(): void {
         this.loadBusinessAreaList();
-        // Business area form group setup
         this.areaGroup = this.formBuilder.group({
             businessArea: [this.getBusinessAreaValue()]
         });
-        // Business area input listener and table data reload
-        this.areaGroup.valueChanges.subscribe((value) => {
-            // Add business area filter if ALL value selected in business area select
+        this.areaGroup.valueChanges.subscribe((value: any): void => {
             if (value !== 'all') {
                 this.businessAreaFilter = new Filter('BUSINESS_AREA_NAME', value.businessArea);
             }
             this.setTableData();
         });
         const allThingsKey = 'all.things';
-        // Table config setup
         this.config = {
             stickyEnd: 7,
             columns: [
@@ -224,24 +221,23 @@ export class TaskListComponent implements OnInit {
     /**
      * navigate create task screen
      */
-    public createTask() {
+    public createTask(): void {
         this.router.navigate(['tasks/create']);
     }
 
     /**
      * Export report from API based on selected filters
      */
-    public export() {
+    public export(): void {
         this.loading = true;
         this.taskService.exportTasks(this.lastTableChangeEvent, this.additionalFilters, this.projectEventService.instant.id)
-            .subscribe((response) => {
+            .pipe(finalize(() => this.loading = false))
+            .subscribe((response: any) => {
                 const contentDisposition = response.headers.get('Content-Disposition');
                 const exportName: string = GetFileNameFromContentDisposition(contentDisposition);
                 new FileManager().saveFile(exportName, response.body, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-                this.loading = false;
             }, () => {
                 this.notificationService.openErrorNotification('error.api');
-                this.loading = false;
             });
     }
 
@@ -249,7 +245,7 @@ export class TaskListComponent implements OnInit {
      * Navigate to update task screen
      * @param id
      */
-    public update(id: number) {
+    public update(id: number): void {
         this.router.navigate(['tasks/edit'], {queryParams: {id}});
     }
 
@@ -294,12 +290,11 @@ export class TaskListComponent implements OnInit {
             tableChangeEvent.sortActive = this.tableChangeStorageService.getTasksLastTableChangeEvent().sortActive;
         }
         this.taskService.browseTasks(tableChangeEvent, this.additionalFilters)
-            .subscribe((data) => {
+            .pipe(finalize(() => this.loading = false))
+            .subscribe((data: BrowseResponse<TaskInterface>) => {
                 this.data = data;
-                this.loading = false;
                 this.isInitialized = true;
             }, () => {
-                this.loading = false;
                 this.notificationService.openErrorNotification('error.api');
             });
 
@@ -354,11 +349,11 @@ export class TaskListComponent implements OnInit {
     /**
      * Load business area list from API
      */
-    private loadBusinessAreaList() {
+    private loadBusinessAreaList(): void {
         this.businessAreaService.listBusinessAreas()
-            .subscribe((data) => {
+            .subscribe((data: BrowseResponse<BusinessArea>) => {
                 this.businessAreaList = data.content
-                                            .filter((item) => item.codeItem !== null && item.state === 'VALID');
+                                            .filter((item: BusinessArea) => item.codeItem !== null && item.state === 'VALID');
             });
     }
 
@@ -371,6 +366,7 @@ export class TaskListComponent implements OnInit {
         if (!this.isInitialized && this.isReturnFromDetail() && tableChangeEventInStorage && tableChangeEventInStorage.additionalFilters) {
             businessAreaValue = this.getStorageBusinessAreaFilter(tableChangeEventInStorage) ? this.getStorageBusinessAreaFilter(tableChangeEventInStorage).value : 'all';
         }
+
         return businessAreaValue;
     }
 
@@ -382,13 +378,14 @@ export class TaskListComponent implements OnInit {
         if (!tableChangeEventInStorage || !tableChangeEventInStorage.additionalFilters) {
             return;
         }
-        return tableChangeEventInStorage.additionalFilters.find((filter) => filter.property === 'BUSINESS_AREA_NAME');
+
+        return tableChangeEventInStorage.additionalFilters.find((filter: Filter) => filter.property === 'BUSINESS_AREA_NAME');
     }
 
     /**
      * If returned from edit task form or create task form
      */
-    private isReturnFromDetail() {
+    private isReturnFromDetail(): boolean {
         return this.routingStorageService.getPreviousUrl()
                    .includes('tasks/edit') || this.routingStorageService.getPreviousUrl()
                                                   .includes('tasks/create');

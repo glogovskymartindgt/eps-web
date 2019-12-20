@@ -7,7 +7,7 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
 import { TaskFormComponent } from '../task-form/task-form.component';
 
 @Component({
-    selector: 'task-create',
+    selector: 'iihf-task-create',
     templateUrl: './task-create.component.html',
     styleUrls: ['./task-create.component.scss'],
     animations: [fadeEnterLeave],
@@ -20,8 +20,7 @@ export class TaskCreateComponent implements OnInit {
     public constructor(private readonly router: Router,
                        private readonly taskService: TaskService,
                        private readonly notificationService: NotificationService,
-                       private readonly projectEventService: ProjectEventService
-    ) {
+                       private readonly projectEventService: ProjectEventService) {
     }
 
     public ngOnInit(): void {
@@ -32,12 +31,13 @@ export class TaskCreateComponent implements OnInit {
     }
 
     public onSave(): void {
-        this.taskService.createTask(this.transformTaskToApiObject(this.formData)).subscribe((response) => {
-            this.notificationService.openSuccessNotification('success.add');
-            this.router.navigate(['tasks/list']);
-        }, (error) => {
-            this.notificationService.openErrorNotification('error.add');
-        });
+        this.taskService.createTask(this.transformTaskToApiObject(this.formData))
+            .subscribe(() => {
+                this.notificationService.openSuccessNotification('success.add');
+                this.router.navigate(['tasks/list']);
+            }, () => {
+                this.notificationService.openErrorNotification('error.add');
+            });
     }
 
     private transformTaskToApiObject(formObject: any): any {
@@ -71,6 +71,7 @@ export class TaskCreateComponent implements OnInit {
         if (formObject.sourceDescription !== '') {
             apiObject.sourceDescription = formObject.sourceDescription;
         }
+
         return apiObject;
     }
 
