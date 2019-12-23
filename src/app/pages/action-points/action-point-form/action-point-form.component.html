@@ -181,6 +181,7 @@
                         [label]="'tasks.description' | translate"
                         [maxLength]="4092"
                         [type]="'textarea'"
+                        [required]="actionPointForm.controls.state.value ==='CLOSED'"
                         class="theme-input"
                         formControlName="description"
         >
