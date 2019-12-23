@@ -1,3 +1,4 @@
+<!-- tslint:disable:template-cyclomatic-complexity -->
 <form [formGroup]="projectDetailForm">
     <div fxLayout="row" fxLayoutGap="10px">
         <div fxFlex="100px" fxLayout="column">
@@ -48,7 +49,7 @@
                 >
                 </haz-core-input>
             </div>
-            
+
             <div fxLayout="row" fxLayoutGap="10px">
                 <div class="short-input">
                     <haz-core-input [allowedCharactersPattern]="numericPattern"
@@ -62,7 +63,7 @@
                     >
                     </haz-core-input>
                 </div>
-                
+
                 <mat-form-field appearance="fill" class=" short-input" required>
                     <mat-label class="label-style">{{ 'project.status' | translate }}</mat-label>
                     <mat-select formControlName="status" required>
@@ -77,7 +78,7 @@
                     </mat-error>
                 </mat-form-field>
             </div>
-            
+
             <div fxLayout="row" fxLayoutGap="10px">
                 <mat-form-field appearance="fill" class="short-input">
                     <mat-label class="label-style">{{ 'project.dateFrom' | translate }}</mat-label>
@@ -99,7 +100,7 @@
                 </mat-form-field>
             </div>
             <div fxLayout="row" fxLayoutGap="10px">
-                
+
                 <mat-form-field appearance="fill" class="short-input">
                     <mat-label class="label-style">{{ 'project.firstCountry' | translate }}</mat-label>
                     <mat-select formControlName="firstCountry">
@@ -109,7 +110,7 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-                
+
                 <mat-form-field appearance="fill" class="short-input">
                     <mat-label class="label-style">{{ 'project.secondCountry' | translate }}</mat-label>
                     <mat-select formControlName="secondCountry">
@@ -162,12 +163,12 @@
                     </haz-core-input>
                 </div>
             </div>
-            
+
             <div fxLayout="row">
                 <div fxLayoutAlign="flex-start">
                     <h3 class="mb-10">{{"project.attachments" | translate}}</h3>
                 </div>
-                
+
                 <div *ngIf="!editMode &&(isAnyFirstVenueFile() || isAnySecondVenueFile())" class="transparent-select" fxFlex fxLayoutAlign="flex-end flex-end">
                     <mat-form-field>
                         <mat-label>
@@ -191,7 +192,7 @@
                         </mat-select>
                     </mat-form-field>
                 </div>
-                
+
                 <div *ngIf="!editMode && !isAnyFirstVenueFile() && !isAnySecondVenueFile()"
                      fxFlex
                      fxLayoutAlign="flex-end flex-end"
@@ -219,7 +220,7 @@
                         <p class="mini-info-text p-5">{{'project.toAddBoth' | translate}}</p>
                     </div>
                 </div>
-            
+
             </div>
             <mat-card [class.expanded]="viewMaps" [class.shrink]="!viewMaps" fxLayout="column" style="height:auto">
                 <h4>{{"project.venueMaps" | translate}}</h4>
@@ -248,7 +249,7 @@
                 >
                     <div class="short-input" fxLayout="column" style="overflow: hidden;">
                         <!-- VIEW MODE MAP1                    -->
-                        <div *ngFor="let mapSource of firstVenueMapSources; let i = index">
+                        <div *ngFor="let mapSource of firstVenueMapSources; let i = index; trackBy:trackSourceBySelf">
                             <div *ngIf="!editMode && mapSource">
                                 <div class="pdf-wrapper">
                                     <div class="pdf-indicator"><span>.pdf</span></div>
@@ -282,12 +283,10 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- EDIT MODE MAP1                    -->
                         <div *ngIf="editMode && !projectDetailForm.controls.firstVenue.value" class="relative-parent disabled">
-                            <label class="container-style"
-                                   fxFlex="205px"
-                            ></label>
+                            <label class="container-style" for="" fxFlex="205px"></label>
                             <img *ngIf="editMode"
                                  [src]="'assets/img/svg-squares/add.svg'"
                                  alt="add"
@@ -342,9 +341,9 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div *ngIf="projectDetailForm.value.firstMapUpload && editMode">
-                            <div *ngFor="let mapSource of firstVenueMapSources; let i = index" class="attachment-item">
+                            <div *ngFor="let mapSource of firstVenueMapSources; let i = index; trackBy:trackSourceBySelf" class="attachment-item">
                                 <div class="content-style mb-5">
                                     <div class="relative-parent" fxLayout="column">
                                         <div class="pdf-wrapper">
@@ -382,18 +381,18 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <iihf-project-file-placeholder *ngIf="!editMode && !(firstVenueMapSources.length > 0)"
                                                        [attachmentType]="attachmentType.Map"
                                                        [venue]="projectDetailForm.controls.firstVenue && projectDetailForm.controls.firstVenue.value ? projectDetailForm.controls.firstVenue.value : 'project.venue1' | translate"
                         >
                         </iihf-project-file-placeholder>
-                    
+
                     </div>
-                    
+
                     <div class="short-input" fxLayout="column" style="overflow: hidden;">
                         <!-- VIEW MODE MAP2                  -->
-                        <div *ngFor="let mapSource of secondVenueMapSources; let i = index">
+                        <div *ngFor="let mapSource of secondVenueMapSources; let i = index ; trackBy:trackSourceBySelf">
                             <div *ngIf="!editMode && mapSource">
                                 <div class="pdf-wrapper">
                                     <div class="pdf-indicator"><span>.pdf</span></div>
@@ -429,9 +428,7 @@
                         </div>
                         <!-- EDIT MODE MAP2                   -->
                         <div *ngIf="editMode && !projectDetailForm.controls.secondVenue.value" class="relative-parent disabled">
-                            <label class="container-style"
-                                   fxFlex="205px"
-                            ></label>
+                            <label class="container-style" fxFlex="205px" for=""></label>
                             <img *ngIf="editMode"
                                  [src]="'assets/img/svg-squares/add.svg'"
                                  alt="add"
@@ -447,7 +444,7 @@
                                 {{'project.dragEnd' | translate}}
                             </p>
                         </div>
-                        
+
                         <div (onFileDropped)="onSecondMapDropped($event)"
                              *ngIf="editMode && projectDetailForm.controls.secondVenue.value"
                              class="relative-parent"
@@ -480,9 +477,9 @@
                                 {{'project.dragEnd' | translate}}
                             </p>
                         </div>
-                        
+
                         <div *ngIf="projectDetailForm.value.secondMapUpload && editMode">
-                            <div *ngFor="let mapSource of secondVenueMapSources; let i = index" class="attachment-item">
+                            <div *ngFor="let mapSource of secondVenueMapSources; let i = index; trackBy:trackSourceBySelf" class="attachment-item">
                                 <div class="content-style mb-5">
                                     <div class="relative-parent" fxLayout="column">
                                         <div class="pdf-wrapper">
@@ -519,16 +516,16 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <iihf-project-file-placeholder *ngIf="!editMode && !(secondVenueMapSources.length > 0)"
                                                        [attachmentType]="attachmentType.Map"
                                                        [venue]="projectDetailForm.controls.secondVenue && projectDetailForm.controls.secondVenue.value ? projectDetailForm.controls.secondVenue.value : 'project.venue2' | translate"
                         >
                         </iihf-project-file-placeholder>
                     </div>
-                
+
                 </div>
-                
+
                 <div *ngIf="(firstVenueMapSources && firstVenueMapSources.length > 1) || (secondVenueMapSources && secondVenueMapSources.length > 1)"
                      fxFlex
                      fxLayoutAlign="flex-end flex-end"
@@ -550,7 +547,7 @@
                     </button>
                 </div>
             </mat-card>
-            
+
             <mat-card [class.expanded]="viewImages" [class.shrink]="!viewImages" fxLayout="column" style="height:auto">
                 <h4>{{"project.venueImages" | translate}}</h4>
                 <div fxLayout=row>
@@ -576,9 +573,9 @@
                      fxLayoutGap="10px"
                 >
                     <div class="short-input" fxLayout="column" style="overflow: hidden;">
-                        
+
                         <!-- VIEW MODE IMAGE1                    -->
-                        <div *ngFor="let imageSource of firstVenueImageSources; let i = index">
+                        <div *ngFor="let imageSource of firstVenueImageSources; let i = index; trackBy:trackSourceBySelf">
                             <div [ngSwitch]="getFileEnding(firstVenueImageNames[i])">
                                 <div (click)="openDialog(imageSource)"
                                      *ngIf="!editMode && imageSource && getFileEnding(firstVenueImageNames[i]) === 'pdf'"
@@ -618,7 +615,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div *ngIf="!editMode" class="pb-10" fxLayout="row">
                                     <div (click)="openImageDialog(imageSource)"
                                          *ngIf="getFileEnding(firstVenueImageNames[i]) !== 'pdf'" class="map-file" fxFlex
@@ -646,12 +643,10 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- EDIT MODE IMAGE1                    -->
                         <div *ngIf="editMode && !projectDetailForm.controls.firstVenue.value" class="relative-parent disabled">
-                            <label class="container-style"
-                                   fxFlex="205px"
-                            ></label>
+                            <label class="container-style" for="" fxFlex="205px"></label>
                             <div fxLayout="row">
                                 <div fxFlex="25">
                                     <img *ngIf="editMode"
@@ -711,9 +706,9 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div *ngIf="projectDetailForm.value.firstImageUpload && editMode">
-                            <div *ngFor="let imageSource of firstVenueImageSources; let i = index" class="attachment-item">
+                            <div *ngFor="let imageSource of firstVenueImageSources; let i = index ; trackBy:trackSourceBySelf" class="attachment-item">
                                 <div [ngSwitch]="getFileEnding(firstVenueImageNames[i])" class="content-style mb-5">
                                     <div class="relative-parent" fxLayout="column">
                                         <div class="pdf-wrapper">
@@ -753,17 +748,17 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <iihf-project-file-placeholder *ngIf="!editMode && !(firstVenueImageSources.length > 0)"
                                                        [attachmentType]="attachmentType.Image"
                                                        [venue]="projectDetailForm.controls.firstVenue && projectDetailForm.controls.firstVenue.value ? projectDetailForm.controls.firstVenue.value : 'project.venue1' | translate"
                         >
                         </iihf-project-file-placeholder>
                     </div>
-                    
+
                     <div class="short-input" fxLayout="column" style="overflow: hidden;">
                         <!-- VIEW MODE IMAGE2                    -->
-                        <div *ngFor="let imageSource of secondVenueImageSources; let i = index">
+                        <div *ngFor="let imageSource of secondVenueImageSources; let i = index ; trackBy:trackSourceBySelf">
                             <div [ngSwitch]="getFileEnding(secondVenueImageNames[i])">
                                 <div (click)="openDialog(imageSource)"
                                      *ngIf="!editMode && imageSource && getFileEnding(secondVenueImageNames[i]) === 'pdf'"
@@ -803,7 +798,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div *ngIf="!editMode" class="pb-10" fxLayout="row">
                                     <div (click)="openImageDialog(imageSource)"
                                          *ngIf="getFileEnding(secondVenueImageNames[i]) !== 'pdf'" class="map-file" fxFlex
@@ -831,12 +826,10 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- EDIT MODE IMAGE2                   -->
                         <div *ngIf="editMode && !projectDetailForm.controls.secondVenue.value" class="relative-parent disabled">
-                            <label class="container-style"
-                                   fxFlex="205px"
-                            >
+                            <label class="container-style" for="" fxFlex="205px">
                             </label>
                             <div fxLayout="row">
                                 <div fxFlex="25">
@@ -897,16 +890,16 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div *ngIf="projectDetailForm.value.secondImageUpload && editMode">
-                            <div *ngFor="let imageSource of secondVenueImageSources; let i = index" class="attachment-item">
+                            <div *ngFor="let imageSource of secondVenueImageSources; let i = index ; trackBy:trackSourceBySelf" class="attachment-item">
                                 <div [ngSwitch]="getFileEnding(secondVenueImageNames[i])" class="content-style mb-5">
                                     <div class="relative-parent" fxLayout="column">
                                         <div class="pdf-wrapper">
                                             <div class="pdf-indicator">
                                                 <span *ngIf="secondVenueImagePaths && secondVenueImagePaths[i]">.{{getFileEnding(secondVenueImagePaths[i])}}</span>
                                             </div>
-                                            
+
                                             <pdf-viewer *ngSwitchCase="'pdf'"
                                                         [@fadeEnterLeave]
                                                         [fit-to-page]="true"
@@ -940,13 +933,13 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <iihf-project-file-placeholder *ngIf="!editMode && !(secondVenueImageSources.length > 0)"
                                                        [attachmentType]="attachmentType.Image"
                                                        [venue]="projectDetailForm.controls.secondVenue && projectDetailForm.controls.secondVenue.value ? projectDetailForm.controls.secondVenue.value : 'project.venue2' | translate"
                         >
                         </iihf-project-file-placeholder>
-                    
+
                     </div>
                 </div>
                 <div *ngIf="(firstVenueImageSources && firstVenueImageSources.length > 1) || (secondVenueImageSources && secondVenueImageSources.length > 1)"
@@ -970,7 +963,7 @@
                     </button>
                 </div>
             </mat-card>
-            
+
             <mat-card [class.expanded]="viewDocuments" [class.shrink]="!viewDocuments" fxLayout="column" style="height:auto">
                 <h4>{{"project.otherDocuments" | translate}}</h4>
                 <div fxLayout=row>
@@ -997,7 +990,7 @@
                 >
                     <div class="short-input" fxLayout="column" style="overflow: hidden;">
                         <!-- VIEW MODE DOCUMENT1                -->
-                        <div *ngFor="let documentSource of firstVenueDocumentSources; let i = index">
+                        <div *ngFor="let documentSource of firstVenueDocumentSources; let i = index ; trackBy:trackSourceBySelf">
                             <div [ngSwitch]="getFileEnding(firstVenueDocumentNames[i])">
                                 <div (click)="openDialog(documentSource)"
                                      *ngIf="!editMode && documentSource && getFileEnding(firstVenueDocumentNames[i]) === 'pdf'"
@@ -1037,7 +1030,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div *ngIf="!editMode && documentSource && !isJpegJpgOrPdfFromName(firstVenueDocumentNames[i])">
                                     <div class="content-style mb-5">
                                         <div class="relative-parent" fxLayout="column">
@@ -1074,7 +1067,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div *ngIf="!editMode" class="pb-10" fxLayout="row">
                                     <div (click)="openImageDialog(documentSource)"
                                          *ngIf="getFileEnding(firstVenueDocumentNames[i]) === 'jpeg'" class="map-file" fxFlex
@@ -1089,7 +1082,7 @@
                                     <div *ngIf="!isJpegJpgOrPdfFromName(firstVenueDocumentNames[i])" class="map-file-unclickable" fxFlex>
                                         {{firstVenueDocumentNames[i]}}
                                     </div>
-                                    
+
                                     <div (click)="download(firstVenueDocumentBlobs[i], '*', firstVenueDocumentNames[i])"
                                          *ngIf="!editMode && documentSource"
                                          [@enterLeave]
@@ -1106,12 +1099,10 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- EDIT MODE DOCUMENT1                    -->
                         <div *ngIf="editMode && !projectDetailForm.controls.firstVenue.value" class="relative-parent disabled">
-                            <label class="container-style"
-                                   fxFlex="205px"
-                            >
+                            <label class="container-style" for="" fxFlex="205px">
                             </label>
                             <div fxLayout="row">
                                 <div fxFlex="25">
@@ -1168,9 +1159,9 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div *ngIf="projectDetailForm.value.firstDocumentUpload && editMode">
-                            <div *ngFor="let documentSource of firstVenueDocumentSources; let i = index" class="attachment-item">
+                            <div *ngFor="let documentSource of firstVenueDocumentSources; let i = index ; trackBy:trackSourceBySelf" class="attachment-item">
                                 <div [ngSwitch]="getFileEnding(firstVenueDocumentNames[i])" class="content-style mb-5">
                                     <div class="relative-parent" fxLayout="column">
                                         <div class="pdf-wrapper">
@@ -1238,17 +1229,17 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <iihf-project-file-placeholder *ngIf="!editMode && !(firstVenueDocumentSources.length > 0)"
                                                        [attachmentType]="attachmentType.Document"
                                                        [venue]="projectDetailForm.controls.firstVenue && projectDetailForm.controls.firstVenue.value ? projectDetailForm.controls.firstVenue.value : 'project.venue1' | translate"
                         >
                         </iihf-project-file-placeholder>
                     </div>
-                    
+
                     <div class="short-input" fxLayout="column" style="overflow: hidden;">
                         <!-- VIEW MODE DOCUMENT2                    -->
-                        <div *ngFor="let documentSource of secondVenueDocumentSources; let i = index">
+                        <div *ngFor="let documentSource of secondVenueDocumentSources; let i = index ; trackBy:trackSourceBySelf">
                             <div [ngSwitch]="getFileEnding(secondVenueDocumentNames[i])">
                                 <div (click)="openDialog(documentSource)"
                                      *ngIf="!editMode && documentSource && getFileEnding(secondVenueDocumentNames[i]) === 'pdf'"
@@ -1288,7 +1279,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div *ngIf="!editMode && documentSource && !isJpegJpgOrPdfFromName(secondVenueDocumentNames[i])">
                                     <div class="content-style mb-5">
                                         <div class="relative-parent" fxLayout="column">
@@ -1325,7 +1316,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div *ngIf="!editMode" class="pb-10" fxLayout="row">
                                     <div (click)="openImageDialog(documentSource)"
                                          *ngIf="getFileEnding(secondVenueDocumentNames[i]) === 'jpeg'" class="map-file" fxFlex
@@ -1340,7 +1331,7 @@
                                     <div *ngIf="!isJpegJpgOrPdfFromName(secondVenueDocumentNames[i])" class="map-file-unclickable" fxFlex>
                                         {{secondVenueDocumentNames[i]}}
                                     </div>
-                                    
+
                                     <div (click)="download(secondVenueDocumentBlobs[i], '*', secondVenueDocumentNames[i])"
                                          *ngIf="!editMode && documentSource"
                                          [@enterLeave]
@@ -1357,13 +1348,10 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- EDIT MODE DOCUMENT2                  -->
                         <div *ngIf="editMode && !projectDetailForm.controls.secondVenue.value" class="relative-parent disabled">
-                            <label class="container-style"
-                                   fxFlex="205px"
-                            >
-                            </label>
+                            <label class="container-style" for="" fxFlex="205px"></label>
                             <div fxLayout="row">
                                 <div fxFlex="25">
                                     <img *ngIf="editMode"
@@ -1419,16 +1407,16 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div *ngIf="projectDetailForm.value.secondDocumentUpload && editMode">
-                            <div *ngFor="let documentSource of secondVenueDocumentSources; let i = index" class="attachment-item">
+                            <div *ngFor="let documentSource of secondVenueDocumentSources; let i = index ; trackBy:trackSourceBySelf" class="attachment-item">
                                 <div [ngSwitch]="getFileEnding(secondVenueDocumentNames[i])" class="content-style mb-5">
                                     <div class="relative-parent" fxLayout="column">
                                         <div class="pdf-wrapper">
                                             <div class="pdf-indicator">
                                                 <span *ngIf="secondVenueDocumentPaths[i]">.{{getFileEnding(secondVenueDocumentNames[i])}}</span>
                                             </div>
-                                            
+
                                             <pdf-viewer *ngSwitchCase="'pdf'"
                                                         [@fadeEnterLeave]
                                                         [fit-to-page]="true"
@@ -1464,7 +1452,7 @@
                                                 <img [src]="'assets/img/svg-squares/xlsx.svg'" alt="Document file">
                                             </div>
                                             <div *ngSwitchDefault class="document-placeholder"></div>
-                                        
+
                                         </div>
                                     </div>
                                 </div>
@@ -1488,16 +1476,16 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <iihf-project-file-placeholder *ngIf="!editMode && !(secondVenueDocumentSources.length > 0)"
                                                        [attachmentType]="attachmentType.Document"
                                                        [venue]="projectDetailForm.controls.secondVenue && projectDetailForm.controls.secondVenue.value ? projectDetailForm.controls.secondVenue.value : 'project.venue2' | translate"
                         >
                         </iihf-project-file-placeholder>
-                    
+
                     </div>
                 </div>
-                
+
                 <div *ngIf="(firstVenueDocumentSources && firstVenueDocumentSources.length > 1) || (secondVenueDocumentSources && secondVenueDocumentSources.length > 1)"
                      fxFlex
                      fxLayoutAlign="flex-end flex-end"
@@ -1517,7 +1505,7 @@
                             class="pl-5 pb-5"
                         >
                     </button>
-                
+
                 </div>
             </mat-card>
             <div class="long-input">

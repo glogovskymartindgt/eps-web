@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { TranslateWrapper } from '../hazlenut/hazelnut-common/interfaces';
+import { TranslateWrapper } from '../hazelnut/hazelnut-common/interfaces';
 
 @Injectable({
   providedIn: 'root'

@@ -10,9 +10,9 @@ import { finalize } from 'rxjs/operators';
 import { ImageDialogComponent } from '../../../shared/components/dialog/image-dialog/image-dialog.component';
 import { PdfDialogComponent } from '../../../shared/components/dialog/pdf-dialog/pdf-dialog.component';
 import { AttachmentType } from '../../../shared/enums/attachment-type.enum';
-import { enterLeave, fadeEnterLeave } from '../../../shared/hazlenut/hazelnut-common/animations';
-import { BrowseResponse } from '../../../shared/hazlenut/hazelnut-common/models';
-import { Regex } from '../../../shared/hazlenut/hazelnut-common/regex/regex';
+import { enterLeave, fadeEnterLeave } from '../../../shared/hazelnut/hazelnut-common/animations';
+import { BrowseResponse } from '../../../shared/hazelnut/hazelnut-common/models';
+import { Regex } from '../../../shared/hazelnut/hazelnut-common/regex/regex';
 import { AttachmentDetail } from '../../../shared/models/attachment-detail.model';
 import { Country } from '../../../shared/models/country.model';
 import { ProjectDetail } from '../../../shared/models/project-detail.model';
@@ -39,6 +39,7 @@ export const PROJECT_DATE_FORMATS = {
     },
 };
 
+/* tslint:disable */
 @Component({
     selector: 'iihf-project-detail-form',
     templateUrl: './project-detail-form.component.html',
@@ -117,6 +118,7 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         'zip',
         'jpeg'
     ];
+    public let;
     private readonly pdfBlobType = 'application/pdf';
     private readonly attachmentDownloadErrorKey = 'error.attachmentDownload';
     private readonly attachmentUploadErrorKey = 'error.attachmentUpload';
@@ -496,6 +498,28 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
                        .toLowerCase();
     }
 
+    public unshiftSecondVenueImage = (file: any, reader: FileReader, data: any): void => {
+        this.secondVenueImageNames.unshift(file.name);
+        this.secondVenueImageSources.unshift(reader.result);
+        this.secondVenueImagePaths.unshift(data.fileNames[file.name]);
+    }
+
+    public unshiftFirstVenueDocument = (file: any, reader: FileReader, data: any): void => {
+        this.firstVenueDocumentNames.unshift(file.name);
+        this.firstVenueDocumentPaths.unshift(reader.result);
+        this.firstVenueDocumentPaths.unshift(data.fileNames[file.name]);
+    }
+
+    public unshiftSecondVenueDocument = (file: any, reader: FileReader, data: any): void => {
+        this.secondVenueDocumentNames.unshift(file.name);
+        this.secondVenueDocumentSources.unshift(reader.result);
+        this.secondVenueDocumentPaths.unshift(data.fileNames[file.name]);
+    }
+
+    public trackSourceBySelf(index: number, source: any): any {
+        return source;
+    }
+
     /**
      * Emit data for wrapper form create or form edit component
      */
@@ -685,20 +709,12 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         reader.onload = (): void => {
             if (this.fileIsImage(file)) {
                 this.imagesService.uploadImages([file])
-                    .subscribe((data: any): void => {
-                        this.secondVenueImageNames.unshift(file.name);
-                        this.secondVenueImageSources.unshift(reader.result);
-                        this.secondVenueImagePaths.unshift(data.fileNames[file.name]);
-                    }, () => {
+                    .subscribe((data: any): void => this.unshiftSecondVenueImage(file, reader, data), () => {
                         this.notificationService.openErrorNotification(this.attachmentUploadErrorKey);
                     });
             } else {
                 this.attachmentService.uploadAttachment([file])
-                    .subscribe((data: any): void => {
-                        this.secondVenueImageNames.unshift(file.name);
-                        this.secondVenueImageSources.unshift(reader.result);
-                        this.secondVenueImagePaths.unshift(data.fileNames[file.name]);
-                    }, () => {
+                    .subscribe((data: any): void => this.unshiftSecondVenueImage(file, reader, data), () => {
                         this.notificationService.openErrorNotification(this.attachmentUploadErrorKey);
                     });
             }
@@ -712,20 +728,12 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         reader.onload = (): void => {
             if (this.fileIsImage(file)) {
                 this.imagesService.uploadImages([file])
-                    .subscribe((data: any): void => {
-                        this.firstVenueDocumentNames.unshift(file.name);
-                        this.firstVenueDocumentSources.unshift(reader.result);
-                        this.firstVenueDocumentPaths.unshift(data.fileNames[file.name]);
-                    }, () => {
+                    .subscribe((data: any): void => this.unshiftFirstVenueDocument(file, reader, data), () => {
                         this.notificationService.openErrorNotification(this.attachmentUploadErrorKey);
                     });
             } else {
                 this.attachmentService.uploadAttachment([file])
-                    .subscribe((data: any): void => {
-                        this.firstVenueDocumentNames.unshift(file.name);
-                        this.firstVenueDocumentSources.unshift(reader.result);
-                        this.firstVenueDocumentPaths.unshift(data.fileNames[file.name]);
-                    }, () => {
+                    .subscribe((data: any): void => this.unshiftFirstVenueDocument(file, reader, data), () => {
                         this.notificationService.openErrorNotification(this.attachmentUploadErrorKey);
                     });
             }
@@ -738,20 +746,12 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         reader.onload = (): void => {
             if (this.fileIsImage(file)) {
                 this.imagesService.uploadImages([file])
-                    .subscribe((data: any): void => {
-                        this.secondVenueDocumentNames.unshift(file.name);
-                        this.secondVenueDocumentSources.unshift(reader.result);
-                        this.secondVenueDocumentPaths.unshift(data.fileNames[file.name]);
-                    }, () => {
+                    .subscribe((data: any): void => this.unshiftSecondVenueDocument(file, reader, data), () => {
                         this.notificationService.openErrorNotification(this.attachmentUploadErrorKey);
                     });
             } else {
                 this.attachmentService.uploadAttachment([file])
-                    .subscribe((data: any): void => {
-                        this.secondVenueDocumentNames.unshift(file.name);
-                        this.secondVenueDocumentSources.unshift(reader.result);
-                        this.secondVenueDocumentPaths.unshift(data.fileNames[file.name]);
-                    }, () => {
+                    .subscribe((data: any): void => this.unshiftSecondVenueDocument(file, reader, data), () => {
                         this.notificationService.openErrorNotification(this.attachmentUploadErrorKey);
                     });
             }

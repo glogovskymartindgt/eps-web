@@ -1,4 +1,4 @@
-import { Regex } from '../hazlenut/hazelnut-common/regex/regex';
+import { Regex } from '../hazelnut/hazelnut-common/regex/regex';
 
 export function GetFileNameFromContentDisposition(disposition: string): string {
     let exportName = 'EXPORT';

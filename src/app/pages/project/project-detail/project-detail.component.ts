@@ -3,7 +3,7 @@ import { Subject } from 'rxjs';
 import { AttachmentFormat } from '../../../shared/enums/attachment-format.enum';
 import { AttachmentType } from '../../../shared/enums/attachment-type.enum';
 import { Role } from '../../../shared/enums/role.enum';
-import { enterLeave } from '../../../shared/hazlenut/hazelnut-common/animations';
+import { enterLeave } from '../../../shared/hazelnut/hazelnut-common/animations';
 import { AuthService } from '../../../shared/services/auth.service';
 import { ProjectsService } from '../../../shared/services/data/projects.service';
 import { NotificationService } from '../../../shared/services/notification.service';

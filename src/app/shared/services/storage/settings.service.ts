@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AbstractStorageService } from '../../hazlenut/hazelnut-common/services';
+import { AbstractStorageService } from '../../hazelnut/hazelnut-common/services';
 import { EventDataInterface } from '../../interfaces/event.interface';
 import { EventService } from './event.service';
 

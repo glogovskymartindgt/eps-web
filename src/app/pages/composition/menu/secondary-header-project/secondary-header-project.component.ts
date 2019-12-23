@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Role } from '../../../../shared/enums/role.enum';
-import { fadeEnterLeave } from '../../../../shared/hazlenut/hazelnut-common/animations';
+import { fadeEnterLeave } from '../../../../shared/hazelnut/hazelnut-common/animations';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { DashboardService } from '../../../../shared/services/dashboard.service';
 import { ProjectEventService } from '../../../../shared/services/storage/project-event.service';

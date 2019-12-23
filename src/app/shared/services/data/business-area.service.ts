@@ -2,9 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { TableChangeEvent } from '../../hazlenut/core-table';
-import { StringUtils } from '../../hazlenut/hazelnut-common/hazelnut';
-import { BrowseResponse, Filter, PostContent, Sort } from '../../hazlenut/hazelnut-common/models';
+import { TableChangeEvent } from '../../hazelnut/core-table';
+import { StringUtils } from '../../hazelnut/hazelnut-common/hazelnut';
+import { BrowseResponse, Filter, PostContent, Sort } from '../../hazelnut/hazelnut-common/models';
 import { BusinessArea } from '../../interfaces/bussiness-area.interface';
 import { Category } from '../../interfaces/category.interface';
 import { SourceOfAgenda } from '../../interfaces/source-of-agenda.interface';
@@ -41,7 +41,7 @@ import { ProjectUserService } from '../storage/project-user.service';
             limit = tableChangeEvent.pageSize;
             offset = tableChangeEvent.pageIndex * tableChangeEvent.pageSize;
             filters = Object.values(tableChangeEvent.filters);
-            filters.forEach((filter) => filter.property = StringUtils.convertCamelToSnakeUpper(filter.property));
+            filters.forEach((filter: any): any => filter.property = StringUtils.convertCamelToSnakeUpper(filter.property));
             if (tableChangeEvent.sortActive && tableChangeEvent.sortDirection) {
                 sort = [
                     new Sort(tableChangeEvent.sortActive, tableChangeEvent.sortDirection)
@@ -58,6 +58,7 @@ import { ProjectUserService } from '../storage/project-user.service';
      */
     public listBusinessAreas(): Observable<BrowseResponse<BusinessArea>> {
         const limit = 100;
+
         return this.browseWithSummary(PostContent.create(limit, 0, [], []));
     }
 
@@ -95,6 +96,7 @@ import { ProjectUserService } from '../storage/project-user.service';
      */
     private getListByCode(code: string): Observable<BrowseResponse<any>> {
         const limit = 100;
+
         return this.browseWithSummary(PostContent.create(limit, 0, [new Filter('CODE', code)], []));
     }
 }

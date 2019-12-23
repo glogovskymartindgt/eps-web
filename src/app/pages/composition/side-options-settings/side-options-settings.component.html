@@ -1,4 +1,4 @@
-<div *ngFor="let menuItem of routes;">
+<div *ngFor="let menuItem of routes; trackBy: trackRouteByPath">
     <div (click)="highlightAndNavigateOption(menuItem.path)"
          *ngIf="checkRoute(menuItem, false)"
          class="menu-option h-26"

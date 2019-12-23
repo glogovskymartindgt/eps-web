@@ -1,13 +1,11 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-
 import { ActivatedRoute, Params } from '@angular/router';
 import * as _moment from 'moment';
-import { BrowseResponse } from '../../../shared/hazlenut/hazelnut-common/models';
-import { Regex } from '../../../shared/hazlenut/hazelnut-common/regex/regex';
+import { BrowseResponse } from '../../../shared/hazelnut/hazelnut-common/models';
+import { Regex } from '../../../shared/hazelnut/hazelnut-common/regex/regex';
 import { BusinessArea } from '../../../shared/interfaces/bussiness-area.interface';
 import { Phase } from '../../../shared/interfaces/phase.interface';
 import { SourceOfAgenda } from '../../../shared/interfaces/source-of-agenda.interface';
@@ -37,6 +35,7 @@ export const PROJECT_DATE_FORMATS = {
     },
 };
 
+/* tslint:disable:template-cyclomatic-complexity */
 @Component({
     selector: 'iihf-task-form',
     templateUrl: './task-form.component.html',

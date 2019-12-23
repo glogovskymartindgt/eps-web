@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { hazelnutConfig } from '../../hazlenut/hazelnut-common/config/hazelnut-config';
+import { hazelnutConfig } from '../../hazelnut/hazelnut-common/config/hazelnut-config';
 import { NotificationService } from '../notification.service';
 import { ProjectService } from '../project.service';
 import { ProjectUserService } from '../storage/project-user.service';
@@ -39,7 +39,8 @@ export class AttachmentService extends ProjectService<any> {
                        responseType: 'blob',
                    })
                    .pipe(map((result: Blob) => {
+
                        return result as any;
-                   }), catchError(this.handleError), );
+                   }), catchError(this.handleError));
     }
 }

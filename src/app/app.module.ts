@@ -16,9 +16,9 @@ import { AuthLayoutComponent } from './pages/layouts/auth-layout/auth-layout.com
 import { ComponentsModule } from './shared/components/components.module';
 import { ImageDialogComponent } from './shared/components/dialog/image-dialog/image-dialog.component';
 import { PdfDialogComponent } from './shared/components/dialog/pdf-dialog/pdf-dialog.component';
-import { CoreTableModule, GLOBAL_CONFIG_TOKEN } from './shared/hazlenut/core-table';
-import { MaterialModule, NOTIFICATION_WRAPPER_TOKEN, TRANSLATE_WRAPPER_TOKEN } from './shared/hazlenut/hazelnut-common';
-import { NotificationSnackBarComponent } from './shared/hazlenut/small-components/notifications';
+import { CoreTableModule, GLOBAL_CONFIG_TOKEN } from './shared/hazelnut/core-table';
+import { MaterialModule, NOTIFICATION_WRAPPER_TOKEN, TRANSLATE_WRAPPER_TOKEN } from './shared/hazelnut/hazelnut-common';
+import { NotificationSnackBarComponent } from './shared/hazelnut/small-components/notifications';
 import { PipesModule } from './shared/pipes/pipes.module';
 import { AuthGuard } from './shared/services/auth-guard';
 import { DashboardService } from './shared/services/dashboard.service';

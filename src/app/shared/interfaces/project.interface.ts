@@ -1,5 +1,5 @@
 export interface ProjectInterface {
-    id?: number;
+    id: number;
     name?: string;
     logo?: string;
     country_1?: string;

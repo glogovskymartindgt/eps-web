@@ -1,5 +1,5 @@
 {
-    "defaultSeverity": "warning",
+    "defaultSeverity": "error",
     "extends": [
         "tslint:recommended",
         "tslint-consistent-codestyle",
@@ -11,7 +11,7 @@
         "exclude": [
             "out",
             "**/polyfills.ts",
-            "src/app/shared/hazelnut/**"
+            "**/src/app/shared/hazelnut/**"
         ]
     },
     "rules": {
@@ -267,6 +267,7 @@
                 "i",
                 "S",
                 "T",
+                "P",
                 "x",
                 "y"
             ]

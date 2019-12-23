@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AbstractStorageService } from '../../hazlenut/hazelnut-common/services';
+import { AbstractStorageService } from '../../hazelnut/hazelnut-common/services';
 import { SelectedArea } from '../../interfaces/selected-area';
 import { AreaService } from './area.service';
 
@@ -11,7 +11,7 @@ export class SelectedAreaService extends AreaService<SelectedArea> {
         super(storageService);
     }
 
-    public setSelectedArea(selectedArea: string) {
+    public setSelectedArea(selectedArea: string): void {
         this.setData({
             selectedArea
         });

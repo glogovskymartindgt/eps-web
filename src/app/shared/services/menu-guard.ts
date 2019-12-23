@@ -45,13 +45,14 @@ export class MenuGuard {
     public constructor(private readonly authService: AuthService) {
     }
 
-    public menuRoutingCheck(menuOption: string) {
+    public menuRoutingCheck(menuOption: string): boolean {
         const menuRouteIndex = this.menuOptionsVsRoles
-                                   .map((menuItem) => menuItem.option)
+                                   .map((menuItem: any) => menuItem.option)
                                    .indexOf(menuOption);
         if (menuRouteIndex > -1) {
             return this.authService.hasRole(this.menuOptionsVsRoles[menuRouteIndex].role);
         }
+
         return true;
     }
 

@@ -5,7 +5,7 @@ import { tap } from 'rxjs/internal/operators/tap';
 import { finalize } from 'rxjs/operators';
 import { CommentType } from '../../../shared/enums/comment-type.enum';
 import { Role } from '../../../shared/enums/role.enum';
-import { Regex } from '../../../shared/hazlenut/hazelnut-common/regex/regex';
+import { Regex } from '../../../shared/hazelnut/hazelnut-common/regex/regex';
 import { TaskComment, TaskCommentResponse } from '../../../shared/interfaces/task-comment.interface';
 import { AuthService } from '../../../shared/services/auth.service';
 import { ImagesService } from '../../../shared/services/data/images.service';

@@ -1,8 +1,8 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { enterLeave } from '../../../shared/hazlenut/hazelnut-common/animations';
-import { Regex } from '../../../shared/hazlenut/hazelnut-common/regex/regex';
+import { enterLeave } from '../../../shared/hazelnut/hazelnut-common/animations';
+import { Regex } from '../../../shared/hazelnut/hazelnut-common/regex/regex';
 import { Profile } from '../../../shared/models/profile.model.';
 import { ImagesService } from '../../../shared/services/data/images.service';
 import { ProfileService } from '../../../shared/services/data/profile.service';

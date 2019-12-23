@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { TableChangeEvent } from '../../hazlenut/core-table';
-import { StringUtils } from '../../hazlenut/hazelnut-common/hazelnut';
-import { BrowseResponse, PostContent, Sort } from '../../hazlenut/hazelnut-common/models';
+import { TableChangeEvent } from '../../hazelnut/core-table';
+import { StringUtils } from '../../hazelnut/hazelnut-common/hazelnut';
+import { BrowseResponse, PostContent, Sort } from '../../hazelnut/hazelnut-common/models';
 import { User } from '../../interfaces/user.interface';
 import { NotificationService } from '../notification.service';
 import { ProjectService } from '../project.service';
@@ -17,7 +17,7 @@ import { ProjectUserService } from '../storage/project-user.service';
  * Fact service communicating with 'user' API url
  */ export class UserDataService extends ProjectService<any> {
 
-    public constructor(http: HttpClient, notificationService: NotificationService, userService: ProjectUserService, ) {
+    public constructor(http: HttpClient, notificationService: NotificationService, userService: ProjectUserService) {
         super(http, 'user', notificationService, userService);
     }
 
@@ -50,7 +50,7 @@ import { ProjectUserService } from '../storage/project-user.service';
             limit = tableChangeEvent.pageSize;
             offset = tableChangeEvent.pageIndex * tableChangeEvent.pageSize;
             filters = Object.values(tableChangeEvent.filters);
-            filters.forEach((filter) => filter.property = StringUtils.convertCamelToSnakeUpper(filter.property));
+            filters.forEach((filter: any): any => filter.property = StringUtils.convertCamelToSnakeUpper(filter.property));
             if (tableChangeEvent.sortActive && tableChangeEvent.sortDirection) {
                 sort = [
                     new Sort(tableChangeEvent.sortActive, tableChangeEvent.sortDirection)

@@ -63,4 +63,8 @@ export class SideOptionsProjectComponent implements OnInit {
         });
     }
 
+    public trackRouteByPath(index: number, route: Route): string {
+        return route.path;
+    }
+
 }

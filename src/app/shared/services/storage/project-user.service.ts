@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AbstractStorageService, UserService } from '../../hazlenut/hazelnut-common/services';
+import { AbstractStorageService, UserService } from '../../hazelnut/hazelnut-common/services';
 import { UserDataInterface } from '../../interfaces/user-data.interface';
 
 @Injectable({

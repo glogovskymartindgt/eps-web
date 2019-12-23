@@ -1,9 +1,9 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import { Role } from '../../../shared/enums/role.enum';
-import { TableCellType, TableColumn, TableConfiguration } from '../../../shared/hazlenut/core-table';
-import { BrowseResponse } from '../../../shared/hazlenut/hazelnut-common/models';
-import { FileManager } from '../../../shared/hazlenut/hazelnut-common/utils/file-manager';
+import { TableCellType, TableColumn, TableConfiguration } from '../../../shared/hazelnut/core-table';
+import { BrowseResponse } from '../../../shared/hazelnut/hazelnut-common/models';
+import { FileManager } from '../../../shared/hazelnut/hazelnut-common/utils/file-manager';
 import { Report } from '../../../shared/interfaces/report.interface';
 import { AuthService } from '../../../shared/services/auth.service';
 import { ReportService } from '../../../shared/services/data/report.service';

@@ -2,7 +2,7 @@ import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core'
 import { MatDrawer } from '@angular/material/sidenav';
 import { ActivatedRoute, Data, RouterOutlet } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { fadeEnterLeave, routeAnimations } from '../../../shared/hazlenut/hazelnut-common/animations';
+import { fadeEnterLeave, routeAnimations } from '../../../shared/hazelnut/hazelnut-common/animations';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 import { AppConstants } from '../../../shared/utils/constants';
 

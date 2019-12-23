@@ -12,14 +12,9 @@ import { ProjectUserService } from '../storage/project-user.service';
 
 /**
  * Fact service communicating with 'report' API url
- */
-export class ReportService extends ProjectService<Report[]> {
+ */ export class ReportService extends ProjectService<Report[]> {
 
-    public constructor(
-        http: HttpClient,
-        notificationService: NotificationService,
-        userService: ProjectUserService,
-    ) {
+    public constructor(http: HttpClient, notificationService: NotificationService, userService: ProjectUserService) {
         super(http, 'report', notificationService, userService);
     }
 
@@ -33,7 +28,7 @@ export class ReportService extends ProjectService<Report[]> {
     /**
      * Export report from API
      */
-    public exportReport(projectId: number, reportId: number) {
+    public exportReport(projectId: number, reportId: number): any {
         return this.reportGet(projectId, reportId);
     }
 

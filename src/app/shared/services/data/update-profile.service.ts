@@ -11,7 +11,7 @@ import { ProjectUserService } from '../storage/project-user.service';
 })
 export class UpdateProfileService extends ProjectService<Profile> {
 
-    public constructor(http: HttpClient, notificationService: NotificationService, userService: ProjectUserService,) {
+    public constructor(http: HttpClient, notificationService: NotificationService, userService: ProjectUserService) {
         super(http, 'user/profile', notificationService, userService);
     }
 

@@ -4,9 +4,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import * as moment from 'moment';
 import { finalize } from 'rxjs/operators';
-import { enterLeaveSmooth } from '../../../shared/hazlenut/hazelnut-common/animations';
-import { BrowseResponse } from '../../../shared/hazlenut/hazelnut-common/models';
-import { Regex } from '../../../shared/hazlenut/hazelnut-common/regex/regex';
+import { enterLeaveSmooth } from '../../../shared/hazelnut/hazelnut-common/animations';
+import { BrowseResponse } from '../../../shared/hazelnut/hazelnut-common/models';
+import { Regex } from '../../../shared/hazelnut/hazelnut-common/regex/regex';
 import { Category } from '../../../shared/interfaces/category.interface';
 import { Fact } from '../../../shared/interfaces/fact.interface';
 import { SubCategory } from '../../../shared/interfaces/subcategory.interface';
@@ -130,6 +130,14 @@ export class FactFormComponent implements OnInit {
 
         this.pipe = new ThousandDelimiterPipe();
 
+    }
+
+    public trackCategoryById(index: number, category: Category): number {
+        return category.id;
+    }
+
+    public trackSubCategoryById(index: number, subCategory: SubCategory): number {
+        return subCategory.id;
     }
 
     /**

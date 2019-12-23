@@ -37,7 +37,7 @@
     </div>
 </div>
 
-<div *ngIf="!(projectEventService.subject.isEvent | async)" class="project-header" fxLayout="row"
+<div *ngIf="(projectEventService.subject.isEvent | async) === false" class="project-header" fxLayout="row"
      fxLayoutAlign="start center"
 >
     <h3 [@fadeEnterLeave] class="m-0 ml-20 mt-7 dashboard-text">{{ 'dashboard.dashboard' | translate}}</h3>

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AbstractStorageService } from '../../hazlenut/hazelnut-common/services';
+import { AbstractStorageService } from '../../hazelnut/hazelnut-common/services';
 import { EventDataInterface } from '../../interfaces/event.interface';
 import { Project } from '../../models/project.model';
 import { ImagesService } from '../data/images.service';
@@ -17,7 +17,7 @@ export class ProjectEventService extends EventService<EventDataInterface> {
         super(storageService);
     }
 
-    public setEventData(project: Project = null, isEvent = false, imagePath: string = null) {
+    public setEventData(project: Project = null, isEvent = false, imagePath: string = null): void {
         this.setData({
             isEvent,
             imagePath,
@@ -30,14 +30,14 @@ export class ProjectEventService extends EventService<EventDataInterface> {
         });
     }
 
-    public setEventDataFromDetail(project: Project = null, isEvent = false, imagePath: string = null) {
+    public setEventDataFromDetail(project: Project = null, isEvent = false, imagePath: string = null): void {
         if (!imagePath) {
             this.setDetailObject(project, isEvent);
         } else {
             this.imagesService.getImage(imagePath)
-                .subscribe((blob) => {
+                .subscribe((blob: Blob) => {
                     const reader = new FileReader();
-                    reader.onload = () => {
+                    reader.onload = (): void => {
                         this.imagePath = reader.result;
                         this.setDetailObject(project, isEvent);
                     };
@@ -47,7 +47,7 @@ export class ProjectEventService extends EventService<EventDataInterface> {
 
     }
 
-    private setDetailObject(project: any, isEvent: boolean) {
+    private setDetailObject(project: any, isEvent: boolean): void {
         this.setData({
             isEvent,
             imagePath: this.imagePath,

@@ -22,7 +22,7 @@ export class RoutingStorageService {
      */
     public loadRouting(): void {
         this.router.events
-            .pipe(filter((event) => event instanceof NavigationEnd))
+            .pipe(filter((event: any) => event instanceof NavigationEnd))
             .subscribe(({urlAfterRedirects}: NavigationEnd) => {
                 this.history = [...this.history, urlAfterRedirects];
             });
@@ -39,6 +39,8 @@ export class RoutingStorageService {
      * Get previous url
      */
     public getPreviousUrl(): string {
-        return this.history[this.history.length - 2] || '/index';
+        const previousIndexSub = 2;
+
+        return this.history[this.history.length - previousIndexSub] || '/index';
     }
 }

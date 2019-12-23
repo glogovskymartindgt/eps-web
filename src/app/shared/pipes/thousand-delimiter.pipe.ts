@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Regex } from '../hazlenut/hazelnut-common/regex/regex';
+import { Regex } from '../hazelnut/hazelnut-common/regex/regex';
 
 @Pipe({
     name: 'thousandDelimiter'
@@ -15,6 +15,7 @@ import { Regex } from '../hazlenut/hazelnut-common/regex/regex';
         const element = (decimalPart && (decimalPart.length > 0)) ? parseFloat(inputValue.toString())
             .toFixed(2)
             .toString() : inputValue.toString();
+
         return element
             .replace(Regex.thousandSeparatorOccurrenceWithMaxTwoDecimal, ' ')
             .replace('.', decimalSeparator);

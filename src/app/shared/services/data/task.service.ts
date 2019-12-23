@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { TableChangeEvent } from '../../hazlenut/core-table';
-import { StringUtils } from '../../hazlenut/hazelnut-common/hazelnut';
-import { BrowseResponse, Filter, PostContent, Sort } from '../../hazlenut/hazelnut-common/models';
+import { TableChangeEvent } from '../../hazelnut/core-table';
+import { StringUtils } from '../../hazelnut/hazelnut-common/hazelnut';
+import { BrowseResponse, Filter, PostContent, Sort } from '../../hazelnut/hazelnut-common/models';
 import { TaskInterface } from '../../interfaces/task.interface';
 import { NotificationService } from '../notification.service';
 import { ProjectService } from '../project.service';
@@ -15,13 +15,9 @@ import { ProjectUserService } from '../storage/project-user.service';
 
 /**
  * Fact service communicating with 'task' API url
- */
-export class TaskService extends ProjectService<TaskInterface> {
+ */ export class TaskService extends ProjectService<TaskInterface> {
 
-    public constructor(http: HttpClient,
-                       notificationService: NotificationService,
-                       userService: ProjectUserService,
-    ) {
+    public constructor(http: HttpClient, notificationService: NotificationService, userService: ProjectUserService) {
         super(http, 'task', notificationService, userService);
     }
 
@@ -40,10 +36,11 @@ export class TaskService extends ProjectService<TaskInterface> {
             limit = tableChangeEvent.pageSize;
             offset = tableChangeEvent.pageIndex * tableChangeEvent.pageSize;
             filters = Object.values(tableChangeEvent.filters);
-            filters.forEach((filter) => filter.property = StringUtils.convertCamelToSnakeUpper(filter.property));
+            filters.forEach((filter: any): any => filter.property = StringUtils.convertCamelToSnakeUpper(filter.property));
             if (tableChangeEvent.sortActive && tableChangeEvent.sortDirection) {
-                sort = [new Sort(tableChangeEvent.sortActive,
-                    tableChangeEvent.sortDirection)];
+                sort = [
+                    new Sort(tableChangeEvent.sortActive, tableChangeEvent.sortDirection)
+                ];
             }
         }
         filters = filters.concat(additionalFilters);
@@ -59,24 +56,28 @@ export class TaskService extends ProjectService<TaskInterface> {
 
         // Traffic color must be first to proper filtering
         filters = this.reorderFiltersToApplyCorectTrafficColor(filters);
+
         return this.browseWithSummary(PostContent.create(limit, offset, filters, sort));
     }
 
     /**
      * Report task objects into report file and download from API
-     * @param tableChangeEvent
-     * @param additionalFilters
+     * @param {TableChangeEvent} tableChangeEvent
+     * @param {Filter[]} additionalFilters
+     * @param {number} projectId
+     * @returns {Observable<any>}
      */
-    public exportTasks(tableChangeEvent?: TableChangeEvent, additionalFilters?: Filter[], projectId?: number) {
+    public exportTasks(tableChangeEvent?: TableChangeEvent, additionalFilters?: Filter[], projectId?: number): Observable<any> {
         let filters = [];
         let sort = [];
         if (tableChangeEvent && tableChangeEvent.sortActive && tableChangeEvent.sortDirection) {
-            sort = [new Sort(tableChangeEvent.sortActive,
-                tableChangeEvent.sortDirection
-            )];
+            sort = [
+                new Sort(tableChangeEvent.sortActive, tableChangeEvent.sortDirection)
+            ];
         }
         filters = filters.concat(additionalFilters);
         filters = this.reorderFiltersToApplyCorectTrafficColor(filters);
+
         return this.report(filters, sort, projectId);
     }
 
@@ -84,7 +85,7 @@ export class TaskService extends ProjectService<TaskInterface> {
      * Create task object with API call
      * @param taskObject
      */
-    public createTask(taskObject: any) {
+    public createTask(taskObject: any): any {
         return this.add(taskObject);
     }
 
@@ -93,7 +94,7 @@ export class TaskService extends ProjectService<TaskInterface> {
      * @param id
      * @param taskObject
      */
-    public editTask(id: number, taskObject: any) {
+    public editTask(id: number, taskObject: any): any {
         return this.update(id, taskObject);
     }
 
@@ -101,7 +102,7 @@ export class TaskService extends ProjectService<TaskInterface> {
      * Get task object from API
      * @param id
      */
-    public getTaskById(id: number) {
+    public getTaskById(id: number): any {
         return this.getDetail(id);
     }
 
@@ -109,22 +110,24 @@ export class TaskService extends ProjectService<TaskInterface> {
      * Reorder filters with conditiona that traffic light filters are first
      * @param filters
      */
-    private reorderFiltersToApplyCorectTrafficColor(filters) {
+    private reorderFiltersToApplyCorectTrafficColor(filters): any {
         return filters.sort(this.compare);
     }
 
     /**
-     * Compare sort function with traffic light property preselection
-     * @param a
-     * @param b
+     * Traffic light sort function
+     * @param comparable
+     * @param compared
+     * @returns {number}
      */
-    private compare(a, b) {
-        if (a.property === 'TRAFFIC_LIGHT') {
+    private compare(comparable, compared): number {
+        if (comparable.property === 'TRAFFIC_LIGHT') {
             return -1;
         }
-        if (a.property !== 'TRAFFIC_LIGHT') {
+        if (comparable.property !== 'TRAFFIC_LIGHT') {
             return 1;
         }
+
         return 0;
     }
 

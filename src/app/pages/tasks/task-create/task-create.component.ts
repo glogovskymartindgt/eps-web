@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { fadeEnterLeave } from '../../../shared/hazlenut/hazelnut-common/animations';
+import { fadeEnterLeave } from '../../../shared/hazelnut/hazelnut-common/animations';
 import { TaskService } from '../../../shared/services/data/task.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Role } from '../../../shared/enums/role.enum';
 import { ProjectInterface } from '../../../shared/interfaces/project.interface';
 import { User } from '../../../shared/interfaces/user.interface';
+import { Project } from '../../../shared/models/project.model';
 import { AuthService } from '../../../shared/services/auth.service';
 import { DashboardService } from '../../../shared/services/dashboard.service';
 import { ImagesService } from '../../../shared/services/data/images.service';
@@ -51,6 +52,10 @@ import { ProjectUserService } from '../../../shared/services/storage/project-use
 
     public hasRoleCreateProject(): boolean {
         return this.authService.hasRole(Role.RoleCreateProject);
+    }
+
+    public trackProjectById(index: number, project: Project): number {
+        return project.id;
     }
 
     /**

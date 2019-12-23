@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { TableChangeEvent } from '../hazlenut/core-table';
-import { Filter } from '../hazlenut/hazelnut-common/models';
+import { TableChangeEvent } from '../hazelnut/core-table';
+import { Filter } from '../hazelnut/hazelnut-common/models';
 
 @Injectable({
     providedIn: 'root'

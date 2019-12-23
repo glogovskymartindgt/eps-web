@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { MaterialModule, SharedDirectivesModule } from '../../shared/hazlenut/hazelnut-common';
+import { MaterialModule, SharedDirectivesModule } from '../../shared/hazelnut/hazelnut-common';
 import { MenuComponent } from './menu/menu.component';
 import { SecondaryHeaderProjectComponent } from './menu/secondary-header-project/secondary-header-project.component';
 import { SecondaryHeaderSettingsComponent } from './menu/secondary-header-settings/secondary-header-settings.component';

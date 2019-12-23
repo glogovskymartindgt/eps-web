@@ -4,7 +4,7 @@
             <mat-label>{{'fact.category' | translate}}</mat-label>
             <mat-select formControlName="category" required>
                 <ng-container *ngIf="!formLoaded">
-                    <mat-option *ngFor="let category of categories" [value]="category.id">
+                    <mat-option *ngFor="let category of categories; trackBy:trackCategoryById" [value]="category.id">
                         {{ category.name }}
                     </mat-option>
                 </ng-container>
@@ -24,7 +24,7 @@
             <mat-label>{{'fact.factItemType' | translate}}</mat-label>
             <mat-select formControlName="subCategory" required>
                 <ng-container *ngIf="subCategories && subCategories.length && !formLoaded">
-                    <mat-option *ngFor="let subcategory of subCategories" [value]="subcategory.id">
+                    <mat-option *ngFor="let subcategory of subCategories; trackBy:trackSubCategoryById" [value]="subcategory.id">
                         <span class="fact-text">{{ subcategory.subCategory }}</span>
                     </mat-option>
                 </ng-container>

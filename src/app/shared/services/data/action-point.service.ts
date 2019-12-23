@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { TableChangeEvent } from '../../hazlenut/core-table';
-import { StringUtils } from '../../hazlenut/hazelnut-common/hazelnut';
-import { BrowseResponse, Filter, PostContent, Sort } from '../../hazlenut/hazelnut-common/models';
+import { TableChangeEvent } from '../../hazelnut/core-table';
+import { StringUtils } from '../../hazelnut/hazelnut-common/hazelnut';
+import { BrowseResponse, Filter, PostContent, Sort } from '../../hazelnut/hazelnut-common/models';
 import { ActionPoint } from '../../models/action-point.model';
 import { NotificationService } from '../notification.service';
 import { ProjectService } from '../project.service';
@@ -14,7 +14,7 @@ import { ProjectUserService } from '../storage/project-user.service';
 })
 export class ActionPointService extends ProjectService<ActionPoint> {
 
-    public constructor(http: HttpClient, notificationService: NotificationService, userService: ProjectUserService,) {
+    public constructor(http: HttpClient, notificationService: NotificationService, userService: ProjectUserService) {
         super(http, 'actionPoint', notificationService, userService);
     }
 
@@ -33,7 +33,7 @@ export class ActionPointService extends ProjectService<ActionPoint> {
             limit = tableChangeEvent.pageSize;
             offset = tableChangeEvent.pageIndex * tableChangeEvent.pageSize;
             filters = Object.values(tableChangeEvent.filters);
-            filters.forEach((filter) => filter.property = StringUtils.convertCamelToSnakeUpper(filter.property));
+            filters.forEach((filter: any): any => filter.property = StringUtils.convertCamelToSnakeUpper(filter.property));
             if (tableChangeEvent.sortActive && tableChangeEvent.sortDirection) {
                 sort = [
                     new Sort(tableChangeEvent.sortActive, tableChangeEvent.sortDirection)
@@ -53,6 +53,7 @@ export class ActionPointService extends ProjectService<ActionPoint> {
 
         // Traffic color must be first to proper filtering
         filters = this.reorderFiltersToApplyCorectTrafficColor(filters);
+
         return this.browseWithSummary(PostContent.create(limit, offset, filters, sort));
     }
 
@@ -104,7 +105,7 @@ export class ActionPointService extends ProjectService<ActionPoint> {
      * Reorder filters with conditiona that traffic light filters are first
      * @param filters
      */
-    private reorderFiltersToApplyCorectTrafficColor(filters) {
+    private reorderFiltersToApplyCorectTrafficColor(filters): any {
         return filters.sort(this.compare);
     }
 
@@ -113,13 +114,14 @@ export class ActionPointService extends ProjectService<ActionPoint> {
      * @param a
      * @param b
      */
-    private compare(a, b) {
-        if (a.property === 'TRAFFIC_LIGHT') {
+    private compare(comparable, compared): number {
+        if (comparable.property === 'TRAFFIC_LIGHT') {
             return -1;
         }
-        if (a.property !== 'TRAFFIC_LIGHT') {
+        if (comparable.property !== 'TRAFFIC_LIGHT') {
             return 1;
         }
+
         return 0;
     }
 

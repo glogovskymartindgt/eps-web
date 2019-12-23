@@ -56,7 +56,7 @@
                         >
                         </haz-core-input>
                     </div>
-                    
+
                     <div fxLayout="row" fxLayoutGap="10px">
                         <div class="short-input">
                             <haz-core-input [allowedCharactersPattern]="numericPattern"
@@ -71,7 +71,7 @@
                             </haz-core-input>
                         </div>
                     </div>
-                    
+
                     <div fxLayout="row" fxLayoutGap="10px">
                         <mat-form-field appearance="fill" class="short-input">
                             <mat-label class="label-style">{{ 'project.dateFrom' | translate }}</mat-label>
@@ -99,22 +99,22 @@
                         </mat-form-field>
                     </div>
                     <div fxLayout="row" fxLayoutGap="10px">
-                        
+
                         <mat-form-field appearance="fill" class="short-input">
                             <mat-label class="label-style">{{ 'project.firstCountry' | translate }}</mat-label>
                             <mat-select formControlName="firstCountry">
                                 <mat-option [value]="null"></mat-option>
-                                <mat-option *ngFor="let country of countryList" [value]="country.id">
+                                <mat-option *ngFor="let country of countryList; trackBy:trackCountryById" [value]="country.id">
                                     {{country.name}}
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
-                        
+
                         <mat-form-field appearance="fill" class="short-input">
                             <mat-label class="label-style">{{ 'project.secondCountry' | translate }}</mat-label>
                             <mat-select formControlName="secondCountry">
                                 <mat-option [value]="null"></mat-option>
-                                <mat-option *ngFor="let country of countryList" [value]="country.id">
+                                <mat-option *ngFor="let country of countryList; trackBy:trackCountryById" [value]="country.id">
                                     {{country.name}}
                                 </mat-option>
                             </mat-select>
@@ -126,7 +126,7 @@
                             </mat-hint>
                         </mat-form-field>
                     </div>
-                    
+
                     <div fxLayout="row" fxLayoutGap="10px">
                         <div class="short-input">
                             <mat-error *ngIf="projectDetailForm.controls.firstVenue.value
@@ -160,7 +160,7 @@
                             </haz-core-input>
                         </div>
                     </div>
-                    
+
                     <div class="long-input">
                         <haz-core-input [appearance]="'fill'"
                                         [label]="'project.description' | translate"

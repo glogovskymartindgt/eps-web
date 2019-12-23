@@ -6,11 +6,11 @@ import { finalize } from 'rxjs/operators';
 import { Role } from '../../../shared/enums/role.enum';
 import {
     CoreTableComponent, ListItem, TableCellType, TableChangeEvent, TableColumn, TableColumnFilter, TableConfiguration, TableFilterType
-} from '../../../shared/hazlenut/core-table';
-import { fadeEnterLeave } from '../../../shared/hazlenut/hazelnut-common/animations';
-import { StringUtils } from '../../../shared/hazlenut/hazelnut-common/hazelnut';
-import { BrowseResponse, Filter } from '../../../shared/hazlenut/hazelnut-common/models';
-import { FileManager } from '../../../shared/hazlenut/hazelnut-common/utils/file-manager';
+} from '../../../shared/hazelnut/core-table';
+import { fadeEnterLeave } from '../../../shared/hazelnut/hazelnut-common/animations';
+import { StringUtils } from '../../../shared/hazelnut/hazelnut-common/hazelnut';
+import { BrowseResponse, Filter } from '../../../shared/hazelnut/hazelnut-common/models';
+import { FileManager } from '../../../shared/hazelnut/hazelnut-common/utils/file-manager';
 import { BusinessArea } from '../../../shared/interfaces/bussiness-area.interface';
 import { TaskInterface } from '../../../shared/interfaces/task.interface';
 import { AuthService } from '../../../shared/services/auth.service';
@@ -23,6 +23,7 @@ import { SelectedAreaService } from '../../../shared/services/storage/selected-a
 import { TableChangeStorageService } from '../../../shared/services/table-change-storage.service';
 import { GetFileNameFromContentDisposition } from '../../../shared/utils/headers';
 
+/* tslint:disable:no-for-each-push */
 @Component({
     selector: 'iihf-task-list',
     templateUrl: './task-list.component.html',
@@ -250,14 +251,15 @@ export class TaskListComponent implements OnInit {
     }
 
     public setTableData(tableChangeEvent?: TableChangeEvent): void {
-        if (!tableChangeEvent) {
-            tableChangeEvent = this.taskTable.reset();
+        let newTableChangeEvent = tableChangeEvent;
+        if (!newTableChangeEvent) {
+            newTableChangeEvent = this.taskTable.reset();
         }
-        if (tableChangeEvent && tableChangeEvent.filters && tableChangeEvent.filters.length > 0) {
-            this.allTaskFilters = tableChangeEvent.filters;
+        if (newTableChangeEvent && newTableChangeEvent.filters && newTableChangeEvent.filters.length > 0) {
+            this.allTaskFilters = newTableChangeEvent.filters;
         }
 
-        this.lastTableChangeEvent = tableChangeEvent;
+        this.lastTableChangeEvent = newTableChangeEvent;
 
         this.additionalFilters = [
             new Filter('PROJECT_ID', this.projectEventService.instant.id, 'NUMBER'),
@@ -284,12 +286,12 @@ export class TaskListComponent implements OnInit {
 
         // Update table change event values from local storage
         if (!this.isInitialized && this.isReturnFromDetail() && this.tableChangeStorageService.getTasksLastTableChangeEvent()) {
-            tableChangeEvent.pageIndex = this.tableChangeStorageService.getTasksLastTableChangeEvent().pageIndex;
-            tableChangeEvent.pageSize = this.tableChangeStorageService.getTasksLastTableChangeEvent().pageSize;
-            tableChangeEvent.sortDirection = this.tableChangeStorageService.getTasksLastTableChangeEvent().sortDirection;
-            tableChangeEvent.sortActive = this.tableChangeStorageService.getTasksLastTableChangeEvent().sortActive;
+            newTableChangeEvent.pageIndex = this.tableChangeStorageService.getTasksLastTableChangeEvent().pageIndex;
+            newTableChangeEvent.pageSize = this.tableChangeStorageService.getTasksLastTableChangeEvent().pageSize;
+            newTableChangeEvent.sortDirection = this.tableChangeStorageService.getTasksLastTableChangeEvent().sortDirection;
+            newTableChangeEvent.sortActive = this.tableChangeStorageService.getTasksLastTableChangeEvent().sortActive;
         }
-        this.taskService.browseTasks(tableChangeEvent, this.additionalFilters)
+        this.taskService.browseTasks(newTableChangeEvent, this.additionalFilters)
             .pipe(finalize(() => this.loading = false))
             .subscribe((data: BrowseResponse<TaskInterface>) => {
                 this.data = data;
@@ -298,7 +300,7 @@ export class TaskListComponent implements OnInit {
                 this.notificationService.openErrorNotification('error.api');
             });
 
-        this.tableChangeStorageService.setTasksLastTableChangeEvent(tableChangeEvent, this.additionalFilters);
+        this.tableChangeStorageService.setTasksLastTableChangeEvent(newTableChangeEvent, this.additionalFilters);
     }
 
     public allowCreateTaskButton(): boolean {

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CommentType } from '../../enums/comment-type.enum';
-import { Regex } from '../../hazlenut/hazelnut-common/regex/regex';
+import { Regex } from '../../hazelnut/hazelnut-common/regex/regex';
 import { TaskCommentResponse } from '../../interfaces/task-comment.interface';
 import { ImagesService } from '../../services/data/images.service';
 import { NotificationService } from '../../services/notification.service';

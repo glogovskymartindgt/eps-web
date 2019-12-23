@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { fadeEnterLeave } from '../../../shared/hazlenut/hazelnut-common/animations';
+import { fadeEnterLeave } from '../../../shared/hazelnut/hazelnut-common/animations';
 import { AuthService } from '../../../shared/services/auth.service';
 import { AppConstants } from '../../../shared/utils/constants';
 

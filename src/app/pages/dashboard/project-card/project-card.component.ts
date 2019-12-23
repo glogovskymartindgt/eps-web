@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { fadeEnterLeave } from '../../../shared/hazlenut/hazelnut-common/animations';
+import { fadeEnterLeave } from '../../../shared/hazelnut/hazelnut-common/animations';
 import { Venue } from '../../../shared/interfaces/venue.interface';
 import { Project } from '../../../shared/models/project.model';
 import { DashboardService } from '../../../shared/services/dashboard.service';

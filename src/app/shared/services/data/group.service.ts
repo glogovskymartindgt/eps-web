@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BrowseResponse, PostContent, Sort } from '../../hazlenut/hazelnut-common/models';
+import { BrowseResponse, PostContent, Sort } from '../../hazelnut/hazelnut-common/models';
 import { TaskInterface } from '../../interfaces/task.interface';
 import { Group } from '../../models/group.model';
 import { NotificationService } from '../notification.service';
@@ -13,7 +13,7 @@ import { ProjectUserService } from '../storage/project-user.service';
 })
 export class GroupService extends ProjectService<TaskInterface> {
 
-    public constructor(http: HttpClient, notificationService: NotificationService, userService: ProjectUserService,) {
+    public constructor(http: HttpClient, notificationService: NotificationService, userService: ProjectUserService) {
         super(http, 'group', notificationService, userService);
     }
 

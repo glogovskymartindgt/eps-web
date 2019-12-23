@@ -6,9 +6,9 @@ import { Router } from '@angular/router';
 import * as _moment from 'moment';
 import { finalize } from 'rxjs/operators';
 import { Role } from '../../../shared/enums/role.enum';
-import { enterLeave, fadeEnterLeave } from '../../../shared/hazlenut/hazelnut-common/animations';
-import { BrowseResponse } from '../../../shared/hazlenut/hazelnut-common/models';
-import { Regex } from '../../../shared/hazlenut/hazelnut-common/regex/regex';
+import { enterLeave, fadeEnterLeave } from '../../../shared/hazelnut/hazelnut-common/animations';
+import { BrowseResponse } from '../../../shared/hazelnut/hazelnut-common/models';
+import { Regex } from '../../../shared/hazelnut/hazelnut-common/regex/regex';
 import { Country } from '../../../shared/models/country.model';
 import { AuthService } from '../../../shared/services/auth.service';
 import { BusinessAreaService } from '../../../shared/services/data/business-area.service';
@@ -123,6 +123,10 @@ export class ProjectCreateComponent implements OnInit {
 
     public hasRoleUploadImage(): boolean {
         return this.authService.hasRole(Role.RoleUploadImage);
+    }
+
+    public trackCountryById(index: number, country: Country): number {
+        return country.id;
     }
 
     private transformProjectToApiObject(): any {

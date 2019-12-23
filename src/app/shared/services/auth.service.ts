@@ -49,7 +49,7 @@ import { ProjectUserService } from './storage/project-user.service';
                 password,
                 deviceId
             }, {headers})
-            .subscribe((data: Object) => {
+            .subscribe((data: {}) => {
                 this.userService.setAuthData(data);
                 this.projectEventService.setEventData();
                 this.router.navigate(['dashboard']);

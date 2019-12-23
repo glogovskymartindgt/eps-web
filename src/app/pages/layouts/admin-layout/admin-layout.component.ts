@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Role } from '../../../shared/enums/role.enum';
-import { fadeEnterLeave, moveDown, moveLeft, routeAnimations } from '../../../shared/hazlenut/hazelnut-common/animations';
-import { hazelnutConfig } from '../../../shared/hazlenut/hazelnut-common/config/hazelnut-config';
+import { fadeEnterLeave, moveDown, moveLeft, routeAnimations } from '../../../shared/hazelnut/hazelnut-common/animations';
+import { hazelnutConfig } from '../../../shared/hazelnut/hazelnut-common/config/hazelnut-config';
 import { AuthService } from '../../../shared/services/auth.service';
 import { ProjectUserService } from '../../../shared/services/storage/project-user.service';
 import { AppConstants } from '../../../shared/utils/constants';

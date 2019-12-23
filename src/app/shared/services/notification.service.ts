@@ -1,8 +1,8 @@
 import { Injectable, NgZone, TemplateRef } from '@angular/core';
 import { MatSnackBar, MatSnackBarRef } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
-import { NotificationSnackBarComponent, NotificationWrapper } from '../hazlenut/small-components/notifications';
-import { NotificationType } from '../hazlenut/small-components/notifications/notification-type.enum';
+import { NotificationSnackBarComponent, NotificationWrapper } from '../hazelnut/small-components/notifications';
+import { NotificationType } from '../hazelnut/small-components/notifications/notification-type.enum';
 
 const DEFAULT_DURATION = 5000;
 
@@ -34,6 +34,7 @@ export class NotificationService implements NotificationWrapper {
      */
     public openErrorNotification(message: any): MatSnackBarRef<NotificationSnackBarComponent> {
         this.zone.run(() => this.snackBar.open(message));
+
         return this.openNotification('snack-error', {message, type: NotificationType.ERROR});
     }
 
@@ -43,6 +44,7 @@ export class NotificationService implements NotificationWrapper {
      */
     public openInfoNotification(message: any): MatSnackBarRef<NotificationSnackBarComponent> {
         this.zone.run(() => this.snackBar.open(message));
+
         return this.openNotification('snack-info', {message, type: NotificationType.WARNING});
     }
 
@@ -52,6 +54,7 @@ export class NotificationService implements NotificationWrapper {
      */
     public openSuccessNotification(message: any): MatSnackBarRef<NotificationSnackBarComponent> {
         this.zone.run(() => this.snackBar.open(message));
+
         return this.openNotification('snack-success', {message, type: NotificationType.SUCCESS});
     }
 

@@ -4,7 +4,7 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import 'hammerjs';
 
 import { AppModule } from './app/app.module';
-import { initHazelnutConfig } from './app/shared/hazlenut/hazelnut-common/config/hazelnut-config';
+import { initHazelnutConfig } from './app/shared/hazelnut/hazelnut-common/config/hazelnut-config';
 import { environment } from './environments/environment';
 
 initHazelnutConfig({
