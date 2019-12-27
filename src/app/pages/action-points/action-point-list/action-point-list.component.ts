@@ -41,7 +41,6 @@ export class ActionPointListComponent implements OnInit {
     public loading = false;
     private lastTableChangeEvent: TableChangeEvent;
     private isInitialized = false;
-    private readonly businessAreaFilter: Filter;
     private allActionPointFilters: Filter[] = [];
     private additionalFilters: Filter[] = [];
 

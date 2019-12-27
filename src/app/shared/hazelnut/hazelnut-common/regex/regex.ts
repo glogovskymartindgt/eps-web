@@ -34,5 +34,5 @@ export class Regex {
 
     public static readonly youtubeLinkPattern = '^((?:http(?:s?):)?\\/\\/)?((?:www|m)\\.)?((?:youtube\\.com|youtu.be))(\\/(?:[\\w\\-]+\\?v=|embed\\/|v\\/)?)([\\w\\-]+)(\\S+)?$';
 
-    public static readonly httpsStringPattern = '^(https|HTTPS)[^-\\s]+$';
+    public static readonly httpsStringPattern = '^(https|HTTPS)[^\\s]+$';
 }

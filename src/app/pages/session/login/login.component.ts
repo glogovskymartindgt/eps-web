@@ -24,7 +24,7 @@ import { AppConstants } from '../../../shared/utils/constants';
     }
 
     /**
-     * Getter for login form  controls
+     * Getter for login form controls
      */
     public get loginFormControls(): any {
         return this.loginForm.controls;
