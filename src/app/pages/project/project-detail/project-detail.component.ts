@@ -4,10 +4,12 @@ import { AttachmentFormat } from '../../../shared/enums/attachment-format.enum';
 import { AttachmentType } from '../../../shared/enums/attachment-type.enum';
 import { Role } from '../../../shared/enums/role.enum';
 import { enterLeave } from '../../../shared/hazelnut/hazelnut-common/animations';
+import { AttachmentDetail } from '../../../shared/models/attachment-detail.model';
 import { AuthService } from '../../../shared/services/auth.service';
 import { ProjectsService } from '../../../shared/services/data/projects.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
+import { ProjectAttachmentService } from '../services/project-attachment.service';
 
 @Component({
     selector: 'iihf-project-detail',
@@ -15,14 +17,9 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
     styleUrls: ['./project-detail.component.scss'],
     animations: [enterLeave]
 })
+/* tslint:disable */
 export class ProjectDetailComponent implements OnInit {
     public formData = null;
-    public firstVenueMaps = null;
-    public secondVenueMaps = null;
-    public firstVenueImages = null;
-    public secondVenueImages = null;
-    public firstVenueDocuments = null;
-    public secondVenueDocuments = null;
     public canSave = true;
     public editMode = false;
     public refreshSubject: Subject<any> = new Subject();
@@ -31,7 +28,8 @@ export class ProjectDetailComponent implements OnInit {
     public constructor(private readonly projectsService: ProjectsService,
                        private readonly notificationService: NotificationService,
                        private readonly projectEventService: ProjectEventService,
-                       private readonly authService: AuthService) {
+                       private readonly authService: AuthService,
+                       private readonly projectAttachmentService: ProjectAttachmentService) {
     }
 
     public ngOnInit(): void {
@@ -118,7 +116,6 @@ export class ProjectDetailComponent implements OnInit {
     }
 
     private setFirstCountryApiObject(formObject: any): void {
-
         const firstVenueObject: any = {};
         firstVenueObject.screenPosition = 1;
         firstVenueObject.clCountry = {id: formObject.firstCountry};
@@ -126,40 +123,42 @@ export class ProjectDetailComponent implements OnInit {
             firstVenueObject.cityName = formObject.firstVenue;
         }
         firstVenueObject.attachments = [];
-        if (this.firstVenueMaps && this.firstVenueMaps.names.length > 0) {
-            for (let i = 0; i < this.firstVenueMaps.names.length; i++) {
+        if (this.projectAttachmentService.firstVenueAnyMaps()) {
+            this.projectAttachmentService.files.firstVenueAttachments.maps.forEach((attachmentDetail: AttachmentDetail, index: number): void => {
                 firstVenueObject.attachments.push({
-                    fileName: this.firstVenueMaps.names[i],
-                    filePath: this.firstVenueMaps.paths[i],
+                    fileName: attachmentDetail.fileName,
+                    filePath: attachmentDetail.filePath,
                     type: AttachmentType.Map,
-                    format: AttachmentFormat.Pdf
+                    format: AttachmentFormat.Pdf,
+                    order: index
                 });
-            }
+            });
         }
-        if (this.firstVenueImages && this.firstVenueImages.names.length > 0) {
-            for (let i = 0; i < this.firstVenueImages.names.length; i++) {
+        if (this.projectAttachmentService.firstVenueAnyImages()) {
+            this.projectAttachmentService.files.firstVenueAttachments.images.forEach((attachmentDetail: AttachmentDetail, index: number): void => {
                 firstVenueObject.attachments.push({
-                    fileName: this.firstVenueImages.names[i],
-                    filePath: this.firstVenueImages.paths[i],
+                    fileName: attachmentDetail.fileName,
+                    filePath: attachmentDetail.filePath,
                     type: AttachmentType.Image,
-                    format: this.firstVenueImages.paths[i].substr(this.firstVenueImages.paths[i].lastIndexOf('.') + 1)
-                                                          .toUpperCase()
+                    format: attachmentDetail.filePath.substr(attachmentDetail.filePath.lastIndexOf('.') + 1)
+                                            .toUpperCase(),
+                    order: index
                 });
-            }
+            });
         }
-        if (this.firstVenueDocuments && this.firstVenueDocuments.names.length > 0) {
-            for (let i = 0; i < this.firstVenueDocuments.names.length; i++) {
+        if (this.projectAttachmentService.firstVenueAnyDocuments()) {
+            this.projectAttachmentService.files.firstVenueAttachments.documents.forEach((attachmentDetail: AttachmentDetail, index: number): void => {
                 firstVenueObject.attachments.push({
-                    fileName: this.firstVenueDocuments.names[i],
-                    filePath: this.firstVenueDocuments.paths[i],
+                    fileName: attachmentDetail.fileName,
+                    filePath: attachmentDetail.filePath,
                     type: AttachmentType.Document,
-                    format: this.firstVenueDocuments.paths[i].substr(this.firstVenueDocuments.paths[i].lastIndexOf('.') + 1)
-                                                             .toUpperCase()
+                    format: attachmentDetail.filePath.substr(attachmentDetail.filePath.lastIndexOf('.') + 1)
+                                            .toUpperCase(),
+                    order: index
                 });
-            }
+            });
         }
         this.apiObject.projectVenues.push(firstVenueObject);
-
     }
 
     private setSecondCountryApiObject(formObject: any): void {
@@ -172,40 +171,42 @@ export class ProjectDetailComponent implements OnInit {
             secondVenueObject.cityName = formObject.secondVenue;
         }
         secondVenueObject.attachments = [];
-        if (this.secondVenueMaps.names.length > 0) {
-            for (let i = 0; i < this.secondVenueMaps.names.length; i++) {
+
+        if (this.projectAttachmentService.secondVenueAnyMaps()) {
+            this.projectAttachmentService.files.secondVenueAttachments.maps.forEach((attachmentDetail: AttachmentDetail, index: number): void => {
                 secondVenueObject.attachments.push({
-                    fileName: this.secondVenueMaps.names[i],
-                    filePath: this.secondVenueMaps.paths[i],
+                    fileName: attachmentDetail.fileName,
+                    filePath: attachmentDetail.filePath,
                     type: AttachmentType.Map,
-                    format: AttachmentFormat.Pdf
+                    format: AttachmentFormat.Pdf,
+                    order: index
                 });
-            }
+            });
         }
-        if (this.secondVenueImages && this.secondVenueImages.names.length > 0) {
-            for (let i = 0; i < this.secondVenueImages.names.length; i++) {
+        if (this.projectAttachmentService.secondVenueAnyMaps()) {
+            this.projectAttachmentService.files.secondVenueAttachments.images.forEach((attachmentDetail: AttachmentDetail, index: number): void => {
                 secondVenueObject.attachments.push({
-                    fileName: this.secondVenueImages.names[i],
-                    filePath: this.secondVenueImages.paths[i],
+                    fileName: attachmentDetail.fileName,
+                    filePath: attachmentDetail.filePath,
                     type: AttachmentType.Image,
-                    format: this.secondVenueImages.paths[i].substr(this.secondVenueImages.paths[i].lastIndexOf('.') + 1)
-                                                           .toUpperCase()
+                    format: attachmentDetail.filePath.substr(attachmentDetail.filePath.lastIndexOf('.') + 1)
+                                            .toUpperCase(),
+                    order: index
                 });
-            }
+            });
         }
-        if (this.secondVenueDocuments && this.secondVenueDocuments.names.length > 0) {
-            for (let i = 0; i < this.secondVenueDocuments.names.length; i++) {
+        if (this.projectAttachmentService.secondVenueAnyMaps()) {
+            this.projectAttachmentService.files.secondVenueAttachments.documents.forEach((attachmentDetail: AttachmentDetail, index: number): void => {
                 secondVenueObject.attachments.push({
-                    fileName: this.secondVenueDocuments.names[i],
-                    filePath: this.secondVenueDocuments.paths[i],
+                    fileName: attachmentDetail.fileName,
+                    filePath: attachmentDetail.filePath,
                     type: AttachmentType.Document,
-                    format: this.secondVenueDocuments.paths[i].substr(this.secondVenueDocuments.paths[i].lastIndexOf('.') + 1)
-                                                              .toUpperCase()
+                    format: attachmentDetail.filePath.substr(attachmentDetail.filePath.lastIndexOf('.') + 1)
+                                            .toUpperCase(),
+                    order: index
                 });
-            }
+            });
         }
         this.apiObject.projectVenues.push(secondVenueObject);
-
     }
-
 }
