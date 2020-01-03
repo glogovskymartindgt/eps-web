@@ -82,7 +82,7 @@
             <div fxLayout="row" fxLayoutGap="10px">
                 <mat-form-field appearance="fill" class="short-input">
                     <mat-label class="label-style">{{ 'project.dateFrom' | translate }}</mat-label>
-                    <input (dateChange)="onDateChanged($event.value)" [matDatepicker]="pickerDateFrom" [max]="projectDetailForm.controls.dateTo.value" formControlName="dateFrom"
+                    <input (dateChange)="onDateChanged()" [matDatepicker]="pickerDateFrom" [max]="projectDetailForm.controls.dateTo.value" formControlName="dateFrom"
                            matInput
                     >
                     <mat-datepicker-toggle [for]="pickerDateFrom" matSuffix></mat-datepicker-toggle>
@@ -91,7 +91,7 @@
                 </mat-form-field>
                 <mat-form-field appearance="fill" class="short-input">
                     <mat-label class="label-style">{{ 'project.dateTo' | translate }}</mat-label>
-                    <input (dateChange)="onDateChanged($event.value)" [matDatepicker]="pickerDateTo" [min]="projectDetailForm.controls.dateFrom.value" formControlName="dateTo"
+                    <input (dateChange)="onDateChanged()" [matDatepicker]="pickerDateTo" [min]="projectDetailForm.controls.dateFrom.value" formControlName="dateTo"
                            matInput
                     >
                     <mat-datepicker-toggle [for]="pickerDateTo" matSuffix></mat-datepicker-toggle>

@@ -14,7 +14,7 @@
         "lint:fix": "ng lint iihf-web --fix",
         "e2e": "ng e2e",
         "zipDist": "cd dist && zip -r iihf-eps-web.zip *",
-        "husky-hook": "(git-branch-is develop && ng lint) || git-branch-is -r \"^((?!develop).)*$\""
+        "husky-hook": "(git-branch-is develop && ng lint && ng build --aot true) || git-branch-is -r \"^((?!develop).)*$\""
     },
     "husky": {
         "hooks": {
