@@ -183,7 +183,7 @@ export class ProjectAttachmentService {
         return array.length > 0;
     }
 
-    private sortByOrder = (comparator: AttachmentDetail, comparable: AttachmentDetail): number => {
+    private readonly sortByOrder = (comparator: AttachmentDetail, comparable: AttachmentDetail): number => {
         if (comparator.order > comparable.order) {
             return 1;
         }
