@@ -1,7 +1,7 @@
 <form [formGroup]="userForm">
-    
+
     <div fxLayout="row" fxLayoutGap="10px">
-        
+
         <div *ngIf="isUpdate" fxFlex="100px">
             <img [src]="userImageSrc" alt="avatar" class="avatar-image">
         </div>
@@ -34,7 +34,7 @@
                     >
                     </haz-core-input>
                 </div>
-                
+
                 <div class="small-input">
                     <haz-core-input [appearance]="'fill'"
                                     [label]="'profile.lastName' |  translate"
@@ -47,7 +47,7 @@
                     </haz-core-input>
                 </div>
             </div>
-            
+
             <div class="long-input">
                 <haz-core-input [appearance]="'fill'"
                                 [label]="'profile.email' |  translate"
@@ -58,7 +58,7 @@
                 >
                 </haz-core-input>
             </div>
-            
+
             <div class="long-input">
                 <haz-core-input [allowedCharactersPattern]="loginStringPattern"
                                 [appearance]="'fill'"
@@ -70,7 +70,7 @@
                 >
                 </haz-core-input>
             </div>
-            
+
             <div class="long-input">
                 <mat-form-field appearance="fill" class="mt-8 theme-input w-full">
                     <mat-label class="label-style">{{'user.password' | translate}}</mat-label>
@@ -99,7 +99,7 @@
                     </mat-error>
                 </mat-form-field>
             </div>
-            
+
             <div fxLayout="row">
                 <mat-form-field appearance="fill" class="small-input mr-10">
                     <mat-label>{{'user.type' | translate}}</mat-label>
@@ -117,7 +117,7 @@
                     </mat-slide-toggle>
                 </div>
             </div>
-            
+
             <div>
                 <mat-form-field appearance="fill" class="long-input">
                     <mat-label>{{'user.groups' | translate}}</mat-label>
@@ -131,7 +131,7 @@
                     </mat-select>
                 </mat-form-field>
             </div>
-            
+
             <div *ngIf="this.userForm.controls.type.value === 'ORGANIZER'">
                 <mat-form-field appearance="fill" class="long-input">
                     <mat-label>{{'user.projects' | translate}}</mat-label>

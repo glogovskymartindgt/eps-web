@@ -83,6 +83,19 @@ export class UserFormComponent implements OnInit {
                 this.userForm.controls.login.disable();
                 this.getIdFromRouteParamsAndSetDetail(param);
             }
+            const passwordMaxLength = 50;
+            if (!this.isUpdate) {
+                this.userForm.controls.password.setValidators(Validators.compose([
+                    Validators.required,
+                    Validators.pattern(this.userPasswordPattern),
+                    Validators.maxLength(passwordMaxLength)
+                ]));
+            } else {
+                this.userForm.controls.password.setValidators(Validators.compose([
+                    Validators.pattern(this.userPasswordPattern),
+                    Validators.maxLength(passwordMaxLength)
+                ]));
+            }
         });
     }
 
@@ -121,7 +134,6 @@ export class UserFormComponent implements OnInit {
     }
 
     private createForm(): void {
-        const passwordMaxLength = 50;
         this.userForm = this.formBuilder.group({
             id: [''],
             isVisible: [''],
@@ -136,16 +148,8 @@ export class UserFormComponent implements OnInit {
             email: [''],
             login: [
                 '',
-                Validators.required
             ],
-            password: [
-                '',
-                Validators.compose([
-                    Validators.required,
-                    Validators.pattern(this.userPasswordPattern),
-                    Validators.maxLength(passwordMaxLength)
-                ])
-            ],
+            password: ['', ],
             type: [
                 '',
                 Validators.required
@@ -158,7 +162,6 @@ export class UserFormComponent implements OnInit {
         this.userForm.controls.firstName.setValidators(Validators.required);
         this.userForm.controls.lastName.setValidators(Validators.required);
         this.userForm.controls.login.setValidators(Validators.required);
-        this.userForm.controls.password.setValidators(Validators.required);
         this.userForm.controls.type.setValidators(Validators.required);
         this.userForm.valueChanges.subscribe(() => {
             this.emitFormDataChangeEmitter();
