@@ -259,12 +259,29 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
 
     /**
      *
-     * @param {Filter[]} filter
-     * @param {Sort[]} sort
-     * @returns {Observable<T>}
+     * @param {number} projectId
+     * @param {string} reportName
+     * @returns {Observable<any>}
      */
-    protected reportGet<S = T>(projectId: number, reportId: number): Observable<any> {
-        return this.getBlob(`${hazelnutConfig.URL_API}/report/${reportId === 1 ? ReportType.ToDoList : ReportType.RedFlagList}/project/${projectId}`, this.extractDetail);
+    protected reportGet<S = T>(projectId: number, reportName: string): Observable<any> {
+        let reportUrlPart;
+        switch(reportName) {
+            case 'To do Tasks List':
+                reportUrlPart = ReportType.ToDoList;
+                break;
+            case 'Red flag Tasks List':
+                reportUrlPart = ReportType.RedFlagList;
+                break;
+            case 'To do Action Points List':
+                reportUrlPart = ReportType.ToDoActionPointList;
+                break;
+            case 'Red Flag Action Points List':
+                reportUrlPart = ReportType.RedFlagActionPointList;
+                break;
+            default:
+                reportUrlPart = ReportType.ToDoList;
+        }
+        return this.getBlob(`${hazelnutConfig.URL_API}/report/${reportUrlPart}/project/${projectId}`, this.extractDetail);
     }
 
     /**

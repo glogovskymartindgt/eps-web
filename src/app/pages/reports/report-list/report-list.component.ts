@@ -19,7 +19,6 @@ import { GetFileNameFromContentDisposition } from '../../../shared/utils/headers
 export class ReportListComponent implements OnInit {
     @ViewChild('descriptionColumn', {static: true}) public descriptionColumn: TemplateRef<any>;
     @ViewChild('actionColumn', {static: true}) public actionColumn: TemplateRef<any>;
-
     public loading = false;
     public config: TableConfiguration;
     public data = new BrowseResponse<Report>();
@@ -61,11 +60,11 @@ export class ReportListComponent implements OnInit {
 
     /**
      * Export excel report from API
-     * @param reportId
+     * @param reportName
      */
-    public export(reportId: number): void {
+    public export(reportName: string): void {
         this.loading = true;
-        this.reportService.exportReport(this.projectEventService.instant.id, reportId)
+        this.reportService.exportReport(this.projectEventService.instant.id, reportName)
             .pipe(finalize(() => this.loading = false))
             .subscribe((response: any): any => {
                 new FileManager().saveFile(
@@ -79,9 +78,14 @@ export class ReportListComponent implements OnInit {
     }
 
     public checkReportActionByRole(id: number): boolean {
+        const redFlagActionPointId = 150;
+        const toDoActionPointId = 100;
         const redFlagId = 2;
 
-        return (id === 1 && this.allowButtonToDoList()) || (id === redFlagId && this.allowButtonRedFlagList());
+        return (id === 1 && this.allowButtonToDoList()) ||
+            (id === redFlagId && this.allowButtonRedFlagList()) ||
+            (id === toDoActionPointId && this.allowButtonToDoActionPointList()) ||
+            (id === redFlagActionPointId && this.allowButtonRedFlagActionPointList());
     }
 
     private allowButtonRedFlagList(): boolean {
@@ -92,6 +96,14 @@ export class ReportListComponent implements OnInit {
         return this.hasRoleExportReportToDoList() || this.hasRoleExportReportToDoListInAssignProject();
     }
 
+    private allowButtonRedFlagActionPointList(): boolean {
+        return this.hasRoleExportReportRedFlagActionPointList() || this.hasRoleExportReportRedFlagActionPointListInAssignProject();
+    }
+
+    private allowButtonToDoActionPointList(): boolean {
+        return this.hasRoleExportReportToDoActionPointList() || this.hasRoleExportReportToDoActionPointListInAssignProject();
+    }
+
     private hasRoleExportReportToDoList(): boolean {
         return this.authService.hasRole(Role.RoleExportReportToDoList);
     }
@@ -100,12 +112,28 @@ export class ReportListComponent implements OnInit {
         return this.authService.hasRole(Role.RoleExportReportToDoListInAssignProject);
     }
 
+    private hasRoleExportReportToDoActionPointList(): boolean {
+        return this.authService.hasRole(Role.RoleExportReportToDoActionPointList);
+    }
+
+    private hasRoleExportReportToDoActionPointListInAssignProject(): boolean {
+        return this.authService.hasRole(Role.RoleExportReportToDoActionPointListInAssignProject);
+    }
+
     private hasRoleExportReportRedFlagList(): boolean {
         return this.authService.hasRole(Role.RoleExportReportRedFlagList);
     }
 
     private hasRoleExportReportRedFlagListInAssignProject(): boolean {
         return this.authService.hasRole(Role.RoleExportReportRedFlagListInAssignProject);
+    }
+
+    private hasRoleExportReportRedFlagActionPointList(): boolean {
+        return this.authService.hasRole(Role.RoleExportReportRedFlagActionPointList);
+    }
+
+    private hasRoleExportReportRedFlagActionPointListInAssignProject(): boolean {
+        return this.authService.hasRole(Role.RoleExportReportRedFlagActionPointListInAssignProject);
     }
 
     /**

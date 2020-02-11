@@ -26,10 +26,13 @@ import { ProjectUserService } from '../storage/project-user.service';
     }
 
     /**
-     * Export report from API
+     * Export report api
+     * @param {number} projectId
+     * @param {string} reportName
+     * @returns {any}
      */
-    public exportReport(projectId: number, reportId: number): any {
-        return this.reportGet(projectId, reportId);
+    public exportReport(projectId: number, reportName: string): any {
+        return this.reportGet(projectId, reportName);
     }
 
 }

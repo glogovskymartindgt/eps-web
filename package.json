@@ -12,6 +12,8 @@
         "lint": "ng lint",
         "lint:stylish": "ng lint --format=stylish",
         "lint:fix": "ng lint iihf-web --fix",
+        "stylelint": "stylelint src/**/*.scss",
+        "stylelint:fix": "stylelint src/**/*.scss --fix",
         "e2e": "ng e2e",
         "zipDist": "cd dist && zip -r iihf-eps-web.zip *",
         "husky-hook": "(git-branch-is develop && ng lint && ng build --aot true) || git-branch-is -r \"^((?!develop).)*$\""

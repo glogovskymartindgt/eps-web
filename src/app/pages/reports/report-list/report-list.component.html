@@ -11,7 +11,7 @@
     <div class="p-5">{{actRow.description}}</div>
 </ng-template>
 <ng-template #actionColumn let-actRow="row" let-context="context">
-    <button (click)="export(actRow.id)"
+    <button (click)="export(actRow.name)"
             *ngIf="checkReportActionByRole(actRow.id)"
             mat-icon-button
     >
