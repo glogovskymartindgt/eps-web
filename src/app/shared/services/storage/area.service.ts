@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 import { ABSTRACT_STORAGE_TOKEN, AbstractStorageService } from '../../hazelnut/hazelnut-common/services';
 
 type Proxify<T> = {
-    [P in keyof T]: Observable<T[P]>;
+    [S in keyof T]: Observable<T[S]>;
 };
 
 @Injectable({

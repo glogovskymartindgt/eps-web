@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { enterLeave } from '../../../shared/hazelnut/hazelnut-common/animations';
 import { Regex } from '../../../shared/hazelnut/hazelnut-common/regex/regex';
 import { Profile } from '../../../shared/models/profile.model.';
+import { FileService } from '../../../shared/services/core/file.service';
 import { ImagesService } from '../../../shared/services/data/images.service';
 import { ProfileService } from '../../../shared/services/data/profile.service';
 import { UpdateProfileService } from '../../../shared/services/data/update-profile.service';
@@ -32,7 +33,8 @@ export class ProfileDetailComponent implements OnInit {
                        private readonly profileService: ProfileService,
                        private readonly projectUserService: ProjectUserService,
                        private readonly updateProfileService: UpdateProfileService,
-                       private readonly location: Location) {
+                       private readonly location: Location,
+                       private readonly fileService: FileService) {
     }
 
     public ngOnInit(): void {
@@ -133,11 +135,9 @@ export class ProfileDetailComponent implements OnInit {
             this.profileDetailForm.controls.avatarUploadId.patchValue(projectDetail.avatar);
             this.imagesService.getImage(projectDetail.avatar)
                 .subscribe((blob: Blob): void => {
-                    const reader = new FileReader();
-                    reader.onload = (): void => {
-                        this.imageSrc = reader.result;
-                    };
-                    reader.readAsDataURL(blob);
+                    this.fileService.readFile(blob, (result: string) => {
+                        this.projectUserService.setProperty('avatar', result);
+                    });
                 }, () => {
                     this.notificationService.openErrorNotification('error.imageDownload');
                 });

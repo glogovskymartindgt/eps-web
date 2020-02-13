@@ -5,6 +5,7 @@ import { ProjectInterface } from '../../../shared/interfaces/project.interface';
 import { User } from '../../../shared/interfaces/user.interface';
 import { Project } from '../../../shared/models/project.model';
 import { AuthService } from '../../../shared/services/auth.service';
+import { FileService } from '../../../shared/services/core/file.service';
 import { DashboardService } from '../../../shared/services/dashboard.service';
 import { ImagesService } from '../../../shared/services/data/images.service';
 import { UserDataService } from '../../../shared/services/data/user-data.service';
@@ -31,7 +32,8 @@ import { ProjectUserService } from '../../../shared/services/storage/project-use
                        private readonly projectUserService: ProjectUserService,
                        private readonly imagesService: ImagesService,
                        private readonly notificationService: NotificationService,
-                       private readonly router: Router) {
+                       private readonly router: Router,
+                       private readonly fileService: FileService) {
     }
 
     /**
@@ -54,8 +56,8 @@ import { ProjectUserService } from '../../../shared/services/storage/project-use
         return this.authService.hasRole(Role.RoleCreateProject);
     }
 
-    public trackProjectById(index: number, project: Project): number {
-        return project.id;
+    public trackProjectBySelf(index: number, project: Project): Project {
+        return project;
     }
 
     /**
@@ -76,11 +78,9 @@ import { ProjectUserService } from '../../../shared/services/storage/project-use
                 if (user.avatar) {
                     this.imagesService.getImage(user.avatar)
                         .subscribe((blob: Blob) => {
-                            const reader = new FileReader();
-                            reader.onload = (): void => {
-                                this.projectUserService.setProperty('avatar', (reader.result) as string);
-                            };
-                            reader.readAsDataURL(blob);
+                            this.fileService.readFile(blob, (result: string) => {
+                                this.projectUserService.setProperty('avatar', result);
+                            });
                         }, () => {
                             this.notificationService.openErrorNotification('error.imageDownload');
                         });

@@ -16,7 +16,8 @@
         "stylelint:fix": "stylelint src/**/*.scss --fix",
         "e2e": "ng e2e",
         "zipDist": "cd dist && zip -r iihf-eps-web.zip *",
-        "husky-hook": "(git-branch-is develop && ng lint && ng build --aot true) || git-branch-is -r \"^((?!develop).)*$\""
+        "husky-hook": "(git-branch-is develop && ng lint && ng build --aot true) || git-branch-is -r \"^((?!develop).)*$\"",
+        "husky-hook:branchless": "ng build --aot true && ng lint"
     },
     "husky": {
         "hooks": {

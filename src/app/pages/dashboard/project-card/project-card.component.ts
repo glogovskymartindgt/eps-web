@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { fadeEnterLeave } from '../../../shared/hazelnut/hazelnut-common/animations';
 import { Venue } from '../../../shared/interfaces/venue.interface';
 import { Project } from '../../../shared/models/project.model';
+import { SortService } from '../../../shared/services/core/sort.service';
 import { DashboardService } from '../../../shared/services/dashboard.service';
 import { ImagesService } from '../../../shared/services/data/images.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
@@ -25,15 +26,17 @@ export class ProjectCardComponent implements OnInit {
     public constructor(private readonly router: Router,
                        private readonly dashboardService: DashboardService,
                        private readonly projectEventService: ProjectEventService,
-                       private readonly imagesService: ImagesService) {
+                       private readonly imagesService: ImagesService,
+                       private readonly sortService: SortService) {
     }
 
     /**
-     * Project data setup in intialization
+     * Project data setup in initalization
      */
     public ngOnInit(): void {
         const maxVenues = 2;
         this.getImagePath();
+        this.project.venues.sort(this.sortService.numericSortByScreenPosition);
         if (this.project.venues !== null && this.project.venues.length === 1) {
             this.showOneCity = true;
             this.showAllCities = false;
