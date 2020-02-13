@@ -26,10 +26,9 @@ $color-secondary: #002d62;
     justify-items: center;
 
     p {
-        font-family: Roboto, sans-serif;
+        font-family: 'Roboto', sans-serif;
         color: #87c8e7 !important;
     }
-
 }
 
 .logo-container-style {
@@ -72,7 +71,7 @@ $color-secondary: #002d62;
 .add-svg {
     position: absolute;
     left: 45%;
-    top: 30%
+    top: 30%;
 }
 
 .drop-text {
@@ -89,7 +88,7 @@ $color-secondary: #002d62;
 
 .error-text {
     position: absolute;
-    font-family: Roboto, sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 12px;
     bottom: 5px;
 }
@@ -99,6 +98,7 @@ $color-secondary: #002d62;
 }
 
 ::ng-deep {
+
     .mat-form-field .mat-form-field-flex {
         background-color: #e8f0fe;
         border-top-left-radius: 5px;

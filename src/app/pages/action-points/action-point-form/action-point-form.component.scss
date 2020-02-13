@@ -2,7 +2,7 @@ $color-primary: #1595d3;
 $color-secondary: #002d62;
 
 $colors: (
-    red: #ff0000,
+    red: #f00,
     amber: #ff7b00,
     green: #038f03,
     nocolor: #bebebe
@@ -21,19 +21,15 @@ $colors: (
 }
 
 ::ng-deep {
+
     .mat-form-field-appearance-fill.mat-form-field-disabled .mat-form-field-flex {
         background-color: #e8f0fe;
     }
-}
 
-::ng-deep {
     .theme-input .mat-form-field-flex {
         background-color: #e8f0fe;
     }
 }
-
-
-
 
 .input-w {
     width: 100%;
@@ -50,7 +46,7 @@ $colors: (
     position: absolute;
 }
 
-.chips-input{
+.chips-input {
     max-height: 310px;
     overflow-y: auto;
 }

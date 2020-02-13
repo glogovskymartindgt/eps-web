@@ -1,4 +1,4 @@
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
 @import '../../app/shared/hazelnut/hazelnut-common/hazelnut/styles/_main.scss';
 @import 'common/scrollbar.scss';
 @import 'font/font.scss';
@@ -32,14 +32,7 @@ p {
 }
 
 .no-select {
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-    -khtml-user-select: none; /* Konqueror HTML */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none;
-    /* Non-prefixed version, currently
-                                     supported by Chrome and Opera */
 }
 
 .fr {
@@ -68,7 +61,7 @@ $color-primary: #1595d3;
 
 .snack-info {
     font-family: 'Roboto', sans-serif !important;
-    background: linear-gradient(40deg, #ffffff, #cfd8dc) !important;
+    background: linear-gradient(40deg, #fff, #cfd8dc) !important;
     color: black;
 }
 
@@ -81,13 +74,13 @@ $color-primary: #1595d3;
 .version {
     padding: 0 0 5px 5px;
     color: white;
-    font-family: Roboto, sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 .version-login {
     padding: 0 0 5px 5px;
     color: white;
-    font-family: Roboto, sans-serif;
+    font-family: 'Roboto', sans-serif;
     position: absolute;
     bottom: 0;
     left: 0;

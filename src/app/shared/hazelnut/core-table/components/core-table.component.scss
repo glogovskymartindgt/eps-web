@@ -2,8 +2,7 @@
 .styled-table-container {
     max-height: calc(100vh - 220px) ;
     overflow: auto;
-    font-family: '-apple-system', 'system-ui', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial',
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+    font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif;
 
     .styled-table {
         width: 100%;
@@ -33,6 +32,7 @@ th[mat-header-cell] {
 }
 
 .border-columns {
+
     td[mat-cell], th[mat-header-cell] {
         border-right: 1px solid #eee;
     }
@@ -51,7 +51,7 @@ td[mat-cell] {
 }
 
 .data-row {
-    transition: background .3s ease;
+    transition: background 0.3s ease;
 
     &:hover {
         background: #fafafa;
@@ -69,7 +69,7 @@ td[mat-cell] {
 }
 
 .expand-td {
-    background: #eeeeee;
+    background: #eee;
 }
 
 .white-box {
@@ -84,8 +84,8 @@ td[mat-cell] {
     justify-content: flex-end;
 }
 
-
 ::ng-deep {
+
     .mat-paginator .mat-form-field .mat-form-field-flex {
         background-color: rgba(0, 0, 0, 0);
     }

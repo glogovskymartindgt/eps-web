@@ -3,7 +3,7 @@
     border-radius: 10px;
     background: #c3c3c3;
     min-height: 20px;
-    margin: 25px 25px 40px 25px;
+    margin: 25px 25px 40px;
     padding: 15px;
     max-width: 280px;
     min-width: 100px;
@@ -84,39 +84,6 @@
     align-items: center;
     width: 150px;
 
-    .image-container {
-        min-width: 60px;
-        min-height: 70px;
-        width: 60px;
-        height: 70px;
-        overflow: hidden;
-        display: inline-block;
-        margin-right: 10px;
-        background: #fff;
-        padding: 5px;
-        border-radius: 5px;
-        position: relative;
-
-        .image-format {
-            position: absolute;
-            left: 0;
-            top: 0;
-            color: #fff;
-            padding: 3px 6px;
-            background: #002d62;
-            text-transform: lowercase;
-            font-size: .7rem;
-            border-radius: 0 0 5px 0;
-        }
-
-        .image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            cursor: pointer;
-        }
-    }
-
     .link {
         font-size: 13px;
         width: 140px;
@@ -125,9 +92,43 @@
         text-overflow: ellipsis;
         text-decoration: underline;
         cursor: pointer;
+
         &:hover {
             text-decoration: none;
         }
+    }
+}
+
+.image-container {
+    min-width: 60px;
+    min-height: 70px;
+    width: 60px;
+    height: 70px;
+    overflow: hidden;
+    display: inline-block;
+    margin-right: 10px;
+    background: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    position: relative;
+
+    .image-format {
+        position: absolute;
+        left: 0;
+        top: 0;
+        color: #fff;
+        padding: 3px 6px;
+        background: #002d62;
+        text-transform: lowercase;
+        font-size: 0.7rem;
+        border-radius: 0 0 5px;
+    }
+
+    .image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        cursor: pointer;
     }
 }
 
@@ -141,6 +142,6 @@
 
 .message-text {
     white-space: pre-wrap;
-    font-family: Roboto, sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 14px;
 }

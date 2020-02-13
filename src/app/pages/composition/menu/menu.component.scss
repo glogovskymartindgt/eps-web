@@ -6,13 +6,9 @@ $text-color: white;
 /*
  Menu background
   */
-$background: rgba(0, 45, 98, .5);
+$background: rgba(0, 45, 98, 0.5);
 
 @mixin block-selecting-elements {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
 }
 
@@ -29,7 +25,7 @@ $background: rgba(0, 45, 98, .5);
 
 .menu-topnav {
     background: $background;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
 .layer {
@@ -39,7 +35,7 @@ $background: rgba(0, 45, 98, .5);
 .menu-sidenav {
     min-width: 245px;
     background: $background;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
 .move-down-close {

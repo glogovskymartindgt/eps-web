@@ -7,36 +7,42 @@ $card-color: #1595d3;
 }
 
 @media screen and (max-width: 680px) {
+
     .wrapper {
         width: 470px;
     }
 }
 
 @media screen and (min-width: 681px) and (max-width: 1350px) {
+
     .wrapper {
         width: 645px;
     }
 }
 
 @media screen and (min-width: 1351px) and (max-width: 2100px) {
+
     .wrapper {
         width: 1300px;
     }
 }
 
 @media screen and (min-width: 2101px) and (max-width: 2690px) {
+
     .wrapper {
         width: 1940px;
     }
 }
 
 @media screen and (min-width: 2691px) and (max-width: 3750px) {
+
     .wrapper {
         width: 2590px;
     }
 }
 
 @media screen and (min-width: 3751px) {
+
     .wrapper {
         width: 3235px;
     }
@@ -49,28 +55,27 @@ $card-color: #1595d3;
     background-color: $card-color;
     border-radius: $radius;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 0 20px 0 rgba(0, 0, 0, 0.2);
-    transition: all .15s ease-in-out;
+    transition: all 0.15s ease-in-out;
 
     &:hover {
         box-shadow: 0 0 15px 0 rgba(#1595d3, 0.2), 0 0 15px 0 rgba(#1595d3, 0.8);
-        -ms-transform: scale(1.03); /* IE 9 */
-        -webkit-transform: scale(1.03); /* Safari */
         transform: scale(1.03); /* Standard syntax */
     }
 }
 
 @media screen and (max-width: 680px) {
+
     .project-card {
         height: 135px;
     }
 }
 
-.add-icon{
+.add-icon {
     fill: white;
 }
 
-.add-text{
+.add-text {
     font-size: 24px;
     color: white;
-    font-family: Roboto-Bold, sans-serif;
+    font-family: 'Roboto-Bold', sans-serif;
 }

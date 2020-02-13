@@ -80,21 +80,35 @@
         "selector-list-comma-space-after": "always",
         "selector-list-comma-space-before": "never",
         "selector-max-attribute": 2,
-        "selector-max-class": 2,
-        "selector-max-combinators": 2,
-        "selector-max-compound-selectors": 3,
+        "selector-max-class": 4,
+        "selector-max-combinators": 4,
+        "selector-max-compound-selectors": 5,
         "selector-max-empty-lines": 0,
         "selector-max-id": 2,
         "selector-max-pseudo-class": 1,
         "selector-max-type": 2,
         "selector-max-universal": 2,
-        "selector-no-qualifying-type": true,
+        "selector-no-qualifying-type": [
+            true,
+            {
+                "ignore": [
+                    "attribute"
+                ]
+            }
+        ],
         "selector-no-vendor-prefix": true,
         "selector-pseudo-class-case": "lower",
         "selector-pseudo-class-no-unknown": true,
         "selector-pseudo-class-parentheses-space-inside": "never",
         "selector-pseudo-element-case": "lower",
-        "selector-pseudo-element-no-unknown": true,
+        "selector-pseudo-element-no-unknown": [
+            true,
+            {
+                "ignorePseudoElements": [
+                    "ng-deep"
+                ]
+            }
+        ],
         "selector-type-case": "lower",
         "selector-type-no-unknown": true,
         "shorthand-property-no-redundant-values": true,

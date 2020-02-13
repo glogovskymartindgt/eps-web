@@ -137,6 +137,7 @@ export class ProfileDetailComponent implements OnInit {
                 .subscribe((blob: Blob): void => {
                     this.fileService.readFile(blob, (result: string) => {
                         this.projectUserService.setProperty('avatar', result);
+                        this.imageSrc = result;
                     });
                 }, () => {
                     this.notificationService.openErrorNotification('error.imageDownload');

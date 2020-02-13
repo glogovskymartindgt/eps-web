@@ -1,14 +1,15 @@
-.comment-list{
+.comment-list {
     height: calc(100vh - 280px);
     overflow-x: auto;
 }
 
-.form-content{
+.form-content {
     overflow: auto;
     //height: calc(100vh - 155px);
 }
 
 ::ng-deep {
+
     .theme-input .mat-form-field-flex {
         background-color: #e8f0fe;
     }
@@ -19,12 +20,14 @@
 }
 
 @media screen and (max-width: 2100px) {
+
     .comment-input {
         width: 450px;
     }
 }
 
 @media screen and (max-width: 1700px) {
+
     .comment-input {
         width: 100%;
     }

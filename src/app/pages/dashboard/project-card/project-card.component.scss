@@ -15,12 +15,10 @@ $card-color: #fff;
     background-color: $card-color;
     border-radius: $radius;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 0 20px 0 rgba(0, 0, 0, 0.2);
-    transition: all .15s ease-in-out;
+    transition: all 0.15s ease-in-out;
 
     &:hover {
         box-shadow: 0 0 15px 0 rgba(#1595d3, 0.2), 0 0 15px 0 rgba(#1595d3, 0.8);
-        -ms-transform: scale(1.03); /* IE 9 */
-        -webkit-transform: scale(1.03); /* Safari */
         transform: scale(1.03); /* Standard syntax */
     }
 }
@@ -60,6 +58,7 @@ $card-color: #fff;
 }
 
 @media screen and (max-width: 680px) {
+
     .project-card {
         width: 450px;
         height: 135px;
@@ -69,4 +68,3 @@ $card-color: #fff;
 .project-image {
     width: 55px;
 }
-
