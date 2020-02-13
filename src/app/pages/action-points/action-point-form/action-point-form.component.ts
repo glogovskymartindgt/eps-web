@@ -8,7 +8,7 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import * as _moment from 'moment';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { StringUtils } from '../../../shared/hazelnut/hazelnut-common/hazelnut';
 import { Regex } from '../../../shared/hazelnut/hazelnut-common/regex/regex';
@@ -70,6 +70,8 @@ export class ActionPointFormComponent implements OnInit {
     public selectedResponsibles: Responsible[] = [];
     public filteredResponsibles: Observable<Responsible[]>;
     public responsibles: Responsible[];
+    public descriptionRequiredSubject$ = new BehaviorSubject<boolean>(false);
+    public descriptionRequiredObservable$: Observable<boolean>;
     @ViewChild(MatAutocompleteTrigger, {static: false}) private readonly autocomplete: MatAutocompleteTrigger;
 
     public constructor(private readonly formBuilder: FormBuilder,
@@ -102,6 +104,7 @@ export class ActionPointFormComponent implements OnInit {
     }
 
     public ngOnInit(): void {
+        this.descriptionRequiredObservable$ = this.descriptionRequiredSubject$.asObservable();
         this.createForm();
         this.loadVenueList();
         this.loadUserList();
@@ -301,6 +304,7 @@ export class ActionPointFormComponent implements OnInit {
         this.addFormValue('venue', actionPoint.cityName);
         this.addFormValue('description', actionPoint.description);
         this.addFormValue('state', actionPoint.state);
+        this.descriptionRequiredSubject$.next(actionPoint.state === 'CLOSED');
         this.addFormValue('meetingText', actionPoint.meetingDescription);
         this.addFormValue('meetingDate', actionPoint.meetingDate);
         this.addFormValue('closedDate', actionPoint.closedDate);
@@ -317,6 +321,11 @@ export class ActionPointFormComponent implements OnInit {
         if (!this.isAllowedToChangeStatus(actionPoint.createdBy, actionPoint.responsibles)) {
             this.actionPointForm.controls.state.disable();
         }
+
+        this.actionPointForm.controls.state.valueChanges.subscribe((value: string): void => {
+            console.log('changed to: ', value);
+            this.descriptionRequiredSubject$.next(value === 'CLOSED');
+        });
         this.actionPointForm.controls.code.disable();
         this.actionPointForm.controls.closedDate.disable();
         this.actionPointForm.controls.changedAt.disable();

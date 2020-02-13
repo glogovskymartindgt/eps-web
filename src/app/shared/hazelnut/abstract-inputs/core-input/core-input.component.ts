@@ -1,4 +1,4 @@
-import { AfterViewChecked, ChangeDetectorRef, Component, forwardRef, Inject, Input, OnInit } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component, forwardRef, Inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 import { MatFormFieldAppearance } from '@angular/material';
 import { debounceTime, tap } from 'rxjs/operators';
@@ -20,7 +20,7 @@ import { ThousandDelimiterPipe } from './../../../pipes/thousand-delimiter.pipe'
         }
     ]
 })
-export class CoreInputComponent implements OnInit, ControlValueAccessor, AfterViewChecked {
+export class CoreInputComponent implements OnInit, OnChanges, ControlValueAccessor, AfterViewChecked {
     @Input() public label?: string;
     @Input() public placeholder?: string;
     @Input() public useInstantTranslates = false;
@@ -71,6 +71,13 @@ export class CoreInputComponent implements OnInit, ControlValueAccessor, AfterVi
         InputUtils.setDefaultTranslates(this, this.translateWrapperService, this.useInstantTranslates);
 
         this.pipe = new ThousandDelimiterPipe();
+    }
+
+    public ngOnChanges(changes: SimpleChanges): void {
+        if (this.formControl) {
+            const validators = Validators.compose(this.validatorComposer.addValidators(this.required, this.minLength, this.maxLength, this.pattern, this.allowedCharactersPattern));
+            this.formControl.setValidators(validators);
+        }
     }
 
     public ngAfterViewChecked(): void {
