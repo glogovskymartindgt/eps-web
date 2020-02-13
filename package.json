@@ -47,6 +47,7 @@
         "moment": "^2.24.0",
         "ng2-pdf-viewer": "^6.0.1",
         "rxjs": "^6.5.3",
+        "stylelint": "^13.1.0",
         "tslib": "^1.10.0",
         "tslint-clean-code": "^0.2.10",
         "tslint-consistent-codestyle": "^1.16.0",
