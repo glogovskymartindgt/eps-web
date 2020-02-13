@@ -323,7 +323,6 @@ export class ActionPointFormComponent implements OnInit {
         }
 
         this.actionPointForm.controls.state.valueChanges.subscribe((value: string): void => {
-            console.log('changed to: ', value);
             this.descriptionRequiredSubject$.next(value === 'CLOSED');
         });
         this.actionPointForm.controls.code.disable();
