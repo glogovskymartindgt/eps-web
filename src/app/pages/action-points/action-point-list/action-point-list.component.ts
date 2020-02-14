@@ -269,6 +269,18 @@ export class ActionPointListComponent implements OnInit {
             this.authService.hasRole(Role.RoleUpdateActionPointInAssignProject);
     }
 
+    public allowExportReportActionPointButton(): boolean {
+        return this.hasRoleExportReportActionPoint() || this.hasRoleExportReportActionPointInAssignProject();
+    }
+
+    private hasRoleExportReportActionPoint(): boolean {
+        return this.authService.hasRole(Role.RoleExportReportActionPoint);
+    }
+
+    private hasRoleExportReportActionPointInAssignProject(): boolean {
+        return this.authService.hasRole(Role.RoleExportReportActionPointInAssignProject);
+    }
+
     private hasCreateActionPointRole(): boolean {
         return this.authService.hasRole(Role.RoleCreateActionPoint);
     }

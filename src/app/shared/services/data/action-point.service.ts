@@ -111,8 +111,6 @@ export class ActionPointService extends ProjectService<ActionPoint> {
 
     /**
      * Compare sort function with traffic light property preselection
-     * @param a
-     * @param b
      */
     private compare(comparable, compared): number {
         if (comparable.property === 'TRAFFIC_LIGHT') {
