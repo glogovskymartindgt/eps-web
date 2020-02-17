@@ -161,7 +161,7 @@
         <mat-form-field appearance="fill" class="short-input theme-input">
             <mat-label class="label-style">{{ 'tasks.venue' | translate }}</mat-label>
             <mat-select formControlName="venue">
-                <mat-option class="color-none" value='NONE'>{{ 'tasks.none' | translate }}</mat-option>
+                <mat-option class="color-none" value="NONE">{{ 'tasks.none' | translate }}</mat-option>
                 <mat-option *ngFor="let venue of venueList; trackBy:trackVenueById" [value]="venue.city">
                     {{venue.city}}
                 </mat-option>

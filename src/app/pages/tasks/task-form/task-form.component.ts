@@ -301,37 +301,18 @@ export class TaskFormComponent implements OnInit {
         });
         this.taskForm.controls.title.patchValue(task.name);
         this.taskForm.controls.taskType.patchValue(task.taskType);
-        if (task.projectPhase) {
-            this.taskForm.controls.phase.patchValue(task.projectPhase.id);
-        }
+        this.patchIdValue(task.projectPhase, 'phase');
         this.taskForm.controls.businessArea.patchValue(task.clBusinessArea.id);
-        if (task.dueDate) {
-            this.taskForm.controls.dueDate.patchValue(task.dueDate);
-        }
-        if (task.closedDate) {
-            this.taskForm.controls.closedDate.patchValue(task.closedDate);
-        }
-        if (task.responsibleUser) {
-            this.taskForm.controls.responsible.patchValue(task.responsibleUser.id);
-        }
-        if (task.clSourceOfAgenda) {
-            this.taskForm.controls.sourceOfAgenda.patchValue(task.clSourceOfAgenda.id);
-        }
-        if (task.cityName) {
-            this.taskForm.controls.venue.patchValue(task.cityName);
-        }
-        if (task.description) {
-            this.taskForm.controls.description.patchValue(task.description);
-        }
-        if (task.sourceDescription) {
-            this.taskForm.controls.sourceDescription.patchValue(task.sourceDescription);
-        }
-        if (task.state) {
-            this.taskForm.controls.state.patchValue(task.state);
-        }
-        if (task.code) {
-            this.taskForm.controls.code.patchValue(task.code);
-        }
+        this.patchValue(task.dueDate, 'dueDate');
+        this.patchValue(task.closedDate, 'closedDate');
+        this.patchIdValue(task.responsibleUser, 'responsible');
+        this.patchIdValue(task.clSourceOfAgenda, 'sourceOfAgenda');
+        this.patchValue(task.cityName, 'venue');
+        this.patchValue(task.description, 'description');
+        this.patchValue(task.sourceDescription, 'sourceDescription');
+        this.patchValue(task.state, 'state');
+        this.patchValue(task.code, 'code');
+
         if (task.trafficLight) {
             this.taskForm.addControl('trafficLight', this.formBuilder.control(null, [Validators.required]));
             this.taskForm.get('trafficLight')
@@ -356,6 +337,18 @@ export class TaskFormComponent implements OnInit {
         this.taskForm.valueChanges.subscribe(() => {
             this.emitFormDataChangeEmitter();
         });
+    }
+
+    private patchIdValue(value: any, controlName: string): void {
+        if (value) {
+            this.taskForm.controls[controlName].patchValue(value.id);
+        }
+    }
+
+    private patchValue(value: any, controlName: string): void {
+        if (value) {
+            this.taskForm.controls[controlName].patchValue(value);
+        }
     }
 
 }

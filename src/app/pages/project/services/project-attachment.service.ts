@@ -138,41 +138,50 @@ export class ProjectAttachmentService {
     }
 
     public getContentTypeFromFileName(fileName: string): string {
-        switch (this.getFileEnding(fileName)) {
-            case 'pdf': {
-                return this.pdfBlobType;
-            }
-            case 'jpeg': {
-                return 'image/jpeg';
-            }
-            case 'txt': {
-                return 'text/plain';
-            }
-            case 'rtf': {
-                return '.rtf';
-            }
-            case 'csv': {
-                return '.csv';
-            }
-            case 'doc': {
-                return '.doc';
-            }
-            case 'docx': {
-                return '.docx';
-            }
-            case 'xls': {
-                return '.application/vnd.ms-excel';
-            }
-            case 'xlsx': {
-                return '.application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-            }
-            case 'zip': {
-                return '.zip';
-            }
-            default: {
-                return '*';
-            }
-        }
+        const fileTypeMapper = [
+            {
+                fileType: 'pdf',
+                blobType: this.pdfBlobType,
+            },
+            {
+                fileType: 'jpeg',
+                blobType: 'image/jpeg',
+            },
+            {
+                fileType: 'txt',
+                blobType: 'text/plain',
+            },
+            {
+                fileType: 'rtf',
+                blobType: '.rtf',
+            },
+            {
+                fileType: 'csv',
+                blobType: '.csv',
+            },
+            {
+                fileType: 'doc',
+                blobType: '.doc',
+            },
+            {
+                fileType: 'docx',
+                blobType: '.docx',
+            },
+            {
+                fileType: 'xls',
+                blobType: '.application/vnd.ms-excel',
+            },
+            {
+                fileType: 'xlsx',
+                blobType: '.application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            },
+            {
+                fileType: 'zip',
+                blobType: '.zip',
+            },
+        ];
+
+        return fileTypeMapper.find((type: any) => type.zip === this.getFileEnding(fileName)).blobType;
     }
 
     public downloadFromBlob = (attachmentDetail: AttachmentDetail): void => {

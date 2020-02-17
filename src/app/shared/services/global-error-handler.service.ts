@@ -1,4 +1,5 @@
 import { ErrorHandler, Injectable } from '@angular/core';
+import { NotificationService } from './notification.service';
 
 @Injectable({
     providedIn: 'root'
@@ -6,11 +7,11 @@ import { ErrorHandler, Injectable } from '@angular/core';
 
 export class GlobalErrorHandlerService implements ErrorHandler {
 
-    public constructor() {
+    public constructor(private readonly notificationService: NotificationService) {
     }
 
     public handleError(error: string | any): void {
-        console.error(error);
+        this.notificationService.openErrorNotification(error);
     }
 
 }

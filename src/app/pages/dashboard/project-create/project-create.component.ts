@@ -130,7 +130,6 @@ export class ProjectCreateComponent implements OnInit {
     }
 
     private transformProjectToApiObject(): any {
-        const secondScreenPosition = 2;
         const formObject = this.projectDetailForm.value;
         const apiObject: any = {
             name: formObject.name,
@@ -149,28 +148,28 @@ export class ProjectCreateComponent implements OnInit {
             apiObject.projectVenues = [];
         }
         if (formObject.firstCountry) {
-            const firstVenueObject: any = {};
-            firstVenueObject.screenPosition = 1;
-            firstVenueObject.clCountry = {id: formObject.firstCountry};
-            if (formObject.firstVenue) {
-                firstVenueObject.cityName = formObject.firstVenue;
-            }
-            apiObject.projectVenues.push(firstVenueObject);
+            apiObject.projectVenues.push(this.createVenueObject(formObject, 1));
         }
         if (formObject.secondCountry) {
-            const secondVenueObject: any = {};
-            secondVenueObject.screenPosition = secondScreenPosition;
-            secondVenueObject.clCountry = {id: formObject.secondCountry};
-            if (formObject.secondVenue) {
-                secondVenueObject.cityName = formObject.secondVenue;
-            }
-            apiObject.projectVenues.push(secondVenueObject);
+            const screenPosition = 2;
+            apiObject.projectVenues.push(this.createVenueObject(formObject, screenPosition));
         }
         if (formObject.description) {
             apiObject.description = formObject.description;
         }
 
         return apiObject;
+    }
+
+    private createVenueObject(formObject: any, screenPosition: number): any {
+        const venueObject: any = {};
+        venueObject.screenPosition = screenPosition;
+        venueObject.clCountry = {id: formObject.secondCountry};
+        if (formObject.secondVenue) {
+            venueObject.cityName = formObject.secondVenue;
+        }
+
+        return venueObject;
     }
 
     private initializeForm(): void {

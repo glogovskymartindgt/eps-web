@@ -258,17 +258,13 @@ export class TaskListComponent implements OnInit {
         if (newTableChangeEvent && newTableChangeEvent.filters && newTableChangeEvent.filters.length > 0) {
             this.allTaskFilters = newTableChangeEvent.filters;
         }
-
         this.lastTableChangeEvent = newTableChangeEvent;
-
         this.additionalFilters = [
             new Filter('PROJECT_ID', this.projectEventService.instant.id, 'NUMBER'),
         ];
-
         if (this.businessAreaFilter && this.businessAreaFilter.value !== 'all') {
             this.additionalFilters.push(this.businessAreaFilter);
         }
-
         // Add business area filter to additional filters
         if (!this.isInitialized && this.getBusinessAreaValue() !== 'all') {
             this.additionalFilters.push(this.businessAreaFilter = new Filter('BUSINESS_AREA_NAME', this.getBusinessAreaValue()));
@@ -279,28 +275,9 @@ export class TaskListComponent implements OnInit {
                 this.additionalFilters.push(filter);
             });
         }
-
         this.removeDuplicateFilters();
-
         this.loading = true;
-
-        // Update table change event values from local storage
-        if (!this.isInitialized && this.isReturnFromDetail() && this.tableChangeStorageService.getTasksLastTableChangeEvent()) {
-            newTableChangeEvent.pageIndex = this.tableChangeStorageService.getTasksLastTableChangeEvent().pageIndex;
-            newTableChangeEvent.pageSize = this.tableChangeStorageService.getTasksLastTableChangeEvent().pageSize;
-            newTableChangeEvent.sortDirection = this.tableChangeStorageService.getTasksLastTableChangeEvent().sortDirection;
-            newTableChangeEvent.sortActive = this.tableChangeStorageService.getTasksLastTableChangeEvent().sortActive;
-        }
-        this.taskService.browseTasks(newTableChangeEvent, this.additionalFilters)
-            .pipe(finalize(() => this.loading = false))
-            .subscribe((data: BrowseResponse<TaskInterface>) => {
-                this.data = data;
-                this.isInitialized = true;
-            }, () => {
-                this.notificationService.openErrorNotification('error.api');
-            });
-
-        this.tableChangeStorageService.setTasksLastTableChangeEvent(newTableChangeEvent, this.additionalFilters);
+        this.updateTableChangeEvent(newTableChangeEvent);
     }
 
     public allowCreateTaskButton(): boolean {
@@ -320,6 +297,25 @@ export class TaskListComponent implements OnInit {
 
     public trackBusinessAreaById(index: number, item: BusinessArea): number {
         return item.id;
+    }
+
+    private updateTableChangeEvent(newTableChangeEvent: TableChangeEvent): void {
+        if (!this.isInitialized && this.isReturnFromDetail() && this.tableChangeStorageService.getTasksLastTableChangeEvent()) {
+            newTableChangeEvent.pageIndex = this.tableChangeStorageService.getTasksLastTableChangeEvent().pageIndex;
+            newTableChangeEvent.pageSize = this.tableChangeStorageService.getTasksLastTableChangeEvent().pageSize;
+            newTableChangeEvent.sortDirection = this.tableChangeStorageService.getTasksLastTableChangeEvent().sortDirection;
+            newTableChangeEvent.sortActive = this.tableChangeStorageService.getTasksLastTableChangeEvent().sortActive;
+        }
+        this.taskService.browseTasks(newTableChangeEvent, this.additionalFilters)
+            .pipe(finalize(() => this.loading = false))
+            .subscribe((data: BrowseResponse<TaskInterface>) => {
+                this.data = data;
+                this.isInitialized = true;
+            }, () => {
+                this.notificationService.openErrorNotification('error.api');
+            });
+
+        this.tableChangeStorageService.setTasksLastTableChangeEvent(newTableChangeEvent, this.additionalFilters);
     }
 
     private hasCreateTaskRole(): boolean {
