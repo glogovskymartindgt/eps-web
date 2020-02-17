@@ -35,7 +35,7 @@
         "completed-docs": false,
         "cyclomatic-complexity": [
             true,
-            15
+            10
         ],
         "strict-boolean-expressions": false,
         "strict-type-predicates": false,

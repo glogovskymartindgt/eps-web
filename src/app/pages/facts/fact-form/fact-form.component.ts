@@ -261,11 +261,11 @@ export class FactFormComponent implements OnInit {
                 Validators.required
             ],
             firstValue: [
-                !(fact.valueFirst === null || fact.valueFirst === undefined) ? this.pipe.transform(fact.valueFirst.toString(), ',') : '',
+                this.transformValue(fact.valueFirst),
                 Validators.required
             ],
             secondValue: [
-                !(fact.valueSecond === null || fact.valueSecond === undefined) ? this.pipe.transform(fact.valueSecond.toString(), ',') : '',
+                this.transformValue(fact.valueSecond),
                 Validators.required
             ],
             hasOnlyTotalValue: [fact.hasOnlyTotalValue],
@@ -319,6 +319,10 @@ export class FactFormComponent implements OnInit {
                 this.factForm.controls.totalValue.patchValue(fact.totalValue.toString());
             }, updateTotalTimeout);
         }
+    }
+
+    private transformValue(value: any): any {
+        return !(value || value === undefined) ? this.pipe.transform(value.toString(), ',') : '';
     }
 
     /**

@@ -77,7 +77,7 @@ export class FactListComponent implements OnInit {
                 }),
                 new TableColumn({
                     columnDef: 'valueFirst',
-                    label: this.projectEventService.instant.firstVenue ? this.projectEventService.instant.firstVenue : '-',
+                    label: this.checkValue(this.projectEventService.instant.firstVenue),
                     align: 'right',
                     type: TableCellType.CONTENT,
                     filter: new TableColumnFilter({
@@ -88,7 +88,7 @@ export class FactListComponent implements OnInit {
                 }),
                 new TableColumn({
                     columnDef: 'valueSecond',
-                    label: this.projectEventService.instant.secondVenue ? this.projectEventService.instant.secondVenue : '-',
+                    label: this.checkValue(this.projectEventService.instant.secondVenue),
                     align: 'right',
                     type: TableCellType.CONTENT,
                     filter: new TableColumnFilter({
@@ -160,7 +160,6 @@ export class FactListComponent implements OnInit {
             this.setLabel('valueFirst', 'fact.firstValue');
             this.setLabel('valueSecond', 'fact.secondValue');
         }
-
     }
 
     /**
@@ -258,6 +257,10 @@ export class FactListComponent implements OnInit {
             }, () => {
                 this.notificationService.openErrorNotification('error.api');
             });
+    }
+
+    private checkValue(value: any): any {
+        return value ? value : '-';
     }
 
     private hasRoleCreateFactItem(): boolean {
