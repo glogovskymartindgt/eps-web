@@ -183,7 +183,7 @@ export class ProjectDetailComponent implements OnInit {
                 });
             });
         }
-        if (this.projectAttachmentService.secondVenueAnyMaps()) {
+        if (this.projectAttachmentService.secondVenueAnyImages()) {
             this.projectAttachmentService.files.secondVenueAttachments.images.forEach((attachmentDetail: AttachmentDetail, index: number): void => {
                 secondVenueObject.attachments.push({
                     fileName: attachmentDetail.fileName,
@@ -195,7 +195,7 @@ export class ProjectDetailComponent implements OnInit {
                 });
             });
         }
-        if (this.projectAttachmentService.secondVenueAnyMaps()) {
+        if (this.projectAttachmentService.secondVenueAnyDocuments()) {
             this.projectAttachmentService.files.secondVenueAttachments.documents.forEach((attachmentDetail: AttachmentDetail, index: number): void => {
                 secondVenueObject.attachments.push({
                     fileName: attachmentDetail.fileName,

@@ -322,7 +322,7 @@ export class FactFormComponent implements OnInit {
     }
 
     private transformValue(value: any): any {
-        return !(value || value === undefined) ? this.pipe.transform(value.toString(), ',') : '';
+        return !(value === null || value === undefined) ? this.pipe.transform(value.toString(), ',') : '';
     }
 
     /**

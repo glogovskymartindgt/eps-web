@@ -286,6 +286,8 @@
                             </div>
                         </div>
 
+
+
                         <!-- EDIT MODE MAP1                    -->
                         <div *ngIf="editMode && !projectDetailForm.controls.firstVenue.value" class="relative-parent disabled">
                             <label class="container-style" for="" fxFlex="205px"></label>
@@ -1087,7 +1089,7 @@
                                     >
                                         {{document.fileName}}
                                     </div>
-                                    <div *ngIf="!projectAttachmentService.isJpegJpgOrPdfFromName(document.filename)" class="map-file-unclickable" fxFlex>
+                                    <div *ngIf="!projectAttachmentService.isJpegJpgOrPdfFromName(document.fileName)" class="map-file-unclickable" fxFlex>
                                         {{document.fileName}}
                                     </div>
 

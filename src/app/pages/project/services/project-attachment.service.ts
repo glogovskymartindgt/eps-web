@@ -181,7 +181,7 @@ export class ProjectAttachmentService {
             },
         ];
 
-        return fileTypeMapper.find((type: any) => type.zip === this.getFileEnding(fileName)).blobType;
+        return fileTypeMapper.find((type: any) => type.fileType === this.getFileEnding(fileName)).blobType;
     }
 
     public downloadFromBlob = (attachmentDetail: AttachmentDetail): void => {
