@@ -73,6 +73,7 @@ export class ActionPointService extends ProjectService<ActionPoint> {
             ];
         }
         filters = filters.concat(additionalFilters);
+        filters = this.reorderFiltersToApplyCorectTrafficColor(filters);
 
         return this.report(filters, sort, projectId);
     }
