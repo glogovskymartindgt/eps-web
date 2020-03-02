@@ -117,8 +117,8 @@
         "9002": "Access denied"
     },
     "success": {
-        "add": "Add successfull",
-        "edit": "Edit successfull"
+        "add": "Add successful",
+        "edit": "Edit successful"
     },
     "paginator": {
         "itemsPerPage": "Items per page",
