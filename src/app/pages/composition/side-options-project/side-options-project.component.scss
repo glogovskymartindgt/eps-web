@@ -7,10 +7,6 @@ $text-color: white;
     user-select: none;
 }
 
-.bottom-border {
-    border-bottom: 1px solid white;
-}
-
 .menu-option {
     @include block-selecting-elements;
     color: $text-color;

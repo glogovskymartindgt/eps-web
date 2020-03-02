@@ -1,31 +1,33 @@
-<div *ngFor="let menuItem of routes; trackBy:trackRouteByPath">
-    <div (click)="highlightAndNavigateOption(menuItem.path)"
-         *ngIf="checkRoute(menuItem, false)"
-         class="menu-option h-26"
-         matRipple
-    >
-        <div [ngClass]="getClass(menuItem.path)">
-        </div>
-        <span class="menu-text">{{menuItem.data["title"] | translate}}</span>
-        <div class="bottom-border mt-25"></div>
-    </div>
-    <div (click)="toggleMenuSelect()"
-         *ngIf="checkRoute(menuItem, true)"
-         class="menu-option h-26"
-         matRipple
-    >
-        <span class="menu-text">{{menuItem.data["title"] | translate}}</span>
-        <mat-icon *ngIf="menuItem.hasOwnProperty('children')"
-                  [ngClass]="{'rotate-180': menuSelect, 'rotate-360': !menuSelect}"
-                  class="menu-icon-dropdown"
+<ng-container *ngFor="let menuItem of routes; trackBy:trackRouteByPath">
+    <div *ngIf="menuItem.data?.menu">
+        <div (click)="highlightAndNavigateOption(menuItem.path)"
+             *ngIf="checkRoute(menuItem, false)"
+             class="menu-option"
+             matRipple
         >
-            keyboard_arrow_down
-        </mat-icon>
-    </div>
-    <div *ngIf="checkRoute(menuItem, true)"
-         [ngClass]="{'child-container-open': menuSelect,
+            <div [ngClass]="getClass(menuItem.path)">
+            </div>
+            <span class="menu-text">{{menuItem.data["title"] | translate}}</span>
+        </div>
+        <hr class="ml-21">
+        <div (click)="toggleMenuSelect()"
+             *ngIf="checkRoute(menuItem, true)"
+             class="menu-option h-26"
+             matRipple
+        >
+            <span class="menu-text">{{menuItem.data["title"] | translate}}</span>
+            <mat-icon *ngIf="menuItem.hasOwnProperty('children')"
+                      [ngClass]="{'rotate-180': menuSelect, 'rotate-360': !menuSelect}"
+                      class="menu-icon-dropdown"
+            >
+                keyboard_arrow_down
+            </mat-icon>
+        </div>
+        <div *ngIf="checkRoute(menuItem, true)"
+             [ngClass]="{'child-container-open': menuSelect,
                  'child-container': !menuSelect}"
-    >
-        <iihf-side-options-project [routes]="menuItem.children"></iihf-side-options-project>
+        >
+            <iihf-side-options-project [routes]="menuItem.children"></iihf-side-options-project>
+        </div>
     </div>
-</div>
+</ng-container>
