@@ -46,7 +46,7 @@ $colors: (
     position: absolute;
 }
 
-.chips-input {
+::ng-deep .mat-chip-list-wrapper {
     max-height: 310px;
     overflow-y: auto;
 }
