@@ -251,7 +251,7 @@
                 >
                     <div class="short-input" fxLayout="column" style="overflow: hidden;">
                         <!-- VIEW MODE MAP1                    -->
-                        <div *ngFor="let map of projectAttachmentService.files.firstVenueAttachments.maps; let i = index; trackBy:trackSourceBySelf">
+                        <div *ngFor="let map of projectAttachmentService.files.firstVenueAttachments.maps.sort(sortAttachmentDetailByOrderNumber); let i = index; trackBy:trackSourceBySelf">
                             <div *ngIf="!editMode && map.source">
                                 <div class="pdf-wrapper">
                                     <div class="pdf-indicator"><span>.pdf</span></div>
@@ -285,8 +285,6 @@
                                 </div>
                             </div>
                         </div>
-
-
 
                         <!-- EDIT MODE MAP1                    -->
                         <div *ngIf="editMode && !projectDetailForm.controls.firstVenue.value" class="relative-parent disabled">
@@ -396,7 +394,7 @@
 
                     <div class="short-input" fxLayout="column" style="overflow: hidden;">
                         <!-- VIEW MODE MAP2                  -->
-                        <div *ngFor="let map of projectAttachmentService.files.secondVenueAttachments.maps; let i = index ; trackBy:trackSourceBySelf">
+                        <div *ngFor="let map of projectAttachmentService.files.secondVenueAttachments.maps.sort(sortAttachmentDetailByOrderNumber); let i = index ; trackBy:trackSourceBySelf">
                             <div *ngIf="!editMode && map.source">
                                 <div class="pdf-wrapper">
                                     <div class="pdf-indicator"><span>.pdf</span></div>
@@ -580,7 +578,7 @@
                     <div class="short-input" fxLayout="column" style="overflow: hidden;">
 
                         <!-- VIEW MODE IMAGE1                    -->
-                        <div *ngFor="let image of projectAttachmentService.files.firstVenueAttachments.images; let i = index; trackBy:trackSourceBySelf">
+                        <div *ngFor="let image of projectAttachmentService.files.firstVenueAttachments.images.sort(sortAttachmentDetailByOrderNumber); let i = index; trackBy:trackSourceBySelf">
                             <div [ngSwitch]="projectAttachmentService.getFileEnding(image.fileName)">
                                 <div (click)="openDialog(image.source)"
                                      *ngIf="!editMode && image.source && projectAttachmentService.getFileEnding(image.fileName) === 'pdf'"
@@ -765,7 +763,7 @@
 
                     <div class="short-input" fxLayout="column" style="overflow: hidden;">
                         <!-- VIEW MODE IMAGE2                    -->
-                        <div *ngFor="let image of projectAttachmentService.files.secondVenueAttachments.images; let i = index ; trackBy:trackSourceBySelf">
+                        <div *ngFor="let image of projectAttachmentService.files.secondVenueAttachments.images.sort(sortAttachmentDetailByOrderNumber); let i = index ; trackBy:trackSourceBySelf">
                             <div [ngSwitch]="projectAttachmentService.getFileEnding(image.fileName)">
                                 <div (click)="openDialog(image.source)"
                                      *ngIf="!editMode && image.source && projectAttachmentService.getFileEnding(image.fileName) === 'pdf'"
@@ -1000,7 +998,7 @@
                 >
                     <div class="short-input" fxLayout="column" style="overflow: hidden;">
                         <!-- VIEW MODE DOCUMENT1                -->
-                        <div *ngFor="let document of projectAttachmentService.files.firstVenueAttachments.documents; let i = index ; trackBy:trackSourceBySelf">
+                        <div *ngFor="let document of projectAttachmentService.files.firstVenueAttachments.documents.sort(sortAttachmentDetailByOrderNumber); let i = index ; trackBy:trackSourceBySelf">
                             <div [ngSwitch]="projectAttachmentService.getFileEnding(document.fileName)">
                                 <div (click)="openDialog(document.source)"
                                      *ngIf="!editMode && document.source && projectAttachmentService.getFileEnding(document.fileName) === 'pdf'"
@@ -1251,7 +1249,7 @@
 
                     <div class="short-input" fxLayout="column" style="overflow: hidden;">
                         <!-- VIEW MODE DOCUMENT2                    -->
-                        <div *ngFor="let document of projectAttachmentService.files.secondVenueAttachments.documents; let i = index ; trackBy:trackSourceBySelf">
+                        <div *ngFor="let document of projectAttachmentService.files.secondVenueAttachments.documents.sort(sortAttachmentDetailByOrderNumber); let i = index ; trackBy:trackSourceBySelf">
                             <div [ngSwitch]="projectAttachmentService.getFileEnding(document.fileName)">
                                 <div (click)="openDialog(document.source)"
                                      *ngIf="!editMode && document.source && projectAttachmentService.getFileEnding(document.fileName) === 'pdf'"
@@ -1536,4 +1534,7 @@
             </div>
         </div>
     </div>
+    <pre style="width: 700px">{{projectAttachmentService.files | json}}</pre>
 </form>
+
+

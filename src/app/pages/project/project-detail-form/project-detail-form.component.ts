@@ -989,4 +989,8 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         });
     }
 
+    public sortAttachmentDetailByOrderNumber(comparedAttachmentDetail, comparableAttachmentDetail): number {
+        return comparedAttachmentDetail.order - comparableAttachmentDetail.order;
+    }
+
 }
