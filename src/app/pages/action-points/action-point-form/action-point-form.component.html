@@ -206,4 +206,13 @@
         </haz-core-input>
     </div>
 
+    <div *ngIf="isUpdate" class="long-input">
+        <haz-core-input [appearance]="'fill'"
+                        [label]="'tasks.createdBy' | translate"
+                        class="theme-input"
+                        formControlName="createdBy"
+        >
+        </haz-core-input>
+    </div>
+
 </form>

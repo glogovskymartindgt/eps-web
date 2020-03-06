@@ -231,6 +231,7 @@ export class ActionPointFormComponent implements OnInit {
             meetingText: [''],
             changedBy: [''],
             changedAt: [''],
+            createdBy: [''],
         });
         this.actionPointForm.valueChanges.subscribe(() => {
             this.emitFormDataChangeEmitter();
@@ -264,8 +265,8 @@ export class ActionPointFormComponent implements OnInit {
 
     private getIdFromRouteParamsAndSetDetail(param: any): void {
         this.actionPointService.getActionPointById(param.id)
-            .subscribe((apiTask: TaskInterface) => {
-                this.setForm(apiTask);
+            .subscribe((apiActionPoint: any) => {
+                this.setForm(apiActionPoint);
             }, (error: HttpResponse<any>) => this.notificationService.openErrorNotification(error));
     }
 
@@ -292,6 +293,7 @@ export class ActionPointFormComponent implements OnInit {
             meetingText: [''],
             changedBy: [''],
             changedAt: [''],
+            createdBy: [''],
         });
 
         this.selectedResponsibles = actionPoint.responsibles ? actionPoint.responsibles : [];
@@ -318,6 +320,9 @@ export class ActionPointFormComponent implements OnInit {
         if (actionPoint.changedBy) {
             this.actionPointForm.controls.changedBy.patchValue(`${actionPoint.changedBy.firstName} ${actionPoint.changedBy.lastName}`);
         }
+        if (actionPoint.createdBy) {
+            this.actionPointForm.controls.createdBy.patchValue(`${actionPoint.createdBy.firstName} ${actionPoint.createdBy.lastName}`);
+        }
         if (!this.isAllowedToChangeStatus(actionPoint.createdBy, actionPoint.responsibles)) {
             this.actionPointForm.controls.state.disable();
         }
@@ -329,6 +334,7 @@ export class ActionPointFormComponent implements OnInit {
         this.actionPointForm.controls.closedDate.disable();
         this.actionPointForm.controls.changedAt.disable();
         this.actionPointForm.controls.changedBy.disable();
+        this.actionPointForm.controls.createdBy.disable();
         this.actionPointForm.updateValueAndValidity();
         this.formLoaded = true;
         this.actionPointForm.valueChanges.subscribe(() => {

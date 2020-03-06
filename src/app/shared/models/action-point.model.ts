@@ -10,4 +10,7 @@ export interface ActionPoint {
     closedDate?: string;
     state?: string;
     responsibleUsers?: Responsible[];
+    changedBy: {firstName: string, lastName: string};
+    changedAt: string;
+    createdBy: {firstName: string, lastName: string};
 }

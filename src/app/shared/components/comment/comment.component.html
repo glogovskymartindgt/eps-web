@@ -43,9 +43,6 @@
                 >
             </button>
         </div>
-        <div *ngIf="commentIsText()">
-            <pre class="message-text">{{comment.description}}</pre>
-        </div>
     </div>
 
     <div class="comment-created">{{comment.created | date:'dd.MM.yyyy HH:mm'}}</div>

@@ -70,6 +70,7 @@
         "description": "Description",
         "sourceDescription": "Source description",
         "changedAt": "Changed at",
+        "createdBy": "Created by",
         "changedBy": "Changed by",
         "video": "video",
         "new": {
