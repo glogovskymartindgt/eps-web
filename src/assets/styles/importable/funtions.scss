@@ -1,0 +1,4 @@
+// Function to transform px to rem
+@function rem($target, $base: 16) {
+    @return ($target / $base) * 1rem;
+}

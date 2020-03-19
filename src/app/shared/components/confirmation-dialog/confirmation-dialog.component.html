@@ -1,0 +1,16 @@
+<div class="confirmation">
+    <h2 *ngIf="data.title">{{data.title || 'Title'}}</h2>
+    <p *ngIf="data.message">{{data.message || 'Supporting text'}}</p>
+    <div class="buttons-container">
+        <button mat-button
+                class="mr-20"
+                (click)="onCancel()">
+            {{data.rejectionButtonText || 'Reject'}}
+        </button>
+        <button mat-raised-button
+                [mat-dialog-close]="true"
+                class="mr-15">
+            {{data.confirmationButtonText || 'Confirm'}}
+        </button>
+    </div>
+</div>

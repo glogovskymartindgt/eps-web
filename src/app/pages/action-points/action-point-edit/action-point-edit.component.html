@@ -25,10 +25,18 @@
             >
                 {{ 'tasks.cancel' | translate }}
             </button>
+            <button *ngIf="allowDeleteActionPoint()"
+                    type="button"
+                    mat-button
+                    class="mr-10"
+                    (click)="onDelete()"
+            >
+                {{ 'tasks.delete' | translate }}
+            </button>
         </div>
     </div>
 
-    <div fxFlex="400px" style="background:#f4f4f4" fxLayout="column" *ngIf="allowReadComment()">
+    <div fxFlex="400px" style="background: #f4f4f4;" fxLayout="column" *ngIf="allowReadComment()">
         <div class="w-full" fxLayout="row">
             <form [formGroup]="addCommentForm" (ngSubmit)="onCommentAdded()">
                 <div fxFlex="50px" fxLayoutAlign="start end" class="pl-20 pb-50" *ngIf="hasRoleUploadImage()">
@@ -40,7 +48,7 @@
                     <input
                         (change)="onFileChange($event)"
                         accept="image/jpeg, image/jpg, image/png"
-                        style="display: none"
+                        style="display: none;"
                         #file
                         formControlName="attachment"
                         id="attachment"

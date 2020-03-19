@@ -8,11 +8,16 @@ import { SmallComponentsModule } from '../hazelnut/small-components';
 import { NotificationSnackBarComponent } from '../hazelnut/small-components/notifications';
 import { TranslateWrapperService } from '../services/translate-wrapper.service';
 import { CommentComponent } from './comment/comment.component';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { ImageDialogComponent } from './dialog/image-dialog/image-dialog.component';
 import { PdfDialogComponent } from './dialog/pdf-dialog/pdf-dialog.component';
 
 @NgModule({
-    declarations: [PdfDialogComponent, ImageDialogComponent, CommentComponent],
+    declarations: [
+        PdfDialogComponent,
+        ImageDialogComponent,
+        CommentComponent,
+        ConfirmationDialogComponent],
     imports: [
         CommonModule,
         SmallComponentsModule,
@@ -27,7 +32,10 @@ import { PdfDialogComponent } from './dialog/pdf-dialog/pdf-dialog.component';
         ImageDialogComponent,
         CommentComponent
     ],
-    providers: [TranslateWrapperService]
+    providers: [TranslateWrapperService],
+    entryComponents: [
+        ConfirmationDialogComponent
+      ]
 })
 export class ComponentsModule {
 }

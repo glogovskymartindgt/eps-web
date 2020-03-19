@@ -2,9 +2,8 @@
 @import '../../app/shared/hazelnut/hazelnut-common/hazelnut/styles/_main.scss';
 @import 'common/scrollbar.scss';
 @import 'font/font.scss';
+@import './importable/colors.scss';
 
-$color-red: #cf2120;
-$color-secondary: #002d62;
 $title-font-size: 24px;
 
 input {

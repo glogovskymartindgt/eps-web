@@ -83,6 +83,7 @@ export enum Role {
     RoleMenuActionPoint = 'ROLE_MENU_ACTION_POINT',
     RoleReadActionPoint = 'ROLE_READ_ACTION_POINT',
     RoleUpdateActionPoint = 'ROLE_UPDATE_ACTION_POINT',
+    RoleDeleteActionPoint = 'ROLE_DELETE_ACTION_POINT',
     RoleReadActionPointInAssignProject = 'ROLE_READ_ACTION_POINT_IN_ASSIGN_PROJECT',
     RoleUpdateActionPointInAssignProject = 'ROLE_UPDATE_ACTION_POINT_IN_ASSIGN_PROJECT',
     RoleCreateActionPoint = 'ROLE_CREATE_ACTION_POINT',

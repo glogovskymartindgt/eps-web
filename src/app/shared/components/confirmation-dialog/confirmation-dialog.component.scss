@@ -1,0 +1,28 @@
+@import '../../../../assets/styles/importable/funtions.scss';
+@import '../../../../assets/styles/importable/colors.scss';
+
+.confirmation {
+
+    h2 {
+        margin: 0;
+        font-size: rem(22);
+    }
+
+    p {
+        font-size: rem(16);
+        letter-spacing: rem(0.5);
+        line-height: 1.3em;
+        color: rgba(0, 0, 0, 0.5);
+        margin: rem(20) 0 rem(40);
+    }
+
+    .buttons-container {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .mat-raised-button {
+        background-color: $color-secondary;
+        color: #fff;
+    }
+}

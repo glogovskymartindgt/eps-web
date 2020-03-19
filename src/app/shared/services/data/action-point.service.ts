@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+
 import { TableChangeEvent } from '../../hazelnut/core-table';
 import { StringUtils } from '../../hazelnut/hazelnut-common/hazelnut';
 import { BrowseResponse, Filter, PostContent, Sort } from '../../hazelnut/hazelnut-common/models';
@@ -92,6 +93,14 @@ export class ActionPointService extends ProjectService<ActionPoint> {
      */
     public editActionPoint(id: number, taskObject: any): any {
         return this.update(id, taskObject);
+    }
+
+    /**
+     * Delete task object with API call
+     * @param id
+     */
+    public deleteActionPoint(id: number): any {
+        return this.deleteById(id);
     }
 
     /**

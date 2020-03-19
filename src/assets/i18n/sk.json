@@ -31,6 +31,7 @@
         "loginData": "Nesprávne prihlasovacie údaje",
         "logout": "Odhlásenie sa nepodarilo",
         "edit": "Zmeny sa nepodarilo vykonať",
+        "delete": "Vymazanie záznamu sa nepodarilo",
         "dateFormatIsInvalid": "Nevalidný dátum",
         "addComment": "Pridanie sa nepodarilo.",
         "loadComments": "Načítanie komentov sa nepodarilo.",
@@ -52,7 +53,8 @@
     },
     "success": {
         "add": "Pridanie úspešné",
-        "edit": "Úprava úspešná"
+        "edit": "Úprava úspešná",
+        "delete": "Vymazanie úspešné"
     },
     "common": {
         "from": "Od",
@@ -105,6 +107,7 @@
     "tasks": {
         "cancel": "ZRUŠIŤ",
         "save": "ULOŽIŤ",
+        "delete": "VYMAZAŤ",
         "empty": "Prázdne",
         "both": "Všetky",
         "none": "Žiadne",
@@ -310,6 +313,14 @@
             "requestCannotBeNull": "Požiadavka nemôže byť prázdna",
             "requireProject": "K použivateľovi je potrebné priradiť projekt",
             "add": "Vytvorenie používateľa sa nevykonalo"
+        }
+    },
+    "confirmation": {
+        "actionPoint": {
+            "title":"Vymazať daný záznam?",
+            "message":"Daná akcia vymaže aktuálny akčný bod.",
+            "confirmButton":"VYMAZAŤ",
+            "rejectButton":"ZRUŠIŤ"
         }
     }
 }

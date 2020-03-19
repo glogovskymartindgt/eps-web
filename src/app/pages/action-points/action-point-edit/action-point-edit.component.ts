@@ -1,7 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { finalize } from 'rxjs/operators';
+
+import { ConfirmationDialogComponent } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { CommentType } from '../../../shared/enums/comment-type.enum';
 import { Role } from '../../../shared/enums/role.enum';
 import { Regex } from '../../../shared/hazelnut/hazelnut-common/regex/regex';
@@ -32,7 +36,8 @@ export class ActionPointEditComponent implements OnInit {
     public attachmentPathName = '';
     private actionPointId: number;
 
-    public constructor(private readonly router: Router,
+    public constructor(public dialog: MatDialog,
+                       private readonly router: Router,
                        private readonly taskCommentService: TaskCommentService,
                        private readonly notificationService: NotificationService,
                        private readonly activatedRoute: ActivatedRoute,
@@ -41,7 +46,8 @@ export class ActionPointEditComponent implements OnInit {
                        private readonly imagesService: ImagesService,
                        public readonly projectEventService: ProjectEventService,
                        private readonly authService: AuthService,
-                       private readonly actionPointStructureService: ActionPointStructureService) {
+                       private readonly actionPointStructureService: ActionPointStructureService,
+                       private readonly translateService: TranslateService) {
     }
 
     public ngOnInit(): void {
@@ -60,6 +66,37 @@ export class ActionPointEditComponent implements OnInit {
 
     public onCancel(): void {
         this.router.navigate(['action-points/list']);
+    }
+
+    public onDelete(): void {
+        const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+            data: {
+              title: this.translateService.instant('confirmation.actionPoint.title'),
+              message: this.translateService.instant('confirmation.actionPoint.message'),
+              rejectionButtonText: this.translateService.instant('confirmation.actionPoint.rejectButton'),
+              confirmationButtonText: this.translateService.instant('confirmation.actionPoint.confirmButton')
+            },
+            width: '350px'
+        });
+
+        dialogRef.afterClosed()
+        .subscribe((result: any) => {
+
+            if (!result) {
+                return;
+            }
+
+            this.actionPointService.deleteActionPoint(this.actionPointId)
+                .subscribe(
+                    () => {
+                        this.notificationService.openSuccessNotification('success.delete');
+                        this.router.navigate(['action-points/list']);
+                    }, () => {
+                        this.notificationService.openErrorNotification('error.delete');
+                    }
+                );
+
+        });
     }
 
     public onSave(): void {
@@ -174,6 +211,10 @@ export class ActionPointEditComponent implements OnInit {
         return this.hasRoleUpdateTask() || this.hasRoleUpdateTaskInAssignProject();
     }
 
+    public allowDeleteActionPoint(): boolean {
+        return this.hasRoleDeleteActionPoint();
+    }
+
     public allowCreateComment(): boolean {
         return this.hasRoleCreateComment() || this.hasRoleCreateCommentInAssignProject();
     }
@@ -222,6 +263,10 @@ export class ActionPointEditComponent implements OnInit {
 
     private hasRoleCreateCommentInAssignProject(): boolean {
         return this.authService.hasRole(Role.RoleCreateCommentInAssignProject);
+    }
+
+    private hasRoleDeleteActionPoint(): boolean {
+        return this.authService.hasRole(Role.RoleDeleteActionPoint);
     }
 
     private transformActionPointToApiObject(formObject: any): any {
