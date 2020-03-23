@@ -19,6 +19,9 @@ import { TaskCommentService } from '../../../shared/services/task-comment.servic
 import { ActionPointFormComponent } from '../action-point-form/action-point-form.component';
 import { ActionPointStructureService } from '../action-point-structure.service';
 
+const routes = {
+    listRoute: 'action-points/list'
+};
 @Component({
     selector: 'iihf-action-point-edit',
     templateUrl: './action-point-edit.component.html',
@@ -65,7 +68,7 @@ export class ActionPointEditComponent implements OnInit {
     }
 
     public onCancel(): void {
-        this.router.navigate(['action-points/list']);
+        this.router.navigate([routes.listRoute]);
     }
 
     public onDelete(): void {
@@ -90,7 +93,7 @@ export class ActionPointEditComponent implements OnInit {
                 .subscribe(
                     () => {
                         this.notificationService.openSuccessNotification('success.delete');
-                        this.router.navigate(['action-points/list']);
+                        this.router.navigate([routes.listRoute]);
                     }, () => {
                         this.notificationService.openErrorNotification('error.delete');
                     }
@@ -106,7 +109,7 @@ export class ActionPointEditComponent implements OnInit {
         this.actionPointService.editActionPoint(this.actionPointId, this.transformActionPointToApiObject(this.formData))
             .subscribe(() => {
                 this.notificationService.openSuccessNotification('success.edit');
-                this.router.navigate(['action-points/list']);
+                this.router.navigate([routes.listRoute]);
             }, () => {
                 this.notificationService.openErrorNotification('error.edit');
             });
