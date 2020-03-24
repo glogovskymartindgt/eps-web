@@ -40,6 +40,17 @@ export class ActionPointService extends ProjectService<ActionPoint> {
                     new Sort(tableChangeEvent.sortActive, tableChangeEvent.sortDirection)
                 ];
             }
+
+            // When user selects All states frontend will send criteria to get all action points except those with state equal DELETED
+            if (!tableChangeEvent.filters.length) {
+                filters.push({
+                    logicalOperator: 'AND',
+                    property: 'STATE',
+                    value: 'DELETED',
+                    valueType: 'ENUM',
+                    operator: 'NE',
+                });
+            }
         }
         filters = filters.concat(additionalFilters);
 
