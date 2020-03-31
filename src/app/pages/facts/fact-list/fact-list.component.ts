@@ -215,7 +215,7 @@ export class FactListComponent implements OnInit {
         }
         // Api call
         this.factService.browseFacts(tableChangeEvent, projectFilter)
-            .pipe(finalize((): void => this.loading = false))
+            .pipe(finalize((): any => this.loading = false))
             .subscribe((data: BrowseResponse<Fact>): void => {
                 this.data = data;
                 this.isInitialized = true;
@@ -249,7 +249,7 @@ export class FactListComponent implements OnInit {
     public export(): void {
         this.loading = true;
         this.factService.exportTasks(this.lastTableChangeEvent, this.allTaskFilters, this.projectEventService.instant.id)
-            .pipe(finalize((): void => this.loading = false))
+            .pipe(finalize((): any => this.loading = false))
             .subscribe((response: HttpResponse<any>): void => {
                 const contentDisposition = response.headers.get('Content-Disposition');
                 const exportName: string = GetFileNameFromContentDisposition(contentDisposition);

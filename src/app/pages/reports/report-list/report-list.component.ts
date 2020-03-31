@@ -65,7 +65,7 @@ export class ReportListComponent implements OnInit {
     public export(reportName: string): void {
         this.loading = true;
         this.reportService.exportReport(this.projectEventService.instant.id, reportName)
-            .pipe(finalize((): void => this.loading = false))
+            .pipe(finalize((): any => this.loading = false))
             .subscribe((response: any): any => {
                 new FileManager().saveFile(
                     GetFileNameFromContentDisposition(response.headers.get('Content-Disposition')),
@@ -142,7 +142,7 @@ export class ReportListComponent implements OnInit {
     private setTableData(): void {
         this.loading = true;
         this.reportService.getAllReports()
-            .pipe(finalize((): void => this.loading = false))
+            .pipe(finalize((): any => this.loading = false))
             .subscribe((data: Report[]): void => {
                 this.data.content = data;
                 this.data.totalElements = data.length;

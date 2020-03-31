@@ -105,7 +105,7 @@ export class TaskEditComponent implements OnInit {
     public onSendCommentService(taskComment): void {
         this.loading = true;
         this.taskCommentService.addComment(taskComment)
-            .pipe(finalize((): void => this.loading = false))
+            .pipe(finalize((): any => this.loading = false))
             .subscribe((commentResponse: TaskCommentResponse): void => {
                 this.getAllComments();
                 this.addCommentForm.controls.newComment.reset();
@@ -117,7 +117,7 @@ export class TaskEditComponent implements OnInit {
     public getAllComments(): void {
         this.loading = true;
         this.taskCommentService.getAllComment(this.taskId, 'task')
-            .pipe(tap((): void => this.loading = false))
+            .pipe(tap((): any => this.loading = false))
             .subscribe((comments: TaskCommentResponse[]): any => {
                 this.comments = [...comments].sort((taskCommentResponseComparable: TaskCommentResponse, taskCommentResponseCompared: TaskCommentResponse): any => {
                                                  return (taskCommentResponseComparable.created > taskCommentResponseCompared.created) ? 1 : -1;

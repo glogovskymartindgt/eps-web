@@ -15,7 +15,7 @@ export class DashboardService extends ProjectService<ProjectInterface> {
     public dashboardFilterNotifier$;
 
     private readonly secondaryHeader = new BehaviorSubject<SecondaryHeader>({isDashboard: true});
-    private readonly dashboardFilter = new BehaviorSubject<string>();
+    private readonly dashboardFilter = new BehaviorSubject<string>('ALL');
 
     public constructor(http: HttpClient, notificationService: NotificationService, userService: ProjectUserService) {
         super(http, 'projects', notificationService, userService);

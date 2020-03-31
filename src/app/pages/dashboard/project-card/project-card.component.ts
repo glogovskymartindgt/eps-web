@@ -88,7 +88,7 @@ export class ProjectCardComponent implements OnInit {
         this.openAreas();
     }
 
-    public getImagePath(): void {
+    public getImagePath(): any {
         if (!this.project.logo) {
             return;
         }

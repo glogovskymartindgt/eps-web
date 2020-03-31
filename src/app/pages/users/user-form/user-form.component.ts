@@ -130,7 +130,7 @@ export class UserFormComponent implements OnInit {
         this.userDataService.getUserDetail(param.id)
             .subscribe((apiUser: User): void => {
                 this.setForm(apiUser);
-            }, (error: any): void => this.notificationService.openErrorNotification(error));
+            }, (error: any): any => this.notificationService.openErrorNotification(error));
     }
 
     private createForm(): void {

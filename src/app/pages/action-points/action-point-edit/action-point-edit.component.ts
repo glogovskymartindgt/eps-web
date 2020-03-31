@@ -146,7 +146,7 @@ export class ActionPointEditComponent implements OnInit {
     public onSendCommentService(actionPointComment): void {
         this.loading = true;
         this.taskCommentService.addComment(actionPointComment)
-            .pipe(finalize((): void => this.loading = false))
+            .pipe(finalize((): any => this.loading = false))
             .subscribe((): void => {
                 this.getAllComments();
                 this.addCommentForm.controls.newComment.reset();
@@ -158,7 +158,7 @@ export class ActionPointEditComponent implements OnInit {
     public getAllComments(): void {
         this.loading = true;
         this.taskCommentService.getAllComment(this.actionPointId, 'actionPoint')
-            .pipe(finalize((): void => this.loading = false))
+            .pipe(finalize((): any => this.loading = false))
             .subscribe((comments: TaskCommentResponse[]): void => {
                 this.comments = [...comments].sort((comparableCommentTaskResponse: TaskCommentResponse,
                                                     comparedCommentTaskResponse: TaskCommentResponse): number => (comparableCommentTaskResponse.created >

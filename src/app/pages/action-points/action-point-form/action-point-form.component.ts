@@ -266,7 +266,7 @@ export class ActionPointFormComponent implements OnInit {
         this.actionPointService.getActionPointById(param.id)
             .subscribe((apiActionPoint: any): void => {
                 this.setForm(apiActionPoint);
-            }, (error: HttpResponse<any>): void => this.notificationService.openErrorNotification(error));
+            }, (error: HttpResponse<any>): any => this.notificationService.openErrorNotification(error));
     }
 
     private setForm(actionPoint: any): void {

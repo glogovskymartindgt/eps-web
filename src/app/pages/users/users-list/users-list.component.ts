@@ -171,7 +171,7 @@ export class UsersListComponent implements OnInit {
 
             // Api call
             this.userDataService.browseUsers(tableChangeEvent)
-                .pipe(finalize((): void => this.loading = false))
+                .pipe(finalize((): any => this.loading = false))
                 .subscribe((data: BrowseResponse<User>): void => {
                     this.data = data;
                     this.isInitialized = true;

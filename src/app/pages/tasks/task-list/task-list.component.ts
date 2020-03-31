@@ -232,7 +232,7 @@ export class TaskListComponent implements OnInit {
     public export(): void {
         this.loading = true;
         this.taskService.exportTasks(this.lastTableChangeEvent, this.additionalFilters, this.projectEventService.instant.id)
-            .pipe(finalize((): void => this.loading = false))
+            .pipe(finalize((): any => this.loading = false))
             .subscribe((response: any): void => {
                 const contentDisposition = response.headers.get('Content-Disposition');
                 const exportName: string = GetFileNameFromContentDisposition(contentDisposition);
@@ -307,7 +307,7 @@ export class TaskListComponent implements OnInit {
             newTableChangeEvent.sortActive = this.tableChangeStorageService.getTasksLastTableChangeEvent().sortActive;
         }
         this.taskService.browseTasks(newTableChangeEvent, this.additionalFilters)
-            .pipe(finalize((): void => this.loading = false))
+            .pipe(finalize((): any => this.loading = false))
             .subscribe((data: BrowseResponse<TaskInterface>): void => {
                 this.data = data;
                 this.isInitialized = true;

@@ -35,7 +35,7 @@ export class ImagesService extends ProjectService<any> {
         });
     }
 
-    public getImage(imageName: string): Observable<Blob> {
+    public getImage(imageName: string): Observable<void | Blob> {
         return this.http.get(`${hazelnutConfig.URL_API}/internal/images/0/${imageName}`, {
                        headers: this.getHeader(),
                        responseType: 'blob',

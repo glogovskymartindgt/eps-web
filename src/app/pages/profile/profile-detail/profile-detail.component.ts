@@ -72,7 +72,7 @@ export class ProfileDetailComponent implements OnInit {
             profileObject.avatar = this.profileDetailForm.controls.avatarUploadId.value;
         }
         this.updateProfileService.updateProfile(this.projectUserService.instant.userId, profileObject)
-            .subscribe((): void => {
+            .subscribe((): any => {
                 if (profileObject.avatar) {
                     this.imagesService.getImage(profileObject.avatar)
                         .subscribe((blob: Blob): void => {
@@ -86,7 +86,7 @@ export class ProfileDetailComponent implements OnInit {
                         });
                 }
                 this.location.back();
-            }, (): void => this.notificationService.openErrorNotification('error.profileUpdateFailed'));
+            }, (): any => this.notificationService.openErrorNotification('error.profileUpdateFailed'));
     }
 
     public onCancel(): void {
@@ -123,7 +123,7 @@ export class ProfileDetailComponent implements OnInit {
             });
     }
 
-    private setFormWithDetailData(projectDetail: Profile): void {
+    private setFormWithDetailData(projectDetail: Profile): any {
         this.profileDetailForm.controls.firstName.patchValue(projectDetail.firstName);
         this.profileDetailForm.controls.lastName.patchValue(projectDetail.lastName);
         this.profileDetailForm.controls.email.patchValue(projectDetail.email);

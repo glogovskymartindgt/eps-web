@@ -80,7 +80,7 @@ import { ProjectUserService } from './storage/project-user.service';
                 authenticationToken,
                 deviceId
             }, {headers})
-            .pipe(finalize((): void => this.router.navigate(['authentication/login'])))
+            .pipe(finalize((): any => this.router.navigate(['authentication/login'])))
             .subscribe((): void => {
                 this.userService.clearUserData();
             }, (): void => {

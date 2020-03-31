@@ -33,7 +33,7 @@ export class AttachmentService extends ProjectService<any> {
         });
     }
 
-    public getAttachment(attachmentName: string): Observable<Blob> {
+    public getAttachment(attachmentName: string): Observable<void | Blob> {
         return this.http.get(`${hazelnutConfig.URL_API}/attachment/${attachmentName}`, {
                        headers: this.getHeader(),
                        responseType: 'blob',

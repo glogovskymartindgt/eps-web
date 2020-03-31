@@ -88,7 +88,7 @@ import { SelectedAreaService } from '../../../shared/services/storage/selected-a
     public setTableData(tableChangeEvent?: TableChangeEvent): void {
         this.loading = true;
         this.businessAreaService.browseBusinessAreas(tableChangeEvent)
-            .pipe(finalize((): void => this.loading = false))
+            .pipe(finalize((): any => this.loading = false))
             .subscribe((data: BrowseResponse<BusinessArea>): void => {
                 this.data = data;
                 this.isInitialized = true;

@@ -146,7 +146,7 @@ export class FactFormComponent implements OnInit {
     private loadCategories(): void {
         this.categoryLoading = true;
         this.businessAreaService.listCategories()
-            .pipe(finalize((): void => this.categoryLoading = false))
+            .pipe(finalize((): any => this.categoryLoading = false))
             .subscribe((data: BrowseResponse<Category>): void => {
                 this.categories = data.content;
             });
@@ -159,7 +159,7 @@ export class FactFormComponent implements OnInit {
     private loadSubCategories(categoryId): void {
         this.categoryLoading = true;
         this.businessAreaService.listSubCategories(categoryId)
-            .pipe(finalize((): void => this.categoryLoading = false))
+            .pipe(finalize((): any => this.categoryLoading = false))
             .subscribe((data: SubCategory[]): void => {
                 this.subCategories = data;
             });
@@ -201,7 +201,7 @@ export class FactFormComponent implements OnInit {
         this.factService.getFactById(param.id, param.projectId)
             .subscribe((apiTask: Fact): void => {
                 this.setForm(apiTask);
-            }, (error: HttpResponse<any>): void => this.notificationService.openErrorNotification(error));
+            }, (error: HttpResponse<any>): any => this.notificationService.openErrorNotification(error));
     }
 
     /**

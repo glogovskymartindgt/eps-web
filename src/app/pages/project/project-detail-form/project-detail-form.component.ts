@@ -756,7 +756,7 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         }
     }
 
-    private setDataFromLogo(logo: any): void {
+    private setDataFromLogo(logo: any): any {
         if (logo) {
             this.projectDetailForm.controls.logoUploadId.patchValue(logo);
             this.imagesService.getImage(logo)
@@ -847,7 +847,7 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         if (firstVenueMaps.length === 0) {
             this.projectDetailForm.controls.firstMap.patchValue('');
         }
-        firstVenueMaps.forEach((attachment: AttachmentDetail) => {
+        firstVenueMaps.forEach((attachment: AttachmentDetail): any => {
             this.attachmentService.getAttachment(attachment.filePath)
                 .subscribe((blob: Blob) => {
                     this.addFirstVenueMapHolder(blob, attachment);
@@ -862,7 +862,7 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         if (firstVenueImages.length === 0) {
             this.projectDetailForm.controls.firstImage.patchValue('');
         }
-        firstVenueImages.forEach((attachment: AttachmentDetail) => {
+        firstVenueImages.forEach((attachment: AttachmentDetail): any => {
             if (this.projectAttachmentService.getFileEnding(attachment.filePath) !== 'pdf') {
                 this.imagesService.getImage(attachment.filePath)
                     .subscribe((blob: Blob) => {
@@ -886,7 +886,7 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         if (firstVenueDocuments.length === 0) {
             this.projectDetailForm.controls.firstDocument.patchValue('');
         }
-        firstVenueDocuments.forEach((attachment: AttachmentDetail) => {
+        firstVenueDocuments.forEach((attachment: AttachmentDetail): any => {
             if (this.projectAttachmentService.getFileEnding(attachment.filePath) === 'jpeg') {
                 this.imagesService.getImage(attachment.filePath)
                     .subscribe((blob: Blob): void => {
@@ -926,12 +926,12 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         }
     }
 
-    private setSecondVenueMap(secondCountryObject: any): void {
+    private setSecondVenueMap(secondCountryObject: any): any {
         const secondVenueMaps = secondCountryObject.attachments.filter((attachment: AttachmentDetail) => attachment.type === AttachmentType.Map);
         if (secondVenueMaps.length === 0) {
             this.projectDetailForm.controls.secondMap.patchValue('');
         }
-        secondVenueMaps.forEach((attachment: AttachmentDetail) => {
+        secondVenueMaps.forEach((attachment: AttachmentDetail): any => {
             this.attachmentService.getAttachment(attachment.filePath)
                 .subscribe((blob: Blob) => {
                     this.addSecondVenueMapHolder(blob, attachment);
@@ -941,12 +941,12 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         });
     }
 
-    private setSecondVenueImage(secondCountryObject: any): void {
+    private setSecondVenueImage(secondCountryObject: any): any {
         const secondVenueImages = secondCountryObject.attachments.filter((attachment: AttachmentDetail) => attachment.type === AttachmentType.Image);
         if (secondVenueImages.length === 0) {
             this.projectDetailForm.controls.secondImage.patchValue('');
         }
-        secondVenueImages.forEach((attachment: AttachmentDetail) => {
+        secondVenueImages.forEach((attachment: AttachmentDetail): any => {
             if (this.projectAttachmentService.getFileEnding(attachment.filePath) !== 'pdf') {
                 this.imagesService.getImage(attachment.filePath)
                     .subscribe((blob: Blob) => {
@@ -965,12 +965,12 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         });
     }
 
-    private setSecondVenueDocument(secondCountryObject: any): void {
+    private setSecondVenueDocument(secondCountryObject: any): any {
         const secondVenueDocuments = secondCountryObject.attachments.filter((attachment: AttachmentDetail) => attachment.type === AttachmentType.Document);
         if (secondVenueDocuments.length === 0) {
             this.projectDetailForm.controls.secondDocument.patchValue('');
         }
-        secondVenueDocuments.forEach((attachment: AttachmentDetail) => {
+        secondVenueDocuments.forEach((attachment: AttachmentDetail): any => {
             if (this.projectAttachmentService.getFileEnding(attachment.filePath) === 'jpeg') {
                 this.imagesService.getImage(attachment.filePath)
                     .subscribe((blob: Blob) => {

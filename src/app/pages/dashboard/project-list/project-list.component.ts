@@ -72,7 +72,7 @@ import { ProjectUserService } from '../../../shared/services/storage/project-use
             });
     }
 
-    private initializeUserPhoto(): void {
+    private initializeUserPhoto(): any {
         this.userDataService.getOwnUserDetail(this.projectUserService.instant.userId)
             .subscribe((user: User): void => {
                 if (user.avatar) {

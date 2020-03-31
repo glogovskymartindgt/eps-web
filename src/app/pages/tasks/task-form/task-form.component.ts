@@ -269,7 +269,7 @@ export class TaskFormComponent implements OnInit {
         this.taskService.getTaskById(param.id)
             .subscribe((apiTask: TaskInterface): void => {
                 this.setForm(apiTask);
-            }, (error: any): void => this.notificationService.openErrorNotification(error));
+            }, (error: any): any => this.notificationService.openErrorNotification(error));
     }
 
     private setForm(task: any): void {

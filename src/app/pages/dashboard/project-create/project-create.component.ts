@@ -233,7 +233,7 @@ export class ProjectCreateComponent implements OnInit {
     private loadCountries(): any {
         this.countriesLoading = true;
         this.businessAreaService.listCountries()
-            .pipe(finalize((): void => this.countriesLoading = false))
+            .pipe(finalize((): any => this.countriesLoading = false))
             .subscribe((data: BrowseResponse<Country>): void => {
                 this.countryList = data.content.filter((item: Country): any => item.state === 'VALID');
             }, (): void => {
