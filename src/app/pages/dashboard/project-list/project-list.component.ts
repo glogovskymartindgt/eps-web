@@ -40,11 +40,11 @@ import { ProjectUserService } from '../../../shared/services/storage/project-use
      * Create filter listener on projects and set default value to ALL
      */
     public ngOnInit(): void {
-        this.filterProjects('ALL');
+        this.dashboardService.setSecondaryHeaderContent({isDashboard: true});
         this.dashboardService.dashboardFilterNotifier$.subscribe((filterValue: string) => {
             this.filterProjects(filterValue);
         });
-        this.dashboardService.setSecondaryHeaderContent({isDashboard: true});
+
         this.initializeUserPhoto();
     }
 

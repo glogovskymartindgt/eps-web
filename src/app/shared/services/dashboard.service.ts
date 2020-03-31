@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { Filter } from '../hazelnut/hazelnut-common/models';
 import { ProjectInterface } from '../interfaces/project.interface';
 import { SecondaryHeader } from '../interfaces/secondary-header.interface';
@@ -14,8 +14,8 @@ import { ProjectUserService } from './storage/project-user.service';
 export class DashboardService extends ProjectService<ProjectInterface> {
     public dashboardFilterNotifier$;
 
-    private readonly secondaryHeader = new Subject<SecondaryHeader>();
-    private readonly dashboardFilter = new Subject<string>();
+    private readonly secondaryHeader = new BehaviorSubject<SecondaryHeader>({isDashboard: true});
+    private readonly dashboardFilter = new BehaviorSubject<string>();
 
     public constructor(http: HttpClient, notificationService: NotificationService, userService: ProjectUserService) {
         super(http, 'projects', notificationService, userService);
