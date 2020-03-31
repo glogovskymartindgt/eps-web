@@ -215,11 +215,11 @@ export class FactListComponent implements OnInit {
         }
         // Api call
         this.factService.browseFacts(tableChangeEvent, projectFilter)
-            .pipe(finalize(() => this.loading = false))
+            .pipe(finalize((): void => this.loading = false))
             .subscribe((data: BrowseResponse<Fact>): void => {
                 this.data = data;
                 this.isInitialized = true;
-            }, () => {
+            }, (): void => {
                 this.notificationService.openErrorNotification('error.api');
             });
 
@@ -249,12 +249,12 @@ export class FactListComponent implements OnInit {
     public export(): void {
         this.loading = true;
         this.factService.exportTasks(this.lastTableChangeEvent, this.allTaskFilters, this.projectEventService.instant.id)
-            .pipe(finalize(() => this.loading = false))
-            .subscribe((response: HttpResponse<any>) => {
+            .pipe(finalize((): void => this.loading = false))
+            .subscribe((response: HttpResponse<any>): void => {
                 const contentDisposition = response.headers.get('Content-Disposition');
                 const exportName: string = GetFileNameFromContentDisposition(contentDisposition);
                 new FileManager().saveFile(exportName, response.body, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-            }, () => {
+            }, (): void => {
                 this.notificationService.openErrorNotification('error.api');
             });
     }
@@ -281,7 +281,7 @@ export class FactListComponent implements OnInit {
      * @param replaceLabel
      */
     private setLabel(columnName: string, replaceLabel: string): void {
-        const index = this.config.columns.findIndex((column: TableColumn) => column.columnDef === columnName);
+        const index = this.config.columns.findIndex((column: TableColumn): any => column.columnDef === columnName);
         this.config.columns[index].label = null;
         this.config.columns[index].labelKey = replaceLabel;
     }

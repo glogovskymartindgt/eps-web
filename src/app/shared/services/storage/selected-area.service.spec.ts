@@ -2,11 +2,11 @@ import { TestBed } from '@angular/core/testing';
 
 import { SelectedAreaService } from './selected-area.service';
 
-describe('SelectedAreaService', () => {
-    beforeEach(() => TestBed.configureTestingModule({}));
+describe('SelectedAreaService', (): void => {
+    beforeEach((): void => TestBed.configureTestingModule({}));
 
-    it('should be created', () => {
-        const service: SelectedAreaService = TestBed.get(SelectedAreaService);
+    it('should be created', (): void => {
+        const service: SelectedAreaService = TestBed.inject(SelectedAreaService);
         expect(service)
             .toBeTruthy();
     });

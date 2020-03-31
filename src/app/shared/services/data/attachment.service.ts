@@ -38,7 +38,7 @@ export class AttachmentService extends ProjectService<any> {
                        headers: this.getHeader(),
                        responseType: 'blob',
                    })
-                   .pipe(map((result: Blob) => {
+                   .pipe(map((result: Blob): void => {
 
                        return result as any;
                    }), catchError(this.handleError));

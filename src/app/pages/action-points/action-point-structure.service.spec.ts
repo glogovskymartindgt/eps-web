@@ -1,12 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-
 import { ActionPointStructureService } from './action-point-structure.service';
 
-describe('ActionPointStructureService', () => {
-    beforeEach(() => TestBed.configureTestingModule({}));
+describe('ActionPointStructureService', (): void => {
+    beforeEach((): void => TestBed.configureTestingModule({}));
 
-    it('should be created', () => {
-        const service: ActionPointStructureService = TestBed.get(ActionPointStructureService);
+    it('should be created', (): void => {
+        const service: ActionPointStructureService = TestBed.inject(ActionPointStructureService);
         expect(service)
             .toBeTruthy();
     });

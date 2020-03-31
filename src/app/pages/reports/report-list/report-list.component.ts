@@ -65,14 +65,14 @@ export class ReportListComponent implements OnInit {
     public export(reportName: string): void {
         this.loading = true;
         this.reportService.exportReport(this.projectEventService.instant.id, reportName)
-            .pipe(finalize(() => this.loading = false))
+            .pipe(finalize((): void => this.loading = false))
             .subscribe((response: any): any => {
                 new FileManager().saveFile(
                     GetFileNameFromContentDisposition(response.headers.get('Content-Disposition')),
                     response.body,
                     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
                 );
-            }, () => {
+            }, (): void => {
                 this.notificationService.openErrorNotification('error.api');
             });
     }
@@ -142,11 +142,11 @@ export class ReportListComponent implements OnInit {
     private setTableData(): void {
         this.loading = true;
         this.reportService.getAllReports()
-            .pipe(finalize(() => this.loading = false))
-            .subscribe((data: Report[]) => {
+            .pipe(finalize((): void => this.loading = false))
+            .subscribe((data: Report[]): void => {
                 this.data.content = data;
                 this.data.totalElements = data.length;
-            }, () => {
+            }, (): void => {
                 this.notificationService.openErrorNotification('error.api');
             });
     }

@@ -93,7 +93,7 @@ export class ProjectCardComponent implements OnInit {
             return;
         }
         this.imagesService.getImage(this.project.logo)
-            .subscribe((blob: Blob) => {
+            .subscribe((blob: Blob): void => {
                 const reader = new FileReader();
                 reader.onload = (): void => {
                     this.imagePath = reader.result;

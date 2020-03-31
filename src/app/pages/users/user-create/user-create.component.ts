@@ -26,10 +26,10 @@ export class UserCreateComponent implements OnInit {
 
     public onSave(): void {
         this.userDataService.createUser(this.transformUserToApiObject())
-            .subscribe(() => {
+            .subscribe((): void => {
                 this.notificationService.openSuccessNotification('success.add');
                 this.router.navigate(['users/list']);
-            }, (error: any) => {
+            }, (error: any): void => {
                 this.notificationService.openErrorNotification(this.getTranslationFromErrorCode(error.error.code));
             });
     }

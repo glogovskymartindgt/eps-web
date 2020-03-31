@@ -88,11 +88,11 @@ import { SelectedAreaService } from '../../../shared/services/storage/selected-a
     public setTableData(tableChangeEvent?: TableChangeEvent): void {
         this.loading = true;
         this.businessAreaService.browseBusinessAreas(tableChangeEvent)
-            .pipe(finalize(() => this.loading = false))
-            .subscribe((data: BrowseResponse<BusinessArea>) => {
+            .pipe(finalize((): void => this.loading = false))
+            .subscribe((data: BrowseResponse<BusinessArea>): void => {
                 this.data = data;
                 this.isInitialized = true;
-            }, () => {
+            }, (): void => {
                 this.notificationService.openErrorNotification('error.api');
             });
     }

@@ -2,11 +2,11 @@ import { TestBed } from '@angular/core/testing';
 
 import { GlobalErrorHandlerService } from './global-error-handler.service';
 
-describe('GlobalErrorHandlerService', () => {
-    beforeEach(() => TestBed.configureTestingModule({}));
+describe('GlobalErrorHandlerService', (): void => {
+    beforeEach((): void => TestBed.configureTestingModule({}));
 
-    it('should be created', () => {
-        const service: GlobalErrorHandlerService = TestBed.get(GlobalErrorHandlerService);
+    it('should be created', (): void => {
+        const service: GlobalErrorHandlerService = TestBed.inject(GlobalErrorHandlerService);
         expect(service)
             .toBeTruthy();
     });

@@ -1,25 +1,24 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { UsersListComponent } from './users-list.component';
 
-describe('UsersListComponent', () => {
+describe('UsersListComponent', (): void => {
     let component: UsersListComponent;
     let fixture: ComponentFixture<UsersListComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(async((): void => {
         TestBed.configureTestingModule({
                    declarations: [UsersListComponent]
                })
                .compileComponents();
     }));
 
-    beforeEach(() => {
+    beforeEach((): void => {
         fixture = TestBed.createComponent(UsersListComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
 
-    it('should create', () => {
+    it('should create', (): void => {
         expect(component)
             .toBeTruthy();
     });

@@ -4,7 +4,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { finalize } from 'rxjs/operators';
-
 import { ConfirmationDialogComponent } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { CommentType } from '../../../shared/enums/comment-type.enum';
 import { Role } from '../../../shared/enums/role.enum';
@@ -54,7 +53,7 @@ export class ActionPointEditComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.activatedRoute.queryParams.subscribe((param: Params) => {
+        this.activatedRoute.queryParams.subscribe((param: Params): void => {
             this.actionPointId = param.id;
             this.getAllComments();
         });
@@ -83,7 +82,7 @@ export class ActionPointEditComponent implements OnInit {
         });
 
         dialogRef.afterClosed()
-        .subscribe((result: any) => {
+        .subscribe((result: any): void => {
 
             if (!result) {
                 return;
@@ -91,10 +90,10 @@ export class ActionPointEditComponent implements OnInit {
 
             this.actionPointService.deleteActionPoint(this.actionPointId)
                 .subscribe(
-                    () => {
+                    (): void => {
                         this.notificationService.openSuccessNotification('success.delete');
                         this.router.navigate([routes.listRoute]);
-                    }, () => {
+                    }, (): void => {
                         this.notificationService.openErrorNotification('error.delete');
                     }
                 );
@@ -107,10 +106,10 @@ export class ActionPointEditComponent implements OnInit {
             return;
         }
         this.actionPointService.editActionPoint(this.actionPointId, this.transformActionPointToApiObject(this.formData))
-            .subscribe(() => {
+            .subscribe((): void => {
                 this.notificationService.openSuccessNotification('success.edit');
                 this.router.navigate([routes.listRoute]);
-            }, () => {
+            }, (): void => {
                 this.notificationService.openErrorNotification('error.edit');
             });
     }
@@ -147,11 +146,11 @@ export class ActionPointEditComponent implements OnInit {
     public onSendCommentService(actionPointComment): void {
         this.loading = true;
         this.taskCommentService.addComment(actionPointComment)
-            .pipe(finalize(() => this.loading = false))
-            .subscribe(() => {
+            .pipe(finalize((): void => this.loading = false))
+            .subscribe((): void => {
                 this.getAllComments();
                 this.addCommentForm.controls.newComment.reset();
-            }, () => {
+            }, (): void => {
                 this.notificationService.openErrorNotification('error.addComment');
             });
     }
@@ -159,13 +158,13 @@ export class ActionPointEditComponent implements OnInit {
     public getAllComments(): void {
         this.loading = true;
         this.taskCommentService.getAllComment(this.actionPointId, 'actionPoint')
-            .pipe(finalize(() => this.loading = false))
-            .subscribe((comments: TaskCommentResponse[]) => {
+            .pipe(finalize((): void => this.loading = false))
+            .subscribe((comments: TaskCommentResponse[]): void => {
                 this.comments = [...comments].sort((comparableCommentTaskResponse: TaskCommentResponse,
-                                                    comparedCommentTaskResponse: TaskCommentResponse) => (comparableCommentTaskResponse.created >
+                                                    comparedCommentTaskResponse: TaskCommentResponse): number => (comparableCommentTaskResponse.created >
                     comparedCommentTaskResponse.created) ? 1 : -1)
                                              .reverse();
-            }, () => {
+            }, (): void => {
                 this.notificationService.openErrorNotification('error.loadComments');
             });
     }
@@ -176,7 +175,7 @@ export class ActionPointEditComponent implements OnInit {
 
     public formDataChange($event): void {
         const formChangeTimeout = 200;
-        setTimeout(() => {
+        setTimeout((): void => {
             this.formData = $event;
         }, formChangeTimeout);
     }
@@ -196,7 +195,7 @@ export class ActionPointEditComponent implements OnInit {
                     this.attachmentFileName = file.name;
                     this.attachmentPathName = data.fileNames[file.name].replace(/^.*[\\\/]/, '');
                     this.onAttachmentAdded();
-                }, () => {
+                }, (): void => {
                     this.attachmentFormat = '';
                     this.attachmentFileName = '';
                     this.attachmentPathName = '';

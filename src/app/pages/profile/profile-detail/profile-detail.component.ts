@@ -51,9 +51,9 @@ export class ProfileDetailComponent implements OnInit {
         reader.onload = (): void => {
             this.imageSrc = reader.result;
             this.imagesService.uploadImages([file])
-                .subscribe((data: any) => {
+                .subscribe((data: any): void => {
                     this.profileDetailForm.controls.avatarUploadId.patchValue(data.fileNames[file.name].replace(/^.*[\\\/]/, ''));
-                }, () => {
+                }, (): void => {
                     this.notificationService.openErrorNotification('error.imageUpload');
                 });
         };
@@ -72,21 +72,21 @@ export class ProfileDetailComponent implements OnInit {
             profileObject.avatar = this.profileDetailForm.controls.avatarUploadId.value;
         }
         this.updateProfileService.updateProfile(this.projectUserService.instant.userId, profileObject)
-            .subscribe(() => {
+            .subscribe((): void => {
                 if (profileObject.avatar) {
                     this.imagesService.getImage(profileObject.avatar)
-                        .subscribe((blob: Blob) => {
+                        .subscribe((blob: Blob): void => {
                             const reader = new FileReader();
                             reader.onload = (): void => {
                                 this.projectUserService.setProperty('avatar', (reader.result) as string);
                             };
                             reader.readAsDataURL(blob);
-                        }, () => {
+                        }, (): void => {
                             this.notificationService.openErrorNotification('error.imageDownload');
                         });
                 }
                 this.location.back();
-            }, () => this.notificationService.openErrorNotification('error.profileUpdateFailed'));
+            }, (): void => this.notificationService.openErrorNotification('error.profileUpdateFailed'));
     }
 
     public onCancel(): void {
@@ -116,9 +116,9 @@ export class ProfileDetailComponent implements OnInit {
 
     private loadProfileDetail(): void {
         this.profileService.getProfileById(this.projectUserService.instant.userId)
-            .subscribe((data: Profile) => {
+            .subscribe((data: Profile): void => {
                 this.setFormWithDetailData(data);
-            }, () => {
+            }, (): void => {
                 this.notificationService.openErrorNotification('error.getProjectDetail');
             });
     }
@@ -135,11 +135,11 @@ export class ProfileDetailComponent implements OnInit {
             this.profileDetailForm.controls.avatarUploadId.patchValue(projectDetail.avatar);
             this.imagesService.getImage(projectDetail.avatar)
                 .subscribe((blob: Blob): void => {
-                    this.fileService.readFile(blob, (result: string) => {
+                    this.fileService.readFile(blob, (result: string): void => {
                         this.projectUserService.setProperty('avatar', result);
                         this.imageSrc = result;
                     });
-                }, () => {
+                }, (): void => {
                     this.notificationService.openErrorNotification('error.imageDownload');
                 });
         }

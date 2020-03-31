@@ -2,11 +2,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SideOptionsProjectComponent } from './side-options-project.component';
 
-describe('SideOptionsComponent', () => {
+describe('SideOptionsComponent', (): void => {
     let component: SideOptionsProjectComponent;
     let fixture: ComponentFixture<SideOptionsProjectComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(async((): void => {
         TestBed.configureTestingModule({
                    declarations: [
                        SideOptionsProjectComponent,
@@ -15,13 +15,13 @@ describe('SideOptionsComponent', () => {
                .compileComponents();
     }));
 
-    beforeEach(() => {
+    beforeEach((): void => {
         fixture = TestBed.createComponent(SideOptionsProjectComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
 
-    it('should create', () => {
+    it('should create', (): void => {
         expect(component)
             .toBeTruthy();
     });

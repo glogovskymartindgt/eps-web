@@ -26,7 +26,7 @@ export class MenuComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.route.children[0].data.subscribe((data: Data) => {
+        this.route.children[0].data.subscribe((data: Data): void => {
             this.section = data.section;
         });
     }

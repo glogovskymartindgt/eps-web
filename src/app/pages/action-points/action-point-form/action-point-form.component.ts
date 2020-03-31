@@ -83,11 +83,11 @@ export class ActionPointFormComponent implements OnInit {
                        private readonly projectUserService: ProjectUserService) {
         this.filteredResponsibles = this.responsibleControl
                                         .valueChanges
-                                        .pipe(map((responsibleUser: string | null) => {
-                                            return responsibleUser ? this._filter(responsibleUser) : this.responsibles.filter((actualResponsibleUser: Responsible) => {
+                                        .pipe(map((responsibleUser: string | null): any => {
+                                            return responsibleUser ? this._filter(responsibleUser) : this.responsibles.filter((actualResponsibleUser: Responsible): any => {
                                                 this.emitFormDataChangeEmitter();
 
-                                                return !this.selectedResponsibles.some((selectedResponsibleUser: Responsible) => selectedResponsibleUser.id ===
+                                                return !this.selectedResponsibles.some((selectedResponsibleUser: Responsible): boolean => selectedResponsibleUser.id ===
                                                     actualResponsibleUser.id);
                                             });
                                         }));
@@ -125,7 +125,7 @@ export class ActionPointFormComponent implements OnInit {
     }
 
     public remove(responsibleUser: Responsible): void {
-        const index = this.selectedResponsibles.findIndex((selectedResponsibleUser: Responsible) => selectedResponsibleUser.id === responsibleUser.id);
+        const index = this.selectedResponsibles.findIndex((selectedResponsibleUser: Responsible): boolean => selectedResponsibleUser.id === responsibleUser.id);
         if (index >= 0) {
             this.selectedResponsibles.splice(index, 1);
             this.autocomplete.closePanel();
@@ -138,12 +138,12 @@ export class ActionPointFormComponent implements OnInit {
         this.responsibleInput.nativeElement.value = '';
         this.responsibleControl.patchValue({});
         this.emitFormDataChangeEmitter();
-        setTimeout(() => this.autocomplete.openPanel(), 0);
+        setTimeout((): void => this.autocomplete.openPanel(), 0);
     }
 
     public onFocus(): void {
 
-        setTimeout(() => this.autocomplete.openPanel(), 0);
+        setTimeout((): void => this.autocomplete.openPanel(), 0);
         this.actionPointForm.controls.responsible.setValue(this.actionPointForm.controls.responsible.value);
     }
 
@@ -182,26 +182,26 @@ export class ActionPointFormComponent implements OnInit {
     private _filter(value: any): Responsible[] {
         const filterValue = typeof value === 'string' ? value.toLowerCase() : value.firstName;
 
-        return this.responsibles.filter((responsible: Responsible) => {
+        return this.responsibles.filter((responsible: Responsible): any => {
                        return responsible && (StringUtils.removeAccentedCharacters(responsible.firstName.toLowerCase())
                                                          .indexOf(filterValue) === 0 || StringUtils.removeAccentedCharacters(responsible.lastName.toLowerCase())
                                                                                                    .indexOf(filterValue) === 0);
                    })
-                   .filter((responsible: Responsible) => {
-                       return !this.selectedResponsibles.find((selectedResponsibleUser: Responsible) => selectedResponsibleUser.id === responsible.id);
+                   .filter((responsible: Responsible): any => {
+                       return !this.selectedResponsibles.find((selectedResponsibleUser: Responsible): boolean => selectedResponsibleUser.id === responsible.id);
                    });
     }
 
     private loadVenueList(): void {
         this.venueService.getVenuesByProjectId(this.projectEventService.instant.id)
-            .subscribe((data: Venue[]) => {
+            .subscribe((data: Venue[]): void => {
                 this.venueList = data;
             });
     }
 
     private loadUserList(): void {
         this.userDataService.getUsers()
-            .subscribe((data: any[]) => {
+            .subscribe((data: any[]): void => {
                 this.userList = data;
                 this.responsibles = data;
             });
@@ -232,7 +232,7 @@ export class ActionPointFormComponent implements OnInit {
             changedAt: [''],
             createdBy: [''],
         });
-        this.actionPointForm.valueChanges.subscribe(() => {
+        this.actionPointForm.valueChanges.subscribe((): void => {
             this.emitFormDataChangeEmitter();
         });
         this.responsibles = [];
@@ -254,7 +254,7 @@ export class ActionPointFormComponent implements OnInit {
     }
 
     private checkIfUpdate(): void {
-        this.activatedRoute.queryParams.subscribe((param: Params) => {
+        this.activatedRoute.queryParams.subscribe((param: Params): void => {
             if (Object.keys(param).length > 0) {
                 this.isUpdate = true;
                 this.getIdFromRouteParamsAndSetDetail(param);
@@ -264,9 +264,9 @@ export class ActionPointFormComponent implements OnInit {
 
     private getIdFromRouteParamsAndSetDetail(param: any): void {
         this.actionPointService.getActionPointById(param.id)
-            .subscribe((apiActionPoint: any) => {
+            .subscribe((apiActionPoint: any): void => {
                 this.setForm(apiActionPoint);
-            }, (error: HttpResponse<any>) => this.notificationService.openErrorNotification(error));
+            }, (error: HttpResponse<any>): void => this.notificationService.openErrorNotification(error));
     }
 
     private setForm(actionPoint: any): void {
@@ -336,7 +336,7 @@ export class ActionPointFormComponent implements OnInit {
         this.actionPointForm.controls.createdBy.disable();
         this.actionPointForm.updateValueAndValidity();
         this.formLoaded = true;
-        this.actionPointForm.valueChanges.subscribe(() => {
+        this.actionPointForm.valueChanges.subscribe((): void => {
             this.emitFormDataChangeEmitter();
         });
     }

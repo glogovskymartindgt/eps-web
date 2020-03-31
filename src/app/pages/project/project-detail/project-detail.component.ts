@@ -49,11 +49,11 @@ export class ProjectDetailComponent implements OnInit {
     public onSave(): void {
         if (this.formData) {
             this.projectsService.editProject(this.formData.projectId, this.transformProjectToApiObject(this.formData))
-                .subscribe(() => {
+                .subscribe((): void => {
                     this.notificationService.openSuccessNotification('success.edit');
                     this.refreshSubject.next('Refresh after save');
                     this.projectEventService.setEventDataFromDetail(this.formData, true, this.formData.logoUploadId);
-                }, () => {
+                }, (): void => {
                     this.notificationService.openErrorNotification('error.edit');
                 });
         }

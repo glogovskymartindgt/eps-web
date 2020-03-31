@@ -2,11 +2,11 @@ import { TestBed } from '@angular/core/testing';
 
 import { EventService } from './event.service';
 
-describe('EventService', () => {
-    beforeEach(() => TestBed.configureTestingModule({}));
+describe('EventService', (): void => {
+    beforeEach((): void => TestBed.configureTestingModule({}));
 
-    it('should be created', () => {
-        const service: EventService<any> = TestBed.get(EventService);
+    it('should be created', (): void => {
+        const service: EventService<any> = TestBed.inject(EventService);
         expect(service)
             .toBeTruthy();
     });

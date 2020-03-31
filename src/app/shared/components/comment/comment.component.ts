@@ -30,18 +30,18 @@ export class CommentComponent implements OnInit {
     public ngOnInit(): void {
         if (this.comment.attachment) {
             this.imagesService.getImage(this.comment.attachment.filePath)
-                .subscribe((blob: Blob) => {
+                .subscribe((blob: Blob): void => {
                     const reader = new FileReader();
                     reader.onload = (): void => {
                         this.imageSrc = reader.result;
                     };
                     reader.readAsDataURL(blob);
-                }, () => {
+                }, (): void => {
                     this.notificationService.openErrorNotification('error.imageDownload');
                 });
         }
 
-        this.projectUserService.subject.userId.subscribe((userId: number) => {
+        this.projectUserService.subject.userId.subscribe((userId: number): void => {
             this.isMyComment = userId === this.comment.createdBy.id;
         });
     }

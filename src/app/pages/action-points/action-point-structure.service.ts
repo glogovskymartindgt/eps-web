@@ -33,7 +33,7 @@ export class ActionPointStructureService {
             extendedObject.description = formObject.description;
         }
         if (formObject.responsibleUsers && formObject.responsibleUsers.length > 0) {
-            extendedObject.responsibles = formObject.responsibleUsers.map((responsible: Responsible) => responsible.id);
+            extendedObject.responsibles = formObject.responsibleUsers.map((responsible: Responsible): any => responsible.id);
         }
 
         return extendedObject;

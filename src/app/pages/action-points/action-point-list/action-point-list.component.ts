@@ -198,12 +198,12 @@ export class ActionPointListComponent implements OnInit {
     public export(): void {
         this.loading = true;
         this.actionPointService.exportActionPoints(this.lastTableChangeEvent, this.additionalFilters, this.projectEventService.instant.id)
-            .pipe(finalize(() => this.loading = false))
+            .pipe(finalize((): void => this.loading = false))
             .subscribe((response: any): any => {
                 const contentDisposition = response.headers.get('Content-Disposition');
                 const exportName: string = GetFileNameFromContentDisposition(contentDisposition);
                 new FileManager().saveFile(exportName, response.body, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-            }, () => {
+            }, (): void => {
                 this.notificationService.openErrorNotification('error.api');
             });
     }
@@ -232,7 +232,7 @@ export class ActionPointListComponent implements OnInit {
         ];
 
         if (this.allActionPointFilters) {
-            this.allActionPointFilters.forEach((filter: Filter) => {
+            this.allActionPointFilters.forEach((filter: Filter): any => {
                 this.additionalFilters.push(filter);
             });
         }
@@ -247,11 +247,11 @@ export class ActionPointListComponent implements OnInit {
             newTableChangeEvent.sortActive = this.tableChangeStorageService.getTasksLastTableChangeEvent().sortActive;
         }
         this.actionPointService.browseActionPoints(newTableChangeEvent, this.additionalFilters)
-            .pipe(finalize(() => this.loading = false))
-            .subscribe((data: BrowseResponse<ActionPoint>) => {
+            .pipe(finalize((): void => this.loading = false))
+            .subscribe((data: BrowseResponse<ActionPoint>): void => {
                 this.data = data;
                 this.isInitialized = true;
-            }, () => {
+            }, (): void => {
                 this.notificationService.openErrorNotification('error.api');
             });
 

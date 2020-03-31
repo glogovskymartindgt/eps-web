@@ -41,7 +41,7 @@ import { checkAndRemoveLastDotComma } from '../../../shared/utils/remove-last-ch
      */
     public onSave(): void {
         this.factService.createFact(this.transformTaskToApiObject(this.formData))
-            .subscribe(() => {
+            .subscribe((): void => {
                 this.notificationService.openSuccessNotification('success.add');
                 this.router.navigate(['facts/list']);
             });

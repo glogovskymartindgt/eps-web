@@ -100,7 +100,7 @@ export class FactFormComponent implements OnInit {
 
         // Subcategory input listener
         this.factForm.controls.subCategory.valueChanges.subscribe((value: any): void => {
-            const subcategory = this.subCategories.find((subCategory: SubCategory) => subCategory.id === value);
+            const subcategory = this.subCategories.find((subCategory: SubCategory): any => subCategory.id === value);
             if (!(subcategory === null || subcategory === undefined)) {
                 this.actualUnitShortName = subcategory.unitShortName;
             }
@@ -119,12 +119,12 @@ export class FactFormComponent implements OnInit {
         });
 
         // Emit value changes to parent component
-        this.factForm.valueChanges.subscribe(() => {
+        this.factForm.valueChanges.subscribe((): void => {
             this.emitFormDataChangeEmitter();
         });
 
         // Listener on checkbox input if has only total value
-        this.factForm.controls.hasOnlyTotalValue.valueChanges.subscribe(() => {
+        this.factForm.controls.hasOnlyTotalValue.valueChanges.subscribe((): void => {
             this.oneValueSelected();
         });
 
@@ -146,8 +146,8 @@ export class FactFormComponent implements OnInit {
     private loadCategories(): void {
         this.categoryLoading = true;
         this.businessAreaService.listCategories()
-            .pipe(finalize(() => this.categoryLoading = false))
-            .subscribe((data: BrowseResponse<Category>) => {
+            .pipe(finalize((): void => this.categoryLoading = false))
+            .subscribe((data: BrowseResponse<Category>): void => {
                 this.categories = data.content;
             });
     }
@@ -159,8 +159,8 @@ export class FactFormComponent implements OnInit {
     private loadSubCategories(categoryId): void {
         this.categoryLoading = true;
         this.businessAreaService.listSubCategories(categoryId)
-            .pipe(finalize(() => this.categoryLoading = false))
-            .subscribe((data: SubCategory[]) => {
+            .pipe(finalize((): void => this.categoryLoading = false))
+            .subscribe((data: SubCategory[]): void => {
                 this.subCategories = data;
             });
     }
@@ -185,7 +185,7 @@ export class FactFormComponent implements OnInit {
      * Check if form is for update fact screen based on url parameters
      */
     private checkIfUpdate(): void {
-        this.activatedRoute.queryParams.subscribe((param: Params) => {
+        this.activatedRoute.queryParams.subscribe((param: Params): void => {
             if (Object.keys(param).length > 0) {
                 this.isUpdate = true;
                 this.getIdFromRouteParamsAndSetDetail(param);
@@ -199,9 +199,9 @@ export class FactFormComponent implements OnInit {
      */
     private getIdFromRouteParamsAndSetDetail(param: any): void {
         this.factService.getFactById(param.id, param.projectId)
-            .subscribe((apiTask: Fact) => {
+            .subscribe((apiTask: Fact): void => {
                 this.setForm(apiTask);
-            }, (error: HttpResponse<any>) => this.notificationService.openErrorNotification(error));
+            }, (error: HttpResponse<any>): void => this.notificationService.openErrorNotification(error));
     }
 
     /**
@@ -279,17 +279,17 @@ export class FactFormComponent implements OnInit {
             description: fact.description ? fact.description : ''
         });
 
-        this.factForm.controls.firstValue.valueChanges.subscribe((firstValue: any) => {
+        this.factForm.controls.firstValue.valueChanges.subscribe((firstValue: any): void => {
             const numberValue = this.transformNumberValue(this.factForm.value.secondValue, firstValue);
             this.factForm.controls.totalValue.patchValue(this.pipe.transform(numberValue.toString(), ','));
         });
 
-        this.factForm.controls.secondValue.valueChanges.subscribe((secondValue: any) => {
+        this.factForm.controls.secondValue.valueChanges.subscribe((secondValue: any): void => {
             const numberValue = this.transformNumberValue(this.factForm.value.firstValue, secondValue);
             this.factForm.controls.totalValue.patchValue(this.pipe.transform(numberValue.toString(), ','));
         });
 
-        this.factForm.valueChanges.subscribe(() => {
+        this.factForm.valueChanges.subscribe((): void => {
             this.emitFormDataChangeEmitter();
         });
 
@@ -299,7 +299,7 @@ export class FactFormComponent implements OnInit {
 
         this.formLoaded = true;
 
-        this.factForm.controls.hasOnlyTotalValue.valueChanges.subscribe(() => {
+        this.factForm.controls.hasOnlyTotalValue.valueChanges.subscribe((): void => {
             this.oneValueSelected();
         });
 
@@ -311,7 +311,7 @@ export class FactFormComponent implements OnInit {
             this.isSecondValueRequired = false;
             this.isTotalRequired = true;
             const updateTotalTimeout = 200;
-            setTimeout(() => {
+            setTimeout((): void => {
                 this.factForm.controls.firstValue.disable();
                 this.factForm.controls.secondValue.disable();
                 this.factForm.controls.totalValue.enable();

@@ -44,7 +44,7 @@ export class TaskEditComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.activatedRoute.queryParams.subscribe((param: Params) => {
+        this.activatedRoute.queryParams.subscribe((param: Params): void => {
             this.taskId = param.id;
             this.getAllComments();
         });
@@ -64,10 +64,10 @@ export class TaskEditComponent implements OnInit {
     public onSave(): void {
         if (this.formData) {
             this.taskService.editTask(this.taskId, this.transformTaskToApiObject(this.formData))
-                .subscribe(() => {
+                .subscribe((): void => {
                     this.notificationService.openSuccessNotification('success.edit');
                     this.router.navigate(['tasks/list']);
-                }, () => {
+                }, (): void => {
                     this.notificationService.openErrorNotification('error.edit');
                 });
         }
@@ -105,11 +105,11 @@ export class TaskEditComponent implements OnInit {
     public onSendCommentService(taskComment): void {
         this.loading = true;
         this.taskCommentService.addComment(taskComment)
-            .pipe(finalize(() => this.loading = false))
-            .subscribe((commentResponse: TaskCommentResponse) => {
+            .pipe(finalize((): void => this.loading = false))
+            .subscribe((commentResponse: TaskCommentResponse): void => {
                 this.getAllComments();
                 this.addCommentForm.controls.newComment.reset();
-            }, () => {
+            }, (): void => {
                 this.notificationService.openErrorNotification('error.addComment');
             });
     }
@@ -117,13 +117,13 @@ export class TaskEditComponent implements OnInit {
     public getAllComments(): void {
         this.loading = true;
         this.taskCommentService.getAllComment(this.taskId, 'task')
-            .pipe(tap(() => this.loading = false))
-            .subscribe((comments: TaskCommentResponse[]) => {
-                this.comments = [...comments].sort((taskCommentResponseComparable: TaskCommentResponse, taskCommentResponseCompared: TaskCommentResponse) => {
+            .pipe(tap((): void => this.loading = false))
+            .subscribe((comments: TaskCommentResponse[]): any => {
+                this.comments = [...comments].sort((taskCommentResponseComparable: TaskCommentResponse, taskCommentResponseCompared: TaskCommentResponse): any => {
                                                  return (taskCommentResponseComparable.created > taskCommentResponseCompared.created) ? 1 : -1;
                                              })
                                              .reverse();
-            }, () => {
+            }, (): void => {
                 this.notificationService.openErrorNotification('error.loadComments');
             });
 
@@ -135,7 +135,7 @@ export class TaskEditComponent implements OnInit {
 
     public formDataChange($event): void {
         const formChangeTimeout = 200;
-        setTimeout(() => {
+        setTimeout((): void => {
             this.formData = $event;
         }, formChangeTimeout);
     }
@@ -148,14 +148,14 @@ export class TaskEditComponent implements OnInit {
         const reader = new FileReader();
         reader.onload = (): void => {
             this.imagesService.uploadImages([file])
-                .subscribe((data: any) => {
+                .subscribe((data: any): void => {
                     this.attachmentFormat = file.name.split('.')
                                                 .pop()
                                                 .toUpperCase();
                     this.attachmentFileName = file.name;
                     this.attachmentPathName = data.fileNames[file.name].replace(/^.*[\\\/]/, '');
                     this.onAttachmentAdded();
-                }, () => {
+                }, (): void => {
                     this.attachmentFormat = '';
                     this.attachmentFileName = '';
                     this.attachmentPathName = '';

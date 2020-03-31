@@ -29,10 +29,10 @@ export class AdminLayoutComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.projectUserService.subject.login.subscribe((login: string) => {
+        this.projectUserService.subject.login.subscribe((login: string): void => {
             this.login = login;
         });
-        this.projectUserService.subject.avatar.subscribe((avatar: string) => {
+        this.projectUserService.subject.avatar.subscribe((avatar: string): void => {
             this.avatar = avatar;
         });
     }

@@ -41,7 +41,7 @@ import { ProjectUserService } from '../../../shared/services/storage/project-use
      */
     public ngOnInit(): void {
         this.dashboardService.setSecondaryHeaderContent({isDashboard: true});
-        this.dashboardService.dashboardFilterNotifier$.subscribe((filterValue: string) => {
+        this.dashboardService.dashboardFilterNotifier$.subscribe((filterValue: string): void => {
             this.filterProjects(filterValue);
         });
 
@@ -66,7 +66,7 @@ import { ProjectUserService } from '../../../shared/services/storage/project-use
      */
     private filterProjects(filterValue = 'ALL'): void {
         this.dashboardService.filterProjects(filterValue)
-            .subscribe((data: ProjectInterface[]) => {
+            .subscribe((data: ProjectInterface[]): void => {
                 this.projects = data;
                 this.dashboardService.setSecondaryHeaderContent({isDashboard: true});
             });
@@ -74,14 +74,14 @@ import { ProjectUserService } from '../../../shared/services/storage/project-use
 
     private initializeUserPhoto(): void {
         this.userDataService.getOwnUserDetail(this.projectUserService.instant.userId)
-            .subscribe((user: User) => {
+            .subscribe((user: User): void => {
                 if (user.avatar) {
                     this.imagesService.getImage(user.avatar)
-                        .subscribe((blob: Blob) => {
-                            this.fileService.readFile(blob, (result: string) => {
+                        .subscribe((blob: Blob): void => {
+                            this.fileService.readFile(blob, (result: string): void => {
                                 this.projectUserService.setProperty('avatar', result);
                             });
-                        }, () => {
+                        }, (): void => {
                             this.notificationService.openErrorNotification('error.imageDownload');
                         });
                 }

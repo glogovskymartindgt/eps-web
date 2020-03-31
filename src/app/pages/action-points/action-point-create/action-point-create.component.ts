@@ -32,10 +32,10 @@ export class ActionPointCreateComponent implements OnInit {
 
     public onSave(): void {
         this.actionPointService.createActionPoint(this.transformActionPointToApiObject(this.formData))
-            .subscribe(() => {
+            .subscribe((): void => {
                 this.notificationService.openSuccessNotification('success.add');
                 this.router.navigate(['action-points/list']);
-            }, () => {
+            }, (): void => {
                 this.notificationService.openErrorNotification('error.add');
             });
     }

@@ -49,11 +49,11 @@ import { ProjectUserService } from './storage/project-user.service';
                 password,
                 deviceId
             }, {headers})
-            .subscribe((data: {}) => {
+            .subscribe((data: {}): void => {
                 this.userService.setAuthData(data);
                 this.projectEventService.setEventData();
                 this.router.navigate(['dashboard']);
-            }, (error: HttpErrorResponse) => {
+            }, (error: HttpErrorResponse): void => {
                 if (error.error.code === accessDeniedCode) {
                     this.notificationService.openErrorNotification('error.loginData');
                 } else {
@@ -80,10 +80,10 @@ import { ProjectUserService } from './storage/project-user.service';
                 authenticationToken,
                 deviceId
             }, {headers})
-            .pipe(finalize(() => this.router.navigate(['authentication/login'])))
-            .subscribe(() => {
+            .pipe(finalize((): void => this.router.navigate(['authentication/login'])))
+            .subscribe((): void => {
                 this.userService.clearUserData();
-            }, () => {
+            }, (): void => {
                 this.notificationService.openErrorNotification('error.logout');
             });
     }

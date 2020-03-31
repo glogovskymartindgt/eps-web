@@ -33,7 +33,7 @@ export class NotificationService implements NotificationWrapper {
      * @param message
      */
     public openErrorNotification(message: any): MatSnackBarRef<NotificationSnackBarComponent> {
-        this.zone.run(() => this.snackBar.open(message));
+        this.zone.run((): void => this.snackBar.open(message));
 
         return this.openNotification('snack-error', {message, type: NotificationType.ERROR});
     }
@@ -43,7 +43,7 @@ export class NotificationService implements NotificationWrapper {
      * @param message
      */
     public openInfoNotification(message: any): MatSnackBarRef<NotificationSnackBarComponent> {
-        this.zone.run(() => this.snackBar.open(message));
+        this.zone.run((): void => this.snackBar.open(message));
 
         return this.openNotification('snack-info', {message, type: NotificationType.WARNING});
     }
@@ -53,7 +53,7 @@ export class NotificationService implements NotificationWrapper {
      * @param message
      */
     public openSuccessNotification(message: any): MatSnackBarRef<NotificationSnackBarComponent> {
-        this.zone.run(() => this.snackBar.open(message));
+        this.zone.run((): void => this.snackBar.open(message));
 
         return this.openNotification('snack-success', {message, type: NotificationType.SUCCESS});
     }

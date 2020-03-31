@@ -22,8 +22,8 @@ export class RoutingStorageService {
      */
     public loadRouting(): void {
         this.router.events
-            .pipe(filter((event: any) => event instanceof NavigationEnd))
-            .subscribe(({urlAfterRedirects}: NavigationEnd) => {
+            .pipe(filter((event: any): any => event instanceof NavigationEnd))
+            .subscribe(({urlAfterRedirects}: NavigationEnd): void => {
                 this.history = [...this.history, urlAfterRedirects];
             });
     }

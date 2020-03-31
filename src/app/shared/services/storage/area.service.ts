@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ABSTRACT_STORAGE_TOKEN, AbstractStorageService } from '../../hazelnut/hazelnut-common/services';
+import { AbstractStorageService, ABSTRACT_STORAGE_TOKEN } from '../../hazelnut/hazelnut-common/services';
 
 type Proxify<T> = {
     [S in keyof T]: Observable<T[S]>;
@@ -27,7 +27,7 @@ export class AreaService<T extends object> {
         });
         this._subject = new Proxy<any>(value, {
             get: (target: any, name: keyof T): any => {
-                return this._behaviorSubject.pipe(map((item: T) => item[name]));
+                return this._behaviorSubject.pipe(map((item: T): any => item[name]));
             },
             set(): any {
                 throw new Error('Cannot set value directly');

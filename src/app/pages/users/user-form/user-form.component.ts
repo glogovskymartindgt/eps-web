@@ -77,7 +77,7 @@ export class UserFormComponent implements OnInit {
     }
 
     private checkIfUpdate(): void {
-        this.activatedRoute.queryParams.subscribe((param: Params) => {
+        this.activatedRoute.queryParams.subscribe((param: Params): void => {
             if (Object.keys(param).length > 0) {
                 this.isUpdate = true;
                 this.userForm.controls.login.disable();
@@ -119,7 +119,7 @@ export class UserFormComponent implements OnInit {
                         this.userImageSrc = reader.result;
                     };
                     reader.readAsDataURL(blob);
-                }, () => {
+                }, (): void => {
                     this.notificationService.openErrorNotification('error.imageDownload');
                 });
         }
@@ -128,9 +128,9 @@ export class UserFormComponent implements OnInit {
 
     private getIdFromRouteParamsAndSetDetail(param: any): void {
         this.userDataService.getUserDetail(param.id)
-            .subscribe((apiUser: User) => {
+            .subscribe((apiUser: User): void => {
                 this.setForm(apiUser);
-            }, (error: any) => this.notificationService.openErrorNotification(error));
+            }, (error: any): void => this.notificationService.openErrorNotification(error));
     }
 
     private createForm(): void {
@@ -163,7 +163,7 @@ export class UserFormComponent implements OnInit {
         this.userForm.controls.lastName.setValidators(Validators.required);
         this.userForm.controls.login.setValidators(Validators.required);
         this.userForm.controls.type.setValidators(Validators.required);
-        this.userForm.valueChanges.subscribe(() => {
+        this.userForm.valueChanges.subscribe((): void => {
             this.emitFormDataChangeEmitter();
         });
     }
@@ -181,14 +181,14 @@ export class UserFormComponent implements OnInit {
 
     private initializeGroups(): void {
         this.groupService.browseGroups()
-            .subscribe((groups: BrowseResponse<Group>) => {
+            .subscribe((groups: BrowseResponse<Group>): void => {
                 this.groupList = groups.content;
             });
     }
 
     private initializeProjects(): void {
         this.dashboardService.filterProjects('ALL')
-            .subscribe((data: ProjectInterface[]) => {
+            .subscribe((data: ProjectInterface[]): void => {
                 this.projectList = data;
             });
     }

@@ -171,11 +171,11 @@ export class UsersListComponent implements OnInit {
 
             // Api call
             this.userDataService.browseUsers(tableChangeEvent)
-                .pipe(finalize(() => this.loading = false))
-                .subscribe((data: BrowseResponse<User>) => {
+                .pipe(finalize((): void => this.loading = false))
+                .subscribe((data: BrowseResponse<User>): void => {
                     this.data = data;
                     this.isInitialized = true;
-                }, () => {
+                }, (): void => {
                     this.notificationService.openErrorNotification('error.api');
                 });
             this.tableChangeStorageService.setUsersLastTableChangeEvent(tableChangeEvent);

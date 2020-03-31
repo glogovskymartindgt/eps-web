@@ -1,25 +1,24 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { AdminLayoutComponent } from './admin-layout.component';
 
-describe('AdminLayoutComponent', () => {
+describe('AdminLayoutComponent', (): void => {
     let component: AdminLayoutComponent;
     let fixture: ComponentFixture<AdminLayoutComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(async((): void => {
         TestBed.configureTestingModule({
                    declarations: [AdminLayoutComponent]
                })
                .compileComponents();
     }));
 
-    beforeEach(() => {
+    beforeEach((): void => {
         fixture = TestBed.createComponent(AdminLayoutComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
 
-    it('should create', () => {
+    it('should create', (): void => {
         expect(component)
             .toBeTruthy();
     });

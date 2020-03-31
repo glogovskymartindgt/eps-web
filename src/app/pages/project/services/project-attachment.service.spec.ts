@@ -1,12 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-
 import { ProjectAttachmentService } from './project-attachment.service';
 
-describe('ProjectAttachmentService', () => {
-    beforeEach(() => TestBed.configureTestingModule({}));
+describe('ProjectAttachmentService', (): void => {
+    beforeEach((): void => TestBed.configureTestingModule({}));
 
-    it('should be created', () => {
-        const service: ProjectAttachmentService = TestBed.get(ProjectAttachmentService);
+    it('should be created', (): void => {
+        const service: ProjectAttachmentService = TestBed.initTestEnvironment(ProjectAttachmentService);
         expect(service)
             .toBeTruthy();
     });

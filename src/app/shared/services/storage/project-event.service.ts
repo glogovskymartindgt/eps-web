@@ -35,7 +35,7 @@ export class ProjectEventService extends EventService<EventDataInterface> {
             this.setDetailObject(project, isEvent);
         } else {
             this.imagesService.getImage(imagePath)
-                .subscribe((blob: Blob) => {
+                .subscribe((blob: Blob): void => {
                     const reader = new FileReader();
                     reader.onload = (): void => {
                         this.imagePath = reader.result;

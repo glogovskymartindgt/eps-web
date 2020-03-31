@@ -77,10 +77,10 @@ export class ProjectCreateComponent implements OnInit {
 
     public onSave(): void {
         this.projectsService.createProject(this.transformProjectToApiObject())
-            .subscribe(() => {
+            .subscribe((): void => {
                 this.notificationService.openSuccessNotification('success.add');
                 this.router.navigate(['dashboard/list']);
-            }, () => {
+            }, (): void => {
                 this.notificationService.openErrorNotification('error.add');
             });
     }
@@ -98,7 +98,7 @@ export class ProjectCreateComponent implements OnInit {
         reader.onload = (): void => {
             this.imageSrc = reader.result;
             this.imagesService.uploadImages([file])
-                .subscribe((data: any) => {
+                .subscribe((data: any): void => {
                     this.projectDetailForm.controls.logoUploadId.patchValue(data.fileNames[file.name].replace(/^.*[\\\/]/, ''));
                 }, (): void => {
                     this.imageSrc = this.defaultLogoPath;
@@ -233,10 +233,10 @@ export class ProjectCreateComponent implements OnInit {
     private loadCountries(): any {
         this.countriesLoading = true;
         this.businessAreaService.listCountries()
-            .pipe(finalize(() => this.countriesLoading = false))
-            .subscribe((data: BrowseResponse<Country>) => {
-                this.countryList = data.content.filter((item: Country) => item.state === 'VALID');
-            }, () => {
+            .pipe(finalize((): void => this.countriesLoading = false))
+            .subscribe((data: BrowseResponse<Country>): void => {
+                this.countryList = data.content.filter((item: Country): any => item.state === 'VALID');
+            }, (): void => {
                 this.notificationService.openErrorNotification('error.api');
             });
     }

@@ -1,8 +1,8 @@
 import { async, TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 
-describe('AppComponent', () => {
-    beforeEach(async(() => {
+describe('AppComponent', (): void => {
+    beforeEach(async((): void => {
         TestBed.configureTestingModule({
                    declarations: [
                        AppComponent
@@ -11,21 +11,21 @@ describe('AppComponent', () => {
                .compileComponents();
     }));
 
-    it('should create the app', () => {
+    it('should create the app', (): void => {
         const fixture = TestBed.createComponent(AppComponent);
         const app = fixture.debugElement.componentInstance;
         expect(app)
             .toBeTruthy();
     });
 
-    it(`should have as title 'iihf-web'`, () => {
+    it(`should have as title 'iihf-web'`, (): void => {
         const fixture = TestBed.createComponent(AppComponent);
         const app = fixture.debugElement.componentInstance;
         expect(app.title)
             .toEqual('iihf-web');
     });
 
-    it('should render title in a h1 tag', () => {
+    it('should render title in a h1 tag', (): void => {
         const fixture = TestBed.createComponent(AppComponent);
         fixture.detectChanges();
         const compiled = fixture.debugElement.nativeElement;

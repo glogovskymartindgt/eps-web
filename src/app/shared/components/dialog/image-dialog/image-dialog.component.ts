@@ -1,4 +1,5 @@
 import { Component, Inject } from '@angular/core';
+// tslint:disable-next-line:ordered-imports
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({

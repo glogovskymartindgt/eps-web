@@ -1,25 +1,24 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { SecondaryHeaderSettingsComponent } from './secondary-header-settings.component';
 
-describe('SecondaryHeaderComponent', () => {
+describe('SecondaryHeaderComponent', (): void => {
     let component: SecondaryHeaderSettingsComponent;
     let fixture: ComponentFixture<SecondaryHeaderSettingsComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(async((): void => {
         TestBed.configureTestingModule({
                    declarations: [SecondaryHeaderSettingsComponent]
                })
                .compileComponents();
     }));
 
-    beforeEach(() => {
+    beforeEach((): void => {
         fixture = TestBed.createComponent(SecondaryHeaderSettingsComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
 
-    it('should create', () => {
+    it('should create', (): void => {
         expect(component)
             .toBeTruthy();
     });

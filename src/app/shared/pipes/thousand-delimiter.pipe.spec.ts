@@ -1,7 +1,7 @@
 import { ThousandDelimiterPipe } from './thousand-delimiter.pipe';
 
-describe('ThousandDelimiterPipe', () => {
-    it('create an instance', () => {
+describe('ThousandDelimiterPipe', (): void => {
+    it('create an instance', (): void => {
         const pipe = new ThousandDelimiterPipe();
         expect(pipe)
             .toBeTruthy();

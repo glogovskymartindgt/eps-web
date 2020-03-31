@@ -32,10 +32,10 @@ export class TaskCreateComponent implements OnInit {
 
     public onSave(): void {
         this.taskService.createTask(this.transformTaskToApiObject(this.formData))
-            .subscribe(() => {
+            .subscribe((): void => {
                 this.notificationService.openSuccessNotification('success.add');
                 this.router.navigate(['tasks/list']);
-            }, () => {
+            }, (): void => {
                 this.notificationService.openErrorNotification('error.add');
             });
     }

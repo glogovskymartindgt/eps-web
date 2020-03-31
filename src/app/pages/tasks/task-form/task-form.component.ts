@@ -178,37 +178,37 @@ export class TaskFormComponent implements OnInit {
 
     private loadBusinessAreaList(): void {
         this.businessAreaService.listBusinessAreas()
-            .subscribe((data: BrowseResponse<BusinessArea>) => {
+            .subscribe((data: BrowseResponse<BusinessArea>): any => {
                 this.businessAreaList = data.content
-                                            .filter((item: BusinessArea) => item.codeItem !== null && item.state === 'VALID');
+                                            .filter((item: BusinessArea): any => item.codeItem !== null && item.state === 'VALID');
             });
     }
 
     private loadSourceOfAgendaList(): void {
         this.businessAreaService.listSourceOfAgendas()
-            .subscribe((data: BrowseResponse<SourceOfAgenda>) => {
+            .subscribe((data: BrowseResponse<SourceOfAgenda>): any => {
                 this.sourceOfAgendaList = data.content
-                                              .filter((item: SourceOfAgenda) => item.state === 'VALID');
+                                              .filter((item: SourceOfAgenda): any => item.state === 'VALID');
             });
     }
 
     private loadPhaseList(): void {
         this.phaseService.getPhasesByProjectId(this.projectEventService.instant.id)
-            .subscribe((data: Phase[]) => {
+            .subscribe((data: Phase[]): void => {
                 this.phaseList = data;
             });
     }
 
     private loadVenueList(): void {
         this.venueService.getVenuesByProjectId(this.projectEventService.instant.id)
-            .subscribe((data: Venue[]) => {
+            .subscribe((data: Venue[]): void => {
                 this.venueList = data;
             });
     }
 
     private loadUserList(): void {
         this.userDataService.getUsers()
-            .subscribe((data: any[]) => {
+            .subscribe((data: any[]): void => {
                 this.userList = data;
             });
     }
@@ -240,7 +240,7 @@ export class TaskFormComponent implements OnInit {
             changedBy: [''],
             changedAt: [''],
         });
-        this.taskForm.valueChanges.subscribe(() => {
+        this.taskForm.valueChanges.subscribe((): void => {
             this.emitFormDataChangeEmitter();
         });
     }
@@ -257,7 +257,7 @@ export class TaskFormComponent implements OnInit {
     }
 
     private checkIfUpdate(): void {
-        this.activatedRoute.queryParams.subscribe((param: Params) => {
+        this.activatedRoute.queryParams.subscribe((param: Params): void => {
             if (Object.keys(param).length > 0) {
                 this.isUpdate = true;
                 this.getIdFromRouteParamsAndSetDetail(param);
@@ -267,9 +267,9 @@ export class TaskFormComponent implements OnInit {
 
     private getIdFromRouteParamsAndSetDetail(param: any): void {
         this.taskService.getTaskById(param.id)
-            .subscribe((apiTask: TaskInterface) => {
+            .subscribe((apiTask: TaskInterface): void => {
                 this.setForm(apiTask);
-            }, (error: any) => this.notificationService.openErrorNotification(error));
+            }, (error: any): void => this.notificationService.openErrorNotification(error));
     }
 
     private setForm(task: any): void {
@@ -334,7 +334,7 @@ export class TaskFormComponent implements OnInit {
         this.taskForm.updateValueAndValidity();
         this.formLoaded = true;
 
-        this.taskForm.valueChanges.subscribe(() => {
+        this.taskForm.valueChanges.subscribe((): void => {
             this.emitFormDataChangeEmitter();
         });
     }

@@ -47,7 +47,7 @@ export class MenuGuard {
 
     public menuRoutingCheck(menuOption: string): boolean {
         const menuRouteIndex = this.menuOptionsVsRoles
-                                   .map((menuItem: any) => menuItem.option)
+                                   .map((menuItem: any): any => menuItem.option)
                                    .indexOf(menuOption);
         if (menuRouteIndex > -1) {
             return this.authService.hasRole(this.menuOptionsVsRoles[menuRouteIndex].role);

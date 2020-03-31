@@ -40,7 +40,7 @@ export class SecondaryHeaderProjectComponent implements OnInit {
     public routeToDashboard(): void {
         this.activeFilter = 'ALL';
         this.router.navigate(['dashboard'])
-            .then(() => {
+            .then((): void => {
             });
         this.dashboardService.setSecondaryHeaderContent({isDashboard: true});
         this.projectEventService.setEventData();

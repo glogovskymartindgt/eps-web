@@ -1,12 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-
 import { UpdateProfileService } from './update-profile.service';
 
-describe('UpdateProfileService', () => {
-    beforeEach(() => TestBed.configureTestingModule({}));
+describe('UpdateProfileService', (): void => {
+    beforeEach((): void => TestBed.configureTestingModule({}));
 
-    it('should be created', () => {
-        const service: UpdateProfileService = TestBed.get(UpdateProfileService);
+    it('should be created', (): void => {
+        const service: UpdateProfileService = TestBed.inject(UpdateProfileService);
         expect(service)
             .toBeTruthy();
     });

@@ -25,7 +25,7 @@ export class UserEditComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.activatedRoute.queryParams.subscribe((param: Params) => {
+        this.activatedRoute.queryParams.subscribe((param: Params): void => {
             this.userId = param.id;
         });
     }
@@ -38,10 +38,10 @@ export class UserEditComponent implements OnInit {
         this.transformUserToApiObject();
         if (this.formData) {
             this.userDataService.updateUser(this.userId, this.transformUserToApiObject())
-                .subscribe(() => {
+                .subscribe((): void => {
                     this.notificationService.openSuccessNotification('success.edit');
                     this.router.navigate(['users/list']);
-                }, (error: any) => {
+                }, (error: any): void => {
                     this.notificationService.openErrorNotification(this.getTranslationFromErrorCode(error.error.code));
                 });
         }
@@ -49,7 +49,7 @@ export class UserEditComponent implements OnInit {
 
     public formDataChange($event): void {
         const formChangeTimeout = 200;
-        setTimeout(() => {
+        setTimeout((): void => {
             this.formData = $event;
         }, formChangeTimeout);
     }

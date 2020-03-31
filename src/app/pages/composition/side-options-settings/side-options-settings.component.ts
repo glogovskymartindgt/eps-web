@@ -24,14 +24,14 @@ export class SideOptionsSettingsComponent implements OnInit {
     public ngOnInit(): void {
         if (!this.routes) {
             this.routes = this.router.config
-                              .find((group: Route) => group.component && group.component.name === 'AdminLayoutComponent')
+                              .find((group: Route): any => group.component && group.component.name === 'AdminLayoutComponent')
                               .children
-                              .filter((item: Route) => {
+                              .filter((item: Route): any => {
                                   if (item.data.section) {
                                       return item.data.section === 'settings';
                                   }
                               })
-                              .filter((route: Route) => this.menuGuard.menuRoutingCheck(route.data.title));
+                              .filter((route: Route): any => this.menuGuard.menuRoutingCheck(route.data.title));
         }
         this.setMenuOptionOnInitFromRouter();
         this.menuSelect = this.menuService.menuOpen;
@@ -55,7 +55,7 @@ export class SideOptionsSettingsComponent implements OnInit {
 
     public setMenuOptionOnInitFromRouter(): void {
         this.menuService.setSelectedOption('users');
-        ['users'].forEach((routeSubstring: string) => {
+        ['users'].forEach((routeSubstring: string): void => {
             if (this.router.url.includes(routeSubstring)) {
                 this.menuService.setSelectedOption(routeSubstring);
             }

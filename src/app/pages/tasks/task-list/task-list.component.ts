@@ -232,12 +232,12 @@ export class TaskListComponent implements OnInit {
     public export(): void {
         this.loading = true;
         this.taskService.exportTasks(this.lastTableChangeEvent, this.additionalFilters, this.projectEventService.instant.id)
-            .pipe(finalize(() => this.loading = false))
-            .subscribe((response: any) => {
+            .pipe(finalize((): void => this.loading = false))
+            .subscribe((response: any): void => {
                 const contentDisposition = response.headers.get('Content-Disposition');
                 const exportName: string = GetFileNameFromContentDisposition(contentDisposition);
                 new FileManager().saveFile(exportName, response.body, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-            }, () => {
+            }, (): void => {
                 this.notificationService.openErrorNotification('error.api');
             });
     }
@@ -271,7 +271,7 @@ export class TaskListComponent implements OnInit {
         }
 
         if (this.allTaskFilters) {
-            this.allTaskFilters.forEach((filter: Filter) => {
+            this.allTaskFilters.forEach((filter: Filter): void => {
                 this.additionalFilters.push(filter);
             });
         }
@@ -307,11 +307,11 @@ export class TaskListComponent implements OnInit {
             newTableChangeEvent.sortActive = this.tableChangeStorageService.getTasksLastTableChangeEvent().sortActive;
         }
         this.taskService.browseTasks(newTableChangeEvent, this.additionalFilters)
-            .pipe(finalize(() => this.loading = false))
-            .subscribe((data: BrowseResponse<TaskInterface>) => {
+            .pipe(finalize((): void => this.loading = false))
+            .subscribe((data: BrowseResponse<TaskInterface>): void => {
                 this.data = data;
                 this.isInitialized = true;
-            }, () => {
+            }, (): void => {
                 this.notificationService.openErrorNotification('error.api');
             });
 
@@ -335,11 +335,11 @@ export class TaskListComponent implements OnInit {
     }
 
     private removeDuplicateFilters(): void {
-        const userIdFilters = this.additionalFilters.filter((el: Filter) => el.property === 'RESPONSIBLE_USER_ID');
+        const userIdFilters = this.additionalFilters.filter((el: Filter): any => el.property === 'RESPONSIBLE_USER_ID');
         if (userIdFilters.length > 1) {
-            const allUserIdFilters = this.additionalFilters.filter((el: Filter) => el.property === 'RESPONSIBLE_USER_ID');
+            const allUserIdFilters = this.additionalFilters.filter((el: Filter): any => el.property === 'RESPONSIBLE_USER_ID');
             const oneFilter = allUserIdFilters[allUserIdFilters.length - 1];
-            this.additionalFilters = this.additionalFilters.filter((el: Filter) => el.property !== 'RESPONSIBLE_USER_ID');
+            this.additionalFilters = this.additionalFilters.filter((el: Filter): any => el.property !== 'RESPONSIBLE_USER_ID');
             this.additionalFilters.push(oneFilter);
         }
     }
@@ -349,9 +349,9 @@ export class TaskListComponent implements OnInit {
      */
     private loadBusinessAreaList(): void {
         this.businessAreaService.listBusinessAreas()
-            .subscribe((data: BrowseResponse<BusinessArea>) => {
+            .subscribe((data: BrowseResponse<BusinessArea>): any => {
                 this.businessAreaList = data.content
-                                            .filter((item: BusinessArea) => item.codeItem !== null && item.state === 'VALID');
+                                            .filter((item: BusinessArea): any => item.codeItem !== null && item.state === 'VALID');
             });
     }
 
@@ -377,7 +377,7 @@ export class TaskListComponent implements OnInit {
             return;
         }
 
-        return tableChangeEventInStorage.additionalFilters.find((filter: Filter) => filter.property === 'BUSINESS_AREA_NAME');
+        return tableChangeEventInStorage.additionalFilters.find((filter: Filter): any => filter.property === 'BUSINESS_AREA_NAME');
     }
 
     /**
