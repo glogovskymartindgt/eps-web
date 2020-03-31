@@ -236,7 +236,6 @@ export class ProjectCreateComponent implements OnInit {
             .pipe(finalize(() => this.countriesLoading = false))
             .subscribe((data: BrowseResponse<Country>) => {
                 this.countryList = data.content.filter((item: Country) => item.state === 'VALID');
-                console.log('data', data);
             }, () => {
                 this.notificationService.openErrorNotification('error.api');
             });
