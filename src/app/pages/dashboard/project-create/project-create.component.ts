@@ -164,9 +164,9 @@ export class ProjectCreateComponent implements OnInit {
     private createVenueObject(formObject: any, screenPosition: number): any {
         const venueObject: any = {};
         venueObject.screenPosition = screenPosition;
-        venueObject.clCountry = {id: formObject.secondCountry};
+        venueObject.clCountry = {id: screenPosition === 1 ? formObject.firstCountry : formObject.secondCountry};
         if (formObject.secondVenue) {
-            venueObject.cityName = formObject.secondVenue;
+            venueObject.cityName = screenPosition === 1 ? formObject.firstVenue : formObject.secondVenue;
         }
 
         return venueObject;
@@ -236,6 +236,7 @@ export class ProjectCreateComponent implements OnInit {
             .pipe(finalize(() => this.countriesLoading = false))
             .subscribe((data: BrowseResponse<Country>) => {
                 this.countryList = data.content.filter((item: Country) => item.state === 'VALID');
+                console.log('data', data);
             }, () => {
                 this.notificationService.openErrorNotification('error.api');
             });
