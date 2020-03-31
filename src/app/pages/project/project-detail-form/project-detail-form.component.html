@@ -569,9 +569,9 @@
                         </p>
                     </div>
                 </div>
-                <div [class.empty]="!viewImages && (projectAttachmentService.firstVenueAnyImages()) && (projectAttachmentService.secondVenueAnyImages())"
+                <div [class.empty]="!viewImages && (!projectAttachmentService.firstVenueAnyImages()) && (!projectAttachmentService.secondVenueAnyImages())"
                      [class.expanded]="viewImages"
-                     [class.shrink]="!viewImages && !((projectAttachmentService.firstVenueAnyImages()) && (projectAttachmentService.secondVenueAnyImages()))"
+                     [class.shrink]="!viewImages && (projectAttachmentService.firstVenueAnyImages() || projectAttachmentService.secondVenueAnyImages())"
                      fxLayout="row"
                      fxLayoutGap="10px"
                 >
