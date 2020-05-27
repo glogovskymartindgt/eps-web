@@ -16,7 +16,8 @@
         "stylelint:fix": "stylelint src/**/*.scss --fix",
         "e2e": "ng e2e",
         "zipDist": "cd dist && zip -r iihf-eps-web.zip *",
-        "husky-hook": "(git-branch-is develop && ng build --aot true && ng lint && npm run stylelint) || git-branch-is -r \"^((?!develop).)*$\"",
+        "pre-push": "concurrently --kill-others-on-fail \"npm run lint\" \"npm run stylelint\" \"npm run buildProd\"",
+        "husky-hook": "(git-branch-is develop && npm run pre-push) || git-branch-is -r \"^((?!develop).)*$\"",
         "husky-hook:branchless": "ng build --aot true && ng lint && npm run stylelint"
     },
     "husky": {
@@ -67,6 +68,8 @@
         "@types/node": "~13.9.8",
         "chai": "^4.2.0",
         "codelyzer": "^5.2.2",
+        "concurrently": "^5.2.0",
+        "husky": "^4.2.5",
         "jasmine-core": "~3.5.0",
         "jasmine-spec-reporter": "~5.0.1",
         "karma": "~4.4.1",

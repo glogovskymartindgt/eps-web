@@ -25,7 +25,7 @@ import { DashboardService } from './shared/services/dashboard.service';
 import { GlobalErrorHandlerService } from './shared/services/global-error-handler.service';
 import { NotificationService } from './shared/services/notification.service';
 import { TranslateWrapperService } from './shared/services/translate-wrapper.service';
-import { AppConstants } from "./shared/utils/constants";
+import { AppConstants } from './shared/utils/constants';
 
 @NgModule({
     declarations: [
