@@ -134,9 +134,10 @@
     <div class="long-input">
         <haz-core-input [appearance]="'fill'"
                         [label]="'actionPoint.meetingText' | translate"
-                        [maxLength]="255"
+                        [maxLength]="4092"
                         [pattern]="notOnlyWhiteCharactersPattern"
                         [type]="'textarea'"
+                        [required]="true"
                         class="theme-input"
                         formControlName="meetingText"
         >

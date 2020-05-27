@@ -227,7 +227,7 @@ export class ActionPointFormComponent implements OnInit {
             code: [''],
             closedDate: [''],
             meetingDate: [null],
-            meetingText: [''],
+            meetingText: ['', Validators.required],
             changedBy: [''],
             changedAt: [''],
             createdBy: [''],
