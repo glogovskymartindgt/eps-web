@@ -18,12 +18,22 @@
             >
                 {{ 'tasks.save' | translate }}
             </button>
+
             <button type="button"
                     mat-button
                     class="mr-10"
                     (click)="onCancel()"
             >
                 {{ 'tasks.cancel' | translate }}
+            </button>
+
+            <button *iihfShowByRole="role.RoleDeleteTask"
+                    type="button"
+                    mat-button
+                    class="mr-10"
+                    (click)="onDelete()"
+            >
+                {{ 'tasks.delete' | translate }}
             </button>
         </div>
     </div>

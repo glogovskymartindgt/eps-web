@@ -322,6 +322,12 @@
             "message":"This action will delete current action point.",
             "confirmButton":"DELETE",
             "rejectButton":"CANCEL"
+        },
+        "task": {
+            "title": "Delete task?",
+            "message": "This action will delete current task.",
+            "confirmButton": "DELETE",
+            "rejectButton": "CANCEL"
         }
     }
 }

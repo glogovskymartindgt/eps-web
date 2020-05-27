@@ -257,7 +257,7 @@ export class TaskFormComponent implements OnInit {
     }
 
     private checkIfUpdate(): void {
-        this.activatedRoute.queryParams.subscribe((param: Params): void => {
+        this.activatedRoute.params.subscribe((param: Params): void => {
             if (Object.keys(param).length > 0) {
                 this.isUpdate = true;
                 this.getIdFromRouteParamsAndSetDetail(param);
