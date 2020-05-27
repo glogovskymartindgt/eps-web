@@ -16,7 +16,7 @@ import { AuthLayoutComponent } from './pages/layouts/auth-layout/auth-layout.com
 import { ComponentsModule } from './shared/components/components.module';
 import { ImageDialogComponent } from './shared/components/dialog/image-dialog/image-dialog.component';
 import { PdfDialogComponent } from './shared/components/dialog/pdf-dialog/pdf-dialog.component';
-import { CoreTableModule, GLOBAL_CONFIG_TOKEN } from './shared/hazelnut/core-table';
+import { CoreTableModule } from './shared/hazelnut/core-table';
 import { MaterialModule, NOTIFICATION_WRAPPER_TOKEN, TRANSLATE_WRAPPER_TOKEN } from './shared/hazelnut/hazelnut-common';
 import { NotificationSnackBarComponent } from './shared/hazelnut/small-components/notifications';
 import { PipesModule } from './shared/pipes/pipes.module';
@@ -25,6 +25,7 @@ import { DashboardService } from './shared/services/dashboard.service';
 import { GlobalErrorHandlerService } from './shared/services/global-error-handler.service';
 import { NotificationService } from './shared/services/notification.service';
 import { TranslateWrapperService } from './shared/services/translate-wrapper.service';
+import { AppConstants } from "./shared/utils/constants";
 
 @NgModule({
     declarations: [
@@ -49,7 +50,9 @@ import { TranslateWrapperService } from './shared/services/translate-wrapper.ser
         MaterialModule,
         ComponentsModule,
         FlexLayoutModule,
-        CoreTableModule,
+        CoreTableModule.forRoot({
+            pageSize: AppConstants.defaultTablePageSize,
+        }),
         PipesModule,
     ],
     providers: [
@@ -65,10 +68,6 @@ import { TranslateWrapperService } from './shared/services/translate-wrapper.ser
         {
             provide: TRANSLATE_WRAPPER_TOKEN,
             useClass: TranslateWrapperService
-        },
-        {
-            provide: GLOBAL_CONFIG_TOKEN,
-            useValue: {}
         },
         {
             provide: ErrorHandler,
