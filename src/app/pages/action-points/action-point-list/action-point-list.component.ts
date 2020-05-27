@@ -122,6 +122,14 @@ export class ActionPointListComponent implements OnInit {
                     tableCellTemplate: this.dateColumn,
                 }),
                 new TableColumn({
+                    columnDef: 'meetingDescription',
+                    labelKey: 'actionPoint.meetingText',
+                    filter: new TableColumnFilter({
+                        property: 'meetingDescription'
+                    }),
+                    sorting: true,
+                }),
+                new TableColumn({
                     columnDef: 'closedDate',
                     labelKey: 'actionPoint.closedDate',
                     filter: new TableColumnFilter({

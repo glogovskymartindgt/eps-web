@@ -90,6 +90,12 @@ export class CoreTableFilterComponent implements OnInit {
         return item.id;
     }
 
+    private get filterProperty(): string {
+        const filterDef: string = this.columnConfig.filter.property || this.columnConfig.columnDef;
+
+        return StringUtils.convertCamelToSnakeUpper(filterDef);
+    }
+
     private loadCategoryList(): void {
         this.businessAreaService.listCategories()
             .subscribe((data) => {
@@ -112,7 +118,7 @@ export class CoreTableFilterComponent implements OnInit {
         const configuration = this.coreTableService.configuration;
         const isFilterFromPredefinedFilters = configuration &&
             configuration.predefinedFilters &&
-            configuration.predefinedFilters.find((filter: Filter) => filter.property === StringUtils.convertCamelToSnakeUpper(this.columnConfig.columnDef));
+            configuration.predefinedFilters.find((filter: Filter) => filter.property === this.filterProperty);
         const isPredefinedNumberValue = this.columnConfig.filter.type === 'number';
         const isPredefinedDateValue = this.columnConfig.config && this.columnConfig.config.filter && this.columnConfig.config.filter.valueType === 'DATE_TIME';
         const isPredefinedTrafficLightValue = this.columnConfig.columnDef === 'trafficLight';
@@ -124,9 +130,10 @@ export class CoreTableFilterComponent implements OnInit {
             } else if (isPredefinedTrafficLightValue) {
                 this.setFilterElementByPredefinedTrafficLightValues();
             } else {
-                this.filtersElement.controls[this.columnConfig.filterElement].patchValue(configuration.predefinedFilters
-                                                                                                      .find((filter: Filter) => filter.property ===
-                                                                                                          StringUtils.convertCamelToSnakeUpper(this.columnConfig.columnDef)).value);
+                this.filtersElement.controls[this.columnConfig.filterElement]
+                    .patchValue(
+                        configuration.predefinedFilters.find((filter: Filter) => filter.property === this.filterProperty)
+                    );
             }
         }
     }
@@ -165,13 +172,13 @@ export class CoreTableFilterComponent implements OnInit {
 
     private getNumberFilterFromPredefinedFiltersByOperator(operator: string): Filter {
         return this.coreTableService.configuration.predefinedFilters
-                   .filter((filter: Filter) => filter.property === StringUtils.convertCamelToSnakeUpper(this.columnConfig.columnDef))
+                   .filter((filter: Filter) => filter.property === this.filterProperty)
                    .find((filter: Filter) => filter.operator === operator);
     }
 
     private getTrafficLightFromPredefinedFiltersByColor(colorValue: string): Filter {
         return this.coreTableService.configuration.predefinedFilters
-                   .filter((filter: Filter) => filter.property === StringUtils.convertCamelToSnakeUpper(this.columnConfig.columnDef))
+                   .filter((filter: Filter) => filter.property === this.filterProperty)
                    .find((filter: Filter) => filter.value === colorValue);
     }
 
