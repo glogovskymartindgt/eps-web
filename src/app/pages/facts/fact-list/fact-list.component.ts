@@ -111,9 +111,8 @@ export class FactListComponent implements OnInit {
                 new TableColumn({
                     columnDef: 'descriptionShort',
                     labelKey: 'fact.description',
-                    filter: new TableColumnFilter({
-                        property: 'description'
-                    }),
+                    columnRequestName: 'description',
+                    filter: new TableColumnFilter({}),
                     sorting: true,
                 }),
                 new TableColumn({

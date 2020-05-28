@@ -43,8 +43,8 @@ export class CoreTableService {
     }
 
     public addFilter(column: TableColumn, value: any): void {
-        const propertyName = (column.filter.property || column.columnDef) as Property;
-        this.deleteExistingChangedFilters(StringUtils.convertCamelToSnakeUpper(propertyName));
+        const propertyName = StringUtils.convertCamelToSnakeUpper(column.filter.property || column.columnRequestName) as Property;
+        this.deleteExistingChangedFilters(propertyName);
 
         if (!value) {
             this.filtersSubject$.next(this.filters);

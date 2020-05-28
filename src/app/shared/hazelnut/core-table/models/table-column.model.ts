@@ -1,4 +1,5 @@
 import { TemplateRef } from '@angular/core';
+import { StringUtils } from "../../hazelnut-common/hazelnut";
 import { TableColumnInterface } from '../interfaces/table-column.interface';
 import { TableCellType } from './table-cell-type.enum';
 import { TableColumnFilter } from './table-column-filter.model';
@@ -19,10 +20,13 @@ export class TableColumn implements TableColumnInterface {
     public customValue?: (row: any) => string;
     public align?: string;
 
-    public constructor(public config: TableColumnInterface) {
+    private readonly _columnRequestName: string;
+
+    public constructor(public readonly config: TableColumnInterface) {
         this.columnDef = config.columnDef;
         this.label = config.label;
         this.type = config.type;
+        this._columnRequestName = config.columnRequestName;
         this.sorting = config.sorting || this.sorting;
         this.filter = config.filter || this.filter;
         this.tableCellTemplate = config.tableCellTemplate;
@@ -40,6 +44,20 @@ export class TableColumn implements TableColumnInterface {
      */
     public get filterElement(): string {
         return this.columnDef + 'Filter';
+    }
+
+    /**
+     * Get a column name for table requests (sorting, filtering
+     *
+     * @returns columnRequestName
+     * @get
+     */
+    public get columnRequestName(): string {
+        if (this._columnRequestName) {
+            return this._columnRequestName;
+        }
+
+        return StringUtils.convertCamelToSnakeUpper(this.columnDef);
     }
 
     /*

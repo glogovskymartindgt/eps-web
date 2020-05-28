@@ -27,6 +27,12 @@ export interface TableColumnInterface {
     type?: TableCellType;
 
     /**
+     *  Name of the column in requesting additional data (filtering, sorting)
+     *
+     */
+    columnRequestName?: string;
+
+    /**
      * Enable / Disable sorting
      *
      */

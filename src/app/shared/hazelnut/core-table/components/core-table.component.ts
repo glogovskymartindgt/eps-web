@@ -8,7 +8,7 @@ import { Error } from 'tslint/lib/error';
 import { detailExpand } from '../../hazelnut-common/animations';
 import { MiscUtils } from '../../hazelnut-common/hazelnut';
 import { TRANSLATE_WRAPPER_TOKEN, TranslateWrapper } from '../../hazelnut-common/interfaces';
-import { Filter } from '../../hazelnut-common/models';
+import { Filter, Property } from '../../hazelnut-common/models';
 import { NOTIFICATION_WRAPPER_TOKEN, NotificationWrapper } from '../../small-components/notifications';
 import { CoreTableService } from '../core-table.service';
 import { ExpandedDetailDirective } from '../directives/expanded-detail.directive';
@@ -105,7 +105,10 @@ export class CoreTableComponent<T = any> implements OnInit, OnChanges, OnDestroy
 
         const constructRequestParameters$ = filters$.pipe(map((filters: Filter[]) => {
             const requestParameters = new TableRequestParameters(this.paginator, this.sort);
+            requestParameters.sortActive = (this.sort.active && this.configuration.columns
+                .find((column: TableColumn) => column.columnDef === this.sort.active).columnRequestName) as Property
             requestParameters.filter = filters;
+
             return requestParameters;
         }), );
 
