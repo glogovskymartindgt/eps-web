@@ -109,6 +109,14 @@ export class FactListComponent implements OnInit {
                     tableCellTemplate: this.totalValueColumn,
                 }),
                 new TableColumn({
+                    columnDef: 'descriptionShort',
+                    labelKey: 'fact.description',
+                    filter: new TableColumnFilter({
+                        property: 'description'
+                    }),
+                    sorting: true,
+                }),
+                new TableColumn({
                     columnDef: ' ',
                     label: ' ',
                     type: TableCellType.CONTENT,
