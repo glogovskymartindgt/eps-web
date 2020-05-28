@@ -122,7 +122,7 @@ export class ActionPointListComponent implements OnInit {
                     tableCellTemplate: this.dateColumn,
                 }),
                 new TableColumn({
-                    columnDef: 'meetingDescription',
+                    columnDef: 'meetingDescriptionShort',
                     labelKey: 'actionPoint.meetingText',
                     filter: new TableColumnFilter({
                         property: 'meetingDescription'
