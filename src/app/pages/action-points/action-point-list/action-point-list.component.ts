@@ -124,9 +124,8 @@ export class ActionPointListComponent implements OnInit {
                 new TableColumn({
                     columnDef: 'meetingDescriptionShort',
                     labelKey: 'actionPoint.meetingText',
-                    filter: new TableColumnFilter({
-                        property: 'meetingDescription'
-                    }),
+                    columnRequestName: 'meetingDescription',
+                    filter: new TableColumnFilter({}),
                     sorting: true,
                 }),
                 new TableColumn({
