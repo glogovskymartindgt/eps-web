@@ -132,7 +132,7 @@ export class CoreTableFilterComponent implements OnInit {
             } else {
                 this.filtersElement.controls[this.columnConfig.filterElement]
                     .patchValue(
-                        configuration.predefinedFilters.find((filter: Filter) => filter.property === this.filterProperty)
+                        configuration.predefinedFilters.find((filter: Filter) => filter.property === this.filterProperty).value
                     );
             }
         }
