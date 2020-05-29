@@ -156,6 +156,7 @@
         "venue": "Venue",
         "responsible": "Responsible",
         "dueDate": "Due date",
+        "sourceDescription": "Source description",
         "status": "Status",
         "statusValue": {
             "open": "Open",

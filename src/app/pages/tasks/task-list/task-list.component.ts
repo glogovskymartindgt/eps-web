@@ -168,6 +168,13 @@ export class TaskListComponent implements OnInit {
                     tableCellTemplate: this.dateColumn,
                 }),
                 new TableColumn({
+                    columnDef: 'sourceDescriptionShort',
+                    labelKey: 'task.sourceDescription',
+                    columnRequestName: 'sourceDescription',
+                    filter: new TableColumnFilter({}),
+                    sorting: true,
+                }),
+                new TableColumn({
                     columnDef: 'state',
                     labelKey: 'task.status',
                     type: TableCellType.CONTENT,
