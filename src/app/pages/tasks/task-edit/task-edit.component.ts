@@ -1,8 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { tap } from 'rxjs/internal/operators/tap';
 import { finalize } from 'rxjs/operators';
+import { ConfirmationDialogComponent } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { CommentType } from '../../../shared/enums/comment-type.enum';
 import { Role } from '../../../shared/enums/role.enum';
 import { Regex } from '../../../shared/hazelnut/hazelnut-common/regex/regex';
@@ -26,10 +29,11 @@ export class TaskEditComponent implements OnInit {
     public addCommentForm: FormGroup;
     public comments: TaskCommentResponse[] = [];
     public loading = false;
-    public notOnlyWhiteCharactersPattern = Regex.notOnlyWhiteCharactersPattern;
+    public readonly notOnlyWhiteCharactersPattern = Regex.notOnlyWhiteCharactersPattern;
     public attachmentFormat = '';
     public attachmentFileName = '';
     public attachmentPathName = '';
+    public readonly role: typeof Role = Role;
     private taskId: number;
 
     public constructor(private readonly router: Router,
@@ -40,11 +44,14 @@ export class TaskEditComponent implements OnInit {
                        private readonly formBuilder: FormBuilder,
                        private readonly imagesService: ImagesService,
                        public readonly projectEventService: ProjectEventService,
-                       private readonly authService: AuthService) {
+                       private readonly authService: AuthService,
+                       private readonly dialog: MatDialog,
+                       private readonly translateService: TranslateService,
+    ) {
     }
 
     public ngOnInit(): void {
-        this.activatedRoute.queryParams.subscribe((param: Params): void => {
+        this.activatedRoute.params.subscribe((param: Params): void => {
             this.taskId = param.id;
             this.getAllComments();
         });
@@ -58,7 +65,7 @@ export class TaskEditComponent implements OnInit {
     }
 
     public onCancel(): void {
-        this.router.navigate(['tasks/list']);
+        this.navigateToTaskList();
     }
 
     public onSave(): void {
@@ -66,11 +73,38 @@ export class TaskEditComponent implements OnInit {
             this.taskService.editTask(this.taskId, this.transformTaskToApiObject(this.formData))
                 .subscribe((): void => {
                     this.notificationService.openSuccessNotification('success.edit');
-                    this.router.navigate(['tasks/list']);
+                    this.navigateToTaskList();
                 }, (): void => {
                     this.notificationService.openErrorNotification('error.edit');
                 });
         }
+    }
+
+    public onDelete(): void {
+        const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+            data: {
+                title: this.translateService.instant('confirmation.task.title'),
+                message: this.translateService.instant('confirmation.task.message'),
+                rejectionButtonText: this.translateService.instant('confirmation.task.rejectButton'),
+                confirmationButtonText: this.translateService.instant('confirmation.task.confirmButton')
+            },
+            width: '350px'
+        });
+
+        dialogRef.afterClosed()
+            .subscribe((result: any): void => {
+                if (!result) {
+                    return;
+                }
+
+                this.taskService.deleteTask(this.taskId)
+                    .subscribe((): void => {
+                        this.notificationService.openSuccessNotification('success.delete');
+                        this.navigateToTaskList();
+                    }, (): void => {
+                        this.notificationService.openErrorNotification('error.delete');
+                    });
+            });
     }
 
     public onCommentAdded(): void {
@@ -242,4 +276,7 @@ export class TaskEditComponent implements OnInit {
         return apiObject;
     }
 
+    private navigateToTaskList(): void {
+        this.router.navigate(['tasks', 'list']);
+    }
 }

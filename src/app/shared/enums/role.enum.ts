@@ -58,6 +58,7 @@ export enum Role {
     RoleMenuFactItem = 'ROLE_MENU_FACT_ITEM',
     RoleReadAssignUser = 'ROLE_READ_ASSIGN_USER',
     RoleCloseTask = 'ROLE_CLOSE_TASK',
+    RoleDeleteTask = 'ROLE_DELETE_TASK',
     RoleCreateProjectPhase = 'ROLE_CREATE_PROJECT_PHASE',
     RoleFilterFactItem = 'ROLE_FILTER_FACT_ITEM',
     RoleUploadFile = 'ROLE_UPLOAD_FILE',
