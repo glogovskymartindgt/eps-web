@@ -246,6 +246,12 @@ export class CoreTableComponent<T = any> implements OnInit, OnChanges, OnDestroy
         } else {
             this.paginator.pageSize = this.configuration.pageSize;
         }
+        if (this.configuration.predefinedPageIndex || this.configuration.predefinedPageIndex === 0) {
+            this.paginator.pageIndex = this.configuration.predefinedPageIndex;
+        }
+        if (this.configuration.predefinedPageSize || this.configuration.predefinedPageSize === 0) {
+            this.paginator.pageSize = this.configuration.predefinedPageSize;
+        }
     }
 
     private setNoDataKey(): void {
