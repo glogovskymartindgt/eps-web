@@ -318,6 +318,16 @@
             "add": "Create user failed"
         }
     },
+    "team": {
+        "screenTitle": "Team",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "organization": "Organization",
+        "function": "Function",
+        "phone": "Phone",
+        "mobile": "Mobile",
+        "email": "Email"
+    },
     "confirmation": {
         "actionPoint": {
             "title":"Delete action point?",
