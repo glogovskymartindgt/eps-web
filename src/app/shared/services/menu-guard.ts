@@ -29,7 +29,7 @@ export class MenuGuard {
         },
         {
             option: 'menu.team',
-            role: Role.RoleMenuReports
+            role: Role.RoleMenuAssignUser,
         },
         {
             option: 'menu.users',

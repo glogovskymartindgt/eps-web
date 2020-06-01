@@ -37,14 +37,20 @@ export class TeamListComponent implements OnInit, TableContainer<User> {
     }
 
     public getData(tableRequest: TableChangeEvent): void {
+        this.loading = true;
         this.userDataService.browseUsers(tableRequest)
             .subscribe((userBrowseResponse: BrowseResponse<User>): void => {
                 this.tableData = userBrowseResponse;
+                this.loading = false;
+            }, (): void => {
+                this.loading = false;
             });
     }
 
     private setTableConfiguration(): void {
         this.tableConfiguration = {
+            predefinedSortActive: 'lastName',
+            predefinedSortDirection: 'asc',
             columns: [
                 new TableColumn({
                     columnDef: 'firstName',
