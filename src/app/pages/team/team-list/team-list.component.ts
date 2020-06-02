@@ -1,4 +1,5 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Role } from '../../../shared/enums/role.enum';
 import {
     TableCellType,
     TableChangeEvent,
@@ -8,47 +9,65 @@ import {
     TableFilterType,
     TableResponse
 } from '../../../shared/hazelnut/core-table';
+import { fadeEnterLeave } from '../../../shared/hazelnut/hazelnut-common/animations';
 import { BrowseResponse } from '../../../shared/hazelnut/hazelnut-common/models';
 import { TableContainer } from '../../../shared/interfaces/table-container.interface';
 import { User } from '../../../shared/interfaces/user.interface';
 import { UserDataService } from '../../../shared/services/data/user-data.service';
+import { NotificationService } from '../../../shared/services/notification.service';
+import { RoutingStorageService } from '../../../shared/services/routing-storage.service';
+import { TableChangeStorageService } from '../../../shared/services/table-change-storage.service';
 
 @Component({
     selector: 'iihf-team-list',
     templateUrl: './team-list.component.html',
-    styleUrls: ['./team-list.component.scss']
+    styleUrls: ['./team-list.component.scss'],
+    animations: [fadeEnterLeave],
 })
 export class TeamListComponent implements OnInit, TableContainer<User> {
-    @ViewChild('updateColumn', {static: false})
+    @ViewChild('updateColumn', {static: true})
     public updateColumn: TemplateRef<HTMLElement>;
 
     public tableConfiguration: TableConfiguration;
     public tableData: TableResponse<User>;
 
     public loading: boolean;
+    public readonly role: typeof Role = Role;
+
+    public readonly detailNotImplemented: boolean = true;
 
     public constructor(
         private readonly userDataService: UserDataService,
+        private readonly notificationService: NotificationService,
+        private readonly routingStorageService: RoutingStorageService,
+        private readonly tableChangeStorageService: TableChangeStorageService,
     ) {
     }
 
     public ngOnInit(): void {
+        this.tableChangeStorageService.isReturnFromDetail = this.isReturnFromDetail();
         this.setTableConfiguration();
     }
 
     public getData(tableRequest: TableChangeEvent): void {
         this.loading = true;
+        this.tableChangeStorageService.cachedTableChangeEvent = tableRequest;
+
         this.userDataService.browseUsers(tableRequest)
             .subscribe((userBrowseResponse: BrowseResponse<User>): void => {
                 this.tableData = userBrowseResponse;
                 this.loading = false;
             }, (): void => {
                 this.loading = false;
+                this.notificationService.openErrorNotification('error.api');
             });
     }
 
+    public detail(user: User): void {
+    }
+
     private setTableConfiguration(): void {
-        this.tableConfiguration = {
+        const config: TableConfiguration = {
             predefinedSortActive: 'lastName',
             predefinedSortDirection: 'asc',
             columns: [
@@ -106,6 +125,12 @@ export class TeamListComponent implements OnInit, TableContainer<User> {
 
             ]
         };
+
+        this.tableConfiguration = this.tableChangeStorageService.updateTableConfiguration(config);
     }
 
+    private isReturnFromDetail(): any {
+        return this.routingStorageService.getPreviousUrl().includes('team/edit')
+            || this.routingStorageService.getPreviousUrl().includes('team/create');
+    }
 }

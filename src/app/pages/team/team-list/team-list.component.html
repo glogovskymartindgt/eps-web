@@ -8,3 +8,15 @@
     [data]="tableData"
     (requestData)="getData($event)"
 ></haz-core-table>
+
+<ng-template #updateColumn let-user="row" >
+    <ng-container *ngIf="!detailNotImplemented">
+        <div *iihfShowByRole="role.RoleUpdateOwnUser" class="fr">
+            <button (click)="detail(user)"
+                    mat-icon-button
+            >
+                <mat-icon>keyboard_arrow_right</mat-icon>
+            </button>
+        </div>
+    </ng-container>
+</ng-template>

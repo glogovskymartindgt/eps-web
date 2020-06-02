@@ -26,7 +26,7 @@ import { GlobalErrorHandlerService } from './shared/services/global-error-handle
 import { NotificationService } from './shared/services/notification.service';
 import { TranslateWrapperService } from './shared/services/translate-wrapper.service';
 import { AppConstants } from './shared/utils/constants';
-import { MissingTranslationUtils } from "./shared/utils/translation.utils";
+import { MissingTranslationUtils } from './shared/utils/translation.utils';
 
 @NgModule({
     declarations: [
