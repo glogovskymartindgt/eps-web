@@ -16,6 +16,24 @@ import { UserDataService } from '../../../shared/services/data/user-data.service
 import { NotificationService } from '../../../shared/services/notification.service';
 import { AppConstants } from '../../../shared/utils/constants';
 
+enum FormControlNames {
+    id = 'id',
+    isVisible = 'isVisible',
+    firstName = 'firstName',
+    lastName = 'lastName',
+    email = 'email',
+    mobile = 'mobile',
+    phone = 'phone',
+    organization = 'organization',
+    function = 'function',
+    login = 'login',
+    password = 'password',
+    type = 'type',
+    state = 'state',
+    groupIdList = 'groupIdList',
+    projectIdList = 'projectIdList',
+}
+
 @Component({
     selector: 'iihf-user-form',
     templateUrl: './user-form.component.html',
@@ -24,16 +42,21 @@ import { AppConstants } from '../../../shared/utils/constants';
 export class UserFormComponent implements OnInit {
     @Output() public readonly formDataChange = new EventEmitter<any>();
     public userForm: FormGroup;
-    public notOnlyWhiteCharactersPattern = Regex.notOnlyWhiteCharactersPattern;
-    public emailPattern = Regex.emailPattern;
+
     public hidePassword = true;
     public isUpdate = false;
     public groupList = [];
     public userGroups = [];
     public projectList = [];
     public userImageSrc: any = AppConstants.defaultAvatarPath;
-    public userPasswordPattern = Regex.userPassword;
-    public loginStringPattern = Regex.loginStringPattern;
+
+    public readonly notOnlyWhiteCharactersPattern = Regex.notOnlyWhiteCharactersPattern;
+    public readonly emailPattern = Regex.emailPattern;
+    public readonly userPasswordPattern = Regex.userPassword;
+    public readonly loginStringPattern = Regex.loginStringPattern;
+    public readonly phonePattern = Regex.userPassword; // Regex.phonePattern;
+
+    public readonly formControlNames: typeof FormControlNames = FormControlNames;
 
     public constructor(private readonly formBuilder: FormBuilder,
                        private readonly userDataService: UserDataService,
@@ -100,17 +123,21 @@ export class UserFormComponent implements OnInit {
     }
 
     private setForm(user: User): void {
-        this.userForm.controls.id.patchValue(user.id);
-        this.userForm.controls.firstName.patchValue(user.firstName);
-        this.userForm.controls.lastName.patchValue(user.lastName);
-        this.userForm.controls.email.patchValue(user.email);
-        this.userForm.controls.password.patchValue(user.password);
-        this.userForm.controls.login.patchValue(user.login);
-        this.userForm.controls.isVisible.patchValue(user.isVisible);
-        this.userForm.controls.state.patchValue(user.state === 'ACTIVE');
-        this.userForm.controls.type.patchValue(user.type);
-        this.userForm.controls.groupIdList.patchValue(user.groupIdList);
-        this.userForm.controls.projectIdList.patchValue(user.projectIdList);
+        this.userForm.controls[FormControlNames.id].patchValue(user.id);
+        this.userForm.controls[FormControlNames.firstName].patchValue(user.firstName);
+        this.userForm.controls[FormControlNames.lastName].patchValue(user.lastName);
+        this.userForm.controls[FormControlNames.email].patchValue(user.email);
+        this.userForm.controls[FormControlNames.mobile].patchValue(user.mobile);
+        this.userForm.controls[FormControlNames.phone].patchValue(user.phoneNumber);
+        this.userForm.controls[FormControlNames.organization].patchValue(user.organization);
+        this.userForm.controls[FormControlNames.function].patchValue(user.function || '');
+        this.userForm.controls[FormControlNames.password].patchValue(user.password);
+        this.userForm.controls[FormControlNames.login].patchValue(user.login);
+        this.userForm.controls[FormControlNames.isVisible].patchValue(user.isVisible);
+        this.userForm.controls[FormControlNames.state].patchValue(user.state === 'ACTIVE');
+        this.userForm.controls[FormControlNames.type].patchValue(user.type);
+        this.userForm.controls[FormControlNames.groupIdList].patchValue(user.groupIdList);
+        this.userForm.controls[FormControlNames.projectIdList].patchValue(user.projectIdList);
         if (user.avatar) {
             this.imagesService.getImage(user.avatar)
                 .subscribe((blob: Blob): void => {
@@ -135,34 +162,38 @@ export class UserFormComponent implements OnInit {
 
     private createForm(): void {
         this.userForm = this.formBuilder.group({
-            id: [''],
-            isVisible: [''],
-            firstName: [
+            [FormControlNames.id]: [''],
+            [FormControlNames.isVisible]: [''],
+            [FormControlNames.firstName]: [
                 '',
                 Validators.required
             ],
-            lastName: [
+            [FormControlNames.lastName]: [
                 '',
                 Validators.required
             ],
-            email: [''],
-            login: [
+            [FormControlNames.email]: [''],
+            [FormControlNames.mobile]: ['', Validators.required],
+            [FormControlNames.phone]: ['', Validators.required],
+            [FormControlNames.organization]: ['', Validators.required],
+            [FormControlNames.function]: ['', Validators.required],
+            [FormControlNames.login]: [
                 '',
             ],
-            password: ['', ],
-            type: [
+            [FormControlNames.password]: [''],
+            [FormControlNames.type]: [
                 '',
                 Validators.required
             ],
-            state: [''],
-            groupIdList: [''],
-            projectIdList: [''],
+            [FormControlNames.state]: [''],
+            [FormControlNames.groupIdList]: [''],
+            [FormControlNames.projectIdList]: [''],
         });
-        this.userForm.controls.id.disable();
-        this.userForm.controls.firstName.setValidators(Validators.required);
-        this.userForm.controls.lastName.setValidators(Validators.required);
-        this.userForm.controls.login.setValidators(Validators.required);
-        this.userForm.controls.type.setValidators(Validators.required);
+        this.userForm.controls[FormControlNames.id].disable();
+        this.userForm.controls[FormControlNames.firstName].setValidators(Validators.required);
+        this.userForm.controls[FormControlNames.lastName].setValidators(Validators.required);
+        this.userForm.controls[FormControlNames.login].setValidators(Validators.required);
+        this.userForm.controls[FormControlNames.type].setValidators(Validators.required);
         this.userForm.valueChanges.subscribe((): void => {
             this.emitFormDataChangeEmitter();
         });

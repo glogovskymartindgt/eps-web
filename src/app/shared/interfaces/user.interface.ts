@@ -6,6 +6,9 @@ export interface User {
     password?: string;
     phoneNumber?: string;
     email?: string;
+    mobile?: string;
+    organization?: string;
+    function?: string;
     nickName?: string;
     profilePicture?: string;
     state?: string;
