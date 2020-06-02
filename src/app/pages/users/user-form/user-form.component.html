@@ -85,14 +85,18 @@
             </div>
 
             <div class="long-input">
-                <haz-core-input [appearance]="'fill'"
-                                [label]="'profile.organization' |  translate"
-                                [maxLength]="50"
-                                [required]="true"
-                                class="theme-input"
-                                [formControlName]="formControlNames.organization"
-                >
-                </haz-core-input>
+                <mat-form-field appearance="fill" class="long-input">
+                    <mat-label>{{'profile.organization' | translate}}</mat-label>
+                    <mat-select [formControlName]="formControlNames.organization" required>
+                            <mat-option *ngFor="let organization of organizations; trackBy:trackById" [value]="organization.id">
+                                {{ organization.name }}
+                            </mat-option>
+                    </mat-select>
+
+                    <mat-error *ngIf="userForm.controls[formControlNames.organization].errors?.required">
+                        {{ 'error.required' | translate }}
+                    </mat-error>
+                </mat-form-field>
             </div>
 
             <div class="long-input">

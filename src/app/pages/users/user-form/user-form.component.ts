@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Role } from '../../../shared/enums/role.enum';
@@ -6,6 +6,7 @@ import { BrowseResponse } from '../../../shared/hazelnut/hazelnut-common/models'
 import { Regex } from '../../../shared/hazelnut/hazelnut-common/regex/regex';
 import { ProjectInterface } from '../../../shared/interfaces/project.interface';
 import { User } from '../../../shared/interfaces/user.interface';
+import { CodelistItem } from '../../../shared/models/codelist-item.model';
 import { Group } from '../../../shared/models/group.model';
 import { Project } from '../../../shared/models/project.model';
 import { AuthService } from '../../../shared/services/auth.service';
@@ -40,6 +41,9 @@ enum FormControlNames {
     styleUrls: ['./user-form.component.scss']
 })
 export class UserFormComponent implements OnInit {
+    @Input()
+    public organizations: CodelistItem[] = [];
+
     @Output() public readonly formDataChange = new EventEmitter<any>();
     public userForm: FormGroup;
 
@@ -54,7 +58,7 @@ export class UserFormComponent implements OnInit {
     public readonly emailPattern = Regex.emailPattern;
     public readonly userPasswordPattern = Regex.userPassword;
     public readonly loginStringPattern = Regex.loginStringPattern;
-    public readonly phonePattern = Regex.userPassword; // Regex.phonePattern;
+    public readonly phonePattern = Regex.internationalPhonePattern;
 
     public readonly formControlNames: typeof FormControlNames = FormControlNames;
 
@@ -99,6 +103,10 @@ export class UserFormComponent implements OnInit {
         return item.id;
     }
 
+    public trackById(index: number, item: { id: number }): number {
+        return item.id;
+    }
+
     private checkIfUpdate(): void {
         this.activatedRoute.queryParams.subscribe((param: Params): void => {
             if (Object.keys(param).length > 0) {
@@ -129,7 +137,6 @@ export class UserFormComponent implements OnInit {
         this.userForm.controls[FormControlNames.email].patchValue(user.email);
         this.userForm.controls[FormControlNames.mobile].patchValue(user.mobile);
         this.userForm.controls[FormControlNames.phone].patchValue(user.phoneNumber);
-        this.userForm.controls[FormControlNames.organization].patchValue(user.organization);
         this.userForm.controls[FormControlNames.function].patchValue(user.function || '');
         this.userForm.controls[FormControlNames.password].patchValue(user.password);
         this.userForm.controls[FormControlNames.login].patchValue(user.login);
@@ -151,6 +158,11 @@ export class UserFormComponent implements OnInit {
                 });
         }
         this.userGroups = user.groupIdList ? user.groupIdList : [];
+        if (user.organization) {
+            const organizationId: number =
+                this.organizations.find((organization: any): boolean => organization.name === user.organization).id;
+            this.userForm.controls[FormControlNames.organization].patchValue(organizationId);
+        }
     }
 
     private getIdFromRouteParamsAndSetDetail(param: any): void {

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { shareReplay } from "rxjs/operators";
 import { environment } from '../../../../environments/environment';
 import { TableChangeEvent } from '../../hazelnut/core-table';
 import { StringUtils } from '../../hazelnut/hazelnut-common/hazelnut';
@@ -9,6 +10,7 @@ import { BusinessArea } from '../../interfaces/bussiness-area.interface';
 import { Category } from '../../interfaces/category.interface';
 import { SourceOfAgenda } from '../../interfaces/source-of-agenda.interface';
 import { SubCategory } from '../../interfaces/subcategory.interface';
+import { CodelistItem } from "../../models/codelist-item.model";
 import { Country } from '../../models/country.model';
 import { NotificationService } from '../notification.service';
 import { ProjectService } from '../project.service';
@@ -91,12 +93,22 @@ import { ProjectUserService } from '../storage/project-user.service';
     }
 
     /**
+     * Get list of organizations
+     */
+    public listOrganizations(): Observable<CodelistItem[]> {
+        return this.http.get<CodelistItem[]>(`${environment.URL_API}/organizations`, {headers: this.getHeader()});
+    }
+
+    /**
      * Browse list of objects from code list by code value
      * @param code
      */
     private getListByCode(code: string): Observable<BrowseResponse<any>> {
         const limit = 100;
 
-        return this.browseWithSummary(PostContent.create(limit, 0, [new Filter('CODE', code)], []));
+        return this.browseWithSummary(PostContent.create(limit, 0, [new Filter('CODE', code)], []))
+            .pipe(
+                shareReplay(),
+            );
     }
 }
