@@ -10,6 +10,7 @@
         "reports": "Reports",
         "facts": "Facts and Figures",
         "allFacts": "All Facts and Figures",
+        "team": "Team",
         "users": "Users",
         "profile": "Profile",
         "actionPoints": "Action points"
@@ -316,6 +317,16 @@
             "requireProject": "Project is required",
             "add": "Create user failed"
         }
+    },
+    "team": {
+        "screenTitle": "Team",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "organization": "Organization",
+        "function": "Function",
+        "phone": "Phone",
+        "mobile": "Mobile",
+        "email": "Email"
     },
     "confirmation": {
         "actionPoint": {

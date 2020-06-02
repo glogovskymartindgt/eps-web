@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { MissingTranslationHandler, TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { config } from 'rxjs';
 import { AppComponent } from './app.component';
@@ -26,6 +26,7 @@ import { GlobalErrorHandlerService } from './shared/services/global-error-handle
 import { NotificationService } from './shared/services/notification.service';
 import { TranslateWrapperService } from './shared/services/translate-wrapper.service';
 import { AppConstants } from './shared/utils/constants';
+import { MissingTranslationUtils } from './shared/utils/translation.utils';
 
 @NgModule({
     declarations: [
@@ -45,7 +46,11 @@ import { AppConstants } from './shared/utils/constants';
                 provide: TranslateLoader,
                 useFactory: HttpLoaderFactory,
                 deps: [HttpClient]
-            }
+            },
+            missingTranslationHandler: {
+                provide: MissingTranslationHandler,
+                useClass: MissingTranslationUtils,
+            },
         }),
         MaterialModule,
         ComponentsModule,

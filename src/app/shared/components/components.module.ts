@@ -11,13 +11,16 @@ import { CommentComponent } from './comment/comment.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { ImageDialogComponent } from './dialog/image-dialog/image-dialog.component';
 import { PdfDialogComponent } from './dialog/pdf-dialog/pdf-dialog.component';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
     declarations: [
         PdfDialogComponent,
         ImageDialogComponent,
         CommentComponent,
-        ConfirmationDialogComponent],
+        ConfirmationDialogComponent,
+        HeaderComponent,
+    ],
     imports: [
         CommonModule,
         SmallComponentsModule,
@@ -30,7 +33,8 @@ import { PdfDialogComponent } from './dialog/pdf-dialog/pdf-dialog.component';
         NotificationSnackBarComponent,
         PdfDialogComponent,
         ImageDialogComponent,
-        CommentComponent
+        CommentComponent,
+        HeaderComponent,
     ],
     providers: [TranslateWrapperService],
     entryComponents: [

@@ -1,7 +1,7 @@
 import { SelectionChange, SelectionModel } from '@angular/cdk/collections';
 import { Component, EventEmitter, Inject, Input, OnChanges, OnDestroy, OnInit, Output, QueryList, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, SortDirection } from '@angular/material/sort';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Error } from 'tslint/lib/error';
@@ -139,6 +139,7 @@ export class CoreTableComponent<T = any> implements OnInit, OnChanges, OnDestroy
         if (simpleChanges.configuration && simpleChanges.configuration.previousValue !== simpleChanges.configuration.currentValue) {
             this.configuration = this.coreTableService.processConfiguration(this.configuration);
             this.setPageSize();
+            this.setSorting();
             this.setLabels();
 
             if (this.selectableTable) {
@@ -251,6 +252,15 @@ export class CoreTableComponent<T = any> implements OnInit, OnChanges, OnDestroy
         }
         if (this.configuration.predefinedPageSize || this.configuration.predefinedPageSize === 0) {
             this.paginator.pageSize = this.configuration.predefinedPageSize;
+        }
+    }
+
+    private setSorting(): void {
+        if (this.configuration.predefinedSortActive) {
+            this.sort.active = this.configuration.predefinedSortActive;
+        }
+        if (this.configuration.predefinedSortDirection) {
+            this.sort.direction = this.configuration.predefinedSortDirection as SortDirection;
         }
     }
 

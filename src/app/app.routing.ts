@@ -104,6 +104,17 @@ export const routes: Routes = [
                 canActivate: [AuthGuard]
             },
             {
+                path: 'team',
+                loadChildren: './pages/team/team.module#TeamModule',
+                data: {
+                    title: 'menu.team',
+                    icon: 'team',
+                    menu: true,
+                    animation: 'team'
+                },
+                canActivate: [AuthGuard]
+            },
+            {
                 path: 'users',
                 loadChildren: './pages/users/users.module#UsersModule',
                 data: {

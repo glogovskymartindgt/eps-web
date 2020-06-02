@@ -28,6 +28,10 @@ export class MenuGuard {
             role: Role.RoleMenuReports
         },
         {
+            option: 'menu.team',
+            role: Role.RoleMenuAssignUser,
+        },
+        {
             option: 'menu.users',
             role: Role.RoleMenuUser
         },
