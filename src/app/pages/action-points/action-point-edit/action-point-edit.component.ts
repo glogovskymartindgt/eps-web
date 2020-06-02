@@ -8,13 +8,13 @@ import { ConfirmationDialogComponent } from '../../../shared/components/confirma
 import { CommentType } from '../../../shared/enums/comment-type.enum';
 import { Role } from '../../../shared/enums/role.enum';
 import { Regex } from '../../../shared/hazelnut/hazelnut-common/regex/regex';
-import { ActionPointComment, TaskCommentResponse } from '../../../shared/interfaces/task-comment.interface';
+import { ActionPointComment, CommentResponse } from '../../../shared/interfaces/task-comment.interface';
 import { AuthService } from '../../../shared/services/auth.service';
+import { CommentService } from '../../../shared/services/comment.service';
 import { ActionPointService } from '../../../shared/services/data/action-point.service';
 import { ImagesService } from '../../../shared/services/data/images.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
-import { TaskCommentService } from '../../../shared/services/task-comment.service';
 import { ActionPointFormComponent } from '../action-point-form/action-point-form.component';
 import { ActionPointStructureService } from '../action-point-structure.service';
 
@@ -30,7 +30,7 @@ export class ActionPointEditComponent implements OnInit {
     @ViewChild(ActionPointFormComponent, {static: true}) public actionPointForm: ActionPointFormComponent;
     public formData = null;
     public addCommentForm: FormGroup;
-    public comments: TaskCommentResponse[] = [];
+    public comments: CommentResponse[] = [];
     public loading = false;
     public notOnlyWhiteCharactersPattern = Regex.notOnlyWhiteCharactersPattern;
     public attachmentFormat = '';
@@ -40,7 +40,7 @@ export class ActionPointEditComponent implements OnInit {
 
     public constructor(public dialog: MatDialog,
                        private readonly router: Router,
-                       private readonly taskCommentService: TaskCommentService,
+                       private readonly commentService: CommentService,
                        private readonly notificationService: NotificationService,
                        private readonly activatedRoute: ActivatedRoute,
                        private readonly actionPointService: ActionPointService,
@@ -145,7 +145,7 @@ export class ActionPointEditComponent implements OnInit {
 
     public onSendCommentService(actionPointComment): void {
         this.loading = true;
-        this.taskCommentService.addComment(actionPointComment)
+        this.commentService.addComment(actionPointComment)
             .pipe(finalize((): any => this.loading = false))
             .subscribe((): void => {
                 this.getAllComments();
@@ -157,16 +157,24 @@ export class ActionPointEditComponent implements OnInit {
 
     public getAllComments(): void {
         this.loading = true;
-        this.taskCommentService.getAllComment(this.actionPointId, 'actionPoint')
+        this.commentService.getAllComment(this.actionPointId, 'actionPoint')
             .pipe(finalize((): any => this.loading = false))
-            .subscribe((comments: TaskCommentResponse[]): void => {
-                this.comments = [...comments].sort((comparableCommentTaskResponse: TaskCommentResponse,
-                                                    comparedCommentTaskResponse: TaskCommentResponse): number => (comparableCommentTaskResponse.created >
+            .subscribe((comments: CommentResponse[]): void => {
+                this.comments = [...comments].sort((comparableCommentTaskResponse: CommentResponse,
+                                                    comparedCommentTaskResponse: CommentResponse): number => (comparableCommentTaskResponse.created >
                     comparedCommentTaskResponse.created) ? 1 : -1)
                                              .reverse();
             }, (): void => {
                 this.notificationService.openErrorNotification('error.loadComments');
             });
+    }
+
+    public deleteComment(comment: CommentResponse): void {
+        this.loading = true;
+        this.commentService.deleteById(comment.id)
+            .subscribe((): void => {
+                this.getAllComments();
+            }, (): any => this.loading = false);
     }
 
     public hasRoleUploadImage(): boolean {
@@ -221,7 +229,7 @@ export class ActionPointEditComponent implements OnInit {
         return this.hasRoleCreateComment() || this.hasRoleCreateCommentInAssignProject();
     }
 
-    public trackCommentById(index: number, item: TaskCommentResponse): any {
+    public trackCommentById(index: number, item: CommentResponse): any {
         return item.id;
     }
 

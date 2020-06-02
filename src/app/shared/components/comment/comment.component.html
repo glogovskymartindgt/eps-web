@@ -1,5 +1,10 @@
 <div [ngClass]="isMyComment ? 'my-comment comment-sizing' : 'comment comment-sizing'">
     <div class="comment-user">{{comment.createdBy.firstName}} {{comment.createdBy.lastName}}</div>
+
+    <div class="comment-delete" *ngIf="showDeleteButton()">
+        <mat-icon (click)="deleteComment()">delete</mat-icon>
+    </div>
+
     <div class="comment-content">
         <div *ngIf="commentIsAttachment()" class="content-attachment-container">
             <span class="attachment-container">

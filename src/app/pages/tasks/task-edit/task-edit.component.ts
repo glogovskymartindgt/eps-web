@@ -3,19 +3,18 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { tap } from 'rxjs/internal/operators/tap';
 import { finalize } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { CommentType } from '../../../shared/enums/comment-type.enum';
 import { Role } from '../../../shared/enums/role.enum';
 import { Regex } from '../../../shared/hazelnut/hazelnut-common/regex/regex';
-import { TaskComment, TaskCommentResponse } from '../../../shared/interfaces/task-comment.interface';
+import { CommentResponse, TaskComment } from '../../../shared/interfaces/task-comment.interface';
 import { AuthService } from '../../../shared/services/auth.service';
+import { CommentService } from '../../../shared/services/comment.service';
 import { ImagesService } from '../../../shared/services/data/images.service';
 import { TaskService } from '../../../shared/services/data/task.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
-import { TaskCommentService } from '../../../shared/services/task-comment.service';
 import { TaskFormComponent } from '../task-form/task-form.component';
 
 @Component({
@@ -27,7 +26,7 @@ export class TaskEditComponent implements OnInit {
     @ViewChild(TaskFormComponent, {static: true}) public taskForm: TaskFormComponent;
     public formData = null;
     public addCommentForm: FormGroup;
-    public comments: TaskCommentResponse[] = [];
+    public comments: CommentResponse[] = [];
     public loading = false;
     public readonly notOnlyWhiteCharactersPattern = Regex.notOnlyWhiteCharactersPattern;
     public attachmentFormat = '';
@@ -37,7 +36,7 @@ export class TaskEditComponent implements OnInit {
     private taskId: number;
 
     public constructor(private readonly router: Router,
-                       private readonly taskCommentService: TaskCommentService,
+                       private readonly commentService: CommentService,
                        private readonly notificationService: NotificationService,
                        private readonly activatedRoute: ActivatedRoute,
                        private readonly taskService: TaskService,
@@ -138,9 +137,9 @@ export class TaskEditComponent implements OnInit {
 
     public onSendCommentService(taskComment): void {
         this.loading = true;
-        this.taskCommentService.addComment(taskComment)
+        this.commentService.addComment(taskComment)
             .pipe(finalize((): any => this.loading = false))
-            .subscribe((commentResponse: TaskCommentResponse): void => {
+            .subscribe((commentResponse: CommentResponse): void => {
                 this.getAllComments();
                 this.addCommentForm.controls.newComment.reset();
             }, (): void => {
@@ -150,10 +149,10 @@ export class TaskEditComponent implements OnInit {
 
     public getAllComments(): void {
         this.loading = true;
-        this.taskCommentService.getAllComment(this.taskId, 'task')
-            .pipe(tap((): any => this.loading = false))
-            .subscribe((comments: TaskCommentResponse[]): any => {
-                this.comments = [...comments].sort((taskCommentResponseComparable: TaskCommentResponse, taskCommentResponseCompared: TaskCommentResponse): any => {
+        this.commentService.getAllComment(this.taskId, 'task')
+            .pipe(finalize((): any => this.loading = false))
+            .subscribe((comments: CommentResponse[]): any => {
+                this.comments = [...comments].sort((taskCommentResponseComparable: CommentResponse, taskCommentResponseCompared: CommentResponse): any => {
                                                  return (taskCommentResponseComparable.created > taskCommentResponseCompared.created) ? 1 : -1;
                                              })
                                              .reverse();
@@ -211,7 +210,15 @@ export class TaskEditComponent implements OnInit {
         return this.hasRoleCreateComment() || this.hasRoleCreateCommentInAssignProject();
     }
 
-    public trackCommentById(index: number, item: TaskCommentResponse): any {
+    public deleteComment(comment: CommentResponse): void {
+        this.loading = true;
+        this.commentService.deleteById(comment.id)
+            .subscribe((): void => {
+                this.getAllComments();
+            }, (): any => this.loading = false);
+    }
+
+    public trackCommentById(index: number, item: CommentResponse): any {
         return item.id;
     }
 

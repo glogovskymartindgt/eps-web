@@ -22,7 +22,9 @@ export interface ActionPointComment {
     attachment?: CommentAttachment;
 }
 
-export interface TaskCommentResponse extends TaskComment {
+export type Comment = TaskComment | ActionPointComment;
+
+export interface CommentResponse extends TaskComment {
     id: number;
     createdBy: UserDataComment;
     created: string;

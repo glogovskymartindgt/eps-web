@@ -1,11 +1,15 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
 import { CommentType } from '../../enums/comment-type.enum';
+import { Role } from "../../enums/role.enum";
 import { Regex } from '../../hazelnut/hazelnut-common/regex/regex';
-import { TaskCommentResponse } from '../../interfaces/task-comment.interface';
+import { CommentResponse } from '../../interfaces/task-comment.interface';
+import { AuthService } from "../../services/auth.service";
 import { ImagesService } from '../../services/data/images.service';
 import { NotificationService } from '../../services/notification.service';
 import { ProjectUserService } from '../../services/storage/project-user.service';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { ImageDialogComponent } from '../dialog/image-dialog/image-dialog.component';
 
 @Component({
@@ -15,16 +19,22 @@ import { ImageDialogComponent } from '../dialog/image-dialog/image-dialog.compon
 })
 export class CommentComponent implements OnInit {
 
-    @Input() public comment: TaskCommentResponse;
+    @Input() public comment: CommentResponse;
     @Input() public index: number;
+
+    @Output() public readonly delete: EventEmitter<void> = new EventEmitter<void>();
 
     public isMyComment = false;
     public imageSrc;
 
-    public constructor(private readonly projectUserService: ProjectUserService,
-                       private readonly imagesService: ImagesService,
-                       private readonly notificationService: NotificationService,
-                       private readonly matDialog: MatDialog) {
+    public constructor(
+        private readonly authService: AuthService,
+        private readonly projectUserService: ProjectUserService,
+        private readonly imagesService: ImagesService,
+        private readonly notificationService: NotificationService,
+        private readonly matDialog: MatDialog,
+        private readonly translateService: TranslateService,
+    ) {
     }
 
     public ngOnInit(): void {
@@ -86,5 +96,42 @@ export class CommentComponent implements OnInit {
 
     public openUrl(): void {
         window.open(this.comment.description, '_blank');
+    }
+
+    public showDeleteButton(): boolean {
+        if (this.authService.hasRole(Role.RoleDeleteComment)) {
+            return true;
+        }
+
+        if (
+            this.authService.hasRole(Role.RoleDeleteOwnComment)
+            || this.authService.hasRole(Role.RoleDeleteOwnCommentInAssignProject)
+        ) {
+            return this.isMyComment;
+        }
+
+        return false;
+    }
+
+    public deleteComment(): void {
+        const dialogRef = this.matDialog.open(ConfirmationDialogComponent, {
+            data: {
+                title: this.translateService.instant('confirmation.comment.title'),
+                message: this.translateService.instant('confirmation.comment.message'),
+                rejectionButtonText: this.translateService.instant('confirmation.comment.rejectButton'),
+                confirmationButtonText: this.translateService.instant('confirmation.comment.confirmButton')
+            },
+            width: '350px'
+        });
+
+        dialogRef.afterClosed()
+            .subscribe((result: any): void => {
+
+                if (!result) {
+                    return;
+                }
+
+                this.delete.next();
+            });
     }
 }
