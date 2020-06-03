@@ -133,6 +133,7 @@
         text-transform: lowercase;
         font-size: 0.7rem;
         border-radius: 0 0 5px;
+        z-index: 1;
     }
 
     .image {
@@ -141,6 +142,20 @@
         object-fit: cover;
         cursor: pointer;
     }
+
+    .pdf-content {
+        cursor: pointer;
+        display: block;
+    }
+}
+
+.pdf-wrapper {
+    width: 60px;
+    height: 70px !important;
+    border: 1px solid;
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
 }
 
 .comment-created {

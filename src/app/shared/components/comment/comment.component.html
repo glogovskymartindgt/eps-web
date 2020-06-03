@@ -7,24 +7,49 @@
 
     <div class="comment-content">
         <div *ngIf="commentIsAttachment()" class="content-attachment-container">
-            <span class="attachment-container">
-                <div class="image-container">
-                    <span class="image-format">.{{comment.attachment.format}}</span>
-                    <img (click)="openPreviewAttachment(imageSrc)"
-                         *ngIf="imageSrc"
-                         [src]="imageSrc"
-                         alt="Attachment"
-                         class="image"
-                    />
-                </div>
-                <span (click)="openPreviewAttachment(imageSrc)" class="link">{{comment.attachment.fileName}}</span>
-            </span>
-            <a download="{{comment.attachment.fileName}}" href="{{imageSrc}}" mat-icon-button>
-                <img
-                    [src]="'assets/img/svg-squares/download.svg'"
-                    alt="download"
-                >
-            </a>
+            <ng-container *ngIf="imageSrc">
+                <span class="attachment-container">
+                    <div class="image-container">
+                        <span class="image-format">.{{comment.attachment.format}}</span>
+                        <img (click)="openPreviewAttachment(imageSrc)"
+                             [src]="imageSrc"
+                             alt="Attachment"
+                             class="image"
+                        />
+                    </div>
+
+                    <span (click)="openPreviewAttachment(imageSrc)" class="link">{{comment.attachment.fileName}}</span>
+                </span>
+                <a download="{{comment.attachment.fileName}}" href="{{imageSrc}}" mat-icon-button>
+                    <img
+                        [src]="'assets/img/svg-squares/download.svg'"
+                        alt="download"
+                    >
+                </a>
+            </ng-container>
+
+            <ng-container *ngIf="pdfSrc">
+                <span class="attachment-container">
+                    <div class="image-container">
+                        <span class="image-format">.{{comment.attachment.format}}</span>
+                        <pdf-viewer
+                            (click)="openPreviewPdf(pdfSrc)"
+                            [fit-to-page]="true"
+                            [page]="1"
+                            [show-all]="false"
+                            [src]="pdfSrc"
+                            class="pdf-content"
+                        ></pdf-viewer>
+                    </div>
+                    <span (click)="openPreviewPdf(pdfSrc)" class="link">{{comment.attachment.fileName}}</span>
+                </span>
+                <a download="{{comment.attachment.fileName}}" [href]="pdfSrcSanitized" mat-icon-button>
+                    <img
+                        [src]="'assets/img/svg-squares/download.svg'"
+                        alt="download"
+                    >
+                </a>
+            </ng-container>
         </div>
         <div *ngIf="commentIsUrl()" class="content-attachment-container">
                 <span class="attachment-container">

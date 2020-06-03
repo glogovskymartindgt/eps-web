@@ -1,16 +1,19 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { DomSanitizer } from "@angular/platform-browser";
 import { TranslateService } from '@ngx-translate/core';
 import { CommentType } from '../../enums/comment-type.enum';
 import { Role } from '../../enums/role.enum';
 import { Regex } from '../../hazelnut/hazelnut-common/regex/regex';
 import { CommentResponse } from '../../interfaces/task-comment.interface';
 import { AuthService } from '../../services/auth.service';
+import { AttachmentService } from '../../services/data/attachment.service';
 import { ImagesService } from '../../services/data/images.service';
 import { NotificationService } from '../../services/notification.service';
 import { ProjectUserService } from '../../services/storage/project-user.service';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { ImageDialogComponent } from '../dialog/image-dialog/image-dialog.component';
+import { PdfDialogComponent } from "../dialog/pdf-dialog/pdf-dialog.component";
 
 @Component({
     selector: 'iihf-comment',
@@ -26,9 +29,13 @@ export class CommentComponent implements OnInit {
 
     public isMyComment = false;
     public imageSrc;
+    public pdfSrc;
+    public pdfSrcSanitized;
 
     public constructor(
         private readonly authService: AuthService,
+        private readonly attachmentService: AttachmentService,
+        private readonly domSanitizer: DomSanitizer,
         private readonly projectUserService: ProjectUserService,
         private readonly imagesService: ImagesService,
         private readonly notificationService: NotificationService,
@@ -39,16 +46,11 @@ export class CommentComponent implements OnInit {
 
     public ngOnInit(): void {
         if (this.comment.attachment) {
-            this.imagesService.getImage(this.comment.attachment.filePath)
-                .subscribe((blob: Blob): void => {
-                    const reader = new FileReader();
-                    reader.onload = (): void => {
-                        this.imageSrc = reader.result;
-                    };
-                    reader.readAsDataURL(blob);
-                }, (): void => {
-                    this.notificationService.openErrorNotification('error.imageDownload');
-                });
+            if (this.comment.attachment.format === 'PDF') {
+                this.loadPdf();
+            } else {
+                this.loadImage();
+            }
         }
 
         this.projectUserService.subject.userId.subscribe((userId: number): void => {
@@ -60,6 +62,18 @@ export class CommentComponent implements OnInit {
         this.matDialog.open(ImageDialogComponent, {
             data: {
                 image
+            }
+        });
+    }
+
+    public openPreviewPdf(pdf): void {
+        this.matDialog.open(PdfDialogComponent, {
+            maxHeight: '90vh',
+            minHeight: '90vh',
+            maxWidth: '80vw',
+            minWidth: '80vw',
+            data: {
+                source: pdf,
             }
         });
     }
@@ -132,6 +146,33 @@ export class CommentComponent implements OnInit {
                 }
 
                 this.delete.next();
+            });
+    }
+
+    private loadPdf(): void {
+        this.attachmentService.getAttachment(this.comment.attachment.filePath)
+            .subscribe((blob: Blob): void => {
+                const reader = new FileReader();
+                reader.onload = (): void => {
+                    this.pdfSrc = reader.result;
+                    this.pdfSrcSanitized = this.domSanitizer.bypassSecurityTrustUrl(reader.result as string);
+                };
+                reader.readAsDataURL(blob);
+            }, (): void => {
+                this.notificationService.openErrorNotification('error.imageDownload');
+            });
+    }
+
+    private loadImage(): void {
+        this.imagesService.getImage(this.comment.attachment.filePath)
+            .subscribe((blob: Blob): void => {
+                const reader = new FileReader();
+                reader.onload = (): void => {
+                    this.imageSrc = reader.result;
+                };
+                reader.readAsDataURL(blob);
+            }, (): void => {
+                this.notificationService.openErrorNotification('error.imageDownload');
             });
     }
 }
