@@ -1,6 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AutofillEvent } from '@angular/cdk/text-field';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
+import { Observable } from 'rxjs';
 import { Role } from '../../../shared/enums/role.enum';
 import { BrowseResponse } from '../../../shared/hazelnut/hazelnut-common/models';
 import { Regex } from '../../../shared/hazelnut/hazelnut-common/regex/regex';
@@ -11,6 +13,7 @@ import { Group } from '../../../shared/models/group.model';
 import { Project } from '../../../shared/models/project.model';
 import { AuthService } from '../../../shared/services/auth.service';
 import { DashboardService } from '../../../shared/services/dashboard.service';
+import { BusinessAreaService } from '../../../shared/services/data/business-area.service';
 import { GroupService } from '../../../shared/services/data/group.service';
 import { ImagesService } from '../../../shared/services/data/images.service';
 import { UserDataService } from '../../../shared/services/data/user-data.service';
@@ -41,9 +44,6 @@ enum FormControlNames {
     styleUrls: ['./user-form.component.scss']
 })
 export class UserFormComponent implements OnInit {
-    @Input()
-    public organizations: CodelistItem[] = [];
-
     @Output() public readonly formDataChange = new EventEmitter<any>();
     public userForm: FormGroup;
 
@@ -52,6 +52,7 @@ export class UserFormComponent implements OnInit {
     public groupList = [];
     public userGroups = [];
     public projectList = [];
+    public organizations$: Observable<CodelistItem[]> = this.businessAreaService.listOrganizations();
     public userImageSrc: any = AppConstants.defaultAvatarPath;
 
     public readonly notOnlyWhiteCharactersPattern = Regex.notOnlyWhiteCharactersPattern;
@@ -62,21 +63,23 @@ export class UserFormComponent implements OnInit {
 
     public readonly formControlNames: typeof FormControlNames = FormControlNames;
 
-    public constructor(private readonly formBuilder: FormBuilder,
-                       private readonly userDataService: UserDataService,
-                       private readonly notificationService: NotificationService,
-                       private readonly activatedRoute: ActivatedRoute,
-                       private readonly groupService: GroupService,
-                       private readonly dashboardService: DashboardService,
-                       private readonly authService: AuthService,
-                       private readonly imagesService: ImagesService) {
+    public constructor(
+        private readonly businessAreaService: BusinessAreaService,
+        private readonly formBuilder: FormBuilder,
+        private readonly userDataService: UserDataService,
+        private readonly notificationService: NotificationService,
+        private readonly activatedRoute: ActivatedRoute,
+        private readonly groupService: GroupService,
+        private readonly dashboardService: DashboardService,
+        private readonly authService: AuthService,
+        private readonly imagesService: ImagesService,
+    ) {
     }
 
     public ngOnInit(): void {
         this.initializeGroups();
         this.initializeProjects();
         this.createForm();
-        this.checkIfUpdate();
     }
 
     public hasRoleAssignGroup(): boolean {
@@ -107,7 +110,10 @@ export class UserFormComponent implements OnInit {
         return item.id;
     }
 
-    private checkIfUpdate(): void {
+    public setFormData(autofillEvent: AutofillEvent): void {
+        if (!autofillEvent.isAutofilled) {
+            return;
+        }
         this.activatedRoute.queryParams.subscribe((param: Params): void => {
             if (Object.keys(param).length > 0) {
                 this.isUpdate = true;
@@ -158,11 +164,15 @@ export class UserFormComponent implements OnInit {
                 });
         }
         this.userGroups = user.groupIdList ? user.groupIdList : [];
-        if (user.organization) {
-            const organizationId: number =
-                this.organizations.find((organization: any): boolean => organization.name === user.organization).id;
-            this.userForm.controls[FormControlNames.organization].patchValue(organizationId);
-        }
+
+        this.organizations$
+            .subscribe((organizations: CodelistItem[]): void => {
+                const selectedOrganization = organizations.find((organization: any): boolean => organization.name === user.organization);
+
+                if (selectedOrganization) {
+                    this.userForm.controls[FormControlNames.organization].patchValue(selectedOrganization.id);
+                }
+            });
     }
 
     private getIdFromRouteParamsAndSetDetail(param: any): void {

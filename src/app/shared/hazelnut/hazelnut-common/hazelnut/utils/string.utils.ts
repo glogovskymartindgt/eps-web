@@ -1,4 +1,4 @@
-import { Regexp } from '..';
+import { Regexp } from '../others/regexp';
 
 const accentedLowerCharacters = 'ąàáäâãåæăćčĉďęèéëêĝĥìíïîĵłľńňòóöőôõðøśșşšŝťțţŭùúüűûñÿýçżźž';
 const normalLowerCharacters = 'aaaaaaaaacccdeeeeeghiiiijllnnoooooooossssstttuuuuuunyyczzz';

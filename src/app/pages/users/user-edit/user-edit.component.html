@@ -6,10 +6,7 @@
 
 <div fxLayout="row" style="overflow: auto;  height: calc(100vh - 160px);">
     <div fxFlex fxFlex.gt-sm="100%" class="p-30 form-content" fxLayout="column">
-        <iihf-user-form
-            [organizations]="organizations$ | async"
-            (formDataChange)="formDataChange($event)"
-        ></iihf-user-form>
+        <iihf-user-form (formDataChange)="formDataChange($event)"></iihf-user-form>
         <div class="pl-110">
             <button *ngIf="hasRoleUpdateUser()"
                     type="submit"

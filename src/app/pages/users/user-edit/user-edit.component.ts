@@ -1,9 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Observable } from "rxjs";
 import { Role } from '../../../shared/enums/role.enum';
 import { AuthService } from '../../../shared/services/auth.service';
-import { BusinessAreaService } from "../../../shared/services/data/business-area.service";
 import { UserDataService } from '../../../shared/services/data/user-data.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { UserFormComponent } from '../user-form/user-form.component';
@@ -17,13 +15,11 @@ export class UserEditComponent implements OnInit {
 
     @ViewChild(UserFormComponent, {static: true}) public userForm: UserFormComponent;
     public formData = null;
-    public organizations$: Observable<any[]> = this.businessAreaService.listOrganizations();
 
     private userId;
 
     public constructor(
         private readonly router: Router,
-        private readonly businessAreaService: BusinessAreaService,
         private readonly userDataService: UserDataService,
         private readonly notificationService: NotificationService,
         private readonly activatedRoute: ActivatedRoute,

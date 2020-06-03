@@ -1,4 +1,4 @@
-<form [formGroup]="userForm">
+<form [formGroup]="userForm" (cdkAutofill)="setFormData($event)">
 
     <div fxLayout="row" fxLayoutGap="10px">
 
@@ -88,7 +88,7 @@
                 <mat-form-field appearance="fill" class="long-input">
                     <mat-label>{{'profile.organization' | translate}}</mat-label>
                     <mat-select [formControlName]="formControlNames.organization" required>
-                            <mat-option *ngFor="let organization of organizations; trackBy:trackById" [value]="organization.id">
+                            <mat-option *ngFor="let organization of organizations$ | async; trackBy:trackById" [value]="organization.id">
                                 {{ organization.name }}
                             </mat-option>
                     </mat-select>
