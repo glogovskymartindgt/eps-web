@@ -5,6 +5,7 @@ import { finalize } from 'rxjs/operators';
 import { CommentType } from '../../enums/comment-type.enum';
 import { ActionPointComment, CommentResponse } from '../../interfaces/task-comment.interface';
 import { CommentService } from '../../services/comment.service';
+import { AttachmentService } from '../../services/data/attachment.service';
 import { ImagesService } from '../../services/data/images.service';
 import { NotificationService } from '../../services/notification.service';
 import { CommentTabComponent } from './comment-tab.component';
@@ -20,12 +21,13 @@ export class ActionPointCommentTabComponent extends CommentTabComponent implemen
 
     public constructor(
         protected readonly activatedRoute: ActivatedRoute,
+        protected readonly attachmentService: AttachmentService,
         protected readonly commentService: CommentService,
         protected readonly formBuilder: FormBuilder,
         protected readonly imagesService: ImagesService,
         protected readonly notificationService: NotificationService,
     ) {
-        super(commentService, formBuilder, imagesService, notificationService);
+        super(commentService, formBuilder, imagesService, attachmentService, notificationService);
     }
 
     public ngOnInit(): void {

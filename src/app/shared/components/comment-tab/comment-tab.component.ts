@@ -5,6 +5,7 @@ import { Role } from '../../enums/role.enum';
 import { Regex } from '../../hazelnut/hazelnut-common/regex/regex';
 import { CommentResponse } from '../../interfaces/task-comment.interface';
 import { CommentService } from '../../services/comment.service';
+import { AttachmentService } from '../../services/data/attachment.service';
 import { ImagesService } from '../../services/data/images.service';
 import { NotificationService } from '../../services/notification.service';
 
@@ -24,6 +25,7 @@ export abstract class CommentTabComponent implements OnInit {
         protected readonly commentService: CommentService,
         protected readonly formBuilder: FormBuilder,
         protected readonly imagesService: ImagesService,
+        protected readonly attachmentService: AttachmentService,
         protected readonly notificationService: NotificationService,
     ) {
     }
@@ -76,32 +78,59 @@ export abstract class CommentTabComponent implements OnInit {
     }
 
     public onFileChange(event): void {
-        const file = event.target.files[0];
+        const file: File = event.target.files[0];
         if (!file) {
             return;
         }
         const reader = new FileReader();
         reader.onload = (): void => {
-            this.imagesService.uploadImages([file])
-                .subscribe((data: any): void => {
-                    this.attachmentFormat = file.name.split('.')
-                        .pop()
-                        .toUpperCase();
-                    this.attachmentFileName = file.name;
-                    this.attachmentPathName = data.fileNames[file.name].replace(/^.*[\\\/]/, '');
-                    this.onAttachmentAdded();
-                }, (): void => {
-                    this.attachmentFormat = '';
-                    this.attachmentFileName = '';
-                    this.attachmentPathName = '';
-                    this.notificationService.openErrorNotification('error.imageUpload');
-                });
+            if (file.type === 'application/pdf') {
+                this.uploadPdf(file);
+            }  else {
+                this.uploadImage(file);
+            }
         };
         reader.readAsDataURL(file);
     }
 
     public trackCommentById(index: number, item: CommentResponse): any {
         return item.id;
+    }
+
+    protected uploadImage(file: File): void {
+        this.imagesService.uploadImages([file])
+            .subscribe((data: any): void => {
+                this.setAttachmentData(file, data);
+                this.onAttachmentAdded();
+            }, (): void => {
+                this.clearAttachmentData();
+                this.notificationService.openErrorNotification('error.imageUpload');
+            });
+    }
+
+    protected uploadPdf(file: File): void {
+        this.attachmentService.uploadAttachment([file])
+            .subscribe((data: any): void => {
+                this.setAttachmentData(file, data);
+                this.onAttachmentAdded();
+            }, (): void => {
+                this.clearAttachmentData();
+                this.notificationService.openErrorNotification('error.imageUpload');
+            });
+    }
+
+    protected setAttachmentData(file: File, data: any): void {
+        this.attachmentFormat = file.name.split('.')
+            .pop()
+            .toUpperCase();
+        this.attachmentFileName = file.name;
+        this.attachmentPathName = data.fileNames[file.name].replace(/^.*[\\\/]/, '');
+    }
+
+    protected clearAttachmentData(): void {
+        this.attachmentFormat = '';
+        this.attachmentFileName = '';
+        this.attachmentPathName = '';
     }
 
     protected abstract sendTextMessage(comment: string): void;
