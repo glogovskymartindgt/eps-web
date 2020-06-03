@@ -1,0 +1,60 @@
+<div style="background: #f4f4f4;" fxLayout="column">
+    <div class="w-full" fxLayout="row">
+        <form [formGroup]="addCommentForm" (ngSubmit)="onCommentAdded()">
+            <div *iihfShowByRole="role.RoleUploadImage" fxFlex="50px" fxLayoutAlign="start end" class="pl-20 pb-50">
+                <button class="attachment-icon"
+                        mat-icon-button
+                        (click)="file.click()">
+                    <em class="material-icons">attach_file</em>
+                </button>
+                <input
+                    (change)="onFileChange($event)"
+                    accept="image/jpeg, image/jpg, image/png"
+                    style="display: none;"
+                    #file
+                    formControlName="attachment"
+                    id="attachment"
+                    type="file"/>
+
+            </div>
+
+            <haz-core-input
+                *iihfShowByRole="[role.RoleCreateComment, role.RoleCreateCommentInAssignProject]"
+                [label]="'comment.newComment' | translate"
+                [type]="'textarea'"
+                [appearance]="'fill'"
+                formControlName="newComment"
+                [pattern]="notOnlyWhiteCharactersPattern"
+                class="theme-input m-20 w-260"
+                [maxLength]="2000"
+            >
+            </haz-core-input>
+
+            <div
+                *iihfShowByRole="[role.RoleCreateComment, role.RoleCreateCommentInAssignProject]"
+                fxFlex="50px"
+                fxLayoutAlign="end end"
+                class="pr-20 pb-50"
+            >
+                <button mat-icon-button
+                        [disabled]="!!addCommentForm?.controls?.newComment?.errors"
+                >
+                    <mat-icon matSuffix>send</mat-icon>
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <haz-indeterminate-progress-bar [loading]="loading"></haz-indeterminate-progress-bar>
+
+    <div class="comment-list">
+        <div *ngFor="let comment of comments; let i = index; trackBy:trackCommentById">
+            <iihf-comment
+                [comment]="comment"
+                [index]="i"
+                (delete)="deleteComment(comment)"
+            ></iihf-comment>
+        </div>
+    </div>
+
+</div>

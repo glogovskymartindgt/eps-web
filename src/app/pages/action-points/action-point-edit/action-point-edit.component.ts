@@ -1,18 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { finalize } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component';
-import { CommentType } from '../../../shared/enums/comment-type.enum';
 import { Role } from '../../../shared/enums/role.enum';
 import { Regex } from '../../../shared/hazelnut/hazelnut-common/regex/regex';
-import { ActionPointComment, CommentResponse } from '../../../shared/interfaces/task-comment.interface';
 import { AuthService } from '../../../shared/services/auth.service';
-import { CommentService } from '../../../shared/services/comment.service';
 import { ActionPointService } from '../../../shared/services/data/action-point.service';
-import { ImagesService } from '../../../shared/services/data/images.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 import { ActionPointFormComponent } from '../action-point-form/action-point-form.component';
@@ -29,23 +24,17 @@ const routes = {
 export class ActionPointEditComponent implements OnInit {
     @ViewChild(ActionPointFormComponent, {static: true}) public actionPointForm: ActionPointFormComponent;
     public formData = null;
-    public addCommentForm: FormGroup;
-    public comments: CommentResponse[] = [];
     public loading = false;
-    public notOnlyWhiteCharactersPattern = Regex.notOnlyWhiteCharactersPattern;
-    public attachmentFormat = '';
-    public attachmentFileName = '';
-    public attachmentPathName = '';
+    public readonly notOnlyWhiteCharactersPattern = Regex.notOnlyWhiteCharactersPattern;
+    public readonly role: typeof Role = Role;
     private actionPointId: number;
 
     public constructor(public dialog: MatDialog,
                        private readonly router: Router,
-                       private readonly commentService: CommentService,
                        private readonly notificationService: NotificationService,
                        private readonly activatedRoute: ActivatedRoute,
                        private readonly actionPointService: ActionPointService,
                        private readonly formBuilder: FormBuilder,
-                       private readonly imagesService: ImagesService,
                        public readonly projectEventService: ProjectEventService,
                        private readonly authService: AuthService,
                        private readonly actionPointStructureService: ActionPointStructureService,
@@ -55,14 +44,6 @@ export class ActionPointEditComponent implements OnInit {
     public ngOnInit(): void {
         this.activatedRoute.queryParams.subscribe((param: Params): void => {
             this.actionPointId = param.id;
-            this.getAllComments();
-        });
-        this.addCommentForm = this.formBuilder.group({
-            newComment: [
-                '',
-                Validators.required
-            ],
-            attachment: ['']
         });
     }
 
@@ -114,103 +95,11 @@ export class ActionPointEditComponent implements OnInit {
             });
     }
 
-    public onCommentAdded(): void {
-        if (this.addCommentForm.invalid) {
-            return;
-        }
-        const comment = this.addCommentForm.value.newComment.toString();
-        if (RegExp(Regex.httpsStringPattern)
-            .test(comment)) {
-            this.sendUrlMessage(comment);
-        } else {
-            this.sendTextMessage(comment);
-        }
-    }
-
-    public onAttachmentAdded(): void {
-        const actionPointComment: ActionPointComment = {
-            description: '',
-            actionPointId: this.actionPointId,
-            type: CommentType.Attachment,
-            attachment: {
-                type: 'COMMENT',
-                format: this.attachmentFormat,
-                fileName: this.attachmentFileName,
-                filePath: this.attachmentPathName
-            }
-        };
-
-        this.onSendCommentService(actionPointComment);
-    }
-
-    public onSendCommentService(actionPointComment): void {
-        this.loading = true;
-        this.commentService.addComment(actionPointComment)
-            .pipe(finalize((): any => this.loading = false))
-            .subscribe((): void => {
-                this.getAllComments();
-                this.addCommentForm.controls.newComment.reset();
-            }, (): void => {
-                this.notificationService.openErrorNotification('error.addComment');
-            });
-    }
-
-    public getAllComments(): void {
-        this.loading = true;
-        this.commentService.getAllComment(this.actionPointId, 'actionPoint')
-            .pipe(finalize((): any => this.loading = false))
-            .subscribe((comments: CommentResponse[]): void => {
-                this.comments = [...comments].sort((comparableCommentTaskResponse: CommentResponse,
-                                                    comparedCommentTaskResponse: CommentResponse): number => (comparableCommentTaskResponse.created >
-                    comparedCommentTaskResponse.created) ? 1 : -1)
-                                             .reverse();
-            }, (): void => {
-                this.notificationService.openErrorNotification('error.loadComments');
-            });
-    }
-
-    public deleteComment(comment: CommentResponse): void {
-        this.loading = true;
-        this.commentService.deleteById(comment.id)
-            .subscribe((): void => {
-                this.getAllComments();
-            }, (): any => this.loading = false);
-    }
-
-    public hasRoleUploadImage(): boolean {
-        return this.authService.hasRole(Role.RoleUploadImage);
-    }
-
     public formDataChange($event): void {
         const formChangeTimeout = 200;
         setTimeout((): void => {
             this.formData = $event;
         }, formChangeTimeout);
-    }
-
-    public onFileChange(event): void {
-        const file = event.target.files[0];
-        if (!file) {
-            return;
-        }
-        const reader = new FileReader();
-        reader.onload = (): void => {
-            this.imagesService.uploadImages([file])
-                .subscribe((data: any): void => {
-                    this.attachmentFormat = file.name.split('.')
-                                                .pop()
-                                                .toUpperCase();
-                    this.attachmentFileName = file.name;
-                    this.attachmentPathName = data.fileNames[file.name].replace(/^.*[\\\/]/, '');
-                    this.onAttachmentAdded();
-                }, (): void => {
-                    this.attachmentFormat = '';
-                    this.attachmentFileName = '';
-                    this.attachmentPathName = '';
-                    this.notificationService.openErrorNotification('error.imageUpload');
-                });
-        };
-        reader.readAsDataURL(file);
     }
 
     public allowReadComment(): boolean {
@@ -223,32 +112,6 @@ export class ActionPointEditComponent implements OnInit {
 
     public allowDeleteActionPoint(): boolean {
         return this.hasRoleDeleteActionPoint();
-    }
-
-    public allowCreateComment(): boolean {
-        return this.hasRoleCreateComment() || this.hasRoleCreateCommentInAssignProject();
-    }
-
-    public trackCommentById(index: number, item: CommentResponse): any {
-        return item.id;
-    }
-
-    private sendTextMessage(comment: string): void {
-        const actionPointComment: ActionPointComment = {
-            description: comment,
-            actionPointId: this.actionPointId,
-            type: CommentType.Text
-        };
-        this.onSendCommentService(actionPointComment);
-    }
-
-    private sendUrlMessage(comment: string): void {
-        const actionPointComment: ActionPointComment = {
-            description: comment,
-            actionPointId: this.actionPointId,
-            type: CommentType.Url
-        };
-        this.onSendCommentService(actionPointComment);
     }
 
     private hasRoleUpdateTask(): boolean {
@@ -265,14 +128,6 @@ export class ActionPointEditComponent implements OnInit {
 
     private hasRoleReadCommentInAssignProject(): boolean {
         return this.authService.hasRole(Role.RoleReadCommentInAssignProject);
-    }
-
-    private hasRoleCreateComment(): boolean {
-        return this.authService.hasRole(Role.RoleCreateComment);
-    }
-
-    private hasRoleCreateCommentInAssignProject(): boolean {
-        return this.authService.hasRole(Role.RoleCreateCommentInAssignProject);
     }
 
     private hasRoleDeleteActionPoint(): boolean {
