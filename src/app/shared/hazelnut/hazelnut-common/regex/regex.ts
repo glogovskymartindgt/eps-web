@@ -16,6 +16,8 @@ export class Regex {
 
     public static readonly emailPattern = '^\\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,}\\b$';
 
+    public static readonly internationalPhonePattern = '^\\+(?:[0-9] ?){9,12}[0-9]$';
+
     public static readonly fileNameFromContentDispositionPattern = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
 
     public static readonly userPassword = '^(?=.*[A-Z])(?=.*[\\d !"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~])[A-Za-z\\d !"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~]{8,}$';
