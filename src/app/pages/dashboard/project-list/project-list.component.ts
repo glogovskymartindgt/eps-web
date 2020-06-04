@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { Role } from '../../../shared/enums/role.enum';
 import { ProjectInterface } from '../../../shared/interfaces/project.interface';
 import { User } from '../../../shared/interfaces/user.interface';
@@ -21,9 +23,11 @@ import { ProjectUserService } from '../../../shared/services/storage/project-use
 
 /**
  * Custom responsive design project list of cards with filter option
- */ export class ProjectListComponent implements OnInit {
+ */ export class ProjectListComponent implements OnInit, OnDestroy {
 
     public projects: ProjectInterface[] = [];
+
+    private readonly componentDestroyed$: Subject<boolean> = new Subject<boolean>();
 
     public constructor(private readonly projectEventService: ProjectEventService,
                        private readonly dashboardService: DashboardService,
@@ -36,14 +40,21 @@ import { ProjectUserService } from '../../../shared/services/storage/project-use
                        private readonly fileService: FileService) {
     }
 
+    public ngOnDestroy(): void {
+        this.componentDestroyed$.next(true);
+        this.componentDestroyed$.complete();
+    }
+
     /**
      * Create filter listener on projects and set default value to ALL
      */
     public ngOnInit(): void {
         this.dashboardService.setSecondaryHeaderContent({isDashboard: true});
-        this.dashboardService.dashboardFilterNotifier$.subscribe((filterValue: string): void => {
-            this.filterProjects(filterValue);
-        });
+        this.dashboardService.dashboardFilterNotifier$
+            .pipe(takeUntil(this.componentDestroyed$))
+            .subscribe((filterValue: string): void => {
+                this.filterProjects(filterValue);
+            });
 
         this.initializeUserPhoto();
     }
@@ -66,6 +77,7 @@ import { ProjectUserService } from '../../../shared/services/storage/project-use
      */
     private filterProjects(filterValue = 'ALL'): void {
         this.dashboardService.filterProjects(filterValue)
+            .pipe(takeUntil(this.componentDestroyed$))
             .subscribe((data: ProjectInterface[]): void => {
                 this.projects = data;
                 this.dashboardService.setSecondaryHeaderContent({isDashboard: true});
