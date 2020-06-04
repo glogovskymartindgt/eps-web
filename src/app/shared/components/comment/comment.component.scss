@@ -108,6 +108,19 @@
             text-decoration: none;
         }
     }
+
+    .file-format {
+        position: absolute;
+        left: 0;
+        top: 0;
+        color: #fff;
+        padding: 3px 6px;
+        background: #002d62;
+        text-transform: lowercase;
+        font-size: 0.7rem;
+        border-radius: 0 0 5px;
+        z-index: 1;
+    }
 }
 
 .image-container {
@@ -123,39 +136,32 @@
     border-radius: 5px;
     position: relative;
 
-    .image-format {
-        position: absolute;
-        left: 0;
-        top: 0;
-        color: #fff;
-        padding: 3px 6px;
-        background: #002d62;
-        text-transform: lowercase;
-        font-size: 0.7rem;
-        border-radius: 0 0 5px;
-        z-index: 1;
-    }
-
     .image {
         width: 100%;
         height: 100%;
         object-fit: cover;
         cursor: pointer;
     }
-
-    .pdf-content {
-        cursor: pointer;
-        display: block;
-    }
 }
 
-.pdf-wrapper {
-    width: 60px;
-    height: 70px !important;
-    border: 1px solid;
-    border-radius: 5px;
-    overflow: hidden;
+.pdf-container {
     position: relative;
+
+    .pdf-content {
+        display: block;
+        cursor: pointer;
+    }
+
+    .pdf-wrapper {
+        width: 100px;
+        height: 70px !important;
+        border-radius: 5px;
+        overflow: hidden;
+        margin-right: 10px;
+        background: #fff;
+        padding: 5px;
+        position: relative;
+    }
 }
 
 .comment-created {

@@ -10,7 +10,7 @@
             <ng-container *ngIf="imageSrc">
                 <span class="attachment-container">
                     <div class="image-container">
-                        <span class="image-format">.{{comment.attachment.format}}</span>
+                        <span class="file-format">.{{comment.attachment.format}}</span>
                         <img (click)="openPreviewAttachment(imageSrc)"
                              [src]="imageSrc"
                              alt="Attachment"
@@ -30,17 +30,24 @@
 
             <ng-container *ngIf="pdfSrc">
                 <span class="attachment-container">
-                    <div class="image-container">
-                        <span class="image-format">.{{comment.attachment.format}}</span>
-                        <pdf-viewer
-                            (click)="openPreviewPdf(pdfSrc)"
-                            [fit-to-page]="true"
-                            [page]="1"
-                            [show-all]="false"
-                            [src]="pdfSrc"
-                            class="pdf-content"
-                        ></pdf-viewer>
+
+                    <div class="pdf-container" fxLayout="column">
+                        <div class="pdf-wrapper">
+                            <div class="file-format">
+                                <span>.{{comment.attachment.format}}</span>
+                            </div>
+
+                            <pdf-viewer
+                                (click)="openPreviewPdf(pdfSrc)"
+                                [fit-to-page]="true"
+                                [page]="1"
+                                [show-all]="false"
+                                [src]="pdfSrc"
+                                class="pdf-content"
+                            ></pdf-viewer>
+                        </div>
                     </div>
+
                     <span (click)="openPreviewPdf(pdfSrc)" class="link">{{comment.attachment.fileName}}</span>
                 </span>
                 <a download="{{comment.attachment.fileName}}" [href]="pdfSrcSanitized" mat-icon-button>
@@ -54,7 +61,7 @@
         <div *ngIf="commentIsUrl()" class="content-attachment-container">
                 <span class="attachment-container">
                 <div *ngIf="getVideoId()" class="image-container">
-                    <span class="image-format">{{'tasks.video' | translate}}</span>
+                    <span class="file-format">{{'tasks.video' | translate}}</span>
                     <img
                         (click)="openUrl()"
                         [src]="'https://img.youtube.com/vi/' + getVideoId() + '/0.jpg'"
