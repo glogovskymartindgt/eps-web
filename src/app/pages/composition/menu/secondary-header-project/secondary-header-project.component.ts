@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { take } from 'rxjs/operators';
 import { Role } from '../../../../shared/enums/role.enum';
 import { fadeEnterLeave } from '../../../../shared/hazelnut/hazelnut-common/animations';
 import { AuthService } from '../../../../shared/services/auth.service';
@@ -38,7 +39,11 @@ export class SecondaryHeaderProjectComponent implements OnInit {
     }
 
     public routeToDashboard(): void {
-        this.activeFilter = 'ALL';
+        this.dashboardService.dashboardFilterNotifier$
+            .pipe(take(1))
+            .subscribe((filterValue: string): void => {
+                this.activeFilter = filterValue;
+            });
         this.router.navigate(['dashboard'])
             .then((): void => {
             });
