@@ -11,7 +11,7 @@ import { SmallComponentsModule } from '../hazelnut/small-components';
 import { NotificationSnackBarComponent } from '../hazelnut/small-components/notifications';
 import { TranslateWrapperService } from '../services/translate-wrapper.service';
 import { ActionPointCommentTabComponent } from './comment-tab/action-point-comment-tab.component';
-import { TaskCommentTabComponent } from "./comment-tab/task-comment-tab.component";
+import { TaskCommentTabComponent } from './comment-tab/task-comment-tab.component';
 import { CommentComponent } from './comment/comment.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { ImageDialogComponent } from './dialog/image-dialog/image-dialog.component';

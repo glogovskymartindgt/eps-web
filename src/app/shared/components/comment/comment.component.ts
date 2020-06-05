@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DomSanitizer } from "@angular/platform-browser";
+import { DomSanitizer } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { CommentType } from '../../enums/comment-type.enum';
 import { Role } from '../../enums/role.enum';
@@ -13,7 +13,7 @@ import { NotificationService } from '../../services/notification.service';
 import { ProjectUserService } from '../../services/storage/project-user.service';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { ImageDialogComponent } from '../dialog/image-dialog/image-dialog.component';
-import { PdfDialogComponent } from "../dialog/pdf-dialog/pdf-dialog.component";
+import { PdfDialogComponent } from '../dialog/pdf-dialog/pdf-dialog.component';
 
 @Component({
     selector: 'iihf-comment',

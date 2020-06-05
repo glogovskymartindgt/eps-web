@@ -5,7 +5,7 @@ import { finalize } from 'rxjs/operators';
 import { CommentType } from '../../enums/comment-type.enum';
 import { CommentResponse, TaskComment } from '../../interfaces/task-comment.interface';
 import { CommentService } from '../../services/comment.service';
-import { AttachmentService } from "../../services/data/attachment.service";
+import { AttachmentService } from '../../services/data/attachment.service';
 import { ImagesService } from '../../services/data/images.service';
 import { NotificationService } from '../../services/notification.service';
 import { CommentTabComponent } from './comment-tab.component';
