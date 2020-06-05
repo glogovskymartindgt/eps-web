@@ -8,6 +8,7 @@
         "buildTest": "ng build --configuration=test",
         "buildDemo": "ng build --configuration=demo",
         "buildProd": "ng build --configuration=production",
+        "release": "docker build --no-cache -t qregistry.qbsw.local:5000/qbsw/iihf_eps_web:%npm_package_version% . && docker push qregistry.qbsw.local:5000/qbsw/iihf_eps_web:%npm_package_version%",
         "api:run": "cd api-docker && mountNdisk && npm run docker:remove-images && npm run docker:compose",
         "api:stop": "npm run Ndisk:remove && npm run docker:remove-containers",
         "docker:pull": "docker image prune && npm run docker:pull-db && npm run docker:pull-be",
