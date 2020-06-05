@@ -29,6 +29,8 @@ export enum Role {
     RoleExportReportTaskInAssignProject = 'ROLE_EXPORT_REPORT_TASK_IN_ASSIGN_PROJECT',
     RoleFilterProjectPhase = 'ROLE_FILTER_PROJECT_PHASE',
     RoleDeleteComment = 'ROLE_DELETE_COMMENT',
+    RoleDeleteOwnComment = 'ROLE_DELETE_OWN_COMMENT',
+    RoleDeleteOwnCommentInAssignProject = 'ROLE_DELETE_OWN_COMMENT_IN_ASSIGN_PROJECT',
     RoleUpdateProjectPhase = 'ROLE_UPDATE_PROJECT_PHASE',
     RoleCreateComment = 'ROLE_CREATE_COMMENT',
     RoleCreateCommentInAssignProject = 'ROLE_CREATE_COMMENT_IN_ASSIGN_PROJECT',

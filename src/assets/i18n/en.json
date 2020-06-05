@@ -344,6 +344,12 @@
             "message": "This action will delete current task.",
             "confirmButton": "DELETE",
             "rejectButton": "CANCEL"
+        },
+        "comment": {
+            "title": "Delete comment?",
+            "message": "This action will delete the current comment.",
+            "confirmButton": "DELETE",
+            "rejectButton": "CANCEL"
         }
     }
 }

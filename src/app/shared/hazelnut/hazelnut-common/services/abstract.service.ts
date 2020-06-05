@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -80,8 +80,8 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
      *
      * @param body - instance of object for create
      */
-    public add(body: T, additionalUrl = ''): Observable<T> {
-        return this.post({
+    public add<RESPONSE = T>(body: T, additionalUrl = ''): Observable<RESPONSE> {
+        return this.post<RESPONSE>({
             body,
             url: `${hazelnutConfig.URL_API}/${this.urlKey}${additionalUrl}`,
             mapFunction: this.extractDetail,
