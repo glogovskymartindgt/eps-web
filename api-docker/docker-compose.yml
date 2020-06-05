@@ -1,0 +1,36 @@
+version: '3.7'
+
+services:
+  eps_db:
+    image: qregistry.qbsw.local:5000/qbsw/iihf_eps_db
+    container_name: container_eps_db
+    ports:
+      - 5442:5432
+    env_file:
+      - db/iihf-eps-db-dev.env
+    networks:
+      - eps-network
+      
+  eps_be:
+    image: qregistry.qbsw.local:5000/qbsw/iihf_eps_be
+    container_name: container_eps_be
+    ports:
+      - 8080:8080
+    env_file:
+      - api/iihf-eps-api-dev.env
+    volumes:
+      - 'N:/:/data'
+    networks:
+      - eps-network
+      
+  eps_web:
+    image: qregistry.qbsw.local:5000/qbsw/iihf_eps_web
+    container_name: container_eps_web
+    ports:
+      - 4200:80
+    networks:
+      - eps-network
+        
+networks:
+  eps-network:
+    driver: bridge

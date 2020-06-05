@@ -38,7 +38,7 @@ export class FactFormComponent implements OnInit {
     public isTotalRequired = false;
     public isFirstValueRequired = false;
     public isSecondValueRequired = false;
-    private pipe: ThousandDelimiterPipe;
+    private thousandDelimiterPipee: ThousandDelimiterPipe;
 
     public constructor(private readonly projectEventService: ProjectEventService,
                        private readonly formBuilder: FormBuilder,
@@ -109,13 +109,13 @@ export class FactFormComponent implements OnInit {
         // First value input listener
         this.factForm.controls.firstValue.valueChanges.subscribe((firstValue: any): void => {
             const numberValue = this.transformNumberValue(this.factForm.value.secondValue, firstValue);
-            this.factForm.controls.totalValue.patchValue(this.pipe.transform(numberValue.toString(), ','));
+            this.factForm.controls.totalValue.patchValue(this.thousandDelimiterPipee.transform(numberValue.toString(), ','));
         });
 
         // Second value input listener
         this.factForm.controls.secondValue.valueChanges.subscribe((secondValue: any): void => {
             const numberValue = this.transformNumberValue(this.factForm.value.firstValue, secondValue);
-            this.factForm.controls.totalValue.patchValue(this.pipe.transform(numberValue.toString(), ','));
+            this.factForm.controls.totalValue.patchValue(this.thousandDelimiterPipee.transform(numberValue.toString(), ','));
         });
 
         // Emit value changes to parent component
@@ -128,7 +128,7 @@ export class FactFormComponent implements OnInit {
             this.oneValueSelected();
         });
 
-        this.pipe = new ThousandDelimiterPipe();
+        this.thousandDelimiterPipee = new ThousandDelimiterPipe();
 
     }
 
@@ -270,7 +270,7 @@ export class FactFormComponent implements OnInit {
             ],
             hasOnlyTotalValue: [fact.hasOnlyTotalValue],
             totalValue: [
-                !(fact.totalValue === null || fact.totalValue === undefined) ? this.pipe.transform(parseFloat(fact.totalValue)
+                !(fact.totalValue === null || fact.totalValue === undefined) ? this.thousandDelimiterPipee.transform(parseFloat(fact.totalValue)
                     .toFixed(2)
                     .toString(), ',') : ''
             ],
@@ -281,12 +281,12 @@ export class FactFormComponent implements OnInit {
 
         this.factForm.controls.firstValue.valueChanges.subscribe((firstValue: any): void => {
             const numberValue = this.transformNumberValue(this.factForm.value.secondValue, firstValue);
-            this.factForm.controls.totalValue.patchValue(this.pipe.transform(numberValue.toString(), ','));
+            this.factForm.controls.totalValue.patchValue(this.thousandDelimiterPipee.transform(numberValue.toString(), ','));
         });
 
         this.factForm.controls.secondValue.valueChanges.subscribe((secondValue: any): void => {
             const numberValue = this.transformNumberValue(this.factForm.value.firstValue, secondValue);
-            this.factForm.controls.totalValue.patchValue(this.pipe.transform(numberValue.toString(), ','));
+            this.factForm.controls.totalValue.patchValue(this.thousandDelimiterPipee.transform(numberValue.toString(), ','));
         });
 
         this.factForm.valueChanges.subscribe((): void => {
@@ -316,13 +316,13 @@ export class FactFormComponent implements OnInit {
                 this.factForm.controls.secondValue.disable();
                 this.factForm.controls.totalValue.enable();
 
-                this.factForm.controls.totalValue.patchValue(fact.totalValue.toString());
+                this.factForm.controls.totalValue.patchValue(this.transformValue(fact.totalValue));
             }, updateTotalTimeout);
         }
     }
 
     private transformValue(value: any): any {
-        return !(value === null || value === undefined) ? this.pipe.transform(value.toString(), ',') : '';
+        return !(value === null || value === undefined) ? this.thousandDelimiterPipee.transform(value.toString(), ',') : '';
     }
 
     /**

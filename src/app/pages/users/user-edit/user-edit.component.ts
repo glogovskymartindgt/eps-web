@@ -15,13 +15,16 @@ export class UserEditComponent implements OnInit {
 
     @ViewChild(UserFormComponent, {static: true}) public userForm: UserFormComponent;
     public formData = null;
+
     private userId;
 
-    public constructor(private readonly router: Router,
-                       private readonly userDataService: UserDataService,
-                       private readonly notificationService: NotificationService,
-                       private readonly activatedRoute: ActivatedRoute,
-                       private readonly authService: AuthService) {
+    public constructor(
+        private readonly router: Router,
+        private readonly userDataService: UserDataService,
+        private readonly notificationService: NotificationService,
+        private readonly activatedRoute: ActivatedRoute,
+        private readonly authService: AuthService,
+    ) {
     }
 
     public ngOnInit(): void {

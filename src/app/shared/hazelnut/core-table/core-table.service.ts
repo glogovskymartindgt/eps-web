@@ -43,8 +43,8 @@ export class CoreTableService {
     }
 
     public addFilter(column: TableColumn, value: any): void {
-        const propertyName = column.columnDef as Property;
-        this.deleteExistingChangedFilters(StringUtils.convertCamelToSnakeUpper(propertyName));
+        const propertyName = StringUtils.convertCamelToSnakeUpper(column.filter.property || column.columnRequestName) as Property;
+        this.deleteExistingChangedFilters(propertyName);
 
         if (!value) {
             this.filtersSubject$.next(this.filters);
@@ -174,6 +174,7 @@ export class CoreTableService {
         }
     }
 
+    // TODO: find out about pageSize, pageIndex, and predefinedPageSize and predefinedPageIndex, and their uses, interchangeability
     private setPagingByProcessingConfiguration() {
         if (!this._configuration.pageSizeOptions) {
             this._configuration.pageSizeOptions = this.globalTableConfig.pageSizeOptions || DEFAULT_PAGE_SIZE_OPTIONS;
@@ -181,8 +182,8 @@ export class CoreTableService {
         if (this._configuration.paging === undefined) {
             this._configuration.paging = this.globalTableConfig.paging !== undefined ? this.globalTableConfig.paging : true;
         }
-        if (!this._configuration.pageSize) {
-            this._configuration.pageSize = this.globalTableConfig.pageSize || miniPageSizeOption;
+        if (!this._configuration.predefinedPageSize) {
+            this._configuration.predefinedPageSize = this.globalTableConfig.pageSize || miniPageSizeOption;
         }
     }
 }

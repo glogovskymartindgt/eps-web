@@ -1,0 +1,136 @@
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Role } from '../../../shared/enums/role.enum';
+import {
+    TableCellType,
+    TableChangeEvent,
+    TableColumn,
+    TableColumnFilter,
+    TableConfiguration,
+    TableFilterType,
+    TableResponse
+} from '../../../shared/hazelnut/core-table';
+import { fadeEnterLeave } from '../../../shared/hazelnut/hazelnut-common/animations';
+import { BrowseResponse } from '../../../shared/hazelnut/hazelnut-common/models';
+import { TableContainer } from '../../../shared/interfaces/table-container.interface';
+import { User } from '../../../shared/interfaces/user.interface';
+import { UserDataService } from '../../../shared/services/data/user-data.service';
+import { NotificationService } from '../../../shared/services/notification.service';
+import { RoutingStorageService } from '../../../shared/services/routing-storage.service';
+import { TableChangeStorageService } from '../../../shared/services/table-change-storage.service';
+
+@Component({
+    selector: 'iihf-team-list',
+    templateUrl: './team-list.component.html',
+    styleUrls: ['./team-list.component.scss'],
+    animations: [fadeEnterLeave],
+})
+export class TeamListComponent implements OnInit, TableContainer<User> {
+    @ViewChild('updateColumn', {static: true})
+    public updateColumn: TemplateRef<HTMLElement>;
+
+    public tableConfiguration: TableConfiguration;
+    public tableData: TableResponse<User>;
+
+    public loading: boolean;
+    public readonly role: typeof Role = Role;
+
+    public readonly detailNotImplemented: boolean = true;
+
+    public constructor(
+        private readonly userDataService: UserDataService,
+        private readonly notificationService: NotificationService,
+        private readonly routingStorageService: RoutingStorageService,
+        private readonly tableChangeStorageService: TableChangeStorageService,
+    ) {
+    }
+
+    public ngOnInit(): void {
+        this.tableChangeStorageService.isReturnFromDetail = this.isReturnFromDetail();
+        this.setTableConfiguration();
+    }
+
+    public getData(tableRequest: TableChangeEvent): void {
+        this.loading = true;
+        this.tableChangeStorageService.cachedTableChangeEvent = tableRequest;
+
+        this.userDataService.browseUsers(tableRequest)
+            .subscribe((userBrowseResponse: BrowseResponse<User>): void => {
+                this.tableData = userBrowseResponse;
+                this.loading = false;
+            }, (): void => {
+                this.loading = false;
+                this.notificationService.openErrorNotification('error.api');
+            });
+    }
+
+    public detail(user: User): void {
+    }
+
+    private setTableConfiguration(): void {
+        const config: TableConfiguration = {
+            predefinedSortActive: 'lastName',
+            predefinedSortDirection: 'asc',
+            columns: [
+                new TableColumn({
+                    columnDef: 'firstName',
+                    labelKey: 'team.firstName',
+                    filter: new TableColumnFilter({}),
+                    sorting: true,
+                }),
+                new TableColumn({
+                    columnDef: 'lastName',
+                    labelKey: 'team.lastName',
+                    filter: new TableColumnFilter({}),
+                    sorting: true,
+                }),
+                new TableColumn({
+                    columnDef: 'organization',
+                    labelKey: 'team.organization',
+                    filter: new TableColumnFilter({}),
+                    sorting: true,
+                }),
+                new TableColumn({
+                    columnDef: 'function',
+                    labelKey: 'team.function',
+                    filter: new TableColumnFilter({}),
+                    sorting: true,
+                }),
+                new TableColumn({
+                    columnDef: 'phone',
+                    labelKey: 'team.phone',
+                    filter: new TableColumnFilter({}),
+                    sorting: true,
+                }),
+                new TableColumn({
+                    columnDef: 'mobile',
+                    labelKey: 'team.mobile',
+                    filter: new TableColumnFilter({}),
+                    sorting: true,
+                }),
+                new TableColumn({
+                    columnDef: 'email',
+                    labelKey: 'team.email',
+                    filter: new TableColumnFilter({}),
+                    sorting: true,
+                }),
+                new TableColumn({
+                    columnDef: ' ',
+                    label: ' ',
+                    type: TableCellType.CONTENT,
+                    tableCellTemplate: this.updateColumn,
+                    filter: new TableColumnFilter({
+                        type: TableFilterType.CLEAR_FILTERS,
+                    }),
+                }),
+
+            ]
+        };
+
+        this.tableConfiguration = this.tableChangeStorageService.updateTableConfiguration(config);
+    }
+
+    private isReturnFromDetail(): any {
+        return this.routingStorageService.getPreviousUrl().includes('team/edit')
+            || this.routingStorageService.getPreviousUrl().includes('team/create');
+    }
+}

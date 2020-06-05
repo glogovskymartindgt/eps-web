@@ -1,14 +1,14 @@
 import { SelectionChange, SelectionModel } from '@angular/cdk/collections';
 import { Component, EventEmitter, Inject, Input, OnChanges, OnDestroy, OnInit, Output, QueryList, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, SortDirection } from '@angular/material/sort';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Error } from 'tslint/lib/error';
 import { detailExpand } from '../../hazelnut-common/animations';
 import { MiscUtils } from '../../hazelnut-common/hazelnut';
 import { TRANSLATE_WRAPPER_TOKEN, TranslateWrapper } from '../../hazelnut-common/interfaces';
-import { Filter } from '../../hazelnut-common/models';
+import { Filter, Property } from '../../hazelnut-common/models';
 import { NOTIFICATION_WRAPPER_TOKEN, NotificationWrapper } from '../../small-components/notifications';
 import { CoreTableService } from '../core-table.service';
 import { ExpandedDetailDirective } from '../directives/expanded-detail.directive';
@@ -105,7 +105,10 @@ export class CoreTableComponent<T = any> implements OnInit, OnChanges, OnDestroy
 
         const constructRequestParameters$ = filters$.pipe(map((filters: Filter[]) => {
             const requestParameters = new TableRequestParameters(this.paginator, this.sort);
+            requestParameters.sortActive = (this.sort.active && this.configuration.columns
+                .find((column: TableColumn) => column.columnDef === this.sort.active).columnRequestName) as Property
             requestParameters.filter = filters;
+
             return requestParameters;
         }), );
 
@@ -136,6 +139,7 @@ export class CoreTableComponent<T = any> implements OnInit, OnChanges, OnDestroy
         if (simpleChanges.configuration && simpleChanges.configuration.previousValue !== simpleChanges.configuration.currentValue) {
             this.configuration = this.coreTableService.processConfiguration(this.configuration);
             this.setPageSize();
+            this.setSorting();
             this.setLabels();
 
             if (this.selectableTable) {
@@ -242,6 +246,21 @@ export class CoreTableComponent<T = any> implements OnInit, OnChanges, OnDestroy
             this.paginator.pageSize = this.data.content.length;
         } else {
             this.paginator.pageSize = this.configuration.pageSize;
+        }
+        if (this.configuration.predefinedPageIndex || this.configuration.predefinedPageIndex === 0) {
+            this.paginator.pageIndex = this.configuration.predefinedPageIndex;
+        }
+        if (this.configuration.predefinedPageSize || this.configuration.predefinedPageSize === 0) {
+            this.paginator.pageSize = this.configuration.predefinedPageSize;
+        }
+    }
+
+    private setSorting(): void {
+        if (this.configuration.predefinedSortActive) {
+            this.sort.active = this.configuration.predefinedSortActive;
+        }
+        if (this.configuration.predefinedSortDirection) {
+            this.sort.direction = this.configuration.predefinedSortDirection as SortDirection;
         }
     }
 

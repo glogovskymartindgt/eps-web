@@ -168,6 +168,13 @@ export class TaskListComponent implements OnInit {
                     tableCellTemplate: this.dateColumn,
                 }),
                 new TableColumn({
+                    columnDef: 'sourceDescriptionShort',
+                    labelKey: 'task.sourceDescription',
+                    columnRequestName: 'sourceDescription',
+                    filter: new TableColumnFilter({}),
+                    sorting: true,
+                }),
+                new TableColumn({
                     columnDef: 'state',
                     labelKey: 'task.status',
                     type: TableCellType.CONTENT,
@@ -247,7 +254,7 @@ export class TaskListComponent implements OnInit {
      * @param id
      */
     public update(id: number): void {
-        this.router.navigate(['tasks/edit'], {queryParams: {id}});
+        this.router.navigate(['tasks', 'edit', id]);
     }
 
     public setTableData(tableChangeEvent?: TableChangeEvent): void {
@@ -259,22 +266,7 @@ export class TaskListComponent implements OnInit {
             this.allTaskFilters = newTableChangeEvent.filters;
         }
         this.lastTableChangeEvent = newTableChangeEvent;
-        this.additionalFilters = [
-            new Filter('PROJECT_ID', this.projectEventService.instant.id, 'NUMBER'),
-        ];
-        if (this.businessAreaFilter && this.businessAreaFilter.value !== 'all') {
-            this.additionalFilters.push(this.businessAreaFilter);
-        }
-        // Add business area filter to additional filters
-        if (!this.isInitialized && this.getBusinessAreaValue() !== 'all') {
-            this.additionalFilters.push(this.businessAreaFilter = new Filter('BUSINESS_AREA_NAME', this.getBusinessAreaValue()));
-        }
-
-        if (this.allTaskFilters) {
-            this.allTaskFilters.forEach((filter: Filter): void => {
-                this.additionalFilters.push(filter);
-            });
-        }
+        this.setAdditionalFilters();
         this.removeDuplicateFilters();
         this.loading = true;
         this.updateTableChangeEvent(newTableChangeEvent);
@@ -332,6 +324,25 @@ export class TaskListComponent implements OnInit {
 
     private hasRoleExportReportTaskInAssignProject(): boolean {
         return this.authService.hasRole(Role.RoleExportReportTaskInAssignProject);
+    }
+
+    private setAdditionalFilters(): void {
+        this.additionalFilters = [
+            new Filter('PROJECT_ID', this.projectEventService.instant.id, 'NUMBER'),
+        ];
+        if (this.businessAreaFilter && this.businessAreaFilter.value !== 'all') {
+            this.additionalFilters.push(this.businessAreaFilter);
+        }
+        // Add business area filter to additional filters
+        if (!this.isInitialized && this.getBusinessAreaValue() !== 'all' && typeof this.getBusinessAreaValue() !== 'undefined') {
+            this.additionalFilters.push(this.businessAreaFilter = new Filter('BUSINESS_AREA_NAME', this.getBusinessAreaValue()));
+        }
+
+        if (this.allTaskFilters) {
+            this.allTaskFilters.forEach((filter: Filter): void => {
+                this.additionalFilters.push(filter);
+            });
+        }
     }
 
     private removeDuplicateFilters(): void {

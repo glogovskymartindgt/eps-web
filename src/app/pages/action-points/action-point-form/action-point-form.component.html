@@ -134,9 +134,10 @@
     <div class="long-input">
         <haz-core-input [appearance]="'fill'"
                         [label]="'actionPoint.meetingText' | translate"
-                        [maxLength]="255"
+                        [maxLength]="4092"
                         [pattern]="notOnlyWhiteCharactersPattern"
                         [type]="'textarea'"
+                        [required]="meetingTextRequired"
                         class="theme-input"
                         formControlName="meetingText"
         >
@@ -181,7 +182,6 @@
                         [label]="'tasks.description' | translate"
                         [maxLength]="4092"
                         [type]="'textarea'"
-                        [required]="descriptionRequiredObservable$ | async"
                         class="theme-input"
                         formControlName="description"
         >

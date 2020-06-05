@@ -99,6 +99,14 @@ import { ProjectUserService } from '../storage/project-user.service';
     }
 
     /**
+     * Delete task object with API call
+     * @param id
+     */
+    public deleteTask(id: number): any {
+        return this.deleteById(id);
+    }
+
+    /**
      * Get task object from API
      * @param id
      */

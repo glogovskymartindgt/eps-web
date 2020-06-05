@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { TableChangeEvent } from '../hazelnut/core-table';
+import { TableChangeEvent, TableConfiguration } from '../hazelnut/core-table';
+import { StringUtils } from '../hazelnut/hazelnut-common/hazelnut';
 import { Filter } from '../hazelnut/hazelnut-common/models';
 
 @Injectable({
@@ -13,7 +14,29 @@ import { Filter } from '../hazelnut/hazelnut-common/models';
     private factsLastTableChangeEvent: TableChangeEvent;
     private usersLastTableChangeEvent: TableChangeEvent;
 
+    private _isReturnFromDetail = false;
+    private _cachedTableChangeEvent: TableChangeEvent;
+
     public constructor() {
+    }
+
+    /**
+     * Determine, whether to use the cached tableChangeEvent
+     * @param isReturnFromDetail
+     */
+    public set isReturnFromDetail(isReturnFromDetail: boolean) {
+        this._isReturnFromDetail = isReturnFromDetail;
+    }
+
+    /**
+     * Store table change event
+     * @param changeEvent
+     */
+    public set cachedTableChangeEvent(changeEvent: TableChangeEvent) {
+        this._cachedTableChangeEvent = {
+            ...changeEvent,
+            filters: [...changeEvent.filters]
+        };
     }
 
     /**
@@ -64,6 +87,37 @@ import { Filter } from '../hazelnut/hazelnut-common/models';
 
     public getUsersLastTableChangeEvent(): TableChangeEvent {
         return this.usersLastTableChangeEvent;
+    }
+
+    /**
+     * Update a table configuration, from the last cached API request (tableChangeEvent)
+     * @param configuration - configuration to update
+     */
+    public updateTableConfiguration(
+        configuration: TableConfiguration
+    ): TableConfiguration {
+        const updatedConfiguration: TableConfiguration = { ...configuration };
+        if (!this._cachedTableChangeEvent || !this._isReturnFromDetail) {
+            return updatedConfiguration;
+        }
+
+        if (this._cachedTableChangeEvent.filters) {
+            configuration.predefinedFilters = this._cachedTableChangeEvent.filters;
+        }
+        if (this._cachedTableChangeEvent.pageIndex) {
+            configuration.predefinedPageIndex = this._cachedTableChangeEvent.pageIndex;
+        }
+        if (this._cachedTableChangeEvent.pageSize) {
+            configuration.predefinedPageSize = this._cachedTableChangeEvent.pageSize;
+        }
+        if (this._cachedTableChangeEvent.sortDirection) {
+            configuration.predefinedSortDirection = this._cachedTableChangeEvent.sortDirection.toLowerCase();
+        }
+        if (this._cachedTableChangeEvent.sortActive) {
+            configuration.predefinedSortActive = StringUtils.convertSnakeToCamel(this._cachedTableChangeEvent.sortActive.toLowerCase());
+        }
+
+        return updatedConfiguration;
     }
 
 }
