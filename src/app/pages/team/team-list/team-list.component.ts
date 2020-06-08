@@ -10,7 +10,7 @@ import {
     TableResponse
 } from '../../../shared/hazelnut/core-table';
 import { fadeEnterLeave } from '../../../shared/hazelnut/hazelnut-common/animations';
-import { BrowseResponse } from '../../../shared/hazelnut/hazelnut-common/models';
+import { BrowseResponse, Filter } from '../../../shared/hazelnut/hazelnut-common/models';
 import { TableContainer } from '../../../shared/interfaces/table-container.interface';
 import { User } from '../../../shared/interfaces/user.interface';
 import { UserDataService } from '../../../shared/services/data/user-data.service';
@@ -35,6 +35,7 @@ export class TeamListComponent implements OnInit, TableContainer<User> {
     public readonly role: typeof Role = Role;
 
     public readonly detailNotImplemented: boolean = true;
+    private defaultFilters: Filter[] = [];
 
     public constructor(
         private readonly userDataService: UserDataService,
@@ -46,6 +47,7 @@ export class TeamListComponent implements OnInit, TableContainer<User> {
 
     public ngOnInit(): void {
         this.tableChangeStorageService.isReturnFromDetail = this.isReturnFromDetail();
+        this.setDefaultFilters();
         this.setTableConfiguration();
     }
 
@@ -53,7 +55,7 @@ export class TeamListComponent implements OnInit, TableContainer<User> {
         this.loading = true;
         this.tableChangeStorageService.cachedTableChangeEvent = tableRequest;
 
-        this.userDataService.browseUsers(tableRequest)
+        this.userDataService.browseUsers(tableRequest, this.defaultFilters)
             .subscribe((userBrowseResponse: BrowseResponse<User>): void => {
                 this.tableData = userBrowseResponse;
                 this.loading = false;
@@ -132,5 +134,12 @@ export class TeamListComponent implements OnInit, TableContainer<User> {
     private isReturnFromDetail(): any {
         return this.routingStorageService.getPreviousUrl().includes('team/edit')
             || this.routingStorageService.getPreviousUrl().includes('team/create');
+    }
+
+    private setDefaultFilters(): void {
+        this.defaultFilters = [
+            new Filter('ACCOUNT_STATUS', 'ACTIVE', 'ENUM'),
+            new Filter('FLAG_ACTIVE', 'TRUE', 'STRING', 'EQ'),
+        ];
     }
 }
