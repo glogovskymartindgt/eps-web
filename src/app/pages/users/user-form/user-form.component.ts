@@ -1,4 +1,3 @@
-import { AutofillEvent } from '@angular/cdk/text-field';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -63,6 +62,8 @@ export class UserFormComponent implements OnInit {
 
     public readonly formControlNames: typeof FormControlNames = FormControlNames;
 
+    private user: User;
+
     public constructor(
         private readonly businessAreaService: BusinessAreaService,
         private readonly formBuilder: FormBuilder,
@@ -80,6 +81,7 @@ export class UserFormComponent implements OnInit {
         this.initializeGroups();
         this.initializeProjects();
         this.createForm();
+        this.setFormData();
     }
 
     public hasRoleAssignGroup(): boolean {
@@ -110,15 +112,33 @@ export class UserFormComponent implements OnInit {
         return item.id;
     }
 
-    public setFormData(autofillEvent: AutofillEvent): void {
-        if (!autofillEvent.isAutofilled) {
+    public patchValues(): void {
+        if (!this.user) {
             return;
         }
+
+        this.userForm.controls[FormControlNames.id].patchValue(this.user.id);
+        this.userForm.controls[FormControlNames.firstName].patchValue(this.user.firstName);
+        this.userForm.controls[FormControlNames.lastName].patchValue(this.user.lastName);
+        this.userForm.controls[FormControlNames.email].patchValue(this.user.email);
+        this.userForm.controls[FormControlNames.mobile].patchValue(this.user.mobile);
+        this.userForm.controls[FormControlNames.phone].patchValue(this.user.phoneNumber);
+        this.userForm.controls[FormControlNames.function].patchValue(this.user.function || '');
+        this.userForm.controls[FormControlNames.password].patchValue(this.user.password);
+        this.userForm.controls[FormControlNames.login].patchValue(this.user.login);
+        this.userForm.controls[FormControlNames.isVisible].patchValue(this.user.isVisible);
+        this.userForm.controls[FormControlNames.state].patchValue(this.user.state === 'ACTIVE');
+        this.userForm.controls[FormControlNames.type].patchValue(this.user.type);
+        this.userForm.controls[FormControlNames.groupIdList].patchValue(this.user.groupIdList);
+        this.userForm.controls[FormControlNames.projectIdList].patchValue(this.user.projectIdList);
+    }
+
+    private setFormData(): void {
         this.activatedRoute.queryParams.subscribe((param: Params): void => {
             if (Object.keys(param).length > 0) {
                 this.isUpdate = true;
                 this.userForm.controls.login.disable();
-                this.getIdFromRouteParamsAndSetDetail(param);
+                this.getUserDetail(param.id);
             }
             const passwordMaxLength = 50;
             if (!this.isUpdate) {
@@ -137,20 +157,7 @@ export class UserFormComponent implements OnInit {
     }
 
     private setForm(user: User): void {
-        this.userForm.controls[FormControlNames.id].patchValue(user.id);
-        this.userForm.controls[FormControlNames.firstName].patchValue(user.firstName);
-        this.userForm.controls[FormControlNames.lastName].patchValue(user.lastName);
-        this.userForm.controls[FormControlNames.email].patchValue(user.email);
-        this.userForm.controls[FormControlNames.mobile].patchValue(user.mobile);
-        this.userForm.controls[FormControlNames.phone].patchValue(user.phoneNumber);
-        this.userForm.controls[FormControlNames.function].patchValue(user.function || '');
-        this.userForm.controls[FormControlNames.password].patchValue(user.password);
-        this.userForm.controls[FormControlNames.login].patchValue(user.login);
-        this.userForm.controls[FormControlNames.isVisible].patchValue(user.isVisible);
-        this.userForm.controls[FormControlNames.state].patchValue(user.state === 'ACTIVE');
-        this.userForm.controls[FormControlNames.type].patchValue(user.type);
-        this.userForm.controls[FormControlNames.groupIdList].patchValue(user.groupIdList);
-        this.userForm.controls[FormControlNames.projectIdList].patchValue(user.projectIdList);
+        this.patchValues();
         if (user.avatar) {
             this.imagesService.getImage(user.avatar)
                 .subscribe((blob: Blob): void => {
@@ -175,9 +182,10 @@ export class UserFormComponent implements OnInit {
             });
     }
 
-    private getIdFromRouteParamsAndSetDetail(param: any): void {
-        this.userDataService.getUserDetail(param.id)
+    private getUserDetail(id: number): void {
+        this.userDataService.getUserDetail(id)
             .subscribe((apiUser: User): void => {
+                this.user = apiUser;
                 this.setForm(apiUser);
             }, (error: any): any => this.notificationService.openErrorNotification(error));
     }
