@@ -13,7 +13,8 @@
         "team": "Team",
         "users": "Users",
         "profile": "Profile",
-        "actionPoints": "Action points"
+        "actionPoints": "Action points",
+        "guidelines": "Guidelines"
     },
     "login": {
         "login": "Log in",
@@ -331,6 +332,14 @@
         "phone": "Phone",
         "mobile": "Mobile",
         "email": "Email"
+    },
+    "guidelines": {
+        "screenTitle": "Guidelines",
+        "list": {
+            "businessAreaCode": "Business Area Code",
+            "businessAreaName": "Business Area",
+            "actionPointTitle": "Title"
+        }
     },
     "confirmation": {
         "actionPoint": {

@@ -43,7 +43,10 @@ export class MenuGuard {
             option: 'menu.group',
             role: Role.RoleMenuGroup
         },
-
+        {
+            option: 'menu.guideline',
+            role: Role.RoleMenuGuideline,
+        },
     ];
 
     public constructor(private readonly authService: AuthService) {
