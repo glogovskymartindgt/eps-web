@@ -2,6 +2,17 @@
     <div class="pl-50" fxFlex="220px" fxLayoutAlign="start center">
         <h2>{{'guidelines.screenTitle' | translate}}</h2>
     </div>
+    <div fxFlex fxLayoutAlign="end center">
+        <button
+            (click)="createGuideline()"
+            *iihfShowByRole="roles.RoleCreateGuideline"
+            class="mr-10"
+            color="accent"
+            mat-flat-button
+        >
+            {{'common.create' | translate}}
+        </button>
+    </div>
 </div>
 
 <haz-indeterminate-progress-bar [loading]="loading"></haz-indeterminate-progress-bar>
@@ -13,7 +24,7 @@
 
 <ng-template #updateColumn let-actRow="row" let-context="context">
     <div class="fr">
-        <button mat-icon-button>
+        <button mat-icon-button *iihfShowByRole="roles.RoleUpdateGuideline">
             <mat-icon>keyboard_arrow_right</mat-icon>
         </button>
     </div>

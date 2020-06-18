@@ -1,4 +1,5 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import {
     BrowseResponse,
     fadeEnterLeave,
@@ -11,6 +12,7 @@ import {
     TableFilterType
 } from '@hazelnut';
 import { finalize } from 'rxjs/operators';
+import { Role } from '../../../shared/enums/role.enum';
 import { TableContainer } from '../../../shared/interfaces/table-container.interface';
 import { GuideLineService } from '../../../shared/services/data/guideline.service';
 import { RoutingStorageService } from '../../../shared/services/routing-storage.service';
@@ -34,11 +36,14 @@ export class GuidelineListComponent implements OnInit, TableContainer<Guideline>
     public tableConfiguration: TableConfiguration;
     public tableData: BrowseResponse<Guideline> = new BrowseResponse<Guideline>();
     public loading = false;
+    public readonly roles: typeof Role = Role;
+
     private additionalFilters: Filter[] = [];
 
     public constructor(
         private readonly projectEventService: ProjectEventService,
         private readonly guideLineService: GuideLineService,
+        private readonly router: Router,
         private readonly routingStorageService: RoutingStorageService,
         private readonly tableChangeStorageService: TableChangeStorageService,
     ) {
@@ -62,6 +67,10 @@ export class GuidelineListComponent implements OnInit, TableContainer<Guideline>
             .subscribe((data: BrowseResponse<Guideline>): void => {
                 this.tableData = data;
             });
+    }
+
+    public createGuideline(): void {
+        this.router.navigate(['guidelines', 'create']);
     }
 
     private setTableConfiguration(): void {

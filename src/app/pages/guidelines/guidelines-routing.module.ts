@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { GuidelineCreateComponent } from './guideline-detail/guideline-create.component';
 import { GuidelineListComponent } from './guideline-list/guideline-list.component';
 
 const routes: Routes = [
@@ -16,11 +17,11 @@ const routes: Routes = [
                 component: GuidelineListComponent,
                 data: {title: 'guidelineList'}
             },
-            // {
-            //     path: 'create',
-            //     component: ActionPointCreateComponent,
-            //     data: {title: 'guidelineCreate'}
-            // },
+            {
+                path: 'create',
+                component: GuidelineCreateComponent,
+                data: {title: 'guidelineCreate'}
+            },
             // {
             //     path: 'edit',
             //     component: ActionPointEditComponent,
