@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-    selector: 'haz-indeterminate-progress-bar',
+    selector: 'haz-copy-indeterminate-progress-bar',
     templateUrl: './indeterminate-progress-bar.component.html',
     styleUrls: ['./indeterminate-progress-bar.component.scss'],
 })

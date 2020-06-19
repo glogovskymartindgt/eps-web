@@ -41,51 +41,51 @@
         <div fxFlex fxLayout="column" fxLayoutGap="0">
             <div fxLayout="row" fxLayoutGap="10px">
                 <div class="small-input">
-                    <haz-core-input [appearance]="'fill'"
-                                    [label]="'profile.firstName' |  translate"
-                                    [maxLength]="50"
-                                    [required]="true"
-                                    [pattern]="notOnlyWhiteCharactersPattern"
-                                    class="theme-input"
-                                    formControlName="firstName"
+                    <haz-copy-core-input [appearance]="'fill'"
+                                         [label]="'profile.firstName' |  translate"
+                                         [maxLength]="50"
+                                         [required]="true"
+                                         [pattern]="notOnlyWhiteCharactersPattern"
+                                         class="theme-input"
+                                         formControlName="firstName"
                     >
-                    </haz-core-input>
+                    </haz-copy-core-input>
                 </div>
-                
+
                 <div class="small-input">
-                    <haz-core-input [appearance]="'fill'"
-                                    [label]="'profile.lastName' |  translate"
-                                    [maxLength]="50"
-                                    [required]="true"
-                                    [pattern]="notOnlyWhiteCharactersPattern"
-                                    class="theme-input"
-                                    formControlName="lastName"
+                    <haz-copy-core-input [appearance]="'fill'"
+                                         [label]="'profile.lastName' |  translate"
+                                         [maxLength]="50"
+                                         [required]="true"
+                                         [pattern]="notOnlyWhiteCharactersPattern"
+                                         class="theme-input"
+                                         formControlName="lastName"
                     >
-                    </haz-core-input>
+                    </haz-copy-core-input>
                 </div>
             </div>
-            
+
             <div class="long-input">
-                <haz-core-input [appearance]="'fill'"
-                                [label]="'profile.email' |  translate"
-                                [maxLength]="50"
-                                [pattern]="emailPattern"
-                                class="theme-input"
-                                formControlName="email"
+                <haz-copy-core-input [appearance]="'fill'"
+                                     [label]="'profile.email' |  translate"
+                                     [maxLength]="50"
+                                     [pattern]="emailPattern"
+                                     class="theme-input"
+                                     formControlName="email"
                 >
-                </haz-core-input>
+                </haz-copy-core-input>
             </div>
-            
+
             <div class="long-input">
-                <haz-core-input [appearance]="'fill'"
-                                [label]="'profile.login' |  translate"
-                                [maxLength]="50"
-                                class="theme-input"
-                                formControlName="login"
+                <haz-copy-core-input [appearance]="'fill'"
+                                     [label]="'profile.login' |  translate"
+                                     [maxLength]="50"
+                                     class="theme-input"
+                                     formControlName="login"
                 >
-                </haz-core-input>
+                </haz-copy-core-input>
             </div>
-            
+
             <div class="long-input">
                 <mat-form-field appearance="fill" class="mt-8 theme-input w-full">
                     <mat-label class="label-style">{{'profile.password' | translate}}</mat-label>
@@ -109,17 +109,17 @@
                     </mat-error>
                 </mat-form-field>
             </div>`
-            
+
             <div>
                 <mat-slide-toggle formControlName="state" disabled>
                     {{"profile.account" | translate}}
                     {{(this.profileDetailForm.controls.state && this.profileDetailForm.controls.state.value === 'ACTIVE' ? "profile.active" : "profile.inactive") | translate}}
                 </mat-slide-toggle>
             </div>
-        
+
         </div>
     </div>
-    
+
     <div [@enterLeave] class="pl-130">
         <button (click)="onSave()"
                 [disabled]="!this.profileDetailForm.valid"

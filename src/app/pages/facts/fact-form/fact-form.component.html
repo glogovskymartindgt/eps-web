@@ -42,75 +42,75 @@
     </div>
 
     <div class="long-input">
-        <haz-core-input [allowedCharactersPattern]="decimalPattern"
-                        [handleFocusAndBlur]="true"
-                        [inputStyles]="{width: '100%', 'position': 'relative', 'right': '5px', 'text-align': 'right'}"
-                        [label]="firstVenueLabel"
-                        [maxLength]="15"
-                        [required]="'isFirstValueRequired'"
-                        [textSuffix]="actualUnitShortName"
-                        appearance="fill"
-                        formControlName="firstValue"
+        <haz-copy-core-input [allowedCharactersPattern]="decimalPattern"
+                             [handleFocusAndBlur]="true"
+                             [inputStyles]="{width: '100%', 'position': 'relative', 'right': '5px', 'text-align': 'right'}"
+                             [label]="firstVenueLabel"
+                             [maxLength]="15"
+                             [required]="'isFirstValueRequired'"
+                             [textSuffix]="actualUnitShortName"
+                             appearance="fill"
+                             formControlName="firstValue"
         >
-        </haz-core-input>
+        </haz-copy-core-input>
     </div>
     <div class="long-input">
-        <haz-core-input [allowedCharactersPattern]="decimalPattern"
-                        [handleFocusAndBlur]="true"
-                        [inputStyles]="{width: '100%', 'position': 'relative', 'right': '5px', 'text-align': 'right'}"
-                        [label]="secondVenueLabel"
-                        [maxLength]="15"
-                        [required]="'isSecondValueRequired'"
-                        [textSuffix]="actualUnitShortName"
-                        appearance="fill"
-                        formControlName="secondValue"
+        <haz-copy-core-input [allowedCharactersPattern]="decimalPattern"
+                             [handleFocusAndBlur]="true"
+                             [inputStyles]="{width: '100%', 'position': 'relative', 'right': '5px', 'text-align': 'right'}"
+                             [label]="secondVenueLabel"
+                             [maxLength]="15"
+                             [required]="'isSecondValueRequired'"
+                             [textSuffix]="actualUnitShortName"
+                             appearance="fill"
+                             formControlName="secondValue"
         >
-        </haz-core-input>
+        </haz-copy-core-input>
     </div>
     <div class="mb-20">
         <mat-checkbox formControlName="hasOnlyTotalValue">{{'fact.hasOnlyTotalValue' | translate}}</mat-checkbox>
     </div>
     <div class="long-input">
-        <haz-core-input [allowedCharactersPattern]="decimalPattern"
-                        [handleFocusAndBlur]="true"
-                        [inputStyles]="{width: '100%', 'position': 'relative', 'right': '5px', 'text-align': 'right'}"
-                        [label]="'fact.totalValue' | translate"
-                        [maxLength]="15"
-                        [required]="'isTotalRequired'"
-                        [textSuffix]="actualUnitShortName"
-                        appearance="fill"
-                        formControlName="totalValue"
+        <haz-copy-core-input [allowedCharactersPattern]="decimalPattern"
+                             [handleFocusAndBlur]="true"
+                             [inputStyles]="{width: '100%', 'position': 'relative', 'right': '5px', 'text-align': 'right'}"
+                             [label]="'fact.totalValue' | translate"
+                             [maxLength]="15"
+                             [required]="'isTotalRequired'"
+                             [textSuffix]="actualUnitShortName"
+                             appearance="fill"
+                             formControlName="totalValue"
         >
-        </haz-core-input>
+        </haz-copy-core-input>
     </div>
 
     <div class="long-input">
-        <haz-core-input [appearance]="'fill'"
-                        [label]="'fact.description' | translate"
-                        [maxLength]="4092"
-                        [type]="'textarea'"
-                        class="theme-input"
-                        formControlName="description"
+        <haz-copy-core-input [appearance]="'fill'"
+                             [label]="'fact.description' | translate"
+                             [maxLength]="4092"
+                             [type]="'textarea'"
+                             class="theme-input"
+                             formControlName="description"
         >
-        </haz-core-input>
+        </haz-copy-core-input>
     </div>
 
     <div *ngIf="formLoaded" class="long-input">
-        <haz-core-input [appearance]="'fill'"
-                        [label]="'fact.changedAt' |  translate"
-                        class="theme-input"
-                        formControlName="changedAt"
+        <haz-copy-core-input [appearance]="'fill'"
+                             [label]="'fact.changedAt' |  translate"
+                             class="theme-input"
+                             formControlName="changedAt"
         >
-        </haz-core-input>
+        </haz-copy-core-input>
     </div>
 
     <div *ngIf="formLoaded" class="long-input">
-        <haz-core-input [appearance]="'fill'"
-                        [label]="'fact.changedBy' | translate"
-                        class="theme-input"
-                        formControlName="changedBy"
+        <haz-copy-core-input [appearance]="'fill'"
+                             [label]="'fact.changedBy' | translate"
+                             class="theme-input"
+                             formControlName="changedBy"
         >
-        </haz-core-input>
+        </haz-copy-core-input>
     </div>
 
 </form>
