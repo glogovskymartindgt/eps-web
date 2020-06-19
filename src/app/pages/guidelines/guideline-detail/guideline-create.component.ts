@@ -1,10 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FactService } from '../../../shared/services/data/fact.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
-import { checkAndRemoveLastDotComma } from '../../../shared/utils/remove-last-char';
 import { GuidelineDetailBaseComponent } from './guideline-detail-base.component';
 
 @Component({
@@ -15,11 +14,11 @@ import { GuidelineDetailBaseComponent } from './guideline-detail-base.component'
 
 /**
  * Guideline create component
- */ export class GuidelineCreateComponent extends GuidelineDetailBaseComponent {
+ */ export class GuidelineCreateComponent extends GuidelineDetailBaseComponent implements OnInit {
     public formData = null;
     public loading = false;
 
-    public labelKey = 'fact.newFact';
+    public labelKey = 'guidelines.newGuideline';
 
     public constructor(
         protected readonly router: Router,
@@ -29,6 +28,10 @@ import { GuidelineDetailBaseComponent } from './guideline-detail-base.component'
         protected readonly projectEventService: ProjectEventService,
     ) {
         super(router, formBuilder, projectEventService);
+    }
+
+    public ngOnInit(): void {
+        this.setBaseForm();
     }
 
     /**
@@ -47,23 +50,7 @@ import { GuidelineDetailBaseComponent } from './guideline-detail-base.component'
      * @param formObject
      */
     private transformTaskToApiObject2(formObject: any): any {
-        formObject.firstValue = checkAndRemoveLastDotComma(formObject.firstValue);
-        formObject.secondValue = checkAndRemoveLastDotComma(formObject.secondValue);
-        formObject.totalValue = checkAndRemoveLastDotComma(formObject.totalValue);
-        const apiObject: any = {
-            categoryId: formObject.category,
-            subCategoryId: formObject.subCategory,
-            valueFirst: formObject.firstValue,
-            valueSecond: formObject.secondValue,
-            hasOnlyTotalValue: formObject.hasOnlyTotalValue,
-            totalValue: (formObject.totalValue) ? formObject.totalValue : (+formObject.firstValue + +formObject.secondValue),
-            projectId: this.projectEventService.instant.id
-        };
-        if (formObject.description) {
-            apiObject.description = formObject.description;
-        }
-
-        return apiObject;
+        return formObject;
     }
 
 }

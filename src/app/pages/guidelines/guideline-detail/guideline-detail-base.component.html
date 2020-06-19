@@ -7,7 +7,49 @@
 
 <div fxLayout="row" style="overflow: auto; height: calc(100vh - 160px);">
     <div class="p-30">
-        <iihf-fact-form (formDataChange)="formData=$event"></iihf-fact-form>
+        <form [formGroup]="guidelineDetailForm">
+            <div class="long-input">
+                <haz-core-input
+                    [label]="'guidelines.detail.title' | translate"
+                    [required]="true"
+                    appearance="fill"
+                    [formControlName]="formControlNames.TITLE"
+                >
+                </haz-core-input>
+            </div>
+
+            <div class="long-input">
+                <haz-core-input
+                    [label]="'guidelines.detail.businessArea' | translate"
+                    [required]="true"
+                    appearance="fill"
+                    [formControlName]="formControlNames.BUSINESS_AREA"
+                >
+                </haz-core-input>
+            </div>
+
+            <div class="long-input pb-20">
+                <p>
+                    {{ 'guidelines.detail.attachment' | translate }} *
+                </p>
+
+                <iihf-drag-drop-box
+                    labelKey="guidelines.detail.dragAttachment"
+                    [add]="true"
+                ></iihf-drag-drop-box>
+            </div>
+
+            <div class="long-input">
+                <haz-core-input
+                    [label]="'guidelines.detail.description' | translate"
+                    appearance="fill"
+                    [formControlName]="formControlNames.DESCRIPTION"
+                >
+                </haz-core-input>
+            </div>
+
+        </form>
+
         <div>
             <button type="submit"
                     mat-flat-button
@@ -16,14 +58,14 @@
                     (click)="onSave()"
                     [disabled]="formData === null"
             >
-                {{ 'tasks.save' | translate }}
+                {{ 'guidelines.detail.save' | translate }}
             </button>
             <button type="button"
                     mat-button
                     class="mr-10"
                     (click)="onCancel()"
             >
-                {{ 'tasks.cancel' | translate }}
+                {{ 'guidelines.detail.cancel' | translate }}
             </button>
         </div>
     </div>

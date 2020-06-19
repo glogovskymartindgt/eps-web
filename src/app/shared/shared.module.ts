@@ -6,7 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ComponentsModule } from './components/components.module';
 import { AbstractInputsModule } from './hazelnut/abstract-inputs';
 import { CoreTableModule } from './hazelnut/core-table';
-import { MaterialModule } from './hazelnut/hazelnut-common';
+import { MaterialModule, SharedComponentsModule } from './hazelnut/hazelnut-common';
 import { SmallComponentsModule } from './hazelnut/small-components';
 import { PipesModule } from './pipes/pipes.module';
 
@@ -36,6 +36,7 @@ import { PipesModule } from './pipes/pipes.module';
         SmallComponentsModule,
         PipesModule,
         ComponentsModule,
+        SharedComponentsModule,
     ],
 })
 
