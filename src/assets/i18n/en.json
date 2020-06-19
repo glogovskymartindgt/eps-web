@@ -22,6 +22,10 @@
         "password": "Password",
         "toggleVisibility": "Change visibility"
     },
+    "selectSearch": {
+        "label": "Search",
+        "empty": "No entries found"
+    },
     "dashboard": {
         "dashboard": "Dashboard",
         "all": "All",

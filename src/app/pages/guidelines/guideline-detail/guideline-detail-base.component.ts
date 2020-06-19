@@ -1,6 +1,11 @@
-import { Directive } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Directive, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ListItemSync } from 'hazelnut';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { BusinessArea } from '../../../shared/interfaces/bussiness-area.interface';
+import { BusinessAreaService } from '../../../shared/services/data/business-area.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 
 export enum GuidelineFormControlNames {
@@ -12,19 +17,26 @@ export enum GuidelineFormControlNames {
 
 @Directive()
 // tslint:disable-next-line:directive-class-suffix
-export abstract class GuidelineDetailBaseComponent {
+export abstract class GuidelineDetailBaseComponent implements OnInit {
     public formData = null;
     public loading = false;
 
     public abstract labelKey: string;
     public guidelineDetailForm: FormGroup;
+    public businessAreaControl: FormControl;
+    public businessAreas$: Observable<ListItemSync[]>;
     public readonly formControlNames: typeof GuidelineFormControlNames = GuidelineFormControlNames;
 
     protected constructor(
+        protected readonly businessAreaService: BusinessAreaService,
         protected readonly router: Router,
         protected readonly formBuilder: FormBuilder,
         protected readonly projectEventService: ProjectEventService,
     ) {
+    }
+
+    public ngOnInit(): void {
+        this.loadBusinessAreas();
     }
 
     /**
@@ -46,6 +58,20 @@ export abstract class GuidelineDetailBaseComponent {
             [GuidelineFormControlNames.ATTACHMENT]: this.formBuilder.control('', Validators.required),
             [GuidelineFormControlNames.DESCRIPTION]: '',
         });
+
+        this.businessAreaControl = this.guidelineDetailForm.get(GuidelineFormControlNames.BUSINESS_AREA) as FormControl;
+    }
+
+    protected loadBusinessAreas(): void {
+        this.businessAreas$ = this.businessAreaService.listGuidelineBusinessAreas(this.projectEventService.instant.id)
+            .pipe(
+                map((businessAreas: BusinessArea[]): ListItemSync[] =>
+                    businessAreas.map((businessArea: BusinessArea): ListItemSync => ({
+                        value: businessArea.name,
+                        code: businessArea.id,
+                    }))
+                )
+            );
     }
 
 }

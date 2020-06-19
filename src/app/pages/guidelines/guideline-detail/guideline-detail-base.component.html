@@ -9,24 +9,30 @@
     <div class="p-30">
         <form [formGroup]="guidelineDetailForm">
             <div class="long-input">
-                <haz-core-input
+                <haz-copy-core-input
                     [label]="'guidelines.detail.title' | translate"
                     [required]="true"
                     appearance="fill"
                     [formControlName]="formControlNames.TITLE"
                 >
-                </haz-core-input>
+                </haz-copy-core-input>
             </div>
 
-            <div class="long-input">
-                <haz-core-input
-                    [label]="'guidelines.detail.businessArea' | translate"
-                    [required]="true"
-                    appearance="fill"
+            <mat-form-field appearance="fill" class="long-input">
+                <mat-label>{{ 'guidelines.detail.businessArea' | translate }}</mat-label>
+
+                <haz-select-search
                     [formControlName]="formControlNames.BUSINESS_AREA"
+                    [searchable]="true"
+                    [selectList]="businessAreas$ | async"
+                    [required]="true"
                 >
-                </haz-core-input>
-            </div>
+                </haz-select-search>
+
+                <mat-error *ngIf="businessAreaControl.touched && businessAreaControl.hasError('required')">
+                    {{'error.required' | translate}}
+                </mat-error>
+            </mat-form-field>
 
             <div class="long-input pb-20">
                 <p>
@@ -40,12 +46,12 @@
             </div>
 
             <div class="long-input">
-                <haz-core-input
+                <haz-copy-core-input
                     [label]="'guidelines.detail.description' | translate"
                     appearance="fill"
                     [formControlName]="formControlNames.DESCRIPTION"
                 >
-                </haz-core-input>
+                </haz-copy-core-input>
             </div>
 
         </form>
