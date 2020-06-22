@@ -1,3 +1,5 @@
+@import './src/assets/styles/importable/colors.scss';
+
 img {
   max-height: 120px;
   width: auto;
@@ -38,7 +40,7 @@ img {
   img {
     border-radius: 5px;
     padding: 2px;
-    border: solid 1px #002d62;
+    border: solid 1px $color-secondary;
     width: auto;
     min-height: 120px;
     max-height: 120px;
@@ -55,7 +57,7 @@ img {
     font: normal 14px/16px;
     font-family: "Roboto", sans-serif;
     letter-spacing: 0;
-    color: #002d62;
+    color: $color-secondary;
     opacity: 1;
   }
 
@@ -64,7 +66,16 @@ img {
   }
 }
 
-.pdf-window {
-  display: block;
-  height: 100%;
+.pdf-wrapper {
+    width: 200px;
+    height: 100px !important;
+    border: 1px solid $color-secondary;
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+
+    .pdf-content {
+        display: block;
+        cursor: pointer;
+    }
 }

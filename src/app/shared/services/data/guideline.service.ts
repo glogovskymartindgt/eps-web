@@ -28,11 +28,21 @@ export class GuideLineService extends ProjectService<Guideline> {
 
         return this.browseWithSummary(request)
             .pipe(
-                catchError((error: Error): Observable<never> => {
-                    this.notificationService.openErrorNotification('error.api');
-
-                    throw error;
-                })
+                catchError(this.processError)
             );
+    }
+
+    public createGuideline(guideline: Guideline): Observable<Guideline> {
+        return this.add<Guideline>(guideline)
+            .pipe(
+                catchError(this.processError)
+            );
+    }
+
+    private processError(error: Error): Observable<never> {
+        console.dir(error);
+        this.notificationService.openErrorNotification('error.api');
+
+        throw error;
     }
 }

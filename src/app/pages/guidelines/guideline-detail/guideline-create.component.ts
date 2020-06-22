@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+import { finalize } from 'rxjs/operators';
+import { Role } from '../../../shared/enums/role.enum';
 import { AttachmentService } from '../../../shared/services/data/attachment.service';
 import { BusinessAreaService } from '../../../shared/services/data/business-area.service';
-import { FactService } from '../../../shared/services/data/fact.service';
+import { GuideLineService } from '../../../shared/services/data/guideline.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 import { GuidelineDetailBaseComponent } from './guideline-detail-base.component';
@@ -16,18 +18,17 @@ import { GuidelineDetailBaseComponent } from './guideline-detail-base.component'
 
 /**
  * Guideline create component
- */ export class GuidelineCreateComponent extends GuidelineDetailBaseComponent implements OnInit {
-    public formData = null;
-    public loading = false;
-
+ */
+export class GuidelineCreateComponent extends GuidelineDetailBaseComponent implements OnInit {
     public labelKey = 'guidelines.newGuideline';
     public editMode = true;
+    public submitButtonRole: Role = Role.RoleCreateGuideline;
 
     public constructor(
         protected readonly attachmentService: AttachmentService,
         protected readonly businessAreaService: BusinessAreaService,
+        private readonly guideLineService: GuideLineService,
         protected readonly router: Router,
-        protected readonly factService: FactService,
         protected readonly formBuilder: FormBuilder,
         protected readonly notificationService: NotificationService,
         protected readonly projectEventService: ProjectEventService,
@@ -36,6 +37,7 @@ import { GuidelineDetailBaseComponent } from './guideline-detail-base.component'
     }
 
     public ngOnInit(): void {
+        this.loading = false;
         super.ngOnInit();
 
         this.setBaseForm();
@@ -45,19 +47,16 @@ import { GuidelineDetailBaseComponent } from './guideline-detail-base.component'
      * Save guideline with formm values and navigate to list component
      */
     public onSave(): void {
-        this.factService.createFact(this.transformTaskToApiObject2(this.formData))
-            .subscribe((): void => {
-                this.notificationService.openSuccessNotification('success.add');
-                this.onCancel();
-            });
-    }
+        if (this.guidelineDetailForm.invalid) {
+            return;
+        }
+        this.loading = true;
 
-    /**
-     * Partial fact form object to API fact object transformation
-     * @param formObject
-     */
-    private transformTaskToApiObject2(formObject: any): any {
-        return formObject;
+        this.guideLineService.createGuideline(this.guidelineDetailForm.value)
+            .pipe(finalize((): any => this.loading = false))
+            .subscribe((): void => {
+                this.back();
+            });
     }
 
 }

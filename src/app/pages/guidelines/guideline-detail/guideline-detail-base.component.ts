@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ListItemSync } from 'hazelnut';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Role } from "../../../shared/enums/role.enum";
 import { BusinessArea } from '../../../shared/interfaces/bussiness-area.interface';
 import { AttachmentService } from '../../../shared/services/data/attachment.service';
 import { BusinessAreaService } from '../../../shared/services/data/business-area.service';
@@ -25,8 +26,10 @@ export abstract class GuidelineDetailBaseComponent implements OnInit {
 
     public abstract labelKey: string;
     public abstract editMode: boolean;
+    public abstract submitButtonRole: Role;
     public guidelineDetailForm: FormGroup;
     public businessAreaControl: FormControl;
+    public attachmentControl: FormControl;
     public businessAreas$: Observable<ListItemSync[]>;
     public attachmentName: string = null;
     public attachmentSource: string = null;
@@ -45,9 +48,7 @@ export abstract class GuidelineDetailBaseComponent implements OnInit {
     }
 
     public get attachmentRequiredError(): boolean {
-        const attachmentControl: FormControl = this.getAttachmentControl();
-
-        return attachmentControl.touched && attachmentControl.hasError('required');
+        return this.attachmentControl.touched && this.attachmentControl.hasError('required');
     }
 
     public ngOnInit(): void {
@@ -57,7 +58,7 @@ export abstract class GuidelineDetailBaseComponent implements OnInit {
     /**
      * Cancel create/edit and navigate to the list component
      */
-    public onCancel(): void {
+    public back(): void {
         this.router.navigate(['guideline', 'list']);
     }
 
@@ -68,20 +69,19 @@ export abstract class GuidelineDetailBaseComponent implements OnInit {
 
     public attachmentUpload(file: any): void {
         const fileName: string = file.fileName;
-        const attachmentControl: FormControl = this.getAttachmentControl();
 
         this.attachmentService.uploadAttachment([file.blobPart])
             .subscribe((response: { fileNames: object }): void => {
                 this.attachmentName = response.fileNames[fileName];
                 this.attachmentSource = file.content;
                 this.attachmentTitle = fileName;
-                attachmentControl.setValue({
+                this.attachmentControl.setValue({
                         type: 'DOCUMENT',
                         format: 'PDF',
                         fileName,
                         filePath: this.attachmentName,
                     });
-                attachmentControl.markAsTouched();
+                this.attachmentControl.markAsTouched();
             });
     }
 
@@ -89,9 +89,8 @@ export abstract class GuidelineDetailBaseComponent implements OnInit {
         this.attachmentName = null;
         this.attachmentSource = null;
         this.attachmentTitle = null;
-        const attachmentControl: FormControl = this.getAttachmentControl();
-        attachmentControl.setValue(null);
-        attachmentControl.markAsTouched();
+        this.attachmentControl.setValue(null);
+        this.attachmentControl.markAsTouched();
     }
 
     public attachmentUnsupportedFiletype(): void {
@@ -111,6 +110,7 @@ export abstract class GuidelineDetailBaseComponent implements OnInit {
         });
 
         this.businessAreaControl = this.guidelineDetailForm.get(GuidelineFormControlNames.BUSINESS_AREA) as FormControl;
+        this.attachmentControl = this.guidelineDetailForm.get(this.formControlNames.ATTACHMENT) as FormControl;
     }
 
     protected loadBusinessAreas(): void {
@@ -123,10 +123,6 @@ export abstract class GuidelineDetailBaseComponent implements OnInit {
                     }))
                 )
             );
-    }
-
-    protected getAttachmentControl(): FormControl {
-        return this.guidelineDetailForm.get(this.formControlNames.ATTACHMENT) as FormControl;
     }
 
 }

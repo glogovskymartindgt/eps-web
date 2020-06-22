@@ -9,13 +9,14 @@
     <div class="p-30">
         <form [formGroup]="guidelineDetailForm">
             <div class="long-input">
-                <haz-core-input
+                <haz-copy-core-input
                     [label]="'guidelines.detail.title' | translate"
                     [required]="true"
+                    [type]="'textarea'"
                     appearance="fill"
                     [formControlName]="formControlNames.TITLE"
                 >
-                </haz-core-input>
+                </haz-copy-core-input>
             </div>
 
             <mat-form-field appearance="fill" class="long-input">
@@ -35,9 +36,9 @@
             </mat-form-field>
 
             <div class="long-input pb-20">
-                <p>
+                <div class="attachment-label">
                     {{ 'guidelines.detail.attachment' | translate }} *
-                </p>
+                </div>
 
                 <iihf-drag-drop-box
                     labelKey="guidelines.detail.dragAttachment"
@@ -50,21 +51,26 @@
                 >
                     <iihf-pdf [src]="attachmentSource" alt="attachment"></iihf-pdf>
 
-                    <iihf-download-link
+                    <!--<iihf-download-link
                         *ngIf="!editMode"
                         [src]="attachmentSource"
                         [fileTitle]="attachmentTitle"
                         [fileName]="attachmentName"
-                    ></iihf-download-link>
+                    ></iihf-download-link>-->
 
                     <div *ngIf="editMode">
-                        {{ attachmentTitle }}
-                        <img
-                            (click)="attachmentRemove()"
-                            [src]="'assets/img/svg-squares/remove.svg'"
-                            class="button"
-                            alt="remove"
-                        >
+                        <div fxLayout="row" class="pdf-width">
+                            <div fxFlex>
+                                {{ attachmentTitle }}
+                            </div>
+
+                            <img
+                                (click)="attachmentRemove()"
+                                [src]="'assets/img/svg-squares/remove.svg'"
+                                class="button"
+                                alt="remove"
+                            >
+                        </div>
                     </div>
                 </iihf-drag-drop-box>
 
@@ -74,30 +80,33 @@
             </div>
 
             <div class="long-input">
-                <haz-core-input
+                <haz-copy-core-input
                     [label]="'guidelines.detail.description' | translate"
                     appearance="fill"
+                    [type]="'textarea'"
                     [formControlName]="formControlNames.DESCRIPTION"
                 >
-                </haz-core-input>
+                </haz-copy-core-input>
             </div>
 
         </form>
 
         <div>
-            <button type="submit"
-                    mat-flat-button
-                    color="accent"
-                    class="mr-10"
-                    (click)="onSave()"
-                    [disabled]="guidelineDetailForm.invalid"
+            <button
+                *iihfShowByRole="submitButtonRole"
+                type="submit"
+                mat-flat-button
+                color="accent"
+                class="mr-10"
+                (click)="onSave()"
+                [disabled]="guidelineDetailForm.invalid"
             >
                 {{ 'guidelines.detail.save' | translate }}
             </button>
             <button type="button"
                     mat-button
                     class="mr-10"
-                    (click)="onCancel()"
+                    (click)="back()"
             >
                 {{ 'guidelines.detail.cancel' | translate }}
             </button>

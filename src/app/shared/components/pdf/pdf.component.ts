@@ -1,11 +1,15 @@
 import { ChangeDetectionStrategy, Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { fadeEnterLeave } from '@hazelnut';
 import { PdfDialogComponent } from '../dialog/pdf-dialog/pdf-dialog.component';
 
 @Component({
     selector: 'iihf-pdf',
     templateUrl: './pdf.component.html',
     styleUrls: ['./pdf.component.scss'],
+    animations: [
+        fadeEnterLeave
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PdfComponent {
