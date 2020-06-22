@@ -1,6 +1,5 @@
 <div fxLayout="column" fxLayoutGap="10px">
     <div
-        *ngIf="add"
         (onFileDropped)="onDropped($event)"
         class="relative-parent"
         dragDrop
@@ -14,7 +13,7 @@
 
         <input
             (change)="onInserted($event)"
-            accept="application/pdf, .jpg, .png, .jpeg"
+            [accept]="acceptedFileTypes"
             class="hide-input"
             id="first-map-{{id}}"
             type="file"
@@ -33,7 +32,7 @@
         </div>
     </div>
 
-    <div *ngIf="!add">
+    <div *ngIf="edit">
         <ng-content></ng-content>
     </div>
 </div>

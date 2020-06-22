@@ -11,23 +11,23 @@ let idCounter = 1;
 export class DragDropBoxComponent {
     public readonly id = idCounter++;
     @Input() public edit: boolean;
-    @Input() public add: boolean;
     @Input() public labelKey: string;
-    @Input() public supportedFileTypes?: string[];
-    @Output() public readonly unsupportedFileType: EventEmitter<any> = new EventEmitter<any>();
+    @Input() public supportedFileTypes?: string[] = null;
+    @Input() public maximumFileSize?: number = null;
+    @Output() public readonly unsupportedFileType: EventEmitter<boolean> = new EventEmitter<boolean>();
+    @Output() public readonly maximumSizeExceeded: EventEmitter<boolean> = new EventEmitter<boolean>();
     @Output() public readonly fileUpload: EventEmitter<any> = new EventEmitter<any>();
 
     public constructor() {
     }
 
+    public get acceptedFileTypes(): string {
+        return this.supportedFileTypes.join(',');
+    }
+
     public onDropped(files: File[]): void {
         const file: File = files[0];
-        if (this.supportedFileTypes && !this.supportedFileTypes.includes(file.type)) {
-            this.unsupportedFileType.emit(true);
-        } else {
-            this.unsupportedFileType.emit(false);
-            this.fileEmit(file);
-        }
+        this.processFile(file);
     }
 
     public onInserted(event: any): void {
@@ -35,19 +35,26 @@ export class DragDropBoxComponent {
         if (!file) {
             return;
         }
-        if (this.supportedFileTypes && !this.supportedFileTypes.includes(file.type)) {
-            this.unsupportedFileType.emit(true);
-        } else {
-            this.unsupportedFileType.emit(false);
-            this.fileEmit(file);
-        }
+        this.processFile(file);
     }
 
-    private fileEmit(file: File): void {
-        if (![!!this.edit, !!this.add].includes(true)) {
+    private processFile(file: File): void {
+        if (!!this.maximumFileSize && file.size > this.maximumFileSize) {
+            this.maximumSizeExceeded.emit(true);
+
             return;
         }
 
+        if (this.supportedFileTypes && !this.supportedFileTypes.includes(file.type)) {
+            this.unsupportedFileType.emit(true);
+
+            return;
+        }
+
+        this.fileEmit(file);
+    }
+
+    private fileEmit(file: File): void {
         const reader = new FileReader();
         reader.onload = (): void => {
             this.fileUpload.emit({content: reader.result, fileName: file.name, blobPart: file});

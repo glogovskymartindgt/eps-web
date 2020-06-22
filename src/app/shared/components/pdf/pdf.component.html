@@ -1,0 +1,23 @@
+<div class="image-thumbnail" (click)="openDialog()">
+    <ng-container *ngTemplateOutlet="imageTemplate">
+    </ng-container>
+</div>
+<ng-template #imageTemplate>
+    <div class="image_box">
+        <button class="close-button" mat-dialog-close mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+        <ng-container *ngIf="src; else noImageFound">
+            <pdf-viewer [src]="src" [zoom]="pdfZoom(pdfWindow)" class="pdf-window" style="width: 205px; height: 200px;"
+                        [original-size]="true" [fit-to-page]="true" (page-rendered)="pdfRendered()" #pdfWindow
+            ></pdf-viewer>
+        </ng-container>
+        <ng-template #noImageFound>
+            <img
+                src="assets/img/custom-svg/document.svg"
+                [alt]="'error.imageNotFound' | translate"
+                (click)="stopPropagation($event)"
+            >
+        </ng-template>
+    </div>
+</ng-template>

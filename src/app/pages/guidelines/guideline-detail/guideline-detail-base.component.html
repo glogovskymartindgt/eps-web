@@ -9,13 +9,13 @@
     <div class="p-30">
         <form [formGroup]="guidelineDetailForm">
             <div class="long-input">
-                <haz-copy-core-input
+                <haz-core-input
                     [label]="'guidelines.detail.title' | translate"
                     [required]="true"
                     appearance="fill"
                     [formControlName]="formControlNames.TITLE"
                 >
-                </haz-copy-core-input>
+                </haz-core-input>
             </div>
 
             <mat-form-field appearance="fill" class="long-input">
@@ -41,17 +41,45 @@
 
                 <iihf-drag-drop-box
                     labelKey="guidelines.detail.dragAttachment"
-                    [add]="true"
-                ></iihf-drag-drop-box>
+                    [edit]="attachmentName !== null"
+                    [supportedFileTypes]="['application/pdf']"
+                    [maximumFileSize]="fifteenMBinBytes"
+                    (fileUpload)="attachmentUpload($event)"
+                    (unsupportedFileType)="attachmentUnsupportedFiletype()"
+                    (maximumSizeExceeded)="attachmentMaximumFileSizedExceeded()"
+                >
+                    <iihf-pdf [src]="attachmentSource" alt="attachment"></iihf-pdf>
+
+                    <iihf-download-link
+                        *ngIf="!editMode"
+                        [src]="attachmentSource"
+                        [fileTitle]="attachmentTitle"
+                        [fileName]="attachmentName"
+                    ></iihf-download-link>
+
+                    <div *ngIf="editMode">
+                        {{ attachmentTitle }}
+                        <img
+                            (click)="attachmentRemove()"
+                            [src]="'assets/img/svg-squares/remove.svg'"
+                            class="button"
+                            alt="remove"
+                        >
+                    </div>
+                </iihf-drag-drop-box>
+
+                <mat-error *ngIf="attachmentRequiredError">
+                    {{ 'error.required' | translate }}
+                </mat-error>
             </div>
 
             <div class="long-input">
-                <haz-copy-core-input
+                <haz-core-input
                     [label]="'guidelines.detail.description' | translate"
                     appearance="fill"
                     [formControlName]="formControlNames.DESCRIPTION"
                 >
-                </haz-copy-core-input>
+                </haz-core-input>
             </div>
 
         </form>
@@ -62,7 +90,7 @@
                     color="accent"
                     class="mr-10"
                     (click)="onSave()"
-                    [disabled]="formData === null"
+                    [disabled]="guidelineDetailForm.invalid"
             >
                 {{ 'guidelines.detail.save' | translate }}
             </button>

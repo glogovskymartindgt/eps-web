@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AttachmentService } from '../../../shared/services/data/attachment.service';
 import { BusinessAreaService } from '../../../shared/services/data/business-area.service';
 import { FactService } from '../../../shared/services/data/fact.service';
 import { NotificationService } from '../../../shared/services/notification.service';
@@ -20,8 +21,10 @@ import { GuidelineDetailBaseComponent } from './guideline-detail-base.component'
     public loading = false;
 
     public labelKey = 'guidelines.newGuideline';
+    public editMode = true;
 
     public constructor(
+        protected readonly attachmentService: AttachmentService,
         protected readonly businessAreaService: BusinessAreaService,
         protected readonly router: Router,
         protected readonly factService: FactService,
@@ -29,7 +32,7 @@ import { GuidelineDetailBaseComponent } from './guideline-detail-base.component'
         protected readonly notificationService: NotificationService,
         protected readonly projectEventService: ProjectEventService,
     ) {
-        super(businessAreaService, router, formBuilder, projectEventService);
+        super(attachmentService, businessAreaService, router, formBuilder, notificationService, projectEventService);
     }
 
     public ngOnInit(): void {

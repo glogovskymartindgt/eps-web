@@ -16,8 +16,10 @@ import { CommentComponent } from './comment/comment.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { ImageDialogComponent } from './dialog/image-dialog/image-dialog.component';
 import { PdfDialogComponent } from './dialog/pdf-dialog/pdf-dialog.component';
+import { DownloadLinkComponent } from './download-link/download-link.component';
 import { DragDropBoxComponent } from './drag-drop-box/drag-drop-box.component';
 import { HeaderComponent } from './header/header.component';
+import { PdfComponent } from './pdf/pdf.component';
 
 @NgModule({
     declarations: [
@@ -30,6 +32,8 @@ import { HeaderComponent } from './header/header.component';
         HeaderComponent,
         ShowByRoleDirective,
         DragDropBoxComponent,
+        PdfComponent,
+        DownloadLinkComponent,
     ],
     imports: [
         CommonModule,
@@ -53,6 +57,8 @@ import { HeaderComponent } from './header/header.component';
         HeaderComponent,
         ShowByRoleDirective,
         DragDropBoxComponent,
+        PdfComponent,
+        DownloadLinkComponent,
     ],
     providers: [TranslateWrapperService],
     entryComponents: [
