@@ -31,7 +31,7 @@ export class TaskCommentTabComponent extends CommentTabComponent implements OnIn
     }
 
     public ngOnInit(): void {
-        this.activatedRoute.queryParams.subscribe((param: Params): void => {
+        this.activatedRoute.params.subscribe((param: Params): void => {
 
             this.taskId = param.id;
             this.getAllComments();
