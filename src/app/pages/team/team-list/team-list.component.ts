@@ -1,6 +1,9 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { State, UserType } from '../../../shared/enums/enumerators';
 import { Role } from '../../../shared/enums/role.enum';
 import {
+    ListItem,
     TableCellType,
     TableChangeEvent,
     TableColumn,
@@ -42,6 +45,7 @@ export class TeamListComponent implements OnInit, TableContainer<User> {
         private readonly notificationService: NotificationService,
         private readonly routingStorageService: RoutingStorageService,
         private readonly tableChangeStorageService: TableChangeStorageService,
+        private readonly translateService: TranslateService,
     ) {
     }
 
@@ -87,6 +91,19 @@ export class TeamListComponent implements OnInit, TableContainer<User> {
                     sorting: true,
                 }),
                 new TableColumn({
+                    columnDef: 'type',
+                    labelKey: 'team.type',
+                    filter: new TableColumnFilter({
+                        type: TableFilterType.SELECT,
+                        select: [
+                            new ListItem('', this.translateService.instant('all.things')),
+                            new ListItem(UserType.IIHF, this.translateService.instant('user.iihf').toString().toLocaleUpperCase()),
+                            new ListItem(UserType.ORGANIZER, this.translateService.instant('user.organizer').toString().toLocaleUpperCase()),
+                        ],
+                    }),
+                    sorting: true,
+                }),
+                new TableColumn({
                     columnDef: 'organization',
                     labelKey: 'team.organization',
                     filter: new TableColumnFilter({}),
@@ -117,6 +134,21 @@ export class TeamListComponent implements OnInit, TableContainer<User> {
                     sorting: true,
                 }),
                 new TableColumn({
+                    columnDef: 'accountState',
+                    labelKey: 'team.accountState',
+                    columnRequestName: 'ACCOUNT_STATUS',
+                    filter: new TableColumnFilter({
+                        type: TableFilterType.SELECT,
+                        predefinedValue: [State.ACTIVE],
+                        select: [
+                            new ListItem('', this.translateService.instant('all.things')),
+                            new ListItem(State.ACTIVE, this.translateService.instant('team.active')),
+                            new ListItem(State.INACTIVE, this.translateService.instant('team.inactive')),
+                        ],
+                    }),
+                    sorting: true,
+                }),
+                new TableColumn({
                     columnDef: ' ',
                     label: ' ',
                     type: TableCellType.CONTENT,
@@ -139,7 +171,6 @@ export class TeamListComponent implements OnInit, TableContainer<User> {
 
     private setDefaultFilters(): void {
         this.defaultFilters = [
-            new Filter('ACCOUNT_STATUS', 'ACTIVE', 'ENUM'),
             new Filter('FLAG_ACTIVE', 'TRUE', 'STRING', 'EQ'),
         ];
     }
