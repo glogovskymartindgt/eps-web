@@ -46,7 +46,7 @@ export class UsersListComponent implements OnInit {
     public ngOnInit(): void {
         this.setTableData();
         this.config = {
-            stickyEnd: 7,
+            stickyEnd: 5,
             columns: [
                 new TableColumn({
                     columnDef: 'id',
