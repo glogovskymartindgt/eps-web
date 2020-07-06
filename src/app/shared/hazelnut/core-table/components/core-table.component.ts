@@ -105,11 +105,7 @@ export class CoreTableComponent<T = any> implements OnInit, OnChanges, OnDestroy
 
         const constructRequestParameters$ = filters$.pipe(map((filters: Filter[]) => {
             const requestParameters = new TableRequestParameters(this.paginator, this.sort);
-            requestParameters.sortActive = (
-                this.sort.active && this.configuration.columns
-                    .find((column: TableColumn) => [column.columnDef, column.columnRequestName].includes(this.sort.active))
-                    .columnRequestName
-            ) as Property
+            requestParameters.sortActive = this.getSortActive();
             requestParameters.filter = filters;
 
             return requestParameters;
@@ -198,7 +194,10 @@ export class CoreTableComponent<T = any> implements OnInit, OnChanges, OnDestroy
         return TableChangeEvent.Init(new TableRequestParameters({
             pageSize: this.paginator.pageSize,
             pageIndex: 0
-        }, this.sort), []);
+        }, {
+            active: this.getSortActive(),
+            direction: this.sort.direction
+        }), []);
     }
 
     public isRightAligned(columnType: string): boolean {
@@ -279,5 +278,16 @@ export class CoreTableComponent<T = any> implements OnInit, OnChanges, OnDestroy
                 column.label = column.label.toUpperCase();
             }
         });
+    }
+
+    /*
+    * Get sort active name for requests, since it can differ from the columnDef which it sorts
+    * */
+    private getSortActive(): Property {
+        return (
+            this.sort.active && this.configuration.columns
+                .find((column: TableColumn) => [column.columnDef, column.columnRequestName].includes(this.sort.active))
+                .columnRequestName
+        ) as Property;
     }
 }
