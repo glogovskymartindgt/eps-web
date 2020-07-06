@@ -105,8 +105,11 @@ export class CoreTableComponent<T = any> implements OnInit, OnChanges, OnDestroy
 
         const constructRequestParameters$ = filters$.pipe(map((filters: Filter[]) => {
             const requestParameters = new TableRequestParameters(this.paginator, this.sort);
-            requestParameters.sortActive = (this.sort.active && this.configuration.columns
-                .find((column: TableColumn) => column.columnDef === this.sort.active).columnRequestName) as Property
+            requestParameters.sortActive = (
+                this.sort.active && this.configuration.columns
+                    .find((column: TableColumn) => [column.columnDef, column.columnRequestName].includes(this.sort.active))
+                    .columnRequestName
+            ) as Property
             requestParameters.filter = filters;
 
             return requestParameters;

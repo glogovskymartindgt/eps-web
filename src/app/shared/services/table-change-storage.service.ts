@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { TableChangeEvent, TableConfiguration } from '../hazelnut/core-table';
+import { TableChangeEvent, TableColumn, TableConfiguration } from '../hazelnut/core-table';
 import { StringUtils } from '../hazelnut/hazelnut-common/hazelnut';
-import { Filter } from '../hazelnut/hazelnut-common/models';
 
 @Injectable({
     providedIn: 'root'
@@ -10,8 +9,6 @@ import { Filter } from '../hazelnut/hazelnut-common/models';
 /**
  * Store table change events
  */ export class TableChangeStorageService {
-    private tasksLastTableChangeEvent: any;
-    private factsLastTableChangeEvent: TableChangeEvent;
     private usersLastTableChangeEvent: TableChangeEvent;
 
     private _isReturnFromDetail = false;
@@ -39,50 +36,11 @@ import { Filter } from '../hazelnut/hazelnut-common/models';
         };
     }
 
-    /**
-     * Storing data from task list and also additional filters, because we need business area filter which is not in
-     * table
-     * @param changeEvent
-     * @param additionalFilers
-     */
-    public setTasksLastTableChangeEvent(changeEvent: TableChangeEvent, additionalFilers: Filter[]): void {
-        this.tasksLastTableChangeEvent = {
-            ...changeEvent,
-            filters: [...changeEvent.filters],
-            additionalFilters: additionalFilers
-        };
-    }
-
-    /**
-     * Store table change event in facts
-     * @param changeEvent
-     */
-    public setFactsLastTableChangeEvent(changeEvent?: TableChangeEvent): void {
-        this.factsLastTableChangeEvent = {
-            ...changeEvent,
-            filters: [...changeEvent.filters]
-        };
-    }
-
     public setUsersLastTableChangeEvent(changeEvent?: TableChangeEvent): void {
         this.usersLastTableChangeEvent = {
             ...changeEvent,
             filters: [...changeEvent.filters]
         };
-    }
-
-    /**
-     * Get stored tasks table change event
-     */
-    public getTasksLastTableChangeEvent(): any {
-        return this.tasksLastTableChangeEvent;
-    }
-
-    /**
-     * Get stored facts table change event
-     */
-    public getFactsLastTableChangeEvent(): TableChangeEvent {
-        return this.factsLastTableChangeEvent;
     }
 
     public getUsersLastTableChangeEvent(): TableChangeEvent {
@@ -102,19 +60,23 @@ import { Filter } from '../hazelnut/hazelnut-common/models';
         }
 
         if (this._cachedTableChangeEvent.filters) {
-            configuration.predefinedFilters = this._cachedTableChangeEvent.filters;
+            updatedConfiguration.predefinedFilters = this._cachedTableChangeEvent.filters;
         }
         if (this._cachedTableChangeEvent.pageIndex) {
-            configuration.predefinedPageIndex = this._cachedTableChangeEvent.pageIndex;
+            updatedConfiguration.predefinedPageIndex = this._cachedTableChangeEvent.pageIndex;
         }
         if (this._cachedTableChangeEvent.pageSize) {
-            configuration.predefinedPageSize = this._cachedTableChangeEvent.pageSize;
+            updatedConfiguration.predefinedPageSize = this._cachedTableChangeEvent.pageSize;
         }
         if (this._cachedTableChangeEvent.sortDirection) {
-            configuration.predefinedSortDirection = this._cachedTableChangeEvent.sortDirection.toLowerCase();
+            updatedConfiguration.predefinedSortDirection = this._cachedTableChangeEvent.sortDirection.toLowerCase();
         }
-        if (this._cachedTableChangeEvent.sortActive) {
-            configuration.predefinedSortActive = StringUtils.convertSnakeToCamel(this._cachedTableChangeEvent.sortActive.toLowerCase());
+        const sortActive: string = this._cachedTableChangeEvent.sortActive;
+        if (sortActive) {
+            const sortedColumn: TableColumn = configuration.columns.find((column: TableColumn): boolean =>
+                [column.columnDef, column.columnRequestName].includes(StringUtils.convertSnakeToCamel(sortActive))
+            );
+            updatedConfiguration.predefinedSortActive = sortedColumn.columnDef;
         }
 
         return updatedConfiguration;

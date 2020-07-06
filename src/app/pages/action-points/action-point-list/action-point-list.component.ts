@@ -5,10 +5,16 @@ import { TranslateService } from '@ngx-translate/core';
 import { finalize } from 'rxjs/operators';
 import { Role } from '../../../shared/enums/role.enum';
 import {
-    CoreTableComponent, ListItem, TableCellType, TableChangeEvent, TableColumn, TableColumnFilter, TableConfiguration, TableFilterType
+    CoreTableComponent,
+    ListItem,
+    TableCellType,
+    TableChangeEvent,
+    TableColumn,
+    TableColumnFilter,
+    TableConfiguration,
+    TableFilterType
 } from '../../../shared/hazelnut/core-table';
 import { fadeEnterLeave } from '../../../shared/hazelnut/hazelnut-common/animations';
-import { StringUtils } from '../../../shared/hazelnut/hazelnut-common/hazelnut';
 import { BrowseResponse, Filter } from '../../../shared/hazelnut/hazelnut-common/models';
 import { FileManager } from '../../../shared/hazelnut/hazelnut-common/utils/file-manager';
 import { ActionPoint } from '../../../shared/models/action-point.model';
@@ -40,7 +46,6 @@ export class ActionPointListComponent implements OnInit {
     public data: BrowseResponse<ActionPoint> = new BrowseResponse<ActionPoint>();
     public loading = false;
     private lastTableChangeEvent: TableChangeEvent;
-    private isInitialized = false;
     private allActionPointFilters: Filter[] = [];
     private additionalFilters: Filter[] = [];
 
@@ -56,8 +61,109 @@ export class ActionPointListComponent implements OnInit {
     }
 
     public ngOnInit(): void {
+        this.tableChangeStorageService.isReturnFromDetail = this.isReturnFromDetail();
+        this.setTableConfiguration();
+    }
+
+    /**
+     * navigate create task screen
+     */
+    public createTask(): void {
+        this.router.navigate(['action-points/create']);
+    }
+
+    /**
+     * Export report from API based on selected filters
+     */
+    public export(): void {
+        this.loading = true;
+        this.actionPointService.exportActionPoints(this.lastTableChangeEvent, this.additionalFilters, this.projectEventService.instant.id)
+            .pipe(finalize((): any => this.loading = false))
+            .subscribe((response: any): any => {
+                const contentDisposition = response.headers.get('Content-Disposition');
+                const exportName: string = GetFileNameFromContentDisposition(contentDisposition);
+                new FileManager().saveFile(exportName, response.body, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            }, (): void => {
+                this.notificationService.openErrorNotification('error.api');
+            });
+    }
+
+    /**
+     * Navigate to update task screen
+     * @param id
+     */
+    public update(id: number): void {
+        this.router.navigate(['action-points/edit'], {queryParams: {id}});
+    }
+
+    public setTableData(tableChangeEvent?: TableChangeEvent): void {
+        let newTableChangeEvent = tableChangeEvent;
+        if (!newTableChangeEvent) {
+            newTableChangeEvent = this.actionPointTable.reset();
+        }
+        if (newTableChangeEvent && newTableChangeEvent.filters && newTableChangeEvent.filters.length > 0) {
+            this.allActionPointFilters = newTableChangeEvent.filters;
+        }
+
+        this.lastTableChangeEvent = newTableChangeEvent;
+        this.tableChangeStorageService.cachedTableChangeEvent = newTableChangeEvent;
+
+        this.additionalFilters = [
+            new Filter('PROJECT_ID', this.projectEventService.instant.id, 'NUMBER'),
+        ];
+
+        if (this.allActionPointFilters) {
+            this.allActionPointFilters.forEach((filter: Filter): any => {
+                this.additionalFilters.push(filter);
+            });
+        }
+
+        this.loading = true;
+
+        this.actionPointService.browseActionPoints(newTableChangeEvent, this.additionalFilters)
+            .pipe(finalize((): any => this.loading = false))
+            .subscribe((data: BrowseResponse<ActionPoint>): void => {
+                this.data = data;
+            }, (): void => {
+                this.notificationService.openErrorNotification('error.api');
+            });
+
+    }
+
+    public allowCreateActionPointButton(): boolean {
+        return this.hasCreateActionPointRole() || this.hasCreateActionPointRoleInAssignProject();
+    }
+
+    public allowActionPointDetailButton(): boolean {
+        return this.authService.hasRole(Role.RoleReadActionPoint) ||
+            this.authService.hasRole(Role.RoleReadActionPointInAssignProject) ||
+            this.authService.hasRole(Role.RoleUpdateActionPoint) ||
+            this.authService.hasRole(Role.RoleUpdateActionPointInAssignProject);
+    }
+
+    public allowExportReportActionPointButton(): boolean {
+        return this.hasRoleExportReportActionPoint() || this.hasRoleExportReportActionPointInAssignProject();
+    }
+
+    private hasRoleExportReportActionPoint(): boolean {
+        return this.authService.hasRole(Role.RoleExportReportActionPoint);
+    }
+
+    private hasRoleExportReportActionPointInAssignProject(): boolean {
+        return this.authService.hasRole(Role.RoleExportReportActionPointInAssignProject);
+    }
+
+    private hasCreateActionPointRole(): boolean {
+        return this.authService.hasRole(Role.RoleCreateActionPoint);
+    }
+
+    private hasCreateActionPointRoleInAssignProject(): boolean {
+        return this.authService.hasRole(Role.RoleCreateActionPointInAssignProject);
+    }
+
+    private setTableConfiguration(): void {
         const allThingsKey = 'all.things';
-        this.config = {
+        const config: TableConfiguration = {
             stickyEnd: 6,
             columns: [
                 new TableColumn({
@@ -169,131 +275,7 @@ export class ActionPointListComponent implements OnInit {
             paging: true,
         };
 
-        if (!this.isInitialized && this.isReturnFromDetail() && this.tableChangeStorageService.getTasksLastTableChangeEvent()) {
-            if (this.tableChangeStorageService.getTasksLastTableChangeEvent().filters) {
-                this.config.predefinedFilters = this.tableChangeStorageService.getTasksLastTableChangeEvent().filters;
-            }
-            if (this.tableChangeStorageService.getTasksLastTableChangeEvent().pageIndex) {
-                this.config.predefinedPageIndex = this.tableChangeStorageService.getTasksLastTableChangeEvent().pageIndex;
-            }
-            if (this.tableChangeStorageService.getTasksLastTableChangeEvent().pageSize) {
-                this.config.predefinedPageSize = this.tableChangeStorageService.getTasksLastTableChangeEvent().pageSize;
-            }
-            if (this.tableChangeStorageService.getTasksLastTableChangeEvent().sortDirection) {
-                this.config.predefinedSortDirection = this.tableChangeStorageService.getTasksLastTableChangeEvent()
-                                                          .sortDirection
-                                                          .toLowerCase();
-            }
-            if (this.tableChangeStorageService.getTasksLastTableChangeEvent().sortActive) {
-                this.config.predefinedSortActive = StringUtils.convertSnakeToCamel(this.tableChangeStorageService.getTasksLastTableChangeEvent()
-                                                                                       .sortActive
-                                                                                       .toLowerCase());
-            }
-        }
-    }
-
-    /**
-     * navigate create task screen
-     */
-    public createTask(): void {
-        this.router.navigate(['action-points/create']);
-    }
-
-    /**
-     * Export report from API based on selected filters
-     */
-    public export(): void {
-        this.loading = true;
-        this.actionPointService.exportActionPoints(this.lastTableChangeEvent, this.additionalFilters, this.projectEventService.instant.id)
-            .pipe(finalize((): any => this.loading = false))
-            .subscribe((response: any): any => {
-                const contentDisposition = response.headers.get('Content-Disposition');
-                const exportName: string = GetFileNameFromContentDisposition(contentDisposition);
-                new FileManager().saveFile(exportName, response.body, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-            }, (): void => {
-                this.notificationService.openErrorNotification('error.api');
-            });
-    }
-
-    /**
-     * Navigate to update task screen
-     * @param id
-     */
-    public update(id: number): void {
-        this.router.navigate(['action-points/edit'], {queryParams: {id}});
-    }
-
-    public setTableData(tableChangeEvent?: TableChangeEvent): void {
-        let newTableChangeEvent = tableChangeEvent;
-        if (!newTableChangeEvent) {
-            newTableChangeEvent = this.actionPointTable.reset();
-        }
-        if (newTableChangeEvent && newTableChangeEvent.filters && newTableChangeEvent.filters.length > 0) {
-            this.allActionPointFilters = newTableChangeEvent.filters;
-        }
-
-        this.lastTableChangeEvent = newTableChangeEvent;
-
-        this.additionalFilters = [
-            new Filter('PROJECT_ID', this.projectEventService.instant.id, 'NUMBER'),
-        ];
-
-        if (this.allActionPointFilters) {
-            this.allActionPointFilters.forEach((filter: Filter): any => {
-                this.additionalFilters.push(filter);
-            });
-        }
-
-        this.loading = true;
-
-        // Update table change event values from local storage
-        if (!this.isInitialized && this.isReturnFromDetail() && this.tableChangeStorageService.getTasksLastTableChangeEvent()) {
-            newTableChangeEvent.pageIndex = this.tableChangeStorageService.getTasksLastTableChangeEvent().pageIndex;
-            newTableChangeEvent.pageSize = this.tableChangeStorageService.getTasksLastTableChangeEvent().pageSize;
-            newTableChangeEvent.sortDirection = this.tableChangeStorageService.getTasksLastTableChangeEvent().sortDirection;
-            newTableChangeEvent.sortActive = this.tableChangeStorageService.getTasksLastTableChangeEvent().sortActive;
-        }
-        this.actionPointService.browseActionPoints(newTableChangeEvent, this.additionalFilters)
-            .pipe(finalize((): any => this.loading = false))
-            .subscribe((data: BrowseResponse<ActionPoint>): void => {
-                this.data = data;
-                this.isInitialized = true;
-            }, (): void => {
-                this.notificationService.openErrorNotification('error.api');
-            });
-
-        this.tableChangeStorageService.setTasksLastTableChangeEvent(newTableChangeEvent, this.additionalFilters);
-    }
-
-    public allowCreateActionPointButton(): boolean {
-        return this.hasCreateActionPointRole() || this.hasCreateActionPointRoleInAssignProject();
-    }
-
-    public allowActionPointDetailButton(): boolean {
-        return this.authService.hasRole(Role.RoleReadActionPoint) ||
-            this.authService.hasRole(Role.RoleReadActionPointInAssignProject) ||
-            this.authService.hasRole(Role.RoleUpdateActionPoint) ||
-            this.authService.hasRole(Role.RoleUpdateActionPointInAssignProject);
-    }
-
-    public allowExportReportActionPointButton(): boolean {
-        return this.hasRoleExportReportActionPoint() || this.hasRoleExportReportActionPointInAssignProject();
-    }
-
-    private hasRoleExportReportActionPoint(): boolean {
-        return this.authService.hasRole(Role.RoleExportReportActionPoint);
-    }
-
-    private hasRoleExportReportActionPointInAssignProject(): boolean {
-        return this.authService.hasRole(Role.RoleExportReportActionPointInAssignProject);
-    }
-
-    private hasCreateActionPointRole(): boolean {
-        return this.authService.hasRole(Role.RoleCreateActionPoint);
-    }
-
-    private hasCreateActionPointRoleInAssignProject(): boolean {
-        return this.authService.hasRole(Role.RoleCreateActionPointInAssignProject);
+        this.config = this.tableChangeStorageService.updateTableConfiguration(config);
     }
 
     /**
