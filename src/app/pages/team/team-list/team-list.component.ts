@@ -72,6 +72,7 @@ export class TeamListComponent implements OnInit, TableContainer<User> {
         const config: TableConfiguration = {
             predefinedSortActive: 'lastName',
             predefinedSortDirection: 'asc',
+            stickyEnd: 8,
             columns: [
                 new TableColumn({
                     columnDef: 'firstName',
