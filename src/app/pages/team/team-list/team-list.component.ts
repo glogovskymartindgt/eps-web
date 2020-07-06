@@ -1,8 +1,6 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import { Role } from '../../../shared/enums/role.enum';
 import {
-    ListItem,
     TableCellType,
     TableChangeEvent,
     TableColumn,
@@ -13,7 +11,6 @@ import {
 } from '../../../shared/hazelnut/core-table';
 import { fadeEnterLeave } from '../../../shared/hazelnut/hazelnut-common/animations';
 import { BrowseResponse, Filter } from '../../../shared/hazelnut/hazelnut-common/models';
-import { State } from '../../../shared/hazelnut/hazelnut-common/models/enumerators';
 import { TableContainer } from '../../../shared/interfaces/table-container.interface';
 import { User } from '../../../shared/interfaces/user.interface';
 import { UserDataService } from '../../../shared/services/data/user-data.service';
@@ -45,7 +42,6 @@ export class TeamListComponent implements OnInit, TableContainer<User> {
         private readonly notificationService: NotificationService,
         private readonly routingStorageService: RoutingStorageService,
         private readonly tableChangeStorageService: TableChangeStorageService,
-        private readonly translateService: TranslateService,
     ) {
     }
 
@@ -90,11 +86,6 @@ export class TeamListComponent implements OnInit, TableContainer<User> {
                     sorting: true,
                 }),
                 new TableColumn({
-                    columnDef: 'type',
-                    labelKey: 'team.type',
-                    sorting: false,
-                }),
-                new TableColumn({
                     columnDef: 'organization',
                     labelKey: 'team.organization',
                     filter: new TableColumnFilter({}),
@@ -125,21 +116,6 @@ export class TeamListComponent implements OnInit, TableContainer<User> {
                     sorting: true,
                 }),
                 new TableColumn({
-                    columnDef: 'accountState',
-                    labelKey: 'team.accountState',
-                    columnRequestName: 'ACCOUNT_STATUS',
-                    filter: new TableColumnFilter({
-                        type: TableFilterType.SELECT,
-                        predefinedValue: [State.ACTIVE],
-                        select: [
-                            new ListItem('', this.translateService.instant('all.things')),
-                            new ListItem(State.ACTIVE, this.translateService.instant('team.active')),
-                            new ListItem(State.INACTIVE, this.translateService.instant('team.inactive')),
-                        ],
-                    }),
-                    sorting: true,
-                }),
-                new TableColumn({
                     columnDef: ' ',
                     label: ' ',
                     type: TableCellType.CONTENT,
@@ -162,6 +138,7 @@ export class TeamListComponent implements OnInit, TableContainer<User> {
 
     private setDefaultFilters(): void {
         this.defaultFilters = [
+            new Filter('ACCOUNT_STATUS', 'ACTIVE', 'ENUM'),
             new Filter('FLAG_ACTIVE', 'TRUE', 'STRING', 'EQ'),
         ];
     }
