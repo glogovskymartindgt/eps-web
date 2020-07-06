@@ -91,7 +91,7 @@ export class CoreTableFilterComponent implements OnInit {
     }
 
     private get filterProperty(): string {
-        const filterDef: string = this.columnConfig.filter.property || this.columnConfig.columnDef;
+        const filterDef: string = this.columnConfig.filter.property || this.columnConfig.columnRequestName;
 
         return StringUtils.convertCamelToSnakeUpper(filterDef);
     }
