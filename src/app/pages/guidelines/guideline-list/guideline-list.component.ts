@@ -51,7 +51,7 @@ export class GuidelineListComponent implements OnInit, TableContainer<Guideline>
 
     public ngOnInit(): void {
         this.additionalFilters = [
-            new Filter('PROJECT_ID', this.projectEventService.instant.id, 'NUMBER'),
+            // new Filter('PROJECT_ID', this.projectEventService.instant.id, 'NUMBER'),
         ];
 
         this.tableChangeStorageService.isReturnFromDetail = this.isReturnFromDetail();

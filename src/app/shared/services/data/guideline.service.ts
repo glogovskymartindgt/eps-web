@@ -14,7 +14,7 @@ import { ProjectUserService } from '../storage/project-user.service';
 export class GuideLineService extends ProjectService<Guideline> {
 
     public constructor(http: HttpClient, notificationService: NotificationService, userService: ProjectUserService) {
-        super(http, 'guideline', notificationService, userService);
+        super(http, 'guidelines', notificationService, userService);
     }
 
     /**
@@ -39,8 +39,11 @@ export class GuideLineService extends ProjectService<Guideline> {
             );
     }
 
-    private processError(error: Error): Observable<never> {
-        console.dir(error);
+    public getGuideline(guidelineId = 1): Observable<Guideline> {
+        return this.getDetail(guidelineId);
+    }
+
+    private processError = (error: Error): Observable<never> => {
         this.notificationService.openErrorNotification('error.api');
 
         throw error;

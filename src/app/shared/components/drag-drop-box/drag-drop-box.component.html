@@ -13,6 +13,7 @@
 
         <input
             (change)="onInserted($event)"
+            (click)="resetInput($event)"
             [accept]="acceptedFileTypes"
             class="hide-input"
             id="first-map-{{id}}"

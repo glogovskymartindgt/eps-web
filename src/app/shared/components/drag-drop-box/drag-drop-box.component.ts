@@ -38,6 +38,10 @@ export class DragDropBoxComponent {
         this.processFile(file);
     }
 
+    public resetInput(event: MouseEvent): void {
+        (event.target as any).value = null;
+    }
+
     private processFile(file: File): void {
         if (!!this.maximumFileSize && file.size > this.maximumFileSize) {
             this.maximumSizeExceeded.emit(true);

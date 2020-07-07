@@ -4,7 +4,8 @@ import { Router } from '@angular/router';
 import { ListItemSync } from 'hazelnut';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Role } from "../../../shared/enums/role.enum";
+import { Role } from '../../../shared/enums/role.enum';
+import { RouteNames } from '../../../shared/enums/route-names.enum';
 import { BusinessArea } from '../../../shared/interfaces/bussiness-area.interface';
 import { AttachmentService } from '../../../shared/services/data/attachment.service';
 import { BusinessAreaService } from '../../../shared/services/data/business-area.service';
@@ -13,7 +14,7 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
 
 export enum GuidelineFormControlNames {
     TITLE= 'title',
-    BUSINESS_AREA = 'businessArea',
+    BUSINESS_AREA = 'clBusinessAreaId',
     ATTACHMENT = 'attachment',
     DESCRIPTION = 'description',
 }
@@ -59,7 +60,7 @@ export abstract class GuidelineDetailBaseComponent implements OnInit {
      * Cancel create/edit and navigate to the list component
      */
     public back(): void {
-        this.router.navigate(['guideline', 'list']);
+        this.router.navigate([RouteNames.GUIDELINES, RouteNames.LIST]);
     }
 
     /**
