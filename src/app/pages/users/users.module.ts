@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
+import { ComponentsModule } from '../../shared/components/components.module';
 import { AbstractInputsModule } from '../../shared/hazelnut/abstract-inputs';
 import { CoreTableModule } from '../../shared/hazelnut/core-table';
 import { MaterialModule } from '../../shared/hazelnut/hazelnut-common';
@@ -16,6 +17,7 @@ import { SettingRoutineModule } from './users-routing.module';
   declarations: [UsersListComponent, UserCreateComponent, UserEditComponent, UserFormComponent],
   imports: [
         CommonModule,
+        ComponentsModule,
         SettingRoutineModule,
         FlexLayoutModule,
         MaterialModule,
