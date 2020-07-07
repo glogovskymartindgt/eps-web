@@ -58,7 +58,7 @@ import { SelectedAreaService } from '../../../shared/services/storage/selected-a
                 }),
                 new TableColumn({
                     columnDef: ' ',
-                    labelKey: ' ',
+                    labelKey: 'common.emptyText',
                     type: TableCellType.CONTENT,
                     tableCellTemplate: this.navigationToTasksColumn,
                     filter: new TableColumnFilter({
