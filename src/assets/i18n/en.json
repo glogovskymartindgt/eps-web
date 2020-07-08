@@ -336,11 +336,15 @@
         "screenTitle": "Team",
         "firstName": "First Name",
         "lastName": "Last Name",
+        "type": "User Type",
         "organization": "Organization",
         "function": "Function",
         "phone": "Phone",
         "mobile": "Mobile",
-        "email": "Email"
+        "email": "Email",
+        "accountState": "Account Status",
+        "active": "ACTIVE",
+        "inactive": "INACTIVE"
     },
     "guidelines": {
         "screenTitle": "Guidelines",
