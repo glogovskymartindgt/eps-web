@@ -1,5 +1,6 @@
 <div fxLayout="column" fxLayoutGap="10px">
     <div
+        *ngIf="!disabled"
         (onFileDropped)="onDropped($event)"
         class="relative-parent"
         dragDrop

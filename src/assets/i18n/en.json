@@ -123,7 +123,8 @@
         "user.type.not.iihf":  "User has not type IIHF",
         "project.cannot.be.closed":  "The project cannot be closed",
         "guideline.for.project.and.business.area.exists":  "A guideline for the current project and the selected business area already exists",
-        "business.area.not.found": "The business area was not found"
+        "business.area.not.found": "The business area was not found",
+        "guideline.not.found": "The guuideline was not found"
     },
     "errorCode": {
         "1": "System error",

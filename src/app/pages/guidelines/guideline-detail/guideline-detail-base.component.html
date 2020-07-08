@@ -1,7 +1,7 @@
 <iihf-header>
     <h3 title>{{labelKey | translate}}</h3>
 
-    <ng-container buttons *ngIf="hasEditButton && !editMode">
+    <ng-container buttons *ngIf="!editMode">
         <button
             (click)="enableEdit()"
             *iihfShowByRole="roles.RoleUpdateGuideline"
@@ -52,6 +52,7 @@
                 <iihf-drag-drop-box
                     labelKey="guidelines.detail.dragAttachment"
                     [edit]="attachmentName !== null"
+                    [disabled]="!editMode"
                     [supportedFileTypes]="['application/pdf']"
                     [maximumFileSize]="fifteenMBinBytes"
                     (fileUpload)="attachmentUpload($event)"
@@ -61,25 +62,24 @@
                     <iihf-pdf [src]="attachmentSource" alt="attachment"></iihf-pdf>
 
                     <!--<iihf-download-link
-                        *ngIf="!editMode"
+                        *ngIf="editMode"
                         [src]="attachmentSource"
                         [fileTitle]="attachmentTitle"
                         [fileName]="attachmentName"
                     ></iihf-download-link>-->
 
-                    <div *ngIf="editMode">
-                        <div fxLayout="row" class="pdf-width">
-                            <div fxFlex>
-                                {{ attachmentTitle }}
-                            </div>
-
-                            <img
-                                (click)="attachmentRemove()"
-                                [src]="'assets/img/svg-squares/remove.svg'"
-                                class="button"
-                                alt="remove"
-                            >
+                    <div fxLayout="row" class="pdf-width">
+                        <div fxFlex>
+                            {{ attachmentTitle }}
                         </div>
+
+                        <img
+                            *ngIf="editMode"
+                            (click)="attachmentRemove()"
+                            [src]="'assets/img/svg-squares/remove.svg'"
+                            class="button"
+                            alt="remove"
+                        >
                     </div>
                 </iihf-drag-drop-box>
 
@@ -98,20 +98,45 @@
                 </haz-copy-core-input>
             </div>
 
+            <div class="long-input" *ngIf="hasCreatedSection">
+                <mat-form-field appearance="fill" class="short-input theme-input mr-10">
+                    <mat-label class="label-style">{{ 'guidelines.detail.createdAt' | translate }}</mat-label>
+                    <input matInput [formControl]="createdAtControl">
+                </mat-form-field>
+            </div>
+
+            <ng-container *ngIf="hasChangedSection">
+                <div class="long-input">
+                    <mat-form-field appearance="fill" class="short-input theme-input mr-10">
+                        <mat-label class="label-style">{{ 'guidelines.detail.changedAt' | translate }}</mat-label>
+                        <input matInput [formControl]="changedAtControl">
+                    </mat-form-field>
+                </div>
+
+                <div class="long-input">
+                    <mat-form-field appearance="fill" class="short-input theme-input mr-10">
+                        <mat-label class="label-style">{{ 'guidelines.detail.changedBy' | translate }}</mat-label>
+                        <input matInput [formControl]="changedByControl">
+                    </mat-form-field>
+                </div>
+            </ng-container>
         </form>
 
         <div>
-            <button
-                *iihfShowByRole="submitButtonRole"
-                type="submit"
-                mat-flat-button
-                color="accent"
-                class="mr-10"
-                (click)="onSave()"
-                [disabled]="guidelineDetailForm.invalid || !editMode"
-            >
-                {{ 'guidelines.detail.save' | translate }}
-            </button>
+            <ng-container *ngIf="editMode">
+                <button
+                    *iihfShowByRole="submitButtonRole"
+                    type="submit"
+                    mat-flat-button
+                    color="accent"
+                    class="mr-10"
+                    (click)="onSave()"
+                    [disabled]="guidelineDetailForm.invalid"
+                >
+                    {{ 'guidelines.detail.save' | translate }}
+                </button>
+            </ng-container>
+
             <button type="button"
                     mat-button
                     class="mr-10"

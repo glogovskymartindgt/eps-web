@@ -14,12 +14,23 @@ import { ClBusinessArea } from '../../../shared/interfaces/cl-business-area.inte
             return selectList;
         }
 
-        return [
-            {
+        const result: ListItemSync[] = [];
+
+        if (selectedBusinessArea) {
+            const selectedListItem: ListItemSync = {
                 code: selectedBusinessArea.id,
                 value: selectedBusinessArea.name,
-            },
-            ...selectList
-        ];
+            };
+
+            if (selectedListItem) {
+                result.push(selectedListItem);
+            }
+        }
+
+        if (selectList && Array.isArray(selectList) && selectList.length) {
+            result.push(...selectList);
+        }
+
+        return result;
     }
 }

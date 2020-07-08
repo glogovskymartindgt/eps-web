@@ -8,4 +8,8 @@ export interface Guideline {
     description: string;
     projectId: number;
     title: string;
+
+    createdAt: Date | number;
+    changedAt: Date | number;
+    changedBy: any;
 }
