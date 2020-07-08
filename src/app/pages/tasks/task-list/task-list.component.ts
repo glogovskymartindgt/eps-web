@@ -67,9 +67,11 @@ export class TaskListComponent implements OnInit {
 
     public ngOnInit(): void {
         this.loadBusinessAreaList();
+        const initialBusinessArea: string = this.getBusinessAreaValue();
         this.areaGroup = this.formBuilder.group({
-            businessArea: [this.getBusinessAreaValue()]
+            businessArea: [initialBusinessArea]
         });
+        this.taskOverviewPersistanceService.businessAreaFilter = initialBusinessArea;
         this.areaGroup.valueChanges.subscribe((value: any): void => {
             if (value !== 'all') {
                 const businessAreaValue: any = value.businessArea;

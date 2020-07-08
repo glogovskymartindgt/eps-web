@@ -183,7 +183,8 @@
         "create": "CREATE",
         "export": "EXPORT",
         "from": "From",
-        "to": "To"
+        "to": "To",
+        "emptyText": ""
     },
     "all": {
         "things": "All",
