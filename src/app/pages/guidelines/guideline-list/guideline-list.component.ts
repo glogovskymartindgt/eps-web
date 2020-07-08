@@ -14,15 +14,13 @@ import {
 import { finalize } from 'rxjs/operators';
 import { RequestNames } from '../../../shared/enums/request-names.enum';
 import { Role } from '../../../shared/enums/role.enum';
+import { RouteNames } from '../../../shared/enums/route-names.enum';
+import { Guideline } from '../../../shared/interfaces/guideline.interface';
 import { TableContainer } from '../../../shared/interfaces/table-container.interface';
 import { GuideLineService } from '../../../shared/services/data/guideline.service';
 import { RoutingStorageService } from '../../../shared/services/routing-storage.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 import { TableChangeStorageService } from '../../../shared/services/table-change-storage.service';
-
-export interface Guideline {
-    id: number;
-}
 
 @Component({
     selector: 'iihf-guideline-list',
@@ -38,8 +36,6 @@ export class GuidelineListComponent implements OnInit, TableContainer<Guideline>
     public tableData: BrowseResponse<Guideline> = new BrowseResponse<Guideline>();
     public loading = false;
     public readonly roles: typeof Role = Role;
-
-    public readonly editImplemented = false;
 
     private additionalFilters: Filter[] = [];
 
@@ -73,7 +69,11 @@ export class GuidelineListComponent implements OnInit, TableContainer<Guideline>
     }
 
     public createGuideline(): void {
-        this.router.navigate(['guidelines', 'create']);
+        this.router.navigate([RouteNames.GUIDELINES, RouteNames.CREATE]);
+    }
+
+    public goToDetail(guideline: Guideline): void {
+        this.router.navigate([RouteNames.GUIDELINES, RouteNames.EDIT, guideline.id]);
     }
 
     public isOpenProject(): boolean {

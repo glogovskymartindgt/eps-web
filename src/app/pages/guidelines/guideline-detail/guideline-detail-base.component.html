@@ -1,5 +1,17 @@
 <iihf-header>
     <h3 title>{{labelKey | translate}}</h3>
+
+    <ng-container buttons *ngIf="hasEditButton && !editMode">
+        <button
+            (click)="enableEdit()"
+            *iihfShowByRole="roles.RoleUpdateGuideline"
+            class="mr-10"
+            color="accent"
+            mat-flat-button
+        >
+            {{'common.edit' | translate}}
+        </button>
+    </ng-container>
 </iihf-header>
 
 <div fxLayout="row" style="overflow: auto; height: calc(100vh - 160px);">
@@ -22,7 +34,7 @@
                 <haz-select-search
                     [formControlName]="formControlNames.BUSINESS_AREA"
                     [searchable]="true"
-                    [selectList]="businessAreas$ | async"
+                    [selectList]="businessAreas$ | async | addSelectedBusinessArea:selectedBusinessArea"
                     [required]="true"
                 >
                 </haz-select-search>
@@ -96,7 +108,7 @@
                 color="accent"
                 class="mr-10"
                 (click)="onSave()"
-                [disabled]="guidelineDetailForm.invalid"
+                [disabled]="guidelineDetailForm.invalid || !editMode"
             >
                 {{ 'guidelines.detail.save' | translate }}
             </button>

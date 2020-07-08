@@ -181,6 +181,7 @@
     },
     "common": {
         "create": "CREATE",
+        "edit": "EDIT",
         "export": "EXPORT",
         "from": "From",
         "to": "To",
@@ -350,6 +351,7 @@
     "guidelines": {
         "screenTitle": "Guidelines",
         "newGuideline": "New guideline",
+        "editGuideline": "Edit guideline",
         "list": {
             "businessAreaCode": "Business Area Code",
             "businessAreaName": "Business Area",
