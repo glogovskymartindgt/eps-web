@@ -12,6 +12,7 @@
         "release:latest": "docker build --no-cache -t qregistry.qbsw.local:5000/qbsw/iihf_eps_web:latest . && docker push qregistry.qbsw.local:5000/qbsw/iihf_eps_web:latest",
         "api:run": "cd api-docker && mountNdisk && npm run docker:remove-images && npm run docker:compose",
         "api:stop": "npm run Ndisk:remove && npm run docker:remove-containers",
+        "api:restart": "npm run api:stop && npm run api:run",
         "docker:pull": "docker image prune && npm run docker:pull-db && npm run docker:pull-be",
         "docker:compose": "cd api-docker && docker-compose up -d eps_db && docker-compose up -d eps_be",
         "docker:pull-db": "docker image pull qregistry.qbsw.local:5000/qbsw/iihf_eps_db",
