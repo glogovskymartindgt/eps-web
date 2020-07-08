@@ -12,6 +12,7 @@ import {
     TableFilterType
 } from '@hazelnut';
 import { finalize } from 'rxjs/operators';
+import { RequestNames } from '../../../shared/enums/request-names.enum';
 import { Role } from '../../../shared/enums/role.enum';
 import { TableContainer } from '../../../shared/interfaces/table-container.interface';
 import { GuideLineService } from '../../../shared/services/data/guideline.service';
@@ -38,6 +39,8 @@ export class GuidelineListComponent implements OnInit, TableContainer<Guideline>
     public loading = false;
     public readonly roles: typeof Role = Role;
 
+    public readonly editImplemented = false;
+
     private additionalFilters: Filter[] = [];
 
     public constructor(
@@ -51,7 +54,7 @@ export class GuidelineListComponent implements OnInit, TableContainer<Guideline>
 
     public ngOnInit(): void {
         this.additionalFilters = [
-            // new Filter('PROJECT_ID', this.projectEventService.instant.id, 'NUMBER'),
+            new Filter('PROJECT_ID', this.projectEventService.instant.id, 'NUMBER'),
         ];
 
         this.tableChangeStorageService.isReturnFromDetail = this.isReturnFromDetail();
@@ -73,12 +76,17 @@ export class GuidelineListComponent implements OnInit, TableContainer<Guideline>
         this.router.navigate(['guidelines', 'create']);
     }
 
+    public isOpenProject(): boolean {
+        return this.projectEventService.instant.active;
+    }
+
     private setTableConfiguration(): void {
         const config: TableConfiguration = {
             columns: [
                 new TableColumn({
-                    columnDef: 'businesAreaCode',
+                    columnDef: 'clBusinessArea.codeItem',
                     labelKey: 'guidelines.list.businessAreaCode',
+                    columnRequestName: RequestNames.BUSINESS_AREA_CODE,
                     type: TableCellType.NUMBER,
                     filter: new TableColumnFilter({
                         type: TableFilterType.NUMBER,
@@ -86,13 +94,14 @@ export class GuidelineListComponent implements OnInit, TableContainer<Guideline>
                     sorting: true,
                 }),
                 new TableColumn({
-                    columnDef: 'businessAreaName',
+                    columnDef: 'clBusinessArea.name',
                     labelKey: 'guidelines.list.businessAreaName',
+                    columnRequestName: RequestNames.BUSINESS_AREA_NAME,
                     filter: new TableColumnFilter({}),
                     sorting: true,
                 }),
                 new TableColumn({
-                    columnDef: 'actionPointTitle',
+                    columnDef: 'title',
                     labelKey: 'guidelines.list.actionPointTitle',
                     filter: new TableColumnFilter({}),
                     sorting: true,
@@ -108,6 +117,8 @@ export class GuidelineListComponent implements OnInit, TableContainer<Guideline>
                 }),
             ],
             paging: true,
+            predefinedSortActive: 'clBusinessArea.codeItem',
+            predefinedSortDirection: 'asc',
         };
 
         this.tableConfiguration = this.tableChangeStorageService.updateTableConfiguration(config);

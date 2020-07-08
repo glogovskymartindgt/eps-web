@@ -119,7 +119,7 @@ export class StringUtils {
 
         return snakeCaseString.toLowerCase()
                               .replace(/(_[a-z])+/g, (element) => element.toUpperCase())
-                              .replace('_', '');
+                              .replace(/_/g, '');
     }
 
     public static convertDateStringToIsoString(date: string): string {
