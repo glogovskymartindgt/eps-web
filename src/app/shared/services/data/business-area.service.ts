@@ -109,7 +109,7 @@ import { ProjectUserService } from '../storage/project-user.service';
         )
             .pipe(
                 map((businessAreas: BusinessArea[]): BusinessArea[] =>
-                    businessAreas.filter((businessArea: BusinessArea) => businessArea.state === `VALID`)
+                    businessAreas.filter((businessArea: BusinessArea): boolean => businessArea.state === `VALID`)
                 )
             );
     }

@@ -22,11 +22,11 @@ const routes: Routes = [
                 component: GuidelineCreateComponent,
                 data: {title: 'guidelineCreate'}
             },
-            // {
-            //     path: 'edit',
-            //     component: ActionPointEditComponent,
-            //     data: {title: 'guidelineEdit'}
-            // }
+            {
+                path: 'edit',
+                component: GuidelineCreateComponent,
+                data: {title: 'guidelineEdit'}
+            }
         ],
     }
 ];

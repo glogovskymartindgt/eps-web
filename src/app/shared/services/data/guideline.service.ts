@@ -43,7 +43,7 @@ export class GuideLineService extends ProjectService<Guideline> {
         return this.getDetail(guidelineId);
     }
 
-    private processError = (error: Error): Observable<never> => {
+    private readonly processError = (error: Error): Observable<never> => {
         this.notificationService.openErrorNotification('error.api');
 
         throw error;
