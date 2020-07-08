@@ -8,12 +8,12 @@
         <div fxFlex>
             <div *ngIf="isUpdate" fxLayout="row">
                 <div class="short-input mr-10">
-                    <haz-core-input [appearance]="'fill'"
-                                    [label]="'user.id' | translate"
-                                    class="theme-input"
-                                    [formControlName]="formControlNames.id"
+                    <haz-copy-core-input [appearance]="'fill'"
+                                         [label]="'user.id' | translate"
+                                         class="theme-input"
+                                         [formControlName]="formControlNames.id"
                     >
-                    </haz-core-input>
+                    </haz-copy-core-input>
                 </div>
                 <div fxLayoutAlign="flex-start center">
                     <mat-slide-toggle [formControlName]="formControlNames.isVisible">
@@ -24,64 +24,64 @@
             </div>
             <div fxLayout="row" fxLayoutGap="10px">
                 <div class="small-input">
-                    <haz-core-input [appearance]="'fill'"
-                                    [label]="'profile.firstName' |  translate"
-                                    [maxLength]="50"
-                                    [pattern]="notOnlyWhiteCharactersPattern"
-                                    [required]="true"
-                                    class="theme-input"
-                                    [formControlName]="formControlNames.firstName"
+                    <haz-copy-core-input [appearance]="'fill'"
+                                         [label]="'profile.firstName' |  translate"
+                                         [maxLength]="50"
+                                         [pattern]="notOnlyWhiteCharactersPattern"
+                                         [required]="true"
+                                         class="theme-input"
+                                         [formControlName]="formControlNames.firstName"
                     >
-                    </haz-core-input>
+                    </haz-copy-core-input>
                 </div>
 
                 <div class="small-input">
-                    <haz-core-input [appearance]="'fill'"
-                                    [label]="'profile.lastName' |  translate"
-                                    [maxLength]="50"
-                                    [pattern]="notOnlyWhiteCharactersPattern"
-                                    [required]="true"
-                                    class="theme-input"
-                                    [formControlName]="formControlNames.lastName"
+                    <haz-copy-core-input [appearance]="'fill'"
+                                         [label]="'profile.lastName' |  translate"
+                                         [maxLength]="50"
+                                         [pattern]="notOnlyWhiteCharactersPattern"
+                                         [required]="true"
+                                         class="theme-input"
+                                         [formControlName]="formControlNames.lastName"
                     >
-                    </haz-core-input>
+                    </haz-copy-core-input>
                 </div>
             </div>
 
             <div class="long-input">
-                <haz-core-input [appearance]="'fill'"
-                                [label]="'profile.email' |  translate"
-                                [maxLength]="50"
-                                [pattern]="emailPattern"
-                                [required]="true"
-                                class="theme-input"
-                                [formControlName]="formControlNames.email"
+                <haz-copy-core-input [appearance]="'fill'"
+                                     [label]="'profile.email' |  translate"
+                                     [maxLength]="50"
+                                     [pattern]="emailPattern"
+                                     [required]="true"
+                                     class="theme-input"
+                                     [formControlName]="formControlNames.email"
                 >
-                </haz-core-input>
+                </haz-copy-core-input>
             </div>
 
             <div class="long-input">
-                <haz-core-input [appearance]="'fill'"
-                                [label]="'profile.mobile' |  translate"
-                                [maxLength]="50"
-                                [pattern]="phonePattern"
-                                [required]="true"
-                                class="theme-input"
-                                [formControlName]="formControlNames.mobile"
+                <haz-copy-core-input [appearance]="'fill'"
+                                     [label]="'profile.mobile' |  translate"
+                                     [maxLength]="50"
+                                     [pattern]="phonePattern"
+                                     [required]="true"
+                                     class="theme-input"
+                                     [formControlName]="formControlNames.mobile"
                 >
-                </haz-core-input>
+                </haz-copy-core-input>
             </div>
 
             <div class="long-input">
-                <haz-core-input [appearance]="'fill'"
-                                [label]="'profile.phone' |  translate"
-                                [maxLength]="50"
-                                [pattern]="phonePattern"
-                                [required]="true"
-                                class="theme-input"
-                                [formControlName]="formControlNames.phone"
+                <haz-copy-core-input [appearance]="'fill'"
+                                     [label]="'profile.phone' |  translate"
+                                     [maxLength]="50"
+                                     [pattern]="phonePattern"
+                                     [required]="true"
+                                     class="theme-input"
+                                     [formControlName]="formControlNames.phone"
                 >
-                </haz-core-input>
+                </haz-copy-core-input>
             </div>
 
             <div class="long-input">
@@ -100,26 +100,26 @@
             </div>
 
             <div class="long-input">
-                <haz-core-input [appearance]="'fill'"
-                                [label]="'profile.function' |  translate"
-                                [maxLength]="50"
-                                [required]="true"
-                                class="theme-input"
-                                [formControlName]="formControlNames.function"
+                <haz-copy-core-input [appearance]="'fill'"
+                                     [label]="'profile.function' |  translate"
+                                     [maxLength]="50"
+                                     [required]="true"
+                                     class="theme-input"
+                                     [formControlName]="formControlNames.function"
                 >
-                </haz-core-input>
+                </haz-copy-core-input>
             </div>
 
             <div class="long-input">
-                <haz-core-input [allowedCharactersPattern]="loginStringPattern"
-                                [appearance]="'fill'"
-                                [label]="'profile.login' |  translate"
-                                [maxLength]="50"
-                                [required]="!isUpdate"
-                                class="theme-input"
-                                [formControlName]="formControlNames.login"
+                <haz-copy-core-input [allowedCharactersPattern]="loginStringPattern"
+                                     [appearance]="'fill'"
+                                     [label]="'profile.login' |  translate"
+                                     [maxLength]="50"
+                                     [required]="!isUpdate"
+                                     class="theme-input"
+                                     [formControlName]="formControlNames.login"
                 >
-                </haz-core-input>
+                </haz-copy-core-input>
             </div>
 
             <div class="long-input">

@@ -46,29 +46,29 @@
                 </div>
                 <div fxFlex fxLayout="column" fxLayoutGap="0">
                     <div class="long-input">
-                        <haz-core-input [appearance]="'fill'"
-                                        [label]="'project.name' |  translate"
-                                        [maxLength]="50"
-                                        [pattern]="notOnlyWhiteCharactersPattern"
-                                        [required]="true"
-                                        class="theme-input"
-                                        formControlName="name"
+                        <haz-copy-core-input [appearance]="'fill'"
+                                             [label]="'project.name' |  translate"
+                                             [maxLength]="50"
+                                             [pattern]="notOnlyWhiteCharactersPattern"
+                                             [required]="true"
+                                             class="theme-input"
+                                             formControlName="name"
                         >
-                        </haz-core-input>
+                        </haz-copy-core-input>
                     </div>
 
                     <div fxLayout="row" fxLayoutGap="10px">
                         <div class="short-input">
-                            <haz-core-input [allowedCharactersPattern]="numericPattern"
-                                            [appearance]="'fill'"
-                                            [label]="'project.year' | translate"
-                                            [maxLength]="4"
-                                            [pattern]="yearPattern"
-                                            [required]="true"
-                                            class="theme-input"
-                                            formControlName="year"
+                            <haz-copy-core-input [allowedCharactersPattern]="numericPattern"
+                                                 [appearance]="'fill'"
+                                                 [label]="'project.year' | translate"
+                                                 [maxLength]="4"
+                                                 [pattern]="yearPattern"
+                                                 [required]="true"
+                                                 class="theme-input"
+                                                 formControlName="year"
                             >
-                            </haz-core-input>
+                            </haz-copy-core-input>
                         </div>
                     </div>
 
@@ -135,14 +135,14 @@
                             >
                                 {{'error.fillCountry' | translate}}
                             </mat-error>
-                            <haz-core-input [appearance]="'fill'"
-                                            [label]="'project.firstVenue' |  translate"
-                                            [maxLength]="50"
-                                            [pattern]="notOnlyWhiteCharactersPattern"
-                                            class="theme-input"
-                                            formControlName="firstVenue"
+                            <haz-copy-core-input [appearance]="'fill'"
+                                                 [label]="'project.firstVenue' |  translate"
+                                                 [maxLength]="50"
+                                                 [pattern]="notOnlyWhiteCharactersPattern"
+                                                 class="theme-input"
+                                                 formControlName="firstVenue"
                             >
-                            </haz-core-input>
+                            </haz-copy-core-input>
                         </div>
                         <div class="short-input">
                             <mat-error *ngIf="projectDetailForm.controls.secondVenue.value
@@ -150,27 +150,27 @@
                             >
                                 {{'error.fillCountry' | translate}}
                             </mat-error>
-                            <haz-core-input [appearance]="'fill'"
-                                            [label]="'project.secondVenue' |  translate"
-                                            [maxLength]="50"
-                                            [pattern]="notOnlyWhiteCharactersPattern"
-                                            class="theme-input"
-                                            formControlName="secondVenue"
+                            <haz-copy-core-input [appearance]="'fill'"
+                                                 [label]="'project.secondVenue' |  translate"
+                                                 [maxLength]="50"
+                                                 [pattern]="notOnlyWhiteCharactersPattern"
+                                                 class="theme-input"
+                                                 formControlName="secondVenue"
                             >
-                            </haz-core-input>
+                            </haz-copy-core-input>
                         </div>
                     </div>
 
                     <div class="long-input">
-                        <haz-core-input [appearance]="'fill'"
-                                        [label]="'project.description' | translate"
-                                        [maxLength]="500"
-                                        [pattern]="notOnlyWhiteCharactersPattern"
-                                        [type]="'textarea'"
-                                        class="theme-input"
-                                        formControlName="description"
+                        <haz-copy-core-input [appearance]="'fill'"
+                                             [label]="'project.description' | translate"
+                                             [maxLength]="500"
+                                             [pattern]="notOnlyWhiteCharactersPattern"
+                                             [type]="'textarea'"
+                                             class="theme-input"
+                                             formControlName="description"
                         >
-                        </haz-core-input>
+                        </haz-copy-core-input>
                     </div>
                 </div>
             </div>

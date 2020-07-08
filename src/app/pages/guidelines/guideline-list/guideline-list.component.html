@@ -1,0 +1,31 @@
+<div class="basic-screen-header" fxLayout="row">
+    <div class="pl-50" fxFlex="220px" fxLayoutAlign="start center">
+        <h2>{{'guidelines.screenTitle' | translate}}</h2>
+    </div>
+    <div fxFlex fxLayoutAlign="end center">
+        <button
+            (click)="createGuideline()"
+            *iihfShowByRole="roles.RoleCreateGuideline"
+            class="mr-10"
+            color="accent"
+            mat-flat-button
+        >
+            {{'common.create' | translate}}
+        </button>
+    </div>
+</div>
+
+<haz-copy-indeterminate-progress-bar [loading]="loading"></haz-copy-indeterminate-progress-bar>
+<haz-core-table
+    (requestData)="getData($event)"
+    [configuration]="tableConfiguration"
+    [data]="tableData"
+></haz-core-table>
+
+<ng-template #updateColumn let-actRow="row" let-context="context">
+    <div class="fr">
+        <button mat-icon-button *iihfShowByRole="roles.RoleUpdateGuideline">
+            <mat-icon>keyboard_arrow_right</mat-icon>
+        </button>
+    </div>
+</ng-template>

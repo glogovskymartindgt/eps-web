@@ -2,12 +2,12 @@
 
     <div *ngIf="isUpdate" fxLayout="row">
         <div class="short-input mr-10">
-            <haz-core-input [appearance]="'fill'"
-                            [label]="'tasks.code' | translate"
-                            class="theme-input"
-                            formControlName="code"
+            <haz-copy-core-input [appearance]="'fill'"
+                                 [label]="'tasks.code' | translate"
+                                 class="theme-input"
+                                 formControlName="code"
             >
-            </haz-core-input>
+            </haz-copy-core-input>
         </div>
         <mat-form-field appearance="fill" class="theme-input short-input">
             <mat-label class="label-style">{{ 'tasks.status' | translate }}</mat-label>
@@ -50,40 +50,40 @@
     </div>
 
     <div class="long-input">
-        <haz-core-input [appearance]="'fill'"
-                        [label]="'tasks.title' | translate"
-                        [maxLength]="255"
-                        [pattern]="notOnlyWhiteCharactersPattern"
-                        [required]="true"
-                        [type]="'textarea'"
-                        class="theme-input"
-                        formControlName="title"
+        <haz-copy-core-input [appearance]="'fill'"
+                             [label]="'tasks.title' | translate"
+                             [maxLength]="255"
+                             [pattern]="notOnlyWhiteCharactersPattern"
+                             [required]="true"
+                             [type]="'textarea'"
+                             class="theme-input"
+                             formControlName="title"
         >
-        </haz-core-input>
+        </haz-copy-core-input>
     </div>
 
     <div class="long-input">
-        <haz-core-input [appearance]="'fill'"
-                        [label]="'actionPoint.area' | translate"
-                        [maxLength]="255"
-                        [pattern]="notOnlyWhiteCharactersPattern"
-                        [type]="'textarea'"
-                        class="theme-input"
-                        formControlName="area"
+        <haz-copy-core-input [appearance]="'fill'"
+                             [label]="'actionPoint.area' | translate"
+                             [maxLength]="255"
+                             [pattern]="notOnlyWhiteCharactersPattern"
+                             [type]="'textarea'"
+                             class="theme-input"
+                             formControlName="area"
         >
-        </haz-core-input>
+        </haz-copy-core-input>
     </div>
 
     <div class="long-input">
-        <haz-core-input [appearance]="'fill'"
-                        [label]="'actionPoint.actionPointText' | translate"
-                        [maxLength]="255"
-                        [pattern]="notOnlyWhiteCharactersPattern"
-                        [type]="'textarea'"
-                        class="theme-input"
-                        formControlName="actionPointText"
+        <haz-copy-core-input [appearance]="'fill'"
+                             [label]="'actionPoint.actionPointText' | translate"
+                             [maxLength]="255"
+                             [pattern]="notOnlyWhiteCharactersPattern"
+                             [type]="'textarea'"
+                             class="theme-input"
+                             formControlName="actionPointText"
         >
-        </haz-core-input>
+        </haz-copy-core-input>
     </div>
 
     <div>
@@ -132,16 +132,16 @@
     </mat-form-field>
 
     <div class="long-input">
-        <haz-core-input [appearance]="'fill'"
-                        [label]="'actionPoint.meetingText' | translate"
-                        [maxLength]="4092"
-                        [pattern]="notOnlyWhiteCharactersPattern"
-                        [type]="'textarea'"
-                        [required]="meetingTextRequired"
-                        class="theme-input"
-                        formControlName="meetingText"
+        <haz-copy-core-input [appearance]="'fill'"
+                             [label]="'actionPoint.meetingText' | translate"
+                             [maxLength]="4092"
+                             [pattern]="notOnlyWhiteCharactersPattern"
+                             [type]="'textarea'"
+                             [required]="meetingTextRequired"
+                             class="theme-input"
+                             formControlName="meetingText"
         >
-        </haz-core-input>
+        </haz-copy-core-input>
     </div>
 
     <div fxLayout="row">
@@ -178,41 +178,41 @@
     </mat-form-field>
 
     <div class="long-input">
-        <haz-core-input [appearance]="'fill'"
-                        [label]="'tasks.description' | translate"
-                        [maxLength]="4092"
-                        [type]="'textarea'"
-                        class="theme-input"
-                        formControlName="description"
+        <haz-copy-core-input [appearance]="'fill'"
+                             [label]="'tasks.description' | translate"
+                             [maxLength]="4092"
+                             [type]="'textarea'"
+                             class="theme-input"
+                             formControlName="description"
         >
-        </haz-core-input>
+        </haz-copy-core-input>
     </div>
 
     <div *ngIf="isUpdate" class="long-input">
-        <haz-core-input [appearance]="'fill'"
-                        [label]="'tasks.changedAt' |  translate"
-                        class="theme-input"
-                        formControlName="changedAt"
+        <haz-copy-core-input [appearance]="'fill'"
+                             [label]="'tasks.changedAt' |  translate"
+                             class="theme-input"
+                             formControlName="changedAt"
         >
-        </haz-core-input>
+        </haz-copy-core-input>
     </div>
 
     <div *ngIf="isUpdate" class="long-input">
-        <haz-core-input [appearance]="'fill'"
-                        [label]="'tasks.changedBy' | translate"
-                        class="theme-input"
-                        formControlName="changedBy"
+        <haz-copy-core-input [appearance]="'fill'"
+                             [label]="'tasks.changedBy' | translate"
+                             class="theme-input"
+                             formControlName="changedBy"
         >
-        </haz-core-input>
+        </haz-copy-core-input>
     </div>
 
     <div *ngIf="isUpdate" class="long-input">
-        <haz-core-input [appearance]="'fill'"
-                        [label]="'tasks.createdBy' | translate"
-                        class="theme-input"
-                        formControlName="createdBy"
+        <haz-copy-core-input [appearance]="'fill'"
+                             [label]="'tasks.createdBy' | translate"
+                             class="theme-input"
+                             formControlName="createdBy"
         >
-        </haz-core-input>
+        </haz-copy-core-input>
     </div>
 
 </form>

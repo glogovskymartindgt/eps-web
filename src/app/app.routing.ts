@@ -61,6 +61,17 @@ export const routes: Routes = [
                 canActivate: [AuthGuard]
             },
             {
+                path: 'guidelines',
+                loadChildren: './pages/guidelines/guidelines.module#GuidelinesModule',
+                data: {
+                    title: 'menu.guidelines',
+                    icon: 'person',
+                    menu: true,
+                    animation: 'guidelines'
+                },
+                canActivate: [AuthGuard]
+            },
+            {
                 path: 'tasks',
                 loadChildren: './pages/tasks/tasks.module#TasksModule',
                 data: {

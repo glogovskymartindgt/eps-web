@@ -13,13 +13,18 @@
         "team": "Team",
         "users": "Users",
         "profile": "Profile",
-        "actionPoints": "Action points"
+        "actionPoints": "Action points",
+        "guidelines": "Guidelines"
     },
     "login": {
         "login": "Log in",
         "username": "Username",
         "password": "Password",
         "toggleVisibility": "Change visibility"
+    },
+    "selectSearch": {
+        "label": "Search",
+        "empty": "No entries found"
     },
     "dashboard": {
         "dashboard": "Dashboard",
@@ -113,7 +118,12 @@
         "fillFirstCountry": "Pick first country please",
         "loginUsed": "Update profile failed",
         "unsupportedType": "Update profile failed",
-        "profileUpdateFailed": "Update profile failed"
+        "profileUpdateFailed": "Update profile failed",
+        "user.not.found": "User was not found",
+        "user.type.not.iihf":  "User has not type IIHF",
+        "project.cannot.be.closed":  "The project cannot be closed",
+        "guideline.for.project.and.business.area.exists":  "A guideline for the current project and the selected business area already exists",
+        "business.area.not.found": "The business area was not found"
     },
     "errorCode": {
         "1": "System error",
@@ -331,6 +341,26 @@
         "phone": "Phone",
         "mobile": "Mobile",
         "email": "Email"
+    },
+    "guidelines": {
+        "screenTitle": "Guidelines",
+        "newGuideline": "New guideline",
+        "list": {
+            "businessAreaCode": "Business Area Code",
+            "businessAreaName": "Business Area",
+            "actionPointTitle": "Title"
+        },
+        "detail": {
+            "save": "Save",
+            "cancel": "Cancel",
+            "title": "Title",
+            "businessArea": "Business Area",
+            "attachment": "Attachment",
+            "dragAttachment": "Drag the PDF here or browse",
+            "description": "Description",
+            "unsupportedFileType": "The attachment has an unsupported file type.",
+            "maximumSizeExceeded": "The maximum file size for the attachment, 15MB, was exceeded."
+        }
     },
     "confirmation": {
         "actionPoint": {

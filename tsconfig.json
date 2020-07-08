@@ -20,10 +20,10 @@
     ],
     "paths": {
       "@hazelnut": [
-        "app/shared/hazelnut"
+        "src/app/shared/hazelnut"
       ],
       "@hazelnut/*": [
-        "app/shared/hazelnut/*"
+        "src/app/shared/hazelnut/*"
       ]
     }
   }

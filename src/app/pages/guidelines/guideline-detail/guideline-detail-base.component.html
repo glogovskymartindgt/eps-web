@@ -1,0 +1,115 @@
+<!--Create fact form component-->
+<div fxLayout="row" class="basic-screen-header">
+    <div class="pl-50" fxLayoutAlign="start center">
+        <h3>{{labelKey | translate}}</h3>
+    </div>
+</div>
+
+<div fxLayout="row" style="overflow: auto; height: calc(100vh - 160px);">
+    <div class="p-30">
+        <form [formGroup]="guidelineDetailForm">
+            <div class="long-input">
+                <haz-copy-core-input
+                    [label]="'guidelines.detail.title' | translate"
+                    [required]="true"
+                    [type]="'textarea'"
+                    appearance="fill"
+                    [formControlName]="formControlNames.TITLE"
+                >
+                </haz-copy-core-input>
+            </div>
+
+            <mat-form-field appearance="fill" class="long-input">
+                <mat-label>{{ 'guidelines.detail.businessArea' | translate }}</mat-label>
+
+                <haz-select-search
+                    [formControlName]="formControlNames.BUSINESS_AREA"
+                    [searchable]="true"
+                    [selectList]="businessAreas$ | async"
+                    [required]="true"
+                >
+                </haz-select-search>
+
+                <mat-error *ngIf="businessAreaControl.touched && businessAreaControl.hasError('required')">
+                    {{'error.required' | translate}}
+                </mat-error>
+            </mat-form-field>
+
+            <div class="long-input pb-20">
+                <div class="attachment-label">
+                    {{ 'guidelines.detail.attachment' | translate }} *
+                </div>
+
+                <iihf-drag-drop-box
+                    labelKey="guidelines.detail.dragAttachment"
+                    [edit]="attachmentName !== null"
+                    [supportedFileTypes]="['application/pdf']"
+                    [maximumFileSize]="fifteenMBinBytes"
+                    (fileUpload)="attachmentUpload($event)"
+                    (unsupportedFileType)="attachmentUnsupportedFiletype()"
+                    (maximumSizeExceeded)="attachmentMaximumFileSizedExceeded()"
+                >
+                    <iihf-pdf [src]="attachmentSource" alt="attachment"></iihf-pdf>
+
+                    <!--<iihf-download-link
+                        *ngIf="!editMode"
+                        [src]="attachmentSource"
+                        [fileTitle]="attachmentTitle"
+                        [fileName]="attachmentName"
+                    ></iihf-download-link>-->
+
+                    <div *ngIf="editMode">
+                        <div fxLayout="row" class="pdf-width">
+                            <div fxFlex>
+                                {{ attachmentTitle }}
+                            </div>
+
+                            <img
+                                (click)="attachmentRemove()"
+                                [src]="'assets/img/svg-squares/remove.svg'"
+                                class="button"
+                                alt="remove"
+                            >
+                        </div>
+                    </div>
+                </iihf-drag-drop-box>
+
+                <mat-error *ngIf="attachmentRequiredError">
+                    {{ 'error.required' | translate }}
+                </mat-error>
+            </div>
+
+            <div class="long-input">
+                <haz-copy-core-input
+                    [label]="'guidelines.detail.description' | translate"
+                    appearance="fill"
+                    [type]="'textarea'"
+                    [formControlName]="formControlNames.DESCRIPTION"
+                >
+                </haz-copy-core-input>
+            </div>
+
+        </form>
+
+        <div>
+            <button
+                *iihfShowByRole="submitButtonRole"
+                type="submit"
+                mat-flat-button
+                color="accent"
+                class="mr-10"
+                (click)="onSave()"
+                [disabled]="guidelineDetailForm.invalid"
+            >
+                {{ 'guidelines.detail.save' | translate }}
+            </button>
+            <button type="button"
+                    mat-button
+                    class="mr-10"
+                    (click)="back()"
+            >
+                {{ 'guidelines.detail.cancel' | translate }}
+            </button>
+        </div>
+    </div>
+</div>
