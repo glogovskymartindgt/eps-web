@@ -65,7 +65,9 @@ export class CoreTableService {
                 break;
             }
             case TableFilterType.RESPONSIBLE: {
-                this.filters.push(new Filter('RESPONSIBLE_USER_ID', value, 'NUMBER', 'EQ'));
+                if (value !== 'All') {
+                    this.filters.push(new Filter('RESPONSIBLE_USER_ID', value, 'NUMBER', 'EQ'));
+                }
                 break;
             }
             case TableFilterType.CATEGORY: {
