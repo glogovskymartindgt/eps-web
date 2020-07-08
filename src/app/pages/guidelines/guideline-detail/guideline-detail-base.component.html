@@ -98,27 +98,26 @@
                 </haz-copy-core-input>
             </div>
 
-            <div class="long-input" *ngIf="hasCreatedSection">
-                <mat-form-field appearance="fill" class="short-input theme-input mr-10">
-                    <mat-label class="label-style">{{ 'guidelines.detail.createdAt' | translate }}</mat-label>
-                    <input matInput [formControl]="createdAtControl">
-                </mat-form-field>
-            </div>
+            <mat-form-field appearance="fill" class="long-input theme-input mr-10" *ngIf="hasCreatedSection">
+                <mat-label class="label-style">{{ 'guidelines.detail.createdAt' | translate }}</mat-label>
+                <input matInput [formControl]="createdAtControl">
+            </mat-form-field>
 
             <ng-container *ngIf="hasChangedSection">
                 <div class="long-input">
-                    <mat-form-field appearance="fill" class="short-input theme-input mr-10">
+                    <mat-form-field appearance="fill" class="long-input theme-input mr-10">
                         <mat-label class="label-style">{{ 'guidelines.detail.changedAt' | translate }}</mat-label>
                         <input matInput [formControl]="changedAtControl">
                     </mat-form-field>
                 </div>
 
                 <div class="long-input">
-                    <mat-form-field appearance="fill" class="short-input theme-input mr-10">
+                    <mat-form-field appearance="fill" class="long-input theme-input mr-10">
                         <mat-label class="label-style">{{ 'guidelines.detail.changedBy' | translate }}</mat-label>
                         <input matInput [formControl]="changedByControl">
                     </mat-form-field>
                 </div>
+
             </ng-container>
         </form>
 

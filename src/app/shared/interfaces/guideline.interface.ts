@@ -9,7 +9,8 @@ export interface Guideline {
     projectId: number;
     title: string;
 
-    createdAt: Date | number;
-    changedAt: Date | number;
-    changedBy: any;
+    created: Date | number;
+    createdBy: {id: number, firstName: string, lastName: string};
+    updated: Date | number;
+    updatedBy: {id: number, firstName: string, lastName: string};
 }

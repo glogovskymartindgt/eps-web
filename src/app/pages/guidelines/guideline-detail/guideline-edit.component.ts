@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import * as moment from 'moment';
 import { Observable, of } from 'rxjs';
 import { catchError, finalize, switchMap, tap } from 'rxjs/operators';
 import { Role } from '../../../shared/enums/role.enum';
@@ -112,24 +113,27 @@ export class GuidelineEditComponent extends GuidelineDetailBaseComponent impleme
     }
 
     private fillCreatedChangedData(guideline: Guideline): void {
-        if (guideline.createdAt) {
+        const dateTimeFormat = 'D.M.YYYY - HH:mm';
+
+        if (guideline.created) {
             this.createdAtControl = new FormControl({
-                value: guideline.createdAt,
+                value: moment(guideline.created).format(dateTimeFormat),
                 disabled: true,
             });
             this.hasCreatedSection = true;
         }
 
-        if (guideline.changedAt && guideline.changedBy) {
+        if (guideline.updated && guideline.updatedBy) {
             this.changedAtControl = new FormControl({
-                value: guideline.changedAt,
+                value: moment(guideline.updated).format(dateTimeFormat),
                 disabled: true,
             });
 
             this.changedByControl = new FormControl({
-                value: guideline.changedBy,
+                value: `${guideline.updatedBy.firstName} ${guideline.updatedBy.lastName}`,
                 disabled: true,
             });
+            this.hasChangedSection = true;
         }
 
     }

@@ -367,7 +367,10 @@
             "dragAttachment": "Drag the PDF here or browse",
             "description": "Description",
             "unsupportedFileType": "The attachment has an unsupported file type.",
-            "maximumSizeExceeded": "The maximum file size for the attachment, 15MB, was exceeded."
+            "maximumSizeExceeded": "The maximum file size for the attachment, 15MB, was exceeded.",
+            "createdAt": "Created at",
+            "changedAt": "Changed at",
+            "changedBy": "Changed by"
         }
     },
     "confirmation": {
