@@ -139,7 +139,6 @@ export class TeamListComponent implements OnInit, TableContainer<User> {
                     columnRequestName: 'ACCOUNT_STATUS',
                     filter: new TableColumnFilter({
                         type: TableFilterType.SELECT,
-                        predefinedValue: [State.ACTIVE],
                         select: [
                             new ListItem('', this.translateService.instant('all.things')),
                             new ListItem(State.ACTIVE, this.translateService.instant('team.active')),
@@ -172,6 +171,7 @@ export class TeamListComponent implements OnInit, TableContainer<User> {
     private setDefaultFilters(): void {
         this.defaultFilters = [
             new Filter('FLAG_ACTIVE', 'TRUE', 'STRING', 'EQ'),
+            new Filter('STATE', State.ACTIVE, 'ENUM', 'EQ'),
         ];
     }
 }
