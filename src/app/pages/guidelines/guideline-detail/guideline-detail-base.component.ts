@@ -7,13 +7,14 @@ import { map } from 'rxjs/operators';
 import { Role } from '../../../shared/enums/role.enum';
 import { RouteNames } from '../../../shared/enums/route-names.enum';
 import { BusinessArea } from '../../../shared/interfaces/bussiness-area.interface';
+import { ClBusinessArea } from '../../../shared/interfaces/cl-business-area.interface';
 import { AttachmentService } from '../../../shared/services/data/attachment.service';
 import { BusinessAreaService } from '../../../shared/services/data/business-area.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 
 export enum GuidelineFormControlNames {
-    TITLE= 'title',
+    TITLE = 'title',
     BUSINESS_AREA = 'clBusinessAreaId',
     ATTACHMENT = 'attachment',
     DESCRIPTION = 'description',
@@ -32,11 +33,19 @@ export abstract class GuidelineDetailBaseComponent implements OnInit {
     public businessAreaControl: FormControl;
     public attachmentControl: FormControl;
     public businessAreas$: Observable<ListItemSync[]>;
+    public selectedBusinessArea: ClBusinessArea = null;
     public attachmentName: string = null;
     public attachmentSource: string = null;
     public attachmentTitle: string = null;
     public readonly formControlNames: typeof GuidelineFormControlNames = GuidelineFormControlNames;
     public readonly fifteenMBinBytes = 15728640;
+    public readonly roles: typeof Role = Role;
+
+    public hasCreatedSection = false;
+    public hasChangedSection = false;
+    public createdAtControl: FormControl;
+    public changedAtControl: FormControl;
+    public changedByControl: FormControl;
 
     protected constructor(
         protected readonly attachmentService: AttachmentService,
@@ -68,6 +77,9 @@ export abstract class GuidelineDetailBaseComponent implements OnInit {
      */
     public abstract onSave(): void;
 
+    public enableEdit(): void {
+    }
+
     public attachmentUpload(file: any): void {
         const fileName: string = file.fileName;
 
@@ -77,11 +89,11 @@ export abstract class GuidelineDetailBaseComponent implements OnInit {
                 this.attachmentSource = file.content;
                 this.attachmentTitle = fileName;
                 this.attachmentControl.setValue({
-                        type: 'DOCUMENT',
-                        format: 'PDF',
-                        fileName,
-                        filePath: this.attachmentName,
-                    });
+                    type: 'DOCUMENT',
+                    format: 'PDF',
+                    fileName,
+                    filePath: this.attachmentName,
+                });
                 this.attachmentControl.markAsTouched();
             });
     }

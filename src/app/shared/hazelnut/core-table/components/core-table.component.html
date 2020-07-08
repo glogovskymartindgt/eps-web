@@ -221,7 +221,7 @@
         <!-- data rows -->
         <ng-container>
             <tr
-                (click)="onExpandableRowClicked(row); rowClicked(row)"
+                (click)="onExpandableRowClicked(row); rowClicked(row); rowDoubleClicked(row)"
                 *matRowDef="let row; columns: displayedColumns; let i = index"
                 [class.data-row]="configuration.expandedRowTemplate || configuration.trClasses === 'data-row'"
                 [ngClass]="getClass(row)"

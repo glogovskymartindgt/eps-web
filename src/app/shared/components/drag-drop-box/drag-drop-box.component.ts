@@ -11,6 +11,7 @@ let idCounter = 1;
 export class DragDropBoxComponent {
     public readonly id = idCounter++;
     @Input() public edit: boolean;
+    @Input() public disabled = false;
     @Input() public labelKey: string;
     @Input() public supportedFileTypes?: string[] = null;
     @Input() public maximumFileSize?: number = null;

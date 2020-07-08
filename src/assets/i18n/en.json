@@ -123,7 +123,8 @@
         "user.type.not.iihf":  "User has not type IIHF",
         "project.cannot.be.closed":  "The project cannot be closed",
         "guideline.for.project.and.business.area.exists":  "A guideline for the current project and the selected business area already exists",
-        "business.area.not.found": "The business area was not found"
+        "business.area.not.found": "The business area was not found",
+        "guideline.not.found": "The guuideline was not found"
     },
     "errorCode": {
         "1": "System error",
@@ -181,6 +182,7 @@
     },
     "common": {
         "create": "CREATE",
+        "edit": "EDIT",
         "export": "EXPORT",
         "from": "From",
         "to": "To",
@@ -350,6 +352,7 @@
     "guidelines": {
         "screenTitle": "Guidelines",
         "newGuideline": "New guideline",
+        "editGuideline": "Edit guideline",
         "list": {
             "businessAreaCode": "Business Area Code",
             "businessAreaName": "Business Area",
@@ -364,7 +367,10 @@
             "dragAttachment": "Drag the PDF here or browse",
             "description": "Description",
             "unsupportedFileType": "The attachment has an unsupported file type.",
-            "maximumSizeExceeded": "The maximum file size for the attachment, 15MB, was exceeded."
+            "maximumSizeExceeded": "The maximum file size for the attachment, 15MB, was exceeded.",
+            "createdAt": "Created at",
+            "changedAt": "Changed at",
+            "changedBy": "Changed by"
         }
     },
     "confirmation": {

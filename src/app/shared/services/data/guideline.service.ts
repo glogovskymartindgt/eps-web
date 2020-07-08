@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { BrowseResponse, Filter, PostContent, TableChangeEvent } from '@hazelnut';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Guideline } from '../../../pages/guidelines/guideline-list/guideline-list.component';
+import { Guideline } from '../../interfaces/guideline.interface';
 import { NotificationService } from '../notification.service';
 import { ProjectService } from '../project.service';
 import { ProjectUserService } from '../storage/project-user.service';
@@ -34,6 +34,13 @@ export class GuideLineService extends ProjectService<Guideline> {
 
     public createGuideline(guideline: Guideline): Observable<Guideline> {
         return this.add<Guideline>(guideline)
+            .pipe(
+                catchError(this.processError)
+            );
+    }
+
+    public updateGuideline(guidelineId: number, guideline: Guideline): Observable<Guideline> {
+        return this.update(guidelineId, guideline)
             .pipe(
                 catchError(this.processError)
             );

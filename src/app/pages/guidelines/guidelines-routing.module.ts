@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { GuidelineCreateComponent } from './guideline-detail/guideline-create.component';
+import { GuidelineEditComponent } from './guideline-detail/guideline-edit.component';
 import { GuidelineListComponent } from './guideline-list/guideline-list.component';
 
 const routes: Routes = [
@@ -23,8 +24,8 @@ const routes: Routes = [
                 data: {title: 'guidelineCreate'}
             },
             {
-                path: 'edit',
-                component: GuidelineCreateComponent,
+                path: 'edit/:id',
+                component: GuidelineEditComponent,
                 data: {title: 'guidelineEdit'}
             }
         ],

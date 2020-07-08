@@ -2,8 +2,8 @@ import { SelectionChange, SelectionModel } from '@angular/cdk/collections';
 import { Component, EventEmitter, Inject, Input, OnChanges, OnDestroy, OnInit, Output, QueryList, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, SortDirection } from '@angular/material/sort';
-import { Observable, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { Observable, of, ReplaySubject, Subject } from 'rxjs';
+import { map, switchMap, take, takeUntil } from 'rxjs/operators';
 import { Error } from 'tslint/lib/error';
 import { detailExpand } from '../../hazelnut-common/animations';
 import { MiscUtils } from '../../hazelnut-common/hazelnut';
@@ -71,6 +71,7 @@ export class CoreTableComponent<T = any> implements OnInit, OnChanges, OnDestroy
     @Output() public readonly requestData: EventEmitter<TableChangeEvent> = new EventEmitter<TableChangeEvent>(true);
     @Output() public readonly selectionChange: EventEmitter<any[]> = new EventEmitter<any[]>(true);
     @Output() public readonly rowClick: EventEmitter<T> = new EventEmitter<T>(true);
+    @Output() public readonly rowDoubleClick: EventEmitter<T> = new EventEmitter<T>(true);
 
     @ViewChild(MatPaginator, {static: true}) public paginator: MatPaginator;
     @ViewChild(MatSort, {static: true}) public sort: MatSort;
@@ -81,6 +82,9 @@ export class CoreTableComponent<T = any> implements OnInit, OnChanges, OnDestroy
     public selection: SelectionModel<any>;
     public selectedRow: T;
 
+    private doubleClick$: ReplaySubject<{row: T, time: Date}> = new ReplaySubject<{row: T, time: Date}>(2);
+    private componentDestroyed$: Subject<boolean> = new Subject<boolean>();
+
     public constructor(@Inject(TRANSLATE_WRAPPER_TOKEN) private readonly translateWrapperService: TranslateWrapper,
                        @Inject(NOTIFICATION_WRAPPER_TOKEN) private readonly notificationService: NotificationWrapper,
                        private readonly coreTableService: CoreTableService, ) {
@@ -88,6 +92,8 @@ export class CoreTableComponent<T = any> implements OnInit, OnChanges, OnDestroy
 
     public ngOnDestroy(): void {
         this.coreTableService.clearFilters();
+        this.componentDestroyed$.next(true);
+        this.componentDestroyed$.complete();
     }
 
     public ngOnInit(): void {
@@ -172,6 +178,24 @@ export class CoreTableComponent<T = any> implements OnInit, OnChanges, OnDestroy
 
     public rowClicked(row: T): void {
         this.rowClick.emit(row);
+    }
+
+    public rowDoubleClicked(row: T): void {
+        this.doubleClick$.next({row, time: new Date()});
+        let clickedRow: {row: T, time: Date} = null;
+
+        this.doubleClick$
+            .pipe(
+                take(2),
+                takeUntil(this.componentDestroyed$),
+            )
+            .subscribe((item: {row: T, time: Date}) => {
+                if (!clickedRow || row !== clickedRow.row) {
+                    clickedRow = item;
+                } else if (item.time.getTime() - clickedRow.time.getTime() < 300) {
+                    this.rowDoubleClick.emit(row);
+                }
+            });
     }
 
     public onExpandableRowClicked(row: T): void {

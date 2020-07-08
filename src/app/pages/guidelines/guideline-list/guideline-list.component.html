@@ -21,9 +21,13 @@
     [data]="tableData"
 ></haz-core-table>
 
-<ng-template #updateColumn let-actRow="row" let-context="context">
-    <div class="fr" *ngIf="editImplemented">
-        <button mat-icon-button *iihfShowByRole="roles.RoleUpdateGuideline">
+<ng-template #updateColumn let-guideline="row">
+    <div class="fr">
+        <button
+            mat-icon-button
+            *iihfShowByRole="[roles.RoleUpdateGuideline, roles.RoleReadGuideline, roles.RoleReadGuidelineInAssignProject]"
+            (click)="goToDetail(guideline)"
+        >
             <mat-icon>keyboard_arrow_right</mat-icon>
         </button>
     </div>
