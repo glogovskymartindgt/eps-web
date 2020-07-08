@@ -1,0 +1,81 @@
+@import './src/assets/styles/importable/colors.scss';
+
+img {
+    max-height: 120px;
+    width: auto;
+    border-radius: 8px;
+}
+
+.image_box {
+    position: relative;
+    height: 100%;
+
+    img {
+        width: auto;
+        min-height: 100%;
+        max-height: 100%;
+    }
+
+    .close-button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        transform: translate(1.5em, -5em);
+        background-color: white;
+
+        &:hover {
+            background-color: #fafafa;
+        }
+    }
+}
+
+.image-thumbnail .image_box {
+    margin-bottom: 13px;
+
+    .image_spinner {
+        width: 50px;
+        height: auto;
+    }
+
+    img {
+        border-radius: 5px;
+        padding: 2px;
+        border: solid 1px $color-secondary;
+        width: auto;
+        min-height: 120px;
+        max-height: 120px;
+        overflow: hidden;
+        position: relative;
+        cursor: pointer;
+    }
+
+    .download_link {
+        margin-top: 5px;
+        margin-bottom: 20px;
+        text-align: left;
+        text-decoration: underline;
+        font: normal 14px/16px;
+        font-family: 'Roboto', sans-serif;
+        letter-spacing: 0;
+        color: $color-secondary;
+        opacity: 1;
+    }
+
+    button {
+        visibility: hidden;
+    }
+}
+
+.pdf-wrapper {
+    width: 200px;
+    height: 100px !important;
+    border: 1px solid $color-secondary;
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+
+    .pdf-content {
+        display: block;
+        cursor: pointer;
+    }
+}

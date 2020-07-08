@@ -1,0 +1,148 @@
+<iihf-header>
+    <h3 title>{{labelKey | translate}}</h3>
+
+    <ng-container buttons *ngIf="!editMode">
+        <button
+            (click)="enableEdit()"
+            *iihfShowByRole="roles.RoleUpdateGuideline"
+            class="mr-10"
+            color="accent"
+            mat-flat-button
+        >
+            {{'common.edit' | translate}}
+        </button>
+    </ng-container>
+</iihf-header>
+
+<div fxLayout="row" style="overflow: auto; height: calc(100vh - 160px);">
+    <div class="p-30">
+        <form [formGroup]="guidelineDetailForm">
+            <div class="long-input">
+                <haz-copy-core-input
+                    [label]="'guidelines.detail.title' | translate"
+                    [required]="true"
+                    [type]="'textarea'"
+                    appearance="fill"
+                    [formControlName]="formControlNames.TITLE"
+                >
+                </haz-copy-core-input>
+            </div>
+
+            <mat-form-field appearance="fill" class="long-input">
+                <mat-label>{{ 'guidelines.detail.businessArea' | translate }}</mat-label>
+
+                <haz-select-search
+                    [formControlName]="formControlNames.BUSINESS_AREA"
+                    [searchable]="true"
+                    [selectList]="businessAreas$ | async | addSelectedBusinessArea:selectedBusinessArea"
+                    [required]="true"
+                >
+                </haz-select-search>
+
+                <mat-error *ngIf="businessAreaControl.touched && businessAreaControl.hasError('required')">
+                    {{'error.required' | translate}}
+                </mat-error>
+            </mat-form-field>
+
+            <div class="long-input pb-20">
+                <div class="attachment-label">
+                    {{ 'guidelines.detail.attachment' | translate }} *
+                </div>
+
+                <iihf-drag-drop-box
+                    labelKey="guidelines.detail.dragAttachment"
+                    [edit]="attachmentName !== null"
+                    [disabled]="!editMode"
+                    [supportedFileTypes]="['application/pdf']"
+                    [maximumFileSize]="fifteenMBinBytes"
+                    (fileUpload)="attachmentUpload($event)"
+                    (unsupportedFileType)="attachmentUnsupportedFiletype()"
+                    (maximumSizeExceeded)="attachmentMaximumFileSizedExceeded()"
+                >
+                    <iihf-pdf [src]="attachmentSource" alt="attachment"></iihf-pdf>
+
+                    <!--<iihf-download-link
+                        *ngIf="editMode"
+                        [src]="attachmentSource"
+                        [fileTitle]="attachmentTitle"
+                        [fileName]="attachmentName"
+                    ></iihf-download-link>-->
+
+                    <div fxLayout="row" class="pdf-width">
+                        <div fxFlex>
+                            {{ attachmentTitle }}
+                        </div>
+
+                        <img
+                            *ngIf="editMode"
+                            (click)="attachmentRemove()"
+                            [src]="'assets/img/svg-squares/remove.svg'"
+                            class="button"
+                            alt="remove"
+                        >
+                    </div>
+                </iihf-drag-drop-box>
+
+                <mat-error *ngIf="attachmentRequiredError">
+                    {{ 'error.required' | translate }}
+                </mat-error>
+            </div>
+
+            <div class="long-input">
+                <haz-copy-core-input
+                    [label]="'guidelines.detail.description' | translate"
+                    appearance="fill"
+                    [type]="'textarea'"
+                    [formControlName]="formControlNames.DESCRIPTION"
+                >
+                </haz-copy-core-input>
+            </div>
+
+            <mat-form-field appearance="fill" class="long-input theme-input mr-10" *ngIf="hasCreatedSection">
+                <mat-label class="label-style">{{ 'guidelines.detail.createdAt' | translate }}</mat-label>
+                <input matInput [formControl]="createdAtControl">
+            </mat-form-field>
+
+            <ng-container *ngIf="hasChangedSection">
+                <div class="long-input">
+                    <mat-form-field appearance="fill" class="long-input theme-input mr-10">
+                        <mat-label class="label-style">{{ 'guidelines.detail.changedAt' | translate }}</mat-label>
+                        <input matInput [formControl]="changedAtControl">
+                    </mat-form-field>
+                </div>
+
+                <div class="long-input">
+                    <mat-form-field appearance="fill" class="long-input theme-input mr-10">
+                        <mat-label class="label-style">{{ 'guidelines.detail.changedBy' | translate }}</mat-label>
+                        <input matInput [formControl]="changedByControl">
+                    </mat-form-field>
+                </div>
+
+            </ng-container>
+        </form>
+
+        <div>
+            <ng-container *ngIf="editMode">
+                <button
+                    *iihfShowByRole="submitButtonRole"
+                    type="submit"
+                    mat-flat-button
+                    color="accent"
+                    class="mr-10"
+                    (click)="onSave()"
+                    [disabled]="guidelineDetailForm.invalid"
+                >
+                    {{ 'guidelines.detail.save' | translate }}
+                </button>
+            </ng-container>
+
+            <button type="button"
+                    mat-button
+                    class="mr-10"
+                    (click)="back()"
+            >
+                {{ 'guidelines.detail.cancel' | translate }}
+            </button>
+        </div>
+    </div>
+</div>

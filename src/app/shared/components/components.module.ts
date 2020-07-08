@@ -6,7 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { ShowByRoleDirective } from '../directives/show-by-role.directive';
 import { AbstractInputsModule } from '../hazelnut/abstract-inputs';
-import { MaterialModule } from '../hazelnut/hazelnut-common';
+import { MaterialModule, SharedDirectivesModule } from '../hazelnut/hazelnut-common';
 import { SmallComponentsModule } from '../hazelnut/small-components';
 import { NotificationSnackBarComponent } from '../hazelnut/small-components/notifications';
 import { TranslateWrapperService } from '../services/translate-wrapper.service';
@@ -16,7 +16,10 @@ import { CommentComponent } from './comment/comment.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { ImageDialogComponent } from './dialog/image-dialog/image-dialog.component';
 import { PdfDialogComponent } from './dialog/pdf-dialog/pdf-dialog.component';
+import { DownloadLinkComponent } from './download-link/download-link.component';
+import { DragDropBoxComponent } from './drag-drop-box/drag-drop-box.component';
 import { HeaderComponent } from './header/header.component';
+import { PdfComponent } from './pdf/pdf.component';
 
 @NgModule({
     declarations: [
@@ -28,6 +31,9 @@ import { HeaderComponent } from './header/header.component';
         ConfirmationDialogComponent,
         HeaderComponent,
         ShowByRoleDirective,
+        DragDropBoxComponent,
+        PdfComponent,
+        DownloadLinkComponent,
     ],
     imports: [
         CommonModule,
@@ -38,6 +44,7 @@ import { HeaderComponent } from './header/header.component';
         AbstractInputsModule,
         FormsModule,
         ReactiveFormsModule,
+        SharedDirectivesModule,
         TranslateModule.forChild(),
     ],
     exports: [
@@ -49,6 +56,9 @@ import { HeaderComponent } from './header/header.component';
         TaskCommentTabComponent,
         HeaderComponent,
         ShowByRoleDirective,
+        DragDropBoxComponent,
+        PdfComponent,
+        DownloadLinkComponent,
     ],
     providers: [TranslateWrapperService],
     entryComponents: [

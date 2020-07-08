@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { shareReplay } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { TableChangeEvent } from '../../hazelnut/core-table';
 import { StringUtils } from '../../hazelnut/hazelnut-common/hazelnut';
@@ -98,6 +98,20 @@ import { ProjectUserService } from '../storage/project-user.service';
     public listOrganizations(): Observable<CodelistItem[]> {
         return this.http.get<CodelistItem[]>(`${environment.URL_API}/organizations`, {headers: this.getHeader()})
             .pipe(shareReplay());
+    }
+
+    /**
+     * Get list of business areas for the guideline section
+     */
+    public listGuidelineBusinessAreas(projectId: number): Observable<BusinessArea[]> {
+        return this.http.get<BusinessArea[]>(`${environment.URL_API}/codeList/guideline/${projectId}`,
+            {headers: this.getHeader()}
+        )
+            .pipe(
+                map((businessAreas: BusinessArea[]): BusinessArea[] =>
+                    businessAreas.filter((businessArea: BusinessArea): boolean => businessArea.state === `VALID`)
+                )
+            );
     }
 
     /**

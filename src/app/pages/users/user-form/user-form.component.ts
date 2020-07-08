@@ -1,4 +1,3 @@
-import { AutofillEvent } from '@angular/cdk/text-field';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -19,24 +18,7 @@ import { ImagesService } from '../../../shared/services/data/images.service';
 import { UserDataService } from '../../../shared/services/data/user-data.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { AppConstants } from '../../../shared/utils/constants';
-
-enum FormControlNames {
-    id = 'id',
-    isVisible = 'isVisible',
-    firstName = 'firstName',
-    lastName = 'lastName',
-    email = 'email',
-    mobile = 'mobile',
-    phone = 'phone',
-    organization = 'organization',
-    function = 'function',
-    login = 'login',
-    password = 'password',
-    type = 'type',
-    state = 'state',
-    groupIdList = 'groupIdList',
-    projectIdList = 'projectIdList',
-}
+import { UserFormControlNames } from './user-form-control-names.enum';
 
 @Component({
     selector: 'iihf-user-form',
@@ -61,7 +43,9 @@ export class UserFormComponent implements OnInit {
     public readonly loginStringPattern = Regex.loginStringPattern;
     public readonly phonePattern = Regex.internationalPhonePattern;
 
-    public readonly formControlNames: typeof FormControlNames = FormControlNames;
+    public readonly formControlNames: typeof UserFormControlNames = UserFormControlNames;
+
+    private user: User;
 
     public constructor(
         private readonly businessAreaService: BusinessAreaService,
@@ -80,6 +64,7 @@ export class UserFormComponent implements OnInit {
         this.initializeGroups();
         this.initializeProjects();
         this.createForm();
+        this.setFormData();
     }
 
     public hasRoleAssignGroup(): boolean {
@@ -110,15 +95,33 @@ export class UserFormComponent implements OnInit {
         return item.id;
     }
 
-    public setFormData(autofillEvent: AutofillEvent): void {
-        if (!autofillEvent.isAutofilled) {
+    public patchValues(): void {
+        if (!this.user) {
             return;
         }
+
+        this.userForm.controls[UserFormControlNames.id].patchValue(this.user.id);
+        this.userForm.controls[UserFormControlNames.firstName].patchValue(this.user.firstName);
+        this.userForm.controls[UserFormControlNames.lastName].patchValue(this.user.lastName);
+        this.userForm.controls[UserFormControlNames.email].patchValue(this.user.email);
+        this.userForm.controls[UserFormControlNames.mobile].patchValue(this.user.mobile);
+        this.userForm.controls[UserFormControlNames.phone].patchValue(this.user.phone);
+        this.userForm.controls[UserFormControlNames.function].patchValue(this.user.function || '');
+        this.userForm.controls[UserFormControlNames.password].patchValue(this.user.password);
+        this.userForm.controls[UserFormControlNames.login].patchValue(this.user.login);
+        this.userForm.controls[UserFormControlNames.isVisible].patchValue(this.user.isVisible);
+        this.userForm.controls[UserFormControlNames.state].patchValue(this.user.state === 'ACTIVE');
+        this.userForm.controls[UserFormControlNames.type].patchValue(this.user.type);
+        this.userForm.controls[UserFormControlNames.groupIdList].patchValue(this.user.groupIdList);
+        this.userForm.controls[UserFormControlNames.projectIdList].patchValue(this.user.projectIdList);
+    }
+
+    private setFormData(): void {
         this.activatedRoute.queryParams.subscribe((param: Params): void => {
             if (Object.keys(param).length > 0) {
                 this.isUpdate = true;
                 this.userForm.controls.login.disable();
-                this.getIdFromRouteParamsAndSetDetail(param);
+                this.getUserDetail(param.id);
             }
             const passwordMaxLength = 50;
             if (!this.isUpdate) {
@@ -137,20 +140,7 @@ export class UserFormComponent implements OnInit {
     }
 
     private setForm(user: User): void {
-        this.userForm.controls[FormControlNames.id].patchValue(user.id);
-        this.userForm.controls[FormControlNames.firstName].patchValue(user.firstName);
-        this.userForm.controls[FormControlNames.lastName].patchValue(user.lastName);
-        this.userForm.controls[FormControlNames.email].patchValue(user.email);
-        this.userForm.controls[FormControlNames.mobile].patchValue(user.mobile);
-        this.userForm.controls[FormControlNames.phone].patchValue(user.phoneNumber);
-        this.userForm.controls[FormControlNames.function].patchValue(user.function || '');
-        this.userForm.controls[FormControlNames.password].patchValue(user.password);
-        this.userForm.controls[FormControlNames.login].patchValue(user.login);
-        this.userForm.controls[FormControlNames.isVisible].patchValue(user.isVisible);
-        this.userForm.controls[FormControlNames.state].patchValue(user.state === 'ACTIVE');
-        this.userForm.controls[FormControlNames.type].patchValue(user.type);
-        this.userForm.controls[FormControlNames.groupIdList].patchValue(user.groupIdList);
-        this.userForm.controls[FormControlNames.projectIdList].patchValue(user.projectIdList);
+        this.patchValues();
         if (user.avatar) {
             this.imagesService.getImage(user.avatar)
                 .subscribe((blob: Blob): void => {
@@ -170,52 +160,53 @@ export class UserFormComponent implements OnInit {
                 const selectedOrganization = organizations.find((organization: any): boolean => organization.name === user.organization);
 
                 if (selectedOrganization) {
-                    this.userForm.controls[FormControlNames.organization].patchValue(selectedOrganization.id);
+                    this.userForm.controls[UserFormControlNames.organization].patchValue(selectedOrganization.id);
                 }
             });
     }
 
-    private getIdFromRouteParamsAndSetDetail(param: any): void {
-        this.userDataService.getUserDetail(param.id)
+    private getUserDetail(id: number): void {
+        this.userDataService.getUserDetail(id)
             .subscribe((apiUser: User): void => {
+                this.user = apiUser;
                 this.setForm(apiUser);
             }, (error: any): any => this.notificationService.openErrorNotification(error));
     }
 
     private createForm(): void {
         this.userForm = this.formBuilder.group({
-            [FormControlNames.id]: [''],
-            [FormControlNames.isVisible]: [''],
-            [FormControlNames.firstName]: [
+            [UserFormControlNames.id]: [''],
+            [UserFormControlNames.isVisible]: [''],
+            [UserFormControlNames.firstName]: [
                 '',
                 Validators.required
             ],
-            [FormControlNames.lastName]: [
+            [UserFormControlNames.lastName]: [
                 '',
                 Validators.required
             ],
-            [FormControlNames.email]: [''],
-            [FormControlNames.mobile]: ['', Validators.required],
-            [FormControlNames.phone]: ['', Validators.required],
-            [FormControlNames.organization]: ['', Validators.required],
-            [FormControlNames.function]: ['', Validators.required],
-            [FormControlNames.login]: [
+            [UserFormControlNames.email]: [''],
+            [UserFormControlNames.mobile]: ['', Validators.required],
+            [UserFormControlNames.phone]: ['', Validators.required],
+            [UserFormControlNames.organization]: ['', Validators.required],
+            [UserFormControlNames.function]: ['', Validators.required],
+            [UserFormControlNames.login]: [
                 '',
             ],
-            [FormControlNames.password]: [''],
-            [FormControlNames.type]: [
+            [UserFormControlNames.password]: [''],
+            [UserFormControlNames.type]: [
                 '',
                 Validators.required
             ],
-            [FormControlNames.state]: [''],
-            [FormControlNames.groupIdList]: [''],
-            [FormControlNames.projectIdList]: [''],
+            [UserFormControlNames.state]: [''],
+            [UserFormControlNames.groupIdList]: [''],
+            [UserFormControlNames.projectIdList]: [''],
         });
-        this.userForm.controls[FormControlNames.id].disable();
-        this.userForm.controls[FormControlNames.firstName].setValidators(Validators.required);
-        this.userForm.controls[FormControlNames.lastName].setValidators(Validators.required);
-        this.userForm.controls[FormControlNames.login].setValidators(Validators.required);
-        this.userForm.controls[FormControlNames.type].setValidators(Validators.required);
+        this.userForm.controls[UserFormControlNames.id].disable();
+        this.userForm.controls[UserFormControlNames.firstName].setValidators(Validators.required);
+        this.userForm.controls[UserFormControlNames.lastName].setValidators(Validators.required);
+        this.userForm.controls[UserFormControlNames.login].setValidators(Validators.required);
+        this.userForm.controls[UserFormControlNames.type].setValidators(Validators.required);
         this.userForm.valueChanges.subscribe((): void => {
             this.emitFormDataChangeEmitter();
         });

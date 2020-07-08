@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import * as moment from 'moment';
 import { debounceTime } from 'rxjs/operators';
 import { ListItem } from '../..';
 import { Category } from '../../../../interfaces/category.interface';
@@ -50,10 +51,13 @@ export class CoreTableFilterComponent implements OnInit {
 
     private _filtersElement: FormGroup = null;
 
-    public constructor(private readonly coreTableService: CoreTableService,
-                       private readonly userDataService: UserDataService,
-                       private readonly notificationService: NotificationService,
-                       private readonly businessAreaService: BusinessAreaService,) {
+    public constructor(
+        private readonly coreTableService: CoreTableService,
+        private readonly userDataService: UserDataService,
+        private readonly notificationService: NotificationService,
+        private readonly businessAreaService: BusinessAreaService,
+        private readonly changeDetectorRef: ChangeDetectorRef,
+    ) {
 
     }
 
@@ -91,7 +95,7 @@ export class CoreTableFilterComponent implements OnInit {
     }
 
     private get filterProperty(): string {
-        const filterDef: string = this.columnConfig.filter.property || this.columnConfig.columnDef;
+        const filterDef: string = this.columnConfig.filter.property || this.columnConfig.columnRequestName;
 
         return StringUtils.convertCamelToSnakeUpper(filterDef);
     }
@@ -126,7 +130,7 @@ export class CoreTableFilterComponent implements OnInit {
             if (isPredefinedNumberValue) {
                 this.setFilterElementByPredefinedNumberValues();
             } else if (isPredefinedDateValue) {
-                // TODO apply set date filter
+                this.setFilterElementByPredefinedDateValues();
             } else if (isPredefinedTrafficLightValue) {
                 this.setFilterElementByPredefinedTrafficLightValues();
             } else {
@@ -139,13 +143,14 @@ export class CoreTableFilterComponent implements OnInit {
     }
 
     private setFilterElementByPredefinedDateValues(): void {
-        // TODO fix ExpressionChangedAfterItHasBeenCheckedError
         const lowerFilter = this.getNumberFilterFromPredefinedFiltersByOperator('GOE');
         const higherFilter = this.getNumberFilterFromPredefinedFiltersByOperator('LOE');
         this.filtersElement.controls[this.columnConfig.filterElement].patchValue({
-            dateFrom: lowerFilter ? lowerFilter.value : null,
-            dateTo: higherFilter ? higherFilter.value : null,
+            dateFrom: lowerFilter ? moment(lowerFilter.value) : null,
+            dateTo: higherFilter ? moment(higherFilter.value) : null,
         });
+
+        this.changeDetectorRef.detectChanges();
     }
 
     private setFilterElementByPredefinedNumberValues(): void {

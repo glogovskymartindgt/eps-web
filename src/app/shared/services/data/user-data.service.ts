@@ -2,8 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TableChangeEvent } from '../../hazelnut/core-table';
-import { StringUtils } from '../../hazelnut/hazelnut-common/hazelnut';
-import { BrowseResponse, PostContent, Sort } from '../../hazelnut/hazelnut-common/models';
+import { BrowseResponse, Filter, PostContent } from '../../hazelnut/hazelnut-common/models';
 import { User } from '../../interfaces/user.interface';
 import { NotificationService } from '../notification.service';
 import { ProjectService } from '../project.service';
@@ -39,26 +38,13 @@ import { ProjectUserService } from '../storage/project-user.service';
     /**
      * Get users from API based on criteria
      * @param tableChangeEvent
+     * @param additionalFilters - filters, which are not included in filters tableChangeEvent from the table
      */
-    public browseUsers(tableChangeEvent: TableChangeEvent): Observable<BrowseResponse<User>> {
-        let filters = [];
-        let sort = [];
-        let limit = 15;
-        let offset = 0;
+    public browseUsers(tableChangeEvent: TableChangeEvent, additionalFilters: Filter[] = []): Observable<BrowseResponse<User>> {
+        const postContent: PostContent = PostContent.createForIihf(tableChangeEvent);
+        postContent.addFilters(...additionalFilters);
 
-        if (tableChangeEvent) {
-            limit = tableChangeEvent.pageSize;
-            offset = tableChangeEvent.pageIndex * tableChangeEvent.pageSize;
-            filters = Object.values(tableChangeEvent.filters);
-            filters.forEach((filter: any): any => filter.property = StringUtils.convertCamelToSnakeUpper(filter.property));
-            if (tableChangeEvent.sortActive && tableChangeEvent.sortDirection) {
-                sort = [
-                    new Sort(tableChangeEvent.sortActive, tableChangeEvent.sortDirection)
-                ];
-            }
-        }
-
-        return this.browseWithSummary(PostContent.create(limit, offset, filters, sort));
+        return this.browseWithSummary(postContent);
     }
 
     public getUserDetail(id: number): Observable<User> {

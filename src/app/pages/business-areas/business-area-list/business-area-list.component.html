@@ -1,5 +1,5 @@
 <div>
-    
+
     <!--    Simple title of screen-->
     <div fxLayout="row" class="basic-screen-header">
         <div class="pl-50" fxLayoutAlign="start center">
@@ -8,7 +8,7 @@
     </div>
 
     <!--    Core table representing list of business areas with custom column-->
-    <haz-indeterminate-progress-bar [loading]="loading"></haz-indeterminate-progress-bar>
+    <haz-copy-indeterminate-progress-bar [loading]="loading"></haz-copy-indeterminate-progress-bar>
     <haz-core-table (requestData)="setTableData($event)"
                     [configuration]="config"
                     [data]="data"

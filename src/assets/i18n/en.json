@@ -13,13 +13,18 @@
         "team": "Team",
         "users": "Users",
         "profile": "Profile",
-        "actionPoints": "Action points"
+        "actionPoints": "Action points",
+        "guidelines": "Guidelines"
     },
     "login": {
         "login": "Log in",
         "username": "Username",
         "password": "Password",
         "toggleVisibility": "Change visibility"
+    },
+    "selectSearch": {
+        "label": "Search",
+        "empty": "No entries found"
     },
     "dashboard": {
         "dashboard": "Dashboard",
@@ -113,7 +118,13 @@
         "fillFirstCountry": "Pick first country please",
         "loginUsed": "Update profile failed",
         "unsupportedType": "Update profile failed",
-        "profileUpdateFailed": "Update profile failed"
+        "profileUpdateFailed": "Update profile failed",
+        "user.not.found": "User was not found",
+        "user.type.not.iihf":  "User has not type IIHF",
+        "project.cannot.be.closed":  "The project cannot be closed",
+        "guideline.for.project.and.business.area.exists":  "A guideline for the current project and the selected business area already exists",
+        "business.area.not.found": "The business area was not found",
+        "guideline.not.found": "The guuideline was not found"
     },
     "errorCode": {
         "1": "System error",
@@ -171,9 +182,11 @@
     },
     "common": {
         "create": "CREATE",
+        "edit": "EDIT",
         "export": "EXPORT",
         "from": "From",
-        "to": "To"
+        "to": "To",
+        "emptyText": ""
     },
     "all": {
         "things": "All",
@@ -326,11 +339,39 @@
         "screenTitle": "Team",
         "firstName": "First Name",
         "lastName": "Last Name",
+        "type": "User Type",
         "organization": "Organization",
         "function": "Function",
         "phone": "Phone",
         "mobile": "Mobile",
-        "email": "Email"
+        "email": "Email",
+        "accountState": "Account Status",
+        "active": "ACTIVE",
+        "inactive": "INACTIVE"
+    },
+    "guidelines": {
+        "screenTitle": "Guidelines",
+        "newGuideline": "New guideline",
+        "editGuideline": "Edit guideline",
+        "list": {
+            "businessAreaCode": "Business Area Code",
+            "businessAreaName": "Business Area",
+            "actionPointTitle": "Title"
+        },
+        "detail": {
+            "save": "Save",
+            "cancel": "Cancel",
+            "title": "Title",
+            "businessArea": "Business Area",
+            "attachment": "Attachment",
+            "dragAttachment": "Drag the PDF here or browse",
+            "description": "Description",
+            "unsupportedFileType": "The attachment has an unsupported file type.",
+            "maximumSizeExceeded": "The maximum file size for the attachment, 15MB, was exceeded.",
+            "createdAt": "Created at",
+            "changedAt": "Changed at",
+            "changedBy": "Changed by"
+        }
     },
     "confirmation": {
         "actionPoint": {

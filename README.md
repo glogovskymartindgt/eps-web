@@ -2,25 +2,17 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.4.
 
-## Development server
+## Development
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `npm api:run` to run the api server from Docker. Run `npm start` to start the app in an Angular dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+After you've finished working, run `npm api:stop` to stop the api server (or you'll have to do it the next time you start the api server).
 
-## Code scaffolding
+## Release
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/). 
+- bump the version - in `package.json`, `constants.ts`, run `npm install` to update the version in `package-lock.json` from `package.json`.
+- merge the `develop` to `master` branch
+- build the app depending on the environment, where you want to release it: `npm run buildTest`, `npm run buildDemo`
+- after the build has finished, run the release commands: `npm run release:latest`, `npm run release:version`
 
 ## Further help
 

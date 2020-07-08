@@ -1,0 +1,17 @@
+export enum UserFormControlNames {
+    id = 'id',
+    isVisible = 'isVisible',
+    firstName = 'firstName',
+    lastName = 'lastName',
+    email = 'email',
+    mobile = 'mobile',
+    phone = 'phone',
+    organization = 'organizationId',
+    function = 'function',
+    login = 'login',
+    password = 'password',
+    type = 'type',
+    state = 'state',
+    groupIdList = 'groupIdList',
+    projectIdList = 'projectIdList',
+}

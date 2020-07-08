@@ -1,0 +1,40 @@
+<div fxLayout="column" fxLayoutGap="10px">
+    <div
+        *ngIf="!disabled"
+        (onFileDropped)="onDropped($event)"
+        class="relative-parent"
+        dragDrop
+        fxFlex
+    >
+        <label class="container-style"
+               for="first-map-{{id}}"
+               fxFlex
+               mat-ripple
+        ></label>
+
+        <input
+            (change)="onInserted($event)"
+            (click)="resetInput($event)"
+            [accept]="acceptedFileTypes"
+            class="hide-input"
+            id="first-map-{{id}}"
+            type="file"
+        >
+
+        <div>
+            <div fxLayout="column">
+                <img
+                    [src]="'assets/img/svg-squares/add.svg'"
+                    alt="add"
+                    class="add-svg"
+                >
+
+                <p class="drop-text">{{labelKey | translate}}</p>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="edit">
+        <ng-content></ng-content>
+    </div>
+</div>

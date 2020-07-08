@@ -1,6 +1,6 @@
 {
     "name": "iihf-web",
-    "version": "1.9.0",
+    "version": "1.9.1",
     "scripts": {
         "ng": "ng",
         "start": "ng serve --proxy-config proxy.conf.json",
@@ -8,9 +8,11 @@
         "buildTest": "ng build --configuration=test",
         "buildDemo": "ng build --configuration=demo",
         "buildProd": "ng build --configuration=production",
-        "release": "docker build --no-cache -t qregistry.qbsw.local:5000/qbsw/iihf_eps_web:%npm_package_version% . && docker push qregistry.qbsw.local:5000/qbsw/iihf_eps_web:%npm_package_version%",
+        "release:version": "docker build --no-cache -t qregistry.qbsw.local:5000/qbsw/iihf_eps_web:%npm_package_version% . && docker push qregistry.qbsw.local:5000/qbsw/iihf_eps_web:%npm_package_version%",
+        "release:latest": "docker build --no-cache -t qregistry.qbsw.local:5000/qbsw/iihf_eps_web:latest . && docker push qregistry.qbsw.local:5000/qbsw/iihf_eps_web:latest",
         "api:run": "cd api-docker && mountNdisk && npm run docker:remove-images && npm run docker:compose",
         "api:stop": "npm run Ndisk:remove && npm run docker:remove-containers",
+        "api:restart": "npm run api:stop && npm run api:run",
         "docker:pull": "docker image prune && npm run docker:pull-db && npm run docker:pull-be",
         "docker:compose": "cd api-docker && docker-compose up -d eps_db && docker-compose up -d eps_be",
         "docker:pull-db": "docker image pull qregistry.qbsw.local:5000/qbsw/iihf_eps_db",
@@ -56,6 +58,7 @@
         "core-js": "^3.6.4",
         "git-branch-is": "^3.1.0",
         "hammerjs": "^2.0.8",
+        "hazelnut": "file:external/hazelnut-1.0.0.tgz",
         "moment": "^2.24.0",
         "ng2-pdf-viewer": "^6.1.2",
         "rxjs": "^6.5.4",

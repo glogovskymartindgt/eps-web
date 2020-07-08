@@ -299,7 +299,6 @@
         "no-return-undefined": true,
         "no-static-this": true,
         "no-unnecessary-else": true,
-        "object-shorthand-properties-first": true,
         "no-uninitialized": [
             false,
             "variables",

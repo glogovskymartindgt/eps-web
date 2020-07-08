@@ -1,40 +1,36 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Role } from '../../../shared/enums/role.enum';
-import { AuthService } from '../../../shared/services/auth.service';
 import { UserDataService } from '../../../shared/services/data/user-data.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { UserFormComponent } from '../user-form/user-form.component';
+import { UserEditBaseComponent } from './user-edit-base.component';
 
 @Component({
     selector: 'iihf-user-edit',
     templateUrl: './user-edit.component.html',
     styleUrls: ['./user-edit.component.scss']
 })
-export class UserEditComponent implements OnInit {
+export class UserEditComponent extends UserEditBaseComponent implements OnInit {
 
     @ViewChild(UserFormComponent, {static: true}) public userForm: UserFormComponent;
-    public formData = null;
+    public userRoles: typeof Role = Role;
 
     private userId;
 
     public constructor(
-        private readonly router: Router,
+        protected readonly router: Router,
         private readonly userDataService: UserDataService,
         private readonly notificationService: NotificationService,
         private readonly activatedRoute: ActivatedRoute,
-        private readonly authService: AuthService,
     ) {
+        super(router);
     }
 
     public ngOnInit(): void {
         this.activatedRoute.queryParams.subscribe((param: Params): void => {
             this.userId = param.id;
         });
-    }
-
-    public onCancel(): void {
-        this.router.navigate(['users/list']);
     }
 
     public onSave(): void {
@@ -57,51 +53,17 @@ export class UserEditComponent implements OnInit {
         }, formChangeTimeout);
     }
 
-    public hasRoleUpdateUser(): boolean {
-        return this.authService.hasRole(Role.RoleUpdateUser);
-    }
+    protected adjustDifferingApiFields(apiObject: any): any {
+        const apiObjectCopy: any = {...apiObject};
 
-    private transformUserToApiObject(): {} {
-        const apiObject: any = {
-            firstName: this.formData.firstName,
-            lastName: this.formData.lastName,
-            isVisible: this.formData.isVisible,
-            type: this.formData.type,
-        };
+        apiObjectCopy.isVisible = this.formData.isVisible;
         if (this.formData.password) {
-            apiObject.password = this.formData.password;
-        }
-        if (this.formData.email) {
-            apiObject.email = this.formData.email;
-        }
-        if (this.formData.projectIdList && this.formData.projectIdList.length > 0) {
-            apiObject.projectIdList = this.formData.projectIdList;
-        }
-        if (this.formData.groupIdList && this.formData.groupIdList.length > 0) {
-            apiObject.groupIdList = this.formData.groupIdList;
+            apiObjectCopy.password = this.formData.password;
         }
         if (this.formData.state !== null) {
-            apiObject.state = this.formData.state ? 'ACTIVE' : 'INACTIVE';
+            apiObjectCopy.state = this.formData.state ? 'ACTIVE' : 'INACTIVE';
         }
 
-        return apiObject;
+        return apiObjectCopy;
     }
-
-    private getTranslationFromErrorCode(code: string): string {
-        switch (code) {
-            case '10002':
-                return 'user.error.loginUsed';
-            case '20':
-                return 'user.error.unsupportedType';
-            case '21':
-                return 'user.error.requireProject';
-            case '22':
-                return 'user.error.typeCannotBeNull';
-            case '23':
-                return 'user.error.requestCannotBeNull';
-            default:
-                return 'user.error.add';
-        }
-    }
-
 }

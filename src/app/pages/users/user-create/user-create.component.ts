@@ -1,27 +1,26 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserDataService } from '../../../shared/services/data/user-data.service';
 import { NotificationService } from '../../../shared/services/notification.service';
-import { TaskFormComponent } from '../../tasks/task-form/task-form.component';
+import { UserEditBaseComponent } from '../user-edit/user-edit-base.component';
+import { UserFormComponent } from '../user-form/user-form.component';
 
 @Component({
     selector: 'iihf-user-create',
     templateUrl: './user-create.component.html',
     styleUrls: ['./user-create.component.scss']
 })
-export class UserCreateComponent implements OnInit {
-    @ViewChild(TaskFormComponent, {static: true}) public taskForm: TaskFormComponent;
+export class UserCreateComponent extends UserEditBaseComponent {
+    @ViewChild(UserFormComponent, {static: true}) public taskForm: UserFormComponent;
     public formData = null;
     public loading: false;
 
-    public constructor(private readonly router: Router, private readonly notificationService: NotificationService, private readonly userDataService: UserDataService) {
-    }
-
-    public ngOnInit(): void {
-    }
-
-    public onCancel(): void {
-        this.router.navigate(['users/list']);
+    public constructor(
+        protected readonly router: Router,
+        private readonly notificationService: NotificationService,
+        private readonly userDataService: UserDataService,
+    ) {
+        super(router);
     }
 
     public onSave(): void {
@@ -34,42 +33,12 @@ export class UserCreateComponent implements OnInit {
             });
     }
 
-    private transformUserToApiObject(): {} {
-        const apiObject: any = {
-            firstName: this.formData.firstName,
-            lastName: this.formData.lastName,
-            type: this.formData.type,
-            login: this.formData.login.toLowerCase(),
-            password: this.formData.password,
-        };
-        if (this.formData.email) {
-            apiObject.email = this.formData.email;
-        }
-        if (this.formData.projectIdList && this.formData.projectIdList.length > 0) {
-            apiObject.projectIdList = this.formData.projectIdList;
-        }
-        if (this.formData.groupIdList && this.formData.groupIdList.length > 0) {
-            apiObject.groupIdList = this.formData.groupIdList;
-        }
+    protected adjustDifferingApiFields(apiObject: any): any {
+        const apiObjectCopy: any = {...apiObject};
 
-        return apiObject;
+        apiObjectCopy.login = this.formData.login.toLowerCase();
+        apiObjectCopy.password = this.formData.password;
+
+        return apiObjectCopy;
     }
-
-    private getTranslationFromErrorCode(code: string): string {
-        switch (code) {
-            case '10002':
-                return 'user.error.loginUsed';
-            case '20':
-                return 'user.error.unsupportedType';
-            case '21':
-                return 'user.error.requireProject';
-            case '22':
-                return 'user.error.typeCannotBeNull';
-            case '23':
-                return 'user.error.requestCannotBeNull';
-            default:
-                return 'user.error.add';
-        }
-    }
-
 }

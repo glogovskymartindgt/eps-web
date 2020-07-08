@@ -1,4 +1,6 @@
+import { TableChangeEvent } from '../../core-table';
 import { hazelnutConfig } from '../config/hazelnut-config';
+import { StringUtils } from '../hazelnut';
 import { Filter } from './filter.model';
 import { Sort } from './sort.model';
 
@@ -35,6 +37,27 @@ export class PostContent implements PostContentInterface {
                                 .setOffset(offset)
                                 .addFilters(...filter)
                                 .addSorts(...sort);
+    }
+
+    public static createForIihf(tableChangeEvent: TableChangeEvent): PostContent {
+        let filters = [];
+        let sort = [];
+        let limit = 15;
+        let offset = 0;
+
+        if (tableChangeEvent) {
+            limit = tableChangeEvent.pageSize;
+            offset = tableChangeEvent.pageIndex * tableChangeEvent.pageSize;
+            filters = Object.values(tableChangeEvent.filters);
+            filters.forEach((filter: any): any => filter.property = StringUtils.convertCamelToSnakeUpper(filter.property));
+            if (tableChangeEvent.sortActive && tableChangeEvent.sortDirection) {
+                sort = [
+                    new Sort(tableChangeEvent.sortActive, tableChangeEvent.sortDirection)
+                ];
+            }
+        }
+
+        return PostContent.create(limit, offset, filters, sort);
     }
 
     public static parse(object: any): PostContent {

@@ -1,6 +1,9 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { State, UserType } from '../../../shared/enums/enumerators';
 import { Role } from '../../../shared/enums/role.enum';
 import {
+    ListItem,
     TableCellType,
     TableChangeEvent,
     TableColumn,
@@ -10,7 +13,7 @@ import {
     TableResponse
 } from '../../../shared/hazelnut/core-table';
 import { fadeEnterLeave } from '../../../shared/hazelnut/hazelnut-common/animations';
-import { BrowseResponse } from '../../../shared/hazelnut/hazelnut-common/models';
+import { BrowseResponse, Filter } from '../../../shared/hazelnut/hazelnut-common/models';
 import { TableContainer } from '../../../shared/interfaces/table-container.interface';
 import { User } from '../../../shared/interfaces/user.interface';
 import { UserDataService } from '../../../shared/services/data/user-data.service';
@@ -35,17 +38,20 @@ export class TeamListComponent implements OnInit, TableContainer<User> {
     public readonly role: typeof Role = Role;
 
     public readonly detailNotImplemented: boolean = true;
+    private defaultFilters: Filter[] = [];
 
     public constructor(
         private readonly userDataService: UserDataService,
         private readonly notificationService: NotificationService,
         private readonly routingStorageService: RoutingStorageService,
         private readonly tableChangeStorageService: TableChangeStorageService,
+        private readonly translateService: TranslateService,
     ) {
     }
 
     public ngOnInit(): void {
         this.tableChangeStorageService.isReturnFromDetail = this.isReturnFromDetail();
+        this.setDefaultFilters();
         this.setTableConfiguration();
     }
 
@@ -53,7 +59,7 @@ export class TeamListComponent implements OnInit, TableContainer<User> {
         this.loading = true;
         this.tableChangeStorageService.cachedTableChangeEvent = tableRequest;
 
-        this.userDataService.browseUsers(tableRequest)
+        this.userDataService.browseUsers(tableRequest, this.defaultFilters)
             .subscribe((userBrowseResponse: BrowseResponse<User>): void => {
                 this.tableData = userBrowseResponse;
                 this.loading = false;
@@ -70,6 +76,7 @@ export class TeamListComponent implements OnInit, TableContainer<User> {
         const config: TableConfiguration = {
             predefinedSortActive: 'lastName',
             predefinedSortDirection: 'asc',
+            stickyEnd: 8,
             columns: [
                 new TableColumn({
                     columnDef: 'firstName',
@@ -81,6 +88,19 @@ export class TeamListComponent implements OnInit, TableContainer<User> {
                     columnDef: 'lastName',
                     labelKey: 'team.lastName',
                     filter: new TableColumnFilter({}),
+                    sorting: true,
+                }),
+                new TableColumn({
+                    columnDef: 'type',
+                    labelKey: 'team.type',
+                    filter: new TableColumnFilter({
+                        type: TableFilterType.SELECT,
+                        select: [
+                            new ListItem('', this.translateService.instant('all.things')),
+                            new ListItem(UserType.IIHF, this.translateService.instant('user.iihf').toString().toLocaleUpperCase()),
+                            new ListItem(UserType.ORGANIZER, this.translateService.instant('user.organizer').toString().toLocaleUpperCase()),
+                        ],
+                    }),
                     sorting: true,
                 }),
                 new TableColumn({
@@ -114,6 +134,20 @@ export class TeamListComponent implements OnInit, TableContainer<User> {
                     sorting: true,
                 }),
                 new TableColumn({
+                    columnDef: 'accountState',
+                    labelKey: 'team.accountState',
+                    columnRequestName: 'ACCOUNT_STATUS',
+                    filter: new TableColumnFilter({
+                        type: TableFilterType.SELECT,
+                        select: [
+                            new ListItem('', this.translateService.instant('all.things')),
+                            new ListItem(State.ACTIVE, this.translateService.instant('team.active')),
+                            new ListItem(State.INACTIVE, this.translateService.instant('team.inactive')),
+                        ],
+                    }),
+                    sorting: true,
+                }),
+                new TableColumn({
                     columnDef: ' ',
                     label: ' ',
                     type: TableCellType.CONTENT,
@@ -132,5 +166,12 @@ export class TeamListComponent implements OnInit, TableContainer<User> {
     private isReturnFromDetail(): any {
         return this.routingStorageService.getPreviousUrl().includes('team/edit')
             || this.routingStorageService.getPreviousUrl().includes('team/create');
+    }
+
+    private setDefaultFilters(): void {
+        this.defaultFilters = [
+            new Filter('FLAG_ACTIVE', 'TRUE', 'STRING', 'EQ'),
+            new Filter('STATE', State.ACTIVE, 'ENUM', 'EQ'),
+        ];
     }
 }

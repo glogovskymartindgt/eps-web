@@ -8,7 +8,7 @@
     <div fxFlex fxFlex.gt-sm="100%" class="p-30 form-content" fxLayout="column">
         <iihf-user-form (formDataChange)="formDataChange($event)"></iihf-user-form>
         <div class="pl-110">
-            <button *ngIf="hasRoleUpdateUser()"
+            <button *iihfShowByRole="userRoles.RoleUpdateUser"
                     type="submit"
                     mat-flat-button
                     color="accent"

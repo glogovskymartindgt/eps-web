@@ -1,4 +1,14 @@
-import { AfterViewChecked, ChangeDetectorRef, Component, forwardRef, Inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import {
+    AfterViewChecked,
+    ChangeDetectorRef,
+    Component,
+    forwardRef,
+    Inject,
+    Input,
+    OnChanges,
+    OnInit,
+    SimpleChanges
+} from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { debounceTime, tap } from 'rxjs/operators';
@@ -9,7 +19,7 @@ import { ValidatorComposer } from '../validator-composer';
 import { ThousandDelimiterPipe } from './../../../pipes/thousand-delimiter.pipe';
 
 @Component({
-    selector: 'haz-core-input',
+    selector: 'haz-copy-core-input',
     templateUrl: './core-input.component.html',
     styleUrls: ['./core-input.component.scss'],
     providers: [

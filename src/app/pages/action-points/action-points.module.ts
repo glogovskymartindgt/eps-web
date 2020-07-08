@@ -9,6 +9,7 @@ import { CoreTableModule } from '../../shared/hazelnut/core-table';
 import { MaterialModule } from '../../shared/hazelnut/hazelnut-common';
 import { SmallComponentsModule } from '../../shared/hazelnut/small-components';
 import { PipesModule } from '../../shared/pipes/pipes.module';
+import { TableChangeStorageService } from '../../shared/services/table-change-storage.service';
 import { TranslateWrapperService } from '../../shared/services/translate-wrapper.service';
 import { ActionPointCreateComponent } from './action-point-create/action-point-create.component';
 import { ActionPointEditComponent } from './action-point-edit/action-point-edit.component';
@@ -37,7 +38,10 @@ import { ActionPointsRoutingModule } from './action-points-routing.module';
         PipesModule,
         ComponentsModule
     ],
-    providers: [TranslateWrapperService]
+    providers: [
+        TranslateWrapperService,
+        TableChangeStorageService,
+    ]
 })
 export class ActionPointsModule {
 }

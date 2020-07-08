@@ -93,3 +93,16 @@ $color-primary: #1595d3;
     position: relative;
     width: 205px;
 }
+
+.pdf-indicator {
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    z-index: 1;
+    background: #001c46;
+    color: white;
+    padding: 5px 10px;
+    border-bottom-right-radius: 5px;
+}

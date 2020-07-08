@@ -1,0 +1,25 @@
+<div
+    *ngIf="src != undefined"
+    class="download_link"
+    fxLayout="row"
+    fxLayoutGap="10px"
+>
+    <div fxLayoutAlign="center center">
+        <a [href]="sanitize(src)"
+           [download]="fileName"
+        >
+            {{fileTitle}}
+        </a>
+    </div>
+
+    <div fxLayoutAlign="center end">
+        <a [href]="sanitize(src)"
+           [download]="fileName"
+        >
+            <img
+                src="assets/img/svg-squares/download.svg"
+                alt="download"
+            >
+        </a>
+    </div>
+</div>
