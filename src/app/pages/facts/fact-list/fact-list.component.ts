@@ -22,6 +22,7 @@ import { RoutingStorageService } from '../../../shared/services/routing-storage.
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 import { TableChangeStorageService } from '../../../shared/services/table-change-storage.service';
 import { GetFileNameFromContentDisposition } from '../../../shared/utils/headers';
+import { tableLastStickyColumn } from '../../../shared/utils/table-last-sticky-column';
 
 const ALL_FACTS = 'all-facts';
 
@@ -154,7 +155,6 @@ export class FactListComponent implements OnInit {
 
     private setTableConfiguration(): void {
         let config: TableConfiguration = {
-            stickyEnd: 4,
             columns: [
                 new TableColumn({
                     columnDef: 'categoryName',
@@ -228,9 +228,7 @@ export class FactListComponent implements OnInit {
         config = this.tableChangeStorageService.updateTableConfiguration(config);
 
         // Update config for All Facts and Figures screen
-        const columnsStickyEndStart = 5;
         if (this.router.url.includes(ALL_FACTS)) {
-            config.stickyEnd = columnsStickyEndStart;
             this.allFacts = true;
             config.columns.splice(0, 0, new TableColumn({
                 columnDef: 'year',
@@ -246,6 +244,7 @@ export class FactListComponent implements OnInit {
             this.setLabel(config, 'valueSecond', 'fact.secondValue');
         }
 
+        config.stickyEnd = tableLastStickyColumn(config.columns.length);
         this.config = config;
     }
 

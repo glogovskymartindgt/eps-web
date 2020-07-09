@@ -19,7 +19,7 @@ import { ClBusinessArea } from '../../../shared/interfaces/cl-business-area.inte
         if (selectedBusinessArea) {
             const selectedListItem: ListItemSync = {
                 code: selectedBusinessArea.id,
-                value: selectedBusinessArea.name,
+                value: `${selectedBusinessArea.codeItem} - ${selectedBusinessArea.name}`,
             };
 
             if (selectedListItem) {

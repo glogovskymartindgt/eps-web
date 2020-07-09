@@ -21,6 +21,7 @@ import { GuideLineService } from '../../../shared/services/data/guideline.servic
 import { RoutingStorageService } from '../../../shared/services/routing-storage.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 import { TableChangeStorageService } from '../../../shared/services/table-change-storage.service';
+import { tableLastStickyColumn } from '../../../shared/utils/table-last-sticky-column';
 
 @Component({
     selector: 'iihf-guideline-list',
@@ -121,6 +122,7 @@ export class GuidelineListComponent implements OnInit, TableContainer<Guideline>
             predefinedSortDirection: 'asc',
         };
 
+        config.stickyEnd = tableLastStickyColumn(config.columns.length);
         this.tableConfiguration = this.tableChangeStorageService.updateTableConfiguration(config);
     }
 

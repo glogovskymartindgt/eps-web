@@ -131,7 +131,7 @@ export abstract class GuidelineDetailBaseComponent implements OnInit {
             .pipe(
                 map((businessAreas: BusinessArea[]): ListItemSync[] =>
                     businessAreas.map((businessArea: BusinessArea): ListItemSync => ({
-                        value: businessArea.name,
+                        value: `${businessArea.codeItem} - ${businessArea.name}`,
                         code: businessArea.id,
                     }))
                 )
