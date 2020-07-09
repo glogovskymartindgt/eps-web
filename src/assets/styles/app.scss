@@ -106,3 +106,13 @@ $color-primary: #1595d3;
     padding: 5px 10px;
     border-bottom-right-radius: 5px;
 }
+
+.map-file-edit {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 180px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    color: $color-secondary;
+}
