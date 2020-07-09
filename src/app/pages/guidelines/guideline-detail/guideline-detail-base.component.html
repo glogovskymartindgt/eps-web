@@ -45,9 +45,9 @@
             </mat-form-field>
 
             <div class="long-input pb-20">
-                <div class="attachment-label">
+                <h3 class="attachment-label">
                     {{ 'guidelines.detail.attachment' | translate }} *
-                </div>
+                </h3>
 
                 <iihf-drag-drop-box
                     labelKey="guidelines.detail.dragAttachment"
@@ -132,7 +132,7 @@
                     (click)="onSave()"
                     [disabled]="guidelineDetailForm.invalid"
                 >
-                    {{ 'guidelines.detail.save' | translate }}
+                    {{ 'guidelines.detail.save' | translate | uppercase }}
                 </button>
             </ng-container>
 
@@ -141,7 +141,7 @@
                     class="mr-10"
                     (click)="back()"
             >
-                {{ 'guidelines.detail.cancel' | translate }}
+                {{ 'guidelines.detail.cancel' | translate | uppercase }}
             </button>
         </div>
     </div>
