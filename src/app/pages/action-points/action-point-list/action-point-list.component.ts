@@ -25,6 +25,7 @@ import { RoutingStorageService } from '../../../shared/services/routing-storage.
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 import { TableChangeStorageService } from '../../../shared/services/table-change-storage.service';
 import { GetFileNameFromContentDisposition } from '../../../shared/utils/headers';
+import { tableLastStickyColumn } from '../../../shared/utils/table-last-sticky-column';
 
 /* tslint:disable:no-for-each-push */
 @Component({
@@ -164,7 +165,6 @@ export class ActionPointListComponent implements OnInit {
     private setTableConfiguration(): void {
         const allThingsKey = 'all.things';
         const config: TableConfiguration = {
-            stickyEnd: 6,
             columns: [
                 new TableColumn({
                     columnDef: 'trafficLight',
@@ -275,6 +275,7 @@ export class ActionPointListComponent implements OnInit {
             paging: true,
         };
 
+        config.stickyEnd = tableLastStickyColumn(config.columns.length);
         this.config = this.tableChangeStorageService.updateTableConfiguration(config);
     }
 

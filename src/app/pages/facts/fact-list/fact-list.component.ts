@@ -22,6 +22,7 @@ import { RoutingStorageService } from '../../../shared/services/routing-storage.
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 import { TableChangeStorageService } from '../../../shared/services/table-change-storage.service';
 import { GetFileNameFromContentDisposition } from '../../../shared/utils/headers';
+import { tableLastStickyColumn } from '../../../shared/utils/table-last-sticky-column';
 
 const ALL_FACTS = 'all-facts';
 
@@ -246,6 +247,7 @@ export class FactListComponent implements OnInit {
             this.setLabel(config, 'valueSecond', 'fact.secondValue');
         }
 
+        config.stickyEnd = tableLastStickyColumn(config.columns.length);
         this.config = config;
     }
 
