@@ -61,25 +61,27 @@
                 >
                     <iihf-pdf [src]="attachmentSource" alt="attachment"></iihf-pdf>
 
-                    <!--<iihf-download-link
-                        *ngIf="editMode"
-                        [src]="attachmentSource"
-                        [fileTitle]="attachmentTitle"
-                        [fileName]="attachmentName"
-                    ></iihf-download-link>-->
-
                     <div fxLayout="row" class="pdf-width">
-                        <div fxFlex class="map-file-edit">
-                            {{ attachmentTitle }}
-                        </div>
+                        <ng-container *ngIf="editMode">
+                            <div fxFlex class="map-file-edit">
+                                {{ attachmentTitle }}
+                            </div>
 
-                        <img
-                            *ngIf="editMode"
-                            (click)="attachmentRemove()"
-                            [src]="'assets/img/svg-squares/remove.svg'"
-                            class="button"
-                            alt="remove"
-                        >
+                            <img
+                                (click)="attachmentRemove()"
+                                [src]="'assets/img/svg-squares/remove.svg'"
+                                class="button"
+                                alt="remove"
+                            >
+                        </ng-container>
+
+                        <iihf-download-link
+                            *ngIf="!editMode"
+                            [src]="attachmentSource"
+                            [fileTitle]="attachmentTitle"
+                            [fileName]="attachmentName"
+                            class="pdf-width"
+                        ></iihf-download-link>
                     </div>
                 </iihf-drag-drop-box>
 

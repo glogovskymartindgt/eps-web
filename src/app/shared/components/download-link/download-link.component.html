@@ -1,10 +1,8 @@
 <div
     *ngIf="src != undefined"
-    class="download_link"
     fxLayout="row"
-    fxLayoutGap="10px"
 >
-    <div fxLayoutAlign="center center">
+    <div fxFlex class="map-file-edit">
         <a [href]="sanitize(src)"
            [download]="fileName"
         >
@@ -12,14 +10,12 @@
         </a>
     </div>
 
-    <div fxLayoutAlign="center end">
-        <a [href]="sanitize(src)"
-           [download]="fileName"
+    <a [href]="sanitize(src)"
+       [download]="fileName"
+    >
+        <img
+            src="assets/img/svg-squares/download.svg"
+            alt="download"
         >
-            <img
-                src="assets/img/svg-squares/download.svg"
-                alt="download"
-            >
-        </a>
-    </div>
+    </a>
 </div>
