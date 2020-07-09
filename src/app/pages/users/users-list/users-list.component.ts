@@ -3,7 +3,15 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { finalize } from 'rxjs/operators';
 import { Role } from '../../../shared/enums/role.enum';
-import { ListItem, TableCellType, TableChangeEvent, TableColumn, TableColumnFilter, TableConfiguration, TableFilterType } from '../../../shared/hazelnut/core-table';
+import {
+    ListItem,
+    TableCellType,
+    TableChangeEvent,
+    TableColumn,
+    TableColumnFilter,
+    TableConfiguration,
+    TableFilterType
+} from '../../../shared/hazelnut/core-table';
 import { StringUtils } from '../../../shared/hazelnut/hazelnut-common/hazelnut';
 import { BrowseResponse, Filter } from '../../../shared/hazelnut/hazelnut-common/models';
 import { User } from '../../../shared/interfaces/user.interface';
@@ -13,6 +21,7 @@ import { NotificationService } from '../../../shared/services/notification.servi
 import { RoutingStorageService } from '../../../shared/services/routing-storage.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 import { TableChangeStorageService } from '../../../shared/services/table-change-storage.service';
+import { tableLastStickyColumn } from '../../../shared/utils/table-last-sticky-column';
 
 @Component({
     selector: 'iihf-users-list',
@@ -46,7 +55,6 @@ export class UsersListComponent implements OnInit {
     public ngOnInit(): void {
         this.setTableData();
         this.config = {
-            stickyEnd: 5,
             columns: [
                 new TableColumn({
                     columnDef: 'id',
@@ -127,6 +135,7 @@ export class UsersListComponent implements OnInit {
             ],
             paging: true,
         };
+        this.config.stickyEnd = tableLastStickyColumn(this.config.columns.length);
         if (!this.isInitialized && this.isReturnFromDetail() && this.tableChangeStorageService.getUsersLastTableChangeEvent()) {
             if (this.tableChangeStorageService.getUsersLastTableChangeEvent().filters) {
                 this.config.predefinedFilters = this.tableChangeStorageService.getUsersLastTableChangeEvent().filters;

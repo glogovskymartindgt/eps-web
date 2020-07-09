@@ -10,6 +10,7 @@ import { ReportService } from '../../../shared/services/data/report.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 import { GetFileNameFromContentDisposition } from '../../../shared/utils/headers';
+import { tableLastStickyColumn } from '../../../shared/utils/table-last-sticky-column';
 
 @Component({
     selector: 'iihf-report-list',
@@ -34,8 +35,7 @@ export class ReportListComponent implements OnInit {
      */
     public ngOnInit(): void {
         this.setTableData();
-        this.config = {
-            stickyEnd: 2,
+        const config: TableConfiguration = {
             columns: [
                 new TableColumn({
                     columnDef: 'name',
@@ -56,6 +56,8 @@ export class ReportListComponent implements OnInit {
             ],
             paging: false,
         };
+        config.stickyEnd = tableLastStickyColumn(config.columns.length);
+        this.config = config;
     }
 
     /**

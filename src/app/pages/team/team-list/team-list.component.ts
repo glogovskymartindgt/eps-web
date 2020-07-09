@@ -20,6 +20,7 @@ import { UserDataService } from '../../../shared/services/data/user-data.service
 import { NotificationService } from '../../../shared/services/notification.service';
 import { RoutingStorageService } from '../../../shared/services/routing-storage.service';
 import { TableChangeStorageService } from '../../../shared/services/table-change-storage.service';
+import { tableLastStickyColumn } from '../../../shared/utils/table-last-sticky-column';
 
 @Component({
     selector: 'iihf-team-list',
@@ -76,7 +77,6 @@ export class TeamListComponent implements OnInit, TableContainer<User> {
         const config: TableConfiguration = {
             predefinedSortActive: 'lastName',
             predefinedSortDirection: 'asc',
-            stickyEnd: 8,
             columns: [
                 new TableColumn({
                     columnDef: 'firstName',
@@ -160,6 +160,7 @@ export class TeamListComponent implements OnInit, TableContainer<User> {
             ]
         };
 
+        config.stickyEnd = tableLastStickyColumn(config.columns.length);
         this.tableConfiguration = this.tableChangeStorageService.updateTableConfiguration(config);
     }
 

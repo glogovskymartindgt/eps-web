@@ -5,7 +5,14 @@ import { TranslateService } from '@ngx-translate/core';
 import { finalize } from 'rxjs/operators';
 import { Role } from '../../../shared/enums/role.enum';
 import {
-    CoreTableComponent, ListItem, TableCellType, TableChangeEvent, TableColumn, TableColumnFilter, TableConfiguration, TableFilterType
+    CoreTableComponent,
+    ListItem,
+    TableCellType,
+    TableChangeEvent,
+    TableColumn,
+    TableColumnFilter,
+    TableConfiguration,
+    TableFilterType
 } from '../../../shared/hazelnut/core-table';
 import { fadeEnterLeave } from '../../../shared/hazelnut/hazelnut-common/animations';
 import { BrowseResponse, Filter } from '../../../shared/hazelnut/hazelnut-common/models';
@@ -21,6 +28,7 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
 import { SelectedAreaService } from '../../../shared/services/storage/selected-area.service';
 import { TableChangeStorageService } from '../../../shared/services/table-change-storage.service';
 import { GetFileNameFromContentDisposition } from '../../../shared/utils/headers';
+import { tableLastStickyColumn } from '../../../shared/utils/table-last-sticky-column';
 import { TaskOverviewPersistanceService } from '../task-overview-persistance.service';
 
 /* tslint:disable:no-for-each-push */
@@ -199,7 +207,6 @@ export class TaskListComponent implements OnInit {
     private setTableConfiguration(): void {
         const allThingsKey = 'all.things';
         const config: TableConfiguration = {
-            stickyEnd: 7,
             columns: [
                 new TableColumn({
                     columnDef: 'trafficLight',
@@ -325,6 +332,7 @@ export class TaskListComponent implements OnInit {
             paging: true,
         };
 
+        config.stickyEnd = tableLastStickyColumn(config.columns.length);
         this.config = this.tableChangeStorageService.updateTableConfiguration(config);
     }
 

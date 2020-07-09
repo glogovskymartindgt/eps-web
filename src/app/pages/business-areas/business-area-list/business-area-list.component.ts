@@ -3,13 +3,21 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { finalize } from 'rxjs/operators';
 import { Role } from '../../../shared/enums/role.enum';
-import { TableCellType, TableChangeEvent, TableColumn, TableColumnFilter, TableConfiguration, TableFilterType } from '../../../shared/hazelnut/core-table';
+import {
+    TableCellType,
+    TableChangeEvent,
+    TableColumn,
+    TableColumnFilter,
+    TableConfiguration,
+    TableFilterType
+} from '../../../shared/hazelnut/core-table';
 import { BrowseResponse } from '../../../shared/hazelnut/hazelnut-common/models';
 import { BusinessArea } from '../../../shared/interfaces/bussiness-area.interface';
 import { AuthService } from '../../../shared/services/auth.service';
 import { BusinessAreaService } from '../../../shared/services/data/business-area.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { SelectedAreaService } from '../../../shared/services/storage/selected-area.service';
+import { tableLastStickyColumn } from '../../../shared/utils/table-last-sticky-column';
 
 @Component({
     selector: 'iihf-business-area-list',
@@ -69,6 +77,7 @@ import { SelectedAreaService } from '../../../shared/services/storage/selected-a
             ],
             paging: true,
         };
+        this.config.stickyEnd = tableLastStickyColumn(this.config.columns.length);
     }
 
     /**
