@@ -155,7 +155,6 @@ export class FactListComponent implements OnInit {
 
     private setTableConfiguration(): void {
         let config: TableConfiguration = {
-            stickyEnd: 4,
             columns: [
                 new TableColumn({
                     columnDef: 'categoryName',
@@ -229,9 +228,7 @@ export class FactListComponent implements OnInit {
         config = this.tableChangeStorageService.updateTableConfiguration(config);
 
         // Update config for All Facts and Figures screen
-        const columnsStickyEndStart = 5;
         if (this.router.url.includes(ALL_FACTS)) {
-            config.stickyEnd = columnsStickyEndStart;
             this.allFacts = true;
             config.columns.splice(0, 0, new TableColumn({
                 columnDef: 'year',
