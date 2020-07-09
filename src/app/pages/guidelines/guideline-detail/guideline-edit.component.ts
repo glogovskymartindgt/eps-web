@@ -71,6 +71,7 @@ export class GuidelineEditComponent extends GuidelineDetailBaseComponent impleme
     public enableEdit(): void {
         this.editMode = true;
         this.guidelineDetailForm.enable();
+        this.guidelineDetailForm.get(GuidelineFormControlNames.BUSINESS_AREA).disable();
     }
 
     private fillFormData(): void {
