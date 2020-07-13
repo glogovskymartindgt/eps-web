@@ -1,0 +1,35 @@
+<iihf-drag-drop-box
+    labelKey="guidelines.detail.dragAttachment"
+    [edit]="attachment !== null"
+    [disabled]="disabled"
+    [supportedFileTypes]="['application/pdf']"
+    [maximumFileSize]="maximumFileSize"
+    (fileUpload)="attachmentUpload($event)"
+    (unsupportedFileType)="onUnsupportedFiletype()"
+    (maximumSizeExceeded)="onMaximumFileSizedExceeded()"
+>
+    <iihf-pdf [src]="attachment?.filePath" alt="attachment"></iihf-pdf>
+
+    <div fxLayout="row" class="pdf-width">
+        <ng-container *ngIf="!disabled">
+            <div fxFlex class="map-file-edit">
+                {{ attachment?.fileName }}
+            </div>
+
+            <img
+                (click)="attachmentRemove()"
+                [src]="'assets/img/svg-squares/remove.svg'"
+                class="button"
+                alt="remove"
+            >
+        </ng-container>
+
+        <iihf-download-link
+            *ngIf="disabled"
+            [src]="attachment?.source"
+            [fileTitle]="attachment?.fileName"
+            [fileName]="attachment?.fileName"
+            class="pdf-width"
+        ></iihf-download-link>
+    </div>
+</iihf-drag-drop-box>
