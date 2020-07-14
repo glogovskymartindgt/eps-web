@@ -1,6 +1,17 @@
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, ElementRef, EventEmitter, HostBinding, Inject, Input, Optional, Output, Self } from '@angular/core';
+import {
+    Component,
+    ElementRef,
+    EventEmitter,
+    HostBinding,
+    HostListener,
+    Inject,
+    Input,
+    Optional,
+    Output,
+    Self
+} from '@angular/core';
 import { NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { TRANSLATE_WRAPPER_TOKEN, TranslateWrapper } from '@hazelnut';
@@ -68,7 +79,7 @@ export class AttachmentUploadComponent extends CustomInputComponent<AttachmentDe
     }
 
     public get empty(): boolean {
-        return this.attachment === null;
+        return !this.attachment;
     }
 
     public writeValue(value: AttachmentDetail): void {
@@ -89,13 +100,17 @@ export class AttachmentUploadComponent extends CustomInputComponent<AttachmentDe
             });
     }
 
+    @HostListener('click')
     public onContainerClick(event: MouseEvent): void {
-        this.onTouched({});
-        this.stateChanges.next();
     }
 
-    public attachmentUpload(file: any): void {
+    public attachmentUpload(file: { fileName: string, blobPart: File, content: string }): void {
         const fileName: string = file.fileName;
+
+        let fileFormat: AttachmentFormat = AttachmentFormat.Empty;
+        if (file.blobPart.type === 'application/pdf') {
+            fileFormat = AttachmentFormat.Pdf;
+        }
 
         this.attachmentService.uploadAttachment([file.blobPart])
             .subscribe((response: { fileNames: object }): void => {
@@ -104,7 +119,7 @@ export class AttachmentUploadComponent extends CustomInputComponent<AttachmentDe
                     source: file.content,
                     fileName: fileName,
                     type: AttachmentType.Document,
-                    format: AttachmentFormat.Pdf,
+                    format: fileFormat,
                 };
 
                 this.updateValue(this.attachment);
