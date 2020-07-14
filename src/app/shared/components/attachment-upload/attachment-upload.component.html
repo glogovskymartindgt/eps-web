@@ -1,6 +1,6 @@
 <iihf-drag-drop-box
-    labelKey="guidelines.detail.dragAttachment"
-    [edit]="attachment !== null"
+    [labelKey]="dragDropLabelKey"
+    [edit]="!empty"
     [disabled]="disabled"
     [supportedFileTypes]="['application/pdf']"
     [maximumFileSize]="maximumFileSize"
@@ -8,7 +8,7 @@
     (unsupportedFileType)="onUnsupportedFiletype()"
     (maximumSizeExceeded)="onMaximumFileSizedExceeded()"
 >
-    <iihf-pdf [src]="attachment?.filePath" alt="attachment"></iihf-pdf>
+    <iihf-pdf [src]="attachment?.source" alt="attachment"></iihf-pdf>
 
     <div fxLayout="row" class="pdf-width">
         <ng-container *ngIf="!disabled">

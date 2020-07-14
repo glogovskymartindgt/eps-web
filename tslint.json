@@ -229,7 +229,7 @@
         "no-this-assignment": true,
         "use-isnan": true,
         "binary-expression-operand-order": false,
-        "object-literal-shorthand": true,
+        "object-literal-shorthand": false,
         "prefer-method-signature": true,
         "no-bitwise": false,
         "no-conditional-assignment": true,
