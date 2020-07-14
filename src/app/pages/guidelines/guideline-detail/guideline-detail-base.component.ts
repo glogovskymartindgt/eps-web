@@ -34,9 +34,6 @@ export abstract class GuidelineDetailBaseComponent implements OnInit {
     public attachmentControl: FormControl;
     public businessAreas$: Observable<ListItemSync[]>;
     public selectedBusinessArea: ClBusinessArea = null;
-    public attachmentName: string = null;
-    public attachmentSource: string = null;
-    public attachmentTitle: string = null;
     public readonly formControlNames: typeof GuidelineFormControlNames = GuidelineFormControlNames;
     public readonly fifteenMBinBytes = 15728640;
     public readonly roles: typeof Role = Role;
@@ -78,32 +75,6 @@ export abstract class GuidelineDetailBaseComponent implements OnInit {
     public abstract onSave(): void;
 
     public enableEdit(): void {
-    }
-
-    public attachmentUpload(file: any): void {
-        const fileName: string = file.fileName;
-
-        this.attachmentService.uploadAttachment([file.blobPart])
-            .subscribe((response: { fileNames: object }): void => {
-                this.attachmentName = response.fileNames[fileName];
-                this.attachmentSource = file.content;
-                this.attachmentTitle = fileName;
-                this.attachmentControl.setValue({
-                    type: 'DOCUMENT',
-                    format: 'PDF',
-                    fileName,
-                    filePath: this.attachmentName,
-                });
-                this.attachmentControl.markAsTouched();
-            });
-    }
-
-    public attachmentRemove(): void {
-        this.attachmentName = null;
-        this.attachmentSource = null;
-        this.attachmentTitle = null;
-        this.attachmentControl.setValue(null);
-        this.attachmentControl.markAsTouched();
     }
 
     public attachmentUnsupportedFiletype(): void {

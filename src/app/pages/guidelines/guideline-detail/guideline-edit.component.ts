@@ -1,10 +1,8 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
-import { Observable, of } from 'rxjs';
-import { catchError, finalize, switchMap, tap } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 import { Role } from '../../../shared/enums/role.enum';
 import { Guideline } from '../../../shared/interfaces/guideline.interface';
 import { AttachmentService } from '../../../shared/services/data/attachment.service';
@@ -27,7 +25,6 @@ export class GuidelineEditComponent extends GuidelineDetailBaseComponent impleme
     public labelKey = 'guidelines.editGuideline';
     public editMode = false;
     public submitButtonRole: Role = Role.RoleUpdateGuideline;
-    public hasEditButton = true;
 
     private guidelineId: number;
 
@@ -76,40 +73,19 @@ export class GuidelineEditComponent extends GuidelineDetailBaseComponent impleme
 
     private fillFormData(): void {
         this.guideLineService.getGuideline(this.guidelineId)
-            .pipe(
-                tap((guideline: Guideline): void => {
-                    this.selectedBusinessArea = guideline.clBusinessArea;
+            .subscribe((guideline: Guideline): void => {
+                this.selectedBusinessArea = guideline.clBusinessArea;
 
-                    this.guidelineDetailForm.patchValue({
-                        [GuidelineFormControlNames.TITLE]: guideline.title,
-                        [GuidelineFormControlNames.BUSINESS_AREA]: guideline.clBusinessArea.id,
-                        [GuidelineFormControlNames.DESCRIPTION]: guideline.description,
-                    });
+                this.guidelineDetailForm.patchValue({
+                    [GuidelineFormControlNames.TITLE]: guideline.title,
+                    [GuidelineFormControlNames.BUSINESS_AREA]: guideline.clBusinessArea.id,
+                    [GuidelineFormControlNames.DESCRIPTION]: guideline.description,
+                    [GuidelineFormControlNames.ATTACHMENT]: guideline.attachment,
+                });
 
-                    this.guidelineDetailForm.disable();
+                this.guidelineDetailForm.disable();
 
-                    this.fillCreatedChangedData(guideline);
-                }),
-                switchMap((guideline: Guideline): Observable<Blob | void> => {
-                    this.attachmentName = guideline.attachment.filePath;
-                    this.attachmentTitle = guideline.attachment.fileName;
-                    this.attachmentControl.setValue({
-                        type: 'DOCUMENT',
-                        format: 'PDF',
-                        fileName: this.attachmentTitle,
-                        filePath: this.attachmentName,
-                    });
-
-                    return this.attachmentService.getAttachment(guideline.attachment.filePath)
-                        .pipe(catchError((error: HttpErrorResponse): Observable<any> => {
-                            this.notificationService.openErrorNotification('error.attachmentDownload');
-
-                            return of(null);
-                        }));
-                }),
-            )
-            .subscribe((blob: Blob): void => {
-                this.createPdfFromBlob(blob);
+                this.fillCreatedChangedData(guideline);
             });
     }
 
@@ -137,20 +113,6 @@ export class GuidelineEditComponent extends GuidelineDetailBaseComponent impleme
             this.hasChangedSection = true;
         }
 
-    }
-
-    private createPdfFromBlob(attachment: Blob): any {
-
-        const reader = new FileReader();
-        const readerImage = null;
-        reader.addEventListener('load', (): void => {
-            this.attachmentSource = reader.result as string;
-        }, false);
-        if (attachment) {
-            reader.readAsDataURL(attachment);
-        }
-
-        return readerImage;
     }
 
 }
