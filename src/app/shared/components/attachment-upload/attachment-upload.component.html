@@ -1,0 +1,39 @@
+<iihf-drag-drop-box
+    *ngIf="!disabled && (empty || multiple)"
+    [labelKey]="dragDropLabelKey"
+    [supportedFileTypes]="['application/pdf']"
+    [maximumFileSize]="maximumFileSize"
+    (fileUpload)="attachmentUpload($event)"
+    (unsupportedFileType)="onUnsupportedFiletype()"
+    (maximumSizeExceeded)="onMaximumFileSizedExceeded()"
+>
+</iihf-drag-drop-box>
+
+<ng-container *ngFor="let attachment of displayedAttachments; trackBy: trackAttachmentById">
+    <div class="pdf-thumbnail">
+        <iihf-pdf *ngIf="!empty" [src]="attachment?.source" alt="attachment" class="pdf-thumbnail"></iihf-pdf>
+    </div>
+
+    <div fxLayout="row" class="pdf-width" *ngIf="!empty">
+        <ng-container *ngIf="!disabled">
+            <div fxFlex class="map-file-edit">
+                {{ attachment?.fileName }}
+            </div>
+
+            <img
+                (click)="attachmentRemove(attachment)"
+                [src]="'assets/img/svg-squares/remove.svg'"
+                class="button"
+                alt="remove"
+            >
+        </ng-container>
+
+        <iihf-download-link
+            *ngIf="disabled"
+            [src]="attachment?.source"
+            [fileTitle]="attachment?.fileName"
+            [fileName]="attachment?.fileName"
+            class="pdf-width"
+        ></iihf-download-link>
+    </div>
+</ng-container>
