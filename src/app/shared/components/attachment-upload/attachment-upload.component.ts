@@ -1,5 +1,4 @@
 import { FocusMonitor } from '@angular/cdk/a11y';
-import { HttpErrorResponse } from '@angular/common/http';
 import {
     Component,
     ElementRef,
@@ -36,25 +35,28 @@ import { NotificationService } from '../../services/notification.service';
 
     ],
 })
-export class AttachmentUploadComponent extends CustomInputComponent<AttachmentDetail> {
+export class AttachmentUploadComponent extends CustomInputComponent<AttachmentDetail[]> {
 
     @Input()
     public maximumFileSize: number;
     @Input()
     public dragDropLabelKey: string;
+    @Input()
+    public multiple: boolean = false;
+    @Input()
+    public showAll: boolean = true;
 
     @Output()
     public readonly unsupportedFileType: EventEmitter<void> = new EventEmitter<void>();
     @Output()
     public readonly maximumFileSizeExceeded: EventEmitter<void> = new EventEmitter<void>();
 
-    public attachment: AttachmentDetail = null;
-
     public readonly controlType: string = 'attachment-upload';
     @HostBinding()
     public readonly id: string = `attachment-upload-${AttachmentUploadComponent.nextId++}`;
-    public value: AttachmentDetail;
+    public value: AttachmentDetail[];
 
+    private attachments: AttachmentDetail[] = [];
     private _disabled = false;
 
     public constructor(
@@ -79,25 +81,35 @@ export class AttachmentUploadComponent extends CustomInputComponent<AttachmentDe
     }
 
     public get empty(): boolean {
-        return !this.attachment;
+        return this.attachments.length === 0;
     }
 
-    public writeValue(value: AttachmentDetail): void {
-        this.attachment = value;
+    public get displayedAttachments(): AttachmentDetail[] {
+        if (this.showAll) {
+            return this.attachments;
+        }
 
-        if (!this.attachment) {
+        return this.attachments.length > 0 ? [this.attachments[0]] : [];
+    }
+
+    public writeValue(value: AttachmentDetail[]): void {
+        this.attachments = value || [];
+
+        if (this.attachments.length === 0) {
             return;
         }
 
-        this.attachmentService.getAttachment(this.attachment.filePath)
-            .pipe(catchError((error: HttpErrorResponse): Observable<any> => {
-                this.notificationService.openErrorNotification('error.attachmentDownload');
+        this.attachments.forEach((attachment: AttachmentDetail): void => {
+            this.attachmentService.getAttachment(attachment.filePath)
+                .pipe(catchError((): Observable<any> => {
+                    this.notificationService.openErrorNotification('error.attachmentDownload');
 
-                return of(null);
-            }))
-            .subscribe((blob: Blob): void => {
-                this.createPdfFromBlob(blob);
-            });
+                    return of(null);
+                }))
+                .subscribe((blob: Blob): void => {
+                    this.createPdfFromBlob(blob, attachment);
+                });
+        });
     }
 
     @HostListener('click')
@@ -114,21 +126,21 @@ export class AttachmentUploadComponent extends CustomInputComponent<AttachmentDe
 
         this.attachmentService.uploadAttachment([file.blobPart])
             .subscribe((response: { fileNames: object }): void => {
-                this.attachment = {
+                this.attachments.unshift({
                     filePath: response.fileNames[fileName],
                     source: file.content,
                     fileName: fileName,
                     type: AttachmentType.Document,
                     format: fileFormat,
-                };
+                });
 
-                this.updateValue(this.attachment);
+                this.updateValue(this.attachments);
             });
     }
 
-    public attachmentRemove(): void {
-        this.attachment = null;
-        this.updateValue(this.attachment);
+    public attachmentRemove(attachment: AttachmentDetail): void {
+        this.attachments = this.attachments.filter((item: AttachmentDetail): boolean => item.filePath !== attachment.filePath);
+        this.updateValue(this.attachments);
     }
 
     public onUnsupportedFiletype(): void {
@@ -139,21 +151,21 @@ export class AttachmentUploadComponent extends CustomInputComponent<AttachmentDe
         this.maximumFileSizeExceeded.emit();
     }
 
-    private updateValue(attachment: AttachmentDetail): void {
-        this.onChange(attachment);
-        this.onTouched(attachment);
+    private updateValue(attachments: AttachmentDetail[]): void {
+        this.onChange(attachments);
+        this.onTouched(attachments);
         this.stateChanges.next();
     }
 
-    private createPdfFromBlob(attachment: Blob): any {
+    private createPdfFromBlob(attachmentSource: Blob, attachment: AttachmentDetail): any {
 
         const reader = new FileReader();
         const readerImage = null;
         reader.addEventListener('load', (): void => {
-            this.attachment.source = reader.result as string;
+            attachment.source = reader.result as string;
         }, false);
         if (attachment) {
-            reader.readAsDataURL(attachment);
+            reader.readAsDataURL(attachmentSource);
         }
 
         return readerImage;

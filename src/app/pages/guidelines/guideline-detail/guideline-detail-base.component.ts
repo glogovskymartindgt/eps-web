@@ -8,6 +8,7 @@ import { Role } from '../../../shared/enums/role.enum';
 import { RouteNames } from '../../../shared/enums/route-names.enum';
 import { BusinessArea } from '../../../shared/interfaces/bussiness-area.interface';
 import { ClBusinessArea } from '../../../shared/interfaces/cl-business-area.interface';
+import { Guideline } from '../../../shared/interfaces/guideline.interface';
 import { AttachmentService } from '../../../shared/services/data/attachment.service';
 import { BusinessAreaService } from '../../../shared/services/data/business-area.service';
 import { NotificationService } from '../../../shared/services/notification.service';
@@ -95,6 +96,13 @@ export abstract class GuidelineDetailBaseComponent implements OnInit {
 
         this.businessAreaControl = this.guidelineDetailForm.get(GuidelineFormControlNames.BUSINESS_AREA) as FormControl;
         this.attachmentControl = this.guidelineDetailForm.get(this.formControlNames.ATTACHMENT) as FormControl;
+    }
+
+    protected getGuidelineToSave(): Guideline {
+        return {
+            ...this.guidelineDetailForm.value,
+            attachment: this.guidelineDetailForm.get(this.formControlNames.ATTACHMENT).value[0],
+        };
     }
 
     protected loadBusinessAreas(): void {

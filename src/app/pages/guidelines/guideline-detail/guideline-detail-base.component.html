@@ -52,7 +52,6 @@
                 <iihf-attachment-upload
                     [formControlName]="formControlNames.ATTACHMENT"
                     [dragDropLabelKey]="'guidelines.detail.dragAttachment'"
-                    [disabled]="!editMode"
                     [maximumFileSize]="fifteenMBinBytes"
                     (unsupportedFileType)="attachmentUnsupportedFiletype()"
                     (maximumFileSizeExceeded)="attachmentMaximumFileSizedExceeded()"

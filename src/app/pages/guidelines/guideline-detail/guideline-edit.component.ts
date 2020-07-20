@@ -58,7 +58,7 @@ export class GuidelineEditComponent extends GuidelineDetailBaseComponent impleme
         }
         this.loading = true;
 
-        this.guideLineService.updateGuideline(this.guidelineId, this.guidelineDetailForm.value)
+        this.guideLineService.updateGuideline(this.guidelineId, this.getGuidelineToSave())
             .pipe(finalize((): any => this.loading = false))
             .subscribe((): void => {
                 this.back();
@@ -80,7 +80,7 @@ export class GuidelineEditComponent extends GuidelineDetailBaseComponent impleme
                     [GuidelineFormControlNames.TITLE]: guideline.title,
                     [GuidelineFormControlNames.BUSINESS_AREA]: guideline.clBusinessArea.id,
                     [GuidelineFormControlNames.DESCRIPTION]: guideline.description,
-                    [GuidelineFormControlNames.ATTACHMENT]: guideline.attachment,
+                    [GuidelineFormControlNames.ATTACHMENT]: [guideline.attachment],
                 });
 
                 this.guidelineDetailForm.disable();

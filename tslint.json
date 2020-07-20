@@ -20,7 +20,6 @@
         "node_modules/codelyzer"
     ],
     "rules": {
-        "no-inferrable-types": true,
         "prefer-readonly": true,
         "ban-types": [
             true,
