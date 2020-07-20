@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
-import { TRANSLATE_WRAPPER_TOKEN, TranslateWrapper } from '@hazelnut';
+import { TranslateWrapper, TRANSLATE_WRAPPER_TOKEN } from '@hazelnut';
 import { CustomInputComponent } from 'hazelnut';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -149,6 +149,10 @@ export class AttachmentUploadComponent extends CustomInputComponent<AttachmentDe
 
     public onMaximumFileSizedExceeded(): void {
         this.maximumFileSizeExceeded.emit();
+    }
+
+    public trackAttachmentById(index: number, attachment: AttachmentDetail): number {
+        return attachment.id;
     }
 
     private updateValue(attachments: AttachmentDetail[]): void {

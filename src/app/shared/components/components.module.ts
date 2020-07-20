@@ -10,7 +10,7 @@ import { MaterialModule, SharedDirectivesModule } from '../hazelnut/hazelnut-com
 import { SmallComponentsModule } from '../hazelnut/small-components';
 import { NotificationSnackBarComponent } from '../hazelnut/small-components/notifications';
 import { TranslateWrapperService } from '../services/translate-wrapper.service';
-import { AttachmentUploadComponent } from "./attachment-upload/attachment-upload.component";
+import { AttachmentUploadComponent } from './attachment-upload/attachment-upload.component';
 import { ActionPointCommentTabComponent } from './comment-tab/action-point-comment-tab.component';
 import { TaskCommentTabComponent } from './comment-tab/task-comment-tab.component';
 import { CommentComponent } from './comment/comment.component';

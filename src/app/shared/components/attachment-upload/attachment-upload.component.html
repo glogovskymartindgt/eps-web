@@ -9,7 +9,7 @@
 >
 </iihf-drag-drop-box>
 
-<ng-container *ngFor="let attachment of displayedAttachments">
+<ng-container *ngFor="let attachment of displayedAttachments; trackBy: trackAttachmentById">
     <div class="pdf-thumbnail">
         <iihf-pdf *ngIf="!empty" [src]="attachment?.source" alt="attachment" class="pdf-thumbnail"></iihf-pdf>
     </div>
