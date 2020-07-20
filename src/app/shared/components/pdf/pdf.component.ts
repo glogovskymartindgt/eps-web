@@ -25,8 +25,8 @@ export class PdfComponent {
 
     public openDialog(): void {
         this.dialog.open(PdfDialogComponent, {
-            maxHeight: '80vh',
-            minHeight: '80vh',
+            maxHeight: '90vh',
+            minHeight: '90vh',
             maxWidth: '80vw',
             minWidth: '80vw',
             panelClass: 'image-dialog',

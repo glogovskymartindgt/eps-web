@@ -53,7 +53,7 @@ export class GuidelineCreateComponent extends GuidelineDetailBaseComponent imple
         this.loading = true;
 
         this.guideLineService.createGuideline({
-            ...this.guidelineDetailForm.value,
+            ...this.getGuidelineToSave(),
             projectId: this.projectEventService.instant.id,
         })
             .pipe(finalize((): any => this.loading = false))

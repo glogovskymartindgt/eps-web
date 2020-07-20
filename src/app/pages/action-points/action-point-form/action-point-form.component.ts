@@ -78,7 +78,7 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
     public selectedResponsibles: Responsible[] = [];
     public filteredResponsibles: Observable<Responsible[]>;
     public responsibles: Responsible[];
-    public meetingTextRequired: boolean;
+    public meetingTextRequired = false;
     @ViewChild(MatAutocompleteTrigger, {static: false}) private readonly autocomplete: MatAutocompleteTrigger;
 
     private readonly componentDestroyed$: Subject<boolean> = new Subject<boolean>();

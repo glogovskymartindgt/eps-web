@@ -49,43 +49,15 @@
                     {{ 'guidelines.detail.attachment' | translate }} *
                 </h3>
 
-                <iihf-drag-drop-box
-                    labelKey="guidelines.detail.dragAttachment"
-                    [edit]="attachmentName !== null"
-                    [disabled]="!editMode"
-                    [supportedFileTypes]="['application/pdf']"
+                <iihf-attachment-upload
+                    [formControlName]="formControlNames.ATTACHMENT"
+                    [dragDropLabelKey]="'guidelines.detail.dragAttachment'"
                     [maximumFileSize]="fifteenMBinBytes"
-                    (fileUpload)="attachmentUpload($event)"
                     (unsupportedFileType)="attachmentUnsupportedFiletype()"
-                    (maximumSizeExceeded)="attachmentMaximumFileSizedExceeded()"
-                >
-                    <iihf-pdf [src]="attachmentSource" alt="attachment"></iihf-pdf>
+                    (maximumFileSizeExceeded)="attachmentMaximumFileSizedExceeded()"
+                ></iihf-attachment-upload>
 
-                    <div fxLayout="row" class="pdf-width">
-                        <ng-container *ngIf="editMode">
-                            <div fxFlex class="map-file-edit">
-                                {{ attachmentTitle }}
-                            </div>
-
-                            <img
-                                (click)="attachmentRemove()"
-                                [src]="'assets/img/svg-squares/remove.svg'"
-                                class="button"
-                                alt="remove"
-                            >
-                        </ng-container>
-
-                        <iihf-download-link
-                            *ngIf="!editMode"
-                            [src]="attachmentSource"
-                            [fileTitle]="attachmentTitle"
-                            [fileName]="attachmentName"
-                            class="pdf-width"
-                        ></iihf-download-link>
-                    </div>
-                </iihf-drag-drop-box>
-
-                <mat-error *ngIf="attachmentRequiredError">
+                <mat-error *ngIf="attachmentRequiredError" class="custom-error">
                     {{ 'error.required' | translate }}
                 </mat-error>
             </div>

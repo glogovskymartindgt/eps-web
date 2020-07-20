@@ -1,13 +1,14 @@
 @import './src/assets/styles/importable/variables.scss';
 
-.button {
-    cursor: pointer;
-}
-
-.pdf-width {
-    width: 200px;
-}
-
 .attachment-label {
     color: $color-secondary;
+}
+
+.custom-error {
+    font-size: 75%;
+    font-weight: 400;
+    font-family: $mat-form-font-family;
+    margin-top: calc(2em / 3);
+    padding: 0 1em;
+    margin-bottom: -20px;
 }
