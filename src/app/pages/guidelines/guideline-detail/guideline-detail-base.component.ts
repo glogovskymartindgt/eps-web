@@ -86,6 +86,10 @@ export abstract class GuidelineDetailBaseComponent implements OnInit {
         this.notificationService.openInfoNotification('guidelines.detail.maximumSizeExceeded');
     }
 
+    public isOpenProject(): boolean {
+        return this.projectEventService.instant.active;
+    }
+
     protected setBaseForm(): void {
         this.guidelineDetailForm = this.formBuilder.group({
             [GuidelineFormControlNames.TITLE]: this.formBuilder.control('', Validators.required),

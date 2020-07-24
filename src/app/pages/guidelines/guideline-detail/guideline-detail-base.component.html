@@ -1,7 +1,7 @@
 <iihf-header>
     <h3 title>{{labelKey | translate}}</h3>
 
-    <ng-container buttons *ngIf="!editMode">
+    <ng-container buttons *ngIf="!editMode && isOpenProject()">
         <button
             (click)="enableEdit()"
             *iihfShowByRole="roles.RoleUpdateGuideline"
