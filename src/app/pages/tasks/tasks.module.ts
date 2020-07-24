@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { SmallComponentsModule } from 'hazelnut';
 import { TableChangeStorageService } from '../../shared/services/table-change-storage.service';
 import { TranslateWrapperService } from '../../shared/services/translate-wrapper.service';
 import { SharedModule } from '../../shared/shared.module';
@@ -13,6 +14,7 @@ import { TasksRoutingModule } from './tasks-routing.module';
     declarations: [TaskListComponent, TaskCreateComponent, TaskEditComponent, TaskFormComponent],
     imports: [
         SharedModule,
+        SmallComponentsModule,
         TasksRoutingModule,
     ],
     providers: [
