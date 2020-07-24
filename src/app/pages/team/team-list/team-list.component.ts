@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { State, UserType } from '../../../shared/enums/enumerators';
+import { State } from '../../../shared/enums/enumerators';
 import { Role } from '../../../shared/enums/role.enum';
 import {
     ListItem,
@@ -88,19 +88,6 @@ export class TeamListComponent implements OnInit, TableContainer<User> {
                     columnDef: 'lastName',
                     labelKey: 'team.lastName',
                     filter: new TableColumnFilter({}),
-                    sorting: true,
-                }),
-                new TableColumn({
-                    columnDef: 'type',
-                    labelKey: 'team.type',
-                    filter: new TableColumnFilter({
-                        type: TableFilterType.SELECT,
-                        select: [
-                            new ListItem('', this.translateService.instant('all.things')),
-                            new ListItem(UserType.IIHF, this.translateService.instant('user.iihf').toString().toLocaleUpperCase()),
-                            new ListItem(UserType.ORGANIZER, this.translateService.instant('user.organizer').toString().toLocaleUpperCase()),
-                        ],
-                    }),
                     sorting: true,
                 }),
                 new TableColumn({
