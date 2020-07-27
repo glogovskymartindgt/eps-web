@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 import { ActionPointService } from '../../../shared/services/data/action-point.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
@@ -11,10 +12,10 @@ import { ActionPointStructureService } from '../action-point-structure.service';
     templateUrl: './action-point-create.component.html',
     styleUrls: ['./action-point-create.component.scss']
 })
-export class ActionPointCreateComponent implements OnInit {
+export class ActionPointCreateComponent {
     @ViewChild(TaskFormComponent, {static: true}) public taskForm: TaskFormComponent;
     public formData = null;
-    public loading: false;
+    public saving: boolean = false;
 
     public constructor(private readonly router: Router,
                        private readonly actionPointService: ActionPointService,
@@ -23,15 +24,14 @@ export class ActionPointCreateComponent implements OnInit {
                        private readonly actionPointStructureService: ActionPointStructureService) {
     }
 
-    public ngOnInit(): void {
-    }
-
     public onCancel(): void {
         this.router.navigate(['action-points/list']);
     }
 
     public onSave(): void {
+        this.saving = true;
         this.actionPointService.createActionPoint(this.transformActionPointToApiObject(this.formData))
+            .pipe(finalize((): any => this.saving = false))
             .subscribe((): void => {
                 this.notificationService.openSuccessNotification('success.add');
                 this.router.navigate(['action-points/list']);

@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 import { fadeEnterLeave } from '../../../shared/hazelnut/hazelnut-common/animations';
 import { TaskService } from '../../../shared/services/data/task.service';
 import { NotificationService } from '../../../shared/services/notification.service';
@@ -12,10 +13,11 @@ import { TaskFormComponent } from '../task-form/task-form.component';
     styleUrls: ['./task-create.component.scss'],
     animations: [fadeEnterLeave],
 })
-export class TaskCreateComponent implements OnInit {
+export class TaskCreateComponent {
     @ViewChild(TaskFormComponent, {static: true}) public taskForm: TaskFormComponent;
     public formData = null;
     public loading: false;
+    public saving: boolean = false;
 
     public constructor(private readonly router: Router,
                        private readonly taskService: TaskService,
@@ -23,15 +25,14 @@ export class TaskCreateComponent implements OnInit {
                        private readonly projectEventService: ProjectEventService) {
     }
 
-    public ngOnInit(): void {
-    }
-
     public onCancel(): void {
         this.router.navigate(['tasks/list']);
     }
 
     public onSave(): void {
+        this.saving = true;
         this.taskService.createTask(this.transformTaskToApiObject(this.formData))
+            .pipe(finalize((): any => this.saving = false))
             .subscribe((): void => {
                 this.notificationService.openSuccessNotification('success.add');
                 this.router.navigate(['tasks/list']);
