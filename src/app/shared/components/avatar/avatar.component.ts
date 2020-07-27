@@ -45,7 +45,7 @@ export class AvatarComponent extends CustomInputComponent<string> implements OnD
     public readonly loadByteImage: EventEmitter<string> = new EventEmitter<string>();
 
     private _disabled = false;
-    private componentDestroyed$: Subject<boolean> = new Subject<boolean>();
+    private readonly componentDestroyed$: Subject<boolean> = new Subject<boolean>();
 
     public constructor(
         protected readonly elementRef: ElementRef<HTMLElement>,

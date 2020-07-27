@@ -17,7 +17,6 @@ import { GroupService } from '../../../shared/services/data/group.service';
 import { ImagesService } from '../../../shared/services/data/images.service';
 import { UserDataService } from '../../../shared/services/data/user-data.service';
 import { NotificationService } from '../../../shared/services/notification.service';
-import { AppConstants } from '../../../shared/utils/constants';
 import { UserFormControlNames } from './user-form-control-names.enum';
 
 @Component({
@@ -35,7 +34,6 @@ export class UserFormComponent implements OnInit {
     public userGroups = [];
     public projectList = [];
     public organizations$: Observable<CodelistItem[]> = this.businessAreaService.listOrganizations();
-    public userImageSrc: any = AppConstants.defaultAvatarPath;
 
     public readonly notOnlyWhiteCharactersPattern = Regex.notOnlyWhiteCharactersPattern;
     public readonly emailPattern = Regex.emailPattern;
@@ -106,6 +104,7 @@ export class UserFormComponent implements OnInit {
         this.userForm.controls[UserFormControlNames.email].patchValue(this.user.email);
         this.userForm.controls[UserFormControlNames.mobile].patchValue(this.user.mobile);
         this.userForm.controls[UserFormControlNames.phone].patchValue(this.user.phone);
+        this.userForm.controls[UserFormControlNames.avatar].patchValue(this.user.avatar);
         this.userForm.controls[UserFormControlNames.function].patchValue(this.user.function || '');
         this.userForm.controls[UserFormControlNames.password].patchValue(this.user.password);
         this.userForm.controls[UserFormControlNames.login].patchValue(this.user.login);
@@ -141,18 +140,6 @@ export class UserFormComponent implements OnInit {
 
     private setForm(user: User): void {
         this.patchValues();
-        if (user.avatar) {
-            this.imagesService.getImage(user.avatar)
-                .subscribe((blob: Blob): void => {
-                    const reader = new FileReader();
-                    reader.onload = (): void => {
-                        this.userImageSrc = reader.result;
-                    };
-                    reader.readAsDataURL(blob);
-                }, (): void => {
-                    this.notificationService.openErrorNotification('error.imageDownload');
-                });
-        }
         this.userGroups = user.groupIdList ? user.groupIdList : [];
 
         this.organizations$
@@ -201,6 +188,7 @@ export class UserFormComponent implements OnInit {
             [UserFormControlNames.state]: [''],
             [UserFormControlNames.groupIdList]: [''],
             [UserFormControlNames.projectIdList]: [''],
+            [UserFormControlNames.avatar]: [''],
         });
         this.userForm.controls[UserFormControlNames.id].disable();
         this.userForm.controls[UserFormControlNames.firstName].setValidators(Validators.required);
