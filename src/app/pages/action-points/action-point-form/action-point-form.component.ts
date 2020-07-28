@@ -251,13 +251,7 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
             changedAt: [''],
             createdBy: [''],
         });
-        this.actionPointForm.valueChanges
-            .pipe(takeUntil(this.componentDestroyed$))
-            .subscribe((): void => {
-                this.emitFormDataChangeEmitter();
-            });
         this.responsibles = [];
-
     }
 
     private emitFormDataChangeEmitter(): void {
@@ -319,7 +313,6 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
             createdBy: [''],
         });
 
-        this.setMeetingTextValidators();
         this.selectedResponsibles = actionPoint.responsibles ? actionPoint.responsibles : [];
         this.actionPointForm.controls.title.patchValue(actionPoint.title);
         this.actionPointForm.controls.trafficLight.patchValue(actionPoint.trafficLight);
@@ -336,6 +329,7 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
         this.addFormValue('code', actionPoint.code);
         this.addFormValue('area', actionPoint.area);
 
+        this.setMeetingTextValidators();
         if (actionPoint.changedAt) {
             this.actionPointForm.controls.changedAt.patchValue(moment(actionPoint.changedAt)
                 .format('D.M.YYYY - HH:mm:ss'));
@@ -360,6 +354,7 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
         this.actionPointForm.valueChanges
             .pipe(takeUntil(this.componentDestroyed$))
             .subscribe((): void => {
+                this.setMeetingTextValidators();
                 this.emitFormDataChangeEmitter();
             });
     }
@@ -379,17 +374,13 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
     }
 
     private setMeetingTextValidators(): void {
-        this.actionPointForm.controls.state.valueChanges
-            .pipe(takeUntil(this.componentDestroyed$))
-            .subscribe((value: string): void => {
-                this.meetingTextRequired = value === 'CLOSED';
-                this.changeDetector.detectChanges();
-                if (this.meetingTextRequired) {
-                    this.actionPointForm.controls.meetingText.setValidators(Validators.required);
-                } else {
-                    this.actionPointForm.controls.meetingText.setValidators(null);
-                }
-            });
+        this.meetingTextRequired = this.actionPointForm.controls.state.value === 'CLOSED';
+        if (this.meetingTextRequired) {
+            this.actionPointForm.controls.meetingText.setValidators(Validators.required);
+        } else {
+            this.actionPointForm.controls.meetingText.setValidators(null);
+        }
+        this.changeDetector.detectChanges();
     }
 
 }
