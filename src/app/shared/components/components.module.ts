@@ -11,6 +11,7 @@ import { SmallComponentsModule } from '../hazelnut/small-components';
 import { NotificationSnackBarComponent } from '../hazelnut/small-components/notifications';
 import { TranslateWrapperService } from '../services/translate-wrapper.service';
 import { AttachmentUploadComponent } from './attachment-upload/attachment-upload.component';
+import { AvatarInputComponent } from './avatar-input/avatar-input.component';
 import { AvatarComponent } from './avatar/avatar.component';
 import { ActionPointCommentTabComponent } from './comment-tab/action-point-comment-tab.component';
 import { TaskCommentTabComponent } from './comment-tab/task-comment-tab.component';
@@ -37,6 +38,7 @@ import { PdfComponent } from './pdf/pdf.component';
         PdfComponent,
         DownloadLinkComponent,
         AttachmentUploadComponent,
+        AvatarInputComponent,
         AvatarComponent,
     ],
     imports: [
@@ -64,6 +66,7 @@ import { PdfComponent } from './pdf/pdf.component';
         PdfComponent,
         DownloadLinkComponent,
         AttachmentUploadComponent,
+        AvatarInputComponent,
         AvatarComponent,
     ],
     providers: [TranslateWrapperService],

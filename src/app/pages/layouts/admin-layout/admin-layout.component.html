@@ -20,11 +20,7 @@
         >
             <div fxLayout="row">
                 <div>
-                    <img
-                        [src]="avatar ? avatar : defaultAvatarPath"
-                        alt="avatar"
-                        class="pr-5 user-icon"
-                    >
+                    <iihf-avatar [fileSource]="avatar$ | async" class="pr-5"></iihf-avatar>
                 </div>
 
                 <div>
