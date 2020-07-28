@@ -9,6 +9,7 @@ import { RouteNames } from '../../../shared/enums/route-names.enum';
 import { BusinessArea } from '../../../shared/interfaces/bussiness-area.interface';
 import { ClBusinessArea } from '../../../shared/interfaces/cl-business-area.interface';
 import { Guideline } from '../../../shared/interfaces/guideline.interface';
+import { AttachmentDetail } from '../../../shared/models/attachment-detail.model';
 import { AttachmentService } from '../../../shared/services/data/attachment.service';
 import { BusinessAreaService } from '../../../shared/services/data/business-area.service';
 import { NotificationService } from '../../../shared/services/notification.service';
@@ -103,9 +104,11 @@ export abstract class GuidelineDetailBaseComponent implements OnInit {
     }
 
     protected getGuidelineToSave(): Guideline {
+        const {source, ...attachmentWithoutSource}: AttachmentDetail = this.guidelineDetailForm.get(this.formControlNames.ATTACHMENT).value[0];
+
         return {
             ...this.guidelineDetailForm.value,
-            attachment: this.guidelineDetailForm.get(this.formControlNames.ATTACHMENT).value[0],
+            attachment: attachmentWithoutSource,
         };
     }
 
