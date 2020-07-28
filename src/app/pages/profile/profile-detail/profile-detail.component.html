@@ -9,7 +9,7 @@
         <div fxFlex="100px" fxLayout="column">
             <div class="short-input">
                 <iihf-avatar-input
-                    formControlName="avatar"
+                    [formControlName]="formControlNames.avatar"
                     (loadByteImage)="loadAvatarImage($event)"
                 ></iihf-avatar-input>
             </div>
@@ -23,7 +23,7 @@
                                          [required]="true"
                                          [pattern]="notOnlyWhiteCharactersPattern"
                                          class="theme-input"
-                                         formControlName="firstName"
+                                         [formControlName]="formControlNames.firstName"
                     >
                     </haz-copy-core-input>
                 </div>
@@ -35,10 +35,46 @@
                                          [required]="true"
                                          [pattern]="notOnlyWhiteCharactersPattern"
                                          class="theme-input"
-                                         formControlName="lastName"
+                                         [formControlName]="formControlNames.lastName"
                     >
                     </haz-copy-core-input>
                 </div>
+            </div>
+
+            <div class="long-input">
+                <haz-copy-core-input [appearance]="'fill'"
+                                     [label]="'profile.mobile' |  translate"
+                                     [maxLength]="50"
+                                     [pattern]="phonePattern"
+                                     [required]="true"
+                                     class="theme-input"
+                                     [formControlName]="formControlNames.mobile"
+                >
+                </haz-copy-core-input>
+            </div>
+
+            <div class="long-input">
+                <haz-copy-core-input [appearance]="'fill'"
+                                     [label]="'profile.phone' |  translate"
+                                     [maxLength]="50"
+                                     [pattern]="phonePattern"
+                                     [required]="true"
+                                     class="theme-input"
+                                     [formControlName]="formControlNames.phone"
+                >
+                </haz-copy-core-input>
+            </div>
+
+            <div class="long-input">
+                <haz-copy-core-input [appearance]="'fill'"
+                                     [label]="'profile.function' |  translate"
+                                     [maxLength]="50"
+                                     [pattern]="notOnlyWhiteCharactersPattern"
+                                     [required]="true"
+                                     class="theme-input"
+                                     [formControlName]="formControlNames.function"
+                >
+                </haz-copy-core-input>
             </div>
 
             <div class="long-input">
@@ -47,7 +83,7 @@
                                      [maxLength]="50"
                                      [pattern]="emailPattern"
                                      class="theme-input"
-                                     formControlName="email"
+                                     [formControlName]="formControlNames.email"
                 >
                 </haz-copy-core-input>
             </div>
@@ -57,7 +93,7 @@
                                      [label]="'profile.login' |  translate"
                                      [maxLength]="50"
                                      class="theme-input"
-                                     formControlName="login"
+                                     [formControlName]="formControlNames.login"
                 >
                 </haz-copy-core-input>
             </div>
@@ -67,7 +103,7 @@
                     <mat-label class="label-style">{{'profile.password' | translate}}</mat-label>
                     <input [type]="hidePassword ? 'password' : 'text'"
                            class="input-style"
-                           formControlName="password"
+                           [formControlName]="formControlNames.password"
                            matInput
                     >
                     <mat-icon (click)="hidePassword = !hidePassword " class="cursor-pointer"
@@ -87,7 +123,7 @@
             </div>`
 
             <div>
-                <mat-slide-toggle formControlName="state" disabled>
+                <mat-slide-toggle [formControlName]="formControlNames.state">
                     {{"profile.account" | translate}}
                     {{(this.profileDetailForm.controls.state && this.profileDetailForm.controls.state.value === 'ACTIVE' ? "profile.active" : "profile.inactive") | translate}}
                 </mat-slide-toggle>
