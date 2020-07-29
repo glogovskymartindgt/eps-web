@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { Role } from '../../shared/enums/role.enum';
+import { RouteNames } from '../../shared/enums/route-names.enum';
+import { ChildrenRouteGuard } from '../../shared/services/children-route-guard';
 import { GuidelineCreateComponent } from './guideline-detail/guideline-create.component';
 import { GuidelineEditComponent } from './guideline-detail/guideline-edit.component';
 import { GuidelineListComponent } from './guideline-list/guideline-list.component';
@@ -11,22 +14,32 @@ const routes: Routes = [
             {
                 path: '',
                 pathMatch: 'full',
-                redirectTo: 'list',
+                redirectTo: RouteNames.LIST,
             },
             {
-                path: 'list',
+                path: RouteNames.LIST,
                 component: GuidelineListComponent,
                 data: {title: 'guidelineList'}
             },
             {
-                path: 'create',
+                path: RouteNames.CREATE,
                 component: GuidelineCreateComponent,
-                data: {title: 'guidelineCreate'}
+                data: {
+                    title: 'guidelineCreate',
+                    roles: Role.RoleCreateGuideline,
+                    redirectTo: [RouteNames.GUIDELINES, RouteNames.LIST],
+                },
+                canActivate: [ChildrenRouteGuard],
             },
             {
-                path: 'edit/:id',
+                path: `${RouteNames.EDIT}/:id`,
                 component: GuidelineEditComponent,
-                data: {title: 'guidelineEdit'}
+                data: {
+                    title: 'guidelineEdit',
+                    roles: [Role.RoleUpdateGuideline, Role.RoleReadGuideline, Role.RoleReadGuidelineInAssignProject],
+                    redirectTo: [RouteNames.GUIDELINES, RouteNames.LIST],
+                },
+                canActivate: [ChildrenRouteGuard],
             }
         ],
     }

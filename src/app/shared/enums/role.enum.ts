@@ -1,4 +1,5 @@
 export enum Role {
+    RoleUnavailable = 'ROLE_UNAVAILABLE_TEST',
     RoleUpdateTask = 'ROLE_UPDATE_TASK',
     RoleUpdateTaskInAssignProject = 'ROLE_UPDATE_TASK_IN_ASSIGN_PROJECT',
     RoleExportReportRedFlagList = 'ROLE_EXPORT_REPORT_RED_FLAG_LIST',
