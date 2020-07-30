@@ -30,6 +30,9 @@ export abstract class UserEditBaseComponent {
         if (this.formData[UserFormControlNames.email]) {
             apiObject[UserFormControlNames.email] = this.formData[UserFormControlNames.email];
         }
+        if (this.formData[UserFormControlNames.avatar]) {
+            apiObject[UserFormControlNames.avatar] = this.formData[UserFormControlNames.avatar];
+        }
         if (this.formData[UserFormControlNames.projectIdList] && this.formData[UserFormControlNames.projectIdList].length > 0) {
             apiObject[UserFormControlNames.projectIdList] = this.formData[UserFormControlNames.projectIdList];
         }
