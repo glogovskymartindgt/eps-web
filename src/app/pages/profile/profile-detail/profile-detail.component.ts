@@ -9,6 +9,19 @@ import { UpdateProfileService } from '../../../shared/services/data/update-profi
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectUserService } from '../../../shared/services/storage/project-user.service';
 
+enum FormControlNames {
+    avatar = 'avatar',
+    firstName = 'firstName',
+    lastName = 'lastName',
+    mobile = 'mobile',
+    phone = 'phone',
+    function = 'function',
+    email = 'email',
+    login = 'login',
+    password = 'password',
+    state = 'state',
+}
+
 @Component({
     selector: 'iihf-profile-detail',
     templateUrl: './profile-detail.component.html',
@@ -18,9 +31,11 @@ import { ProjectUserService } from '../../../shared/services/storage/project-use
 export class ProfileDetailComponent implements OnInit {
 
     public profileDetailForm: FormGroup;
-    public userPasswordPattern = Regex.userPassword;
-    public notOnlyWhiteCharactersPattern = Regex.notOnlyWhiteCharactersPattern;
-    public emailPattern = Regex.emailPattern;
+    public readonly userPasswordPattern = Regex.userPassword;
+    public readonly notOnlyWhiteCharactersPattern = Regex.notOnlyWhiteCharactersPattern;
+    public readonly emailPattern = Regex.emailPattern;
+    public readonly phonePattern = Regex.internationalPhonePattern;
+    public readonly formControlNames: typeof FormControlNames = FormControlNames;
     public hidePassword = true;
 
     private avatarSource: string = '';
@@ -40,18 +55,21 @@ export class ProfileDetailComponent implements OnInit {
 
     public onSave(): void {
         const profileObject = new Profile();
-        profileObject.firstName = this.profileDetailForm.controls.firstName.value;
-        profileObject.lastName = this.profileDetailForm.controls.lastName.value;
-        profileObject.email = this.profileDetailForm.controls.email.value;
+        profileObject[this.formControlNames.firstName] = this.profileDetailForm.get(this.formControlNames.firstName).value;
+        profileObject[this.formControlNames.lastName] = this.profileDetailForm.get(this.formControlNames.lastName).value;
+        profileObject[this.formControlNames.email] = this.profileDetailForm.get(this.formControlNames.email).value;
+        profileObject[this.formControlNames.phone] = this.profileDetailForm.get(this.formControlNames.phone).value;
+        profileObject[this.formControlNames.mobile] = this.profileDetailForm.get(this.formControlNames.mobile).value;
+        profileObject[this.formControlNames.function] = this.profileDetailForm.get(this.formControlNames.function).value;
         if (this.avatarSource) {
-            profileObject.avatar = this.profileDetailForm.controls.avatar.value;
+            profileObject[this.formControlNames.avatar] = this.profileDetailForm.get(this.formControlNames.avatar).value;
         }
-        if (this.profileDetailForm.controls.password && this.profileDetailForm.controls.password.value.length > 0) {
-            profileObject.password = this.profileDetailForm.controls.password.value;
+        if (this.profileDetailForm.get(this.formControlNames.password) && this.profileDetailForm.get(this.formControlNames.password).value.length > 0) {
+            profileObject[this.formControlNames.password] = this.profileDetailForm.get(this.formControlNames.password).value;
         }
         this.updateProfileService.updateProfile(this.projectUserService.instant.userId, profileObject)
             .subscribe((): any => {
-                if (profileObject.avatar) {
+                if (profileObject[this.formControlNames.avatar]) {
                     this.projectUserService.setProperty('avatar', this.avatarSource);
                 }
                 this.location.back();
@@ -69,22 +87,25 @@ export class ProfileDetailComponent implements OnInit {
     private initializeFrom(): void {
         const passwordInputLength = 50;
         this.profileDetailForm = this.formBuilder.group({
-            avatar: [''],
-            avatarUploadId: [''],
-            firstName: [''],
-            lastName: [''],
-            email: [''],
-            login: [''],
-            password: [
+            [this.formControlNames.avatar]: [''],
+            [this.formControlNames.firstName]: [''],
+            [this.formControlNames.lastName]: [''],
+            [this.formControlNames.email]: [''],
+            [this.formControlNames.phone]: ['', Validators.required],
+            [this.formControlNames.mobile]: ['', Validators.required],
+            [this.formControlNames.function]: ['', Validators.required],
+            [this.formControlNames.login]: [''],
+            [this.formControlNames.password]: [
                 '',
                 Validators.compose([
                     Validators.pattern(this.userPasswordPattern),
                     Validators.maxLength(passwordInputLength)
                 ])
             ],
-            state: [''],
+            [this.formControlNames.state]: [''],
         });
-        this.profileDetailForm.controls.login.disable();
+        this.profileDetailForm.get(this.formControlNames.login).disable();
+        this.profileDetailForm.get(this.formControlNames.state).disable();
     }
 
     private loadProfileDetail(): void {
@@ -97,11 +118,14 @@ export class ProfileDetailComponent implements OnInit {
     }
 
     private setFormWithDetailData(projectDetail: Profile): any {
-        this.profileDetailForm.controls.firstName.patchValue(projectDetail.firstName);
-        this.profileDetailForm.controls.lastName.patchValue(projectDetail.lastName);
-        this.profileDetailForm.controls.email.patchValue(projectDetail.email);
-        this.profileDetailForm.controls.login.patchValue(projectDetail.login);
-        this.profileDetailForm.controls.state.patchValue(projectDetail.state);
-        this.profileDetailForm.controls.avatar.patchValue(projectDetail.avatar);
+        this.profileDetailForm.get(this.formControlNames.firstName).patchValue(projectDetail.firstName);
+        this.profileDetailForm.get(this.formControlNames.lastName).patchValue(projectDetail.lastName);
+        this.profileDetailForm.get(this.formControlNames.phone).patchValue(projectDetail.phone);
+        this.profileDetailForm.get(this.formControlNames.mobile).patchValue(projectDetail.mobile);
+        this.profileDetailForm.get(this.formControlNames.function).patchValue(projectDetail.function);
+        this.profileDetailForm.get(this.formControlNames.email).patchValue(projectDetail.email);
+        this.profileDetailForm.get(this.formControlNames.login).patchValue(projectDetail.login);
+        this.profileDetailForm.get(this.formControlNames.state).patchValue(projectDetail.state);
+        this.profileDetailForm.get(this.formControlNames.avatar).patchValue(projectDetail.avatar);
     }
 }
