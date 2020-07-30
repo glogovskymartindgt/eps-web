@@ -8,16 +8,19 @@
     <div fxFlex fxFlex.gt-sm="100%" class="p-30 form-content" fxLayout="column">
         <iihf-action-point-form (formDataChange)="formDataChange($event)"></iihf-action-point-form>
         <div>
-            <button *ngIf="projectEventService.instant.active && allowUpdateTask()"
-                    type="submit"
-                    mat-flat-button
-                    color="accent"
-                    class="mr-10"
-                    (click)="onSave()"
-                    [disabled]="!formData"
-            >
-                {{ 'tasks.save' | translate }}
-            </button>
+            <ng-container *ngIf="projectEventService.instant.active">
+                <button *iihfShowByRole="[role.RoleUpdateActionPoint, role.RoleUpdateActionPointInAssignProject]"
+                        type="submit"
+                        mat-flat-button
+                        color="accent"
+                        class="mr-10"
+                        (click)="onSave()"
+                        [disabled]="!formData"
+                >
+                    {{ 'tasks.save' | translate }}
+                </button>
+            </ng-container>
+
             <button type="button"
                     mat-button
                     class="mr-10"
@@ -25,7 +28,8 @@
             >
                 {{ 'tasks.cancel' | translate }}
             </button>
-            <button *ngIf="allowDeleteActionPoint()"
+
+            <button *iihfShowByRole="role.RoleDeleteActionPoint"
                     type="button"
                     mat-button
                     class="mr-10"

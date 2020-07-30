@@ -1,12 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationDialogComponent } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { Role } from '../../../shared/enums/role.enum';
 import { Regex } from '../../../shared/hazelnut/hazelnut-common/regex/regex';
-import { AuthService } from '../../../shared/services/auth.service';
 import { ActionPointService } from '../../../shared/services/data/action-point.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
@@ -34,9 +32,7 @@ export class ActionPointEditComponent implements OnInit {
                        private readonly notificationService: NotificationService,
                        private readonly activatedRoute: ActivatedRoute,
                        private readonly actionPointService: ActionPointService,
-                       private readonly formBuilder: FormBuilder,
                        public readonly projectEventService: ProjectEventService,
-                       private readonly authService: AuthService,
                        private readonly actionPointStructureService: ActionPointStructureService,
                        private readonly translateService: TranslateService) {
     }
@@ -100,38 +96,6 @@ export class ActionPointEditComponent implements OnInit {
         setTimeout((): void => {
             this.formData = $event;
         }, formChangeTimeout);
-    }
-
-    public allowReadComment(): boolean {
-        return this.hasRoleReadComment() || this.hasRoleReadCommentInAssignProject();
-    }
-
-    public allowUpdateTask(): boolean {
-        return this.hasRoleUpdateTask() || this.hasRoleUpdateTaskInAssignProject();
-    }
-
-    public allowDeleteActionPoint(): boolean {
-        return this.hasRoleDeleteActionPoint();
-    }
-
-    private hasRoleUpdateTask(): boolean {
-        return this.authService.hasRole(Role.RoleUpdateTask);
-    }
-
-    private hasRoleUpdateTaskInAssignProject(): boolean {
-        return this.authService.hasRole(Role.RoleUpdateTaskInAssignProject);
-    }
-
-    private hasRoleReadComment(): boolean {
-        return this.authService.hasRole(Role.RoleReadComment);
-    }
-
-    private hasRoleReadCommentInAssignProject(): boolean {
-        return this.authService.hasRole(Role.RoleReadCommentInAssignProject);
-    }
-
-    private hasRoleDeleteActionPoint(): boolean {
-        return this.authService.hasRole(Role.RoleDeleteActionPoint);
     }
 
     private transformActionPointToApiObject(formObject: any): any {
