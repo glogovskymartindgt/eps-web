@@ -19,7 +19,7 @@ export const routes: Routes = [
         children: [
             {
                 path: 'dashboard',
-                loadChildren: './pages/dashboard/dashboard.module#DashboardModule',
+                loadChildren: (): any => import('./pages/dashboard/dashboard.module').then((module: any): any => module.DashboardModule),
                 data: {
                     title: 'menu.dashboard',
                     icon: 'person',
@@ -29,7 +29,7 @@ export const routes: Routes = [
             },
             {
                 path: 'project',
-                loadChildren: './pages/project/project.module#ProjectModule',
+                loadChildren: (): any => import('./pages/project/project.module').then((module: any): any => module.ProjectModule),
                 data: {
                     title: 'menu.project',
                     icon: 'person',
@@ -40,7 +40,7 @@ export const routes: Routes = [
             },
             {
                 path: 'business-areas',
-                loadChildren: './pages/business-areas/business-areas.module#BusinessAreasModule',
+                loadChildren: (): any => import('./pages/business-areas/business-areas.module').then((module: any): any => module.BusinessAreasModule),
                 data: {
                     title: 'menu.businessAreas',
                     icon: 'person',
@@ -51,7 +51,7 @@ export const routes: Routes = [
             },
             {
                 path: 'action-points',
-                loadChildren: './pages/action-points/action-points.module#ActionPointsModule',
+                loadChildren: (): any => import('./pages/action-points/action-points.module').then((module: any): any => module.ActionPointsModule),
                 data: {
                     title: 'menu.actionPoints',
                     icon: 'person',
@@ -62,7 +62,7 @@ export const routes: Routes = [
             },
             {
                 path: 'guidelines',
-                loadChildren: './pages/guidelines/guidelines.module#GuidelinesModule',
+                loadChildren: (): any => import('./pages/guidelines/guidelines.module').then((module: any): any => module.GuidelinesModule),
                 data: {
                     title: 'menu.guidelines',
                     icon: 'person',
@@ -73,7 +73,7 @@ export const routes: Routes = [
             },
             {
                 path: 'tasks',
-                loadChildren: './pages/tasks/tasks.module#TasksModule',
+                loadChildren: (): any => import('./pages/tasks/tasks.module').then((module: any): any => module.TasksModule),
                 data: {
                     title: 'menu.tasks',
                     icon: 'person',
@@ -83,7 +83,7 @@ export const routes: Routes = [
             },
             {
                 path: 'facts',
-                loadChildren: './pages/facts/facts.module#FactsModule',
+                loadChildren: (): any => import('./pages/facts/facts.module').then((module: any): any => module.FactsModule),
                 data: {
                     title: 'menu.facts',
                     icon: 'person',
@@ -94,7 +94,7 @@ export const routes: Routes = [
             },
             {
                 path: 'all-facts',
-                loadChildren: './pages/facts/facts.module#FactsModule',
+                loadChildren: (): any => import('./pages/facts/facts.module').then((module: any): any => module.FactsModule),
                 data: {
                     title: 'menu.allFacts',
                     icon: 'person',
@@ -105,7 +105,7 @@ export const routes: Routes = [
             },
             {
                 path: 'reports',
-                loadChildren: './pages/reports/reports.module#ReportsModule',
+                loadChildren: (): any => import('./pages/reports/reports.module').then((module: any): any => module.ReportsModule),
                 data: {
                     title: 'menu.reports',
                     icon: 'person',
@@ -116,7 +116,7 @@ export const routes: Routes = [
             },
             {
                 path: 'team',
-                loadChildren: './pages/team/team.module#TeamModule',
+                loadChildren: (): any => import('./pages/team/team.module').then((module: any): any => module.TeamModule),
                 data: {
                     title: 'menu.team',
                     icon: 'team',
@@ -127,7 +127,7 @@ export const routes: Routes = [
             },
             {
                 path: 'users',
-                loadChildren: './pages/users/users.module#UsersModule',
+                loadChildren: (): any => import('./pages/users/users.module').then((module: any): any => module.UsersModule),
                 data: {
                     title: 'menu.users',
                     icon: 'person',
@@ -139,7 +139,7 @@ export const routes: Routes = [
             },
             {
                 path: 'profile',
-                loadChildren: './pages/profile/profile.module#ProfileModule',
+                loadChildren: (): any => import('./pages/profile/profile.module').then((module: any): any => module.ProfileModule),
                 data: {
                     title: 'menu.profile',
                     icon: 'person',
@@ -155,7 +155,7 @@ export const routes: Routes = [
         children: [
             {
                 path: 'authentication',
-                loadChildren: './pages/session/session.module#SessionModule',
+                loadChildren: (): any => import('./pages/session/session.module').then((module: any): any => module.SessionModule),
             },
         ],
     },

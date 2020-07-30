@@ -2,10 +2,10 @@ $color-primary: #1595d3;
 $color-secondary: #002d62;
 
 $colors: (
-    red: #f00,
-    amber: #ff7b00,
-    green: #038f03,
-    nocolor: #bebebe
+    'red': #f00,
+    'amber': #ff7b00,
+    'green': #038f03,
+    'nocolor': #bebebe
 );
 
 @each $color-name, $color in $colors {
