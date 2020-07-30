@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { Role } from '../../../shared/enums/role.enum';
 import { fadeEnterLeave, moveDown, moveLeft, routeAnimations } from '../../../shared/hazelnut/hazelnut-common/animations';
 import { hazelnutConfig } from '../../../shared/hazelnut/hazelnut-common/config/hazelnut-config';
 import { AuthService } from '../../../shared/services/auth.service';
 import { ProjectUserService } from '../../../shared/services/storage/project-user.service';
-import { AppConstants } from '../../../shared/utils/constants';
 
 @Component({
     selector: 'iihf-admin-layout',
@@ -20,10 +20,9 @@ import { AppConstants } from '../../../shared/utils/constants';
 })
 export class AdminLayoutComponent implements OnInit {
     public language = hazelnutConfig.LANGUAGE;
-    public defaultAvatarPath = AppConstants.defaultAvatarPath;
     public data;
     public login = '';
-    public avatar = AppConstants.defaultAvatarPath;
+    public avatar$: Observable<string>;
 
     public constructor(public readonly projectUserService: ProjectUserService, private readonly authService: AuthService, private readonly router: Router) {
     }
@@ -32,9 +31,7 @@ export class AdminLayoutComponent implements OnInit {
         this.projectUserService.subject.login.subscribe((login: string): void => {
             this.login = login;
         });
-        this.projectUserService.subject.avatar.subscribe((avatar: string): void => {
-            this.avatar = avatar;
-        });
+        this.avatar$ = this.projectUserService.subject.avatar;
     }
 
     /**

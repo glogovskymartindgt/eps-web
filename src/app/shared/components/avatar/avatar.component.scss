@@ -1,65 +1,7 @@
-@import './src/assets/styles/importable/variables.scss';
-
-.avatar-container-style {
-    height: 110px;
-    z-index: 1;
-    cursor: pointer;
-}
-
-.avatar-content-style-edit {
-    background: #e8f0fe;
-    height: 100px;
-}
-
-.edit-svg {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-}
-
-.avatar-content-style {
-    position: absolute;
-    pointer-events: none;
-    z-index: 0;
-    width: 100px !important;
-    display: grid;
-    border-radius: 5px;
-    padding-top: 10px;
-
-    .avatar-image {
-        margin: auto;
-        max-width: 80px;
-        max-height: 80px;
-        object-fit: cover;
-    }
-
-    .edit-svg-wrapper {
-        display: flex;
-        justify-content: flex-end;
-    }
-}
-
-.hide-input {
-    width: 100px;
-    height: 100px;
-    opacity: 0;
-    position: absolute;
-    z-index: -1;
-}
-
-.relative-parent {
-    position: relative;
-}
-
-::ng-deep .mat-primary .mat-pseudo-checkbox-checked {
-    background: #848484;
-}
-
-::ng-deep {
-
-    .mat-form-field .mat-form-field-flex {
-        background-color: #e8f0fe;
-        border-top-left-radius: 5px;
-        border-top-right-radius: 5px;
-    }
+.user-icon {
+    font-size: 40px;
+    color: #ce211f;
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
 }

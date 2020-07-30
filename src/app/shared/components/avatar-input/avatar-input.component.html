@@ -1,0 +1,28 @@
+<div class="relative-parent">
+    <label class="avatar-container-style"
+           for="avatar-image"
+           fxFlex="100px"
+           mat-ripple
+    ></label>
+    <input (change)="onImageChanged($event)"
+           accept="image/*"
+           class="hide-input"
+           id="avatar-image"
+           type="file"
+           [disabled]="disabled"
+    >
+    <div class="avatar-content-style avatar-content-style-edit">
+        <img [src]="imageSrc"
+             alt="avatar"
+             class="avatar-image"
+             height="90"
+        >
+        <div class="edit-svg-wrapper" *ngIf="!disabled">
+            <img
+                [src]="'assets/img/svg-squares/edit.svg'"
+                alt="edit"
+                class="edit-svg"
+            >
+        </div>
+    </div>
+</div>

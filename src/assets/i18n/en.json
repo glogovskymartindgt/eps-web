@@ -337,6 +337,7 @@
     },
     "team": {
         "screenTitle": "Team",
+        "avatar": "Avatar",
         "firstName": "First Name",
         "lastName": "Last Name",
         "type": "User Type",

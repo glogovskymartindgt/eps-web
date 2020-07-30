@@ -31,6 +31,8 @@ import { tableLastStickyColumn } from '../../../shared/utils/table-last-sticky-c
 export class TeamListComponent implements OnInit, TableContainer<User> {
     @ViewChild('updateColumn', {static: true})
     public updateColumn: TemplateRef<HTMLElement>;
+    @ViewChild('avatarColumn', {static: true})
+    public avatarColumn: TemplateRef<HTMLElement>;
 
     public tableConfiguration: TableConfiguration;
     public tableData: TableResponse<User>;
@@ -78,6 +80,13 @@ export class TeamListComponent implements OnInit, TableContainer<User> {
             predefinedSortActive: 'lastName',
             predefinedSortDirection: 'asc',
             columns: [
+                new TableColumn({
+                    columnDef: 'avatar',
+                    labelKey: 'team.avatar',
+                    sorting: false,
+                    type: TableCellType.CONTENT,
+                    tableCellTemplate: this.avatarColumn,
+                }),
                 new TableColumn({
                     columnDef: 'firstName',
                     labelKey: 'team.firstName',
