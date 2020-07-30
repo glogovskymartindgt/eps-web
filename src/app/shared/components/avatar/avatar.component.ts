@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, Input, OnDestroy } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
-import { switchMap, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { FileService } from '../../services/core/file.service';
 import { ImagesService } from '../../services/data/images.service';
 import { AppConstants } from '../../utils/constants';
@@ -42,11 +42,8 @@ export class AvatarComponent implements OnDestroy {
             return;
         }
 
-        this.imagesService.getImage(value)
+        this.imagesService.getImageCached(value)
             .pipe(
-                switchMap((blob: Blob): Observable<string> =>
-                    this.fileService.readFile$(blob)
-                ),
                 takeUntil(this.componentDestroyed$),
             )
             .subscribe((result: string): void => {

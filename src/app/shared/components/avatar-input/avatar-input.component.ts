@@ -14,8 +14,8 @@ import {
 import { NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { CustomInputComponent } from 'hazelnut';
-import { combineLatest, Observable, Subject } from 'rxjs';
-import { switchMap, takeUntil } from 'rxjs/operators';
+import { combineLatest, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { FileService } from '../../services/core/file.service';
 import { ImagesService } from '../../services/data/images.service';
 import { NotificationService } from '../../services/notification.service';
@@ -85,11 +85,8 @@ export class AvatarInputComponent extends CustomInputComponent<string> implement
             return;
         }
 
-        this.imagesService.getImage(value)
+        this.imagesService.getImageCached(value)
             .pipe(
-                switchMap((blob: Blob): Observable<string> =>
-                    this.fileService.readFile$(blob)
-                ),
                 takeUntil(this.componentDestroyed$),
             )
             .subscribe((result: string): void => {
