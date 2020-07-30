@@ -251,6 +251,11 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
             changedAt: [''],
             createdBy: [''],
         });
+        this.actionPointForm.valueChanges
+            .pipe(takeUntil(this.componentDestroyed$))
+            .subscribe((): void => {
+                this.emitFormDataChangeEmitter();
+            });
         this.responsibles = [];
     }
 
