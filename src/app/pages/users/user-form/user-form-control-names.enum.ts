@@ -14,4 +14,5 @@ export enum UserFormControlNames {
     state = 'state',
     groupIdList = 'groupIdList',
     projectIdList = 'projectIdList',
+    avatar = 'avatar',
 }

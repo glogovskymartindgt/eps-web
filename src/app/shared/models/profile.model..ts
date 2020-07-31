@@ -7,4 +7,7 @@ export class Profile {
     public password: string;
     public state: string;
     public avatar: string;
+    public phone: string;
+    public mobile: string;
+    public function: string;
 }

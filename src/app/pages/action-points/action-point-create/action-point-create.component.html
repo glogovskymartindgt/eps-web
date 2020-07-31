@@ -4,13 +4,15 @@
     </div>
 </div>
 
+<haz-indeterminate-progress-bar [loading]="saving"></haz-indeterminate-progress-bar>
+
 <div fxLayout="row" style="overflow: auto;  height: calc(100vh - 160px);">
     <div class="p-30">
         <iihf-action-point-form (formDataChange)="formData=$event"></iihf-action-point-form>
 
         <div>
             <button (click)="onSave()"
-                    [disabled]="formData === null"
+                    [disabled]="formData === null || saving"
                     class="mr-10"
                     color="accent"
                     mat-flat-button

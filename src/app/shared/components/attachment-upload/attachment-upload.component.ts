@@ -7,6 +7,7 @@ import {
     HostListener,
     Inject,
     Input,
+    OnDestroy,
     Optional,
     Output,
     Self
@@ -15,8 +16,8 @@ import { NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { TranslateWrapper, TRANSLATE_WRAPPER_TOKEN } from '@hazelnut';
 import { CustomInputComponent } from 'hazelnut';
-import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Observable, of, Subject } from 'rxjs';
+import { catchError, takeUntil } from 'rxjs/operators';
 import { AttachmentFormat } from '../../enums/attachment-format.enum';
 import { AttachmentType } from '../../enums/attachment-type.enum';
 import { AttachmentDetail } from '../../models/attachment-detail.model';
@@ -35,7 +36,7 @@ import { NotificationService } from '../../services/notification.service';
 
     ],
 })
-export class AttachmentUploadComponent extends CustomInputComponent<AttachmentDetail[]> {
+export class AttachmentUploadComponent extends CustomInputComponent<AttachmentDetail[]> implements OnDestroy {
 
     @Input()
     public maximumFileSize: number;
@@ -58,6 +59,7 @@ export class AttachmentUploadComponent extends CustomInputComponent<AttachmentDe
 
     private attachments: AttachmentDetail[] = [];
     private _disabled = false;
+    private readonly componentDestroyed$: Subject<boolean> = new Subject<boolean>();
 
     public constructor(
         protected readonly elementRef: ElementRef<HTMLElement>,
@@ -92,6 +94,12 @@ export class AttachmentUploadComponent extends CustomInputComponent<AttachmentDe
         return this.attachments.length > 0 ? [this.attachments[0]] : [];
     }
 
+    public ngOnDestroy(): void {
+        super.ngOnDestroy();
+        this.componentDestroyed$.next(true);
+        this.componentDestroyed$.complete();
+    }
+
     public writeValue(value: AttachmentDetail[]): void {
         this.attachments = value || [];
 
@@ -101,11 +109,14 @@ export class AttachmentUploadComponent extends CustomInputComponent<AttachmentDe
 
         this.attachments.forEach((attachment: AttachmentDetail): void => {
             this.attachmentService.getAttachment(attachment.filePath)
-                .pipe(catchError((): Observable<any> => {
-                    this.notificationService.openErrorNotification('error.attachmentDownload');
+                .pipe(
+                    takeUntil(this.componentDestroyed$),
+                    catchError((): Observable<any> => {
+                        this.notificationService.openErrorNotification('error.attachmentDownload');
 
-                    return of(null);
-                }))
+                        return of(null);
+                    }),
+                )
                 .subscribe((blob: Blob): void => {
                     this.createPdfFromBlob(blob, attachment);
                 });
@@ -125,6 +136,7 @@ export class AttachmentUploadComponent extends CustomInputComponent<AttachmentDe
         }
 
         this.attachmentService.uploadAttachment([file.blobPart])
+            .pipe(takeUntil(this.componentDestroyed$))
             .subscribe((response: { fileNames: object }): void => {
                 this.attachments.unshift({
                     filePath: response.fileNames[fileName],

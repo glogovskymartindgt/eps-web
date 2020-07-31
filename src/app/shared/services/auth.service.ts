@@ -35,6 +35,22 @@ import { ProjectUserService } from './storage/project-user.service';
     }
 
     /**
+     * Logged user role validation
+     * @param {Role | Role[]} roles
+     * @returns {boolean}
+     */
+    public hasRoles(roles: Role | Role[]): boolean {
+        let hasRoles: boolean;
+        if (Array.isArray(roles)) {
+            hasRoles = roles.some((role: Role): boolean => this.hasRole(role));
+        } else {
+            hasRoles = this.hasRole(roles);
+        }
+
+        return hasRoles;
+    }
+
+    /**
      * Login API function with saving user into local storage and navigate to dashboard screen
      * @param login
      * @param password

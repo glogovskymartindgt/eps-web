@@ -18,12 +18,7 @@ export class ShowByRoleDirective {
 
     @Input()
     public set iihfShowByRole(roles: Role[] | Role) {
-        let hasRoles: boolean;
-        if (Array.isArray(roles)) {
-            hasRoles = roles.some((role: Role): boolean => this.authService.hasRole(role));
-        } else {
-            hasRoles = this.authService.hasRole(roles);
-        }
+        const hasRoles: boolean = this.authService.hasRoles(roles);
 
         if (hasRoles && !this.hasView) {
             this.viewContainer.createEmbeddedView(this.templateRef);

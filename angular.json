@@ -22,6 +22,7 @@
                                 "src/app/shared/hazelnut/hazelnut-common/hazelnut/styles"
                             ]
                         },
+                        "aot": true,
                         "outputPath": "dist",
                         "index": "src/index.html",
                         "main": "src/main.ts",

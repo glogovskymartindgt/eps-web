@@ -2,8 +2,10 @@
 
     <div fxLayout="row" fxLayoutGap="10px">
 
-        <div *ngIf="isUpdate" fxFlex="100px">
-            <img [src]="userImageSrc" alt="avatar" class="avatar-image">
+        <div fxFlex="100px">
+            <div class="short-input">
+                <iihf-avatar-input [formControlName]="formControlNames.avatar"></iihf-avatar-input>
+            </div>
         </div>
         <div fxFlex>
             <div *ngIf="isUpdate" fxLayout="row">
