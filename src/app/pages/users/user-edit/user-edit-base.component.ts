@@ -57,6 +57,8 @@ export abstract class UserEditBaseComponent {
                 return 'user.error.typeCannotBeNull';
             case '23':
                 return 'user.error.requestCannotBeNull';
+            case '36':
+                return 'error.telephone.format.error';
             default:
                 return 'user.error.add';
         }
