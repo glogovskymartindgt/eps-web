@@ -19,6 +19,7 @@ import { User } from '../../../shared/interfaces/user.interface';
 import { UserDataService } from '../../../shared/services/data/user-data.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { RoutingStorageService } from '../../../shared/services/routing-storage.service';
+import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 import { TableChangeStorageService } from '../../../shared/services/table-change-storage.service';
 import { tableLastStickyColumn } from '../../../shared/utils/table-last-sticky-column';
 
@@ -47,6 +48,7 @@ export class TeamListComponent implements OnInit, TableContainer<User> {
         private readonly userDataService: UserDataService,
         private readonly notificationService: NotificationService,
         private readonly routingStorageService: RoutingStorageService,
+        private readonly projectEventService: ProjectEventService,
         private readonly tableChangeStorageService: TableChangeStorageService,
         private readonly translateService: TranslateService,
     ) {
@@ -168,7 +170,8 @@ export class TeamListComponent implements OnInit, TableContainer<User> {
     private setDefaultFilters(): void {
         this.defaultFilters = [
             new Filter('FLAG_ACTIVE', 'TRUE', 'STRING', 'EQ'),
-            new Filter('STATE', State.ACTIVE, 'ENUM', 'EQ'),
+            new Filter('USER_STATUS', State.ACTIVE, 'ENUM', 'EQ'),
+            new Filter('PROJECT_ID', this.projectEventService.instant.id, 'NUMBER'),
         ];
     }
 }
