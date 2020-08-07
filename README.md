@@ -10,7 +10,7 @@ After you've finished working, run `npm api:stop` to stop the api server (or you
 ## Release
 
 - bump the version - in `package.json`, `constants.ts`, run `npm install` to update the version in `package-lock.json` from `package.json`.
-- merge the `develop` to `master` branch
+- merge the `develop` to `master` branch, set the tag
 - build the app depending on the environment, where you want to release it: `npm run buildTest`, `npm run buildDemo`
 - after the build has finished, run the release commands: `npm run release:latest`, `npm run release:version`
 
