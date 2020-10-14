@@ -102,4 +102,5 @@ export enum Role {
     RoleReadGuidelineInAssignProject = 'ROLE_READ_GUIDELINE_IN_ASSIGN_PROJECT',
     RoleUpdateGuideline = 'ROLE_UPDATE_GUIDELINE',
     RoleFilterGuideline = 'ROLE_FILTER_GUIDELINE',
+    RoleDeleteGuideline = 'ROLE_DELETE_GUIDELINE',
 }
