@@ -113,7 +113,7 @@ export abstract class GuidelineDetailBaseComponent implements OnInit {
     }
 
     protected loadBusinessAreas(): void {
-        this.businessAreas$ = this.businessAreaService.listGuidelineBusinessAreas(this.projectEventService.instant.id)
+        this.businessAreas$ = this.businessAreaService.listGuidelineBusinessAreas()
             .pipe(
                 map((businessAreas: BusinessArea[]): ListItemSync[] =>
                     businessAreas.map((businessArea: BusinessArea): ListItemSync => ({

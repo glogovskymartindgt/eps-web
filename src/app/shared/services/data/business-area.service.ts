@@ -103,14 +103,10 @@ import { ProjectUserService } from '../storage/project-user.service';
     /**
      * Get list of business areas for the guideline section
      */
-    public listGuidelineBusinessAreas(projectId: number): Observable<BusinessArea[]> {
-        return this.http.get<BusinessArea[]>(`${environment.URL_API}/codeList/guideline/${projectId}`,
-            {headers: this.getHeader()}
-        )
+    public listGuidelineBusinessAreas(): Observable<BusinessArea[]> {
+        return this.getListByCode<BusinessArea>('BAREA')
             .pipe(
-                map((businessAreas: BusinessArea[]): BusinessArea[] =>
-                    businessAreas.filter((businessArea: BusinessArea): boolean => businessArea.state === `VALID`)
-                )
+                map((response: BrowseResponse<BusinessArea>): BusinessArea[] => response.content)
             );
     }
 
@@ -118,10 +114,10 @@ import { ProjectUserService } from '../storage/project-user.service';
      * Browse list of objects from code list by code value
      * @param code
      */
-    private getListByCode(code: string): Observable<BrowseResponse<any>> {
+    private getListByCode<T = any>(code: string): Observable<BrowseResponse<T>> {
         const limit = 100;
 
-        return this.browseWithSummary(PostContent.create(limit, 0, [new Filter('CODE', code)], []))
+        return this.browseWithSummary<T>(PostContent.create(limit, 0, [new Filter('CODE', code)], []))
             .pipe(
                 shareReplay(),
             );
