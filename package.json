@@ -35,7 +35,7 @@
     },
     "husky": {
         "hooks": {
-            "pre-push": "npm run husky-hook"
+            "pre-push": "npm run pre-push"
         }
     },
     "private": true,
