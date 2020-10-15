@@ -46,6 +46,7 @@ export class FactListComponent implements OnInit {
     public loading = false;
     public data = new BrowseResponse<Fact>([]);
     public allFacts = false;
+    public role: typeof Role = Role;
 
     private lastTableChangeEvent: TableChangeEvent;
     private allTaskFilters: Filter[] = [];
@@ -125,16 +126,21 @@ export class FactListComponent implements OnInit {
         return this.hasRoleCreateFactItem() || this.hasRoleCreateFactItemInAssignProject();
     }
 
-    public allowExportAllFactItemButton(): boolean {
-        return this.allFacts && this.hasRoleExportAllFactItem();
-    }
-
-    public allowFactDetailButton(): boolean {
-        return (!this.allFacts &&
-            (this.authService.hasRole(Role.RoleReadFactItem) ||
-                this.authService.hasRole(Role.RoleReadFactItemInAssignProject) ||
-                this.authService.hasRole(Role.RoleUpdateFactItem) ||
-                this.authService.hasRole(Role.RoleUpdateFactItemInAssignProject))) || (this.allFacts && this.authService.hasRole(Role.RoleReadAllFactItem));
+    public factDetailRoles(): Role[] {
+        if (this.allFacts) {
+            return [
+                Role.RoleReadAllFactItem,
+                Role.RoleReadAllFactItemInAssignProject,
+            ];
+            // tslint:disable-next-line:unnecessary-else
+        } else {
+            return [
+                Role.RoleReadFactItem,
+                Role.RoleReadFactItemInAssignProject,
+                Role.RoleUpdateFactItem,
+                Role.RoleUpdateFactItemInAssignProject,
+            ];
+        }
     }
 
     /**
@@ -258,10 +264,6 @@ export class FactListComponent implements OnInit {
 
     private hasRoleCreateFactItemInAssignProject(): boolean {
         return this.authService.hasRole(Role.RoleCreateFactItemInAssignProject);
-    }
-
-    private hasRoleExportAllFactItem(): boolean {
-        return this.authService.hasRole(Role.RoleExportAllFactItem);
     }
 
     /**
