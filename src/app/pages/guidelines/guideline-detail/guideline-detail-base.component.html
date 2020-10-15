@@ -34,7 +34,7 @@
                 <haz-select-search
                     [formControlName]="formControlNames.BUSINESS_AREA"
                     [searchable]="true"
-                    [selectList]="businessAreas$ | async | addSelectedBusinessArea:selectedBusinessArea"
+                    [selectList]="businessAreas$ | async"
                     [required]="true"
                 >
                 </haz-select-search>
