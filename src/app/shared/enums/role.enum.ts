@@ -94,6 +94,8 @@ export enum Role {
     RoleCreateActionPointInAssignProject = 'ROLE_CREATE_ACTION_POINT_IN_ASSIGN_PROJECT',
     RoleExportReportActionPoint = 'ROLE_EXPORT_REPORT_ACTION_POINT',
     RoleExportReportActionPointInAssignProject = 'ROLE_EXPORT_REPORT_ACTION_POINT_IN_ASSIGN_PROJECT',
+    RoleExportAllFactItemInAssignProject = 'ROLE_EXPORT_ALL_FACT_ITEM_IN_ASSIGN_PROJECT',
+    RoleReadAllFactItemInAssignProject = 'ROLE_READ_ALL_FACT_ITEM_IN_ASSIGN_PROJECT',
     RoleMenuGuideline = 'ROLE_MENU_GUIDELINE',
     RoleCreateGuideline = 'ROLE_CREATE_GUIDELINE',
     RoleReadGuideline = 'ROLE_READ_GUIDELINE',

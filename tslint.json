@@ -294,10 +294,10 @@
         ],
         "early-exit": false,
         "no-collapsible-if": true,
-        "no-else-after-return": true,
+        "no-else-after-return": false,
         "no-return-undefined": true,
         "no-static-this": true,
-        "no-unnecessary-else": true,
+        "no-unnecessary-else": false,
         "no-uninitialized": [
             false,
             "variables",
