@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ListItemSync } from 'hazelnut';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
@@ -104,9 +105,17 @@ import { ProjectUserService } from '../storage/project-user.service';
      * Get list of business areas for the guideline section
      */
     public listGuidelineBusinessAreas(): Observable<BusinessArea[]> {
-        return this.getListByCode<BusinessArea>('BAREA')
+        return this.getListByCodeToArray<BusinessArea>('BAREA');
+    }
+
+    /**
+     * Get list of project types
+     */
+    public listProjectTypes(): Observable<ListItemSync[]> {
+        return this.getListByCodeToArray<BusinessArea>('PRGTYPE')
             .pipe(
-                map((response: BrowseResponse<BusinessArea>): BusinessArea[] => response.content)
+                map(BusinessArea.convertToListItems),
+                map(this.sortListItems),
             );
     }
 
@@ -121,5 +130,18 @@ import { ProjectUserService } from '../storage/project-user.service';
             .pipe(
                 shareReplay(),
             );
+    }
+
+    private getListByCodeToArray<T = any>(code: string): Observable<T[]> {
+        return this.getListByCode<T>(code)
+            .pipe(
+                map((response: BrowseResponse<T>): T[] => response.content)
+            );
+    }
+
+    private sortListItems(listItems: ListItemSync[]): ListItemSync[] {
+        return listItems.sort((first: ListItemSync, second: ListItemSync): number => {
+            return first.value.localeCompare(second.value);
+        });
     }
 }
