@@ -1,16 +1,26 @@
 <iihf-header>
     <h3 title>{{labelKey | translate}}</h3>
 
-    <ng-container buttons *ngIf="!editMode && isOpenProject()">
-        <button
-            (click)="enableEdit()"
-            *iihfShowByRole="roles.RoleUpdateGuideline"
-            class="mr-10"
-            color="accent"
-            mat-flat-button
-        >
-            {{'common.edit' | translate}}
-        </button>
+    <ng-container buttons>
+        <ng-container *ngIf="!editMode && isOpenProject()">
+            <button
+                (click)="enableEdit()"
+                *iihfShowByRole="roles.RoleUpdateGuideline"
+                class="mr-10"
+                color="accent"
+                mat-flat-button
+            >
+                {{'common.edit' | translate}}
+            </button>
+        </ng-container>
+
+        <ng-container *ngIf="updateScreen">
+            <iihf-delete-button
+                *iihfShowByRole="roles.RoleDeleteGuideline"
+                [options]="deleteButtonOptions"
+                class="mr-10"
+            ></iihf-delete-button>
+        </ng-container>
     </ng-container>
 </iihf-header>
 

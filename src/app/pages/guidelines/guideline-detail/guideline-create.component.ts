@@ -22,6 +22,7 @@ import { GuidelineDetailBaseComponent } from './guideline-detail-base.component'
 export class GuidelineCreateComponent extends GuidelineDetailBaseComponent implements OnInit {
     public labelKey = 'guidelines.newGuideline';
     public editMode = true;
+    public updateScreen = false;
     public submitButtonRole: Role = Role.RoleCreateGuideline;
 
     public constructor(

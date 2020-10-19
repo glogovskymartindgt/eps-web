@@ -185,6 +185,7 @@
         "create": "CREATE",
         "edit": "EDIT",
         "export": "EXPORT",
+        "delete": "DELETE",
         "from": "From",
         "to": "To",
         "emptyText": ""
@@ -393,6 +394,12 @@
             "message": "This action will delete the current comment.",
             "confirmButton": "DELETE",
             "rejectButton": "CANCEL"
+        },
+        "guideline": {
+            "title":"Delete guideline?",
+            "message":"This action will delete the current guideline.",
+            "confirmButton":"DELETE",
+            "rejectButton":"CANCEL"
         }
     }
 }

@@ -17,6 +17,7 @@ import { ActionPointCommentTabComponent } from './comment-tab/action-point-comme
 import { TaskCommentTabComponent } from './comment-tab/task-comment-tab.component';
 import { CommentComponent } from './comment/comment.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { DeleteButtonComponent } from './delete-button/delete-button.component';
 import { ImageDialogComponent } from './dialog/image-dialog/image-dialog.component';
 import { PdfDialogComponent } from './dialog/pdf-dialog/pdf-dialog.component';
 import { DownloadLinkComponent } from './download-link/download-link.component';
@@ -40,6 +41,7 @@ import { PdfComponent } from './pdf/pdf.component';
         AttachmentUploadComponent,
         AvatarInputComponent,
         AvatarComponent,
+        DeleteButtonComponent,
     ],
     imports: [
         CommonModule,
@@ -68,6 +70,7 @@ import { PdfComponent } from './pdf/pdf.component';
         AttachmentUploadComponent,
         AvatarInputComponent,
         AvatarComponent,
+        DeleteButtonComponent,
     ],
     providers: [TranslateWrapperService],
     entryComponents: [
