@@ -1,11 +1,11 @@
-<mat-form-field appearance="fill" class="long-input">
-    <mat-label>{{ 'project.projectType' | translate }}</mat-label>
+<mat-form-field [appearance]="appearance" class="w-full">
+    <mat-label *ngIf="hasLabel">{{ 'project.projectType' | translate }}</mat-label>
 
     <haz-select-search
         [formControl]="projectTypeControl"
         [searchable]="true"
         [selectList]="projectTypes$ | async"
-        [required]="true"
+        [required]="required"
     >
     </haz-select-search>
 
