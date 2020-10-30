@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { Router } from '@angular/router';
+import { ListItemSync } from 'hazelnut';
 import * as _moment from 'moment';
+import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { Role } from '../../../shared/enums/role.enum';
 import { enterLeave, fadeEnterLeave } from '../../../shared/hazelnut/hazelnut-common/animations';
@@ -30,6 +32,10 @@ export const PROJECT_DATE_FORMATS = {
     },
 };
 
+enum FormControlNames {
+    PROJECT_TYPE= 'projectType',
+}
+
 @Component({
     selector: 'iihf-project-create',
     templateUrl: './project-create.component.html',
@@ -53,6 +59,7 @@ export const PROJECT_DATE_FORMATS = {
 export class ProjectCreateComponent implements OnInit {
     public defaultLogoPath = 'assets/img/iihf-logo-without-text-transparent.png';
     public projectDetailForm: FormGroup;
+    public projectTypeControl: FormControl;
     public yearPattern = Regex.yearPattern;
     public numericPattern = Regex.numericPattern;
     public notOnlyWhiteCharactersPattern = Regex.notOnlyWhiteCharactersPattern;
@@ -60,6 +67,8 @@ export class ProjectCreateComponent implements OnInit {
     public imageSrc: any = this.defaultLogoPath;
     public countryList = [];
     public countriesLoading = false;
+    public projectTypes$: Observable<ListItemSync[]> = this.businessAreaService.listProjectTypes();
+    public readonly formControlName: typeof FormControlNames = FormControlNames;
 
     public constructor(private readonly imagesService: ImagesService,
                        private readonly notificationService: NotificationService,
@@ -134,6 +143,7 @@ export class ProjectCreateComponent implements OnInit {
         const apiObject: any = {
             name: formObject.name,
             year: formObject.year,
+            clProjectType: {id: formObject[FormControlNames.PROJECT_TYPE]},
         };
         if (formObject.dateFrom) {
             apiObject.dateFrom = formObject.dateFrom;
@@ -176,6 +186,7 @@ export class ProjectCreateComponent implements OnInit {
         this.projectDetailForm = this.formBuilder.group({
             logo: [''],
             name: [''],
+            [FormControlNames.PROJECT_TYPE]: [''],
             year: [''],
             dateFrom: [''],
             dateTo: [''],
@@ -192,6 +203,8 @@ export class ProjectCreateComponent implements OnInit {
                 this.firstCountryEmptyWhenSecondCountry(),
             ]
         });
+
+        this.projectTypeControl = this.projectDetailForm.get(FormControlNames.PROJECT_TYPE) as FormControl;
     }
 
     private firstCountryEmptyWhenFirstVenue(): any {
@@ -240,5 +253,4 @@ export class ProjectCreateComponent implements OnInit {
                 this.notificationService.openErrorNotification('error.api');
             });
     }
-
 }

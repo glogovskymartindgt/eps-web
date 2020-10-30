@@ -247,6 +247,7 @@
         "createTitle": "New project",
         "edit": "Edit",
         "name": "Name",
+        "projectType": "Project Type",
         "year": "Year",
         "status": "Status",
         "dateFrom": "Date from",
