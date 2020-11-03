@@ -65,4 +65,13 @@
         </div>
     </ng-template>
 
+    <ng-template #projectTypeFilter let-columnConfig="columnConfig" let-control="control">
+        <div class="w-100">
+            <iihf-project-type-select
+                [formControl]="control"
+                [appearance]="null"
+            ></iihf-project-type-select>
+        </div>
+    </ng-template>
+
 </div>

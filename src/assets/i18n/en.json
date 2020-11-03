@@ -211,6 +211,7 @@
         "changedBy": "Changed by",
         "hasOnlyTotalValue": "One value for both venues",
         "year": "Year",
+        "projectType": "Project Type",
         "firstValue": "First Venue",
         "secondValue": "Second Venue",
         "description": "Description",
