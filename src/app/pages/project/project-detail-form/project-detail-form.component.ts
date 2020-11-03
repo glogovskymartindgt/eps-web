@@ -28,6 +28,10 @@ import { ProjectAttachmentService } from '../services/project-attachment.service
 
 const moment = _moment;
 
+enum FormControlNames {
+    PROJECT_TYPE= 'projectType',
+}
+
 export const PROJECT_DATE_FORMATS = {
     parse: {
         dateInput: 'D.M.YYYY',
@@ -89,6 +93,7 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         'zip',
         'jpeg'
     ];
+    public readonly formControlNames: typeof FormControlNames = FormControlNames;
     private readonly attachmentDownloadErrorKey = 'error.attachmentDownload';
     private readonly attachmentUploadErrorKey = 'error.attachmentUpload';
 
@@ -469,6 +474,7 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
             name: projectDetail.name,
             year: projectDetail.year,
             status: projectDetail.state,
+            [FormControlNames.PROJECT_TYPE]: projectDetail.clProjectType?.id
         });
         this.setFormProperty('dateFrom', projectDetail.dateFrom);
         this.setFormProperty('dateTo', projectDetail.dateTo);
@@ -712,6 +718,7 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
             projectId: [''],
             logo: [''],
             name: [''],
+            [FormControlNames.PROJECT_TYPE]: [''],
             year: [''],
             status: [''],
             dateFrom: [''],

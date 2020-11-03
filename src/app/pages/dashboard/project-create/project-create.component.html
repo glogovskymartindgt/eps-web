@@ -57,21 +57,11 @@
                         </haz-copy-core-input>
                     </div>
 
-                    <mat-form-field appearance="fill" class="long-input">
-                        <mat-label>{{ 'project.projectType' | translate }}</mat-label>
-
-                        <haz-select-search
+                    <div class="long-input">
+                        <iihf-project-type-select
                             [formControlName]="formControlName.PROJECT_TYPE"
-                            [searchable]="true"
-                            [selectList]="projectTypes$ | async"
-                            [required]="true"
-                        >
-                        </haz-select-search>
-
-                        <mat-error *ngIf="projectTypeControl.touched && projectTypeControl.hasError('required')">
-                            {{'error.required' | translate}}
-                        </mat-error>
-                    </mat-form-field>
+                        ></iihf-project-type-select>
+                    </div>
 
                     <div fxLayout="row" fxLayoutGap="10px">
                         <div class="short-input">
