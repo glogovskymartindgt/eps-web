@@ -1,7 +1,7 @@
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { Component, ElementRef, HostBinding, Input, OnDestroy, OnInit, Optional, Self } from '@angular/core';
 import { FormControl, NgControl, Validators } from '@angular/forms';
-import { MatFormFieldControl } from '@angular/material/form-field';
+import { MatFormFieldAppearance, MatFormFieldControl } from '@angular/material/form-field';
 import { CustomInputComponent, ListItemSync } from 'hazelnut';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -25,8 +25,14 @@ export class ProjectTypeSelectComponent extends CustomInputComponent<number> imp
     @HostBinding()
     public readonly id: string = `project-type-select-${ProjectTypeSelectComponent.nextId++}`;
     public value: number;
+    @Input()
+    public required: boolean;
+    @Input()
+    public hasLabel: boolean;
+    @Input()
+    public appearance: MatFormFieldAppearance = 'fill';
 
-    public projectTypeControl: FormControl = new FormControl('', Validators.required);
+    public projectTypeControl: FormControl;
     public projectTypes$: Observable<ListItemSync[]> = this.businessAreaService.listProjectTypes();
 
     private _disabled = false;
@@ -67,6 +73,8 @@ export class ProjectTypeSelectComponent extends CustomInputComponent<number> imp
     }
 
     public ngOnInit(): void {
+        this.setFormControl();
+
         this.projectTypeControl.valueChanges
             .pipe(takeUntil(this.componentDestroyed$))
             .subscribe((value: number): void => {
@@ -76,7 +84,22 @@ export class ProjectTypeSelectComponent extends CustomInputComponent<number> imp
     }
 
     public writeValue(value: number): void {
+        this.setFormControl();
         this.projectTypeControl.setValue(value, {emitEvent: false});
         this.stateChanges.next();
+    }
+
+    private setFormControl(): void {
+        if (!!this.projectTypeControl) {
+            return;
+        }
+
+        this.projectTypeControl = this.required ?
+            new FormControl('', Validators.required)
+            : new FormControl('');
+        if (this.disabled) {
+            this.projectTypeControl.disable();
+            this.stateChanges.next();
+        }
     }
 }

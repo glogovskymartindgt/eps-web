@@ -48,6 +48,7 @@ export class CoreTableFilterComponent implements OnInit {
     public filterTypeEnum: typeof TableFilterType = TableFilterType;
     public userList$ = this.userDataService.getUsers();
     public categoryList$ = [];
+    public formControl: FormControl;
 
     private _filtersElement: FormGroup = null;
 
@@ -68,11 +69,12 @@ export class CoreTableFilterComponent implements OnInit {
                                                         this.columnConfig.filter.predefinedValue[0] :
                                                         null);
         this._filtersElement = new FormGroup(formGroupOptions);
-        this.processFormChanges();
-
         if (this.columnConfig.filter && this.columnConfig.filter.type === TableFilterType.CUSTOM) {
             this._filtersElement.addControl(this.columnConfig.filterElement, new FormControl());
+            this.formControl = this._filtersElement.controls[this.columnConfig.filterElement] as FormControl;
         }
+        this.processFormChanges();
+
         this.loadCategoryList();
         this.setPredefinedFilterValuesIntoTableFilters();
     }
