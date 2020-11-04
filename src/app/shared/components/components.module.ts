@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
+import { AbstractInputsModule as HazelnutInputsModule, TRANSLATE_WRAPPER_TOKEN } from 'hazelnut';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { ShowByRoleDirective } from '../directives/show-by-role.directive';
 import { AbstractInputsModule } from '../hazelnut/abstract-inputs';
@@ -24,6 +25,7 @@ import { DownloadLinkComponent } from './download-link/download-link.component';
 import { DragDropBoxComponent } from './drag-drop-box/drag-drop-box.component';
 import { HeaderComponent } from './header/header.component';
 import { PdfComponent } from './pdf/pdf.component';
+import { ProjectTypeSelectComponent } from './project-type-select/project-type-select.component';
 
 @NgModule({
     declarations: [
@@ -42,6 +44,7 @@ import { PdfComponent } from './pdf/pdf.component';
         AvatarInputComponent,
         AvatarComponent,
         DeleteButtonComponent,
+        ProjectTypeSelectComponent,
     ],
     imports: [
         CommonModule,
@@ -54,6 +57,7 @@ import { PdfComponent } from './pdf/pdf.component';
         ReactiveFormsModule,
         SharedDirectivesModule,
         TranslateModule.forChild(),
+        HazelnutInputsModule,
     ],
     exports: [
         NotificationSnackBarComponent,
@@ -71,8 +75,15 @@ import { PdfComponent } from './pdf/pdf.component';
         AvatarInputComponent,
         AvatarComponent,
         DeleteButtonComponent,
+        ProjectTypeSelectComponent,
     ],
-    providers: [TranslateWrapperService],
+    providers: [
+        TranslateWrapperService,
+        {
+            provide: TRANSLATE_WRAPPER_TOKEN,
+            useExisting: TranslateWrapperService,
+        },
+    ],
     entryComponents: [
         ConfirmationDialogComponent
       ]

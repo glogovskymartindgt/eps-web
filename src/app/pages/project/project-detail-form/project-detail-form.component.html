@@ -50,6 +50,12 @@
                 </haz-copy-core-input>
             </div>
 
+            <div class="long-input">
+                <iihf-project-type-select
+                    [formControlName]="formControlNames.PROJECT_TYPE"
+                ></iihf-project-type-select>
+            </div>
+
             <div fxLayout="row" fxLayoutGap="10px">
                 <div class="short-input">
                     <haz-copy-core-input [allowedCharactersPattern]="numericPattern"

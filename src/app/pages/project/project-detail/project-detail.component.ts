@@ -88,6 +88,9 @@ export class ProjectDetailComponent implements OnInit {
             name: formObject.name,
             year: formObject.year,
             state: formObject.status,
+            clProjectType: {
+                id: formObject.projectType,
+            }
         };
         if (formObject.dateFrom) {
             this.apiObject.dateFrom = formObject.dateFrom;

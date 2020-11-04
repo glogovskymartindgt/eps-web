@@ -1,3 +1,4 @@
+import { ProjectType } from './project-type.model';
 import { VenueDetail } from './venue-detail.model';
 
 export class ProjectDetail {
@@ -10,4 +11,5 @@ export class ProjectDetail {
     public dateTo?: string;
     public projectVenues?: VenueDetail[];
     public description: string;
+    public clProjectType?: ProjectType;
 }

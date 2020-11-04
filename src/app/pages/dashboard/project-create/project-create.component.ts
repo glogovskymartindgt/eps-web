@@ -3,9 +3,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { Router } from '@angular/router';
-import { ListItemSync } from 'hazelnut';
 import * as _moment from 'moment';
-import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { Role } from '../../../shared/enums/role.enum';
 import { enterLeave, fadeEnterLeave } from '../../../shared/hazelnut/hazelnut-common/animations';
@@ -67,7 +65,6 @@ export class ProjectCreateComponent implements OnInit {
     public imageSrc: any = this.defaultLogoPath;
     public countryList = [];
     public countriesLoading = false;
-    public projectTypes$: Observable<ListItemSync[]> = this.businessAreaService.listProjectTypes();
     public readonly formControlName: typeof FormControlNames = FormControlNames;
 
     public constructor(private readonly imagesService: ImagesService,
