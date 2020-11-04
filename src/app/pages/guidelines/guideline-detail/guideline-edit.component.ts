@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { finalize } from 'rxjs/operators';
 import { Role } from '../../../shared/enums/role.enum';
+import { RouteNames } from '../../../shared/enums/route-names.enum';
 import { Guideline } from '../../../shared/interfaces/guideline.interface';
 import { AttachmentService } from '../../../shared/services/data/attachment.service';
 import { BusinessAreaService } from '../../../shared/services/data/business-area.service';
@@ -24,6 +25,7 @@ import { GuidelineDetailBaseComponent, GuidelineFormControlNames } from './guide
 export class GuidelineEditComponent extends GuidelineDetailBaseComponent implements OnInit {
     public labelKey = 'guidelines.editGuideline';
     public editMode = false;
+    public updateScreen = true;
     public submitButtonRole: Role = Role.RoleUpdateGuideline;
 
     private guidelineId: number;
@@ -47,6 +49,7 @@ export class GuidelineEditComponent extends GuidelineDetailBaseComponent impleme
 
         this.setBaseForm();
         this.fillFormData();
+        this.setDeleteButtonOptions();
     }
 
     /**
@@ -112,7 +115,16 @@ export class GuidelineEditComponent extends GuidelineDetailBaseComponent impleme
             });
             this.hasChangedSection = true;
         }
-
     }
 
+    private setDeleteButtonOptions(): void {
+        this.deleteButtonOptions = {
+            titleKey: 'confirmation.guideline.title',
+            messageKey: 'confirmation.guideline.message',
+            rejectionButtonKey: 'confirmation.guideline.rejectButton',
+            confirmationButtonKey: 'confirmation.guideline.confirmButton',
+            deleteApiCall: this.guideLineService.deleteById(this.guidelineId),
+            redirectRoute: [RouteNames.GUIDELINES, RouteNames.LIST],
+        };
+    }
 }

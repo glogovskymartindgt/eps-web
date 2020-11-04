@@ -1,8 +1,10 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { finalize } from 'rxjs/operators';
+import { RequestNames } from '../../../shared/enums/request-names.enum';
 import { Role } from '../../../shared/enums/role.enum';
 import {
     TableCellType,
@@ -42,10 +44,14 @@ export class FactListComponent implements OnInit {
     @ViewChild('secondValueColumn', {static: true}) public secondValueColumn: TemplateRef<any>;
     @ViewChild('totalValueColumn', {static: true}) public totalValueColumn: TemplateRef<any>;
     @ViewChild('categoryColumn', {static: true}) public categoryColumn: TemplateRef<any>;
+    @ViewChild('projectTypeFilter', {static: true})
+    public projectTypeFilter: TemplateRef<{ columnConfig: TableColumn, control: FormControl }>;
+
     public config: TableConfiguration;
     public loading = false;
     public data = new BrowseResponse<Fact>([]);
     public allFacts = false;
+    public role: typeof Role = Role;
 
     private lastTableChangeEvent: TableChangeEvent;
     private allTaskFilters: Filter[] = [];
@@ -125,16 +131,21 @@ export class FactListComponent implements OnInit {
         return this.hasRoleCreateFactItem() || this.hasRoleCreateFactItemInAssignProject();
     }
 
-    public allowExportAllFactItemButton(): boolean {
-        return this.allFacts && this.hasRoleExportAllFactItem();
-    }
-
-    public allowFactDetailButton(): boolean {
-        return (!this.allFacts &&
-            (this.authService.hasRole(Role.RoleReadFactItem) ||
-                this.authService.hasRole(Role.RoleReadFactItemInAssignProject) ||
-                this.authService.hasRole(Role.RoleUpdateFactItem) ||
-                this.authService.hasRole(Role.RoleUpdateFactItemInAssignProject))) || (this.allFacts && this.authService.hasRole(Role.RoleReadAllFactItem));
+    public factDetailRoles(): Role[] {
+        if (this.allFacts) {
+            return [
+                Role.RoleReadAllFactItem,
+                Role.RoleReadAllFactItemInAssignProject,
+            ];
+            // tslint:disable-next-line:unnecessary-else
+        } else {
+            return [
+                Role.RoleReadFactItem,
+                Role.RoleReadFactItemInAssignProject,
+                Role.RoleUpdateFactItem,
+                Role.RoleUpdateFactItemInAssignProject,
+            ];
+        }
     }
 
     /**
@@ -230,16 +241,28 @@ export class FactListComponent implements OnInit {
         // Update config for All Facts and Figures screen
         if (this.router.url.includes(ALL_FACTS)) {
             this.allFacts = true;
-            config.columns.splice(0, 0, new TableColumn({
-                columnDef: 'year',
-                labelKey: 'fact.year',
-                align: 'right',
-                type: TableCellType.NUMBER_SIMPLE,
-                filter: new TableColumnFilter({
-                    type: TableFilterType.NUMBER,
+            config.columns.splice(0, 0,
+                new TableColumn({
+                    columnDef: 'year',
+                    labelKey: 'fact.year',
+                    align: 'right',
+                    type: TableCellType.NUMBER_SIMPLE,
+                    filter: new TableColumnFilter({
+                        type: TableFilterType.NUMBER,
+                    }),
+                    sorting: true,
                 }),
-                sorting: true,
-            }));
+                new TableColumn({
+                    columnDef: 'projectTypeCode',
+                    labelKey: 'fact.projectType',
+                    columnRequestName: RequestNames.PROJECT_TYPE_ID,
+                    filter: new TableColumnFilter({
+                        type: TableFilterType.CUSTOM,
+                        template: this.projectTypeFilter,
+                    }),
+                    sorting: true,
+                }),
+            );
             this.setLabel(config, 'valueFirst', 'fact.firstValue');
             this.setLabel(config, 'valueSecond', 'fact.secondValue');
         }
@@ -260,10 +283,6 @@ export class FactListComponent implements OnInit {
         return this.authService.hasRole(Role.RoleCreateFactItemInAssignProject);
     }
 
-    private hasRoleExportAllFactItem(): boolean {
-        return this.authService.hasRole(Role.RoleExportAllFactItem);
-    }
-
     /**
      * Set column label
      * @param columnName
@@ -282,5 +301,4 @@ export class FactListComponent implements OnInit {
         return this.routingStorageService.getPreviousUrl().includes('facts/edit')
             || this.routingStorageService.getPreviousUrl().includes('facts/create');
     }
-
 }

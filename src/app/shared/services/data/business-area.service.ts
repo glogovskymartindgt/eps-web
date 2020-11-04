@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ListItemSync } from 'hazelnut';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
@@ -103,14 +104,18 @@ import { ProjectUserService } from '../storage/project-user.service';
     /**
      * Get list of business areas for the guideline section
      */
-    public listGuidelineBusinessAreas(projectId: number): Observable<BusinessArea[]> {
-        return this.http.get<BusinessArea[]>(`${environment.URL_API}/codeList/guideline/${projectId}`,
-            {headers: this.getHeader()}
-        )
+    public listGuidelineBusinessAreas(): Observable<BusinessArea[]> {
+        return this.getListByCodeToArray<BusinessArea>('BAREA');
+    }
+
+    /**
+     * Get list of project types
+     */
+    public listProjectTypes(): Observable<ListItemSync[]> {
+        return this.getListByCodeToArray<BusinessArea>('PRGTYPE')
             .pipe(
-                map((businessAreas: BusinessArea[]): BusinessArea[] =>
-                    businessAreas.filter((businessArea: BusinessArea): boolean => businessArea.state === `VALID`)
-                )
+                map(BusinessArea.convertToListItems),
+                map(this.sortListItems),
             );
     }
 
@@ -118,12 +123,25 @@ import { ProjectUserService } from '../storage/project-user.service';
      * Browse list of objects from code list by code value
      * @param code
      */
-    private getListByCode(code: string): Observable<BrowseResponse<any>> {
+    private getListByCode<T = any>(code: string): Observable<BrowseResponse<T>> {
         const limit = 100;
 
-        return this.browseWithSummary(PostContent.create(limit, 0, [new Filter('CODE', code)], []))
+        return this.browseWithSummary<T>(PostContent.create(limit, 0, [new Filter('CODE', code)], []))
             .pipe(
                 shareReplay(),
             );
+    }
+
+    private getListByCodeToArray<T = any>(code: string): Observable<T[]> {
+        return this.getListByCode<T>(code)
+            .pipe(
+                map((response: BrowseResponse<T>): T[] => response.content)
+            );
+    }
+
+    private sortListItems(listItems: ListItemSync[]): ListItemSync[] {
+        return listItems.sort((first: ListItemSync, second: ListItemSync): number => {
+            return first.value.localeCompare(second.value);
+        });
     }
 }

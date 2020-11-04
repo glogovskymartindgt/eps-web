@@ -1,6 +1,6 @@
 {
     "name": "iihf-web",
-    "version": "1.11.3",
+    "version": "1.12.0",
     "scripts": {
         "ng": "ng",
         "start": "ng serve --proxy-config proxy.conf.json",
@@ -16,9 +16,9 @@
         "docker:pull": "docker image prune && npm run docker:pull-db && npm run docker:pull-be",
         "docker:compose": "cd api-docker && docker-compose up -d eps_db && docker-compose up -d eps_be",
         "docker:pull-db": "docker image pull qregistry.qbsw.local:5000/qbsw/iihf_eps_db",
-        "docker:pull-be": "docker image pull qregistry.qbsw.local:5000/qbsw/iihf_eps_be",
+        "docker:pull-be": "docker image pull qbsw-docker-dev.artifactory.qbsw.local/sk/qbsw/iihf-eps/api",
         "docker:remove-containers": "docker stop container_eps_db container_eps_be && docker container rm container_eps_db container_eps_be",
-        "docker:remove-images": "docker image rm qregistry.qbsw.local:5000/qbsw/iihf_eps_be && docker image rm qregistry.qbsw.local:5000/qbsw/iihf_eps_db",
+        "docker:remove-images": "docker image rm qbsw-docker-dev.artifactory.qbsw.local/sk/qbsw/iihf-eps/api && docker image rm qregistry.qbsw.local:5000/qbsw/iihf_eps_db",
         "Ndisk:mount": "cd api-docker && mountNdisk",
         "Ndisk:remove": "subst N: /D",
         "test": "ng test",
@@ -35,7 +35,7 @@
     },
     "husky": {
         "hooks": {
-            "pre-push": "npm run husky-hook"
+            "pre-push": "npm run pre-push"
         }
     },
     "private": true,

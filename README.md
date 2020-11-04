@@ -4,8 +4,10 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Development
 
-Run `npm api:run` to run the api server from Docker. Run `npm start` to start the app in an Angular dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-After you've finished working, run `npm api:stop` to stop the api server (or you'll have to do it the next time you start the api server).
+To start, you need to run `npm run Ndisk:mount` to create an N disk on your PC, which is used by the backend run 
+locally.
+Run `npm run api:run` to run the api server from Docker. Run `npm start` to start the app in an Angular dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+After you've finished working, run `npm run api:stop` to stop the api server (or you'll have to do it the next time you start the api server).
 
 ## Release
 

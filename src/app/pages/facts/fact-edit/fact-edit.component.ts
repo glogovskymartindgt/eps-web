@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Role } from '../../../shared/enums/role.enum';
-import { AuthService } from '../../../shared/services/auth.service';
+import { RouteNames } from '../../../shared/enums/route-names.enum';
+import { DeleteButtonOptions } from '../../../shared/models/delete-button-options.model';
 import { FactService } from '../../../shared/services/data/fact.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
@@ -23,15 +24,18 @@ const FACTS_SCREEN = 'facts';
     @ViewChild(TaskFormComponent, {static: true}) public taskForm: TaskFormComponent;
     public formData = null;
     public canSave = true;
+    public deleteButtonOptions: DeleteButtonOptions = null;
+    public readonly role: typeof Role = Role;
     private factRoute = FACTS_SCREEN;
     private factId: number;
 
-    public constructor(private readonly router: Router,
-                       private readonly notificationService: NotificationService,
-                       private readonly factService: FactService,
-                       private readonly activatedRoute: ActivatedRoute,
-                       public readonly projectEventService: ProjectEventService,
-                       private readonly authService: AuthService) {
+    public constructor(
+        private readonly router: Router,
+        private readonly notificationService: NotificationService,
+        private readonly factService: FactService,
+        private readonly activatedRoute: ActivatedRoute,
+        public readonly projectEventService: ProjectEventService,
+    ) {
     }
 
     /**
@@ -40,6 +44,7 @@ const FACTS_SCREEN = 'facts';
     public ngOnInit(): void {
         this.activatedRoute.queryParams.subscribe((param: Params): void => {
             this.factId = param.id;
+            this.setDeleteButtonOptions();
         });
 
         if (this.router.url.includes(ALL_FACTS_SCREEN)) {
@@ -70,19 +75,6 @@ const FACTS_SCREEN = 'facts';
                     this.notificationService.openErrorNotification('error.edit');
                 });
         }
-
-    }
-
-    public allowSaveButton(): boolean {
-        return this.hasRoleUpdateFactItem() || this.hasRoleUpdateFactItemInAssignProject();
-    }
-
-    private hasRoleUpdateFactItem(): boolean {
-        return this.authService.hasRole(Role.RoleUpdateFactItem);
-    }
-
-    private hasRoleUpdateFactItemInAssignProject(): boolean {
-        return this.authService.hasRole(Role.RoleUpdateFactItemInAssignProject);
     }
 
     /**
@@ -104,6 +96,17 @@ const FACTS_SCREEN = 'facts';
         }
 
         return apiObject;
+    }
+
+    private setDeleteButtonOptions(): void {
+        this.deleteButtonOptions = {
+            titleKey: 'confirmation.fact.title',
+            messageKey: 'confirmation.fact.message',
+            rejectionButtonKey: 'confirmation.fact.rejectButton',
+            confirmationButtonKey: 'confirmation.fact.confirmButton',
+            deleteApiCall: this.factService.deleteById(this.factId),
+            redirectRoute: [RouteNames.FACTS, RouteNames.LIST],
+        };
     }
 
 }

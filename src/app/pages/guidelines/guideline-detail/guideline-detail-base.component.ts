@@ -10,6 +10,7 @@ import { BusinessArea } from '../../../shared/interfaces/bussiness-area.interfac
 import { ClBusinessArea } from '../../../shared/interfaces/cl-business-area.interface';
 import { Guideline } from '../../../shared/interfaces/guideline.interface';
 import { AttachmentDetail } from '../../../shared/models/attachment-detail.model';
+import { DeleteButtonOptions } from '../../../shared/models/delete-button-options.model';
 import { AttachmentService } from '../../../shared/services/data/attachment.service';
 import { BusinessAreaService } from '../../../shared/services/data/business-area.service';
 import { NotificationService } from '../../../shared/services/notification.service';
@@ -31,6 +32,7 @@ export abstract class GuidelineDetailBaseComponent implements OnInit {
     public abstract labelKey: string;
     public abstract editMode: boolean;
     public abstract submitButtonRole: Role;
+    public abstract updateScreen: boolean;
     public guidelineDetailForm: FormGroup;
     public businessAreaControl: FormControl;
     public attachmentControl: FormControl;
@@ -39,6 +41,7 @@ export abstract class GuidelineDetailBaseComponent implements OnInit {
     public readonly formControlNames: typeof GuidelineFormControlNames = GuidelineFormControlNames;
     public readonly fifteenMBinBytes = 15728640;
     public readonly roles: typeof Role = Role;
+    public deleteButtonOptions: DeleteButtonOptions = null;
 
     public hasCreatedSection = false;
     public hasChangedSection = false;
@@ -113,7 +116,7 @@ export abstract class GuidelineDetailBaseComponent implements OnInit {
     }
 
     protected loadBusinessAreas(): void {
-        this.businessAreas$ = this.businessAreaService.listGuidelineBusinessAreas(this.projectEventService.instant.id)
+        this.businessAreas$ = this.businessAreaService.listGuidelineBusinessAreas()
             .pipe(
                 map((businessAreas: BusinessArea[]): ListItemSync[] =>
                     businessAreas.map((businessArea: BusinessArea): ListItemSync => ({

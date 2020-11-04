@@ -14,9 +14,16 @@
             >
                 {{'common.create' | translate}}
             </button>
-            <button mat-flat-button (click)="export()" class="mr-10" color="accent" *ngIf="allowExportAllFactItemButton()">
-                {{'common.export' | translate}}
-            </button>
+
+            <ng-container *ngIf="allFacts">
+                <button
+                    *iihfShowByRole="[role.RoleExportAllFactItem, role.RoleExportAllFactItemInAssignProject]"
+                    mat-flat-button class="mr-10" color="accent"
+                    (click)="export()"
+                >
+                    {{'common.export' | translate}}
+                </button>
+            </ng-container>
         </div>
     </div>
 
@@ -49,12 +56,21 @@
         </div>
     </ng-template>
     <ng-template #updateColumn let-actRow="row" let-context="context">
-        <div class="fr" *ngIf="allowFactDetailButton()">
+        <div class="fr" *iihfShowByRole="factDetailRoles()">
             <button (click)="update(actRow.id, actRow.year, actRow.projectId)"
                     mat-icon-button
             >
                 <mat-icon>keyboard_arrow_right</mat-icon>
             </button>
+        </div>
+    </ng-template>
+
+    <ng-template #projectTypeFilter let-columnConfig="columnConfig" let-control="control">
+        <div class="w-100">
+            <iihf-project-type-select
+                [formControl]="control"
+                [appearance]="null"
+            ></iihf-project-type-select>
         </div>
     </ng-template>
 

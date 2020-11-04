@@ -185,6 +185,7 @@
         "create": "CREATE",
         "edit": "EDIT",
         "export": "EXPORT",
+        "delete": "DELETE",
         "from": "From",
         "to": "To",
         "emptyText": ""
@@ -210,6 +211,7 @@
         "changedBy": "Changed by",
         "hasOnlyTotalValue": "One value for both venues",
         "year": "Year",
+        "projectType": "Project Type",
         "firstValue": "First Venue",
         "secondValue": "Second Venue",
         "description": "Description",
@@ -246,6 +248,7 @@
         "createTitle": "New project",
         "edit": "Edit",
         "name": "Name",
+        "projectType": "Project Type",
         "year": "Year",
         "status": "Status",
         "dateFrom": "Date from",
@@ -393,6 +396,18 @@
             "message": "This action will delete the current comment.",
             "confirmButton": "DELETE",
             "rejectButton": "CANCEL"
+        },
+        "guideline": {
+            "title":"Delete guideline?",
+            "message":"This action will delete the current guideline.",
+            "confirmButton":"DELETE",
+            "rejectButton":"CANCEL"
+        },
+        "fact": {
+            "title":"Delete fact?",
+            "message":"This action will delete the current fact.",
+            "confirmButton":"DELETE",
+            "rejectButton":"CANCEL"
         }
     }
 }

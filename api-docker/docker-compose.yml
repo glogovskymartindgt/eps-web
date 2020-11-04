@@ -14,7 +14,7 @@ services:
       - eps-network
 
   eps_be:
-    image: qregistry.qbsw.local:5000/qbsw/iihf_eps_be
+    image: qbsw-docker-dev.artifactory.qbsw.local/sk/qbsw/iihf-eps/api
     container_name: container_eps_be
     ports:
       - 8080:8080

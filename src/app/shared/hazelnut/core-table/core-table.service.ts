@@ -121,6 +121,10 @@ export class CoreTableService {
                 }
                 break;
             }
+            default: {
+                this.filters.push(new Filter(propertyName, value, 'NUMBER', 'EQ'));
+                break;
+            }
         }
         this.filtersSubject$.next(this.filters);
     }
