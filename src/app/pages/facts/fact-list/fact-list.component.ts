@@ -251,9 +251,10 @@ export class FactListComponent implements OnInit {
                 new TableColumn({
                     columnDef: 'projectTypeCode',
                     labelKey: 'fact.projectType',
-                    columnRequestName: RequestNames.PROJECT_TYPE_ID,
+                    columnRequestName: RequestNames.PROJECT_TYPE_CODE,
                     filter: new TableColumnFilter({
                         type: TableFilterType.CUSTOM,
+                        valueType: 'STRING',
                         template: this.projectTypeFilter,
                     }),
                     sorting: true,

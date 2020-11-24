@@ -8,14 +8,24 @@ export class BusinessArea {
     public shortName?: string;
 
     public static convertToListItems(list: BusinessArea[]): ListItemSync[] {
-        return list.map((item: BusinessArea): ListItemSync => {
-            const names: string[] = [];
-            if (!!item.shortName) {
-                names.push(item.shortName);
-            }
-            names.push(item.name);
+        return list.map((item: BusinessArea): ListItemSync => (
+            {code: item.id, value: BusinessArea.getLongName(item)}
+        ));
+    }
 
-            return {code: item.id, value: names.join(' - ')};
-        });
+    public static convertToListItemsByCode(list: BusinessArea[]): ListItemSync[] {
+        return list.map((item: BusinessArea): ListItemSync => (
+            {code: item.shortName, value: BusinessArea.getLongName(item)}
+        ));
+    }
+
+    private static getLongName(item: BusinessArea): string {
+        const names: string[] = [];
+        if (!!item.shortName) {
+            names.push(item.shortName);
+        }
+        names.push(item.name);
+
+        return names.join(' - ');
     }
 }
