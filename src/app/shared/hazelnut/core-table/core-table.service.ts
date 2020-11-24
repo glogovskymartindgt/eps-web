@@ -121,6 +121,13 @@ export class CoreTableService {
                 }
                 break;
             }
+
+            case TableFilterType.CUSTOM: {
+                this.filters.push(new Filter(propertyName, value, column.filter.valueType || 'NUMBER', 'EQ'));
+                break;
+            }
+
+
             default: {
                 this.filters.push(new Filter(propertyName, value, 'NUMBER', 'EQ'));
                 break;

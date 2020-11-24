@@ -120,6 +120,17 @@ import { ProjectUserService } from '../storage/project-user.service';
     }
 
     /**
+     * Get list of project types by code
+     */
+    public listProjectTypesByCode(): Observable<ListItemSync[]> {
+        return this.getListByCodeToArray<BusinessArea>('PRGTYPE')
+            .pipe(
+                map(BusinessArea.convertToListItemsByCode),
+                map(this.sortListItems),
+            );
+    }
+
+    /**
      * Browse list of objects from code list by code value
      * @param code
      */
