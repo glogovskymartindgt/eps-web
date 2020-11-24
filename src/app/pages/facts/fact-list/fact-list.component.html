@@ -4,16 +4,18 @@
         <div class="pl-50" fxFlex="400px" fxLayoutAlign="start center">
             <h2>{{ (allFacts ? 'fact.titleAllFacts' : 'fact.title') | translate}}</h2>
         </div>
-        <!--Fact create button is only in Facts and Figures screen in active project, not in All Facts and Figures-->
-        <div *ngIf="allowCreateFactButton()" fxFlex fxLayoutAlign="end center">
-            <button (click)="createFact()"
-                    *ngIf="projectEventService.instant.active && !allFacts"
-                    class="mr-10"
-                    color="accent"
-                    mat-raised-button
-            >
-                {{'common.create' | translate}}
-            </button>
+
+        <div fxFlex fxLayoutAlign="end center">
+            <ng-container *ngIf="projectEventService.instant.active && !allFacts">
+                <button (click)="createFact()"
+                        *iihfShowByRole="[role.RoleCreateFactItem, role.RoleCreateFactItemInAssignProject]"
+                        class="mr-10"
+                        color="accent"
+                        mat-raised-button
+                >
+                    {{'common.create' | translate}}
+                </button>
+            </ng-container>
 
             <ng-container *ngIf="allFacts">
                 <button
@@ -70,6 +72,7 @@
             <iihf-project-type-select
                 [formControl]="control"
                 [appearance]="null"
+                [key]="'code'"
             ></iihf-project-type-select>
         </div>
     </ng-template>

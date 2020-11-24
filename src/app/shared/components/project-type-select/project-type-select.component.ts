@@ -30,10 +30,12 @@ export class ProjectTypeSelectComponent extends CustomInputComponent<number> imp
     @Input()
     public hasLabel: boolean;
     @Input()
+    public key: 'id' | 'code' = 'id';
+    @Input()
     public appearance: MatFormFieldAppearance = 'fill';
 
     public projectTypeControl: FormControl;
-    public projectTypes$: Observable<ListItemSync[]> = this.businessAreaService.listProjectTypes();
+    public projectTypes$: Observable<ListItemSync[]>;
 
     private _disabled = false;
     private readonly componentDestroyed$: Subject<boolean> = new Subject<boolean>();
@@ -73,6 +75,7 @@ export class ProjectTypeSelectComponent extends CustomInputComponent<number> imp
     }
 
     public ngOnInit(): void {
+        this.projectTypes$ = this.key === 'id' ? this.businessAreaService.listProjectTypes() : this.businessAreaService.listProjectTypesByCode();
         this.setFormControl();
 
         this.projectTypeControl.valueChanges

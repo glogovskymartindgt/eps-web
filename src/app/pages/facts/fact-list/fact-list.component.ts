@@ -17,7 +17,6 @@ import {
 import { BrowseResponse, Filter } from '../../../shared/hazelnut/hazelnut-common/models';
 import { FileManager } from '../../../shared/hazelnut/hazelnut-common/utils/file-manager';
 import { Fact } from '../../../shared/interfaces/fact.interface';
-import { AuthService } from '../../../shared/services/auth.service';
 import { FactService } from '../../../shared/services/data/fact.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { RoutingStorageService } from '../../../shared/services/routing-storage.service';
@@ -56,14 +55,15 @@ export class FactListComponent implements OnInit {
     private lastTableChangeEvent: TableChangeEvent;
     private allTaskFilters: Filter[] = [];
 
-    public constructor(public readonly projectEventService: ProjectEventService,
-                       private readonly translateService: TranslateService,
-                       private readonly notificationService: NotificationService,
-                       private readonly factService: FactService,
-                       public readonly router: Router,
-                       private readonly routingStorageService: RoutingStorageService,
-                       private readonly tableChangeStorageService: TableChangeStorageService,
-                       private readonly authService: AuthService) {
+    public constructor(
+        public readonly projectEventService: ProjectEventService,
+        private readonly translateService: TranslateService,
+        private readonly notificationService: NotificationService,
+        private readonly factService: FactService,
+        public readonly router: Router,
+        private readonly routingStorageService: RoutingStorageService,
+        private readonly tableChangeStorageService: TableChangeStorageService,
+    ) {
     }
 
     public ngOnInit(): void {
@@ -125,10 +125,6 @@ export class FactListComponent implements OnInit {
             }, (): void => {
                 this.notificationService.openErrorNotification('error.api');
             });
-    }
-
-    public allowCreateFactButton(): boolean {
-        return this.hasRoleCreateFactItem() || this.hasRoleCreateFactItemInAssignProject();
     }
 
     public factDetailRoles(): Role[] {
@@ -255,9 +251,10 @@ export class FactListComponent implements OnInit {
                 new TableColumn({
                     columnDef: 'projectTypeCode',
                     labelKey: 'fact.projectType',
-                    columnRequestName: RequestNames.PROJECT_TYPE_ID,
+                    columnRequestName: RequestNames.PROJECT_TYPE_CODE,
                     filter: new TableColumnFilter({
                         type: TableFilterType.CUSTOM,
+                        valueType: 'STRING',
                         template: this.projectTypeFilter,
                     }),
                     sorting: true,
@@ -273,14 +270,6 @@ export class FactListComponent implements OnInit {
 
     private checkValue(value: any): any {
         return value ? value : '-';
-    }
-
-    private hasRoleCreateFactItem(): boolean {
-        return this.authService.hasRole(Role.RoleCreateFactItem);
-    }
-
-    private hasRoleCreateFactItemInAssignProject(): boolean {
-        return this.authService.hasRole(Role.RoleCreateFactItemInAssignProject);
     }
 
     /**

@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { ThemePalette } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -15,6 +16,9 @@ export class DeleteButtonComponent {
 
     @Input()
     public options: DeleteButtonOptions;
+
+    @Input()
+    public color: ThemePalette;
 
     public constructor(
         private readonly matDialog: MatDialog,
