@@ -1,15 +1,34 @@
-<div fxLayout="row" class="basic-screen-header">
-    <div class="pl-50" fxLayoutAlign="start center">
-        <h3>{{'actionPoint.edit.editActionPoint' | translate}}</h3>
-    </div>
-</div>
+<iihf-header>
+    <h3 title>{{titleKey | translate}}</h3>
+
+    <ng-container buttons>
+        <ng-container *ngIf="projectEventService.instant.active && !editMode">
+            <button
+                (click)="enableEdit()"
+                *iihfShowByRole="actionPointEditRoles"
+                class="mr-10"
+                color="accent"
+                mat-flat-button
+            >
+                {{'common.edit' | translate}}
+            </button>
+        </ng-container>
+
+        <iihf-delete-button
+            *iihfShowByRole="role.RoleDeleteActionPoint"
+            [options]="deleteButtonOptions"
+            class="mr-10"
+            color="accent"
+        ></iihf-delete-button>
+    </ng-container>
+</iihf-header>
 
 <div fxLayout="row" style="overflow: auto;  height: calc(100vh - 160px);">
     <div fxFlex fxFlex.gt-sm="100%" class="p-30 form-content" fxLayout="column">
-        <iihf-action-point-form (formDataChange)="formDataChange($event)"></iihf-action-point-form>
+        <iihf-action-point-form (formDataChange)="formDataChange($event)" [disabled]="!editMode"></iihf-action-point-form>
         <div>
-            <ng-container *ngIf="projectEventService.instant.active">
-                <button *iihfShowByRole="[role.RoleUpdateActionPoint, role.RoleUpdateActionPointInAssignProject]"
+            <ng-container *ngIf="projectEventService.instant.active && editMode">
+                <button *iihfShowByRole="actionPointEditRoles"
                         type="submit"
                         mat-flat-button
                         color="accent"
@@ -27,15 +46,6 @@
                     (click)="onCancel()"
             >
                 {{ 'tasks.cancel' | translate }}
-            </button>
-
-            <button *iihfShowByRole="role.RoleDeleteActionPoint"
-                    type="button"
-                    mat-button
-                    class="mr-10"
-                    (click)="onDelete()"
-            >
-                {{ 'tasks.delete' | translate }}
             </button>
         </div>
     </div>
