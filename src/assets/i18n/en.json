@@ -52,7 +52,8 @@
             "newActionPoint": "New Action point"
         },
         "edit": {
-            "editActionPoint": "Edit action point"
+            "editActionPoint": "Edit action point",
+            "actionPointDetail": "Action point detail"
         }
     },
     "tasks": {
