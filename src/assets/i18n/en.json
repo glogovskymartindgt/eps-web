@@ -359,6 +359,7 @@
         "screenTitle": "Guidelines",
         "newGuideline": "New guideline",
         "editGuideline": "Edit guideline",
+        "guidelineDetail": "Guideline detail",
         "list": {
             "businessAreaCode": "Business Area Code",
             "businessAreaName": "Business Area",

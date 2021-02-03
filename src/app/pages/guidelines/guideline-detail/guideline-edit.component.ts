@@ -23,7 +23,7 @@ import { GuidelineDetailBaseComponent, GuidelineFormControlNames } from './guide
  * Guideline edit component
  */
 export class GuidelineEditComponent extends GuidelineDetailBaseComponent implements OnInit {
-    public labelKey = 'guidelines.editGuideline';
+    public labelKey = 'guidelines.guidelineDetail';
     public editMode = false;
     public updateScreen = true;
     public submitButtonRole: Role = Role.RoleUpdateGuideline;
@@ -70,6 +70,7 @@ export class GuidelineEditComponent extends GuidelineDetailBaseComponent impleme
 
     public enableEdit(): void {
         this.editMode = true;
+        this.labelKey = 'guidelines.editGuideline';
         this.guidelineDetailForm.enable();
         this.guidelineDetailForm.get(GuidelineFormControlNames.BUSINESS_AREA).disable();
     }
