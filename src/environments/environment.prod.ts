@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    URL_API: '/web/api',
+    URL_API: 'https://iihfepsapi.qbsw.local',
 };
