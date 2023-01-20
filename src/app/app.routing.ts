@@ -109,7 +109,7 @@ export const routes: Routes = [
                 data: {
                     title: 'menu.reports',
                     icon: 'person',
-                    menu: true,
+                    menu: false,
                     animation: 'reports'
                 },
                 canActivate: [AuthGuard]
