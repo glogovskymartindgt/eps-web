@@ -167,6 +167,31 @@ export class ActionPointListComponent implements OnInit {
         const config: TableConfiguration = {
             columns: [
                 new TableColumn({
+                    columnDef: 'code',
+                    labelKey: 'actionPoint.code',
+                    filter: new TableColumnFilter({
+                        valueType: 'NUMBER',
+                    }),
+                    sorting: true,
+                }),
+                new TableColumn({
+                    columnDef: 'state',
+                    labelKey: 'actionPoint.status',
+                    type: TableCellType.CONTENT,
+                    tableCellTemplate: this.statusColumn,
+                    filter: new TableColumnFilter({
+                        valueType: 'ENUM',
+                        type: TableFilterType.SELECT,
+                        select: [
+                            new ListItem('', this.translateService.instant(allThingsKey)),
+                            new ListItem('OPEN', this.translateService.instant('task.statusValue.open')),
+                            new ListItem('PENDING', this.translateService.instant('task.statusValue.pending')),
+                            new ListItem('CLOSED', this.translateService.instant('task.statusValue.closed')),
+                        ]
+                    }),
+                    sorting: true,
+                }),
+                new TableColumn({
                     columnDef: 'trafficLight',
                     labelKey: 'task.trafficLight',
                     type: TableCellType.CONTENT,
@@ -180,15 +205,6 @@ export class ActionPointListComponent implements OnInit {
                             new ListItem('GREEN', this.translateService.instant('color.green')),
                             new ListItem('AMBER', this.translateService.instant('color.amber')),
                         ]
-                    }),
-                    sorting: true,
-                }),
-                new TableColumn({
-                    columnDef: 'code',
-                    labelKey: 'actionPoint.code',
-                    type: TableCellType.NUMBER,
-                    filter: new TableColumnFilter({
-                        type: TableFilterType.NUMBER,
                     }),
                     sorting: true,
                 }),
@@ -228,13 +244,6 @@ export class ActionPointListComponent implements OnInit {
                     tableCellTemplate: this.dateColumn,
                 }),
                 new TableColumn({
-                    columnDef: 'meetingDescriptionShort',
-                    labelKey: 'actionPoint.meetingText',
-                    columnRequestName: 'meetingDescription',
-                    filter: new TableColumnFilter({}),
-                    sorting: true,
-                }),
-                new TableColumn({
                     columnDef: 'closedDate',
                     labelKey: 'actionPoint.closedDate',
                     filter: new TableColumnFilter({
@@ -246,20 +255,9 @@ export class ActionPointListComponent implements OnInit {
                     tableCellTemplate: this.closedDateColumn,
                 }),
                 new TableColumn({
-                    columnDef: 'state',
-                    labelKey: 'actionPoint.status',
-                    type: TableCellType.CONTENT,
-                    tableCellTemplate: this.statusColumn,
-                    filter: new TableColumnFilter({
-                        valueType: 'ENUM',
-                        type: TableFilterType.SELECT,
-                        select: [
-                            new ListItem('', this.translateService.instant(allThingsKey)),
-                            new ListItem('OPEN', this.translateService.instant('task.statusValue.open')),
-                            new ListItem('PENDING', this.translateService.instant('task.statusValue.pending')),
-                            new ListItem('CLOSED', this.translateService.instant('task.statusValue.closed')),
-                        ]
-                    }),
+                    columnDef: 'actionPointText',
+                    labelKey: 'actionPoint.actionPointText',
+                    filter: new TableColumnFilter({}),
                     sorting: true,
                 }),
                 new TableColumn({
