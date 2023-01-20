@@ -180,13 +180,6 @@ export class FactListComponent implements OnInit {
                     sorting: true,
                 }),
                 new TableColumn({
-                    columnDef: 'descriptionShort',
-                    labelKey: 'fact.description',
-                    columnRequestName: 'description',
-                    filter: new TableColumnFilter({}),
-                    sorting: true,
-                }),
-                new TableColumn({
                     columnDef: 'valueFirst',
                     label: this.checkValue(this.projectEventService.instant.firstVenue),
                     align: 'right',
@@ -218,6 +211,13 @@ export class FactListComponent implements OnInit {
                     }),
                     sorting: true,
                     tableCellTemplate: this.totalValueColumn,
+                }),
+                new TableColumn({
+                    columnDef: 'descriptionShort',
+                    labelKey: 'fact.description',
+                    columnRequestName: 'description',
+                    filter: new TableColumnFilter({}),
+                    sorting: true,
                 }),
                 new TableColumn({
                     columnDef: ' ',
