@@ -14,6 +14,6 @@ export class SortService {
                                                                                  comparable.screenPosition > compared.screenPosition ? 1 : 0
 
     public sortByParam(data: any[], param: string): any[] {
-        return data.sort((comparable, compared): number => (comparable[param] > compared[param]) ? 1 : -1);
+        return data.sort((comparable: any, compared: any): number => (comparable[param] > compared[param]) ? 1 : -1);
     }
 }

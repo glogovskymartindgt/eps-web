@@ -13,6 +13,7 @@ import { TaskInterface } from '../../../shared/interfaces/task.interface';
 import { User } from '../../../shared/interfaces/user.interface';
 import { Venue } from '../../../shared/interfaces/venue.interface';
 import { Task } from '../../../shared/models/task.model';
+import { SortService } from '../../../shared/services/core/sort.service';
 import { BusinessAreaService } from '../../../shared/services/data/business-area.service';
 import { PhaseService } from '../../../shared/services/data/phase.service';
 import { TaskService } from '../../../shared/services/data/task.service';
@@ -20,7 +21,6 @@ import { UserDataService } from '../../../shared/services/data/user-data.service
 import { VenueService } from '../../../shared/services/data/venue.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
-import {SortService} from "../../../shared/services/core/sort.service";
 
 const moment = _moment;
 
@@ -192,7 +192,7 @@ export class TaskFormComponent implements OnInit {
                 this.sourceOfAgendaList = this.sortService.sortByParam(
                     data.content.filter((item: SourceOfAgenda): any => item.state === 'VALID'),
                     'name'
-                )
+                );
             });
     }
 
@@ -206,7 +206,7 @@ export class TaskFormComponent implements OnInit {
     private loadVenueList(): void {
         this.venueService.getVenuesByProjectId(this.projectEventService.instant.id)
             .subscribe((data: Venue[]): void => {
-                this.venueList = data.sort(this.sortService.numericSortByScreenPosition);
+                this.venueList = [...data].sort(this.sortService.numericSortByScreenPosition);
             });
     }
 

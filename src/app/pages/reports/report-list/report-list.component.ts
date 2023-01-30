@@ -6,12 +6,12 @@ import { BrowseResponse } from '../../../shared/hazelnut/hazelnut-common/models'
 import { FileManager } from '../../../shared/hazelnut/hazelnut-common/utils/file-manager';
 import { Report } from '../../../shared/interfaces/report.interface';
 import { AuthService } from '../../../shared/services/auth.service';
+import { SortService } from '../../../shared/services/core/sort.service';
 import { ReportService } from '../../../shared/services/data/report.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 import { GetFileNameFromContentDisposition } from '../../../shared/utils/headers';
 import { tableLastStickyColumn } from '../../../shared/utils/table-last-sticky-column';
-import {SortService} from "../../../shared/services/core/sort.service";
 
 @Component({
     selector: 'iihf-report-list',
