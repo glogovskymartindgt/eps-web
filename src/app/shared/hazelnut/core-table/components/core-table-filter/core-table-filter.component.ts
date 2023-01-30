@@ -1,21 +1,20 @@
-import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {AbstractControl, FormControl, FormGroup} from '@angular/forms';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import * as moment from 'moment';
-import {debounceTime} from 'rxjs/operators';
-import {ListItem} from '../..';
-import {Category} from '../../../../interfaces/category.interface';
-import {User} from '../../../../interfaces/user.interface';
-import {BusinessAreaService} from '../../../../services/data/business-area.service';
-import {UserDataService} from '../../../../services/data/user-data.service';
-import {NotificationService} from '../../../../services/notification.service';
-import {fadeEnterLeave} from '../../../hazelnut-common/animations';
-import {StringUtils} from '../../../hazelnut-common/hazelnut';
-import {Filter} from '../../../hazelnut-common/models';
-import {CoreTableService} from '../../core-table.service';
-import {TableColumn} from '../../models/table-column.model';
-import {TableFilterType} from '../../models/table-filter-type.enum';
-import {SortService} from "../../../../services/core/sort.service";
-
+import { debounceTime } from 'rxjs/operators';
+import { ListItem } from '../..';
+import { Category } from '../../../../interfaces/category.interface';
+import { User } from '../../../../interfaces/user.interface';
+import { SortService } from '../../../../services/core/sort.service';
+import { BusinessAreaService } from '../../../../services/data/business-area.service';
+import { UserDataService } from '../../../../services/data/user-data.service';
+import { NotificationService } from '../../../../services/notification.service';
+import { fadeEnterLeave } from '../../../hazelnut-common/animations';
+import { StringUtils } from '../../../hazelnut-common/hazelnut';
+import { Filter } from '../../../hazelnut-common/models';
+import { CoreTableService } from '../../core-table.service';
+import { TableColumn } from '../../models/table-column.model';
+import { TableFilterType } from '../../models/table-filter-type.enum';
 
 @Component({
     selector: 'haz-core-table-filter',
