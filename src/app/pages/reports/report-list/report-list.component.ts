@@ -11,6 +11,7 @@ import { NotificationService } from '../../../shared/services/notification.servi
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 import { GetFileNameFromContentDisposition } from '../../../shared/utils/headers';
 import { tableLastStickyColumn } from '../../../shared/utils/table-last-sticky-column';
+import {SortService} from "../../../shared/services/core/sort.service";
 
 @Component({
     selector: 'iihf-report-list',
@@ -27,7 +28,8 @@ export class ReportListComponent implements OnInit {
     public constructor(private readonly notificationService: NotificationService,
                        private readonly reportService: ReportService,
                        private readonly projectEventService: ProjectEventService,
-                       private readonly authService: AuthService) {
+                       private readonly authService: AuthService,
+                       private readonly sortService: SortService) {
     }
 
     /**
@@ -146,7 +148,7 @@ export class ReportListComponent implements OnInit {
         this.reportService.getAllReports()
             .pipe(finalize((): any => this.loading = false))
             .subscribe((data: Report[]): void => {
-                this.data.content = data;
+                this.data.content = this.sortService.sortByParam(data, 'name');
                 this.data.totalElements = data.length;
             }, (): void => {
                 this.notificationService.openErrorNotification('error.api');

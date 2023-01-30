@@ -20,6 +20,7 @@ import { UserDataService } from '../../../shared/services/data/user-data.service
 import { VenueService } from '../../../shared/services/data/venue.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
+import {SortService} from "../../../shared/services/core/sort.service";
 
 const moment = _moment;
 
@@ -65,9 +66,9 @@ export class TaskFormComponent implements OnInit {
         'Issue'
     ];
     public trafficLightList: string[] = [
-        'red',
-        'amber',
         'green',
+        'amber',
+        'red',
         'none'
     ];
     public taskForm: FormGroup;
@@ -85,7 +86,8 @@ export class TaskFormComponent implements OnInit {
                        private readonly projectEventService: ProjectEventService,
                        private readonly activatedRoute: ActivatedRoute,
                        private readonly notificationService: NotificationService,
-                       private readonly taskService: TaskService) {
+                       private readonly taskService: TaskService,
+                       private readonly sortService: SortService) {
     }
 
     public get controls(): any {
@@ -187,8 +189,10 @@ export class TaskFormComponent implements OnInit {
     private loadSourceOfAgendaList(): void {
         this.businessAreaService.listSourceOfAgendas()
             .subscribe((data: BrowseResponse<SourceOfAgenda>): any => {
-                this.sourceOfAgendaList = data.content
-                                              .filter((item: SourceOfAgenda): any => item.state === 'VALID');
+                this.sourceOfAgendaList = this.sortService.sortByParam(
+                    data.content.filter((item: SourceOfAgenda): any => item.state === 'VALID'),
+                    'name'
+                )
             });
     }
 
@@ -202,7 +206,7 @@ export class TaskFormComponent implements OnInit {
     private loadVenueList(): void {
         this.venueService.getVenuesByProjectId(this.projectEventService.instant.id)
             .subscribe((data: Venue[]): void => {
-                this.venueList = data;
+                this.venueList = data.sort(this.sortService.numericSortByScreenPosition);
             });
     }
 

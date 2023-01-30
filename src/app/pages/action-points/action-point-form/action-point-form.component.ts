@@ -33,6 +33,7 @@ import { NotificationService } from '../../../shared/services/notification.servi
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 import { ProjectUserService } from '../../../shared/services/storage/project-user.service';
 import { PROJECT_DATE_FORMATS } from '../../tasks/task-form/task-form.component';
+import { SortService} from "../../../shared/services/core/sort.service";
 
 const moment = _moment;
 
@@ -71,9 +72,9 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
         COMMA
     ];
     public trafficLightList: string[] = [
-        'red',
-        'amber',
         'green',
+        'amber',
+        'red',
         'none'
     ];
     public selectedResponsibles: Responsible[] = [];
@@ -96,6 +97,7 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
         private readonly notificationService: NotificationService,
         private readonly actionPointService: ActionPointService,
         private readonly projectUserService: ProjectUserService,
+        private readonly sortService: SortService
     ) {
         this.filteredResponsibles = this.responsibleControl
             .valueChanges
@@ -230,7 +232,7 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
         this.venueService.getVenuesByProjectId(this.projectEventService.instant.id)
             .pipe(takeUntil(this.componentDestroyed$))
             .subscribe((data: Venue[]): void => {
-                this.venueList = data;
+                this.venueList = data.sort(this.sortService.numericSortByScreenPosition);
             });
     }
 
