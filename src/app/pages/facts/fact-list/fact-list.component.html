@@ -37,6 +37,7 @@
                     *ngIf="!((!projectEventService.instant.firstVenue || !projectEventService.instant.secondVenue) && !router.url.includes('all-facts'))"
                     [configuration]="config"
                     [data]="data"
+                    (rowClick)="convertAndUpdate($event)"
     >
     </haz-core-table>
     <ng-template #categoryColumn let-actRow="row" let-context="context">

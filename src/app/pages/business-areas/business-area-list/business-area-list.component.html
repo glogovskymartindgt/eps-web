@@ -12,6 +12,7 @@
     <haz-core-table (requestData)="setTableData($event)"
                     [configuration]="config"
                     [data]="data"
+                    (rowClick)="showTasks($event.name)"
                     style="width: 500px"
     ></haz-core-table>
 

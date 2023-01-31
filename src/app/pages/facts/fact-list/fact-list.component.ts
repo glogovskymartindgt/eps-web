@@ -160,6 +160,14 @@ export class FactListComponent implements OnInit {
             });
     }
 
+    /**
+     * Convert type to API object and update
+     * @param $event
+     */
+    public convertAndUpdate($event: any): void {
+        this.update($event.id, $event.year, $event.projectId);
+    }
+
     private setTableConfiguration(): void {
         let config: TableConfiguration = {
             columns: [
