@@ -26,6 +26,7 @@ import { User } from '../../../shared/interfaces/user.interface';
 import { Venue } from '../../../shared/interfaces/venue.interface';
 import { Responsible } from '../../../shared/models/responsible.model';
 import { Task } from '../../../shared/models/task.model';
+import { SortService } from '../../../shared/services/core/sort.service';
 import { ActionPointService } from '../../../shared/services/data/action-point.service';
 import { UserDataService } from '../../../shared/services/data/user-data.service';
 import { VenueService } from '../../../shared/services/data/venue.service';
@@ -71,9 +72,9 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
         COMMA
     ];
     public trafficLightList: string[] = [
-        'red',
-        'amber',
         'green',
+        'amber',
+        'red',
         'none'
     ];
     public selectedResponsibles: Responsible[] = [];
@@ -96,6 +97,7 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
         private readonly notificationService: NotificationService,
         private readonly actionPointService: ActionPointService,
         private readonly projectUserService: ProjectUserService,
+        private readonly sortService: SortService
     ) {
         this.filteredResponsibles = this.responsibleControl
             .valueChanges
@@ -230,7 +232,7 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
         this.venueService.getVenuesByProjectId(this.projectEventService.instant.id)
             .pipe(takeUntil(this.componentDestroyed$))
             .subscribe((data: Venue[]): void => {
-                this.venueList = data;
+                this.venueList = [...data].sort(this.sortService.numericSortByScreenPosition);
             });
     }
 

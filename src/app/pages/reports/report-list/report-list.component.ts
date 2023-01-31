@@ -6,6 +6,7 @@ import { BrowseResponse } from '../../../shared/hazelnut/hazelnut-common/models'
 import { FileManager } from '../../../shared/hazelnut/hazelnut-common/utils/file-manager';
 import { Report } from '../../../shared/interfaces/report.interface';
 import { AuthService } from '../../../shared/services/auth.service';
+import { SortService } from '../../../shared/services/core/sort.service';
 import { ReportService } from '../../../shared/services/data/report.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
@@ -27,7 +28,8 @@ export class ReportListComponent implements OnInit {
     public constructor(private readonly notificationService: NotificationService,
                        private readonly reportService: ReportService,
                        private readonly projectEventService: ProjectEventService,
-                       private readonly authService: AuthService) {
+                       private readonly authService: AuthService,
+                       private readonly sortService: SortService) {
     }
 
     /**
@@ -146,7 +148,7 @@ export class ReportListComponent implements OnInit {
         this.reportService.getAllReports()
             .pipe(finalize((): any => this.loading = false))
             .subscribe((data: Report[]): void => {
-                this.data.content = data;
+                this.data.content = this.sortService.sortByParam(data, 'name');
                 this.data.totalElements = data.length;
             }, (): void => {
                 this.notificationService.openErrorNotification('error.api');
