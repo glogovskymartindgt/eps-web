@@ -271,6 +271,7 @@ export class ActionPointListComponent implements OnInit {
                 }),
             ],
             paging: true,
+            trClasses: 'clickable'
         };
 
         config.stickyEnd = tableLastStickyColumn(config.columns.length);
