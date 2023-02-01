@@ -76,6 +76,7 @@ import { tableLastStickyColumn } from '../../../shared/utils/table-last-sticky-c
 
             ],
             paging: true,
+            trClasses: 'clickable'
         };
         this.config.stickyEnd = tableLastStickyColumn(this.config.columns.length);
     }

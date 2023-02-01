@@ -238,6 +238,7 @@ export class FactListComponent implements OnInit {
                 }),
             ],
             paging: true,
+            trClasses: 'clickable'
         };
 
         config = this.tableChangeStorageService.updateTableConfiguration(config);

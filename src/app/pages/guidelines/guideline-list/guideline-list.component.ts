@@ -120,6 +120,7 @@ export class GuidelineListComponent implements OnInit, TableContainer<Guideline>
             paging: true,
             predefinedSortActive: 'clBusinessArea.codeItem',
             predefinedSortDirection: 'asc',
+            trClasses: 'clickable'
         };
 
         config.stickyEnd = tableLastStickyColumn(config.columns.length);

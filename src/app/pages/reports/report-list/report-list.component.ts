@@ -57,6 +57,7 @@ export class ReportListComponent implements OnInit {
                 }),
             ],
             paging: false,
+            trClasses: 'clickable'
         };
         config.stickyEnd = tableLastStickyColumn(config.columns.length);
         this.config = config;
