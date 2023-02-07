@@ -39,17 +39,6 @@ export const routes: Routes = [
                 canActivate: [AuthGuard]
             },
             {
-                path: 'business-areas',
-                loadChildren: (): any => import('./pages/business-areas/business-areas.module').then((module: any): any => module.BusinessAreasModule),
-                data: {
-                    title: 'menu.businessAreas',
-                    icon: 'person',
-                    menu: true,
-                    animation: 'tasks'
-                },
-                canActivate: [AuthGuard]
-            },
-            {
                 path: 'action-points',
                 loadChildren: (): any => import('./pages/action-points/action-points.module').then((module: any): any => module.ActionPointsModule),
                 data: {
