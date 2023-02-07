@@ -12,10 +12,6 @@ export class MenuGuard {
             role: Role.RoleMenuProject
         },
         {
-            option: 'menu.businessAreas',
-            role: Role.RoleMenuBusinessArea
-        },
-        {
             option: 'menu.facts',
             role: Role.RoleMenuFactItem
         },
