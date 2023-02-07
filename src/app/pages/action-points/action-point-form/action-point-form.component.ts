@@ -350,7 +350,6 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
         this.addFormValue('state', actionPoint.state);
         this.addFormValue('meetingText', actionPoint.meetingDescription);
         this.addFormValue('meetingDate', actionPoint.meetingDate);
-        this.addFormValue('closedDate', actionPoint.closedDate);
         this.addFormValue('code', actionPoint.code);
         this.addFormValue('area', actionPoint.area);
 

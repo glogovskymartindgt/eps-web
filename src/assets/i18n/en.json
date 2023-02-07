@@ -41,6 +41,7 @@
         "venue": "Venue",
         "dueDate": "Due date",
         "closedDate": "Closed date",
+        "changedAt": "Changed At",
         "status": "Status",
         "actionPointText": "Action point",
         "meetingDate": "Meeting date",

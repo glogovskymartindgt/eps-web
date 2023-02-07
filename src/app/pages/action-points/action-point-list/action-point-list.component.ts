@@ -40,6 +40,7 @@ export class ActionPointListComponent implements OnInit {
     @ViewChild('updateColumn', {static: true}) public updateColumn: TemplateRef<any>;
     @ViewChild('dateColumn', {static: true}) public dateColumn: TemplateRef<any>;
     @ViewChild('closedDateColumn', {static: true}) public closedDateColumn: TemplateRef<any>;
+    @ViewChild('changedAtColumn', {static: true}) public changedAtColumn: TemplateRef<any>;
     @ViewChild('venueColumn', {static: true}) public venueColumn: TemplateRef<any>;
     @ViewChild('actionPointTable', {static: true}) public actionPointTable: CoreTableComponent;
 
@@ -253,6 +254,13 @@ export class ActionPointListComponent implements OnInit {
                     sorting: true,
                     type: TableCellType.CONTENT,
                     tableCellTemplate: this.closedDateColumn,
+                }),
+                new TableColumn({
+                    columnDef: 'changedAt',
+                    labelKey: 'actionPoint.changedAt',
+                    sorting: true,
+                    type: TableCellType.CONTENT,
+                    tableCellTemplate: this.changedAtColumn,
                 }),
                 new TableColumn({
                     columnDef: 'actionPointText',
