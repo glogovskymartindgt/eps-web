@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    URL_API: 'https://iihfapi.demo.qbsw.sk/api',
+    URL_API: 'https://iihfeps-api.test.dgtfactory.com/api',
 };

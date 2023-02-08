@@ -1,8 +1,8 @@
 {
     "/api/*": {
         "target": {
-            "host": "localhost",
-            "protocol": "http:",
+            "host": "iihfeps-api.test.dgtfactory.com",
+            "protocol": "https:",
             "port": 8080
         },
         "secure": false,
