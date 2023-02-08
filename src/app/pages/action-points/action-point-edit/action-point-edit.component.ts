@@ -1,19 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { ConfirmationDialogComponent } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { Role } from '../../../shared/enums/role.enum';
+import { RouteNames } from '../../../shared/enums/route-names.enum';
 import { Regex } from '../../../shared/hazelnut/hazelnut-common/regex/regex';
+import { DeleteButtonOptions } from '../../../shared/models/delete-button-options.model';
 import { ActionPointService } from '../../../shared/services/data/action-point.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
 import { ActionPointFormComponent } from '../action-point-form/action-point-form.component';
 import { ActionPointStructureService } from '../action-point-structure.service';
 
-const routes = {
-    listRoute: 'action-points/list'
-};
 @Component({
     selector: 'iihf-action-point-edit',
     templateUrl: './action-point-edit.component.html',
@@ -23,59 +19,32 @@ export class ActionPointEditComponent implements OnInit {
     @ViewChild(ActionPointFormComponent, {static: true}) public actionPointForm: ActionPointFormComponent;
     public formData = null;
     public loading = false;
+    public titleKey: string = 'actionPoint.edit.actionPointDetail';
+    public editMode: boolean = false;
+    public deleteButtonOptions: DeleteButtonOptions = null;
     public readonly notOnlyWhiteCharactersPattern = Regex.notOnlyWhiteCharactersPattern;
     public readonly role: typeof Role = Role;
+    public readonly actionPointEditRoles: Role[] = [Role.RoleUpdateActionPoint, Role.RoleUpdateActionPointInAssignProject];
     private actionPointId: number;
 
-    public constructor(public dialog: MatDialog,
-                       private readonly router: Router,
-                       private readonly notificationService: NotificationService,
-                       private readonly activatedRoute: ActivatedRoute,
-                       private readonly actionPointService: ActionPointService,
-                       public readonly projectEventService: ProjectEventService,
-                       private readonly actionPointStructureService: ActionPointStructureService,
-                       private readonly translateService: TranslateService) {
-    }
+    public constructor(
+        private readonly router: Router,
+        private readonly notificationService: NotificationService,
+        private readonly activatedRoute: ActivatedRoute,
+        private readonly actionPointService: ActionPointService,
+        public readonly projectEventService: ProjectEventService,
+        private readonly actionPointStructureService: ActionPointStructureService,
+    ) {}
 
     public ngOnInit(): void {
         this.activatedRoute.queryParams.subscribe((param: Params): void => {
             this.actionPointId = param.id;
+            this.setDeleteButtonOptions();
         });
     }
 
     public onCancel(): void {
-        this.router.navigate([routes.listRoute]);
-    }
-
-    public onDelete(): void {
-        const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-            data: {
-              title: this.translateService.instant('confirmation.actionPoint.title'),
-              message: this.translateService.instant('confirmation.actionPoint.message'),
-              rejectionButtonText: this.translateService.instant('confirmation.actionPoint.rejectButton'),
-              confirmationButtonText: this.translateService.instant('confirmation.actionPoint.confirmButton')
-            },
-            width: '350px'
-        });
-
-        dialogRef.afterClosed()
-        .subscribe((result: any): void => {
-
-            if (!result) {
-                return;
-            }
-
-            this.actionPointService.deleteActionPoint(this.actionPointId)
-                .subscribe(
-                    (): void => {
-                        this.notificationService.openSuccessNotification('success.delete');
-                        this.router.navigate([routes.listRoute]);
-                    }, (): void => {
-                        this.notificationService.openErrorNotification('error.delete');
-                    }
-                );
-
-        });
+        this.redirectBack();
     }
 
     public onSave(): void {
@@ -85,10 +54,15 @@ export class ActionPointEditComponent implements OnInit {
         this.actionPointService.editActionPoint(this.actionPointId, this.transformActionPointToApiObject(this.formData))
             .subscribe((): void => {
                 this.notificationService.openSuccessNotification('success.edit');
-                this.router.navigate([routes.listRoute]);
+                this.redirectBack();
             }, (): void => {
                 this.notificationService.openErrorNotification('error.edit');
             });
+    }
+
+    public enableEdit(): void {
+        this.editMode = true;
+        this.titleKey = 'actionPoint.edit.editActionPoint';
     }
 
     public formDataChange($event): void {
@@ -96,6 +70,10 @@ export class ActionPointEditComponent implements OnInit {
         setTimeout((): void => {
             this.formData = $event;
         }, formChangeTimeout);
+    }
+
+    private redirectBack(): void {
+        this.router.navigate([RouteNames.ACTION_POINTS, RouteNames.LIST]);
     }
 
     private transformActionPointToApiObject(formObject: any): any {
@@ -108,6 +86,17 @@ export class ActionPointEditComponent implements OnInit {
         };
 
         return this.actionPointStructureService.addOptionalAttributesToApiObject(apiObject, formObject);
+    }
+
+    private setDeleteButtonOptions(): void {
+        this.deleteButtonOptions = {
+            titleKey: 'confirmation.actionPoint.title',
+            messageKey: 'confirmation.actionPoint.message',
+            rejectionButtonKey: 'confirmation.actionPoint.rejectButton',
+            confirmationButtonKey: 'confirmation.actionPoint.confirmButton',
+            deleteApiCall: this.actionPointService.deleteActionPoint(this.actionPointId),
+            redirectRoute: [RouteNames.ACTION_POINTS, RouteNames.LIST],
+        };
     }
 
 }

@@ -19,6 +19,7 @@
     (requestData)="getData($event)"
     [configuration]="tableConfiguration"
     [data]="tableData"
+    (rowClick)="goToDetail($event)"
 ></haz-core-table>
 
 <ng-template #updateColumn let-guideline="row">

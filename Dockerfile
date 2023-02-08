@@ -1,9 +1,17 @@
-FROM nginx:alpine
+# Stage 1
 
-COPY nginx.conf /etc/nginx/nginx.conf
+FROM node:10-alpine as build-step
 
-RUN rm -fr /etc/localtime && ln -s /usr/share/zoneinfo/Europe/Bratislava /etc/localtime
+WORKDIR /eps-web
 
-WORKDIR /usr/share/nginx/html
+COPY . .
 
-COPY dist .
+RUN npm install
+
+RUN npm run build --prod
+
+# Stage 2
+
+FROM nginx:1.17.1-alpine
+
+COPY --from=build-step /eps-web/dist /usr/share/nginx/html

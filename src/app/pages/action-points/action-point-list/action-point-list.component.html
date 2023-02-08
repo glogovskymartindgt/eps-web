@@ -23,6 +23,7 @@
                 (requestData)="setTableData($event)"
                 [configuration]="config"
                 [data]="data"
+                (rowClick)="update($event.id)"
 ></haz-core-table>
 <ng-template #updateColumn let-actRow="row" let-context="context">
     <div *ngIf="allowActionPointDetailButton()" class="fr">
@@ -44,6 +45,9 @@
 </ng-template>
 <ng-template #closedDateColumn let-actRow="row" let-context="context">
     {{actRow.closedDate  | date:'d.M.yyyy'}}
+</ng-template>
+<ng-template #changedAtColumn let-actRow="row" let-context="context">
+    {{actRow.changedAt  | date:'d.M.yyyy'}}
 </ng-template>
 <ng-template #trafficLightColumn let-actRow="row" let-context="context">
     <div *ngIf="actRow.trafficLight === 'RED'"

@@ -33,6 +33,7 @@
                 (requestData)="setTableData($event)"
                 [configuration]="config"
                 [data]="data"
+                (rowClick)="update($event.id)"
 ></haz-core-table>
 <ng-template #updateColumn let-actRow="row" let-context="context">
     <div *ngIf="allowTaskDetailButton()" class="fr">

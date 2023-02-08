@@ -5,6 +5,7 @@ import {
     Component,
     ElementRef,
     EventEmitter,
+    Input,
     OnDestroy,
     OnInit,
     Output,
@@ -25,6 +26,7 @@ import { User } from '../../../shared/interfaces/user.interface';
 import { Venue } from '../../../shared/interfaces/venue.interface';
 import { Responsible } from '../../../shared/models/responsible.model';
 import { Task } from '../../../shared/models/task.model';
+import { SortService } from '../../../shared/services/core/sort.service';
 import { ActionPointService } from '../../../shared/services/data/action-point.service';
 import { UserDataService } from '../../../shared/services/data/user-data.service';
 import { VenueService } from '../../../shared/services/data/venue.service';
@@ -70,9 +72,9 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
         COMMA
     ];
     public trafficLightList: string[] = [
-        'red',
-        'amber',
         'green',
+        'amber',
+        'red',
         'none'
     ];
     public selectedResponsibles: Responsible[] = [];
@@ -82,6 +84,8 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
     @ViewChild(MatAutocompleteTrigger, {static: false}) private readonly autocomplete: MatAutocompleteTrigger;
 
     private readonly componentDestroyed$: Subject<boolean> = new Subject<boolean>();
+    private _disabled: boolean = true;
+    private actionPoint: any = null;
 
     public constructor(
         private readonly changeDetector: ChangeDetectorRef,
@@ -93,6 +97,7 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
         private readonly notificationService: NotificationService,
         private readonly actionPointService: ActionPointService,
         private readonly projectUserService: ProjectUserService,
+        private readonly sortService: SortService
     ) {
         this.filteredResponsibles = this.responsibleControl
             .valueChanges
@@ -104,6 +109,20 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
                         actualResponsibleUser.id);
                 });
             }));
+    }
+
+    @Input()
+    public set disabled(value: boolean) {
+        this._disabled = value;
+        if (!this.actionPointForm) {
+            return;
+        }
+
+        if (this._disabled) {
+            this.disableForm();
+        } else {
+            this.enableForm();
+        }
     }
 
     public ngOnDestroy(): void {
@@ -213,7 +232,7 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
         this.venueService.getVenuesByProjectId(this.projectEventService.instant.id)
             .pipe(takeUntil(this.componentDestroyed$))
             .subscribe((data: Venue[]): void => {
-                this.venueList = data;
+                this.venueList = [...data].sort(this.sortService.numericSortByScreenPosition);
             });
     }
 
@@ -288,6 +307,7 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
         this.actionPointService.getActionPointById(param.id)
             .pipe(takeUntil(this.componentDestroyed$))
             .subscribe((apiActionPoint: any): void => {
+                this.actionPoint = apiActionPoint;
                 this.setForm(apiActionPoint);
             }, (error: HttpResponse<any>): any => this.notificationService.openErrorNotification(error));
     }
@@ -330,7 +350,6 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
         this.addFormValue('state', actionPoint.state);
         this.addFormValue('meetingText', actionPoint.meetingDescription);
         this.addFormValue('meetingDate', actionPoint.meetingDate);
-        this.addFormValue('closedDate', actionPoint.closedDate);
         this.addFormValue('code', actionPoint.code);
         this.addFormValue('area', actionPoint.area);
 
@@ -345,15 +364,12 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
         if (actionPoint.createdBy) {
             this.actionPointForm.controls.createdBy.patchValue(`${actionPoint.createdBy.firstName} ${actionPoint.createdBy.lastName}`);
         }
-        if (!this.isAllowedToChangeStatus(actionPoint.createdBy, actionPoint.responsibles)) {
-            this.actionPointForm.controls.state.disable();
-        }
 
-        this.actionPointForm.controls.code.disable();
-        this.actionPointForm.controls.closedDate.disable();
-        this.actionPointForm.controls.changedAt.disable();
-        this.actionPointForm.controls.changedBy.disable();
-        this.actionPointForm.controls.createdBy.disable();
+        if (this._disabled) {
+            this.disableForm();
+        } else {
+            this.enableForm();
+        }
         this.actionPointForm.updateValueAndValidity();
         this.formLoaded = true;
         this.actionPointForm.valueChanges
@@ -362,6 +378,22 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
                 this.setMeetingTextValidators();
                 this.emitFormDataChangeEmitter();
             });
+    }
+
+    private enableForm(): void {
+        this.actionPointForm.enable();
+        this.actionPointForm.controls.code.disable();
+        this.actionPointForm.controls.closedDate.disable();
+        this.actionPointForm.controls.changedAt.disable();
+        this.actionPointForm.controls.changedBy.disable();
+        this.actionPointForm.controls.createdBy.disable();
+        if (!this.isAllowedToChangeStatus(this.actionPoint.createdBy, this.actionPoint.responsibles)) {
+            this.actionPointForm.controls.state.disable();
+        }
+    }
+
+    private disableForm(): void {
+        this.actionPointForm.disable();
     }
 
     private isAllowedToChangeStatus(createdBy: User, responsibleUsers: any[]): boolean {

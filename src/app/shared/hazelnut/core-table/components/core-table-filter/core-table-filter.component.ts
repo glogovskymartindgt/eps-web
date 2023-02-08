@@ -5,6 +5,7 @@ import { debounceTime } from 'rxjs/operators';
 import { ListItem } from '../..';
 import { Category } from '../../../../interfaces/category.interface';
 import { User } from '../../../../interfaces/user.interface';
+import { SortService } from '../../../../services/core/sort.service';
 import { BusinessAreaService } from '../../../../services/data/business-area.service';
 import { UserDataService } from '../../../../services/data/user-data.service';
 import { NotificationService } from '../../../../services/notification.service';
@@ -58,6 +59,7 @@ export class CoreTableFilterComponent implements OnInit {
         private readonly notificationService: NotificationService,
         private readonly businessAreaService: BusinessAreaService,
         private readonly changeDetectorRef: ChangeDetectorRef,
+        private readonly sortService: SortService,
     ) {
 
     }
@@ -105,7 +107,7 @@ export class CoreTableFilterComponent implements OnInit {
     private loadCategoryList(): void {
         this.businessAreaService.listCategories()
             .subscribe((data) => {
-                this.categoryList$ = data.content;
+                this.categoryList$ = this.sortService.sortByParam(data.content, 'name')
             });
     }
 

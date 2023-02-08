@@ -1,0 +1,19 @@
+.mat-table {
+
+    .last-header-row .mat-form-field-flex {
+        padding: 0 5px;
+    }
+
+    tbody tr:hover {
+        background: #e8f0fe;
+    }
+
+    tbody .clickable {
+        cursor: pointer;
+    }
+
+    tbody td {
+        font-size: 15px !important;
+        padding: 5px !important;
+    }
+}

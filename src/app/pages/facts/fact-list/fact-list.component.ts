@@ -160,6 +160,14 @@ export class FactListComponent implements OnInit {
             });
     }
 
+    /**
+     * Convert type to API object and update
+     * @param $event
+     */
+    public convertAndUpdate($event: any): void {
+        this.update($event.id, $event.year, $event.projectId);
+    }
+
     private setTableConfiguration(): void {
         let config: TableConfiguration = {
             columns: [
@@ -176,13 +184,6 @@ export class FactListComponent implements OnInit {
                 new TableColumn({
                     columnDef: 'subCategoryName',
                     labelKey: 'fact.subCategory',
-                    filter: new TableColumnFilter({}),
-                    sorting: true,
-                }),
-                new TableColumn({
-                    columnDef: 'descriptionShort',
-                    labelKey: 'fact.description',
-                    columnRequestName: 'description',
                     filter: new TableColumnFilter({}),
                     sorting: true,
                 }),
@@ -220,6 +221,13 @@ export class FactListComponent implements OnInit {
                     tableCellTemplate: this.totalValueColumn,
                 }),
                 new TableColumn({
+                    columnDef: 'descriptionShort',
+                    labelKey: 'fact.description',
+                    columnRequestName: 'description',
+                    filter: new TableColumnFilter({}),
+                    sorting: true,
+                }),
+                new TableColumn({
                     columnDef: ' ',
                     label: ' ',
                     type: TableCellType.CONTENT,
@@ -230,6 +238,7 @@ export class FactListComponent implements OnInit {
                 }),
             ],
             paging: true,
+            trClasses: 'clickable'
         };
 
         config = this.tableChangeStorageService.updateTableConfiguration(config);
