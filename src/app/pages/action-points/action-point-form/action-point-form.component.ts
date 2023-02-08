@@ -19,6 +19,8 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 import { ActivatedRoute, Params } from '@angular/router';
 import { BrowseResponse } from '@hazelnut';
 import * as _moment from 'moment';
+import { Observable, Subject } from 'rxjs';
+import { finalize, map, takeUntil } from 'rxjs/operators';
 import { forkJoin, Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { GroupCode } from '../../../shared/enums/group-code.enum';
@@ -28,6 +30,7 @@ import { User } from '../../../shared/interfaces/user.interface';
 import { Venue } from '../../../shared/interfaces/venue.interface';
 import { Group } from '../../../shared/models/group.model';
 import { Responsible } from '../../../shared/models/responsible.model';
+import { Tag } from '../../../shared/models/tag.model';
 import { Task } from '../../../shared/models/task.model';
 import { SortService } from '../../../shared/services/core/sort.service';
 import { ActionPointService } from '../../../shared/services/data/action-point.service';
@@ -61,6 +64,7 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
     @Output() public readonly formDataChange = new EventEmitter<any>();
     @ViewChild('responsibleInput', {static: false}) public responsibleInput: ElementRef<HTMLInputElement>;
     @ViewChild('auto', {static: false}) public matAutocomplete: MatAutocomplete;
+    @ViewChild('tagInput', {static: false}) public tagInput: ElementRef<HTMLInputElement>;
     public venueList: Venue[];
     public userList: User[];
     public notOnlyWhiteCharactersPattern = Regex.notOnlyWhiteCharactersPattern;
@@ -93,6 +97,11 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
     private readonly componentDestroyed$: Subject<boolean> = new Subject<boolean>();
     private _disabled: boolean = true;
     private actionPoint: any = null;
+    public tagControl = new FormControl('');
+    public selectedTags: Tag[] = [];
+    public filteredTags: Observable<Tag[]>;
+    public tags: Tag[];
+    public tagsLoading = false;
 
     public constructor(
         private readonly changeDetector: ChangeDetectorRef,
@@ -117,6 +126,16 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
                         actualResponsibleUser.id);
                 });
             }));
+
+        this.filteredTags = this.tagControl.valueChanges
+            .pipe(map((tagName: string | null) => {
+                return tagName ? this._filterTags(tagName) : this.tags.filter((actualTag: Tag) => {
+                    this.emitFormDataChangeEmitter();
+
+                    return !this.selectedTags.some((selectedTag: Tag): boolean => selectedTag.id === actualTag.id);
+                });
+            }),
+        );
     }
 
     @Input()
@@ -153,6 +172,7 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
         this.loadUserList();
         this.checkIfUpdate();
         this.checkSupervisorGroup();
+        this.loadTags();
 
         this.actionPointForm.controls.responsible.patchValue('ad');
     }
@@ -224,16 +244,65 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
         return item;
     }
 
+    public addTag(event: MatChipInputEvent): void {
+        const value = (event.value || '').trim();
+
+        if (value) {
+            const newTag = {
+                name: value,
+                state: 'Valid',
+                id: null,
+                codeItem: null
+            }
+
+            this.selectedTags.push(newTag);
+        }
+
+        event.input.value = '';
+        this.autocomplete.closePanel()
+    }
+
+    public removeTag(tag: Tag): void {
+        const index = this.selectedTags.indexOf(tag);
+
+        if (index >= 0) {
+            this.selectedTags.splice(index, 1);
+            this.autocomplete.closePanel();
+        }
+
+        this.emitFormDataChangeEmitter();
+    }
+
+    public selectedTag(event: MatAutocompleteSelectedEvent): void {
+        this.selectedTags.push(event.option.value);
+        this.filteredTags.subscribe((tag: Tag[]) => tag !== event.option.value);
+        this.tagInput.nativeElement.value = '';
+        this.tagControl.patchValue({});
+        this.emitFormDataChangeEmitter();
+        setTimeout((): void => this.autocomplete.openPanel(), 0);
+    }
+
     private _filter(value: any): Responsible[] {
         const filterValue = typeof value === 'string' ? value.toLowerCase() : value.firstName;
 
-        return this.responsibles.filter((responsible: Responsible): any => {
-            return responsible && (StringUtils.removeAccentedCharacters(responsible.firstName.toLowerCase())
-                .indexOf(filterValue) === 0 || StringUtils.removeAccentedCharacters(responsible.lastName.toLowerCase())
-                .indexOf(filterValue) === 0);
-        })
+        return this.responsibles
             .filter((responsible: Responsible): any => {
-                return !this.selectedResponsibles.find((selectedResponsibleUser: Responsible): boolean => selectedResponsibleUser.id === responsible.id);
+                return responsible && (StringUtils.removeAccentedCharacters(responsible.firstName.toLowerCase())
+                    .indexOf(filterValue) === 0 || StringUtils.removeAccentedCharacters(responsible.lastName.toLowerCase())
+                    .indexOf(filterValue) === 0);
+            })
+            .filter((responsible: Responsible): any => {
+                return !this.selectedResponsibles
+                    .find((selectedResponsibleUser: Responsible): boolean => selectedResponsibleUser.id === responsible.id);
+            });
+    }
+
+    private _filterTags(value: string): Tag[] {
+        const filterValue = typeof value === 'string' ? value.toLowerCase() : value;
+
+        return this.tags.filter(tag => tag.name.toLowerCase().includes(filterValue))
+            .filter((tag: Tag): any => {
+                return !this.selectedTags.find((selectedTag: Tag): boolean => selectedTag.name === tag.name);
             });
     }
 
@@ -254,6 +323,17 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
             });
     }
 
+    private loadTags(): void {
+        this.tagsLoading = true;
+        this.actionPointService.listTags()
+            .pipe(finalize((): any => this.tagsLoading = false))
+            .subscribe((data: BrowseResponse<Tag>) => {
+                this.tags = data.content.filter((item: Tag) => item.state === 'VALID');
+            }, () => {
+                this.notificationService.openErrorNotification('error.api');
+            });
+    }
+
     private createForm(): void {
         this.actionPointForm = this.formBuilder.group({
             trafficLight: [
@@ -269,6 +349,7 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
             responsible: [''],
             actionPointText: [''],
             venue: ['NONE'],
+            tags: [''],
             description: [''],
             state: [''],
             code: [''],
@@ -285,6 +366,7 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
                 this.emitFormDataChangeEmitter();
             });
         this.responsibles = [];
+        this.tags = [];
     }
 
     private emitFormDataChangeEmitter(): void {
@@ -296,7 +378,8 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
         const actualValue = {
             ...this.actionPointForm.value,
             state: this.actionPointForm.controls.state.value,
-            responsibleUsers: this.selectedResponsibles
+            responsibleUsers: this.selectedResponsibles,
+            tags: this.selectedTags
         };
         this.formDataChange.emit(actualValue);
     }
