@@ -16,6 +16,7 @@
 <haz-core-table (requestData)="setTableData($event)"
                 [configuration]="config"
                 [data]="data"
+                (rowClick)="edit($event.id)"
 >
 </haz-core-table>
 <ng-template #firstNameColumn let-actRow="row" let-context="context">
