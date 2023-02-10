@@ -42,6 +42,7 @@ export class ActionPointListComponent implements OnInit {
     @ViewChild('closedDateColumn', {static: true}) public closedDateColumn: TemplateRef<any>;
     @ViewChild('changedAtColumn', {static: true}) public changedAtColumn: TemplateRef<any>;
     @ViewChild('venueColumn', {static: true}) public venueColumn: TemplateRef<any>;
+    @ViewChild('tagsColumn', {static: true}) public tagsColumn: TemplateRef<any>;
     @ViewChild('actionPointTable', {static: true}) public actionPointTable: CoreTableComponent;
 
     public config: TableConfiguration;
@@ -125,6 +126,38 @@ export class ActionPointListComponent implements OnInit {
         this.actionPointService.browseActionPoints(newTableChangeEvent, this.additionalFilters)
             .pipe(finalize((): any => this.loading = false))
             .subscribe((data: BrowseResponse<ActionPoint>): void => {
+                // Fake tags
+                const tagsData: any = [
+                    {
+                        codeItem: '',
+                        id: 1,
+                        name: 'Hokej',
+                        state: 'VALID'
+                    },
+                    {
+                        codeItem: '',
+                        id: 2,
+                        name: 'Futbal',
+                        state: 'VALID'
+                    },
+                    {
+                        codeItem: '',
+                        id: 3,
+                        name: 'Hadzana',
+                        state: 'VALID'
+                    }
+                ];
+
+                const maxTags = 2
+                const more = tagsData.length > maxTags ? ' ...' : '';
+
+                data.content.map((actionPoint: ActionPoint) => {
+                    actionPoint.tags = tagsData
+                        .map(tag => tag.name)
+                        .splice(0, maxTags)
+                        .join(', ') + more;
+                })
+
                 this.data = data;
             }, (): void => {
                 this.notificationService.openErrorNotification('error.api');
@@ -267,6 +300,13 @@ export class ActionPointListComponent implements OnInit {
                     labelKey: 'actionPoint.actionPointText',
                     filter: new TableColumnFilter({}),
                     sorting: true,
+                }),
+                new TableColumn({
+                    columnDef: 'tags',
+                    labelKey: 'actionPoint.tags',
+                    filter: new TableColumnFilter({}),
+                    tableCellTemplate: this.tagsColumn,
+                    sorting: false,
                 }),
                 new TableColumn({
                     columnDef: ' ',

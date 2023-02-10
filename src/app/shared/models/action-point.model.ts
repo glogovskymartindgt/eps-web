@@ -13,4 +13,5 @@ export interface ActionPoint {
     changedBy: {firstName: string, lastName: string};
     changedAt: string;
     createdBy: {firstName: string, lastName: string};
+    tags: any;
 }

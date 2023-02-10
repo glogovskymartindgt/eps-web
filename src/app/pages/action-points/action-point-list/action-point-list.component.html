@@ -49,6 +49,9 @@
 <ng-template #changedAtColumn let-actRow="row" let-context="context">
     {{actRow.changedAt  | date:'d.M.yyyy'}}
 </ng-template>
+<ng-template #tagsColumn let-actRow="row" let-context="context">
+    {{ actRow.tags}}
+</ng-template>
 <ng-template #trafficLightColumn let-actRow="row" let-context="context">
     <div *ngIf="actRow.trafficLight === 'RED'"
          style="width: 12px;height: 12px;background:#ce211f;border-radius:50%;"
