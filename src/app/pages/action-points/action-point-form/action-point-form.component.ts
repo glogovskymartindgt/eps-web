@@ -17,17 +17,21 @@ import { MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger }
 import { MatChipInputEvent } from '@angular/material/chips';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { ActivatedRoute, Params } from '@angular/router';
+import { BrowseResponse } from '@hazelnut';
 import * as _moment from 'moment';
-import { Observable, Subject } from 'rxjs';
+import { forkJoin, Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
+import { GroupCode } from '../../../shared/enums/group-code.enum';
 import { StringUtils } from '../../../shared/hazelnut/hazelnut-common/hazelnut';
 import { Regex } from '../../../shared/hazelnut/hazelnut-common/regex/regex';
 import { User } from '../../../shared/interfaces/user.interface';
 import { Venue } from '../../../shared/interfaces/venue.interface';
+import { Group } from '../../../shared/models/group.model';
 import { Responsible } from '../../../shared/models/responsible.model';
 import { Task } from '../../../shared/models/task.model';
 import { SortService } from '../../../shared/services/core/sort.service';
 import { ActionPointService } from '../../../shared/services/data/action-point.service';
+import { GroupService } from '../../../shared/services/data/group.service';
 import { UserDataService } from '../../../shared/services/data/user-data.service';
 import { VenueService } from '../../../shared/services/data/venue.service';
 import { NotificationService } from '../../../shared/services/notification.service';
@@ -81,11 +85,15 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
     public filteredResponsibles: Observable<Responsible[]>;
     public responsibles: Responsible[];
     public meetingTextRequired = false;
+    public hasGroupIihfSupervisor = false;
+
     @ViewChild(MatAutocompleteTrigger, {static: false}) private readonly autocomplete: MatAutocompleteTrigger;
 
     private readonly componentDestroyed$: Subject<boolean> = new Subject<boolean>();
     private _disabled: boolean = true;
     private actionPoint: any = null;
+    private groupList: BrowseResponse<Group>;
+    private user: User;
 
     public constructor(
         private readonly changeDetector: ChangeDetectorRef,
@@ -97,6 +105,7 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
         private readonly notificationService: NotificationService,
         private readonly actionPointService: ActionPointService,
         private readonly projectUserService: ProjectUserService,
+        private readonly groupService: GroupService,
         private readonly sortService: SortService
     ) {
         this.filteredResponsibles = this.responsibleControl
@@ -144,6 +153,7 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
         this.loadVenueList();
         this.loadUserList();
         this.checkIfUpdate();
+        this.checkSupervisorGroup();
 
         this.actionPointForm.controls.responsible.patchValue('ad');
     }
@@ -400,7 +410,7 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
         const actualUserId = this.projectUserService.instant.userId;
         const responsibles = responsibleUsers.map((user: any): number => user.id);
 
-        return responsibles.includes(actualUserId) || createdBy.id === actualUserId;
+        return responsibles.includes(actualUserId) || createdBy.id === actualUserId || this.hasGroupIihfSupervisor;
     }
 
     private addFormValue(controlAsString: string, value: any): void {
@@ -420,4 +430,16 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
         this.changeDetector.detectChanges();
     }
 
+    private checkSupervisorGroup(): void {
+        forkJoin([
+            this.groupService.browseGroups(),
+            this.userDataService.getUserDetail(this.projectUserService.instant.userId)
+        ]).subscribe(res => {
+            [this.groupList, this.user] = res
+            const supervisorGroupId = this.groupList.content.find(group => group.code === GroupCode.IIHF_SUPERVISOR).id
+            if (this.user.groupIdList.includes(supervisorGroupId)) {
+                this.hasGroupIihfSupervisor = true
+            }
+        })
+    }
 }
