@@ -86,14 +86,13 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
     public responsibles: Responsible[];
     public meetingTextRequired = false;
     public hasGroupIihfSupervisor = false;
-
+    public groupList: BrowseResponse<Group>;
+    public  user: User;
     @ViewChild(MatAutocompleteTrigger, {static: false}) private readonly autocomplete: MatAutocompleteTrigger;
 
     private readonly componentDestroyed$: Subject<boolean> = new Subject<boolean>();
     private _disabled: boolean = true;
     private actionPoint: any = null;
-    private groupList: BrowseResponse<Group>;
-    private user: User;
 
     public constructor(
         private readonly changeDetector: ChangeDetectorRef,
@@ -434,12 +433,12 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
         forkJoin([
             this.groupService.browseGroups(),
             this.userDataService.getUserDetail(this.projectUserService.instant.userId)
-        ]).subscribe(res => {
-            [this.groupList, this.user] = res
-            const supervisorGroupId = this.groupList.content.find(group => group.code === GroupCode.IIHF_SUPERVISOR).id
+        ]).subscribe((res: [BrowseResponse<Group>, User]): void => {
+            [this.groupList, this.user] = res;
+            const supervisorGroupId = this.groupList.content.find((group: Group): boolean => group.code === GroupCode.IIHF_SUPERVISOR).id;
             if (this.user.groupIdList.includes(supervisorGroupId)) {
-                this.hasGroupIihfSupervisor = true
+                this.hasGroupIihfSupervisor = true;
             }
-        })
+        });
     }
 }
