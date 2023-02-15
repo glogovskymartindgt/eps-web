@@ -82,7 +82,8 @@ export class ActionPointEditComponent implements OnInit {
             title: formObject.title,
             trafficLight: formObject.trafficLight,
             state: formObject.state,
-            projectId: this.projectEventService.instant.id
+            projectId: this.projectEventService.instant.id,
+            tags: formObject.tags
         };
 
         return this.actionPointStructureService.addOptionalAttributesToApiObject(apiObject, formObject);
