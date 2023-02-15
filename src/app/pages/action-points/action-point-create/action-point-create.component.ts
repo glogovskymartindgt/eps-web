@@ -44,7 +44,8 @@ export class ActionPointCreateComponent {
         const apiObject: any = {
             title: formObject.title,
             trafficLight: formObject.trafficLight,
-            projectId: this.projectEventService.instant.id
+            projectId: this.projectEventService.instant.id,
+            tags: formObject.tags
         };
 
         return this.actionPointStructureService.addOptionalAttributesToApiObject(apiObject, formObject);
