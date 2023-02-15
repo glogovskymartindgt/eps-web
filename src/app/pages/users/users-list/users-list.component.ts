@@ -134,6 +134,7 @@ export class UsersListComponent implements OnInit {
                 }),
             ],
             paging: true,
+            trClasses: 'clickable'
         };
         this.config.stickyEnd = tableLastStickyColumn(this.config.columns.length);
         if (!this.isInitialized && this.isReturnFromDetail() && this.tableChangeStorageService.getUsersLastTableChangeEvent()) {
