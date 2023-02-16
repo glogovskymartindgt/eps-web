@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { finalize } from 'rxjs/operators';
@@ -16,7 +16,7 @@ import { CommentTabComponent } from './comment-tab.component';
     styleUrls: ['./comment-tab.component.scss']
 })
 export class ActionPointCommentTabComponent extends CommentTabComponent implements OnInit {
-
+    @Input() public readonly hasGroupIihfSupervisor: boolean;
     private actionPointId: number;
 
     public constructor(
