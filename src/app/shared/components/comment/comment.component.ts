@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DomSanitizer } from '@angular/platform-browser';
+import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { CommentType } from '../../enums/comment-type.enum';
 import { Role } from '../../enums/role.enum';
@@ -26,9 +26,9 @@ export class CommentComponent implements OnInit {
     @Input() public index: number;
 
     @Output() public readonly delete: EventEmitter<void> = new EventEmitter<void>();
-
     public isMyComment = false;
     public imageSrc;
+    public videoSrc;
     public pdfSrc;
     public pdfSrcSanitized;
 
@@ -48,14 +48,20 @@ export class CommentComponent implements OnInit {
         if (this.comment.attachment) {
             if (this.comment.attachment.format === 'PDF') {
                 this.loadPdf();
+            } else if (this.comment.attachment.format === 'MP4') {
+                // TODO Load video from server
+                // this.loadVideo();
             } else {
                 this.loadImage();
             }
         }
-
         this.projectUserService.subject.userId.subscribe((userId: number): void => {
             this.isMyComment = userId === this.comment.createdBy.id;
         });
+
+        if (localStorage.getItem('file')) {
+            this.videoSrc = this.transform(localStorage.getItem('file'));
+        }
     }
 
     public openPreviewAttachment(image): void {
@@ -79,7 +85,9 @@ export class CommentComponent implements OnInit {
     }
 
     public commentIsAttachment(): boolean {
-        return this.comment.type === CommentType.Attachment;
+        // TODO
+        // return this.comment.type === CommentType.Attachment;
+        return true;
     }
 
     public commentIsUrl(): boolean {
@@ -174,5 +182,17 @@ export class CommentComponent implements OnInit {
             }, (): void => {
                 this.notificationService.openErrorNotification('error.imageDownload');
             });
+    }
+
+    public transform(url: string): SafeResourceUrl {
+        return this.domSanitizer.bypassSecurityTrustResourceUrl(url);
+    }
+
+    private loadVideo(file: any) {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (): void => {
+            localStorage.setItem('file', window.URL.createObjectURL(file));
+        };
     }
 }

@@ -8,6 +8,7 @@ import { CommentService } from '../../services/comment.service';
 import { AttachmentService } from '../../services/data/attachment.service';
 import { ImagesService } from '../../services/data/images.service';
 import { NotificationService } from '../../services/notification.service';
+import { CommentComponent } from '../comment/comment.component';
 
 export abstract class CommentTabComponent implements OnInit {
 
@@ -39,6 +40,9 @@ export abstract class CommentTabComponent implements OnInit {
             attachment: ['']
         });
     }
+
+    // @ts-ignore
+    private commentComponent = new CommentComponent();
 
     public onCommentAdded(): void {
         if (this.addCommentForm.invalid) {
@@ -86,8 +90,12 @@ export abstract class CommentTabComponent implements OnInit {
         reader.onload = (): void => {
             if (file.type === 'application/pdf') {
                 this.uploadPdf(file);
-            }  else {
+            } else if (file.type === 'image/jpeg'
+                || file.type === 'image/jpg'
+                || file.type === 'image/png') {
                 this.uploadImage(file);
+            } else if (file.type === 'video/mp4') {
+                this.uploadVideo(file);
             }
         };
         reader.readAsDataURL(file);
@@ -95,6 +103,11 @@ export abstract class CommentTabComponent implements OnInit {
 
     public trackCommentById(index: number, item: CommentResponse): any {
         return item.id;
+    }
+
+    protected uploadVideo(file: any): void {
+        // TODO Upload video to server
+        this.commentComponent.loadVideo(file)
     }
 
     protected uploadImage(file: File): void {

@@ -28,6 +28,10 @@
                 </a>
             </ng-container>
 
+            <ng-container *ngIf="videoSrc">
+                <video [src]="videoSrc" width="100%" controls></video>
+            </ng-container>
+
             <ng-container *ngIf="pdfSrc">
                 <span class="attachment-container">
 
