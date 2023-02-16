@@ -124,6 +124,10 @@ export class CommentComponent implements OnInit {
             return this.isMyComment;
         }
 
+        if (this.isMyComment) {
+            return true
+        }
+
         return false;
     }
 
