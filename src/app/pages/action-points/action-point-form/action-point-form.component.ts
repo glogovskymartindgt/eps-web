@@ -17,16 +17,13 @@ import { MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger }
 import { MatChipInputEvent } from '@angular/material/chips';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { BrowseResponse } from '@hazelnut';
 import * as _moment from 'moment';
-import { forkJoin, Observable, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-import { GroupCode } from '../../../shared/enums/group-code.enum';
 import { StringUtils } from '../../../shared/hazelnut/hazelnut-common/hazelnut';
 import { Regex } from '../../../shared/hazelnut/hazelnut-common/regex/regex';
 import { User } from '../../../shared/interfaces/user.interface';
 import { Venue } from '../../../shared/interfaces/venue.interface';
-import { Group } from '../../../shared/models/group.model';
 import { Responsible } from '../../../shared/models/responsible.model';
 import { Task } from '../../../shared/models/task.model';
 import { SortService } from '../../../shared/services/core/sort.service';
@@ -59,6 +56,7 @@ const moment = _moment;
 })
 export class ActionPointFormComponent implements OnInit, OnDestroy {
     @Output() public readonly formDataChange = new EventEmitter<any>();
+    @Input() public readonly hasGroupIihfSupervisor;
     @ViewChild('responsibleInput', {static: false}) public responsibleInput: ElementRef<HTMLInputElement>;
     @ViewChild('auto', {static: false}) public matAutocomplete: MatAutocomplete;
     public venueList: Venue[];
@@ -85,9 +83,7 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
     public filteredResponsibles: Observable<Responsible[]>;
     public responsibles: Responsible[];
     public meetingTextRequired = false;
-    public hasGroupIihfSupervisor = false;
-    public groupList: BrowseResponse<Group>;
-    public  user: User;
+
     @ViewChild(MatAutocompleteTrigger, {static: false}) private readonly autocomplete: MatAutocompleteTrigger;
 
     private readonly componentDestroyed$: Subject<boolean> = new Subject<boolean>();
@@ -152,7 +148,6 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
         this.loadVenueList();
         this.loadUserList();
         this.checkIfUpdate();
-        this.checkSupervisorGroup();
 
         this.actionPointForm.controls.responsible.patchValue('ad');
     }
@@ -408,7 +403,6 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
     private isAllowedToChangeStatus(createdBy: User, responsibleUsers: any[]): boolean {
         const actualUserId = this.projectUserService.instant.userId;
         const responsibles = responsibleUsers.map((user: any): number => user.id);
-
         return responsibles.includes(actualUserId) || createdBy.id === actualUserId || this.hasGroupIihfSupervisor;
     }
 
@@ -427,18 +421,5 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
             this.actionPointForm.controls.meetingText.setValidators(null);
         }
         this.changeDetector.detectChanges();
-    }
-
-    private checkSupervisorGroup(): void {
-        forkJoin([
-            this.groupService.browseGroups(),
-            this.userDataService.getUserDetail(this.projectUserService.instant.userId)
-        ]).subscribe((res: [BrowseResponse<Group>, User]): void => {
-            [this.groupList, this.user] = res;
-            const supervisorGroupId = this.groupList.content.find((group: Group): boolean => group.code === GroupCode.IIHF_SUPERVISOR).id;
-            if (this.user.groupIdList.includes(supervisorGroupId)) {
-                this.hasGroupIihfSupervisor = true;
-            }
-        });
     }
 }
