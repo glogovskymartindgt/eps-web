@@ -55,7 +55,10 @@
         "edit": {
             "editActionPoint": "Edit action point",
             "actionPointDetail": "Action point detail"
-        }
+        },
+        "attachments": "Attachments",
+        "addAttachment": "ADD ATTACHMENT",
+        "downloadAll": "DOWNLOAD ALL"
     },
     "tasks": {
         "cancel": "CANCEL",
@@ -385,6 +388,12 @@
         "actionPoint": {
             "title":"Delete action point?",
             "message":"This action will delete current action point.",
+            "confirmButton":"DELETE",
+            "rejectButton":"CANCEL"
+        },
+        "actionPointAttachment": {
+            "title":"Delete attachment",
+            "message":"This action will delete current attachment.",
             "confirmButton":"DELETE",
             "rejectButton":"CANCEL"
         },
