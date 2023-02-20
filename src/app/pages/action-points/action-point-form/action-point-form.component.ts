@@ -26,10 +26,10 @@ import { Regex } from '../../../shared/hazelnut/hazelnut-common/regex/regex';
 import { User } from '../../../shared/interfaces/user.interface';
 import { Venue } from '../../../shared/interfaces/venue.interface';
 import { Responsible } from '../../../shared/models/responsible.model';
-import { Tag } from '../../../shared/models/tag.model';
 import { Task } from '../../../shared/models/task.model';
 import { SortService } from '../../../shared/services/core/sort.service';
 import { ActionPointService } from '../../../shared/services/data/action-point.service';
+import { TagService } from '../../../shared/services/data/tag.service';
 import { UserDataService } from '../../../shared/services/data/user-data.service';
 import { VenueService } from '../../../shared/services/data/venue.service';
 import { NotificationService } from '../../../shared/services/notification.service';
@@ -90,9 +90,9 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
     private _disabled: boolean = true;
     private actionPoint: any = null;
     public tagControl = new FormControl('');
-    public selectedTags: Tag[] = [];
-    public filteredTags: Observable<Tag[]>;
-    public tags: Tag[];
+    public selectedTags: string[] = [];
+    public filteredTags: Observable<string[]>;
+    public tags: string[];
     public tagsLoading = false;
 
     public constructor(
@@ -105,7 +105,8 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
         private readonly notificationService: NotificationService,
         private readonly actionPointService: ActionPointService,
         private readonly projectUserService: ProjectUserService,
-        private readonly sortService: SortService
+        private readonly sortService: SortService,
+        private readonly tagService: TagService
     ) {
         this.filteredResponsibles = this.responsibleControl
             .valueChanges
@@ -120,10 +121,10 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
 
         this.filteredTags = this.tagControl.valueChanges
             .pipe(map((tagName: string | null) => {
-                return tagName ? this._filterTags(tagName) : this.tags.filter((actualTag: Tag) => {
+                return tagName ? this._filterTags(tagName) : this.tags.filter((actualTag: string) => {
                     this.emitFormDataChangeEmitter();
 
-                    return !this.selectedTags.some((selectedTag: Tag): boolean => selectedTag.id === actualTag.id);
+                    return !this.selectedTags.some((selectedTag: string): boolean => selectedTag === actualTag);
                 });
             }),
         );
@@ -238,21 +239,14 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
         const value = (event.value || '').trim();
 
         if (value) {
-            const newTag = {
-                name: value,
-                state: 'Valid',
-                id: null,
-                codeItem: null
-            }
-
-            this.selectedTags.push(newTag);
+            this.selectedTags.push(value);
         }
 
         event.input.value = '';
         this.autocomplete.closePanel()
     }
 
-    public removeTag(tag: Tag): void {
+    public removeTag(tag: string): void {
         const index = this.selectedTags.indexOf(tag);
 
         if (index >= 0) {
@@ -265,7 +259,7 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
 
     public selectedTag(event: MatAutocompleteSelectedEvent): void {
         this.selectedTags.push(event.option.value);
-        this.filteredTags.subscribe((tag: Tag[]) => tag !== event.option.value);
+        this.filteredTags.subscribe((tag: string[]) => tag !== event.option.value);
         this.tagInput.nativeElement.value = '';
         this.tagControl.patchValue({});
         this.emitFormDataChangeEmitter();
@@ -287,15 +281,13 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
             });
     }
 
-    private _filterTags(value: string): Tag[] {
+    private _filterTags(value: string): string[] {
         const filterValue = typeof value === 'string' ? value.toLowerCase() : value;
-
-        return this.tags.filter(tag => tag.name.toLowerCase().includes(filterValue))
-            .filter((tag: Tag): any => {
-                return !this.selectedTags.find((selectedTag: Tag): boolean => selectedTag.name === tag.name);
+        return this.tags.filter(tag => tag.toLowerCase().includes(filterValue))
+            .filter((tag: string): any => {
+                return !this.selectedTags.find((selectedTag: string): boolean => selectedTag === tag);
             });
     }
-
 
     private loadVenueList(): void {
         this.venueService.getVenuesByProjectId(this.projectEventService.instant.id)
@@ -316,10 +308,10 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
 
     private loadTags(): void {
         this.tagsLoading = true;
-        this.actionPointService.listTags()
+        this.tagService.browseTags()
             .pipe(finalize((): any => this.tagsLoading = false))
-            .subscribe((data: BrowseResponse<Tag>) => {
-                this.tags = data.content.filter((item: Tag) => item.state === 'VALID');
+            .subscribe((data: BrowseResponse<any>) => {
+                this.tags = data.content.map(tag => tag.title);
             }, () => {
                 this.notificationService.openErrorNotification('error.api');
             });
@@ -419,9 +411,11 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
             changedBy: [''],
             changedAt: [''],
             createdBy: [''],
+            tags: [''],
         });
 
         this.selectedResponsibles = actionPoint.responsibles ? actionPoint.responsibles : [];
+        this.selectedTags = actionPoint.tagList ? actionPoint.tagList : [];
         this.actionPointForm.controls.title.patchValue(actionPoint.title);
         this.actionPointForm.controls.trafficLight.patchValue(actionPoint.trafficLight);
         this.addFormValue('actionPointText', actionPoint.actionPointText);

@@ -179,15 +179,15 @@
 
     <div>
         <mat-form-field appearance="fill" class="long-input theme-input">
-            <mat-label>Tags</mat-label>
-            <mat-chip-list #chipListTags>
+            <mat-label>{{'actionPoint.tags' | translate}}</mat-label>
+            <mat-chip-list #chipListTags formControlName="tags">
                 <mat-chip
                     (removed)="removeTag(tag)"
                     *ngFor="let tag of selectedTags"
                     [removable]="true"
                     [selectable]="true"
                 >
-                    {{tag.name}}
+                    {{tag}}
                     <mat-icon matChipRemove>cancel</mat-icon>
                 </mat-chip>
 
@@ -203,7 +203,7 @@
                               (optionSelected)="selectedTag($event)"
             >
                 <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
-                    {{tag.name}}
+                    {{tag}}
                 </mat-option>
             </mat-autocomplete>
         </mat-form-field>

@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { TableChangeEvent } from '../../hazelnut/core-table';
 import { StringUtils } from '../../hazelnut/hazelnut-common/hazelnut';
 import { BrowseResponse, Filter, PostContent, Sort } from '../../hazelnut/hazelnut-common/models';
+import { User } from '../../interfaces/user.interface';
 import { ActionPoint } from '../../models/action-point.model';
 import { Tag } from '../../models/tag.model';
 import { NotificationService } from '../notification.service';
@@ -132,30 +133,5 @@ export class ActionPointService extends ProjectService<ActionPoint> {
         }
 
         return 0;
-    }
-
-    /**
-     * Get list of source of agenda objects by code value 'TAG'
-     */
-    public listTags(): Observable<BrowseResponse<Tag>> {
-        const tags: Tag[] = [
-            {
-                name: 'Futbal',
-                id: 12,
-                state: 'VALID',
-                codeItem: 5
-            },
-            {
-                name: 'Hokej',
-                id: 13,
-                state: 'VALID',
-                codeItem: 2
-            }
-        ]
-
-        return of({
-            content: tags,
-            totalElements: tags.length
-        });
     }
 }
