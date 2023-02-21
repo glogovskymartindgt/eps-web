@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { fadeEnterLeave } from '../../../shared/hazelnut/hazelnut-common/animations';
 import { AuthService } from '../../../shared/services/auth.service';
 import { AppConstants } from '../../../shared/utils/constants';
@@ -20,7 +20,11 @@ import { AppConstants } from '../../../shared/utils/constants';
     public version = AppConstants.version;
     public loginForm: FormGroup;
 
-    public constructor(private readonly router: Router, private readonly formBuilder: FormBuilder, private readonly authService: AuthService) {
+    public constructor(
+        private readonly router: Router,
+        private readonly formBuilder: FormBuilder,
+        private readonly authService: AuthService,
+        private readonly route: ActivatedRoute) {
     }
 
     /**
@@ -41,7 +45,8 @@ import { AppConstants } from '../../../shared/utils/constants';
         if (this.loginForm.invalid) {
             return;
         }
-        this.authService.loginBackend(this.loginForm.value.userName, this.loginForm.value.password);
+        const returnUrl = this.route.snapshot.queryParams['returnUrl'] || 'dashboard';
+        this.authService.loginBackend(this.loginForm.value.userName, this.loginForm.value.password, returnUrl);
     }
 
     /**
