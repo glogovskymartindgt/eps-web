@@ -21,13 +21,14 @@ export class ProjectCardComponent implements OnInit {
     public showOneCity = false;
     public showAllCountries = false;
     public showOneCountry = false;
-    public imagePath: any = 'assets/img/event-logos/default_logo.png';
+    public imagePath: any;
 
     public constructor(private readonly router: Router,
                        private readonly dashboardService: DashboardService,
                        private readonly projectEventService: ProjectEventService,
                        private readonly imagesService: ImagesService,
                        private readonly sortService: SortService) {
+        this.imagePath = this.projectEventService.imagePath
     }
 
     /**
