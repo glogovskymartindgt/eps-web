@@ -1,12 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { TableChangeEvent } from '../../hazelnut/core-table';
 import { StringUtils } from '../../hazelnut/hazelnut-common/hazelnut';
 import { BrowseResponse, Filter, PostContent, Sort } from '../../hazelnut/hazelnut-common/models';
-import { User } from '../../interfaces/user.interface';
 import { ActionPoint } from '../../models/action-point.model';
-import { Tag } from '../../models/tag.model';
 import { NotificationService } from '../notification.service';
 import { ProjectService } from '../project.service';
 import { ProjectUserService } from '../storage/project-user.service';

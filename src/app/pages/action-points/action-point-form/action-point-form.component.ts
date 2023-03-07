@@ -19,8 +19,9 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 import { ActivatedRoute, Params } from '@angular/router';
 import { BrowseResponse } from '@hazelnut';
 import * as _moment from 'moment';
-import { Observable, Subject } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
+import { forkJoin, Observable, Subject } from 'rxjs';
+import { finalize, map, takeUntil } from 'rxjs/operators';
+import { GroupCode } from '../../../shared/enums/group-code.enum';
 import { StringUtils } from '../../../shared/hazelnut/hazelnut-common/hazelnut';
 import { Regex } from '../../../shared/hazelnut/hazelnut-common/regex/regex';
 import { User } from '../../../shared/interfaces/user.interface';

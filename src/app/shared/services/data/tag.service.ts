@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BrowseResponse, PostContent, Sort } from '../../hazelnut/hazelnut-common/models';
+import { BrowseResponse, PostContent } from '../../hazelnut/hazelnut-common/models';
 import { TaskInterface } from '../../interfaces/task.interface';
 import { Tag } from '../../models/tag.model';
 import { NotificationService } from '../notification.service';
