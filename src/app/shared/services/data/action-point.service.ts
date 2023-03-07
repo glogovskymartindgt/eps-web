@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-
 import { TableChangeEvent } from '../../hazelnut/core-table';
 import { StringUtils } from '../../hazelnut/hazelnut-common/hazelnut';
 import { BrowseResponse, Filter, PostContent, Sort } from '../../hazelnut/hazelnut-common/models';
@@ -133,5 +132,4 @@ export class ActionPointService extends ProjectService<ActionPoint> {
 
         return 0;
     }
-
 }
