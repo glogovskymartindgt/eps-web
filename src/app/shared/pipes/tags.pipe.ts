@@ -6,6 +6,10 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class TagsPipe implements PipeTransform {
 
     transform(value: string[], maxTags?: number): string {
+        if (!value) {
+            return '';
+        }
+
         if (!maxTags) {
             maxTags = 2
         }
