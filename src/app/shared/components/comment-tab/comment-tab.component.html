@@ -50,6 +50,7 @@
     <div class="comment-list">
         <div *ngFor="let comment of comments; let i = index; trackBy:trackCommentById">
             <iihf-comment
+                [hasGroupIihfSupervisor]="hasGroupIihfSupervisor"
                 [comment]="comment"
                 [index]="i"
                 (delete)="deleteComment(comment)"

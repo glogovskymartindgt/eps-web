@@ -1,12 +1,20 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { BrowseResponse } from '@hazelnut';
+import { forkJoin } from 'rxjs';
+import { GroupCode } from '../../../shared/enums/group-code.enum';
 import { Role } from '../../../shared/enums/role.enum';
 import { RouteNames } from '../../../shared/enums/route-names.enum';
 import { Regex } from '../../../shared/hazelnut/hazelnut-common/regex/regex';
+import { User } from '../../../shared/interfaces/user.interface';
 import { DeleteButtonOptions } from '../../../shared/models/delete-button-options.model';
+import { Group } from '../../../shared/models/group.model';
 import { ActionPointService } from '../../../shared/services/data/action-point.service';
+import { GroupService } from '../../../shared/services/data/group.service';
+import { UserDataService } from '../../../shared/services/data/user-data.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
+import { ProjectUserService } from '../../../shared/services/storage/project-user.service';
 import { ActionPointFormComponent } from '../action-point-form/action-point-form.component';
 import { ActionPointStructureService } from '../action-point-structure.service';
 
@@ -26,6 +34,9 @@ export class ActionPointEditComponent implements OnInit {
     public readonly role: typeof Role = Role;
     public readonly actionPointEditRoles: Role[] = [Role.RoleUpdateActionPoint, Role.RoleUpdateActionPointInAssignProject];
     private actionPointId: number;
+    public hasGroupIihfSupervisor: boolean = false;
+    public groupList: BrowseResponse<Group>;
+    public user: User;
 
     public constructor(
         private readonly router: Router,
@@ -34,12 +45,16 @@ export class ActionPointEditComponent implements OnInit {
         private readonly actionPointService: ActionPointService,
         public readonly projectEventService: ProjectEventService,
         private readonly actionPointStructureService: ActionPointStructureService,
+        private readonly projectUserService: ProjectUserService,
+        private readonly groupService: GroupService,
+        private readonly userDataService: UserDataService,
     ) {}
 
     public ngOnInit(): void {
         this.activatedRoute.queryParams.subscribe((param: Params): void => {
             this.actionPointId = param.id;
             this.setDeleteButtonOptions();
+            this.checkSupervisorGroup();
         });
     }
 
@@ -100,4 +115,16 @@ export class ActionPointEditComponent implements OnInit {
         };
     }
 
+    private checkSupervisorGroup(): void {
+        forkJoin([
+            this.groupService.browseGroups(),
+            this.userDataService.getUserDetail(this.projectUserService.instant.userId)
+        ]).subscribe((res: [BrowseResponse<Group>, User]): void => {
+            [this.groupList, this.user] = res;
+            const supervisorGroupId = this.groupList.content.find((group: Group): boolean => group.code === GroupCode.IIHF_SUPERVISOR).id;
+            if (this.user.groupIdList.includes(supervisorGroupId)) {
+                this.hasGroupIihfSupervisor = true;
+            }
+        });
+    }
 }
