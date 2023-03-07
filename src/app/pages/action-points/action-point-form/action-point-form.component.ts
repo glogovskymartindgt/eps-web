@@ -17,6 +17,7 @@ import { MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger }
 import { MatChipInputEvent } from '@angular/material/chips';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { ActivatedRoute, Params } from '@angular/router';
+import { BrowseResponse } from 'hazelnut';
 import * as _moment from 'moment';
 import { Observable, Subject } from 'rxjs';
 import { finalize, map, takeUntil } from 'rxjs/operators';
@@ -25,6 +26,7 @@ import { Regex } from '../../../shared/hazelnut/hazelnut-common/regex/regex';
 import { User } from '../../../shared/interfaces/user.interface';
 import { Venue } from '../../../shared/interfaces/venue.interface';
 import { Responsible } from '../../../shared/models/responsible.model';
+import { Tag } from '../../../shared/models/tag.model';
 import { Task } from '../../../shared/models/task.model';
 import { SortService } from '../../../shared/services/core/sort.service';
 import { ActionPointService } from '../../../shared/services/data/action-point.service';
@@ -166,7 +168,6 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
         this.loadVenueList();
         this.loadUserList();
         this.checkIfUpdate();
-        this.checkSupervisorGroup();
         this.loadTags();
 
         this.actionPointForm.controls.responsible.patchValue('ad');
@@ -314,7 +315,7 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
         this.tagsLoading = true;
         this.tagService.browseTags()
             .pipe(finalize((): any => this.tagsLoading = false))
-            .subscribe((data: BrowseResponse<any>) => {
+            .subscribe((data: BrowseResponse<Tag>) => {
                 this.tags = data.content.map(tag => tag.title);
             }, () => {
                 this.notificationService.openErrorNotification('error.api');
