@@ -42,6 +42,7 @@ export class ActionPointListComponent implements OnInit {
     @ViewChild('closedDateColumn', {static: true}) public closedDateColumn: TemplateRef<any>;
     @ViewChild('changedAtColumn', {static: true}) public changedAtColumn: TemplateRef<any>;
     @ViewChild('venueColumn', {static: true}) public venueColumn: TemplateRef<any>;
+    @ViewChild('tagListColumn', {static: true}) public tagListColumn: TemplateRef<any>;
     @ViewChild('actionPointTable', {static: true}) public actionPointTable: CoreTableComponent;
 
     public config: TableConfiguration;
@@ -267,6 +268,14 @@ export class ActionPointListComponent implements OnInit {
                     labelKey: 'actionPoint.actionPointText',
                     filter: new TableColumnFilter({}),
                     sorting: true,
+                }),
+                new TableColumn({
+                    columnDef: 'tag',
+                    labelKey: 'actionPoint.tags',
+                    type: TableCellType.CONTENT,
+                    filter: new TableColumnFilter({}),
+                    tableCellTemplate: this.tagListColumn,
+                    sorting: false,
                 }),
                 new TableColumn({
                     columnDef: ' ',

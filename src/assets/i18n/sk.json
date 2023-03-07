@@ -90,6 +90,8 @@
         "venue": "Miesto",
         "dueDate": "Dátum trvania do",
         "closedDate": "Dátum uzatvorenia",
+        "changedAt": "Zmenené o",
+        "tags": "Tagy",
         "status": "Status",
         "actionPointText": "Akčný bod",
         "meetingDate": "Dátum stretnutia",
