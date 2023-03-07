@@ -48,6 +48,7 @@
         "meetingDate": "Meeting date",
         "meetingText": "Meeting text",
         "responsible": "Responsible",
+        "tags": "Tags",
         "save": "Save",
         "cancel": "Cancel",
         "new": {
