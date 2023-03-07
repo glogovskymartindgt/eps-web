@@ -177,6 +177,38 @@
         <mat-error *ngIf="dateInvalid">{{ 'error.dateFormatIsInvalid' | translate }}</mat-error>
     </mat-form-field>
 
+    <div>
+        <mat-form-field appearance="fill" class="long-input theme-input">
+            <mat-label>{{'actionPoint.tags' | translate}}</mat-label>
+            <mat-chip-list #chipListTags formControlName="tags">
+                <mat-chip
+                    (removed)="removeTag(tag)"
+                    *ngFor="let tag of selectedTags"
+                    [removable]="true"
+                    [selectable]="true"
+                >
+                    {{tag}}
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                </mat-chip>
+
+                <input #tagInput
+                       (matChipInputTokenEnd)="addTag($event)"
+                       [formControl]="tagControl"
+                       [matAutocomplete]="autoTags"
+                       [matChipInputFor]="chipListTags"
+                       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                >
+            </mat-chip-list>
+            <mat-autocomplete #autoTags="matAutocomplete"
+                              (optionSelected)="selectedTag($event)"
+            >
+                <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
+                    {{tag}}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </div>
+
     <div class="long-input">
         <haz-copy-core-input [appearance]="'fill'"
                              [label]="'tasks.description' | translate"
