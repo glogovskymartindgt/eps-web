@@ -12,7 +12,10 @@
         "facts": "Fakty a čísla",
         "allFacts": "Všetky Fakty a čísla",
         "profile": "Profil",
-        "actionPoints": "Akčné body"
+        "actionPoints": "Akčné body",
+        "codeLists": "Zoznamy kódov",
+        "factItemTypes": "Typy faktických položiek"
+
     },
     "login": {
         "username": "Používateľské meno",
@@ -262,6 +265,28 @@
         "downloadAll": "Stiahnuť všetko",
         "downloadFirst": "Stiahnuť súbory pre",
         "downloadSecond": "Stiahnuť súbory pre"
+    },
+    "factItemTypes": {
+        "screenTitle": "Typy faktických položiek",
+        "newFactItem": "Nová faktická položka",
+        "editFactItem": "Úprava faktickej položky",
+        "factItemDetail": "Detail faktickej položky",
+        "list": {
+            "category": "Kategória",
+            "factItemType": "Typ faktickej položky",
+            "measurementUnit": "Merná jednotka",
+            "status": "Stav",
+            "active": "Aktívny",
+            "inactive": "Neaktívny",
+        },
+        "form": {
+            "add": "Pridaj názov typu faktickej položky",
+            "edit": "Zmeň názov typu faktickej položky",
+            "category": "Kategória",
+            "factItemType": "Názov typu faktickej položky",
+            "measurementUnit": "Merná jednotka",
+            "isActive": "Typ faktickej položky je akívny"
+        }
     },
     "users": {
         "title": "Použivatelia",

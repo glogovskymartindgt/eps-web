@@ -9,7 +9,6 @@
             </div>
             <span class="menu-text">{{menuItem.data["title"] | translate}}</span>
         </div>
-        <hr class="ml-21">
         <div (click)="toggleMenuSelect()"
              *ngIf="checkRoute(menuItem, true)"
              class="menu-option h-26"
@@ -23,6 +22,7 @@
                 keyboard_arrow_down
             </mat-icon>
         </div>
+        <hr class="ml-21">
         <div *ngIf="checkRoute(menuItem, true)"
              [ngClass]="{'child-container-open': menuSelect,
                  'child-container': !menuSelect}"
