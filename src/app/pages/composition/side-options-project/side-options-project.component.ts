@@ -37,6 +37,17 @@ export class SideOptionsProjectComponent implements OnInit {
     }
 
     public highlightAndNavigateOption(path: string, highlight = true): void {
+        this.router.config
+            .find((group: Route): any => group.component && group.component.name === 'AdminLayoutComponent')
+            .children
+            .map((route) => {
+                if (route.hasOwnProperty('children')) {
+                    if (route.children.find((child) => child.path === path)) {
+                        path = [route.path, path].join('/')
+                    }
+                }
+            })
+
         if (highlight) {
             this.menuService.setSelectedOption(path);
         }
@@ -56,6 +67,7 @@ export class SideOptionsProjectComponent implements OnInit {
             'business-areas',
             'all-facts',
             'action-points',
+            'code-lists'
         ].forEach((routeSubstring: string): void => {
             if (this.router.url.includes(routeSubstring)) {
                 this.menuService.setSelectedOption(routeSubstring);

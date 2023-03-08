@@ -4,6 +4,7 @@ import * as moment from 'moment';
 import { debounceTime } from 'rxjs/operators';
 import { ListItem } from '../..';
 import { Category } from '../../../../interfaces/category.interface';
+import { MeasureUnit } from '../../../../interfaces/measure-unit';
 import { User } from '../../../../interfaces/user.interface';
 import { SortService } from '../../../../services/core/sort.service';
 import { BusinessAreaService } from '../../../../services/data/business-area.service';
@@ -49,6 +50,7 @@ export class CoreTableFilterComponent implements OnInit {
     public filterTypeEnum: typeof TableFilterType = TableFilterType;
     public userList$ = this.userDataService.getUsers();
     public categoryList$ = [];
+    public measureUnitList$ = [];
     public formControl: FormControl;
 
     private _filtersElement: FormGroup = null;
@@ -78,6 +80,7 @@ export class CoreTableFilterComponent implements OnInit {
         this.processFormChanges();
 
         this.loadCategoryList();
+        this.loadMeasureUnitList();
         this.setPredefinedFilterValuesIntoTableFilters();
     }
 
@@ -94,6 +97,10 @@ export class CoreTableFilterComponent implements OnInit {
         return item.id;
     }
 
+    public trackMeasureUnitByName(index: number, item: MeasureUnit): any {
+        return item.name;
+    }
+
     public trackUserById(index: number, item: User): any {
         return item.id;
     }
@@ -108,6 +115,13 @@ export class CoreTableFilterComponent implements OnInit {
         this.businessAreaService.listCategories()
             .subscribe((data) => {
                 this.categoryList$ = this.sortService.sortByParam(data.content, 'name')
+            });
+    }
+
+    private loadMeasureUnitList(): void {
+        this.businessAreaService.listMeasureUnits()
+            .subscribe((data) => {
+                this.measureUnitList$ = this.sortService.sortByParam(data.content, 'name')
             });
     }
 

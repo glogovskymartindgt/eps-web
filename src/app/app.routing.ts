@@ -104,6 +104,28 @@ export const routes: Routes = [
                 canActivate: [AuthGuard]
             },
             {
+                path: 'code-lists',
+                children: [
+                    {
+                        path: 'fact-item-types',
+                        loadChildren: (): any => import('./pages/code-lists/fast-item-types/fact-item-types.module').then((module: any): any => module.FactItemTypesModule),
+                        data: {
+                            title: 'menu.factItemTypes',
+                            menu: true,
+                            animation: 'factItemTypes'
+                        },
+                        canActivate: [AuthGuard]
+                    },
+                ],
+                data: {
+                    title: 'menu.codeLists',
+                    icon: 'person',
+                    menu: true,
+                    animation: 'codeLists'
+                },
+                canActivate: [AuthGuard],
+            },
+            {
                 path: 'team',
                 loadChildren: (): any => import('./pages/team/team.module').then((module: any): any => module.TeamModule),
                 data: {
