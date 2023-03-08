@@ -44,11 +44,13 @@
         "dueDate": "Due date",
         "closedDate": "Closed date",
         "changedAt": "Changed At",
+        "tags": "Tags",
         "status": "Status",
         "actionPointText": "Action point",
         "meetingDate": "Meeting date",
         "meetingText": "Meeting text",
         "responsible": "Responsible",
+        "tags": "Tags",
         "save": "Save",
         "cancel": "Cancel",
         "new": {

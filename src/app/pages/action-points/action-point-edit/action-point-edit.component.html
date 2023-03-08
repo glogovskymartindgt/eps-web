@@ -25,7 +25,11 @@
 
 <div fxLayout="row" style="overflow: auto;  height: calc(100vh - 160px);">
     <div fxFlex fxFlex.gt-sm="100%" class="p-30 form-content" fxLayout="column">
-        <iihf-action-point-form (formDataChange)="formDataChange($event)" [disabled]="!editMode"></iihf-action-point-form>
+        <iihf-action-point-form
+            (formDataChange)="formDataChange($event)"
+            [hasGroupIihfSupervisor]="hasGroupIihfSupervisor"
+            [disabled]="!editMode"
+        ></iihf-action-point-form>
         <div>
             <ng-container *ngIf="projectEventService.instant.active && editMode">
                 <button *iihfShowByRole="actionPointEditRoles"
@@ -51,6 +55,7 @@
     </div>
 
     <iihf-action-point-comment-tab
+        [hasGroupIihfSupervisor]="hasGroupIihfSupervisor"
         *iihfShowByRole="[role.RoleReadComment, role.RoleReadCommentInAssignProject]"
         fxFlex="400px"
     ></iihf-action-point-comment-tab>
