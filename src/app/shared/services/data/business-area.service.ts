@@ -9,6 +9,7 @@ import { StringUtils } from '../../hazelnut/hazelnut-common/hazelnut';
 import { BrowseResponse, Filter, PostContent, Sort } from '../../hazelnut/hazelnut-common/models';
 import { BusinessArea } from '../../interfaces/bussiness-area.interface';
 import { Category } from '../../interfaces/category.interface';
+import { MeasureUnit } from '../../interfaces/measure-unit';
 import { SourceOfAgenda } from '../../interfaces/source-of-agenda.interface';
 import { SubCategory } from '../../interfaces/subcategory.interface';
 import { CodelistItem } from '../../models/codelist-item.model';
@@ -84,6 +85,12 @@ import { ProjectUserService } from '../storage/project-user.service';
      */
     public listCategories(): Observable<BrowseResponse<Category>> {
         return this.getListByCode('CAT');
+    }
+    /**
+     * Get list of measure unit objects by code value 'MEASURE_UNIT'
+     */
+    public listMeasureUnits(): Observable<BrowseResponse<MeasureUnit>> {
+        return this.getListByCode('UNIT');
     }
 
     /**

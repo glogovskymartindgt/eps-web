@@ -14,7 +14,9 @@
         "users": "Users",
         "profile": "Profile",
         "actionPoints": "Action points",
-        "guidelines": "Guidelines"
+        "guidelines": "Guidelines",
+        "codeLists": "Code Lists",
+        "factItemTypes": "Fact item types"
     },
     "login": {
         "login": "Log in",
@@ -42,11 +44,13 @@
         "dueDate": "Due date",
         "closedDate": "Closed date",
         "changedAt": "Changed At",
+        "tags": "Tags",
         "status": "Status",
         "actionPointText": "Action point",
         "meetingDate": "Meeting date",
         "meetingText": "Meeting text",
         "responsible": "Responsible",
+        "tags": "Tags",
         "save": "Save",
         "cancel": "Cancel",
         "new": {
@@ -379,6 +383,28 @@
             "createdAt": "Created at",
             "changedAt": "Changed at",
             "changedBy": "Changed by"
+        }
+    },
+    "factItemTypes": {
+        "screenTitle": "Fact item types",
+        "newFactItem": "New fact item type",
+        "editFactItem": "Edit fact item type",
+        "factItemDetail": "Fact item type detail",
+        "list": {
+            "category": "Category",
+            "factItemType": "Fact item type",
+            "measurementUnit": "Measurement unit",
+            "status": "Status",
+            "active": "Active",
+            "inactive": "Inactive"
+        },
+        "form": {
+            "add": "Add Fact item type",
+            "edit": "Edit Fact item type",
+            "category": "Category",
+            "factItemType": "Fact item type Name",
+            "measurementUnit": "Measurement unit",
+            "isActive": "Form item type is active"
         }
     },
     "confirmation": {

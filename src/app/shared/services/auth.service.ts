@@ -56,7 +56,7 @@ import { ProjectUserService } from './storage/project-user.service';
      * @param password
      * @param deviceId
      */
-    public loginBackend(login: string, password: string, deviceId = 'device1'): void {
+    public loginBackend(login: string, password: string, returnUrl: string, deviceId = 'device1'): void {
         const headers = new HttpHeaders({'Content-Type': 'application/json'});
         const accessDeniedCode = '9002';
 
@@ -68,7 +68,7 @@ import { ProjectUserService } from './storage/project-user.service';
             .subscribe((data: {}): void => {
                 this.userService.setAuthData(data);
                 this.projectEventService.setEventData();
-                this.router.navigate(['dashboard']);
+                this.router.navigate([returnUrl]);
             }, (error: HttpErrorResponse): void => {
                 if (error.error.code === accessDeniedCode) {
                     this.notificationService.openErrorNotification('error.loginData');
