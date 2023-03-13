@@ -1,3 +1,4 @@
+import { ClipboardModule } from '@angular/cdk/clipboard';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -58,6 +59,7 @@ import { ProjectTypeSelectComponent } from './project-type-select/project-type-s
         SharedDirectivesModule,
         TranslateModule.forChild(),
         HazelnutInputsModule,
+        ClipboardModule,
     ],
     exports: [
         NotificationSnackBarComponent,

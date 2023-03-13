@@ -57,7 +57,8 @@
     "success": {
         "add": "Pridanie úspešné",
         "edit": "Úprava úspešná",
-        "delete": "Vymazanie úspešné"
+        "delete": "Vymazanie úspešné",
+        "linkCopied": "Odkaz bol skopírovaný do schránky"
     },
     "common": {
         "from": "Od",
