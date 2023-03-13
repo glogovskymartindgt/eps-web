@@ -141,7 +141,8 @@
     "success": {
         "add": "Add successful",
         "edit": "Edit successful",
-        "delete": "Delete successful"
+        "delete": "Delete successful",
+        "linkCopied": "Link copied to clipboard"
     },
     "paginator": {
         "itemsPerPage": "Items per page",
