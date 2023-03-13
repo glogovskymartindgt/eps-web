@@ -18,4 +18,10 @@
             alt="download"
         >
     </a>
+    <a *ngIf="copyUrlButton" (click)="copyUrl()" class="link-cursor">
+        <img
+            src="assets/img/svg-squares/link.svg"
+            alt="copy link"
+        >
+    </a>
 </div>
