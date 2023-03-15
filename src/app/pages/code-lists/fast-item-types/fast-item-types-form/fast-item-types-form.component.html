@@ -52,7 +52,7 @@
     </div>
     <div class="long-input">
         <mat-slide-toggle formControlName="state">
-            {{"factItemTypes.form.isActive" | translate}}
+            {{(this.factItemTypeForm.controls.state && this.factItemTypeForm.controls.state.value === true ? "factItemTypes.form.isActive" : "factItemTypes.form.isInactive") | translate}}
         </mat-slide-toggle>
     </div>
     <br>
