@@ -405,7 +405,7 @@
             "category": "Category",
             "factItemType": "Fact item type Name",
             "measurementUnit": "Measurement unit",
-            "isActive": "Form item type is active",
+            "isActive": "Fact item type is active",
             "isInactive": "Fact item type is inactive"
         }
     },
