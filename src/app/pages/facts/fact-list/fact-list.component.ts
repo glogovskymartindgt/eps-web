@@ -107,7 +107,8 @@ export class FactListComponent implements OnInit {
         this.loading = true;
         let projectFilter = null;
         // Create filter which will be use in Facts and Figures screen API call
-        if (!this.router.url.includes(ALL_FACTS)) {
+        // if (!this.router.url.includes(ALL_FACTS)) {
+        if (!this.allFacts) {
             projectFilter = new Filter('PROJECT_ID', this.projectEventService.instant.id, 'NUMBER');
         }
 
@@ -117,10 +118,17 @@ export class FactListComponent implements OnInit {
 
         this.tableChangeStorageService.cachedTableChangeEvent = tableChangeEvent;
         this.lastTableChangeEvent = tableChangeEvent;
+
+        // TO DO  ??????? ako nastaviť filtre pre facts and figures ???????
+        if (projectFilter){
+            this.allTaskFilters = this.allTaskFilters.concat(projectFilter)
+        }
+
         // Api call
         this.factService.browseFacts(tableChangeEvent, projectFilter)
             .pipe(finalize((): any => this.loading = false))
             .subscribe((data: BrowseResponse<Fact>): void => {
+                console.log('browsing data: ', projectFilter)
                 this.data = data;
             }, (): void => {
                 this.notificationService.openErrorNotification('error.api');
@@ -153,7 +161,15 @@ export class FactListComponent implements OnInit {
             .pipe(finalize((): any => this.loading = false))
             .subscribe((response: HttpResponse<any>): void => {
                 const contentDisposition = response.headers.get('Content-Disposition');
-                const exportName: string = GetFileNameFromContentDisposition(contentDisposition);
+                let exportName: string = GetFileNameFromContentDisposition(contentDisposition);
+                console.log(exportName)
+                if (!this.allFacts){
+                    let replaceStr = ""
+                    if (exportName.search('All_') !== -1 || exportName.search('all_') !== -1){
+                        replaceStr = ''
+                    }
+                    exportName = exportName.replace(/[Aa]ll_/, replaceStr)
+                }
                 new FileManager().saveFile(exportName, response.body, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
             }, (): void => {
                 this.notificationService.openErrorNotification('error.api');

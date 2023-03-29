@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TableChangeEvent } from '../../hazelnut/core-table';
-import { BrowseResponse, Filter, PostContent } from '../../hazelnut/hazelnut-common/models';
+import { BrowseResponse, Filter, PostContent, Sort } from '../../hazelnut/hazelnut-common/models';
 import { User } from '../../interfaces/user.interface';
 import { NotificationService } from '../notification.service';
 import { ProjectService } from '../project.service';
@@ -45,6 +45,26 @@ import { ProjectUserService } from '../storage/project-user.service';
         postContent.addFilters(...additionalFilters);
 
         return this.browseWithSummary(postContent);
+    }
+
+    /**
+     *
+     * @param {TableChangeEvent} tableChangeEvent
+     * @param {Filter[]} additionalFilters
+     * @param {number} projectId
+     * @returns {Observable<any>}
+     */
+    public exportTeams(tableChangeEvent?: TableChangeEvent, additionalFilters?: Filter[], projectId?: number): any {
+        let filters = [];
+        let sort = [];
+        if (tableChangeEvent && tableChangeEvent.sortActive && tableChangeEvent.sortDirection) {
+            sort = [
+                new Sort(tableChangeEvent.sortActive, tableChangeEvent.sortDirection)
+            ];
+        }
+        filters = filters.concat(additionalFilters);
+
+        return this.report(filters, sort, projectId);
     }
 
     public getUserDetail(id: number): Observable<User> {
