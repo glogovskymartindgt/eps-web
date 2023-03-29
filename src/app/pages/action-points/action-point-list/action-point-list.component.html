@@ -4,6 +4,9 @@
         <h2>{{'actionPoint.screenTitle' | translate}}</h2>
     </div>
     <div fxFlex fxLayoutAlign="end center">
+        <button (click)="export()" *ngIf="allowExportReportActionPointButton()" class="mr-10" color="accent" mat-flat-button>
+            {{'common.export' | translate}}
+        </button>
         <button (click)="createTask()"
                 *ngIf="projectEventService.instant.active && allowCreateActionPointButton()"
                 class="mr-10"
@@ -11,9 +14,6 @@
                 mat-flat-button
         >
             {{'common.create' | translate}}
-        </button>
-        <button (click)="export()" *ngIf="allowExportReportActionPointButton()" class="mr-10" color="accent" mat-flat-button>
-            {{'common.export' | translate}}
         </button>
     </div>
 </div>

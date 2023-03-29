@@ -107,7 +107,6 @@ export class FactListComponent implements OnInit {
         this.loading = true;
         let projectFilter = null;
         // Create filter which will be use in Facts and Figures screen API call
-        // if (!this.router.url.includes(ALL_FACTS)) {
         if (!this.allFacts) {
             projectFilter = new Filter('PROJECT_ID', this.projectEventService.instant.id, 'NUMBER');
         }
@@ -119,7 +118,6 @@ export class FactListComponent implements OnInit {
         this.tableChangeStorageService.cachedTableChangeEvent = tableChangeEvent;
         this.lastTableChangeEvent = tableChangeEvent;
 
-        // TO DO  ??????? ako nastaviť filtre pre facts and figures ???????
         if (projectFilter){
             this.allTaskFilters = this.allTaskFilters.concat(projectFilter)
         }
@@ -128,7 +126,6 @@ export class FactListComponent implements OnInit {
         this.factService.browseFacts(tableChangeEvent, projectFilter)
             .pipe(finalize((): any => this.loading = false))
             .subscribe((data: BrowseResponse<Fact>): void => {
-                console.log('browsing data: ', projectFilter)
                 this.data = data;
             }, (): void => {
                 this.notificationService.openErrorNotification('error.api');
@@ -162,7 +159,6 @@ export class FactListComponent implements OnInit {
             .subscribe((response: HttpResponse<any>): void => {
                 const contentDisposition = response.headers.get('Content-Disposition');
                 let exportName: string = GetFileNameFromContentDisposition(contentDisposition);
-                console.log(exportName)
                 if (!this.allFacts){
                     let replaceStr = ""
                     if (exportName.search('All_') !== -1 || exportName.search('all_') !== -1){
