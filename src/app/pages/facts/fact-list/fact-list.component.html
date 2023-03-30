@@ -6,6 +6,15 @@
         </div>
 
         <div fxFlex fxLayoutAlign="end center">
+            <ng-container >
+                <button
+                    
+                    mat-flat-button class="mr-10" color="accent"
+                    (click)="export()"
+                >
+                    {{'common.export' | translate}}
+                </button>
+            </ng-container>
             <ng-container *ngIf="projectEventService.instant.active && !allFacts">
                 <button (click)="createFact()"
                         *iihfShowByRole="[role.RoleCreateFactItem, role.RoleCreateFactItemInAssignProject]"
@@ -15,17 +24,7 @@
                 >
                     {{'common.create' | translate}}
                 </button>
-            </ng-container>
-
-            <ng-container *ngIf="allFacts">
-                <button
-                    *iihfShowByRole="[role.RoleExportAllFactItem, role.RoleExportAllFactItemInAssignProject]"
-                    mat-flat-button class="mr-10" color="accent"
-                    (click)="export()"
-                >
-                    {{'common.export' | translate}}
-                </button>
-            </ng-container>
+            </ng-container>  
         </div>
     </div>
 

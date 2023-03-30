@@ -1,17 +1,23 @@
 <iihf-header>
     <h2 title>{{'guidelines.screenTitle' | translate}}</h2>
 
-    <ng-container buttons *ngIf="isOpenProject()">
-        <button
-            (click)="createGuideline()"
-            *iihfShowByRole="roles.RoleCreateGuideline"
-            class="mr-10"
-            color="accent"
-            mat-flat-button
-        >
-            {{'common.create' | translate}}
+    <div buttons>
+        <!-- <ng-container buttons > -->
+        <button (click)="export()" class="mr-10" color="accent" mat-flat-button>
+            {{'common.export' | translate}}
         </button>
-    </ng-container>
+        <ng-container *ngIf="isOpenProject()">
+            <button
+                (click)="createGuideline()"
+                *iihfShowByRole="roles.RoleCreateGuideline"
+                class="mr-10"
+                color="accent"
+                mat-flat-button
+            >
+                {{'common.create' | translate}}
+            </button>
+        </ng-container>
+    </div>
 </iihf-header>
 
 <haz-copy-indeterminate-progress-bar [loading]="loading"></haz-copy-indeterminate-progress-bar>

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BrowseResponse, Filter, PostContent, TableChangeEvent } from '@hazelnut';
+import { BrowseResponse, Filter, PostContent, TableChangeEvent, Sort } from '@hazelnut';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Guideline } from '../../interfaces/guideline.interface';
@@ -31,6 +31,27 @@ export class GuideLineService extends ProjectService<Guideline> {
                 catchError(this.processError)
             );
     }
+
+    /**
+     *
+     * @param {TableChangeEvent} tableChangeEvent
+     * @param {Filter[]} additionalFilters
+     * @param {number} projectId
+     * @returns {Observable<any>}
+     */
+        public exportGuideline(tableChangeEvent?: TableChangeEvent, additionalFilters?: Filter[], projectId?: number): any {
+            let filters = [];
+            let sort = [];
+            if (tableChangeEvent && tableChangeEvent.sortActive && tableChangeEvent.sortDirection) {
+                sort = [
+                    new Sort(tableChangeEvent.sortActive, tableChangeEvent.sortDirection)
+                ];
+            }
+            filters = filters.concat(additionalFilters);
+    
+            return this.report(filters, sort, projectId);
+        }
+    
 
     public createGuideline(guideline: Guideline): Observable<Guideline> {
         return this.add<Guideline>(guideline)
