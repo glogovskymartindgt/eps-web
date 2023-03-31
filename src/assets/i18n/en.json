@@ -189,13 +189,15 @@
         }
     },
     "common": {
-        "create": "CREATE",
-        "edit": "EDIT",
-        "export": "EXPORT",
-        "delete": "DELETE",
+        "create": "Create",
+        "edit": "Edit",
+        "export": "Export",
+        "delete": "Delete",
         "from": "From",
         "to": "To",
-        "emptyText": ""
+        "emptyText": "",
+        "createTemplate": "Create Template",
+        "import": "Import"
     },
     "all": {
         "things": "All",
@@ -440,5 +442,14 @@
             "confirmButton":"DELETE",
             "rejectButton":"CANCEL"
         }
+    },
+    "import": {
+        "fillBlank" : "Fill blank",
+        "fillBlankText": "only fill missing / empty fields of existing facts",
+        "rewriteAll": "Rewrite all",
+        "rewriteAllText": "replace existing facts with the ones from the imported file",
+        "ok": "OK",
+        "cancel": "Cancel",
+        "title": "Choose import type"
     }
 }

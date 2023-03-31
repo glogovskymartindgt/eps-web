@@ -63,8 +63,13 @@
     "common": {
         "from": "Od",
         "to": "Do",
-        "create": "VYTVORIŤ",
-        "export": "EXPORTOVAŤ"
+        "create": "Vytvoriť",
+        "export": "Export",
+        "edit": "Zmeniť",
+        "delete": "Vymazať",
+        "emptyText": "",
+        "createTemplate": "Create Template",
+        "import": "Import"
     },
     "all": {
         "things": "Všetko",
@@ -281,7 +286,7 @@
             "measurementUnit": "Merná jednotka",
             "status": "Stav",
             "active": "Aktívny",
-            "inactive": "Neaktívny",
+            "inactive": "Neaktívny"
         },
         "form": {
             "add": "Pridaj názov typu faktickej položky",
@@ -351,5 +356,14 @@
             "confirmButton":"VYMAZAŤ",
             "rejectButton":"ZRUŠIŤ"
         }
+    },
+    "import": {
+        "fillBlank" : "Fill blank",
+        "fillBlankText": "only fill missing / empty fields of existing facts",
+        "rewriteAll": "Rewrite all",
+        "rewriteAllText": "replace existing facts with the ones from the imported file",
+        "ok": "OK",
+        "cancel": "Cancel",
+        "title": "Choose import type"
     }
 }
