@@ -109,7 +109,10 @@
         },
         "edit": {
             "editActionPoint": "Upraviť akčný bod"
-        }
+        },
+        "attachments": "Prílohy",
+        "addAttachment": "PRIDAJ PRÍLOHU",
+        "downloadAll": "STIAHNUŤ VŠETKO"
     },
     "tasks": {
         "cancel": "ZRUŠIŤ",
@@ -348,6 +351,12 @@
         "actionPoint": {
             "title":"Vymazať daný záznam?",
             "message":"Daná akcia vymaže aktuálny akčný bod.",
+            "confirmButton":"VYMAZAŤ",
+            "rejectButton":"ZRUŠIŤ"
+        },
+        "actionPointAttachment": {
+            "title":"Vymazať danú prílohu?",
+            "message":"Daná akcia vymaže aktuálnu prílohu",
             "confirmButton":"VYMAZAŤ",
             "rejectButton":"ZRUŠIŤ"
         }
