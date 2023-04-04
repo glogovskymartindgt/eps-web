@@ -27,6 +27,7 @@ import { DragDropBoxComponent } from './drag-drop-box/drag-drop-box.component';
 import { HeaderComponent } from './header/header.component';
 import { PdfComponent } from './pdf/pdf.component';
 import { ProjectTypeSelectComponent } from './project-type-select/project-type-select.component';
+import { ImportOptionDialogComponent } from './dialog/import-option-dialog/import-option-dialog.component';
 
 @NgModule({
     declarations: [
@@ -46,6 +47,7 @@ import { ProjectTypeSelectComponent } from './project-type-select/project-type-s
         AvatarComponent,
         DeleteButtonComponent,
         ProjectTypeSelectComponent,
+        ImportOptionDialogComponent,
     ],
     imports: [
         CommonModule,
