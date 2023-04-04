@@ -196,6 +196,7 @@
         "subCategory": "Podkategória",
         "firstVenue": "Prvé miesto",
         "secondVenue": "Druhé miesto",
+        "thirdVenue": "Tretie miesto",
         "totalValue": "Celková hodnota",
         "newFact": "Nový fakt",
         "editFact": "Upraviť fakt",
@@ -206,6 +207,7 @@
         "year": "Rok",
         "firstValue": "Prvá hodnota",
         "secondValue": "Druhá hodnota",
+        "thirdValue": "Tretia hodnota",
         "description": "Opis",
         "unavailable": "Je potrebné nastaviť miesta projektu"
     },
@@ -242,8 +244,10 @@
         "dateTo": "Dátum ukončenia",
         "firstCountry": "Prvá krajina",
         "secondCountry": "Druhá krajina",
+        "thirdCountry": "Tretia krajina",
         "firstVenue": "Prvé miesto",
         "secondVenue": "Druhé miesto",
+        "tretieVenue": "Tretie miesto",
         "description": "Opis",
         "attachments": "Prílohy",
         "venueMaps": "Mapy miesta",
@@ -252,6 +256,7 @@
         "add": "Vytvoriť nový projekt",
         "venue1": "Miesto 1",
         "venue2": "Miesto 2",
+        "venue3": "Miesto 3",
         "dragMapStart": "Presunte mapu pre",
         "dragImageStart": "Presunte obrázokpre",
         "dragDocumentStart": "Presunte dokument pre",
@@ -264,11 +269,14 @@
         "toAddBoth": "Prenahranie príloh je potrebné vyplniť miesto",
         "toAddFirst": "Pre pridanie príloh Miesta 1 je potrebné vyplniť Miesto 1",
         "toAddSecond": "Pre pridanie príloh Miesta 2 je potrebné vyplniť Miesto 2",
+        "toAddThird": "Pre pridanie príloh Miesta 3 je potrebné vyplniť Miesto 3",
         "seeAll": "Vidieť všetko",
         "seeLess": "Skryť",
         "downloadAll": "Stiahnuť všetko",
         "downloadFirst": "Stiahnuť súbory pre",
-        "downloadSecond": "Stiahnuť súbory pre"
+        "downloadSecond": "Stiahnuť súbory pre",
+        "downloadThird": "Stiahnuť súbory pre",
+        "and": "a"
     },
     "factItemTypes": {
         "screenTitle": "Typy faktických položiek",
@@ -281,7 +289,7 @@
             "measurementUnit": "Merná jednotka",
             "status": "Stav",
             "active": "Aktívny",
-            "inactive": "Neaktívny",
+            "inactive": "Neaktívny"
         },
         "form": {
             "add": "Pridaj názov typu faktickej položky",
