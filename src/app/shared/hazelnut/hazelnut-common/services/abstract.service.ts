@@ -1,7 +1,8 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpRequest } from '@angular/common/http';
 import { Inject } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { ImportChoiceType } from 'src/app/shared/enums/import-choice-type.enum';
 import { ReportType } from '../../../enums/report-type.enum';
 // TODO: abstract service shouldn't be dependent od core-table
 import { TableChangeEvent } from '../../core-table/table-change-event';
@@ -228,7 +229,7 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
      * @param {Sort[]} sort
      * @returns {Observable<T>}
      */
-    protected report<S = T>(filter: Filter[] = [], sort: Sort[] = [new Sort()], projectId: number): Observable<any> {
+    protected report<S = T>(filter: Filter[] = [], sort: Sort[] = [new Sort()], projectId: number, isReport: boolean = true): Observable<any> {
         if (sort && sort.length === 0) {
             sort.push(new Sort());
         }
@@ -237,8 +238,46 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
             sortingCriteria: {criteria: sort}
         };
 
-        return this.postBlob(`${hazelnutConfig.URL_API}/${this.urlKey}/project/${projectId}/report`, content, this.extractDetail);
+
+        
+        if (isReport === undefined ||isReport === null){
+            isReport = true
+        }
+        
+        let appendix = isReport ? 'report' : 'export'
+
+        return this.postBlob(`${hazelnutConfig.URL_API}/${this.urlKey}/project/${projectId}/${appendix}`, content, this.extractDetail);
     }
+
+    // protected import<S=T>(formData: FormData, projectId: number, flag : string){
+    //     const content = formData
+    //         if (flag !== ImportChoiceType.FILL_BLANK && flag !== ImportChoiceType.REWRITE_ALL){
+    //             flag = ImportChoiceType.FILL_BLANK
+    //         }
+    //         let headers = new HttpHeaders();
+    //         headers = headers.set('device-id', this.userService.instant.deviceId);
+    //         headers = headers.set('token', this.userService.instant.authToken);
+
+    //         return this.http.post(`${hazelnutConfig.URL_API}/${this.urlKey}/${flag}/project/${projectId}`, {
+    //                     headers,
+    //                     body: formData,
+    //                     observe: 'response'
+    //                 })
+    //         .pipe(map(this.extractDetail), catchError(this.handleError) );
+    // }
+
+    protected template<S=T>(filter: Filter[] = [], sort: Sort[] = [new Sort()], projectId: number): Observable<any>{
+    // protected template<S=T>(projectId: number): Observable<any>{
+        if (sort && sort.length === 0) {
+            sort.push(new Sort());
+        }
+        const content = {
+            filterCriteria: {criteria: filter},
+            sortingCriteria: {criteria: sort}
+        };
+        return this.postBlob(`${hazelnutConfig.URL_API}/${this.urlKey}/project/${projectId}/export`, content, this.extractDetail);
+    }
+
 
     /**
      * @param {string} url
