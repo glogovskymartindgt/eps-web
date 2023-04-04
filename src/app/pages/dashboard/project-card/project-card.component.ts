@@ -17,11 +17,9 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
 
 export class ProjectCardComponent implements OnInit {
     @Input() public project: Project;
-    public showAllCities = false;
-    public showOneCity = false;
-    public showAllCountries = false;
-    public showOneCountry = false;
     public imagePath: any;
+    public countriesTag: string[] = []
+    public venuesTag: string[] = []
 
     public constructor(private readonly router: Router,
                        private readonly dashboardService: DashboardService,
@@ -35,38 +33,19 @@ export class ProjectCardComponent implements OnInit {
      * Project data setup in initalization
      */
     public ngOnInit(): void {
-        const maxVenues = 2;
         this.getImagePath();
+        if (this.project?.venues?.length === 0){
+            return
+        }
         this.project.venues.sort(this.sortService.numericSortByScreenPosition);
-        if (this.project.venues !== null && this.project.venues.length === 1) {
-            this.showOneCity = true;
-            this.showAllCities = false;
-            this.showOneCountry = true;
-            this.showAllCountries = false;
-        }
-        if (this.project.venues !== null && this.project.venues.length === maxVenues) {
-            const firstPosition = this.project.venues[0].screenPosition;
-            const secondPosition = this.project.venues[1].screenPosition;
-            if ((firstPosition !== null && secondPosition !== null) && (secondPosition < firstPosition)) {
-                const venue: Venue = this.project.venues[0];
-                this.project.venues[0] = this.project.venues[1];
-                this.project.venues[1] = venue;
+        this.project.venues.forEach(venue => {
+            if (!this.countriesTag.find(c => c === venue.country)){
+                this.countriesTag.push(venue.country)
             }
-            if (this.project.venues[0].country === this.project.venues[1].country) {
-                this.showOneCountry = true;
-                this.showAllCountries = false;
-            } else {
-                this.showOneCountry = false;
-                this.showAllCountries = true;
+            if (!this.venuesTag.find(v => v === venue.city)){
+                this.venuesTag.push(venue.city)
             }
-            if (this.project.venues[0].city === this.project.venues[1].city) {
-                this.showOneCity = true;
-                this.showAllCities = false;
-            } else {
-                this.showOneCity = false;
-                this.showAllCities = true;
-            }
-        }
+        })
     }
 
     /**
