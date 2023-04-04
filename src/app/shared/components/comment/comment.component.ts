@@ -24,7 +24,7 @@ export class CommentComponent implements OnInit {
 
     @Input() public comment: CommentResponse;
     @Input() public index: number;
-
+    @Input() public hasGroupIihfSupervisor: boolean;
     @Output() public readonly delete: EventEmitter<void> = new EventEmitter<void>();
     public isMyComment = false;
     public imageSrc;
@@ -130,6 +130,10 @@ export class CommentComponent implements OnInit {
             || this.authService.hasRole(Role.RoleDeleteOwnCommentInAssignProject)
         ) {
             return this.isMyComment;
+        }
+
+        if (this.hasGroupIihfSupervisor || this.isMyComment) {
+            return true
         }
 
         return false;

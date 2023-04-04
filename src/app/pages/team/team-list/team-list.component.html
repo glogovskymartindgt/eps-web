@@ -1,5 +1,12 @@
 <iihf-header>
     <h2 title>{{'team.screenTitle' | translate}}</h2>
+    <!-- TO DO !!!! dorobiť, keď budú známe iihfShowByRole -->
+    <!-- <div buttons *iihfShowByRole="role.RoleUpdateOwnUser"> -->
+    <div buttons>
+        <button (click)="export()" class="mr-10" color="accent" mat-flat-button>
+            {{'common.export' | translate}}
+        </button>
+    </div>
 </iihf-header>
 
 <haz-copy-indeterminate-progress-bar [loading]="loading"></haz-copy-indeterminate-progress-bar>

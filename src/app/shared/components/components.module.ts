@@ -1,3 +1,4 @@
+import { ClipboardModule } from '@angular/cdk/clipboard';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -21,16 +22,19 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
 import { DeleteButtonComponent } from './delete-button/delete-button.component';
 import { ImageDialogComponent } from './dialog/image-dialog/image-dialog.component';
 import { PdfDialogComponent } from './dialog/pdf-dialog/pdf-dialog.component';
+import { VideoDialogComponent } from './dialog/video-dialog/video-dialog.component';
 import { DownloadLinkComponent } from './download-link/download-link.component';
 import { DragDropBoxComponent } from './drag-drop-box/drag-drop-box.component';
 import { HeaderComponent } from './header/header.component';
 import { PdfComponent } from './pdf/pdf.component';
 import { ProjectTypeSelectComponent } from './project-type-select/project-type-select.component';
+import { AttachmentsComponent } from './attachments/attachments.component';
 
 @NgModule({
     declarations: [
         PdfDialogComponent,
         ImageDialogComponent,
+        VideoDialogComponent,
         CommentComponent,
         ActionPointCommentTabComponent,
         TaskCommentTabComponent,
@@ -45,6 +49,7 @@ import { ProjectTypeSelectComponent } from './project-type-select/project-type-s
         AvatarComponent,
         DeleteButtonComponent,
         ProjectTypeSelectComponent,
+        AttachmentsComponent,
     ],
     imports: [
         CommonModule,
@@ -58,11 +63,13 @@ import { ProjectTypeSelectComponent } from './project-type-select/project-type-s
         SharedDirectivesModule,
         TranslateModule.forChild(),
         HazelnutInputsModule,
+        ClipboardModule,
     ],
     exports: [
         NotificationSnackBarComponent,
         PdfDialogComponent,
         ImageDialogComponent,
+        VideoDialogComponent,
         CommentComponent,
         ActionPointCommentTabComponent,
         TaskCommentTabComponent,
@@ -76,6 +83,7 @@ import { ProjectTypeSelectComponent } from './project-type-select/project-type-s
         AvatarComponent,
         DeleteButtonComponent,
         ProjectTypeSelectComponent,
+        AttachmentsComponent,
     ],
     providers: [
         TranslateWrapperService,

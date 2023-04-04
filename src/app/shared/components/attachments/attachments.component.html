@@ -1,0 +1,58 @@
+<p>{{ 'actionPoint.attachments' | translate }} ({{_attachments.length}})</p>
+<div class="attachments-container">
+    <div class="attachment-container {{hasPreview(attachment.format) && 'preview'}}" *ngFor="let attachment of _attachments; let i = index">
+        <ng-container *ngIf="isImage(attachment.format)">
+            <img (click)="openPreviewImage(src[i])"
+                 [src]="src[i]"
+                 alt="Attachment"
+                 class="item"
+            />
+            <span (click)="openPreviewImage(src[i])" class="link">{{attachment.fileName}}</span>
+            <a download="{{attachment.fileName}}" [href]="sanitize(src[i])" class="download">
+                <img
+                    [src]="'assets/img/svg-squares/download.svg'"
+                    alt="download"
+                >
+            </a>
+            <a class="remove c-pointer">
+                <mat-icon (click)="onDeleteAttachment(attachment.id)" class="blue-icon">delete</mat-icon>
+            </a>
+        </ng-container>
+        <ng-container *ngIf="isDocument(attachment.format)">
+            <pdf-viewer
+                (click)="isPdf(attachment.format) && openPreviewPdf(src[i])"
+                [fit-to-page]="true"
+                [page]="1"
+                [show-all]="false"
+                [src]="src[i]"
+                class="item"
+            ></pdf-viewer>
+            <span (click)="isPdf(attachment.format) && openPreviewPdf(src[i])" class="link">{{attachment.fileName}}</span>
+            <a download="{{attachment.fileName}}" [href]="sanitize(src[i])" class="download">
+                <img
+                    [src]="'assets/img/svg-squares/download.svg'"
+                    alt="download"
+                >
+            </a>
+            <a class="remove c-pointer">
+                <mat-icon (click)="onDeleteAttachment(attachment.id)" class="blue-icon">delete</mat-icon>
+            </a>
+        </ng-container>
+        <ng-container *ngIf="isVideo(attachment.format)">
+            <div class="video-container item" (click)="openPreviewVideo(attachment.filePath)">
+                <mat-icon (click)="openPreviewVideo(attachment.filePath)">play_circle_filled</mat-icon>
+            </div>
+            <span (click)="openPreviewVideo(attachment.filePath)" class="link">{{attachment.fileName}}</span>
+            <a (click)="downloadVideo(attachment)" class="download">
+                <img
+                    [src]="'assets/img/svg-squares/download.svg'"
+                    alt="download"
+                >
+            </a>
+            <a class="remove c-pointer">
+                <mat-icon (click)="onDeleteAttachment(attachment.id)" class="blue-icon">delete</mat-icon>
+            </a>
+        </ng-container>
+    </div>
+</div>
+

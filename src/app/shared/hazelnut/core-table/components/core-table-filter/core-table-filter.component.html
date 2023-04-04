@@ -50,6 +50,17 @@
         </mat-select>
     </mat-form-field>
 
+    <mat-form-field *ngSwitchCase="filterTypeEnum.MEASURE_UNIT" [ngClass]="widthClass">
+        <mat-select [formControlName]="columnConfig.filterElement">
+            <mat-option [value]="'All'">
+                {{ 'venue.value.all' | translate }}
+            </mat-option>
+            <mat-option *ngFor="let option of measureUnitList$; trackBy:trackMeasureUnitByName" [value]="option.name">
+                {{ option.name }} ({{ option.shortName }})
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
     <mat-form-field *ngSwitchCase="filterTypeEnum.TYPE" [ngClass]="widthClass">
         <mat-select [formControlName]="columnConfig.filterElement">
             <mat-option *ngFor="let option of columnConfig.filter.select; trackBy:trackListItemByCode" [value]="option.code | async">

@@ -4,6 +4,9 @@
         <h2>{{'actionPoint.screenTitle' | translate}}</h2>
     </div>
     <div fxFlex fxLayoutAlign="end center">
+        <button (click)="export()" *ngIf="allowExportReportActionPointButton()" class="mr-10" color="accent" mat-flat-button>
+            {{'common.export' | translate}}
+        </button>
         <button (click)="createTask()"
                 *ngIf="projectEventService.instant.active && allowCreateActionPointButton()"
                 class="mr-10"
@@ -11,9 +14,6 @@
                 mat-flat-button
         >
             {{'common.create' | translate}}
-        </button>
-        <button (click)="export()" *ngIf="allowExportReportActionPointButton()" class="mr-10" color="accent" mat-flat-button>
-            {{'common.export' | translate}}
         </button>
     </div>
 </div>
@@ -49,14 +49,17 @@
 <ng-template #changedAtColumn let-actRow="row" let-context="context">
     {{actRow.changedAt  | date:'d.M.yyyy'}}
 </ng-template>
+<ng-template #tagListColumn let-actRow="row" let-context="context">
+    {{actRow.tagList | tags: 2}}
+</ng-template>
 <ng-template #trafficLightColumn let-actRow="row" let-context="context">
     <div *ngIf="actRow.trafficLight === 'RED'"
-         style="width: 12px;height: 12px;background:#ce211f;border-radius:50%;"
+         style="width: 12px;height: 12px;background:#ce211f;border-radius:50%; margin: 0px auto;"
     ></div>
     <div *ngIf="actRow.trafficLight === 'GREEN'"
-         style="width: 12px;height: 12px;background:#20bf55;border-radius:50%;"
+         style="width: 12px;height: 12px;background:#20bf55;border-radius:50%; margin: 0px auto;"
     ></div>
     <div *ngIf="actRow.trafficLight === 'AMBER'"
-         style="width: 12px;height: 12px;background:#f79824;border-radius:50%;"
+         style="width: 12px;height: 12px;background:#f79824;border-radius:50%; margin: 0px auto;"
     ></div>
 </ng-template>

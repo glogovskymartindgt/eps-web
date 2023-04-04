@@ -1,0 +1,59 @@
+<form [formGroup]="factItemTypeForm">
+    <div>
+        <mat-form-field appearance="fill" class="long-input">
+            <mat-label>{{'factItemTypes.form.category' | translate}}</mat-label>
+            <mat-select formControlName="categoryId" required>
+                <ng-container *ngIf="!formLoaded">
+                    <mat-option *ngFor="let category of categories; trackBy:trackCategoryById" [value]="category.id">
+                        {{ category.name }}
+                    </mat-option>
+                </ng-container>
+
+                <mat-option *ngIf="formLoaded" [value]="factItemTypeForm?.value?.categoryId">
+                    {{categoryName(factItemTypeForm?.value?.categoryId)}}
+                </mat-option>
+            </mat-select>
+
+            <mat-error *ngIf="controls?.category?.errors?.required">
+                {{ 'error.required' | translate }}
+            </mat-error>
+        </mat-form-field>
+    </div>
+
+    <div class="long-input">
+        <haz-copy-core-input [appearance]="'fill'"
+                             [label]="'factItemTypes.form.factItemType' | translate"
+                             [required]="true"
+                             class="theme-input"
+                             formControlName="factItemType"
+        >
+        </haz-copy-core-input>
+    </div>
+
+    <div class="long-input">
+        <mat-form-field appearance="fill" class="long-input">
+            <mat-label>{{'factItemTypes.form.measurementUnit' | translate}}</mat-label>
+            <mat-select formControlName="measureUnitId" required>
+                <ng-container>
+                    <mat-option *ngFor="let measureUnit of measureUnits; trackBy:trackMeasureUnitById" [value]="measureUnit.id">
+                        {{ measureUnit.name }} ({{ measureUnit.shortName }})
+                    </mat-option>
+                </ng-container>
+
+                <mat-option *ngIf="formLoaded" [value]="factItemTypeForm?.value?.measureUnitId">
+                    {{measureUnitName(factItemTypeForm?.value?.measureUnitId)}}
+                </mat-option>
+            </mat-select>
+
+            <mat-error *ngIf="controls?.measureUnitId?.errors?.required">
+                {{ 'error.required' | translate }}
+            </mat-error>
+        </mat-form-field>
+    </div>
+    <div class="long-input">
+        <mat-slide-toggle formControlName="state">
+            {{(this.factItemTypeForm.controls.state && this.factItemTypeForm.controls.state.value === true ? "factItemTypes.form.isActive" : "factItemTypes.form.isInactive") | translate}}
+        </mat-slide-toggle>
+    </div>
+    <br>
+</form>

@@ -23,9 +23,15 @@
     </ng-container>
 </iihf-header>
 
+<haz-copy-indeterminate-progress-bar [loading]="loading"></haz-copy-indeterminate-progress-bar>
 <div fxLayout="row" style="overflow: auto;  height: calc(100vh - 160px);">
     <div fxFlex fxFlex.gt-sm="100%" class="p-30 form-content" fxLayout="column">
-        <iihf-action-point-form (formDataChange)="formDataChange($event)" [disabled]="!editMode"></iihf-action-point-form>
+        <iihf-action-point-form
+            (formDataChange)="formDataChange($event)"
+            [hasGroupIihfSupervisor]="hasGroupIihfSupervisor"
+            [disabled]="!editMode"
+        ></iihf-action-point-form>
+        <iihf-attachments [attachments]="attachments" (deleteAttachment)="deleteAttachment($event)"></iihf-attachments>
         <div>
             <ng-container *ngIf="projectEventService.instant.active && editMode">
                 <button *iihfShowByRole="actionPointEditRoles"
@@ -47,10 +53,32 @@
             >
                 {{ 'tasks.cancel' | translate }}
             </button>
+
+            <button mat-button
+                (click)="file.click()"
+                [disabled]="loading"
+            >
+                {{ 'actionPoint.addAttachment' | translate }}
+            </button>
+            <button mat-button
+                    (click)="downloadAllAttachments()"
+                    [disabled]="!attachments.length || loading"
+            >
+                {{ 'actionPoint.downloadAll' | translate }}
+            </button>
+            <input
+                (change)="onFileChange($event)"
+                [accept]="acceptedAllFileTypes()"
+
+                style="display: none;"
+                #file
+                id="attachment"
+                type="file"/>
         </div>
     </div>
 
     <iihf-action-point-comment-tab
+        [hasGroupIihfSupervisor]="hasGroupIihfSupervisor"
         *iihfShowByRole="[role.RoleReadComment, role.RoleReadCommentInAssignProject]"
         fxFlex="400px"
     ></iihf-action-point-comment-tab>
