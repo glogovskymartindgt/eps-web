@@ -1,3 +1,4 @@
+import { ClipboardModule } from '@angular/cdk/clipboard';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -62,6 +63,7 @@ import { AttachmentsComponent } from './attachments/attachments.component';
         SharedDirectivesModule,
         TranslateModule.forChild(),
         HazelnutInputsModule,
+        ClipboardModule,
     ],
     exports: [
         NotificationSnackBarComponent,

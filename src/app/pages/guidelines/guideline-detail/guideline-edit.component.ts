@@ -6,6 +6,8 @@ import { finalize } from 'rxjs/operators';
 import { Role } from '../../../shared/enums/role.enum';
 import { RouteNames } from '../../../shared/enums/route-names.enum';
 import { Guideline } from '../../../shared/interfaces/guideline.interface';
+import { Project } from '../../../shared/models/project.model';
+import { DashboardService } from '../../../shared/services/dashboard.service';
 import { AttachmentService } from '../../../shared/services/data/attachment.service';
 import { BusinessAreaService } from '../../../shared/services/data/business-area.service';
 import { GuideLineService } from '../../../shared/services/data/guideline.service';
@@ -27,6 +29,7 @@ export class GuidelineEditComponent extends GuidelineDetailBaseComponent impleme
     public editMode = false;
     public updateScreen = true;
     public submitButtonRole: Role = Role.RoleUpdateGuideline;
+    public projects: Project[]
 
     private guidelineId: number;
 
@@ -39,6 +42,7 @@ export class GuidelineEditComponent extends GuidelineDetailBaseComponent impleme
         protected readonly formBuilder: FormBuilder,
         protected readonly notificationService: NotificationService,
         protected readonly projectEventService: ProjectEventService,
+        protected readonly dashboardService: DashboardService,
     ) {
         super(attachmentService, businessAreaService, router, formBuilder, notificationService, projectEventService);
     }
@@ -50,6 +54,8 @@ export class GuidelineEditComponent extends GuidelineDetailBaseComponent impleme
         this.setBaseForm();
         this.fillFormData();
         this.setDeleteButtonOptions();
+        this.loadProjects();
+        this.setProjectEvent()
     }
 
     /**
@@ -127,5 +133,31 @@ export class GuidelineEditComponent extends GuidelineDetailBaseComponent impleme
             deleteApiCall: this.guideLineService.deleteById(this.guidelineId),
             redirectRoute: [RouteNames.GUIDELINES, RouteNames.LIST],
         };
+    }
+
+    private loadProjects() {
+        this.dashboardService.filterProjects('ALL')
+            .subscribe((data): void => {
+                this.projects = data;
+            });
+    }
+
+    /**
+     * Set project by guideline when redirected from returnUrl
+     * Guideline detail URL is sharable via copy link
+     * @private
+     */
+    private setProjectEvent() {
+        setTimeout(() => {
+            if (!this.projectEventService.instant.id) {
+                this.guideLineService.getGuideline().subscribe((guideline: Guideline) => {
+                    const project = this.projects.find((project) => project.id === guideline.projectId);
+                    this.projectEventService.setEventData(project, true, this.projectEventService.imagePath);
+                    this.dashboardService.setSecondaryHeaderContent({
+                        isDashboard: false,
+                    });
+                });
+            }
+        }, 100) // Timeout due the required animation affect
     }
 }

@@ -2,6 +2,9 @@ import loader from '@angular-devkit/build-angular/src/angular-cli-files/plugins/
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { BrowseResponse } from '@hazelnut';
+import { forkJoin } from 'rxjs';
+import { GroupCode } from '../../../shared/enums/group-code.enum';
 import { FileManager } from '@hazelnut/hazelnut-common/utils/file-manager';
 import { TranslateService } from '@ngx-translate/core';
 import {
@@ -10,13 +13,18 @@ import {
 import { Role } from '../../../shared/enums/role.enum';
 import { RouteNames } from '../../../shared/enums/route-names.enum';
 import { Regex } from '../../../shared/hazelnut/hazelnut-common/regex/regex';
+import { User } from '../../../shared/interfaces/user.interface';
 import { Attachment } from '../../../shared/interfaces/attachment.interface';
 import { DeleteButtonOptions } from '../../../shared/models/delete-button-options.model';
+import { Group } from '../../../shared/models/group.model';
 import { ActionPointService } from '../../../shared/services/data/action-point.service';
+import { GroupService } from '../../../shared/services/data/group.service';
+import { UserDataService } from '../../../shared/services/data/user-data.service';
 import { AttachmentService } from '../../../shared/services/data/attachment.service';
 import { ImagesService } from '../../../shared/services/data/images.service';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { ProjectEventService } from '../../../shared/services/storage/project-event.service';
+import { ProjectUserService } from '../../../shared/services/storage/project-user.service';
 import { ActionPointFormComponent } from '../action-point-form/action-point-form.component';
 import { ActionPointStructureService } from '../action-point-structure.service';
 
@@ -37,6 +45,9 @@ export class ActionPointEditComponent implements OnInit {
     public readonly actionPointEditRoles: Role[] = [Role.RoleUpdateActionPoint, Role.RoleUpdateActionPointInAssignProject];
     public attachments: Attachment[] = [];
     private actionPointId: number;
+    public hasGroupIihfSupervisor: boolean = false;
+    public groupList: BrowseResponse<Group>;
+    public user: User;
 
     public attachmentFormat = '';
     public attachmentFileName = '';
@@ -65,6 +76,9 @@ export class ActionPointEditComponent implements OnInit {
         private readonly actionPointService: ActionPointService,
         public readonly projectEventService: ProjectEventService,
         private readonly actionPointStructureService: ActionPointStructureService,
+        private readonly projectUserService: ProjectUserService,
+        private readonly groupService: GroupService,
+        private readonly userDataService: UserDataService,
         private readonly attachmentService: AttachmentService,
         private readonly imagesService: ImagesService,
         private readonly matDialog: MatDialog,
@@ -77,6 +91,7 @@ export class ActionPointEditComponent implements OnInit {
             this.actionPointId = param.id;
             this.setDeleteButtonOptions();
             this.getAttachments();
+            this.checkSupervisorGroup();
         });
     }
 
@@ -157,7 +172,8 @@ export class ActionPointEditComponent implements OnInit {
             title: formObject.title,
             trafficLight: formObject.trafficLight,
             state: formObject.state,
-            projectId: this.projectEventService.instant.id
+            projectId: this.projectEventService.instant.id,
+            tags: formObject.tags
         };
 
         return this.actionPointStructureService.addOptionalAttributesToApiObject(apiObject, formObject);
@@ -174,6 +190,18 @@ export class ActionPointEditComponent implements OnInit {
         };
     }
 
+    private checkSupervisorGroup(): void {
+        forkJoin([
+            this.groupService.browseGroups(),
+            this.userDataService.getUserDetail(this.projectUserService.instant.userId)
+        ]).subscribe((res: [BrowseResponse<Group>, User]): void => {
+            [this.groupList, this.user] = res;
+            const supervisorGroupId = this.groupList.content.find((group: Group): boolean => group.code === GroupCode.IIHF_SUPERVISOR).id;
+            if (this.user.groupIdList.includes(supervisorGroupId)) {
+                this.hasGroupIihfSupervisor = true;
+            }
+        });
+    }
     /**
      * Add uploaded attachment to an actionPoint
      * @protected

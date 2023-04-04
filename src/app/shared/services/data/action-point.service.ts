@@ -2,7 +2,6 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { hazelnutConfig } from '@hazelnut/hazelnut-common/config/hazelnut-config';
 import { Observable } from 'rxjs';
-
 import { TableChangeEvent } from '../../hazelnut/core-table';
 import { StringMap, StringUtils } from '../../hazelnut/hazelnut-common/hazelnut';
 import { BrowseResponse, Filter, PostContent, Sort } from '../../hazelnut/hazelnut-common/models';

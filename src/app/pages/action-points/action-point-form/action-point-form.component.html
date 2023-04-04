@@ -158,7 +158,6 @@
         <mat-form-field appearance="fill" class="short-input theme-input">
             <mat-label class="label-style">{{ 'tasks.venue' | translate }}</mat-label>
             <mat-select formControlName="venue">
-                <mat-option class="color-none" value="NONE">{{ 'tasks.none' | translate }}</mat-option>
                 <mat-option *ngFor="let venue of venueList; trackBy:trackVenueById" [value]="venue.city">
                     {{venue.city}}
                 </mat-option>
@@ -176,6 +175,38 @@
         <mat-datepicker #pickerClosed [dateClass]="dateClass"></mat-datepicker>
         <mat-error *ngIf="dateInvalid">{{ 'error.dateFormatIsInvalid' | translate }}</mat-error>
     </mat-form-field>
+
+    <div>
+        <mat-form-field appearance="fill" class="long-input theme-input">
+            <mat-label>{{'actionPoint.tags' | translate}}</mat-label>
+            <mat-chip-list #chipListTags formControlName="tags">
+                <mat-chip
+                    (removed)="removeTag(tag)"
+                    *ngFor="let tag of selectedTags"
+                    [removable]="true"
+                    [selectable]="true"
+                >
+                    {{tag}}
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                </mat-chip>
+
+                <input #tagInput
+                       (matChipInputTokenEnd)="addTag($event)"
+                       [formControl]="tagControl"
+                       [matAutocomplete]="autoTags"
+                       [matChipInputFor]="chipListTags"
+                       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                >
+            </mat-chip-list>
+            <mat-autocomplete #autoTags="matAutocomplete"
+                              (optionSelected)="selectedTag($event)"
+            >
+                <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
+                    {{tag}}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </div>
 
     <div class="long-input">
         <haz-copy-core-input [appearance]="'fill'"
