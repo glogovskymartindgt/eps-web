@@ -27,6 +27,10 @@ export class ProjectAttachmentService {
         this.files.secondVenueAttachments = new ProjectAttachmentGroup();
     }
 
+    public emptyThirdVenueFiles(): void {
+        this.files.thirdVenueAttachments = new ProjectAttachmentGroup();
+    }
+
     public firstVenueAnyFile(): boolean {
         return this.anyValue(this.files.firstVenueAttachments.maps) ||
             this.anyValue(this.files.firstVenueAttachments.images) ||
@@ -63,6 +67,24 @@ export class ProjectAttachmentService {
         return this.anyValue(this.files.secondVenueAttachments.documents);
     }
 
+    public thirdVenueAnyFile(): boolean {
+        return this.anyValue(this.files.thirdVenueAttachments.maps) ||
+            this.anyValue(this.files.thirdVenueAttachments.images) ||
+            this.anyValue(this.files.thirdVenueAttachments.documents);
+    }
+
+    public thirdVenueAnyMaps(): boolean {
+        return this.anyValue(this.files.thirdVenueAttachments.maps);
+    }
+
+    public thirdVenueAnyImages(): boolean {
+        return this.anyValue(this.files.thirdVenueAttachments.images);
+    }
+
+    public thirdVenueAnyDocuments(): boolean {
+        return this.anyValue(this.files.thirdVenueAttachments.documents);
+    }
+
     public addFirstVenueMap(attachmentDetail: AttachmentDetail): void {
         this.files.firstVenueAttachments.maps.unshift(attachmentDetail);
     }
@@ -85,6 +107,18 @@ export class ProjectAttachmentService {
 
     public addSecondVenueDocument(attachmentDetail: AttachmentDetail): void {
         this.files.secondVenueAttachments.documents.unshift(attachmentDetail);
+    }
+
+    public addThirdVenueMap(attachmentDetail: AttachmentDetail): void {
+        this.files.thirdVenueAttachments.maps.unshift(attachmentDetail);
+    }
+
+    public addThirdVenueImage(attachmentDetail: AttachmentDetail): void {
+        this.files.thirdVenueAttachments.images.unshift(attachmentDetail);
+    }
+
+    public addThirdVenueDocument(attachmentDetail: AttachmentDetail): void {
+        this.files.thirdVenueAttachments.documents.unshift(attachmentDetail);
     }
 
     public resetFirstVenueMap(index: number): void {
@@ -111,6 +145,18 @@ export class ProjectAttachmentService {
         this.files.secondVenueAttachments.documents.splice(index, 1);
     }
 
+    public resetThirdVenueMap(index: number): void {
+        this.files.thirdVenueAttachments.maps.splice(index, 1);
+    }
+
+    public resetThirdVenueImage(index: number): void {
+        this.files.thirdVenueAttachments.images.splice(index, 1);
+    }
+
+    public resetThirdVenueDocument(index: number): void {
+        this.files.thirdVenueAttachments.documents.splice(index, 1);
+    }
+
     public orderAttachments(): void {
         this.files.firstVenueAttachments.maps.sort(this.sortByOrder);
         this.files.firstVenueAttachments.images.sort(this.sortByOrder);
@@ -118,6 +164,9 @@ export class ProjectAttachmentService {
         this.files.secondVenueAttachments.maps.sort(this.sortByOrder);
         this.files.secondVenueAttachments.images.sort(this.sortByOrder);
         this.files.secondVenueAttachments.documents.sort(this.sortByOrder);
+        this.files.thirdVenueAttachments.maps.sort(this.sortByOrder);
+        this.files.thirdVenueAttachments.images.sort(this.sortByOrder);
+        this.files.thirdVenueAttachments.documents.sort(this.sortByOrder);
     }
 
     public isJpegJpgOrPdfFromName(name: string): boolean {
