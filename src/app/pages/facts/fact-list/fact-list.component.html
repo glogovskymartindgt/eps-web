@@ -1,6 +1,6 @@
 <!--List of facts and figures with title, create button and table with loader-->
 <div>
-    <div class="basic-screen-header" fxLayout="row">
+    <!-- <div class="basic-screen-header" fxLayout="row">
         <div class="pl-50" fxFlex="400px" fxLayoutAlign="start center">
             <h2>{{ (allFacts ? 'fact.titleAllFacts' : 'fact.title') | translate}}</h2>
         </div>
@@ -27,7 +27,63 @@
                 </button>
             </ng-container>
         </div>
-    </div>
+    </div> -->
+
+    <iihf-header>
+        <h2 title>{{ (allFacts ? 'fact.titleAllFacts' : 'fact.title') | translate}}</h2>
+    
+        <ng-container buttons>
+
+            <ng-container>
+                <button
+                    mat-flat-button class="mr-10" color="accent"
+                    (click)="createTemplate()"
+                >
+                    {{'common.createTemplate' | translate}}
+                </button>
+                <!-- namiest button Import musí byť Input/text-file -->
+                <!-- <div (onFileDropped)="onFirstDocumentDropped($event)" -->
+                <div>
+                    <label 
+                            for="import-button"
+                            (click)="$event.target.value=null"
+                            (change)="onImportFile($event)"
+                            mat-flat-button 
+                            class="input-as-button mr-10"
+                            color="accent"
+                    >
+                    <input
+                            accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                            class="hide-element"
+                            id="import-button"
+                            type="file"
+                    >{{'common.import' | translate}} </label>
+                </div>
+                <!-- <button
+                    mat-flat-button class="mr-10" color="accent"
+                    (click)="import()"
+                >
+                    {{'common.import' | translate}}
+                </button> -->
+                <button
+                    mat-flat-button class="mr-10" color="accent"
+                    (click)="export()"
+                >
+                    {{'common.export' | translate}}
+                </button>
+            </ng-container>
+            <ng-container *ngIf="projectEventService.instant.active && !allFacts">
+                <button (click)="createFact()"
+                        *iihfShowByRole="[role.RoleCreateFactItem, role.RoleCreateFactItemInAssignProject]"
+                        class="mr-10"
+                        color="accent"
+                        mat-raised-button
+                >
+                    {{'common.create' | translate}}
+                </button>
+            </ng-container>
+        </ng-container>
+    </iihf-header>
 
     <div *ngIf="(!projectEventService.instant.firstVenue || !projectEventService.instant.secondVenue) && !router.url.includes('all-facts')">
         <p class="text-unavailable-facts">{{'fact.unavailable' | translate}}</p>

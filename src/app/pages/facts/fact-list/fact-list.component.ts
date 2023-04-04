@@ -1,11 +1,15 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { finalize } from 'rxjs/operators';
+import { ChoiceButtonOptions } from 'src/app/shared/interfaces/choice-button-options.interface';
 import { RequestNames } from '../../../shared/enums/request-names.enum';
 import { Role } from '../../../shared/enums/role.enum';
+import { ImportChoiceType } from 'src/app/shared/enums/import-choice-type.enum'
+
 import {
     TableCellType,
     TableChangeEvent,
@@ -24,6 +28,11 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
 import { TableChangeStorageService } from '../../../shared/services/table-change-storage.service';
 import { GetFileNameFromContentDisposition } from '../../../shared/utils/headers';
 import { tableLastStickyColumn } from '../../../shared/utils/table-last-sticky-column';
+import { ProjectAttachmentService } from '../../project/services/project-attachment.service';
+import { ImportOptionDialogComponent } from 'src/app/shared/components/dialog/import-option-dialog/import-option-dialog.component';
+import { ListOption } from 'src/app/shared/interfaces/list-option.interface';
+import { Observable } from 'rxjs';
+
 
 const ALL_FACTS = 'all-facts';
 
@@ -55,7 +64,16 @@ export class FactListComponent implements OnInit {
     private lastTableChangeEvent: TableChangeEvent;
     private allTaskFilters: Filter[] = [];
 
+    private importOptions: ChoiceButtonOptions
+    private importedFile: File
+    public documentFileTypes = [
+        'xls',
+        'xlsx',
+    ];
+
+
     public constructor(
+        private readonly matDialog: MatDialog,
         public readonly projectEventService: ProjectEventService,
         private readonly translateService: TranslateService,
         private readonly notificationService: NotificationService,
@@ -63,11 +81,13 @@ export class FactListComponent implements OnInit {
         public readonly router: Router,
         private readonly routingStorageService: RoutingStorageService,
         private readonly tableChangeStorageService: TableChangeStorageService,
+        private readonly projectAttachmentService: ProjectAttachmentService
     ) {
     }
 
     public ngOnInit(): void {
         this.tableChangeStorageService.isReturnFromDetail = this.isReturnFromDetail();
+        this.setImportOptions();
         this.setTableConfiguration();
     }
 
@@ -107,12 +127,16 @@ export class FactListComponent implements OnInit {
         this.loading = true;
         let projectFilter = null;
         // Create filter which will be use in Facts and Figures screen API call
-        if (!this.router.url.includes(ALL_FACTS)) {
+        if (!this.allFacts) {
             projectFilter = new Filter('PROJECT_ID', this.projectEventService.instant.id, 'NUMBER');
         }
 
         if (tableChangeEvent && tableChangeEvent.filters && tableChangeEvent.filters.length > 0) {
             this.allTaskFilters = tableChangeEvent.filters;
+        }
+
+        if (projectFilter){
+            this.allTaskFilters = this.allTaskFilters.concat(projectFilter)
         }
 
         this.tableChangeStorageService.cachedTableChangeEvent = tableChangeEvent;
@@ -149,7 +173,26 @@ export class FactListComponent implements OnInit {
      */
     public export(): void {
         this.loading = true;
-        this.factService.exportTasks(this.lastTableChangeEvent, this.allTaskFilters, this.projectEventService.instant.id)
+        let chosenService = this.factService.exportAllFacts(this.lastTableChangeEvent, this.allTaskFilters, this.projectEventService.instant.id)
+        if (!this.allFacts){
+            chosenService = this.factService.exportFacts(this.lastTableChangeEvent, this.allTaskFilters, this.projectEventService.instant.id)
+        }
+        chosenService.pipe(finalize((): any => this.loading = false))
+        .subscribe((response: HttpResponse<any>): void => {
+            const contentDisposition = response.headers.get('Content-Disposition');
+            const exportName: string = GetFileNameFromContentDisposition(contentDisposition);
+            new FileManager().saveFile(exportName, response.body, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        }, (): void => {
+            this.notificationService.openErrorNotification('error.api');
+        });
+    }
+
+     /**
+     * Export EMPTY report (.xls) from API 
+     */
+     public createTemplate(): void {
+        this.loading = true;
+        this.factService.generateTemplate(this.projectEventService.instant.id)
             .pipe(finalize((): any => this.loading = false))
             .subscribe((response: HttpResponse<any>): void => {
                 const contentDisposition = response.headers.get('Content-Disposition');
@@ -158,6 +201,67 @@ export class FactListComponent implements OnInit {
             }, (): void => {
                 this.notificationService.openErrorNotification('error.api');
             });
+    }
+
+     /**
+     * Import report from an .xls file
+     */
+     public import(): void {
+        this.loading = true;
+        const dialogRef = this.matDialog.open(ImportOptionDialogComponent, {
+            data: {
+                title: this.importOptions.titleKey ? this.translateService.instant(this.importOptions.titleKey) : null,
+                message: this.importOptions.messageKey ?  this.translateService.instant(this.importOptions.messageKey) : null,
+                options: this.importOptions.options ? this.importOptions.options : null,
+                rejectionButtonText: this.translateService.instant(this.importOptions.rejectionButtonKey),
+                confirmationButtonText: this.translateService.instant(this.importOptions.confirmationButtonKey)
+            },
+            width: '350px'
+        });
+
+        dialogRef.afterClosed()
+            .subscribe((result: any): void => {
+
+                if (!result) {
+                    return;
+                }
+
+                console.log('results after dialog closed: ', result)
+                const flag : string = result ? result.value : ImportChoiceType.DEFAULT
+                const formData = new FormData();
+
+                formData.append('file', this.importedFile, this.importedFile.name);
+                console.log('formData: ', formData)
+
+                const data = {data : formData, flag: flag, projectId: this.projectEventService.instant.id}
+
+                this.importedFile = null
+
+
+                // TO DO: sem pôjde export s parametrom podľa výberu
+                // chooseOptionApiCall je vlastne exportTasks
+                // this.importOptions.chooseOptionApiCall(formData, this.projectEventService.instant.id, flag)
+                this.factService.importFacts(data)
+                    .subscribe(
+                        (res): void => {
+                            console.log('res: ', res)
+                            this.notificationService.openSuccessNotification('success.delete');
+                        }, (error): void => {
+                            console.error(error)
+                            // this.notificationService.openErrorNotification(error);
+                        }
+                    );
+            });
+
+        // this.factService.exportTasks(this.lastTableChangeEvent, this.allTaskFilters, this.projectEventService.instant.id)
+        //     .pipe(finalize((): any => this.loading = false))
+        //     .subscribe((response: HttpResponse<any>): void => {
+        //         const contentDisposition = response.headers.get('Content-Disposition');
+        //         const exportName: string = GetFileNameFromContentDisposition(contentDisposition);
+        //         new FileManager().saveFile(exportName, response.body, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        //     }, (): void => {
+        //         this.notificationService.openErrorNotification('error.api');
+        //     });
     }
 
     /**
@@ -299,4 +403,43 @@ export class FactListComponent implements OnInit {
         return this.routingStorageService.getPreviousUrl().includes('facts/edit')
             || this.routingStorageService.getPreviousUrl().includes('facts/create');
     }
+
+    setImportOptions(){
+        let choices = [ImportChoiceType.FILL_BLANK, ImportChoiceType.REWRITE_ALL]
+        this.importOptions = {
+            titleKey: "import.title",
+            options: [
+                {id:0 ,value: ImportChoiceType.FILL_BLANK, string: "fill blank", stringKey: "import.fillBlank", textKey: "import.fillBlankText"},
+                {id:1 ,value: ImportChoiceType.REWRITE_ALL, string: "rewrite all", stringKey: "import.rewriteAll", textKey: "import.rewriteAllText"}
+            ],
+            confirmationButtonKey: "import.ok",
+            rejectionButtonKey: "import.cancel",
+            // chooseOptionApiCall: function (x,y,z) {this.factService.importFacts(x,y,z)}
+            chooseOptionApiCall: null
+        }
+    }
+
+    // public download(blob: Blob, type: string, name: string): void {
+    //     BlobManager.downloadFromBlob(blob, this.projectAttachmentService.getContentTypeFromFileName(name), name);
+    // }
+
+    public onImportFile(event): void | undefined {
+        const file = event.target.files[0];
+        // if (!file || !this.documentFileTypes.includes(this.projectAttachmentService.getFileEnding(file.name))) {
+        //     this.projectDetailForm.controls.firstDocument.patchValue('');
+
+        //     return;
+        // }
+        console.log('chooseing file: ', file)
+        if (!file){
+            return 
+        }
+        this.importedFile = file
+        this.import()
+        // ak bol natiahnutý súbor, otvoriť okno s možnosťami
+
+
+    }
+
+
 }
