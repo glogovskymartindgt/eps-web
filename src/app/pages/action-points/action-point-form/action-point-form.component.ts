@@ -295,10 +295,12 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
     }
 
     private loadVenueList(): void {
+        console.log('loading venues')
         this.venueService.getVenuesByProjectId(this.projectEventService.instant.id)
             .pipe(takeUntil(this.componentDestroyed$))
             .subscribe((data: Venue[]): void => {
                 this.venueList = [...data].sort(this.sortService.numericSortByScreenPosition);
+                console.log('venue list: ', this.venueList)
             });
     }
 
