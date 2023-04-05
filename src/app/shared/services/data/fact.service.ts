@@ -140,9 +140,9 @@ import { map, catchError, tap } from 'rxjs/operators';
         // tu vytvoriť filters a sort
         let filters = [
             new Filter("PROJECT_ID", projectId, "NUMBER"),
-            new Filter("VALUE_FIRST", null, "NUMBER"),
-            new Filter("VALUE_SECOND", null, "NUMBER"),
-            new Filter("VALUE_THIRD", null, "NUMBER")
+            new Filter("VALUE_FIRST", null, "NUMBER", "IS_NULL"),
+            new Filter("VALUE_SECOND", null, "NUMBER", "IS_NULL"),
+            new Filter("VALUE_THIRD", null, "NUMBER", "IS_NULL")
             ]
         let sort = [new Sort()]
         return this.template(filters, sort, projectId)
