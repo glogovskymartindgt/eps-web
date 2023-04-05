@@ -180,6 +180,7 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         if (this.projectAttachmentService.firstVenueAnyMaps()) {
             this.projectDetailForm.controls.firstMap.patchValue('');
         }
+        this.checkViewMap()
     }
 
     public resetSecondVenueMap(index: number): void {
@@ -187,12 +188,20 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         if (this.projectAttachmentService.secondVenueAnyMaps()) {
             this.projectDetailForm.controls.secondMap.patchValue('');
         }
+        this.checkViewMap()
     }
 
     public resetThirdVenueMap(index: number): void {
         this.projectAttachmentService.resetThirdVenueMap(index);
         if (this.projectAttachmentService.thirdVenueAnyMaps()) {
             this.projectDetailForm.controls.thirdMap.patchValue('');
+        }
+        this.checkViewMap()
+    }
+
+    private checkViewMap() : void {
+        if (!this.projectAttachmentService.firstVenueAnyMaps() && !this.projectAttachmentService.secondVenueAnyMaps() && !this.projectAttachmentService.thirdVenueAnyMaps()){
+            this.viewMaps = false
         }
     }
 
@@ -201,6 +210,7 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         if (this.projectAttachmentService.firstVenueAnyImages()) {
             this.projectDetailForm.controls.firstImage.patchValue('');
         }
+        this.checkViewImage()
     }
 
     public resetSecondVenueImage(index: number): void {
@@ -208,12 +218,20 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         if (this.projectAttachmentService.secondVenueAnyImages()) {
             this.projectDetailForm.controls.secondImage.patchValue('');
         }
+        this.checkViewImage()
     }
 
     public resetThirdVenueImage(index: number): void {
         this.projectAttachmentService.resetThirdVenueImage(index);
         if (this.projectAttachmentService.thirdVenueAnyImages()) {
             this.projectDetailForm.controls.thirdImage.patchValue('');
+        }
+        this.checkViewImage()
+    }
+
+    private checkViewImage() : void {
+        if (!this.projectAttachmentService.firstVenueAnyImages() && !this.projectAttachmentService.secondVenueAnyImages() && !this.projectAttachmentService.thirdVenueAnyImages()){
+            this.viewImages = false
         }
     }
 
@@ -222,6 +240,7 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         if (this.projectAttachmentService.firstVenueAnyDocuments()) {
             this.projectDetailForm.controls.firstDocument.patchValue('');
         }
+        this.checkViewDocument()
     }
 
     public resetSecondVenueDocument(index: number): void {
@@ -229,12 +248,20 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         if (this.projectAttachmentService.secondVenueAnyDocuments()) {
             this.projectDetailForm.controls.secondDocument.patchValue('');
         }
+        this.checkViewDocument()
     }
 
     public resetThirdVenueDocument(index: number): void {
         this.projectAttachmentService.resetThirdVenueDocument(index);
         if (this.projectAttachmentService.thirdVenueAnyDocuments()) {
             this.projectDetailForm.controls.thirdDocument.patchValue('');
+        }
+        this.checkViewDocument()
+    }
+
+    private checkViewDocument(): void {
+        if (!this.projectAttachmentService.firstVenueAnyDocuments() && !this.projectAttachmentService.secondVenueAnyDocuments() && !this.projectAttachmentService.thirdVenueAnyDocuments()){
+            this.viewImages = false
         }
     }
 
@@ -547,7 +574,6 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
             .pipe(finalize((): any => this.countriesLoading = false))
             .subscribe((data: BrowseResponse<Country>) => {
                 this.countryList = data.content.filter((item: Country) => item.state === 'VALID');
-                console.log('country list: ', this.countryList)
             }, () => {
                 this.notificationService.openErrorNotification('error.api');
             });
@@ -590,11 +616,8 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         // NEW THIRD VENUE
         const thirdScreenPositionValue = 3;
         const thirdCountryObject = projectDetail.projectVenues.find((projectVenue: VenueDetail) => projectVenue.screenPosition === thirdScreenPositionValue);
-        // this.setFormFromThirdCountry(thirdCountryObject)
-        // this.setThirdVenueFilesByCountryObject(thirdCountryObject)
-        // !!!!! DOčASNé - TESTING
-        this.setFormFromThirdCountry({...secondCountryObject, id: 2, screenPosition:3})
-        this.setThirdVenueFilesByCountryObject({...secondCountryObject, id: 2, screenPosition:3})
+        this.setFormFromThirdCountry(thirdCountryObject)
+        this.setThirdVenueFilesByCountryObject(thirdCountryObject)
     }
 
     private firstMapUpdate(file: any): void {
