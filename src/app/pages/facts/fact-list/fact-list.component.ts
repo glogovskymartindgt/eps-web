@@ -41,6 +41,7 @@ export class FactListComponent implements OnInit {
     @ViewChild('updateColumn', {static: true}) public updateColumn: TemplateRef<any>;
     @ViewChild('firstValueColumn', {static: true}) public firstValueColumn: TemplateRef<any>;
     @ViewChild('secondValueColumn', {static: true}) public secondValueColumn: TemplateRef<any>;
+    @ViewChild('thirdValueColumn', {static: true}) public thirdValueColumn: TemplateRef<any>;
     @ViewChild('totalValueColumn', {static: true}) public totalValueColumn: TemplateRef<any>;
     @ViewChild('categoryColumn', {static: true}) public categoryColumn: TemplateRef<any>;
     @ViewChild('projectTypeFilter', {static: true})
@@ -252,6 +253,24 @@ export class FactListComponent implements OnInit {
             paging: true,
             trClasses: 'clickable'
         };
+
+        if (this.projectEventService.instant.thirdVenue){
+            if (config.columns.find(c => c.columnDef === "valueSecond")){
+                let index = config.columns.findIndex(c => c.columnDef === "valueSecond")
+                config.columns.splice(index+1, 0, 
+                    new TableColumn({
+                        columnDef: 'valueThird',
+                        label: this.checkValue(this.projectEventService.instant.thirdVenue),
+                        align: 'right',
+                        type: TableCellType.CONTENT,
+                        filter: new TableColumnFilter({
+                            type: TableFilterType.NUMBER,
+                        }),
+                        sorting: true,
+                        tableCellTemplate: this.thirdValueColumn,
+                    }))
+            }
+        }
 
         config = this.tableChangeStorageService.updateTableConfiguration(config);
 

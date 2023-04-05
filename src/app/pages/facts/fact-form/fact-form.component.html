@@ -67,6 +67,19 @@
         >
         </haz-copy-core-input>
     </div>
+    <div class="long-input" *ngIf="showThirdVenue">
+        <haz-copy-core-input [allowedCharactersPattern]="decimalPattern"
+                             [handleFocusAndBlur]="true"
+                             [inputStyles]="{width: '100%', 'position': 'relative', 'right': '5px', 'text-align': 'right'}"
+                             [label]="thirdVenueLabel"
+                             [maxLength]="15"
+                             [required]="'isThirdValueRequired'"
+                             [textSuffix]="actualUnitShortName"
+                             appearance="fill"
+                             formControlName="thirdValue"
+        >
+        </haz-copy-core-input>
+    </div>
     <div class="mb-20">
         <mat-checkbox formControlName="hasOnlyTotalValue">{{'fact.hasOnlyTotalValue' | translate}}</mat-checkbox>
     </div>

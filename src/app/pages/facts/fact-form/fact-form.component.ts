@@ -35,9 +35,11 @@ export class FactFormComponent implements OnInit {
     public formLoaded = false;
     public firstVenueLabel = this.projectEventService.instant.firstVenue;
     public secondVenueLabel = this.projectEventService.instant.secondVenue;
+    public thirdVenueLabel = this.projectEventService.instant.thirdVenue;
     public isTotalRequired = false;
     public isFirstValueRequired = false;
     public isSecondValueRequired = false;
+    public isThirdValueRequired = false;
     private thousandDelimiterPipee: ThousandDelimiterPipe;
 
     public constructor(private readonly projectEventService: ProjectEventService,
@@ -48,11 +50,18 @@ export class FactFormComponent implements OnInit {
                        private readonly notificationService: NotificationService) {
     }
 
+    
+
     /**
      * Fact form getter of controls
      */
     public get controls(): any {
         return this.factForm.controls;
+    }
+
+    public get showThirdVenue () : boolean {
+        // return true
+        return this.controls?.thirdValue.value
     }
 
     /**
@@ -77,6 +86,10 @@ export class FactFormComponent implements OnInit {
                 '',
                 Validators.required
             ],
+            thirdValue: [
+                '',
+                Validators.required
+            ],
             description: [''],
             hasOnlyTotalValue: [false],
             totalValue: [
@@ -86,8 +99,6 @@ export class FactFormComponent implements OnInit {
                 }
             ]
         });
-        this.loadCategories();
-        this.checkIfUpdate();
 
         // Category input listener
         this.factForm.controls.category.valueChanges.subscribe((value: any): void => {
@@ -106,17 +117,7 @@ export class FactFormComponent implements OnInit {
             }
         });
 
-        // First value input listener
-        this.factForm.controls.firstValue.valueChanges.subscribe((firstValue: any): void => {
-            const numberValue = this.transformNumberValue(this.factForm.value.secondValue, firstValue);
-            this.factForm.controls.totalValue.patchValue(this.thousandDelimiterPipee.transform(numberValue.toString(), ','));
-        });
-
-        // Second value input listener
-        this.factForm.controls.secondValue.valueChanges.subscribe((secondValue: any): void => {
-            const numberValue = this.transformNumberValue(this.factForm.value.firstValue, secondValue);
-            this.factForm.controls.totalValue.patchValue(this.thousandDelimiterPipee.transform(numberValue.toString(), ','));
-        });
+        this.setVenueListeners()
 
         // Emit value changes to parent component
         this.factForm.valueChanges.subscribe((): void => {
@@ -216,26 +217,31 @@ export class FactFormComponent implements OnInit {
             this.controls.totalValue.setValidators(Validators.required);
             this.isFirstValueRequired = false;
             this.isSecondValueRequired = false;
+            this.isThirdValueRequired = false;
             this.isTotalRequired = true;
 
             this.factForm.controls.totalValue.enable();
             this.factForm.controls.firstValue.disable();
             this.factForm.controls.secondValue.disable();
+            this.factForm.controls.thirdValue.disable();
         } else {
             this.controls.firstValue.setValidators(Validators.required);
             this.controls.secondValue.setValidators(Validators.required);
             this.controls.totalValue.clearValidators();
             this.isFirstValueRequired = true;
             this.isSecondValueRequired = true;
+            this.isThirdValueRequired = true;
             this.isTotalRequired = false;
 
             this.factForm.controls.totalValue.disable();
             this.factForm.controls.firstValue.enable();
             this.factForm.controls.secondValue.enable();
+            this.factForm.controls.thirdValue.enable();
         }
 
         this.controls.firstValue.setValue('');
         this.controls.secondValue.setValue('');
+        this.controls.thirdValue.setValue('');
         this.controls.totalValue.setValue('');
     }
 
@@ -246,10 +252,12 @@ export class FactFormComponent implements OnInit {
     private setForm(fact: any): void {
         this.firstVenueLabel = fact.venueFirst;
         this.secondVenueLabel = fact.venueSecond;
+        this.thirdVenueLabel = fact.venueThird;
         this.actualUnitShortName = fact.subCategory.unitShortName;
         const hasChangedBy: boolean = fact.changedBy && fact.changedBy.firstName && fact.changedBy.lastName;
         this.isFirstValueRequired = true;
         this.isSecondValueRequired = true;
+        this.isThirdValueRequired = true;
         this.isTotalRequired = false;
         this.factForm = this.formBuilder.group({
             category: [
@@ -268,6 +276,10 @@ export class FactFormComponent implements OnInit {
                 this.transformValue(fact.valueSecond),
                 Validators.required
             ],
+            thirdValue: [
+                this.transformValue(fact.valueThird),
+                Validators.required
+            ],
             hasOnlyTotalValue: [fact.hasOnlyTotalValue],
             totalValue: [
                 !(fact.totalValue === null || fact.totalValue === undefined) ? this.thousandDelimiterPipee.transform(parseFloat(fact.totalValue)
@@ -279,15 +291,7 @@ export class FactFormComponent implements OnInit {
             description: fact.description ? fact.description : ''
         });
 
-        this.factForm.controls.firstValue.valueChanges.subscribe((firstValue: any): void => {
-            const numberValue = this.transformNumberValue(this.factForm.value.secondValue, firstValue);
-            this.factForm.controls.totalValue.patchValue(this.thousandDelimiterPipee.transform(numberValue.toString(), ','));
-        });
-
-        this.factForm.controls.secondValue.valueChanges.subscribe((secondValue: any): void => {
-            const numberValue = this.transformNumberValue(this.factForm.value.firstValue, secondValue);
-            this.factForm.controls.totalValue.patchValue(this.thousandDelimiterPipee.transform(numberValue.toString(), ','));
-        });
+        this.setVenueListeners()
 
         this.factForm.valueChanges.subscribe((): void => {
             this.emitFormDataChangeEmitter();
@@ -309,16 +313,43 @@ export class FactFormComponent implements OnInit {
             this.controls.totalValue.setValidators(Validators.required);
             this.isFirstValueRequired = false;
             this.isSecondValueRequired = false;
+            this.isThirdValueRequired = false;
             this.isTotalRequired = true;
             const updateTotalTimeout = 200;
             setTimeout((): void => {
                 this.factForm.controls.firstValue.disable();
                 this.factForm.controls.secondValue.disable();
+                this.factForm.controls.thirdValue.disable();
                 this.factForm.controls.totalValue.enable();
 
                 this.factForm.controls.totalValue.patchValue(this.transformValue(fact.totalValue));
             }, updateTotalTimeout);
         }
+    }
+
+    private setVenueListeners(){
+        // First value input listener
+        this.factForm.controls.firstValue.valueChanges.subscribe((firstValue: any): void => {
+            const otherVenuesNumberValue = this.transformNumberValue(this.factForm.value.secondValue, this.factForm.value.thirdValue)
+            const numberValue = this.transformNumberValue(otherVenuesNumberValue, firstValue);
+            this.factForm.controls.totalValue.patchValue(this.thousandDelimiterPipee.transform(numberValue.toString(), ','));
+        });
+
+        // Second value input listener
+        this.factForm.controls.secondValue.valueChanges.subscribe((secondValue: any): void => {
+            const otherVenuesNumberValue = this.transformNumberValue( this.factForm.value.firstValue, this.factForm.value.thirdValue) 
+            const numberValue = this.transformNumberValue(otherVenuesNumberValue, secondValue);
+            this.factForm.controls.totalValue.patchValue(this.thousandDelimiterPipee.transform(numberValue.toString(), ','));
+        });
+
+        // Third value input listener
+        this.factForm.controls.thirdValue.valueChanges.subscribe((thirdValue: any): void => {
+            const otherVenuesNumberValue = this.transformNumberValue(this.factForm.value.firstValue, this.factForm.value.secondValue)
+            const numberValue = this.transformNumberValue(otherVenuesNumberValue, thirdValue);
+            this.factForm.controls.totalValue.patchValue(this.thousandDelimiterPipee.transform(numberValue.toString(), ','));
+        });
+
+        
     }
 
     private transformValue(value: any): any {
@@ -343,12 +374,20 @@ export class FactFormComponent implements OnInit {
      * @param formValue
      * @param value
      */
-    private transformNumberValue(formValue: any, value: any): any {
-        return formValue ? (+value.replace(',', '.')
-                                  .replace(' ', '') + parseFloat(formValue.replace(',', '.')
-                                                                          .replace(' ', '')))
-            .toFixed(2) : +value.replace(',', '.')
-                                .replace(' ', '');
+    private transformNumberValue(formValue: any, value: any): string {
+        const isFormValueNonEmptyString : boolean = formValue !== undefined && formValue !== null && typeof formValue === "string" && formValue.length > 0
+        const isValueNonEmptyString : boolean = value !== undefined && value !== null && typeof value === "string" && value.length > 0
+        if (!isFormValueNonEmptyString && !isValueNonEmptyString){
+            return ""
+        }
+        let resultValue : number = null
+        if (isFormValueNonEmptyString && isValueNonEmptyString){
+            resultValue = (+value.replace(',', '.').replace(' ', '') + parseFloat(formValue.replace(',', '.').replace(' ', '')))
+        } else {
+            resultValue = formValue && !value ? parseFloat(formValue.replace(',', '.').replace(' ', '')) : +value.replace(',', '.').replace(' ', '')
+        }
+
+        return resultValue.toFixed(2)
     }
 
 }

@@ -52,6 +52,11 @@
             {{actRow?.valueSecond === null ? '-' : actRow?.valueSecond | thousandDelimiter: ','}} {{actRow?.valueSecond === null ? '' : actRow.measureUnit}}
         </div>
     </ng-template>
+    <ng-template #thirdValueColumn let-actRow="row" let-context="context">
+        <div class="fr">
+            {{actRow?.valueThird === null ? '-' : actRow?.valueThird | thousandDelimiter: ','}} {{actRow?.valueThird === null ? '' : actRow.measureUnit}}
+        </div>
+    </ng-template>
     <ng-template #totalValueColumn let-actRow="row" let-context="context">
         <div class="fr">
             {{actRow?.totalValue === null ? '-' : actRow?.totalValue | thousandDelimiter: ','}} {{actRow?.totalValue !== null ? actRow.measureUnit : ''}}
