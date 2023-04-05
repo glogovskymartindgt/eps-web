@@ -79,7 +79,6 @@ export class ProjectCreateComponent implements OnInit {
     public ngOnInit(): void {
         this.initializeForm();
         this.loadCountries();
-        console.log('empty form: ', this.projectDetailForm.value)
     }
 
     public onSave(): void {
@@ -137,7 +136,6 @@ export class ProjectCreateComponent implements OnInit {
     }
 
     private transformProjectToApiObject(): any {
-        console.log('transforming project to api object:', this.projectDetailForm.value )
         const formObject = this.projectDetailForm.value;
         const apiObject: any = {
             name: formObject.name,
@@ -171,8 +169,6 @@ export class ProjectCreateComponent implements OnInit {
             apiObject.description = formObject.description;
         }
 
-        console.log('project venues: ', apiObject.projectVenues)
-
         return apiObject;
     }
 
@@ -193,7 +189,6 @@ export class ProjectCreateComponent implements OnInit {
         if (formObject.thirdVenue){
             venueObject.cityName = formObject.thirdVenue
         }
-        console.log('create venue object: ', venueObject.clCountry)
 
         return venueObject;
     }
