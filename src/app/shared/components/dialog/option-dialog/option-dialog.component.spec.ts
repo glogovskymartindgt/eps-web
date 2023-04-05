@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ImportOptionDialogComponent } from './import-option-dialog.component';
+import { OptionDialogComponent } from './option-dialog.component';
 
 describe('ImportOptionDialogComponent', () => {
-  let component: ImportOptionDialogComponent;
-  let fixture: ComponentFixture<ImportOptionDialogComponent>;
+  let component: OptionDialogComponent;
+  let fixture: ComponentFixture<OptionDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ImportOptionDialogComponent ]
+      declarations: [ OptionDialogComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ImportOptionDialogComponent);
+    fixture = TestBed.createComponent(OptionDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
