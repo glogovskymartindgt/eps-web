@@ -102,16 +102,6 @@ import { map, catchError, tap } from 'rxjs/operators';
      * @returns {any}
      */
      public exportAllFacts(tableChangeEvent?: TableChangeEvent, additionalFilters?: Filter[], projectId?: number): any {
-        // let filters = [];
-        // let sort = [];
-        // if (tableChangeEvent && tableChangeEvent.sortActive && tableChangeEvent.sortDirection) {
-        //     sort = [
-        //         new Sort(tableChangeEvent.sortActive, tableChangeEvent.sortDirection)
-        //     ];
-        // }
-        // filters = filters.concat(additionalFilters);
-        // filters = this.reorderFiltersToApplyCorectTrafficColor(filters);
-
         const data = this.exportTasks(tableChangeEvent, additionalFilters, projectId)
         let filters = data.filters
         let sort = data.sort
@@ -132,12 +122,10 @@ import { map, catchError, tap } from 'rxjs/operators';
         let filters = data.filters
         let sort = data.sort
         const report = false
-
         return this.report(filters, sort, projectId, report);
     }
 
     public generateTemplate(projectId?: number): any {
-        // tu vytvoriť filters a sort
         let filters = [
             new Filter("PROJECT_ID", projectId, "NUMBER"),
             new Filter("VALUE_FIRST", null, "NUMBER", "IS_NULL"),
@@ -169,7 +157,7 @@ import { map, catchError, tap } from 'rxjs/operators';
         return this.post({
             headers ,
             url: `${hazelnutConfig.URL_API}/${this.urlKey}/${data.flag}/project/${data.projectId}`,
-            mapFunction: (response: Blob): Blob => response,
+            mapFunction: (response: any): any => response,
             body: data.data,
         });
 
