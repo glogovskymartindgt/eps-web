@@ -4,7 +4,7 @@ import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { finalize } from 'rxjs/operators';
+import { finalize, take } from 'rxjs/operators';
 import { ChoiceButtonOptions } from 'src/app/shared/interfaces/choice-button-options.interface';
 import { RequestNames } from '../../../shared/enums/request-names.enum';
 import { Role } from '../../../shared/enums/role.enum';
@@ -29,7 +29,7 @@ import { TableChangeStorageService } from '../../../shared/services/table-change
 import { GetFileNameFromContentDisposition } from '../../../shared/utils/headers';
 import { tableLastStickyColumn } from '../../../shared/utils/table-last-sticky-column';
 import { ProjectAttachmentService } from '../../project/services/project-attachment.service';
-import { ImportOptionDialogComponent } from 'src/app/shared/components/dialog/import-option-dialog/import-option-dialog.component';
+import { OptionDialogComponent } from 'src/app/shared/components/dialog/option-dialog/option-dialog.component';
 import { ListOption } from 'src/app/shared/interfaces/list-option.interface';
 import { Observable } from 'rxjs';
 
@@ -208,7 +208,7 @@ export class FactListComponent implements OnInit {
      */
      public import(): void {
         this.loading = true;
-        const dialogRef = this.matDialog.open(ImportOptionDialogComponent, {
+        const dialogRef = this.matDialog.open(OptionDialogComponent, {
             data: {
                 title: this.importOptions.titleKey ? this.translateService.instant(this.importOptions.titleKey) : null,
                 message: this.importOptions.messageKey ?  this.translateService.instant(this.importOptions.messageKey) : null,
@@ -226,22 +226,19 @@ export class FactListComponent implements OnInit {
                     return;
                 }
 
-                console.log('results after dialog closed: ', result)
                 const flag : string = result ? result.value : ImportChoiceType.DEFAULT
                 const formData = new FormData();
-
                 formData.append('file', this.importedFile, this.importedFile.name);
-                console.log('formData: ', formData)
-
                 const data = {data : formData, flag: flag, projectId: this.projectEventService.instant.id}
-
                 this.importedFile = null
 
-
-                // TO DO: sem pôjde export s parametrom podľa výberu
-                // chooseOptionApiCall je vlastne exportTasks
-                // this.importOptions.chooseOptionApiCall(formData, this.projectEventService.instant.id, flag)
                 this.factService.importFacts(data)
+                    // .pipe(
+                    //     take(1),
+                    //     switchMap(res => {
+                            
+                    //     })
+                    // )
                     .subscribe(
                         (res): void => {
                             console.log('res: ', res)
