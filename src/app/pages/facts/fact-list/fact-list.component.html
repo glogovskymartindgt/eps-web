@@ -42,78 +42,20 @@
     <ng-template #categoryColumn let-actRow="row" let-context="context">
         {{actRow.categoryName}}
     </ng-template>
-    <!-- <ng-template #firstValueColumn let-actRow="row" let-context="context">
-        <div class="fr">
-            {{actRow?.valueFirst === null ? '-' : actRow?.valueFirst | thousandDelimiter: ','}} {{actRow?.valueFirst === null ? '' : actRow.measureUnit}}
-        </div>
-    </ng-template> -->
     <ng-template #firstValueColumn let-actRow="row" let-context="context">
         <div class="fr">
             {{returnColumnValue(actRow, "valueFirst")}}
         </div>
-        <!-- <ng-container *ngIf="actRow?.valueFirst === null">
-            <div class="fr">
-                '-'
-            </div>
-        </ng-container>
-        <ng-container *ngIf="actRow?.valueFirst !== null && !isYesNoFactItemType(actRow)">
-            <div class="fr">
-                {{actRow.valueFirst | thousandDelimiter: ','}} {{actRow.measureUnit}}
-            </div>
-        </ng-container>
-        <ng-container *ngIf="actRow?.valueFirst !== null && isYesNoFactItemType(actRow)">
-            <div class="fr">
-                <span *ngIf="actRow.valueFirst === 0"> {{'common.no' | translate}} </span>
-                <span *ngIf="actRow.valueFirst === 1"> {{'common.yes' | translate}} </span>
-            </div>
-        </ng-container> -->
     </ng-template>
-    <!-- <ng-template #secondValueColumn let-actRow="row" let-context="context">
-        <div class="fr">
-            {{actRow?.valueSecond === null ? '-' : actRow?.valueSecond | thousandDelimiter: ','}} {{actRow?.valueSecond === null ? '' : actRow.measureUnit}}
-        </div>
-    </ng-template> -->
     <ng-template #secondValueColumn let-actRow="row" let-context="context">
         <div class="fr">
             {{returnColumnValue(actRow, "valueSecond")}}
         </div>
-        <!-- <ng-container *ngIf="actRow?.valueSecond === null">
-            <div class="fr">
-                '-'
-            </div>
-        </ng-container>
-        <ng-container *ngIf="actRow?.valueSecond !== null && !isYesNoFactItemType(actRow)">
-            <div class="fr">
-                {{actRow.valueSecond | thousandDelimiter: ','}} {{actRow.measureUnit}}
-            </div>
-        </ng-container>
-        <ng-container *ngIf="actRow?.valueSecond !== null && isYesNoFactItemType(actRow)">
-            <div class="fr">
-                <span *ngIf="actRow.valueSecond === 0"> {{'common.no' | translate}} </span>
-                <span *ngIf="actRow.valueSecond === 1"> {{'common.yes' | translate}} </span>
-            </div>
-        </ng-container> -->
     </ng-template>
     <ng-template #totalValueColumn let-actRow="row" let-context="context">
         <div class="fr">
             {{returnColumnValue(actRow, "totalValue")}}
         </div>
-        <!-- <ng-container *ngIf="actRow?.totalValue === null">
-            <div class="fr">
-                '-'
-            </div>
-        </ng-container>
-        <ng-container *ngIf="actRow?.totalValue !== null && !isYesNoFactItemType(actRow)">
-            <div class="fr">
-                {{actRow.totalValue | thousandDelimiter: ','}} {{actRow.measureUnit}}
-            </div>
-        </ng-container>
-        <ng-container *ngIf="actRow?.totalValue !== null && isYesNoFactItemType(actRow)">
-            <div class="fr">
-                <span *ngIf="actRow.totalValue === 0"> {{'common.no' | translate}} </span>
-                <span *ngIf="actRow.totalValue === 1"> {{'common.yes' | translate}} </span>
-            </div>
-        </ng-container> -->
     </ng-template>
     <ng-template #updateColumn let-actRow="row" let-context="context">
         <div class="fr" *iihfShowByRole="factDetailRoles()">
