@@ -151,11 +151,11 @@ import { map, catchError, tap } from 'rxjs/operators';
         let headers = new HttpHeaders();
         headers = headers.set('device-id', this.userService.instant.deviceId);
         headers = headers.set('token', this.userService.instant.authToken);
-        // headers = headers.set('Response-Type', 'blob')
+        // headers = headers.set('responseType', 'text')
         // headers = headers.set('observe', 'response')
 
         return this.post({
-            headers ,
+            headers,
             url: `${hazelnutConfig.URL_API}/${this.urlKey}/${data.flag}/project/${data.projectId}`,
             mapFunction: (response: any): any => response,
             body: data.data,

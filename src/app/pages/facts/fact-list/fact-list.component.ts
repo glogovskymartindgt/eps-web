@@ -4,7 +4,7 @@ import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { finalize, take } from 'rxjs/operators';
+import { finalize, switchMap, take } from 'rxjs/operators';
 import { ChoiceButtonOptions } from 'src/app/shared/interfaces/choice-button-options.interface';
 import { RequestNames } from '../../../shared/enums/request-names.enum';
 import { Role } from '../../../shared/enums/role.enum';
@@ -32,6 +32,7 @@ import { ProjectAttachmentService } from '../../project/services/project-attachm
 import { OptionDialogComponent } from 'src/app/shared/components/dialog/option-dialog/option-dialog.component';
 import { ListOption } from 'src/app/shared/interfaces/list-option.interface';
 import { Observable } from 'rxjs';
+import { BlobManager } from 'src/app/shared/utils/blob-manager';
 
 
 const ALL_FACTS = 'all-facts';
@@ -143,12 +144,12 @@ export class FactListComponent implements OnInit {
         this.lastTableChangeEvent = tableChangeEvent;
         // Api call
         this.factService.browseFacts(tableChangeEvent, projectFilter)
-            .pipe(finalize((): any => this.loading = false))
-            .subscribe((data: BrowseResponse<Fact>): void => {
-                this.data = data;
-            }, (): void => {
-                this.notificationService.openErrorNotification('error.api');
-            });
+        .pipe(finalize((): any => this.loading = false))
+        .subscribe((data: BrowseResponse<Fact>): void => {
+            this.data = data;
+        }, (): void => {
+            this.notificationService.openErrorNotification('error.api');
+        });
     }
 
     public factDetailRoles(): Role[] {
@@ -233,32 +234,25 @@ export class FactListComponent implements OnInit {
                 this.importedFile = null
 
                 this.factService.importFacts(data)
-                    // .pipe(
-                    //     take(1),
-                    //     switchMap(res => {
-                            
-                    //     })
-                    // )
                     .subscribe(
                         (res): void => {
-                            console.log('res: ', res)
-                            this.notificationService.openSuccessNotification('success.delete');
+                            if (res !== null){
+                                console.log('res: ', res)
+                                const reader = new FileReader();
+                                reader.onload = (): void => {
+                                BlobManager.downloadFromBlob(res, '', 'log-file.log');
+                                };
+
+                            }
+                            this.setTableData(this.lastTableChangeEvent)
+                            this.notificationService.openSuccessNotification('success.import');
                         }, (error): void => {
                             console.error(error)
-                            // this.notificationService.openErrorNotification(error);
+                            this.notificationService.openErrorNotification('error.import');
                         }
                     );
             });
 
-        // this.factService.exportTasks(this.lastTableChangeEvent, this.allTaskFilters, this.projectEventService.instant.id)
-        //     .pipe(finalize((): any => this.loading = false))
-        //     .subscribe((response: HttpResponse<any>): void => {
-        //         const contentDisposition = response.headers.get('Content-Disposition');
-        //         const exportName: string = GetFileNameFromContentDisposition(contentDisposition);
-        //         new FileManager().saveFile(exportName, response.body, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        //     }, (): void => {
-        //         this.notificationService.openErrorNotification('error.api');
-        //     });
     }
 
     /**
@@ -422,21 +416,10 @@ export class FactListComponent implements OnInit {
 
     public onImportFile(event): void | undefined {
         const file = event.target.files[0];
-        // if (!file || !this.documentFileTypes.includes(this.projectAttachmentService.getFileEnding(file.name))) {
-        //     this.projectDetailForm.controls.firstDocument.patchValue('');
-
-        //     return;
-        // }
-        console.log('chooseing file: ', file)
         if (!file){
             return 
         }
         this.importedFile = file
         this.import()
-        // ak bol natiahnutý súbor, otvoriť okno s možnosťami
-
-
     }
-
-
 }

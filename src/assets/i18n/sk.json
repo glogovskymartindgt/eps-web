@@ -35,6 +35,7 @@
         "logout": "Odhlásenie sa nepodarilo",
         "edit": "Zmeny sa nepodarilo vykonať",
         "delete": "Vymazanie záznamu sa nepodarilo",
+        "import": "Importovať súbor sa nepodarilo",
         "dateFormatIsInvalid": "Nevalidný dátum",
         "addComment": "Pridanie sa nepodarilo.",
         "loadComments": "Načítanie komentov sa nepodarilo.",
@@ -58,6 +59,7 @@
         "add": "Pridanie úspešné",
         "edit": "Úprava úspešná",
         "delete": "Vymazanie úspešné",
+        "import": "Importovanie úspešné",
         "linkCopied": "Odkaz bol skopírovaný do schránky"
     },
     "common": {

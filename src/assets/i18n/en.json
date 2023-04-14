@@ -109,6 +109,7 @@
         "add": "Create failed",
         "edit": "Edit failed",
         "delete": "Delete failed",
+        "import": "Import failed",
         "interval": "Empty interval",
         "dateFormatIsInvalid": "Date format is invalid",
         "addComment": "Adding of comment failed.",
@@ -141,6 +142,7 @@
         "add": "Add successful",
         "edit": "Edit successful",
         "delete": "Delete successful",
+        "import": "Import successful",
         "linkCopied": "Link copied to clipboard"
     },
     "paginator": {
