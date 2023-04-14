@@ -24,6 +24,7 @@ import { ProjectEventService } from '../../../shared/services/storage/project-ev
 import { TableChangeStorageService } from '../../../shared/services/table-change-storage.service';
 import { GetFileNameFromContentDisposition } from '../../../shared/utils/headers';
 import { tableLastStickyColumn } from '../../../shared/utils/table-last-sticky-column';
+import { ThousandDelimiterPipe } from 'src/app/shared/pipes/thousand-delimiter.pipe';
 
 const ALL_FACTS = 'all-facts';
 
@@ -54,6 +55,7 @@ export class FactListComponent implements OnInit {
 
     private lastTableChangeEvent: TableChangeEvent;
     private allTaskFilters: Filter[] = [];
+    private thousandDelimiterPipe: ThousandDelimiterPipe = new ThousandDelimiterPipe();
 
     public constructor(
         public readonly projectEventService: ProjectEventService,
@@ -310,5 +312,36 @@ export class FactListComponent implements OnInit {
     private isReturnFromDetail(): boolean {
         return this.routingStorageService.getPreviousUrl().includes('facts/edit')
             || this.routingStorageService.getPreviousUrl().includes('facts/create');
+    }
+
+    public isYesNoFactItemType(row: any): boolean{
+        const fit = row?.measureUnit?.toLowerCase()
+        return fit && (fit === 'yes/no' || fit === 'y/n')
+    }
+
+    public returnColumnValue(row: any, key: string){
+        if (!row || !key || row[key] === undefined || row[key] === null){
+            return '-'
+        }
+        switch (key){
+            case 'valueFirst' :
+            case 'valueSecond':
+            case 'totalValue' :
+                if (this.isYesNoFactItemType(row)){
+                    if (row[key] === 0){
+                        return this.translateService.instant('common.no')
+                    } else if (row[key] === 1){
+                        return this.translateService.instant('common.yes')
+                    } else {
+                        return
+                    }
+                } else {
+                        return this.thousandDelimiterPipe.transform(row[key].toString(), ',') + " " + row.measureUnit
+                }
+                
+            default : 
+                return this.thousandDelimiterPipe.transform(row[key].toString(), ',') + " " + row.measureUnit
+        }
+
     }
 }
