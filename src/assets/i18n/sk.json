@@ -36,6 +36,7 @@
         "edit": "Zmeny sa nepodarilo vykonať",
         "delete": "Vymazanie záznamu sa nepodarilo",
         "import": "Importovať súbor sa nepodarilo",
+        "importImpossible": "Importovať nebolo možné - pozri stiahnutý súbor",
         "dateFormatIsInvalid": "Nevalidný dátum",
         "addComment": "Pridanie sa nepodarilo.",
         "loadComments": "Načítanie komentov sa nepodarilo.",

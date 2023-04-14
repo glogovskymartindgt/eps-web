@@ -110,6 +110,7 @@
         "edit": "Edit failed",
         "delete": "Delete failed",
         "import": "Import failed",
+        "importImpossible": "Import not possible - see downloaded file",
         "interval": "Empty interval",
         "dateFormatIsInvalid": "Date format is invalid",
         "addComment": "Adding of comment failed.",

@@ -236,16 +236,16 @@ export class FactListComponent implements OnInit {
                 this.factService.importFacts(data)
                     .subscribe(
                         (res): void => {
-                            if (res !== null){
-                                console.log('res: ', res)
-                                const reader = new FileReader();
-                                reader.onload = (): void => {
-                                BlobManager.downloadFromBlob(res, '', 'log-file.log');
-                                };
-
+                            console.log('res: ', res)
+                            if (res && res.body && res.body.size !== 0){
+                                let fileName : string = 'log-file.log'
+                                new FileManager().saveFile(fileName, res.body, res.body.type);
+                                this.notificationService.openInfoNotification('error.importImpossible')
+                            } else {
+                                this.setTableData(this.lastTableChangeEvent)
+                                this.notificationService.openSuccessNotification('success.import');
                             }
-                            this.setTableData(this.lastTableChangeEvent)
-                            this.notificationService.openSuccessNotification('success.import');
+                            
                         }, (error): void => {
                             console.error(error)
                             this.notificationService.openErrorNotification('error.import');
@@ -409,10 +409,6 @@ export class FactListComponent implements OnInit {
             chooseOptionApiCall: null
         }
     }
-
-    // public download(blob: Blob, type: string, name: string): void {
-    //     BlobManager.downloadFromBlob(blob, this.projectAttachmentService.getContentTypeFromFileName(name), name);
-    // }
 
     public onImportFile(event): void | undefined {
         const file = event.target.files[0];

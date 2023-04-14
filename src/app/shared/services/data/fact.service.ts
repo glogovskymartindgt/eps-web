@@ -151,15 +151,20 @@ import { map, catchError, tap } from 'rxjs/operators';
         let headers = new HttpHeaders();
         headers = headers.set('device-id', this.userService.instant.deviceId);
         headers = headers.set('token', this.userService.instant.authToken);
-        // headers = headers.set('responseType', 'text')
-        // headers = headers.set('observe', 'response')
 
-        return this.post({
-            headers,
-            url: `${hazelnutConfig.URL_API}/${this.urlKey}/${data.flag}/project/${data.projectId}`,
-            mapFunction: (response: any): any => response,
-            body: data.data,
-        });
+        // *** IMPORTANT !!!! cannot use the method (this.post() from core-service) !!!!
+        // *** when using responseType in params, the method needs to be http.post(), NOT http.post<>()
+        return this.http.post(`${hazelnutConfig.URL_API}/${this.urlKey}/${data.flag}/project/${data.projectId}`, 
+            data.data, 
+            {
+                headers,
+                responseType: 'blob',
+                observe: 'response'
+            }
+            ).pipe(
+            map((response: any): any => response),
+            catchError(this.handleError),
+        );
 
     }
 
