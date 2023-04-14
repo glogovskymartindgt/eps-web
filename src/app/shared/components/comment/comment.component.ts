@@ -5,15 +5,19 @@ import { TranslateService } from '@ngx-translate/core';
 import { CommentType } from '../../enums/comment-type.enum';
 import { Role } from '../../enums/role.enum';
 import { Regex } from '../../hazelnut/hazelnut-common/regex/regex';
-import { CommentResponse } from '../../interfaces/task-comment.interface';
+import { Attachment } from '../../interfaces/attachment.interface';
+import { CommentAttachment, CommentResponse } from '../../interfaces/task-comment.interface';
 import { AuthService } from '../../services/auth.service';
+import { ActionPointService } from '../../services/data/action-point.service';
 import { AttachmentService } from '../../services/data/attachment.service';
 import { ImagesService } from '../../services/data/images.service';
 import { NotificationService } from '../../services/notification.service';
 import { ProjectUserService } from '../../services/storage/project-user.service';
+import { BlobManager } from '../../utils/blob-manager';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { ImageDialogComponent } from '../dialog/image-dialog/image-dialog.component';
 import { PdfDialogComponent } from '../dialog/pdf-dialog/pdf-dialog.component';
+import { VideoDialogComponent } from '../dialog/video-dialog/video-dialog.component';
 
 @Component({
     selector: 'iihf-comment',
@@ -28,9 +32,8 @@ export class CommentComponent implements OnInit {
     @Output() public readonly delete: EventEmitter<void> = new EventEmitter<void>();
     public isMyComment = false;
     public imageSrc;
-    public videoSrc;
-    public pdfSrc;
-    public pdfSrcSanitized;
+    public documentSrc;
+    public documentSrcSanitized;
 
     public constructor(
         private readonly authService: AuthService,
@@ -46,29 +49,28 @@ export class CommentComponent implements OnInit {
 
     public ngOnInit(): void {
         if (this.comment.attachment) {
-            if (this.comment.attachment.format === 'PDF') {
-                this.loadPdf();
-            } else if (this.comment.attachment.format === 'MP4') {
-                // TODO Load video from server
-                // this.loadVideo();
-            } else {
-                this.loadImage();
+            if (this.isImage(this.comment.attachment.format)) {
+                this.loadImage()
+            }
+            if (this.isDocument(this.comment.attachment.format)) {
+                this.loadDocument()
             }
         }
         this.projectUserService.subject.userId.subscribe((userId: number): void => {
             this.isMyComment = userId === this.comment.createdBy.id;
         });
-
-        if (localStorage.getItem('file')) {
-            this.videoSrc = this.transform(localStorage.getItem('file'));
-        }
     }
 
-    public openPreviewAttachment(image): void {
+
+    public openPreviewImage(image): void {
         this.matDialog.open(ImageDialogComponent, {
-            data: {
-                image
-            }
+            data: { image }
+        });
+    }
+
+    public openPreviewVideo(video): void {
+        this.matDialog.open(VideoDialogComponent, {
+            data: { video }
         });
     }
 
@@ -85,9 +87,7 @@ export class CommentComponent implements OnInit {
     }
 
     public commentIsAttachment(): boolean {
-        // TODO
-        // return this.comment.type === CommentType.Attachment;
-        return true;
+        return this.comment.type === CommentType.Attachment;
     }
 
     public commentIsUrl(): boolean {
@@ -161,13 +161,13 @@ export class CommentComponent implements OnInit {
             });
     }
 
-    private loadPdf(): void {
+    private loadDocument(): void {
         this.attachmentService.getAttachment(this.comment.attachment.filePath)
             .subscribe((blob: Blob): void => {
                 const reader = new FileReader();
                 reader.onload = (): void => {
-                    this.pdfSrc = reader.result;
-                    this.pdfSrcSanitized = this.domSanitizer.bypassSecurityTrustUrl(reader.result as string);
+                    this.documentSrc = reader.result;
+                    this.documentSrcSanitized = this.domSanitizer.bypassSecurityTrustUrl(reader.result as string);
                 };
                 reader.readAsDataURL(blob);
             }, (): void => {
@@ -188,15 +188,53 @@ export class CommentComponent implements OnInit {
             });
     }
 
-    public transform(url: string): SafeResourceUrl {
-        return this.domSanitizer.bypassSecurityTrustResourceUrl(url);
+    /**
+     * Is filetype Image
+     * @param format
+     */
+    public isImage(format: string) {
+        return ActionPointService.allowedImages.includes(format)
     }
 
-    private loadVideo(file: any) {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = (): void => {
-            localStorage.setItem('file', window.URL.createObjectURL(file));
-        };
+    /**
+     * Is filetype Video
+     * @param format
+     */
+    public isVideo(format: string) {
+        return ActionPointService.allowedVideos.includes(format)
+    }
+
+    /**
+     * Is filetype Document
+     * @param format
+     */
+    public isDocument(format: string) {
+        return ActionPointService.allowedDocuments.includes(format)
+    }
+
+    /**
+     * Is filetype PDF
+     * @param format
+     */
+    public isPdf(format: string) {
+        return format === 'PDF'
+    }
+
+
+    /**
+     * Download video from BLOB
+     * @param attachment
+     */
+    public downloadVideo(attachment: CommentAttachment) {
+        this.attachmentService.getAttachment(attachment.filePath)
+            .subscribe((blob: Blob): void => {
+                const reader = new FileReader();
+                reader.onload = (): void => {
+                    BlobManager.downloadFromBlob(blob, '', attachment.fileName);
+                };
+                reader.readAsDataURL(blob);
+            }, (): void => {
+                this.notificationService.openErrorNotification('error.attachmentDownload');
+            });
     }
 }

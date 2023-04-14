@@ -14,6 +14,25 @@ import { ProjectUserService } from '../storage/project-user.service';
     providedIn: 'root'
 })
 export class ActionPointService extends ProjectService<ActionPoint> {
+    public static allowedImages = ['JPG', 'JPEG', 'PNG'];
+    public static allowedVideos = ['MP4', 'MPEG'];
+    public static allowedDocuments = ['ZIP', 'PDF', 'CSV', 'TXT', 'XLS', 'XLSX', 'DOC', 'DOCX'];
+
+    public static acceptedImageTypes = ['image/jpg', 'image/jpeg', 'image/png'];
+    public static acceptedVideoTypes = ['video/mp4', 'video/mpeg'];
+    public static acceptedDocumentTypes = [
+        'application/pdf',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        'application/msword',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        'application/vnd.ms-excel',
+        'application/rtf',
+        'text/plain',
+        'text/csv',
+        'application/zip',
+        'application/x-zip-compressed'
+    ];
 
     public constructor(http: HttpClient, notificationService: NotificationService, userService: ProjectUserService) {
         super(http, 'actionPoint', notificationService, userService);

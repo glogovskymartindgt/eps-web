@@ -5,6 +5,7 @@ import { Role } from '../../enums/role.enum';
 import { Regex } from '../../hazelnut/hazelnut-common/regex/regex';
 import { CommentResponse } from '../../interfaces/task-comment.interface';
 import { CommentService } from '../../services/comment.service';
+import { ActionPointService } from '../../services/data/action-point.service';
 import { AttachmentService } from '../../services/data/attachment.service';
 import { ImagesService } from '../../services/data/images.service';
 import { NotificationService } from '../../services/notification.service';
@@ -88,14 +89,10 @@ export abstract class CommentTabComponent implements OnInit {
         }
         const reader = new FileReader();
         reader.onload = (): void => {
-            if (file.type === 'application/pdf') {
-                this.uploadPdf(file);
-            } else if (file.type === 'image/jpeg'
-                || file.type === 'image/jpg'
-                || file.type === 'image/png') {
+            if (ActionPointService.acceptedImageTypes.includes(file.type)) {
                 this.uploadImage(file);
-            } else if (file.type === 'video/mp4') {
-                this.uploadVideo(file);
+            } else {
+                this.uploadAttachment(file);
             }
         };
         reader.readAsDataURL(file);
@@ -103,11 +100,6 @@ export abstract class CommentTabComponent implements OnInit {
 
     public trackCommentById(index: number, item: CommentResponse): any {
         return item.id;
-    }
-
-    protected uploadVideo(file: any): void {
-        // TODO Upload video to server
-        this.commentComponent.loadVideo(file)
     }
 
     protected uploadImage(file: File): void {
@@ -121,14 +113,14 @@ export abstract class CommentTabComponent implements OnInit {
             });
     }
 
-    protected uploadPdf(file: File): void {
+    protected uploadAttachment(file: File): void {
         this.attachmentService.uploadAttachment([file])
             .subscribe((data: any): void => {
                 this.setAttachmentData(file, data);
                 this.onAttachmentAdded();
             }, (): void => {
                 this.clearAttachmentData();
-                this.notificationService.openErrorNotification('error.imageUpload');
+                this.notificationService.openErrorNotification('error.attachmentUpload');
             });
     }
 

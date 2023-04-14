@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Attachment } from '../../interfaces/attachment.interface';
+import { ActionPointService } from '../../services/data/action-point.service';
 import { AttachmentService } from '../../services/data/attachment.service';
 import { ImagesService } from '../../services/data/images.service';
 import { NotificationService } from '../../services/notification.service';
@@ -20,15 +21,13 @@ export class AttachmentsComponent implements OnInit {
     public _attachments: Attachment[] = [];
     public src = [];
 
-    allowedImages = ['JPG', 'JPEG', 'PNG'];
-    allowedVideos = ['MP4', 'MPEG'];
-    allowedDocuments = ['ZIP', 'PDF', 'CSV', 'TXT', 'XLS', 'XLSX', 'DOC', 'DOCX'];
 
     constructor(
         private readonly attachmentService: AttachmentService,
         private readonly domSanitizer: DomSanitizer,
         private readonly imagesService: ImagesService,
         private readonly notificationService: NotificationService,
+        private readonly actionPointService: ActionPointService,
         private readonly matDialog: MatDialog,
     ) {
     }
@@ -84,7 +83,7 @@ export class AttachmentsComponent implements OnInit {
      * @param format
      */
     public isImage(format: string) {
-        return this.allowedImages.includes(format)
+        return ActionPointService.allowedImages.includes(format)
     }
 
     /**
@@ -92,7 +91,7 @@ export class AttachmentsComponent implements OnInit {
      * @param format
      */
     public isVideo(format: string) {
-        return this.allowedVideos.includes(format)
+        return ActionPointService.allowedVideos.includes(format)
     }
 
     /**
@@ -100,7 +99,7 @@ export class AttachmentsComponent implements OnInit {
      * @param format
      */
     public isDocument(format: string) {
-        return this.allowedDocuments.includes(format)
+        return ActionPointService.allowedDocuments.includes(format)
     }
 
     /**
