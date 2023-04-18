@@ -30,9 +30,7 @@ import { GetFileNameFromContentDisposition } from '../../../shared/utils/headers
 import { tableLastStickyColumn } from '../../../shared/utils/table-last-sticky-column';
 import { ProjectAttachmentService } from '../../project/services/project-attachment.service';
 import { OptionDialogComponent } from 'src/app/shared/components/dialog/option-dialog/option-dialog.component';
-import { ListOption } from 'src/app/shared/interfaces/list-option.interface';
-import { Observable } from 'rxjs';
-import { BlobManager } from 'src/app/shared/utils/blob-manager';
+import moment from 'moment';
 
 
 const ALL_FACTS = 'all-facts';
@@ -238,7 +236,7 @@ export class FactListComponent implements OnInit {
                         (res): void => {
                             console.log('res: ', res)
                             if (res && res.body && res.body.size !== 0){
-                                let fileName : string = 'log-file.log'
+                                let fileName : string = 'Logs_Facts_and_Figures_' + this.formatDateTime(new Date(Date.now())) + '_.txt'
                                 new FileManager().saveFile(fileName, res.body, res.body.type);
                                 this.notificationService.openInfoNotification('error.importImpossible')
                             } else {
@@ -417,5 +415,18 @@ export class FactListComponent implements OnInit {
         }
         this.importedFile = file
         this.import()
+    }
+
+    /**
+     * Transform Date object into formated
+     * @param date
+     */
+    private formatDateTime(date: Date): string {
+        if (!date) {
+            return '';
+        }
+
+        return moment(date)
+            .format('YYYY_MM_DD');
     }
 }
