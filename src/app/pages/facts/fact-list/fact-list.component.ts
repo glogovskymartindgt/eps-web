@@ -246,7 +246,6 @@ export class FactListComponent implements OnInit {
                 this.factService.importFacts(data)
                     .subscribe(
                         (res): void => {
-                            console.log('res: ', res)
                             if (res && res.body && res.body.size !== 0){
                                 let fileName : string = 'Logs_Facts_and_Figures_' + this.formatDateTime(new Date(Date.now())) + '_.txt'
                                 new FileManager().saveFile(fileName, res.body, res.body.type);
@@ -257,7 +256,6 @@ export class FactListComponent implements OnInit {
                             }
                             
                         }, (error): void => {
-                            console.error(error)
                             this.notificationService.openErrorNotification('error.import');
                         }
                     );
