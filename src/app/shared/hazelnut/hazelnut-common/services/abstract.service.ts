@@ -249,25 +249,7 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
         return this.postBlob(`${hazelnutConfig.URL_API}/${this.urlKey}/project/${projectId}/${appendix}`, content, this.extractDetail);
     }
 
-    // protected import<S=T>(formData: FormData, projectId: number, flag : string){
-    //     const content = formData
-    //         if (flag !== ImportChoiceType.FILL_BLANK && flag !== ImportChoiceType.REWRITE_ALL){
-    //             flag = ImportChoiceType.FILL_BLANK
-    //         }
-    //         let headers = new HttpHeaders();
-    //         headers = headers.set('device-id', this.userService.instant.deviceId);
-    //         headers = headers.set('token', this.userService.instant.authToken);
-
-    //         return this.http.post(`${hazelnutConfig.URL_API}/${this.urlKey}/${flag}/project/${projectId}`, {
-    //                     headers,
-    //                     body: formData,
-    //                     observe: 'response'
-    //                 })
-    //         .pipe(map(this.extractDetail), catchError(this.handleError) );
-    // }
-
     protected template<S=T>(filter: Filter[] = [], sort: Sort[] = [new Sort()], projectId: number): Observable<any>{
-    // protected template<S=T>(projectId: number): Observable<any>{
         if (sort && sort.length === 0) {
             sort.push(new Sort());
         }

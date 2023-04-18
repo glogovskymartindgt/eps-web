@@ -65,11 +65,6 @@ export class FactListComponent implements OnInit {
 
     private importOptions: ChoiceButtonOptions
     private importedFile: File
-    public documentFileTypes = [
-        'xls',
-        'xlsx',
-    ];
-
 
     public constructor(
         private readonly matDialog: MatDialog,
@@ -80,7 +75,6 @@ export class FactListComponent implements OnInit {
         public readonly router: Router,
         private readonly routingStorageService: RoutingStorageService,
         private readonly tableChangeStorageService: TableChangeStorageService,
-        private readonly projectAttachmentService: ProjectAttachmentService
     ) {
     }
 
@@ -404,7 +398,6 @@ export class FactListComponent implements OnInit {
     }
 
     setImportOptions(){
-        let choices = [ImportChoiceType.FILL_BLANK, ImportChoiceType.REWRITE_ALL]
         this.importOptions = {
             titleKey: "import.title",
             options: [
@@ -413,7 +406,6 @@ export class FactListComponent implements OnInit {
             ],
             confirmationButtonKey: "import.ok",
             rejectionButtonKey: "import.cancel",
-            // chooseOptionApiCall: function (x,y,z) {this.factService.importFacts(x,y,z)}
             chooseOptionApiCall: null
         }
     }
