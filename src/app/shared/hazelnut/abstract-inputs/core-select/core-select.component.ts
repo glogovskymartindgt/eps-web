@@ -9,10 +9,9 @@ import {
   OnInit,
   SimpleChanges
 } from '@angular/core';
-import { AbstractControl, ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
+import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { debounceTime, tap } from 'rxjs/operators';
-import { checkAndRemoveLastDotComma } from '../../../utils/remove-last-char';
 import { TRANSLATE_WRAPPER_TOKEN, TranslateWrapper } from '../../hazelnut-common/interfaces/translate.interface';
 import { InputUtils } from '../../hazelnut-common/utils/input-utils';
 import { ValidatorComposer } from '../validator-composer';
@@ -151,24 +150,6 @@ export class CoreSelectComponent implements OnInit, OnChanges, ControlValueAcces
       this.onChange(this.formControl.value);
   }
 
-  private handleFocus(): void {
-      if (this.handleFocusAndBlur) {
-          this.formControl.setValue(this.formControl.value.replace(/\s/g, ''), {emitEvent: false});
-          this.formControl.setValue(this.formControl.value.replace(',', '.'), {emitEvent: false});
-      }
-  }
-
-  private handleBlur(): void {
-      const blurTimeout = 250;
-      if (this.handleFocusAndBlur) {
-          this.formControl.setValue(checkAndRemoveLastDotComma(this.formControl.value));
-          this.formControl.setValue(this.formControl.value.replace(/\s/g, ''), {emitEvent: false});
-          setTimeout(() => {
-              this.formControl.setValue(this.pipe.transform(this.formControl.value, ','), {emitEvent: false});
-          }, blurTimeout);
-      }
-  }
-
   private onFormControlChanges(): void {
       const timeoutAfterChange = 2000;
       this.formControl.valueChanges
@@ -178,11 +159,6 @@ export class CoreSelectComponent implements OnInit, OnChanges, ControlValueAcces
           .subscribe(() => {
               this.displayedHint = '';
           });
-  }
-
-  private toggleShowErrors(focused: boolean): any {
-      this.showErrors = focused;
-      this.manageUserInput();
   }
 
   private setFormControl(): void {

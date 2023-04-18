@@ -354,8 +354,7 @@ export class FactFormComponent implements OnInit {
     }
 
     get isYesNoFactItemType() : boolean {
-        const fit = this.actualUnitShortName?.toLowerCase()
-        return fit && (fit === 'yes/no' || fit === 'y/n')
+        return this.factService.isYesNoFactItemType(this.actualUnitShortName)
     }
 
 }

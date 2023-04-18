@@ -120,4 +120,12 @@ import { ProjectUserService } from '../storage/project-user.service';
         return 0;
     }
 
+    /**
+     * Check whether chosen fact item (unit) is of type "yes/no" or not
+     * @param factUnit
+     */
+    public isYesNoFactItemType(factUnit: string): boolean {
+        return ['y/n', 'yes/no'].includes(factUnit.toLowerCase())
+    }
+
 }

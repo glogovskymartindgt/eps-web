@@ -109,7 +109,7 @@ const FACTS_SCREEN = 'facts';
     }
 
     private setTotalValueToApiObject(formObject: any){
-        if (formObject?.unitShortName?.toLowerCase() === 'y/n' || formObject?.unitShortName?.toLowerCase() === 'yes/no'){
+        if (this.factService.isYesNoFactItemType(formObject?.unitShortName)){
             return formObject.totalValue ? formObject.totalValue : null
         } else {
             return formObject.totalValue ? formObject.totalValue : (+formObject.firstValue + +formObject.secondValue)

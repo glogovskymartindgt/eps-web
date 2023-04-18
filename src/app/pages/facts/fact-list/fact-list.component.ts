@@ -314,11 +314,6 @@ export class FactListComponent implements OnInit {
             || this.routingStorageService.getPreviousUrl().includes('facts/create');
     }
 
-    public isYesNoFactItemType(row: any): boolean{
-        const fit = row?.measureUnit?.toLowerCase()
-        return fit && (fit === 'yes/no' || fit === 'y/n')
-    }
-
     public returnColumnValue(row: any, key: string){
         if (!row || !key || row[key] === undefined || row[key] === null){
             return '-'
@@ -327,7 +322,8 @@ export class FactListComponent implements OnInit {
             case 'valueFirst' :
             case 'valueSecond':
             case 'totalValue' :
-                if (this.isYesNoFactItemType(row)){
+                const fit = row?.measureUnit?.toLowerCase()
+                if (this.factService.isYesNoFactItemType(fit)){
                     if (row[key] === 0){
                         return this.translateService.instant('common.no')
                     } else if (row[key] === 1){
