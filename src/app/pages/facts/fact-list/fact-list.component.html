@@ -2,10 +2,8 @@
 <div>
     <iihf-header>
         <h2 title>{{ (allFacts ? 'fact.titleAllFacts' : 'fact.title') | translate}}</h2>
-    
         <ng-container buttons>
-
-            <ng-container>
+            <ng-container *ngIf="projectEventService.instant.active && !allFacts">
                 <button
                     mat-flat-button class="mr-10" color="accent"
                     (click)="createTemplate()"
@@ -30,19 +28,14 @@
                             type="file"
                     >{{'common.import' | translate}} </label>
                 </div>
-                <!-- <button
-                    mat-flat-button class="mr-10" color="accent"
-                    (click)="import()"
-                >
-                    {{'common.import' | translate}}
-                </button> -->
-                <button
+            </ng-container>
+            <ng-container *ngIf="projectEventService.instant.active && allFacts">
+                <button                   
                     mat-flat-button class="mr-10" color="accent"
                     (click)="export()"
                 >
                     {{'common.export' | translate}}
                 </button>
-
             </ng-container>
             <ng-container *ngIf="projectEventService.instant.active && !allFacts">
                 <button (click)="createFact()"

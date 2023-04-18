@@ -1,5 +1,9 @@
+import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { FileManager } from '@hazelnut/hazelnut-common/utils/file-manager';
 import { TranslateService } from '@ngx-translate/core';
+import { finalize } from 'rxjs/operators';
+import { GetFileNameFromContentDisposition } from 'src/app/shared/utils/headers';
 import { State } from '../../../shared/enums/enumerators';
 import { Role } from '../../../shared/enums/role.enum';
 import {
@@ -36,13 +40,16 @@ export class TeamListComponent implements OnInit, TableContainer<User> {
     public avatarColumn: TemplateRef<HTMLElement>;
 
     public tableConfiguration: TableConfiguration;
-    public tableData: TableResponse<User>;
-
-    public loading: boolean;
-    public readonly role: typeof Role = Role;
-
-    public readonly detailNotImplemented: boolean = true;
+    // public tableData: TableResponse<User>;
+    public tableData = new BrowseResponse<User>([]);
+    private lastTableChangeEvent: TableChangeEvent;
     private defaultFilters: Filter[] = [];
+    private additionalFilters: Filter[] = [];
+    private allFilters: Filter[] = [];
+    public loading: boolean;
+
+    public readonly role: typeof Role = Role;
+    public readonly detailNotImplemented: boolean = true;
 
     public constructor(
         private readonly userDataService: UserDataService,
@@ -62,14 +69,38 @@ export class TeamListComponent implements OnInit, TableContainer<User> {
 
     public getData(tableRequest: TableChangeEvent): void {
         this.loading = true;
-        this.tableChangeStorageService.cachedTableChangeEvent = tableRequest;
 
-        this.userDataService.browseUsers(tableRequest, this.defaultFilters)
+        let additionalFilters = []
+        if (tableRequest?.filters?.length > 0) {
+            additionalFilters = tableRequest.filters;
+        } 
+
+        this.tableChangeStorageService.cachedTableChangeEvent = tableRequest;
+        this.lastTableChangeEvent = tableRequest
+
+        this.allFilters = additionalFilters.concat(this.defaultFilters)
+
+        this.userDataService.browseUsers(tableRequest, this.allFilters)
+            .pipe(finalize((): any => this.loading = false))
             .subscribe((userBrowseResponse: BrowseResponse<User>): void => {
                 this.tableData = userBrowseResponse;
-                this.loading = false;
             }, (): void => {
-                this.loading = false;
+                this.notificationService.openErrorNotification('error.api');
+            });
+    }
+
+    /**
+     * Export report from API based on selected filters
+     */
+    public export(): void {
+        this.loading = true;
+        this.userDataService.exportTeams(this.lastTableChangeEvent, this.allFilters, this.projectEventService.instant.id)
+            .pipe(finalize((): any => this.loading = false))
+            .subscribe((response: HttpResponse<any>): void => {
+                const contentDisposition = response.headers.get('Content-Disposition');
+                const exportName: string = GetFileNameFromContentDisposition(contentDisposition);
+                new FileManager().saveFile(exportName, response.body, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            }, (): void => {
                 this.notificationService.openErrorNotification('error.api');
             });
     }

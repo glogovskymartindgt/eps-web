@@ -22,17 +22,20 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
 import { DeleteButtonComponent } from './delete-button/delete-button.component';
 import { ImageDialogComponent } from './dialog/image-dialog/image-dialog.component';
 import { PdfDialogComponent } from './dialog/pdf-dialog/pdf-dialog.component';
+import { VideoDialogComponent } from './dialog/video-dialog/video-dialog.component';
 import { DownloadLinkComponent } from './download-link/download-link.component';
 import { DragDropBoxComponent } from './drag-drop-box/drag-drop-box.component';
 import { HeaderComponent } from './header/header.component';
 import { PdfComponent } from './pdf/pdf.component';
 import { ProjectTypeSelectComponent } from './project-type-select/project-type-select.component';
 import { OptionDialogComponent } from './dialog/option-dialog/option-dialog.component';
+import { AttachmentsComponent } from './attachments/attachments.component';
 
 @NgModule({
     declarations: [
         PdfDialogComponent,
         ImageDialogComponent,
+        VideoDialogComponent,
         CommentComponent,
         ActionPointCommentTabComponent,
         TaskCommentTabComponent,
@@ -48,6 +51,7 @@ import { OptionDialogComponent } from './dialog/option-dialog/option-dialog.comp
         DeleteButtonComponent,
         ProjectTypeSelectComponent,
         OptionDialogComponent,
+        AttachmentsComponent,
     ],
     imports: [
         CommonModule,
@@ -67,6 +71,7 @@ import { OptionDialogComponent } from './dialog/option-dialog/option-dialog.comp
         NotificationSnackBarComponent,
         PdfDialogComponent,
         ImageDialogComponent,
+        VideoDialogComponent,
         CommentComponent,
         ActionPointCommentTabComponent,
         TaskCommentTabComponent,
@@ -80,6 +85,7 @@ import { OptionDialogComponent } from './dialog/option-dialog/option-dialog.comp
         AvatarComponent,
         DeleteButtonComponent,
         ProjectTypeSelectComponent,
+        AttachmentsComponent,
     ],
     providers: [
         TranslateWrapperService,
