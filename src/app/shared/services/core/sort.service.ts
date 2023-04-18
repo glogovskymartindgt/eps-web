@@ -9,19 +9,12 @@ export class SortService {
     public constructor() {
     }
 
-    // public numericSortByScreenPosition = (comparable: Venue, compared: Venue): number => comparable.screenPosition < compared.screenPosition ?
-    //                                                                              -1 :
-    //                                                                              comparable.screenPosition > compared.screenPosition ? 1 : 0
-
     public numericSortByScreenPosition = (comparable: Venue, compared: Venue): number => {
         if (comparable.screenPosition === null) return 1
         if (compared.screenPosition === null) return -1
         if (comparable.screenPosition < compared.screenPosition) return -1
         if (comparable.screenPosition > compared.screenPosition) return 1
         if (comparable.screenPosition === compared.screenPosition) return 0
-    //     comparable.screenPosition < compared.screenPosition ?
-    //     -1 :
-    // comparable.screenPosition > compared.screenPosition ? 1 : 0  
     } 
 
     public sortByParam(data: any[], param: string): any[] {

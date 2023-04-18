@@ -259,8 +259,8 @@
 
             </div>
             <mat-card [class.expanded]="viewMaps" [class.shrink]="!viewMaps" fxLayout="column" style="height:auto">
-                <h4 >{{"project.venueMaps" | translate}}</h4>
-                <div fxLayout=row >
+                <h4>{{"project.venueMaps" | translate}}</h4>
+                <div fxLayout=row>
                     <div fxFlex=50>
                         <p [class.disabled-text]="editMode" class="venue-info pb-5">
                             {{projectDetailForm.controls.firstVenue && projectDetailForm.controls.firstVenue.value ?
