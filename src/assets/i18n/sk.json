@@ -35,6 +35,8 @@
         "logout": "Odhlásenie sa nepodarilo",
         "edit": "Zmeny sa nepodarilo vykonať",
         "delete": "Vymazanie záznamu sa nepodarilo",
+        "import": "Importovať súbor sa nepodarilo",
+        "importImpossible": "Importovať nebolo možné - pozri stiahnutý súbor",
         "dateFormatIsInvalid": "Nevalidný dátum",
         "addComment": "Pridanie sa nepodarilo.",
         "loadComments": "Načítanie komentov sa nepodarilo.",
@@ -58,13 +60,19 @@
         "add": "Pridanie úspešné",
         "edit": "Úprava úspešná",
         "delete": "Vymazanie úspešné",
+        "import": "Importovanie úspešné",
         "linkCopied": "Odkaz bol skopírovaný do schránky"
     },
     "common": {
         "from": "Od",
         "to": "Do",
-        "create": "VYTVORIŤ",
-        "export": "EXPORTOVAŤ",
+        "create": "Vytvoriť",
+        "export": "Export",
+        "edit": "Zmeniť",
+        "delete": "Vymazať",
+        "emptyText": "",
+        "createTemplate": "Create Template",
+        "import": "Import",
         "yes": "Áno",
         "no": "Nie",
         "chooseOption" : "Vyberte možnosť"
@@ -104,7 +112,6 @@
         "meetingDate": "Dátum stretnutia",
         "meetingText": "Text stretnutia",
         "responsible": "Zodpovedný",
-        "tags": "Tagy",
         "save": "Uložiť",
         "cancel": "Zatvoriť",
         "new": {
@@ -364,5 +371,14 @@
             "confirmButton":"VYMAZAŤ",
             "rejectButton":"ZRUŠIŤ"
         }
+    },
+    "import": {
+        "fillBlank" : "Fill blank",
+        "fillBlankText": "only fill missing / empty fields of existing facts",
+        "rewriteAll": "Rewrite all",
+        "rewriteAllText": "replace existing facts with the ones from the imported file",
+        "ok": "OK",
+        "cancel": "Cancel",
+        "title": "Choose import type"
     }
 }

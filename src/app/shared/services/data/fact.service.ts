@@ -1,6 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { hazelnutConfig } from '@hazelnut/hazelnut-common/config/hazelnut-config';
 import { Observable } from 'rxjs';
+import { ImportChoiceType } from '../../enums/import-choice-type.enum';
 import { TableChangeEvent } from '../../hazelnut/core-table';
 import { StringUtils } from '../../hazelnut/hazelnut-common/hazelnut';
 import { BrowseResponse, Filter, PostContent, Sort } from '../../hazelnut/hazelnut-common/models';
@@ -8,6 +10,7 @@ import { Fact } from '../../interfaces/fact.interface';
 import { NotificationService } from '../notification.service';
 import { ProjectService } from '../project.service';
 import { ProjectUserService } from '../storage/project-user.service';
+import { map, catchError, tap } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -75,14 +78,7 @@ import { ProjectUserService } from '../storage/project-user.service';
         return this.update(id, taskObject);
     }
 
-    /**
-     *  Report task objects into report file and download from API
-     * @param {TableChangeEvent} tableChangeEvent
-     * @param {Filter[]} additionalFilters
-     * @param {number} projectId
-     * @returns {any}
-     */
-    public exportTasks(tableChangeEvent?: TableChangeEvent, additionalFilters?: Filter[], projectId?: number): any {
+    private exportTasks(tableChangeEvent?: TableChangeEvent, additionalFilters?: Filter[], projectId?: number): any {
         let filters = [];
         let sort = [];
         if (tableChangeEvent && tableChangeEvent.sortActive && tableChangeEvent.sortDirection) {
@@ -93,8 +89,86 @@ import { ProjectUserService } from '../storage/project-user.service';
         filters = filters.concat(additionalFilters);
         filters = this.reorderFiltersToApplyCorectTrafficColor(filters);
 
-        return this.report(filters, sort, projectId);
+        return {filters: filters, sort: sort}
+
+        // return this.report(filters, sort, projectId);
     }
+
+     /**
+     *  Report task objects of ALL facts and figures into report file and download from API
+     * @param {TableChangeEvent} tableChangeEvent
+     * @param {Filter[]} additionalFilters
+     * @param {number} projectId
+     * @returns {any}
+     */
+     public exportAllFacts(tableChangeEvent?: TableChangeEvent, additionalFilters?: Filter[], projectId?: number): any {
+        const data = this.exportTasks(tableChangeEvent, additionalFilters, projectId)
+        let filters = data.filters
+        let sort = data.sort
+        const report = true
+        return this.report(filters, sort, projectId, report);
+    }
+
+    /**
+     *  Report task objects of facts and figures into report file and download from API
+     * @param {TableChangeEvent} tableChangeEvent
+     * @param {Filter[]} additionalFilters
+     * @param {number} projectId
+     * @returns {any}
+     */
+    public exportFacts(tableChangeEvent?: TableChangeEvent, additionalFilters?: Filter[], projectId?: number): any {
+        // for facts the url ends with "export" instead of "report" as with other modules and all facts
+        const data = this.exportTasks(tableChangeEvent, additionalFilters, projectId)
+        let filters = data.filters
+        let sort = data.sort
+        const report = false
+        return this.report(filters, sort, projectId, report);
+    }
+
+    public generateTemplate(projectId?: number): any {
+        let filters = [
+            new Filter("PROJECT_ID", projectId, "NUMBER"),
+            new Filter("VALUE_FIRST", null, "NUMBER", "IS_NULL"),
+            new Filter("VALUE_SECOND", null, "NUMBER", "IS_NULL"),
+            new Filter("VALUE_THIRD", null, "NUMBER", "IS_NULL")
+            ]
+        let sort = [new Sort()]
+        return this.template(filters, sort, projectId)
+    }
+
+
+    /**
+     * Import data from an .xls file
+     * @param data: formData
+     * @param flag: string
+     * @param projectId: number
+     */
+    public importFacts(data:{data: FormData, flag: string, projectId: number}): Observable<any>{
+        if (data.flag !== ImportChoiceType.FILL_BLANK && data.flag !== ImportChoiceType.REWRITE_ALL){
+            data.flag = ImportChoiceType.DEFAULT
+        }
+
+        let headers = new HttpHeaders();
+        headers = headers.set('device-id', this.userService.instant.deviceId);
+        headers = headers.set('token', this.userService.instant.authToken);
+
+        // *** IMPORTANT !!!! cannot use the method (this.post() from core-service) !!!!
+        // *** when using responseType in params, the method needs to be http.post(), NOT http.post<>()
+        return this.http.post(`${hazelnutConfig.URL_API}/${this.urlKey}/${data.flag}/project/${data.projectId}`, 
+            data.data, 
+            {
+                headers,
+                responseType: 'blob',
+                observe: 'response'
+            }
+            ).pipe(
+            map((response: any): any => response),
+            catchError(this.handleError),
+        );
+
+    }
+
+
 
     /**
      * Reorder filters with conditiona that traffic light filters are first

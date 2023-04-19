@@ -1,0 +1,35 @@
+<div class="dialog-pop-up">
+    <h2 class="title" *ngIf="data.title">{{data.title || 'Title'}}</h2>
+    <p class="message" *ngIf="data.message">{{data.message || 'Supporting text'}}</p>
+    <ng-container *ngIf="data.options && data.options.length > 0">
+        <mat-radio-group
+             class="radio-list-vertical" 
+             aria-label="Select an option" 
+             [(ngModel)]="selectedOption">
+            <ng-container *ngFor="let option of data.options">
+                <mat-radio-button [value]="option" class="radio-option">
+                    <div class="option-name">
+                        <span *ngIf="option.key">{{option.stringKey | translate}}</span>
+                        <span *ngIf="!option.key">{{option.string || option.id}}</span>
+                    </div>
+                    <div class="option-text">
+                        <span *ngIf="option.textKey">{{option.textKey | translate}}</span>
+                        <span *ngIf="!option.textKey && option.text">{{option.text}}</span>
+                    </div>
+                </mat-radio-button>
+            </ng-container>
+        </mat-radio-group>
+    </ng-container>
+    <div class="buttons-container">
+        <button mat-button
+                class="secondary-button"
+                (click)="onCancel()">
+            {{data.rejectionButtonText || 'Reject'}}
+        </button>
+        <button mat-raised-button
+                [mat-dialog-close]="selectedOption"
+                class="primary-button">
+            {{data.confirmationButtonText || 'Confirm'}}
+        </button>
+    </div>
+</div>

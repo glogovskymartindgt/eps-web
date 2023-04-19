@@ -50,7 +50,6 @@
         "meetingDate": "Meeting date",
         "meetingText": "Meeting text",
         "responsible": "Responsible",
-        "tags": "Tags",
         "save": "Save",
         "cancel": "Cancel",
         "new": {
@@ -113,6 +112,8 @@
         "add": "Create failed",
         "edit": "Edit failed",
         "delete": "Delete failed",
+        "import": "Import failed",
+        "importImpossible": "Import not possible - see downloaded file",
         "interval": "Empty interval",
         "dateFormatIsInvalid": "Date format is invalid",
         "addComment": "Adding of comment failed.",
@@ -145,6 +146,7 @@
         "add": "Add successful",
         "edit": "Edit successful",
         "delete": "Delete successful",
+        "import": "Import successful",
         "linkCopied": "Link copied to clipboard"
     },
     "paginator": {
@@ -192,13 +194,15 @@
         }
     },
     "common": {
-        "create": "CREATE",
-        "edit": "EDIT",
-        "export": "EXPORT",
-        "delete": "DELETE",
+        "create": "Create",
+        "edit": "Edit",
+        "export": "Export",
+        "delete": "Delete",
         "from": "From",
         "to": "To",
         "emptyText": "",
+        "createTemplate": "Create Template",
+        "import": "Import",
         "yes": "Yes",
         "no": "No",
         "chooseOption" : "Choose option"
@@ -453,5 +457,14 @@
             "confirmButton":"DELETE",
             "rejectButton":"CANCEL"
         }
+    },
+    "import": {
+        "fillBlank" : "Fill blank",
+        "fillBlankText": "only fill missing / empty fields of existing facts",
+        "rewriteAll": "Rewrite all",
+        "rewriteAllText": "replace existing facts with the ones from the imported file",
+        "ok": "OK",
+        "cancel": "Cancel",
+        "title": "Choose import type"
     }
 }

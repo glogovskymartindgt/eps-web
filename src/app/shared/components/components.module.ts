@@ -28,6 +28,7 @@ import { DragDropBoxComponent } from './drag-drop-box/drag-drop-box.component';
 import { HeaderComponent } from './header/header.component';
 import { PdfComponent } from './pdf/pdf.component';
 import { ProjectTypeSelectComponent } from './project-type-select/project-type-select.component';
+import { OptionDialogComponent } from './dialog/option-dialog/option-dialog.component';
 import { AttachmentsComponent } from './attachments/attachments.component';
 
 @NgModule({
@@ -49,6 +50,7 @@ import { AttachmentsComponent } from './attachments/attachments.component';
         AvatarComponent,
         DeleteButtonComponent,
         ProjectTypeSelectComponent,
+        OptionDialogComponent,
         AttachmentsComponent,
     ],
     imports: [
