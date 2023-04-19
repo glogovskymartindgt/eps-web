@@ -68,6 +68,19 @@
             >
             </haz-copy-core-input>
         </div>
+        <div class="long-input" *ngIf="showThirdVenue">
+            <haz-copy-core-input [allowedCharactersPattern]="decimalPattern"
+                                 [handleFocusAndBlur]="true"
+                                 [inputStyles]="{width: '100%', 'position': 'relative', 'right': '5px', 'text-align': 'right'}"
+                                 [label]="thirdVenueLabel"
+                                 [maxLength]="15"
+                                 [required]="'isThirdValueRequired'"
+                                 [textSuffix]="actualUnitShortName"
+                                 appearance="fill"
+                                 formControlName="thirdValue"
+            >
+            </haz-copy-core-input>
+        </div>
     </ng-container>
     <ng-container *ngIf="isYesNoFactItemType">
         <div class="long-input">
@@ -90,6 +103,17 @@
                         formControlName="secondValue"
             >
             </haz-core-select>
+            <ng-container *ngIf="showThirdVenue">
+                <haz-core-select
+                        [handleFocusAndBlur]="true"
+                        [inputStyles]="{width: '100%', 'position': 'relative', 'right': '5px', 'text-align': 'right'}"
+                        [label]="thirdVenueLabel"
+                        [required]="'isThirdValueRequired'"
+                        appearance="fill"
+                        formControlName="thirdValue"
+                >
+                </haz-core-select>
+            </ng-container>
         </div>
     </ng-container>
     <div class="mb-20">

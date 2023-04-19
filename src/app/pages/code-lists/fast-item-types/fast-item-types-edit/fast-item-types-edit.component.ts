@@ -79,7 +79,6 @@ import { TaskFormComponent } from '../../../tasks/task-form/task-form.component'
             measureUnitId: formObject.measureUnitId
         };
 
-        console.log(apiObject);
         return apiObject;
     }
 

@@ -118,24 +118,6 @@
                             </mat-select>
                         </mat-form-field>
 
-                        <mat-form-field appearance="fill" class="short-input">
-                            <mat-label class="label-style">{{ 'project.secondCountry' | translate }}</mat-label>
-                            <mat-select formControlName="secondCountry">
-                                <mat-option [value]="null"></mat-option>
-                                <mat-option *ngFor="let country of countryList; trackBy:trackCountryById" [value]="country.id">
-                                    {{country.name}}
-                                </mat-option>
-                            </mat-select>
-                            <mat-hint *ngIf="projectDetailForm.controls.secondCountry.value
-                    && !projectDetailForm.controls.firstCountry.value"
-                                      style="color:#cf2120"
-                            >
-                                {{'error.fillFirstCountry' | translate}}
-                            </mat-hint>
-                        </mat-form-field>
-                    </div>
-
-                    <div fxLayout="row" fxLayoutGap="10px">
                         <div class="short-input">
                             <mat-error *ngIf="projectDetailForm.controls.firstVenue.value
                     && !projectDetailForm.controls.firstCountry.value"
@@ -151,7 +133,25 @@
                                                  formControlName="firstVenue"
                             >
                             </haz-copy-core-input>
-                        </div>
+                        </div>                        
+                    </div>
+
+                    <div fxLayout="row" fxLayoutGap="10px">
+                        <mat-form-field appearance="fill" class="short-input">
+                            <mat-label class="label-style">{{ 'project.secondCountry' | translate }}</mat-label>
+                            <mat-select formControlName="secondCountry">
+                                <mat-option [value]="null"></mat-option>
+                                <mat-option *ngFor="let country of countryList; trackBy:trackCountryById" [value]="country.id">
+                                    {{country.name}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-hint *ngIf="projectDetailForm.controls.secondCountry.value
+                    && !projectDetailForm.controls.firstCountry.value"
+                                      style="color:#cf2120"
+                            >
+                                {{'error.fillFirstCountry' | translate}}
+                            </mat-hint>
+                        </mat-form-field>
                         <div class="short-input">
                             <mat-error *ngIf="projectDetailForm.controls.secondVenue.value
                     && !projectDetailForm.controls.secondCountry.value" class="error-text"
@@ -164,6 +164,32 @@
                                                  [pattern]="notOnlyWhiteCharactersPattern"
                                                  class="theme-input"
                                                  formControlName="secondVenue"
+                            >
+                            </haz-copy-core-input>
+                        </div>
+                    </div>
+                    <div fxLayout="row" fxLayoutGap="10px">
+                        <mat-form-field appearance="fill" class="short-input">
+                            <mat-label class="label-style">{{ 'project.thirdCountry' | translate }}</mat-label>
+                            <mat-select formControlName="thirdCountry">
+                                <mat-option [value]="null"></mat-option>
+                                <mat-option *ngFor="let country of countryList; trackBy:trackCountryById" [value]="country.id">
+                                    {{country.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <div class="short-input">
+                            <mat-error *ngIf="projectDetailForm.controls.thirdVenue.value
+                    && !projectDetailForm.controls.thirdCountry.value" class="error-text"
+                            >
+                                {{'error.fillCountry' | translate}}
+                            </mat-error>
+                            <haz-copy-core-input [appearance]="'fill'"
+                                                 [label]="'project.thirdVenue' |  translate"
+                                                 [maxLength]="50"
+                                                 [pattern]="notOnlyWhiteCharactersPattern"
+                                                 class="theme-input"
+                                                 formControlName="thirdVenue"
                             >
                             </haz-copy-core-input>
                         </div>

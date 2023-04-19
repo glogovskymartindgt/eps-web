@@ -10,12 +10,24 @@
         </div>
         <div fxFlex="85">
             <p class="project-card-primary-font mb-0 mt-25">{{project?.year}} {{project?.name}}</p>
-            <p *ngIf="showOneCountry" class="project-card-secondary-font m-0 mt-5">{{project?.venues[0]?.country}}</p>
-            <p *ngIf="showAllCountries" class="project-card-secondary-font m-0 mt-5">{{project?.venues[0]?.country}}
-                <span *ngIf="project?.venues[1]?.country">and {{project?.venues[1]?.country}}</span></p>
-            <p *ngIf="showOneCity" class="project-card-location-font m-0 mt-5">{{project?.venues[0]?.city}}</p>
-            <p *ngIf="showAllCities" class="project-card-secondary-font m-0 mt-5">{{project?.venues[0]?.city}}
-                <span *ngIf="project?.venues[0]?.city && project?.venues[1]?.city">and</span>&nbsp;<span *ngIf="project?.venues[1]?.city">{{project?.venues[1]?.city}}</span></p>
+            <p class="project-card-secondary-font m-0 mt-5">
+                <ng-container *ngFor="let country of countriesTag; let i = index;">
+                    <span>{{country}}</span>
+                    <ng-container *ngIf="i !== countriesTag.length-1">
+                        <span *ngIf="i === countriesTag.length-2">&nbsp;{{'project.and' | translate}}&nbsp;</span>
+                        <span *ngIf="i < countriesTag.length-2 ">,&nbsp;</span>
+                    </ng-container>
+                </ng-container>
+            </p>
+            <p class="project-card-secondary-font m-0 mt-5">
+                <ng-container *ngFor="let venue of venuesTag; let i = index;">
+                    <span>{{venue}}</span>
+                    <ng-container *ngIf="i !== venuesTag.length-1">
+                        <span *ngIf="i === venuesTag.length-2">&nbsp;{{'project.and' | translate}}&nbsp;</span>
+                        <span *ngIf="i < venuesTag.length-2 ">,&nbsp;</span>
+                    </ng-container>
+                </ng-container>
+            </p>
         </div>
     </div>
     <div [ngClass]="(project?.state == 'OPEN') ? 'open' : (project?.state == 'CLOSED')  ? 'closed'  : '' "
