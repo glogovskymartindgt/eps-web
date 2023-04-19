@@ -44,17 +44,17 @@
     </ng-template>
     <ng-template #firstValueColumn let-actRow="row" let-context="context">
         <div class="fr">
-            {{actRow?.valueFirst === null ? '-' : actRow?.valueFirst | thousandDelimiter: ','}} {{actRow?.valueFirst === null ? '' : actRow.measureUnit}}
+            {{returnColumnValue(actRow, "valueFirst")}}
         </div>
     </ng-template>
     <ng-template #secondValueColumn let-actRow="row" let-context="context">
         <div class="fr">
-            {{actRow?.valueSecond === null ? '-' : actRow?.valueSecond | thousandDelimiter: ','}} {{actRow?.valueSecond === null ? '' : actRow.measureUnit}}
+            {{returnColumnValue(actRow, "valueSecond")}}
         </div>
     </ng-template>
     <ng-template #totalValueColumn let-actRow="row" let-context="context">
         <div class="fr">
-            {{actRow?.totalValue === null ? '-' : actRow?.totalValue | thousandDelimiter: ','}} {{actRow?.totalValue !== null ? actRow.measureUnit : ''}}
+            {{returnColumnValue(actRow, "totalValue")}}
         </div>
     </ng-template>
     <ng-template #updateColumn let-actRow="row" let-context="context">

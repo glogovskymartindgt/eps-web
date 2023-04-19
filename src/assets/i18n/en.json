@@ -198,7 +198,10 @@
         "delete": "DELETE",
         "from": "From",
         "to": "To",
-        "emptyText": ""
+        "emptyText": "",
+        "yes": "Yes",
+        "no": "No",
+        "chooseOption" : "Choose option"
     },
     "all": {
         "things": "All",
@@ -225,7 +228,8 @@
         "firstValue": "First Venue",
         "secondValue": "Second Venue",
         "description": "Description",
-        "unavailable": "This function will become available after you set the project venues."
+        "unavailable": "This function will become available after you set the project venues.",
+        "numberInputTooltip": "To search for \"Yes\" value - enter 1, for \"No\" - enter 0"
     },
     "color": {
         "green": "Green",

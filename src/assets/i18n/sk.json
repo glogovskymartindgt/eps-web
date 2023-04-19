@@ -64,7 +64,10 @@
         "from": "Od",
         "to": "Do",
         "create": "VYTVORIŤ",
-        "export": "EXPORTOVAŤ"
+        "export": "EXPORTOVAŤ",
+        "yes": "Áno",
+        "no": "Nie",
+        "chooseOption" : "Vyberte možnosť"
     },
     "all": {
         "things": "Všetko",
@@ -210,7 +213,8 @@
         "firstValue": "Prvá hodnota",
         "secondValue": "Druhá hodnota",
         "description": "Opis",
-        "unavailable": "Je potrebné nastaviť miesta projektu"
+        "unavailable": "Je potrebné nastaviť miesta projektu",
+        "numberInputTooltip": "Pre nájdenie \"Áno\" hodnoty zadajte 1, pre \"Nie\" zadajte 0"
     },
     "color": {
         "green": "Zelená",
@@ -284,7 +288,7 @@
             "measurementUnit": "Merná jednotka",
             "status": "Stav",
             "active": "Aktívny",
-            "inactive": "Neaktívny",
+            "inactive": "Neaktívny"
         },
         "form": {
             "add": "Pridaj názov typu faktickej položky",
