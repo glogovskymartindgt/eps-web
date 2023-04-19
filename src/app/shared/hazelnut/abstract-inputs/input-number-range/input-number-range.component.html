@@ -1,5 +1,13 @@
 <div [ngClass]="'w-' + inputSize" class="flex-end-column">
     <div class="flex-end-row">
+        <div class="tooltip-wrapper">
+            <mat-icon 
+                [matTooltip]="tooltipInfo"
+                matTooltipPosition = "above"
+                >
+                info
+            </mat-icon>
+        </div>
         <haz-input-number [formControl]="fromControl"
                           [inputStyles]="inputStyles"
                           [label]="fromLabel"

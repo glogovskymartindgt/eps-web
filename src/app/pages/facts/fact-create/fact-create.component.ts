@@ -61,7 +61,7 @@ import { checkAndRemoveLastDotComma } from '../../../shared/utils/remove-last-ch
             valueFirst: formObject.firstValue,
             valueSecond: formObject.secondValue,
             hasOnlyTotalValue: formObject.hasOnlyTotalValue,
-            totalValue: (formObject.totalValue) ? formObject.totalValue : (+formObject.firstValue + +formObject.secondValue),
+            totalValue: this.setTotalValueToApiObject(formObject),
             projectId: this.projectEventService.instant.id
         };
         if (formObject.description) {
@@ -69,6 +69,14 @@ import { checkAndRemoveLastDotComma } from '../../../shared/utils/remove-last-ch
         }
 
         return apiObject;
+    }
+
+    private setTotalValueToApiObject(formObject: any){
+        if (formObject?.unitShortName?.toLowerCase() === 'y/n' || formObject?.unitShortName?.toLowerCase() === 'yes/no'){
+            return formObject.totalValue ? formObject.totalValue : null
+        } else {
+            return formObject.totalValue ? formObject.totalValue : (+formObject.firstValue + +formObject.secondValue)
+        }
     }
 
 }

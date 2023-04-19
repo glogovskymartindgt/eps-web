@@ -194,4 +194,12 @@ import { map, catchError, tap } from 'rxjs/operators';
         return 0;
     }
 
+    /**
+     * Check whether chosen fact item (unit) is of type "yes/no" or not
+     * @param factUnit
+     */
+    public isYesNoFactItemType(factUnit: string): boolean {
+        return ['y/n', 'yes/no'].includes(factUnit.toLowerCase())
+    }
+
 }

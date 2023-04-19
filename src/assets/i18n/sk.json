@@ -72,7 +72,10 @@
         "delete": "Vymazať",
         "emptyText": "",
         "createTemplate": "Create Template",
-        "import": "Import"
+        "import": "Import",
+        "yes": "Áno",
+        "no": "Nie",
+        "chooseOption" : "Vyberte možnosť"
     },
     "all": {
         "things": "Všetko",
@@ -217,7 +220,8 @@
         "firstValue": "Prvá hodnota",
         "secondValue": "Druhá hodnota",
         "description": "Opis",
-        "unavailable": "Je potrebné nastaviť miesta projektu"
+        "unavailable": "Je potrebné nastaviť miesta projektu",
+        "numberInputTooltip": "Pre nájdenie \"Áno\" hodnoty zadajte 1, pre \"Nie\" zadajte 0"
     },
     "color": {
         "green": "Zelená",
