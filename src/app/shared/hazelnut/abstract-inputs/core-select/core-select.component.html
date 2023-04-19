@@ -1,0 +1,37 @@
+<!-- <mat-form-field [appearance]="appearance" [ngStyle]="styles">
+    <mat-label>{{ label }}</mat-label>
+    <select 
+              [formControl]="formControl"
+              
+              [required]="required"
+              matSelect
+              style="width: 100%;"
+    >
+        <ng-container *ngIf="options && options.length > 0">
+            <option [value]="option.value" *ngFor="let option of options">
+                <span *ngIf="option.stringKey">{{option.stringKey | translate}}</span>
+                <span *ngIf="!option.stringKey">{{option.string}}</span>
+            </option>
+        </ng-container>
+    </select>
+    <span *ngIf="textSuffix" [ngStyle]="formControl.disabled ? {'color': '#989898'} : {}" matSuffix>{{textSuffix}}</span>
+    <mat-hint align="start">{{ displayedError }}</mat-hint>
+    <mat-hint align="end">{{ displayedHint }}</mat-hint>
+    <mat-error *ngIf="showErrors">{{ displayedError }}</mat-error>
+</mat-form-field> -->
+<mat-form-field appearance="fill"  [ngStyle]="styles">
+    <mat-label>{{label}}</mat-label>
+    <mat-select  [placeholder]="placeholder"  [formControl]="formControl" [required]="required">
+            <mat-option *ngFor="let option of options; " [value]="option.value">
+                {{ option.string }}
+            </mat-option>
+    </mat-select>
+
+    <span *ngIf="textSuffix" [ngStyle]="formControl.disabled ? {'color': '#989898'} : {}" matSuffix>{{textSuffix}}</span>
+    <mat-hint align="start">{{ displayedError }}</mat-hint>
+    <mat-hint align="end">{{ displayedHint }}</mat-hint>
+    <mat-error *ngIf="showErrors">{{ displayedError }}</mat-error>
+
+</mat-form-field>
+
+

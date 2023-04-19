@@ -41,61 +41,114 @@
         </mat-form-field>
     </div>
 
-    <div class="long-input">
-        <haz-copy-core-input [allowedCharactersPattern]="decimalPattern"
-                             [handleFocusAndBlur]="true"
-                             [inputStyles]="{width: '100%', 'position': 'relative', 'right': '5px', 'text-align': 'right'}"
-                             [label]="firstVenueLabel"
-                             [maxLength]="15"
-                             [required]="'isFirstValueRequired'"
-                             [textSuffix]="actualUnitShortName"
-                             appearance="fill"
-                             formControlName="firstValue"
-        >
-        </haz-copy-core-input>
-    </div>
-    <div class="long-input">
-        <haz-copy-core-input [allowedCharactersPattern]="decimalPattern"
-                             [handleFocusAndBlur]="true"
-                             [inputStyles]="{width: '100%', 'position': 'relative', 'right': '5px', 'text-align': 'right'}"
-                             [label]="secondVenueLabel"
-                             [maxLength]="15"
-                             [required]="'isSecondValueRequired'"
-                             [textSuffix]="actualUnitShortName"
-                             appearance="fill"
-                             formControlName="secondValue"
-        >
-        </haz-copy-core-input>
-    </div>
-    <div class="long-input" *ngIf="showThirdVenue">
-        <haz-copy-core-input [allowedCharactersPattern]="decimalPattern"
-                             [handleFocusAndBlur]="true"
-                             [inputStyles]="{width: '100%', 'position': 'relative', 'right': '5px', 'text-align': 'right'}"
-                             [label]="thirdVenueLabel"
-                             [maxLength]="15"
-                             [required]="'isThirdValueRequired'"
-                             [textSuffix]="actualUnitShortName"
-                             appearance="fill"
-                             formControlName="thirdValue"
-        >
-        </haz-copy-core-input>
-    </div>
+    <ng-container *ngIf="!isYesNoFactItemType">
+        <div class="long-input">
+            <haz-copy-core-input [allowedCharactersPattern]="decimalPattern"
+                                 [handleFocusAndBlur]="true"
+                                 [inputStyles]="{width: '100%', 'position': 'relative', 'right': '5px', 'text-align': 'right'}"
+                                 [label]="firstVenueLabel"
+                                 [maxLength]="15"
+                                 [required]="'isFirstValueRequired'"
+                                 [textSuffix]="actualUnitShortName"
+                                 appearance="fill"
+                                 formControlName="firstValue"
+            >
+            </haz-copy-core-input>
+        </div>
+        <div class="long-input">
+            <haz-copy-core-input [allowedCharactersPattern]="decimalPattern"
+                                 [handleFocusAndBlur]="true"
+                                 [inputStyles]="{width: '100%', 'position': 'relative', 'right': '5px', 'text-align': 'right'}"
+                                 [label]="secondVenueLabel"
+                                 [maxLength]="15"
+                                 [required]="'isSecondValueRequired'"
+                                 [textSuffix]="actualUnitShortName"
+                                 appearance="fill"
+                                 formControlName="secondValue"
+            >
+            </haz-copy-core-input>
+        </div>
+        <div class="long-input" *ngIf="showThirdVenue">
+            <haz-copy-core-input [allowedCharactersPattern]="decimalPattern"
+                                 [handleFocusAndBlur]="true"
+                                 [inputStyles]="{width: '100%', 'position': 'relative', 'right': '5px', 'text-align': 'right'}"
+                                 [label]="thirdVenueLabel"
+                                 [maxLength]="15"
+                                 [required]="'isThirdValueRequired'"
+                                 [textSuffix]="actualUnitShortName"
+                                 appearance="fill"
+                                 formControlName="thirdValue"
+            >
+            </haz-copy-core-input>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="isYesNoFactItemType">
+        <div class="long-input">
+            <haz-core-select 
+                        [handleFocusAndBlur]="true"
+                        [inputStyles]="{width: '100%', 'position': 'relative', 'right': '5px', 'text-align': 'right'}"
+                        [label]="firstVenueLabel"
+                        [required]="'isFirstValueRequired'"
+                        [textSuffix]="actualUnitShortName"
+                        appearance="fill"
+                        formControlName="firstValue"
+            >
+            </haz-core-select>
+            <haz-core-select 
+                        [handleFocusAndBlur]="true"
+                        [inputStyles]="{width: '100%', 'position': 'relative', 'right': '5px', 'text-align': 'right'}"
+                        [label]="secondVenueLabel"
+                        [required]="'isSecondValueRequired'"
+                        appearance="fill"
+                        formControlName="secondValue"
+            >
+            </haz-core-select>
+            <ng-container *ngIf="showThirdVenue">
+                <haz-core-select
+                        [handleFocusAndBlur]="true"
+                        [inputStyles]="{width: '100%', 'position': 'relative', 'right': '5px', 'text-align': 'right'}"
+                        [label]="thirdVenueLabel"
+                        [required]="'isThirdValueRequired'"
+                        appearance="fill"
+                        formControlName="thirdValue"
+                >
+                </haz-core-select>
+            </ng-container>
+        </div>
+    </ng-container>
     <div class="mb-20">
         <mat-checkbox formControlName="hasOnlyTotalValue">{{'fact.hasOnlyTotalValue' | translate}}</mat-checkbox>
     </div>
-    <div class="long-input">
-        <haz-copy-core-input [allowedCharactersPattern]="decimalPattern"
-                             [handleFocusAndBlur]="true"
-                             [inputStyles]="{width: '100%', 'position': 'relative', 'right': '5px', 'text-align': 'right'}"
-                             [label]="'fact.totalValue' | translate"
-                             [maxLength]="15"
-                             [required]="'isTotalRequired'"
-                             [textSuffix]="actualUnitShortName"
-                             appearance="fill"
-                             formControlName="totalValue"
-        >
-        </haz-copy-core-input>
-    </div>
+
+    <ng-container *ngIf="!isYesNoFactItemType">
+        <div class="long-input">
+            <haz-copy-core-input [allowedCharactersPattern]="decimalPattern"
+                                 [handleFocusAndBlur]="true"
+                                 [inputStyles]="{width: '100%', 'position': 'relative', 'right': '5px', 'text-align': 'right'}"
+                                 [label]="'fact.totalValue' | translate"
+                                 [maxLength]="15"
+                                 [required]="'isTotalRequired'"
+                                 [textSuffix]="actualUnitShortName"
+                                 appearance="fill"
+                                 formControlName="totalValue"
+            >
+            </haz-copy-core-input>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="isYesNoFactItemType">
+        <div class="long-input">
+            <haz-core-select 
+                        [handleFocusAndBlur]="true"
+                        [inputStyles]="{width: '100%', 'position': 'relative', 'right': '5px', 'text-align': 'right'}"
+                        [label]="'fact.totalValue' | translate"
+                        [required]="'isTotalRequired'"
+                        [textSuffix]="actualUnitShortName"
+                        appearance="fill"
+                        formControlName="totalValue"
+            >
+            </haz-core-select>
+        </div>
+    </ng-container>
 
     <div class="long-input">
         <haz-copy-core-input [appearance]="'fill'"

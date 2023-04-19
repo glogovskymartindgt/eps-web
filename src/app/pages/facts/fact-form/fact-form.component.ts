@@ -97,7 +97,8 @@ export class FactFormComponent implements OnInit {
                     value: '',
                     disabled: true
                 }
-            ]
+            ],
+            unitShortName: ['']
         });
 
         // Category input listener
@@ -114,6 +115,7 @@ export class FactFormComponent implements OnInit {
             const subcategory = this.subCategories.find((subCategory: SubCategory): any => subCategory.id === value);
             if (!(subcategory === null || subcategory === undefined)) {
                 this.actualUnitShortName = subcategory.unitShortName;
+                this.factForm.controls.unitShortName.patchValue(this.actualUnitShortName)
             }
         });
 
@@ -286,6 +288,7 @@ export class FactFormComponent implements OnInit {
                     .toFixed(2)
                     .toString(), ',') : ''
             ],
+            unitShortName: [fact.subCategory.unitShortName],
             changedAt: [fact.changedAt ? this.formatDateTime(new Date(fact.changedAt)) : ''],
             changedBy: [hasChangedBy ? `${fact.changedBy.firstName} ${fact.changedBy.lastName}` : ''],
             description: fact.description ? fact.description : ''
@@ -321,7 +324,6 @@ export class FactFormComponent implements OnInit {
                 this.factForm.controls.secondValue.disable();
                 this.factForm.controls.thirdValue.disable();
                 this.factForm.controls.totalValue.enable();
-
                 this.factForm.controls.totalValue.patchValue(this.transformValue(fact.totalValue));
             }, updateTotalTimeout);
         }
@@ -388,6 +390,10 @@ export class FactFormComponent implements OnInit {
         }
 
         return resultValue.toFixed(2)
+    }
+
+    get isYesNoFactItemType() : boolean {
+        return this.factService.isYesNoFactItemType(this.actualUnitShortName)
     }
 
 }

@@ -58,7 +58,10 @@
         "edit": {
             "editActionPoint": "Edit action point",
             "actionPointDetail": "Action point detail"
-        }
+        },
+        "attachments": "Attachments",
+        "addAttachment": "ADD ATTACHMENT",
+        "downloadAll": "DOWNLOAD ALL"
     },
     "tasks": {
         "cancel": "CANCEL",
@@ -110,6 +113,8 @@
         "add": "Create failed",
         "edit": "Edit failed",
         "delete": "Delete failed",
+        "import": "Import failed",
+        "importImpossible": "Import not possible - see downloaded file",
         "interval": "Empty interval",
         "dateFormatIsInvalid": "Date format is invalid",
         "addComment": "Adding of comment failed.",
@@ -142,6 +147,7 @@
         "add": "Add successful",
         "edit": "Edit successful",
         "delete": "Delete successful",
+        "import": "Import successful",
         "linkCopied": "Link copied to clipboard"
     },
     "paginator": {
@@ -189,13 +195,18 @@
         }
     },
     "common": {
-        "create": "CREATE",
-        "edit": "EDIT",
-        "export": "EXPORT",
-        "delete": "DELETE",
+        "create": "Create",
+        "edit": "Edit",
+        "export": "Export",
+        "delete": "Delete",
         "from": "From",
         "to": "To",
-        "emptyText": ""
+        "emptyText": "",
+        "createTemplate": "Create Template",
+        "import": "Import",
+        "yes": "Yes",
+        "no": "No",
+        "chooseOption" : "Choose option"
     },
     "all": {
         "things": "All",
@@ -224,7 +235,8 @@
         "secondValue": "Second Venue",
         "thirdValue": "Third Venue",
         "description": "Description",
-        "unavailable": "This function will become available after you set the project venues."
+        "unavailable": "This function will become available after you set the project venues.",
+        "numberInputTooltip": "To search for \"Yes\" value - enter 1, for \"No\" - enter 0"
     },
     "color": {
         "green": "Green",
@@ -424,6 +436,12 @@
             "confirmButton":"DELETE",
             "rejectButton":"CANCEL"
         },
+        "actionPointAttachment": {
+            "title":"Delete attachment",
+            "message":"This action will delete current attachment.",
+            "confirmButton":"DELETE",
+            "rejectButton":"CANCEL"
+        },
         "task": {
             "title": "Delete task?",
             "message": "This action will delete current task.",
@@ -448,5 +466,14 @@
             "confirmButton":"DELETE",
             "rejectButton":"CANCEL"
         }
+    },
+    "import": {
+        "fillBlank" : "Fill blank",
+        "fillBlankText": "only fill missing / empty fields of existing facts",
+        "rewriteAll": "Rewrite all",
+        "rewriteAllText": "replace existing facts with the ones from the imported file",
+        "ok": "OK",
+        "cancel": "Cancel",
+        "title": "Choose import type"
     }
 }
