@@ -222,13 +222,7 @@ export class ActionPointListComponent implements OnInit {
                     filter: new TableColumnFilter({
                         valueType: 'STRING',
                         type: TableFilterType.SELECT_STRING,
-                        select: [
-                            new ListItem('', this.translateService.instant('venue.value.all')),
-                            new ListItem('NONE', this.translateService.instant('venue.value.none')),
-                            new ListItem(this.projectEventService.instant.firstVenue, this.projectEventService.instant.firstVenue),
-                            new ListItem(this.projectEventService.instant.secondVenue, this.projectEventService.instant.secondVenue),
-                            new ListItem('BOTH', this.translateService.instant('venue.value.both')),
-                        ]
+                        select: this.setConfigVenuesSelectOptions()
                     }),
                     sorting: true,
                     type: TableCellType.CONTENT,
@@ -293,6 +287,20 @@ export class ActionPointListComponent implements OnInit {
 
         config.stickyEnd = tableLastStickyColumn(config.columns.length);
         this.config = this.tableChangeStorageService.updateTableConfiguration(config);
+    }
+
+    private setConfigVenuesSelectOptions(): ListItem[]{
+        let selectOptions : ListItem[] = [
+            new ListItem('', this.translateService.instant('venue.value.all')),
+            new ListItem(this.projectEventService.instant.firstVenue, this.projectEventService.instant.firstVenue),
+            new ListItem(this.projectEventService.instant.secondVenue, this.projectEventService.instant.secondVenue),
+        ]
+        if (this.projectEventService.instant.thirdVenue){
+            selectOptions.push(
+                new ListItem(this.projectEventService.instant.thirdVenue, this.projectEventService.instant.thirdVenue)
+            )
+        }
+        return selectOptions
     }
 
     /**

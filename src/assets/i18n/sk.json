@@ -35,6 +35,8 @@
         "logout": "Odhlásenie sa nepodarilo",
         "edit": "Zmeny sa nepodarilo vykonať",
         "delete": "Vymazanie záznamu sa nepodarilo",
+        "import": "Importovať súbor sa nepodarilo",
+        "importImpossible": "Importovať nebolo možné - pozri stiahnutý súbor",
         "dateFormatIsInvalid": "Nevalidný dátum",
         "addComment": "Pridanie sa nepodarilo.",
         "loadComments": "Načítanie komentov sa nepodarilo.",
@@ -57,13 +59,23 @@
     "success": {
         "add": "Pridanie úspešné",
         "edit": "Úprava úspešná",
-        "delete": "Vymazanie úspešné"
+        "delete": "Vymazanie úspešné",
+        "import": "Importovanie úspešné",
+        "linkCopied": "Odkaz bol skopírovaný do schránky"
     },
     "common": {
         "from": "Od",
         "to": "Do",
-        "create": "VYTVORIŤ",
-        "export": "EXPORTOVAŤ"
+        "create": "Vytvoriť",
+        "export": "Export",
+        "edit": "Zmeniť",
+        "delete": "Vymazať",
+        "emptyText": "",
+        "createTemplate": "Create Template",
+        "import": "Import",
+        "yes": "Áno",
+        "no": "Nie",
+        "chooseOption" : "Vyberte možnosť"
     },
     "all": {
         "things": "Všetko",
@@ -100,7 +112,6 @@
         "meetingDate": "Dátum stretnutia",
         "meetingText": "Text stretnutia",
         "responsible": "Zodpovedný",
-        "tags": "Tagy",
         "save": "Uložiť",
         "cancel": "Zatvoriť",
         "new": {
@@ -108,7 +119,10 @@
         },
         "edit": {
             "editActionPoint": "Upraviť akčný bod"
-        }
+        },
+        "attachments": "Prílohy",
+        "addAttachment": "PRIDAJ PRÍLOHU",
+        "downloadAll": "STIAHNUŤ VŠETKO"
     },
     "tasks": {
         "cancel": "ZRUŠIŤ",
@@ -116,6 +130,7 @@
         "delete": "VYMAZAŤ",
         "empty": "Prázdne",
         "both": "Všetky",
+        "all": "Všetky",
         "none": "Žiadne",
         "type": "Typ",
         "status": "Stav",
@@ -195,18 +210,21 @@
         "subCategory": "Podkategória",
         "firstVenue": "Prvé miesto",
         "secondVenue": "Druhé miesto",
+        "thirdVenue": "Tretie miesto",
         "totalValue": "Celková hodnota",
         "newFact": "Nový fakt",
         "editFact": "Upraviť fakt",
         "detailFact": "Detail Faktu",
         "changedAt": "Zmenené",
         "changedBy": "Zmenil",
-        "hasOnlyTotalValue": "Jedna hodnota pre obe mestá",
+        "hasOnlyTotalValue": "Jedna hodnota pre všetky mestá",
         "year": "Rok",
         "firstValue": "Prvá hodnota",
         "secondValue": "Druhá hodnota",
+        "thirdValue": "Tretia hodnota",
         "description": "Opis",
-        "unavailable": "Je potrebné nastaviť miesta projektu"
+        "unavailable": "Je potrebné nastaviť miesta projektu",
+        "numberInputTooltip": "Pre nájdenie \"Áno\" hodnoty zadajte 1, pre \"Nie\" zadajte 0"
     },
     "color": {
         "green": "Zelená",
@@ -241,8 +259,10 @@
         "dateTo": "Dátum ukončenia",
         "firstCountry": "Prvá krajina",
         "secondCountry": "Druhá krajina",
+        "thirdCountry": "Tretia krajina",
         "firstVenue": "Prvé miesto",
         "secondVenue": "Druhé miesto",
+        "tretieVenue": "Tretie miesto",
         "description": "Opis",
         "attachments": "Prílohy",
         "venueMaps": "Mapy miesta",
@@ -251,6 +271,7 @@
         "add": "Vytvoriť nový projekt",
         "venue1": "Miesto 1",
         "venue2": "Miesto 2",
+        "venue3": "Miesto 3",
         "dragMapStart": "Presunte mapu pre",
         "dragImageStart": "Presunte obrázokpre",
         "dragDocumentStart": "Presunte dokument pre",
@@ -263,11 +284,14 @@
         "toAddBoth": "Prenahranie príloh je potrebné vyplniť miesto",
         "toAddFirst": "Pre pridanie príloh Miesta 1 je potrebné vyplniť Miesto 1",
         "toAddSecond": "Pre pridanie príloh Miesta 2 je potrebné vyplniť Miesto 2",
+        "toAddThird": "Pre pridanie príloh Miesta 3 je potrebné vyplniť Miesto 3",
         "seeAll": "Vidieť všetko",
         "seeLess": "Skryť",
         "downloadAll": "Stiahnuť všetko",
         "downloadFirst": "Stiahnuť súbory pre",
-        "downloadSecond": "Stiahnuť súbory pre"
+        "downloadSecond": "Stiahnuť súbory pre",
+        "downloadThird": "Stiahnuť súbory pre",
+        "and": "a"
     },
     "factItemTypes": {
         "screenTitle": "Typy faktických položiek",
@@ -280,7 +304,7 @@
             "measurementUnit": "Merná jednotka",
             "status": "Stav",
             "active": "Aktívny",
-            "inactive": "Neaktívny",
+            "inactive": "Neaktívny"
         },
         "form": {
             "add": "Pridaj názov typu faktickej položky",
@@ -349,6 +373,21 @@
             "message":"Daná akcia vymaže aktuálny akčný bod.",
             "confirmButton":"VYMAZAŤ",
             "rejectButton":"ZRUŠIŤ"
+        },
+        "actionPointAttachment": {
+            "title":"Vymazať danú prílohu?",
+            "message":"Daná akcia vymaže aktuálnu prílohu",
+            "confirmButton":"VYMAZAŤ",
+            "rejectButton":"ZRUŠIŤ"
         }
+    },
+    "import": {
+        "fillBlank" : "Fill blank",
+        "fillBlankText": "only fill missing / empty fields of existing facts",
+        "rewriteAll": "Rewrite all",
+        "rewriteAllText": "replace existing facts with the ones from the imported file",
+        "ok": "OK",
+        "cancel": "Cancel",
+        "title": "Choose import type"
     }
 }

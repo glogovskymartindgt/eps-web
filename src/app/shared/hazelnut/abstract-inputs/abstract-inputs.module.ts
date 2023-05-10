@@ -8,6 +8,7 @@ import { InputDateRangeComponent } from './input-date-range/input-date-range.com
 import { InputDateComponent } from './input-date/input-date.component';
 import { InputNumberRangeComponent } from './input-number-range/input-number-range.component';
 import { InputNumberComponent } from './input-number/input-number.component';
+import { CoreSelectComponent } from './core-select/core-select.component';
 
 @NgModule({
     declarations: [
@@ -15,7 +16,8 @@ import { InputNumberComponent } from './input-number/input-number.component';
         InputNumberComponent,
         InputNumberRangeComponent,
         InputDateRangeComponent,
-        InputDateComponent
+        InputDateComponent,
+        CoreSelectComponent
     ],
     imports: [
         CommonModule,
@@ -28,6 +30,7 @@ import { InputNumberComponent } from './input-number/input-number.component';
         InputNumberRangeComponent,
         InputDateRangeComponent,
         InputDateComponent,
+        CoreSelectComponent
     ]
 })
 export class AbstractInputsModule {

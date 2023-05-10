@@ -180,12 +180,28 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         if (this.projectAttachmentService.firstVenueAnyMaps()) {
             this.projectDetailForm.controls.firstMap.patchValue('');
         }
+        this.checkViewMap()
     }
 
     public resetSecondVenueMap(index: number): void {
         this.projectAttachmentService.resetSecondVenueMap(index);
         if (this.projectAttachmentService.secondVenueAnyMaps()) {
             this.projectDetailForm.controls.secondMap.patchValue('');
+        }
+        this.checkViewMap()
+    }
+
+    public resetThirdVenueMap(index: number): void {
+        this.projectAttachmentService.resetThirdVenueMap(index);
+        if (this.projectAttachmentService.thirdVenueAnyMaps()) {
+            this.projectDetailForm.controls.thirdMap.patchValue('');
+        }
+        this.checkViewMap()
+    }
+
+    private checkViewMap() : void {
+        if (!this.projectAttachmentService.firstVenueAnyMaps() && !this.projectAttachmentService.secondVenueAnyMaps() && !this.projectAttachmentService.thirdVenueAnyMaps()){
+            this.viewMaps = false
         }
     }
 
@@ -194,12 +210,28 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         if (this.projectAttachmentService.firstVenueAnyImages()) {
             this.projectDetailForm.controls.firstImage.patchValue('');
         }
+        this.checkViewImage()
     }
 
     public resetSecondVenueImage(index: number): void {
         this.projectAttachmentService.resetSecondVenueImage(index);
         if (this.projectAttachmentService.secondVenueAnyImages()) {
             this.projectDetailForm.controls.secondImage.patchValue('');
+        }
+        this.checkViewImage()
+    }
+
+    public resetThirdVenueImage(index: number): void {
+        this.projectAttachmentService.resetThirdVenueImage(index);
+        if (this.projectAttachmentService.thirdVenueAnyImages()) {
+            this.projectDetailForm.controls.thirdImage.patchValue('');
+        }
+        this.checkViewImage()
+    }
+
+    private checkViewImage() : void {
+        if (!this.projectAttachmentService.firstVenueAnyImages() && !this.projectAttachmentService.secondVenueAnyImages() && !this.projectAttachmentService.thirdVenueAnyImages()){
+            this.viewImages = false
         }
     }
 
@@ -208,12 +240,28 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         if (this.projectAttachmentService.firstVenueAnyDocuments()) {
             this.projectDetailForm.controls.firstDocument.patchValue('');
         }
+        this.checkViewDocument()
     }
 
     public resetSecondVenueDocument(index: number): void {
         this.projectAttachmentService.resetSecondVenueDocument(index);
         if (this.projectAttachmentService.secondVenueAnyDocuments()) {
             this.projectDetailForm.controls.secondDocument.patchValue('');
+        }
+        this.checkViewDocument()
+    }
+
+    public resetThirdVenueDocument(index: number): void {
+        this.projectAttachmentService.resetThirdVenueDocument(index);
+        if (this.projectAttachmentService.thirdVenueAnyDocuments()) {
+            this.projectDetailForm.controls.thirdDocument.patchValue('');
+        }
+        this.checkViewDocument()
+    }
+
+    private checkViewDocument(): void {
+        if (!this.projectAttachmentService.firstVenueAnyDocuments() && !this.projectAttachmentService.secondVenueAnyDocuments() && !this.projectAttachmentService.thirdVenueAnyDocuments()){
+            this.viewImages = false
         }
     }
 
@@ -257,6 +305,26 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         this.secondMapUpdate(file);
     }
 
+    public onThirdMapDropped(files: any): void | undefined {
+        const file: File = files[0];
+        if (!file) {
+            this.projectDetailForm.controls.thirdMap.patchValue('');
+
+            return;
+        }
+        this.thirdMapUpdate(file);
+    }
+
+    public onThirdMapInserted(event): void | undefined {
+        const file = event.target.files[0];
+        if (!file) {
+            this.projectDetailForm.controls.thirdMap.patchValue('');
+
+            return;
+        }
+        this.thirdMapUpdate(file);
+    }
+
     public onFirstImageDropped(files: any): void | undefined {
         const file: File = files[0];
         if (!file) {
@@ -297,6 +365,26 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         this.secondImageUpdate(file);
     }
 
+    public onThirdImageDropped(files: any): void | undefined {
+        const file: File = files[0];
+        if (!file) {
+            this.projectDetailForm.controls.thirdImage.patchValue('');
+
+            return;
+        }
+        this.thirdImageUpdate(file);
+    }
+
+    public onThirdImageInserted(event): void | undefined {
+        const file = event.target.files[0];
+        if (!file) {
+            this.projectDetailForm.controls.thirdImage.patchValue('');
+
+            return;
+        }
+        this.thirdImageUpdate(file);
+    }
+
     public onFirstDocumentDropped(files: any): void | undefined {
         const file: File = files[0];
         if (!file || !this.documentFileTypes.includes(this.projectAttachmentService.getFileEnding(file.name))) {
@@ -335,6 +423,26 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
             return;
         }
         this.secondDocumentUpdate(file);
+    }
+
+    public onThirdDocumentDropped(files: any): void | undefined {
+        const file: File = files[0];
+        if (!file || !this.documentFileTypes.includes(this.projectAttachmentService.getFileEnding(file.name))) {
+            this.projectDetailForm.controls.thirdDocument.patchValue('');
+
+            return;
+        }
+        this.thirdDocumentUpdate(file);
+    }
+
+    public onThirdDocumentInserted(event): void | undefined {
+        const file = event.target.files[0];
+        if (!file || !this.documentFileTypes.includes(this.projectAttachmentService.getFileEnding(file.name))) {
+            this.projectDetailForm.controls.thirdDocument.patchValue('');
+
+            return;
+        }
+        this.thirdDocumentUpdate(file);
     }
 
     public toggleMaps(): void {
@@ -380,6 +488,10 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         return this.projectAttachmentService.secondVenueAnyFile();
     }
 
+    public isAnyThirdVenueFile(): boolean {
+        return this.projectAttachmentService.thirdVenueAnyFile();
+    }
+
     public downloadFirstVenueDocs(): void {
         this.projectAttachmentService.files.firstVenueAttachments.maps.forEach(this.projectAttachmentService.downloadFromBlob);
         this.projectAttachmentService.files.firstVenueAttachments.images.forEach(this.projectAttachmentService.downloadFromBlob);
@@ -390,6 +502,12 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         this.projectAttachmentService.files.secondVenueAttachments.maps.forEach(this.projectAttachmentService.downloadFromBlob);
         this.projectAttachmentService.files.secondVenueAttachments.images.forEach(this.projectAttachmentService.downloadFromBlob);
         this.projectAttachmentService.files.secondVenueAttachments.documents.forEach(this.projectAttachmentService.downloadFromBlob);
+    }
+
+    public downloadThirdVenueDocs(): void {
+        this.projectAttachmentService.files.thirdVenueAttachments.maps.forEach(this.projectAttachmentService.downloadFromBlob);
+        this.projectAttachmentService.files.thirdVenueAttachments.images.forEach(this.projectAttachmentService.downloadFromBlob);
+        this.projectAttachmentService.files.thirdVenueAttachments.documents.forEach(this.projectAttachmentService.downloadFromBlob);
     }
 
     public openDialog(source: any): void {
@@ -430,6 +548,9 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
 
     public unshiftSecondVenueDocument = (file: any, reader: FileReader, data: any): void => {
         this.projectAttachmentService.addSecondVenueDocument(new AttachmentDetail(file.name, data.fileNames[file.name], reader.result, null, null));
+    };
+    public unshiftThirdVenueDocument = (file: any, reader: FileReader, data: any): void => {
+        this.projectAttachmentService.addThirdVenueDocument(new AttachmentDetail(file.name, data.fileNames[file.name], reader.result, null, null));
     };
 
     public trackSourceBySelf(index: number, source: any): any {
@@ -491,6 +612,12 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         this.setFormFromSecondCountry(secondCountryObject);
         this.setFirstVenueFilesByCountryObject(firstCountryObject);
         this.setSecondVenueFilesByCountryObject(secondCountryObject);
+
+        // NEW THIRD VENUE
+        const thirdScreenPositionValue = 3;
+        const thirdCountryObject = projectDetail.projectVenues.find((projectVenue: VenueDetail) => projectVenue.screenPosition === thirdScreenPositionValue);
+        this.setFormFromThirdCountry(thirdCountryObject)
+        this.setThirdVenueFilesByCountryObject(thirdCountryObject)
     }
 
     private firstMapUpdate(file: any): void {
@@ -512,6 +639,19 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
             this.attachmentService.uploadAttachment([file])
                 .subscribe((data: any): void => {
                     this.projectAttachmentService.addSecondVenueMap(new AttachmentDetail(file.name, data.fileNames[file.name], reader.result, null, null));
+                }, () => {
+                    this.notificationService.openErrorNotification(this.attachmentUploadErrorKey);
+                });
+        };
+        reader.readAsDataURL(file);
+    }
+
+    private thirdMapUpdate(file: any): void {
+        const reader = new FileReader();
+        reader.onload = (): void => {
+            this.attachmentService.uploadAttachment([file])
+                .subscribe((data: any): void => {
+                    this.projectAttachmentService.addThirdVenueMap(new AttachmentDetail(file.name, data.fileNames[file.name], reader.result, null, null));
                 }, () => {
                     this.notificationService.openErrorNotification(this.attachmentUploadErrorKey);
                 });
@@ -561,6 +701,29 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         reader.readAsDataURL(file);
     }
 
+    private thirdImageUpdate(file: any): void {
+        const reader = new FileReader();
+        reader.onload = (): void => {
+            if (this.fileIsImage(file)) {
+                this.imagesService.uploadImages([file])
+                    .subscribe((data: any): void => {
+                        this.projectAttachmentService.addThirdVenueImage(new AttachmentDetail(file.name, data.fileNames[file.name], reader.result, null, null));
+                    }, () => {
+                        this.notificationService.openErrorNotification(this.attachmentUploadErrorKey);
+                    });
+            } else {
+                this.attachmentService.uploadAttachment([file])
+                    .subscribe((data: any): void => {
+                        this.projectAttachmentService.addThirdVenueImage(new AttachmentDetail(file.name, data.fileNames[file.name], reader.result, null, null));
+                    }, () => {
+                        this.notificationService.openErrorNotification(this.attachmentUploadErrorKey);
+                    });
+            }
+
+        };
+        reader.readAsDataURL(file);
+    }
+
     private firstDocumentUpdate(file: any): void {
         const reader = new FileReader();
         reader.onload = (): void => {
@@ -590,6 +753,24 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
             } else {
                 this.attachmentService.uploadAttachment([file])
                     .subscribe((data: any): void => this.unshiftSecondVenueDocument(file, reader, data), () => {
+                        this.notificationService.openErrorNotification(this.attachmentUploadErrorKey);
+                    });
+            }
+        };
+        reader.readAsDataURL(file);
+    }
+
+    private thirdDocumentUpdate(file: any): void {
+        const reader = new FileReader();
+        reader.onload = (): void => {
+            if (this.fileIsImage(file)) {
+                this.imagesService.uploadImages([file])
+                    .subscribe((data: any): void => this.unshiftThirdVenueDocument(file, reader, data), () => {
+                        this.notificationService.openErrorNotification(this.attachmentUploadErrorKey);
+                    });
+            } else {
+                this.attachmentService.uploadAttachment([file])
+                    .subscribe((data: any): void => this.unshiftThirdVenueDocument(file, reader, data), () => {
                         this.notificationService.openErrorNotification(this.attachmentUploadErrorKey);
                     });
             }
@@ -662,6 +843,17 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         );
     }
 
+    private setFormFromThirdCountry(countryObject: any): void {
+        this.setFormCountry(
+            countryObject,
+            this.projectDetailForm.controls.thirdCountry,
+            this.projectDetailForm.controls.thirdVenue,
+            this.projectDetailForm.controls.oldThirdVenue,
+            this.projectDetailForm.controls.thirdMap,
+            this.projectDetailForm.controls.thirdMapUpload
+        );
+    }
+
     private fileIsImage(file: any): boolean {
         return file.type.startsWith('image');
     }
@@ -683,11 +875,29 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         };
     }
 
+    private thirdCountryEmptyWhenThirdVenue(): any {
+        return (): {[key: string]: any} => {
+            const thirdCountryEmptyWhenThirdVenue = this.editMode && this.projectDetailForm.controls.thirdVenue.value && !this.projectDetailForm.controls.thirdCountry.value;
+
+            return thirdCountryEmptyWhenThirdVenue ? {thirdCountryEmptyWhenThirdVenue} : null;
+
+        };
+    }
+
     private firstCountryEmptyWhenSecondCountry(): any {
         return (): {[key: string]: any} => {
             const firstCountryEmptyWhenSecondCountry = this.editMode && this.projectDetailForm.controls.secondCountry.value && !this.projectDetailForm.controls.firstCountry.value;
 
             return firstCountryEmptyWhenSecondCountry ? {firstCountryEmptyWhenSecondCountry} : null;
+
+        };
+    }
+
+    private firstCountryEmptyWhenThirdCountry(): any {
+        return (): {[key: string]: any} => {
+            const firstCountryEmptyWhenThirdCountry = this.editMode && this.projectDetailForm.controls.thirdCountry.value && !this.projectDetailForm.controls.firstCountry.value;
+
+            return firstCountryEmptyWhenThirdCountry ? {firstCountryEmptyWhenThirdCountry} : null;
 
         };
     }
@@ -713,6 +923,16 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         };
     }
 
+    private thirdVenueEmptyWhenThirdVenueFile(): any {
+        return (): {[key: string]: any} => {
+            const thirdVenueEmptyWhenThirdVenueAnyFile = this.editMode &&
+                (this.projectDetailForm.value.thirdMap || this.projectDetailForm.value.thirdImage || this.projectDetailForm.value.thirdDocument) &&
+                !this.projectDetailForm.controls.thirdVenue.value;
+
+            return thirdVenueEmptyWhenThirdVenueAnyFile ? {thirdVenueEmptyWhenThirdVenueAnyFile} : null;
+        };
+    }
+
     private initializeForm(): void {
         this.projectDetailForm = this.formBuilder.group({
             projectId: [''],
@@ -725,31 +945,43 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
             dateTo: [''],
             firstCountry: [''],
             secondCountry: [''],
+            thirdCountry: [''],
             oldFirstVenue: [''],
             firstVenue: [''],
             oldSecondVenue: [''],
             secondVenue: [''],
+            oldThirdVenue: [''],
+            thirdVenue: [''],
             logoUploadId: [''],
             firstMap: [''],
             secondMap: [''],
+            thirdMap: [''],
             firstMapUpload: [[]],
             secondMapUpload: [[]],
+            thirdMapUpload: [[]],
             firstImage: [''],
             secondImage: [''],
+            thirdImage: [''],
             firstImageUpload: [[]],
             secondImageUpload: [[]],
+            thirdImageUpload: [[]],
             firstDocument: [''],
             secondDocument: [''],
+            thirdDocument: [''],
             firstDocumentUpload: [[]],
             secondDocumentUpload: [[]],
+            thirdDocumentUpload: [[]],
             description: [''],
         }, {
             validator: [
                 this.firstCountryEmptyWhenFirstVenue(),
                 this.secondCountryEmptyWhenSecondVenue(),
+                this.thirdCountryEmptyWhenThirdVenue(),
                 this.firstCountryEmptyWhenSecondCountry(),
+                this.firstCountryEmptyWhenThirdCountry(),
                 this.firstVenueEmptyWhenFirstVenueFile(),
                 this.secondVenueEmptyWhenSecondVenueFile(),
+                this.thirdVenueEmptyWhenThirdVenueFile()
             ]
         });
 
@@ -795,6 +1027,13 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         this.projectDetailForm.controls.secondMap.patchValue('');
         this.projectDetailForm.controls.secondImage.patchValue('');
         this.projectDetailForm.controls.secondDocument.patchValue('');
+    }
+
+    private resetThirdVenueFiles(): void {
+        this.projectAttachmentService.emptyThirdVenueFiles();
+        this.projectDetailForm.controls.thirdMap.patchValue('');
+        this.projectDetailForm.controls.thirdImage.patchValue('');
+        this.projectDetailForm.controls.thirdDocument.patchValue('');
     }
 
     private clearFileHolders(): void {
@@ -845,6 +1084,30 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         const reader = new FileReader();
         reader.onload = (): void => {
             this.projectAttachmentService.addSecondVenueDocument(new AttachmentDetail(attachment.fileName, attachment.filePath, reader.result, blob, attachment.order));
+        };
+        reader.readAsDataURL(blob);
+    }
+
+    private addThirdVenueMapHolder(blob: Blob, attachment: AttachmentDetail): void {
+        const reader = new FileReader();
+        reader.onload = (): void => {
+            this.projectAttachmentService.addThirdVenueMap(new AttachmentDetail(attachment.fileName, attachment.filePath, reader.result, blob, attachment.order));
+        };
+        reader.readAsDataURL(blob);
+    }
+
+    private addThirdVenueImageHolder(blob: Blob, attachment: AttachmentDetail): void {
+        const reader = new FileReader();
+        reader.onload = (): void => {
+            this.projectAttachmentService.addThirdVenueImage(new AttachmentDetail(attachment.fileName, attachment.filePath, reader.result, blob, attachment.order));
+        };
+        reader.readAsDataURL(blob);
+    }
+
+    private addThirdVenueDocumentHolder(blob: Blob, attachment: AttachmentDetail): void {
+        const reader = new FileReader();
+        reader.onload = (): void => {
+            this.projectAttachmentService.addThirdVenueDocument(new AttachmentDetail(attachment.fileName, attachment.filePath, reader.result, blob, attachment.order));
         };
         reader.readAsDataURL(blob);
     }
@@ -933,6 +1196,16 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         }
     }
 
+    private setThirdVenueFilesByCountryObject(thirdCountryObject: any): void {
+        if (thirdCountryObject && thirdCountryObject.attachments.length > 0) {
+            this.setThirdVenueMap(thirdCountryObject);
+            this.setThirdVenueImage(thirdCountryObject);
+            this.setThirdVenueDocument(thirdCountryObject);
+        } else if (!thirdCountryObject || !(thirdCountryObject.attachments.length > 0)) {
+            this.resetThirdVenueFiles();
+        }
+    }
+
     private setSecondVenueMap(secondCountryObject: any): any {
         const secondVenueMaps = secondCountryObject.attachments.filter((attachment: AttachmentDetail) => attachment.type === AttachmentType.Map);
         if (secondVenueMaps.length === 0) {
@@ -995,6 +1268,70 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
             }
         });
     }
+
+    private setThirdVenueMap(thirdCountryObject: any): any {
+        const thirdVenueMaps = thirdCountryObject.attachments.filter((attachment: AttachmentDetail) => attachment.type === AttachmentType.Map);
+        if (thirdVenueMaps.length === 0) {
+            this.projectDetailForm.controls.thirdMap.patchValue('');
+        }
+        thirdVenueMaps.forEach((attachment: AttachmentDetail): any => {
+            this.attachmentService.getAttachment(attachment.filePath)
+                .subscribe((blob: Blob) => {
+                    this.addThirdVenueMapHolder(blob, attachment);
+                }, () => {
+                    this.notificationService.openErrorNotification(this.attachmentDownloadErrorKey);
+                });
+        });
+    }
+
+    private setThirdVenueImage(thirdCountryObject: any): any {
+        const thirdVenueImages = thirdCountryObject.attachments.filter((attachment: AttachmentDetail) => attachment.type === AttachmentType.Image);
+        if (thirdVenueImages.length === 0) {
+            this.projectDetailForm.controls.thirdImage.patchValue('');
+        }
+        thirdVenueImages.forEach((attachment: AttachmentDetail): any => {
+            if (this.projectAttachmentService.getFileEnding(attachment.filePath) !== 'pdf') {
+                this.imagesService.getImage(attachment.filePath)
+                    .subscribe((blob: Blob) => {
+                        this.addThirdVenueImageHolder(blob, attachment);
+                    }, () => {
+                        this.notificationService.openErrorNotification(this.attachmentDownloadErrorKey);
+                    });
+            } else {
+                this.attachmentService.getAttachment(attachment.filePath)
+                    .subscribe((blob: Blob) => {
+                        this.addThirdVenueImageHolder(blob, attachment);
+                    }, () => {
+                        this.notificationService.openErrorNotification(this.attachmentDownloadErrorKey);
+                    });
+            }
+        });
+    }
+
+    private setThirdVenueDocument(thirdCountryObject: any): any {
+        const thirdVenueDocuments = thirdCountryObject.attachments.filter((attachment: AttachmentDetail) => attachment.type === AttachmentType.Document);
+        if (thirdVenueDocuments.length === 0) {
+            this.projectDetailForm.controls.thirdDocument.patchValue('');
+        }
+        thirdVenueDocuments.forEach((attachment: AttachmentDetail): any => {
+            if (this.projectAttachmentService.getFileEnding(attachment.filePath) === 'jpeg') {
+                this.imagesService.getImage(attachment.filePath)
+                    .subscribe((blob: Blob) => {
+                        this.addThirdVenueDocumentHolder(blob, attachment);
+                    }, () => {
+                        this.notificationService.openErrorNotification(this.attachmentDownloadErrorKey);
+                    });
+            } else {
+                this.attachmentService.getAttachment(attachment.filePath)
+                    .subscribe((blob: Blob): void => {
+                        this.addThirdVenueDocumentHolder(blob, attachment);
+                    }, () => {
+                        this.notificationService.openErrorNotification(this.attachmentDownloadErrorKey);
+                    });
+            }
+        });
+    }
+
 
     public sortAttachmentDetailByOrderNumber(comparedAttachmentDetail, comparableAttachmentDetail): number {
         return comparedAttachmentDetail.order - comparableAttachmentDetail.order;

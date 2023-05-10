@@ -9,11 +9,13 @@ import { ComponentsModule } from '../../shared/components/components.module';
 import { PipesModule } from '../../shared/pipes/pipes.module';
 import { TableChangeStorageService } from '../../shared/services/table-change-storage.service';
 import { TranslateWrapperService } from '../../shared/services/translate-wrapper.service';
+import { SharedModule } from '../../shared/shared.module';
 import { ActionPointCreateComponent } from './action-point-create/action-point-create.component';
 import { ActionPointEditComponent } from './action-point-edit/action-point-edit.component';
 import { ActionPointFormComponent } from './action-point-form/action-point-form.component';
 import { ActionPointListComponent } from './action-point-list/action-point-list.component';
 import { ActionPointsRoutingModule } from './action-points-routing.module';
+
 
 @NgModule({
     declarations: [
@@ -32,9 +34,10 @@ import { ActionPointsRoutingModule } from './action-points-routing.module';
         ReactiveFormsModule,
         CoreTableModule,
         AbstractInputsModule,
-        SmallComponentsModule,
         PipesModule,
-        ComponentsModule
+        ComponentsModule,
+        SharedModule,
+        SmallComponentsModule
     ],
     providers: [
         TranslateWrapperService,

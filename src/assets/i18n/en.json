@@ -50,7 +50,6 @@
         "meetingDate": "Meeting date",
         "meetingText": "Meeting text",
         "responsible": "Responsible",
-        "tags": "Tags",
         "save": "Save",
         "cancel": "Cancel",
         "new": {
@@ -59,7 +58,10 @@
         "edit": {
             "editActionPoint": "Edit action point",
             "actionPointDetail": "Action point detail"
-        }
+        },
+        "attachments": "Attachments",
+        "addAttachment": "ADD ATTACHMENT",
+        "downloadAll": "DOWNLOAD ALL"
     },
     "tasks": {
         "cancel": "CANCEL",
@@ -67,6 +69,7 @@
         "delete": "DELETE",
         "empty": "Empty",
         "both": "Both",
+        "all": "All",
         "none": "None",
         "type": "Type",
         "status": "Status",
@@ -110,6 +113,8 @@
         "add": "Create failed",
         "edit": "Edit failed",
         "delete": "Delete failed",
+        "import": "Import failed",
+        "importImpossible": "Import not possible - see downloaded file",
         "interval": "Empty interval",
         "dateFormatIsInvalid": "Date format is invalid",
         "addComment": "Adding of comment failed.",
@@ -141,7 +146,9 @@
     "success": {
         "add": "Add successful",
         "edit": "Edit successful",
-        "delete": "Delete successful"
+        "delete": "Delete successful",
+        "import": "Import successful",
+        "linkCopied": "Link copied to clipboard"
     },
     "paginator": {
         "itemsPerPage": "Items per page",
@@ -188,13 +195,18 @@
         }
     },
     "common": {
-        "create": "CREATE",
-        "edit": "EDIT",
-        "export": "EXPORT",
-        "delete": "DELETE",
+        "create": "Create",
+        "edit": "Edit",
+        "export": "Export",
+        "delete": "Delete",
         "from": "From",
         "to": "To",
-        "emptyText": ""
+        "emptyText": "",
+        "createTemplate": "Create Template",
+        "import": "Import",
+        "yes": "Yes",
+        "no": "No",
+        "chooseOption" : "Choose option"
     },
     "all": {
         "things": "All",
@@ -209,19 +221,22 @@
         "subCategory": "Fact item",
         "firstVenue": "First Venue",
         "secondVenue": "Second Venue",
-        "totalValue": "Both Venues",
+        "thirdVenue": "Third Venue",
+        "totalValue": "All Venues",
         "newFact": "New fact",
         "editFact": "Edit fact",
         "detailFact": "Fact detail",
         "changedAt": "Changed at",
         "changedBy": "Changed by",
-        "hasOnlyTotalValue": "One value for both venues",
+        "hasOnlyTotalValue": "One value for all venues",
         "year": "Year",
         "projectType": "Project Type",
         "firstValue": "First Venue",
         "secondValue": "Second Venue",
+        "thirdValue": "Third Venue",
         "description": "Description",
-        "unavailable": "This function will become available after you set the project venues."
+        "unavailable": "This function will become available after you set the project venues.",
+        "numberInputTooltip": "To search for \"Yes\" value - enter 1, for \"No\" - enter 0"
     },
     "color": {
         "green": "Green",
@@ -261,8 +276,10 @@
         "dateTo": "Date to",
         "firstCountry": "First Country",
         "secondCountry": "Second Country",
+        "thirdCountry": "Third Country",
         "firstVenue": "First Venue",
         "secondVenue": "Second Venue",
+        "thirdVenue": "Third Venue",
         "description": "Description",
         "attachments": "Attachments",
         "venueMaps": "Venue maps",
@@ -271,6 +288,7 @@
         "add": "Create a new project",
         "venue1": "Venue 1",
         "venue2": "Venue 2",
+        "venue3": "Venue 3",
         "dragMapStart": "Drag the map of the",
         "dragImageStart": "Drag the image of the",
         "dragDocumentStart": "Drag the document of the",
@@ -283,11 +301,14 @@
         "toAddBoth": "To add attachments, set the corresponding Venue",
         "toAddFirst": "To add Venue 1 attachments, set the Venue 1",
         "toAddSecond": "To add Venue 2 attachments, set the Venue 2",
+        "toAddThird": "To add Venue 3 attachments, set the Venue 3",
         "seeAll": "See All",
         "seeLess": "See Less",
         "downloadAll": "Download all",
         "downloadFirst": "Download all files of",
-        "downloadSecond": "Download all files of"
+        "downloadSecond": "Download all files of",
+        "downloadThird": "Download all files of",
+        "and": "and"
     },
     "users": {
         "title": "Users",
@@ -404,13 +425,20 @@
             "category": "Category",
             "factItemType": "Fact item type Name",
             "measurementUnit": "Measurement unit",
-            "isActive": "Form item type is active"
+            "isActive": "Fact item type is active",
+            "isInactive": "Fact item type is inactive"
         }
     },
     "confirmation": {
         "actionPoint": {
             "title":"Delete action point?",
             "message":"This action will delete current action point.",
+            "confirmButton":"DELETE",
+            "rejectButton":"CANCEL"
+        },
+        "actionPointAttachment": {
+            "title":"Delete attachment",
+            "message":"This action will delete current attachment.",
             "confirmButton":"DELETE",
             "rejectButton":"CANCEL"
         },
@@ -438,5 +466,14 @@
             "confirmButton":"DELETE",
             "rejectButton":"CANCEL"
         }
+    },
+    "import": {
+        "fillBlank" : "Fill blank",
+        "fillBlankText": "only fill missing / empty fields of existing facts",
+        "rewriteAll": "Rewrite all",
+        "rewriteAllText": "replace existing facts with the ones from the imported file",
+        "ok": "OK",
+        "cancel": "Cancel",
+        "title": "Choose import type"
     }
 }

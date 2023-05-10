@@ -21,7 +21,7 @@
         <iihf-fast-item-types-form (formDataChange)="formData=$event" [disabled]="!editMode"></iihf-fast-item-types-form>
         <div>
             <button (click)="onSave()"
-                    [disabled]="!formData || !canSave"
+                    [disabled]="!formData || !canSave || !editMode"
                     class="mr-10"
                     color="accent"
                     mat-flat-button

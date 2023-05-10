@@ -11,7 +11,11 @@ import {
     TableConfiguration,
     TableFilterType
 } from '@hazelnut';
+import { FileManager } from '@hazelnut/hazelnut-common/utils/file-manager';
 import { finalize } from 'rxjs/operators';
+import { AuthService } from 'src/app/shared/services/auth.service';
+import { NotificationService } from 'src/app/shared/services/notification.service';
+import { GetFileNameFromContentDisposition } from 'src/app/shared/utils/headers';
 import { RequestNames } from '../../../shared/enums/request-names.enum';
 import { Role } from '../../../shared/enums/role.enum';
 import { RouteNames } from '../../../shared/enums/route-names.enum';
@@ -36,21 +40,25 @@ export class GuidelineListComponent implements OnInit, TableContainer<Guideline>
     public tableConfiguration: TableConfiguration;
     public tableData: BrowseResponse<Guideline> = new BrowseResponse<Guideline>();
     public loading = false;
+    private lastTableChangeEvent: TableChangeEvent;
+    private defaultFilters: Filter[] = [];
+    private allFilters: Filter[] = [];
+    
     public readonly roles: typeof Role = Role;
-
-    private additionalFilters: Filter[] = [];
 
     public constructor(
         private readonly projectEventService: ProjectEventService,
         private readonly guideLineService: GuideLineService,
+        private readonly notificationService: NotificationService,
         private readonly router: Router,
         private readonly routingStorageService: RoutingStorageService,
         private readonly tableChangeStorageService: TableChangeStorageService,
-    ) {
+        private readonly authService: AuthService
+        ) {
     }
 
     public ngOnInit(): void {
-        this.additionalFilters = [
+        this.defaultFilters = [
             new Filter('PROJECT_ID', this.projectEventService.instant.id, 'NUMBER'),
         ];
 
@@ -59,13 +67,24 @@ export class GuidelineListComponent implements OnInit, TableContainer<Guideline>
     }
 
     public getData(tableChangeEvent: TableChangeEvent): void {
-        this.tableChangeStorageService.cachedTableChangeEvent = tableChangeEvent;
-
         this.loading = true;
-        this.guideLineService.browseGuidelines(tableChangeEvent, this.additionalFilters)
+
+        let additionalFilters = []
+        if (tableChangeEvent?.filters.length > 0) {
+            additionalFilters = tableChangeEvent.filters;
+        }
+
+        this.tableChangeStorageService.cachedTableChangeEvent = tableChangeEvent;
+        this.lastTableChangeEvent = tableChangeEvent;
+
+        this.allFilters = additionalFilters.concat(this.defaultFilters)
+
+        this.guideLineService.browseGuidelines(tableChangeEvent, this.allFilters)
             .pipe(finalize((): any => this.loading = false))
             .subscribe((data: BrowseResponse<Guideline>): void => {
                 this.tableData = data;
+            }, (): void => {
+                this.notificationService.openErrorNotification('error.api');
             });
     }
 
@@ -80,6 +99,35 @@ export class GuidelineListComponent implements OnInit, TableContainer<Guideline>
     public isOpenProject(): boolean {
         return this.projectEventService.instant.active;
     }
+
+    /**
+     * Export report from API based on selected filters
+     */
+    public export(): void {
+        this.loading = true;
+        this.guideLineService.exportGuideline(this.lastTableChangeEvent, this.allFilters, this.projectEventService.instant.id)
+            .pipe(finalize((): any => this.loading = false))
+            .subscribe((response: any): any => {
+                const contentDisposition = response.headers.get('Content-Disposition');
+                const exportName: string = GetFileNameFromContentDisposition(contentDisposition);
+                new FileManager().saveFile(exportName, response.body, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            }, (): void => {
+                this.notificationService.openErrorNotification('error.api');
+            });
+    }
+
+    // public allowExportGuidelineButton(): boolean {
+    //     return this.hasRoleExportGuideline() || this.hasRoleExportGuidelineInAssignProject();
+    // }
+
+    // private hasRoleExportGuideline(): boolean {
+    //     return this.authService.hasRole(Role.RoleExportGuideline);
+    // }
+
+    // private hasRoleExportGuidelineInAssignProject(): boolean {
+    //     return this.authService.hasRole(Role.RoleExportGuidelineInAssignProject);
+    // }
+    
 
     private setTableConfiguration(): void {
         const config: TableConfiguration = {

@@ -89,12 +89,11 @@ const FACTS_SCREEN = 'facts';
             valueFirst: formObject.firstValue,
             valueSecond: formObject.secondValue,
             hasOnlyTotalValue: formObject.hasOnlyTotalValue,
-            totalValue: (formObject.totalValue) ? formObject.totalValue : (+formObject.firstValue + +formObject.secondValue),
+            totalValue: this.setTotalValueToApiObject(formObject),
         };
         if (formObject.description) {
             apiObject.description = formObject.description;
         }
-
         return apiObject;
     }
 
@@ -107,6 +106,14 @@ const FACTS_SCREEN = 'facts';
             deleteApiCall: this.factService.deleteById(this.factId),
             redirectRoute: [RouteNames.FACTS, RouteNames.LIST],
         };
+    }
+
+    private setTotalValueToApiObject(formObject: any){
+        if (this.factService.isYesNoFactItemType(formObject?.unitShortName)){
+            return formObject.totalValue ? formObject.totalValue : null
+        } else {
+            return formObject.totalValue ? formObject.totalValue : (+formObject.firstValue + +formObject.secondValue)
+        }
     }
 
 }

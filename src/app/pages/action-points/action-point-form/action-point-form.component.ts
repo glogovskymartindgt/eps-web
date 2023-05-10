@@ -316,7 +316,7 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
         this.tagService.browseTags()
             .pipe(finalize((): any => this.tagsLoading = false))
             .subscribe((data: BrowseResponse<Tag>) => {
-                this.tags = data.content.map(tag => tag.title);
+                this.tags = data.content.map(tag => tag.name);
             }, () => {
                 this.notificationService.openErrorNotification('error.api');
             });

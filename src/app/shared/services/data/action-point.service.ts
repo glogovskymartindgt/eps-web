@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { hazelnutConfig } from '@hazelnut/hazelnut-common/config/hazelnut-config';
 import { Observable } from 'rxjs';
 import { TableChangeEvent } from '../../hazelnut/core-table';
-import { StringUtils } from '../../hazelnut/hazelnut-common/hazelnut';
+import { StringMap, StringUtils } from '../../hazelnut/hazelnut-common/hazelnut';
 import { BrowseResponse, Filter, PostContent, Sort } from '../../hazelnut/hazelnut-common/models';
 import { ActionPoint } from '../../models/action-point.model';
 import { NotificationService } from '../notification.service';
@@ -131,5 +132,60 @@ export class ActionPointService extends ProjectService<ActionPoint> {
         }
 
         return 0;
+    }
+
+    /**
+     * Get all attachments for an action point
+     * @param id
+     */
+    public getAttachments(id: number) {
+        return this.get({
+            url: `${hazelnutConfig.URL_API}/actionPointAttachment/actionPoint/${id}`,
+            mapFunction: (response: any): any => response,
+        });
+    }
+
+    /**
+     * Add an attachment to a action point
+     * @param body
+     */
+    public addAttachmentToActionPoint(body): Observable<any> {
+        if (!body) {
+            return;
+        }
+        let headers = new HttpHeaders();
+        headers = headers.set('device-id', this.userService.instant.deviceId);
+        headers = headers.set('token', this.userService.instant.authToken);
+
+        return this.post({
+            headers,
+            url: `${hazelnutConfig.URL_API}/actionPointAttachment`,
+            mapFunction: (response: any): any => response,
+            body: body,
+        });
+    }
+
+    /**
+     * Delete attachment by ID
+     * @param id
+     * @param params
+     */
+    public deleteAttachmentById(id: number, params?: StringMap): Observable<any> {
+        return this.delete({
+            params,
+            url: `${hazelnutConfig.URL_API}/actionPointAttachment/${id}`,
+            mapFunction: this.extractDetail
+        });
+    }
+
+    /**
+     * Download all attachments by action point ID
+     * @param actionPointId
+     */
+    public downloadAllAttachments(actionPointId: number): Observable<any> {
+        return this.getBlob(
+            `${hazelnutConfig.URL_API}/actionPointAttachment/zip/${actionPointId}`,
+            (data) => data.body
+        )
     }
 }

@@ -119,24 +119,6 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field appearance="fill" class="short-input">
-                    <mat-label class="label-style">{{ 'project.secondCountry' | translate }}</mat-label>
-                    <mat-select formControlName="secondCountry">
-                        <mat-option [value]="null"></mat-option>
-                        <mat-option *ngFor="let country of countryList; trackBy:trackCountryById" [value]="country.id">
-                            {{country.name}}
-                        </mat-option>
-                    </mat-select>
-                    <mat-hint *ngIf="editMode
-                    && projectDetailForm.controls.secondCountry.value
-                    && !projectDetailForm.controls.firstCountry.value"
-                              style="color:#cf2120"
-                    >
-                        {{'error.fillFirstCountry' | translate}}
-                    </mat-hint>
-                </mat-form-field>
-            </div>
-            <div fxLayout="row" fxLayoutGap="10px">
                 <div class="short-input">
                     <mat-error *ngIf="editMode
                     && projectDetailForm.controls.firstVenue.value
@@ -154,6 +136,24 @@
                     >
                     </haz-copy-core-input>
                 </div>
+            </div>
+            <div fxLayout="row" fxLayoutGap="10px">
+                <mat-form-field appearance="fill" class="short-input">
+                    <mat-label class="label-style">{{ 'project.secondCountry' | translate }}</mat-label>
+                    <mat-select formControlName="secondCountry">
+                        <mat-option [value]="null"></mat-option>
+                        <mat-option *ngFor="let country of countryList; trackBy:trackCountryById" [value]="country.id">
+                            {{country.name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint *ngIf="editMode
+                    && projectDetailForm.controls.secondCountry.value
+                    && !projectDetailForm.controls.firstCountry.value"
+                              style="color:#cf2120"
+                    >
+                        {{'error.fillFirstCountry' | translate}}
+                    </mat-hint>
+                </mat-form-field>
                 <div class="short-input">
                     <mat-error *ngIf="editMode
                     && projectDetailForm.controls.secondVenue.value
@@ -167,6 +167,34 @@
                                          [pattern]="notOnlyWhiteCharactersPattern"
                                          class="theme-input"
                                          formControlName="secondVenue"
+                    >
+                    </haz-copy-core-input>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayoutGap="10px">
+                <mat-form-field appearance="fill" class="short-input">
+                    <mat-label class="label-style">{{ 'project.thirdCountry' | translate }}</mat-label>
+                    <mat-select formControlName="thirdCountry">
+                        <mat-option [value]="null"></mat-option>
+                        <mat-option *ngFor="let country of countryList; trackBy:trackCountryById" [value]="country.id">
+                            {{country.name}}
+                        </mat-option>
+                    </mat-select>
+                    
+                </mat-form-field>
+                <div class="short-input">
+                    <mat-error *ngIf="editMode
+                    && projectDetailForm.controls.thirdVenue.value
+                    && !projectDetailForm.controls.thirdCountry.value" class="error-text"
+                    >
+                        {{'error.fillCountry' | translate}}
+                    </mat-error>
+                    <haz-copy-core-input [appearance]="'fill'"
+                                         [label]="'project.thirdVenue' |  translate"
+                                         [maxLength]="50"
+                                         [pattern]="notOnlyWhiteCharactersPattern"
+                                         class="theme-input"
+                                         formControlName="thirdVenue"
                     >
                     </haz-copy-core-input>
                 </div>
@@ -249,11 +277,9 @@
                     </div>
                 </div>
                 <div
-                    [class.empty]="!viewMaps && (projectAttachmentService.files.firstVenueAttachments.maps.length === 0)
-                    && (projectAttachmentService.files.secondVenueAttachments.maps.length === 0)"
+                    [class.empty]="!viewMaps && !projectAttachmentService.firstVenueAnyMaps() && !projectAttachmentService.secondVenueAnyMaps()"
                     [class.expanded]="viewMaps"
-                    [class.shrink]="!viewMaps && !((projectAttachmentService.files.firstVenueAttachments.maps.length === 0)
-                    && (projectAttachmentService.files.secondVenueAttachments.maps.length === 0))"
+                    [class.shrink]="!viewMaps && (projectAttachmentService.firstVenueAnyMaps() || projectAttachmentService.secondVenueAnyMaps())"
                     fxLayout="row"
                     fxLayoutGap="10px"
                 >
@@ -535,14 +561,175 @@
                     </div>
 
                 </div>
+                <ng-container *ngIf="projectDetailForm.controls.thirdVenue && projectDetailForm.controls.thirdVenue.value">
+                    <div fxLayout=row>
+                        <div fxFlex=50>
+                            <p [class.disabled-text]="editMode" class="venue-info pb-5">
+                                {{projectDetailForm.controls.thirdVenue && projectDetailForm.controls.thirdVenue.value ?
+                                  projectDetailForm.controls.thirdVenue.value :
+                                  'project.venue3' | translate}}
+                            </p>
+                        </div>
+                    </div>
+                    <div
+                        [class.empty]="!viewMaps && !projectAttachmentService.thirdVenueAnyMaps()"
+                        [class.expanded]="viewMaps"
+                        [class.shrink]="!viewMaps && projectAttachmentService.thirdVenueAnyMaps()"
+                        fxLayout="row"
+                        fxLayoutGap="10px"
+                    >
+                        <div class="short-input" fxLayout="column" style="overflow: hidden;">
+                            <!-- VIEW MODE MAP3                    -->
+                            <div *ngFor="let map of projectAttachmentService.files.thirdVenueAttachments.maps.sort(sortAttachmentDetailByOrderNumber); let i = index; trackBy:trackSourceBySelf">
+                                <div *ngIf="!editMode && map.source">
+                                    <div class="pdf-wrapper">
+                                        <div class="pdf-indicator"><span>.pdf</span></div>
+                                        <pdf-viewer (click)="openDialog(projectAttachmentService.files.thirdVenueAttachments.maps[i].source)"
+                                                    [@fadeEnterLeave]
+                                                    [fit-to-page]="true"
+                                                    [page]="1"
+                                                    [show-all]="false"
+                                                    [src]="map.source"
+                                                    class="pdf-content"
+                                        >
+                                        </pdf-viewer>
+                                    </div>
+                                    <div class="pb-10 mt-5" fxLayout="row">
+                                        <div (click)="openDialog(map.source)" class="map-file" fxFlex>
+                                            {{map.fileName}}
+                                        </div>
+                                        <div (click)="download(map.blob, 'application/pdf', map.fileName)"
+                                            *ngIf="!editMode && map.source"
+                                            [@enterLeave]
+                                            class="download"
+                                            fxFlex="20px"
+                                            fxLayoutAlign="end end"
+                                            mat-ripple
+                                        >
+                                            <img
+                                                [src]="'assets/img/svg-squares/download.svg'"
+                                                alt="download"
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                <div *ngIf="(projectAttachmentService.firstVenueAnyMaps()) || (projectAttachmentService.secondVenueAnyMaps())"
+                            <!-- EDIT MODE MAP3                    -->
+                            <div *ngIf="editMode && !projectDetailForm.controls.thirdVenue.value" class="relative-parent disabled">
+                                <label class="container-style" for="" fxFlex="205px"></label>
+                                <img *ngIf="editMode"
+                                    [src]="'assets/img/svg-squares/add.svg'"
+                                    alt="add"
+                                    class="add-svg"
+                                >
+                                <p *ngIf="editMode"
+                                class="drop-text"
+                                >
+                                    {{'project.dragMapStart' | translate}}
+                                    {{projectDetailForm.controls.thirdVenue && projectDetailForm.controls.thirdVenue.value ?
+                                    projectDetailForm.controls.thirdVenue.value :
+                                    'project.venue3' | translate}}
+                                    {{'project.dragEnd' | translate}}
+                                </p>
+                            </div>
+                            <div (onFileDropped)="onThirdMapDropped($event)"
+                                *ngIf="editMode && projectDetailForm.controls.thirdVenue.value"
+                                class="attachment-form relative-parent"
+                                dragDrop
+                            >
+                                <label class="container-style"
+                                    for="third-map"
+                                    fxFlex="205px"
+                                    mat-ripple
+                                ></label>
+                                <input (change)="onThirdMapInserted($event)"
+                                    accept="application/pdf"
+                                    class="hide-input"
+                                    formControlName="thirdMap"
+                                    id="third-map"
+                                    type="file"
+                                >
+                                <div fxLayout="row">
+                                    <!--                                //update classes-->
+                                    <div fxFlex="25">
+                                        <img *ngIf="editMode"
+                                            [src]="'assets/img/svg-squares/add.svg'"
+                                            alt="add"
+                                            class="add-svg"
+                                        >
+                                    </div>
+                                    <div fxFlex="75">
+                                        <p *ngIf="editMode"
+                                        class="drop-text"
+                                        >
+                                            {{'project.dragMapStart' | translate}}
+                                            {{projectDetailForm.controls.thirdVenue && projectDetailForm.controls.thirdVenue.value ?
+                                            projectDetailForm.controls.thirdVenue.value :
+                                            'project.venue3' | translate}}
+                                            {{'project.dragEnd' | translate}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div *ngIf="projectDetailForm.value.thirdMapUpload && editMode">
+                                <div *ngFor="let map of projectAttachmentService.files.thirdVenueAttachments.maps; let i = index; trackBy:trackSourceBySelf" class="attachment-item">
+                                    <div class="content-style mb-5">
+                                        <div class="relative-parent" fxLayout="column">
+                                            <div class="pdf-wrapper">
+                                                <div class="pdf-indicator"><span>.pdf</span></div>
+                                                <pdf-viewer
+                                                    [@fadeEnterLeave]
+                                                    [fit-to-page]="true"
+                                                    [page]="1"
+                                                    [show-all]="false"
+                                                    [src]="map.source"
+                                                    class="pdf-content-bg"
+                                                >
+                                                </pdf-viewer>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="editMode" fxLayout="row">
+                                        <div *ngIf="editMode && projectAttachmentService.files.thirdVenueAttachments.maps[i].fileName" class="map-file-edit" fxFlex>
+                                            {{projectAttachmentService.files.thirdVenueAttachments.maps[i].fileName}}
+                                        </div>
+                                        <div (click)="resetThirdVenueMap(i)"
+                                            *ngIf="editMode && map.source"
+                                            [@enterLeave]
+                                            class="remove"
+                                            fxFlex="20px"
+                                            fxLayoutAlign="end end"
+                                            mat-ripple
+                                        >
+                                            <img
+                                                [src]="'assets/img/svg-squares/remove.svg'"
+                                                alt="remove"
+                                                class="p-5"
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <iihf-project-file-placeholder *ngIf="!editMode && !(projectAttachmentService.thirdVenueAnyMaps())"
+                                                        [attachmentType]="attachmentType.Map"
+                                                        [venue]="projectDetailForm.controls.thirdVenue && projectDetailForm.controls.thirdVenue.value ? projectDetailForm.controls.thirdVenue.value : 'project.venue3' | translate"
+                            >
+                            </iihf-project-file-placeholder>
+
+                        </div>
+                    </div>
+                </ng-container>
+
+                <div *ngIf="(projectAttachmentService.firstVenueAnyMaps()) || (projectAttachmentService.secondVenueAnyMaps()) || (projectAttachmentService.thirdVenueAnyMaps())"
                      fxFlex
                      fxLayoutAlign="flex-end flex-end"
                 >
                     <button (click)=toggleMaps() *ngIf="!viewMaps" class="see-button" mat-button>
                         {{'project.seeAll' | translate}} {{projectAttachmentService.files.firstVenueAttachments.maps.length +
-                    projectAttachmentService.files.secondVenueAttachments.maps.length}} {{'project.attachments' | translate}}
+                    projectAttachmentService.files.secondVenueAttachments.maps.length + projectAttachmentService.files.thirdVenueAttachments.maps.length}} {{'project.attachments' | translate}}
                         <img
                             [src]="'assets/img/svg-squares/down.svg'"
                             alt="down"
@@ -957,13 +1144,216 @@
 
                     </div>
                 </div>
-                <div *ngIf="(projectAttachmentService.firstVenueAnyImages()) || (projectAttachmentService.secondVenueAnyImages())"
+                <ng-container *ngIf="projectDetailForm.controls.thirdVenue && projectDetailForm.controls.thirdVenue.value">
+                    <div fxLayout=row>
+                        <div fxFlex=50>
+                            <p [class.disabled-text]="editMode" class="venue-info pb-5">
+                                {{projectDetailForm.controls.thirdVenue && projectDetailForm.controls.thirdVenue.value ?
+                                  projectDetailForm.controls.thirdVenue.value :
+                                  'project.venue1' | translate}}
+                            </p>
+                        </div>
+                    </div>
+                    <div [class.empty]="!viewImages && !projectAttachmentService.thirdVenueAnyImages()"
+                        [class.expanded]="viewImages"
+                        [class.shrink]="!viewImages && projectAttachmentService.thirdVenueAnyImages()"
+                        fxLayout="row"
+                        fxLayoutGap="10px"
+                        >
+                        <div class="short-input" fxLayout="column" style="overflow: hidden;">
+
+                            <!-- VIEW MODE IMAGE3                    -->
+                            <div *ngFor="let image of projectAttachmentService.files.thirdVenueAttachments.images.sort(sortAttachmentDetailByOrderNumber); let i = index; trackBy:trackSourceBySelf">
+                                <div [ngSwitch]="projectAttachmentService.getFileEnding(image.fileName)">
+                                    <div (click)="openDialog(image.source)"
+                                            *ngIf="!editMode && image.source && projectAttachmentService.getFileEnding(image.fileName) === 'pdf'"
+                                            style="cursor:pointer;"
+                                    >
+                                        <div class="content-style mb-5">
+                                            <div class="relative-parent" fxLayout="column">
+                                                <div class="pdf-wrapper">
+                                                    <div class="pdf-indicator">
+                                                        <span *ngIf="image.filePath">.{{projectAttachmentService.getFileEnding(image.fileName)}}</span>
+                                                    </div>
+                                                    <pdf-viewer
+                                                        [@fadeEnterLeave]
+                                                        [fit-to-page]="true"
+                                                        [page]="1"
+                                                        [show-all]="false"
+                                                        [src]="image.source"
+                                                        class="pdf-content"
+                                                    >
+                                                    </pdf-viewer>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div (click)="openImageDialog(image.source)"
+                                            *ngIf="!editMode && image.source && (projectAttachmentService.getFileEnding(image.fileName) !== 'pdf')"
+                                            style="cursor:pointer;"
+                                    >
+                                        <div class="content-style mb-5">
+                                            <div class="relative-parent" fxLayout="column">
+                                                <div class="pdf-wrapper">
+                                                    <div class="pdf-indicator">
+                                                        <span *ngIf="image.filePath">.{{projectAttachmentService.getFileEnding(image.fileName)}}</span>
+                                                    </div>
+                                                    <img [src]="image.source" alt="Image file" class="image-uploaded">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div *ngIf="!editMode" class="pb-10" fxLayout="row">
+                                        <div (click)="openImageDialog(image.source)"
+                                                *ngIf="projectAttachmentService.getFileEnding(image.fileName) !== 'pdf'" class="map-file" fxFlex
+                                        >
+                                            {{image.fileName}}
+                                        </div>
+                                        <div (click)="openDialog(image.source)"
+                                                *ngIf="projectAttachmentService.getFileEnding(image.fileName) === 'pdf'" class="map-file" fxFlex
+                                        >
+                                            {{image.fileName}}
+                                        </div>
+                                        <div (click)="download(image.blob, '*', image.fileName)"
+                                                *ngIf="!editMode && image.source"
+                                                [@enterLeave]
+                                                class="download"
+                                                fxFlex="20px"
+                                                fxLayoutAlign="end end"
+                                                mat-ripple
+                                        >
+                                            <img
+                                                [src]="'assets/img/svg-squares/download.svg'"
+                                                alt="download"
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- EDIT MODE IMAGE3                    -->
+                            <div *ngIf="editMode && !projectDetailForm.controls.thirdVenue.value" class="relative-parent disabled">
+                                <label class="container-style" for="" fxFlex="205px"></label>
+                                <div fxLayout="row">
+                                    <div fxFlex="25">
+                                        <img *ngIf="editMode"
+                                                [src]="'assets/img/svg-squares/add.svg'"
+                                                alt="add"
+                                                class="add-svg"
+                                        >
+                                    </div>
+                                    <div fxFlex="75">
+                                        <p *ngIf="editMode"
+                                            class="drop-text"
+                                        >
+                                            {{'project.dragImageStart' | translate}}
+                                            {{projectDetailForm.controls.thirdVenue && projectDetailForm.controls.thirdVenue.value ?
+                                                projectDetailForm.controls.thirdVenue.value :
+                                                'project.venue3' | translate}}
+                                            {{'project.dragEnd' | translate}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div (onFileDropped)="onThirdImageDropped($event)"
+                                    *ngIf="editMode && projectDetailForm.controls.thirdVenue.value"
+                                    class="attachment-form relative-parent"
+                                    dragDrop
+                            >
+                                <label class="container-style"
+                                        for="third-image"
+                                        fxFlex="205px"
+                                        mat-ripple
+                                ></label>
+                                <input (change)="onThirdImageInserted($event)"
+                                        accept="image/*,application/pdf"
+                                        class="hide-input"
+                                        formControlName="thirdImage"
+                                        id="third-image"
+                                        type="file"
+                                >
+                                <div fxLayout="row">
+                                    <div fxFlex="25">
+                                        <img *ngIf="editMode"
+                                                [src]="'assets/img/svg-squares/add.svg'"
+                                                alt="add"
+                                                class="add-svg"
+                                        >
+                                    </div>
+                                    <div fxFlex="75">
+                                        <p *ngIf="editMode"
+                                            class="drop-text"
+                                        >
+                                            {{'project.dragImageStart' | translate}}
+                                            {{projectDetailForm.controls.thirdVenue && projectDetailForm.controls.thirdVenue.value ?
+                                                projectDetailForm.controls.thirdVenue.value :
+                                                'project.venue3' | translate}}
+                                            {{'project.dragEnd' | translate}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div *ngIf="projectDetailForm.value.thirdImageUpload && editMode">
+                                <div *ngFor="let image of projectAttachmentService.files.thirdVenueAttachments.images; let i = index ; trackBy:trackSourceBySelf"
+                                        class="attachment-item"
+                                >
+                                    <div [ngSwitch]="projectAttachmentService.getFileEnding(image.fileName)" class="content-style mb-5">
+                                        <div class="relative-parent" fxLayout="column">
+                                            <div class="pdf-wrapper">
+                                                <div class="pdf-indicator">
+                                                    <span *ngIf="image.filePath">.{{projectAttachmentService.getFileEnding(image.fileName)}}</span>
+                                                </div>
+                                                <pdf-viewer *ngSwitchCase="'pdf'"
+                                                            [@fadeEnterLeave]
+                                                            [fit-to-page]="true"
+                                                            [page]="1"
+                                                            [show-all]="false"
+                                                            [src]="image.source"
+                                                            class="pdf-content"
+                                                >
+                                                </pdf-viewer>
+                                                <img *ngSwitchDefault [src]="image.source" alt="Image file" class="image-uploaded">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="editMode" fxLayout="row">
+                                        <div *ngIf="editMode && image.fileName" class="map-file-edit" fxFlex>
+                                            {{image.fileName}}
+                                        </div>
+                                        <div (click)="resetThirdVenueImage(i)"
+                                                *ngIf="editMode && image.source"
+                                                [@enterLeave]
+                                                class="remove"
+                                                fxFlex="20px"
+                                                fxLayoutAlign="end end"
+                                                mat-ripple
+                                        >
+                                            <img
+                                                [src]="'assets/img/svg-squares/remove.svg'"
+                                                alt="remove"
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <iihf-project-file-placeholder *ngIf="!editMode && !(projectAttachmentService.thirdVenueAnyImages())"
+                                                            [attachmentType]="attachmentType.Image"
+                                                            [venue]="projectDetailForm.controls.thirdVenue && projectDetailForm.controls.thirdVenue.value ? projectDetailForm.controls.thirdVenue.value : 'project.venue3' | translate"
+                            >
+                            </iihf-project-file-placeholder>
+                        </div>
+                    </div>
+                </ng-container>
+                <div *ngIf="(projectAttachmentService.firstVenueAnyImages()) || (projectAttachmentService.secondVenueAnyImages()) || (projectAttachmentService.thirdVenueAnyImages())"
                      fxFlex
                      fxLayoutAlign="flex-end flex-end"
                 >
                     <button (click)=toggleImages() *ngIf="!viewImages" class="see-button" mat-button>
                         {{'project.seeAll' | translate}} {{projectAttachmentService.files.firstVenueAttachments.images.length +
-                    projectAttachmentService.files.secondVenueAttachments.images.length}} {{'project.attachments' | translate}}
+                    projectAttachmentService.files.secondVenueAttachments.images.length + projectAttachmentService.files.thirdVenueAttachments.images.length}} {{'project.attachments' | translate}}
                         <img
                             [src]="'assets/img/svg-squares/down.svg'"
                             alt="down"
@@ -1505,14 +1895,282 @@
 
                     </div>
                 </div>
+                <ng-container *ngIf="projectDetailForm.controls.thirdVenue && projectDetailForm.controls.thirdVenue.value">
+                    <div fxLayout=row>
+                        <div fxFlex=50>
+                            <p [class.disabled-text]="editMode" class="venue-info pb-5">
+                                {{projectDetailForm.controls.thirdVenue && projectDetailForm.controls.thirdVenue.value ?
+                                  projectDetailForm.controls.thirdVenue.value :
+                                  'project.venue3' | translate}}
+                            </p>
+                        </div>
+                    </div>
+                    <div [class.empty]="!viewDocuments && !projectAttachmentService.thirdVenueAnyDocuments()"
+                         [class.expanded]="viewDocuments"
+                         [class.shrink]="!viewDocuments && projectAttachmentService.thirdVenueAnyDocuments()"
+                         fxLayout="row"
+                         fxLayoutGap="10px"
+                    >
+                        <div class="short-input" fxLayout="column" style="overflow: hidden;">
+                            <!-- VIEW MODE DOCUMENT3                -->
+                            <div *ngFor="let document of projectAttachmentService.files.thirdVenueAttachments.documents.sort(sortAttachmentDetailByOrderNumber); let i = index ; trackBy:trackSourceBySelf">
+                                <div [ngSwitch]="projectAttachmentService.getFileEnding(document.fileName)">
+                                    <div (click)="openDialog(document.source)"
+                                         *ngIf="!editMode && document.source && projectAttachmentService.getFileEnding(document.fileName) === 'pdf'"
+                                         style="cursor:pointer;"
+                                    >
+                                        <div class="content-style mb-5">
+                                            <div class="relative-parent" fxLayout="column">
+                                                <div class="pdf-wrapper">
+                                                    <div class="pdf-indicator">
+                                                        <span *ngIf="document.filePath">.{{projectAttachmentService.getFileEnding(document.fileName)}}</span>
+                                                    </div>
+                                                    <pdf-viewer
+                                                        [@fadeEnterLeave]
+                                                        [fit-to-page]="true"
+                                                        [page]="1"
+                                                        [show-all]="false"
+                                                        [src]="document.source"
+                                                        class="pdf-content"
+                                                    >
+                                                    </pdf-viewer>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div (click)="openImageDialog(document.source)"
+                                         *ngIf="!editMode && document.source && (projectAttachmentService.getFileEnding(document.fileName) === 'jpeg')"
+                                         style="cursor:pointer;"
+                                    >
+                                        <div class="content-style mb-5">
+                                            <div class="relative-parent" fxLayout="column">
+                                                <div class="pdf-wrapper">
+                                                    <div class="pdf-indicator">
+                                                        <span *ngIf="document.filePath">.{{projectAttachmentService.getFileEnding(document.fileName)}}</span>
+                                                    </div>
+                                                    <img [src]="document.source" alt="Image file" class="image-uploaded">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    <div *ngIf="!editMode && document.source && !projectAttachmentService.isJpegJpgOrPdfFromName(document.fileName)">
+                                        <div class="content-style mb-5">
+                                            <div class="relative-parent" fxLayout="column">
+                                                <div class="pdf-wrapper">
+                                                    <div class="pdf-indicator">
+                                                        <span *ngIf="document.filePath">.{{projectAttachmentService.getFileEnding(document.fileName)}}</span>
+                                                    </div>
+                                                    <div *ngSwitchCase="'zip'" class="document-placeholder" fxLayoutAlign="center center">
+                                                        <img [src]="'assets/img/svg-squares/zip.svg'" alt="Document file">
+                                                    </div>
+                                                    <div *ngSwitchCase="'doc'" class="document-placeholder" fxLayoutAlign="center center">
+                                                        <img [src]="'assets/img/svg-squares/doc.svg'" alt="Document file">
+                                                    </div>
+                                                    <div *ngSwitchCase="'docx'" class="document-placeholder" fxLayoutAlign="center center">
+                                                        <img [src]="'assets/img/svg-squares/docx.svg'" alt="Document file">
+                                                    </div>
+                                                    <div *ngSwitchCase="'txt'" class="document-placeholder" fxLayoutAlign="center center">
+                                                        <img [src]="'assets/img/svg-squares/txt.svg'" alt="Document file">
+                                                    </div>
+                                                    <div *ngSwitchCase="'rtf'" class="document-placeholder" fxLayoutAlign="center center">
+                                                        <img [src]="'assets/img/svg-squares/rtf.svg'" alt="Document file">
+                                                    </div>
+                                                    <div *ngSwitchCase="'csv'" class="document-placeholder" fxLayoutAlign="center center">
+                                                        <img [src]="'assets/img/svg-squares/csv.svg'" alt="Document file">
+                                                    </div>
+                                                    <div *ngSwitchCase="'xls'" class="document-placeholder" fxLayoutAlign="center center">
+                                                        <img [src]="'assets/img/svg-squares/xls.svg'" alt="Document file">
+                                                    </div>
+                                                    <div *ngSwitchCase="'xlsx'" class="document-placeholder" fxLayoutAlign="center center">
+                                                        <img [src]="'assets/img/svg-squares/xlsx.svg'" alt="Document file">
+                                                    </div>
+                                                    <div *ngSwitchDefault class="document-placeholder"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    <div *ngIf="!editMode" class="pb-10" fxLayout="row">
+                                        <div (click)="openImageDialog(document.source)"
+                                             *ngIf="projectAttachmentService.getFileEnding(document.fileName) === 'jpeg'" class="map-file" fxFlex
+                                        >
+                                            {{document.fileName}}
+                                        </div>
+                                        <div (click)="openDialog(document.source)"
+                                             *ngIf="projectAttachmentService.getFileEnding(document.fileName) === 'pdf'" class="map-file" fxFlex
+                                        >
+                                            {{document.fileName}}
+                                        </div>
+                                        <div *ngIf="!projectAttachmentService.isJpegJpgOrPdfFromName(document.fileName)" class="map-file-unclickable" fxFlex>
+                                            {{document.fileName}}
+                                        </div>
+    
+                                        <div (click)="download(document.blob, '*', document.fileName)"
+                                             *ngIf="!editMode && document.source"
+                                             [@enterLeave]
+                                             class="download"
+                                             fxFlex="20px"
+                                             fxLayoutAlign="end end"
+                                             mat-ripple
+                                        >
+                                            <img
+                                                [src]="'assets/img/svg-squares/download.svg'"
+                                                alt="download"
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <!-- EDIT MODE DOCUMENT3                    -->
+                            <div *ngIf="editMode && !projectDetailForm.controls.thirdVenue.value" class="relative-parent disabled">
+                                <label class="container-style" for="" fxFlex="205px">
+                                </label>
+                                <div fxLayout="row">
+                                    <div fxFlex="25">
+                                        <img *ngIf="editMode"
+                                             [src]="'assets/img/svg-squares/add.svg'"
+                                             alt="add"
+                                             class="add-svg"
+                                        >
+                                    </div>
+                                    <div fxFlex="75">
+                                        <p *ngIf="editMode" class="drop-text">
+                                            {{'project.dragDocumentStart' | translate}}
+                                            {{projectDetailForm.controls.thirdVenue && projectDetailForm.controls.thirdVenue.value ?
+                                              projectDetailForm.controls.thirdVenue.value :
+                                              'project.venue3' | translate}}
+                                            {{'project.dragEnd' | translate}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div (onFileDropped)="onThirdDocumentDropped($event)"
+                                 *ngIf="editMode && projectDetailForm.controls.thirdVenue.value"
+                                 class="attachment-form relative-parent"
+                                 dragDrop
+                            >
+                                <label class="container-style"
+                                       for="third-document"
+                                       fxFlex="205px"
+                                       mat-ripple
+                                ></label>
+                                <input (change)="onThirdDocumentInserted($event)"
+                                       accept="application/pdf,text/plain,.rtf,.csv,.doc,.docx,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.zip,image/jpeg"
+                                       class="hide-input"
+                                       formControlName="thirdDocument"
+                                       id="third-document"
+                                       type="file"
+                                >
+                                <div fxLayout="row">
+                                    <div fxFlex="25">
+                                        <img *ngIf="editMode"
+                                             [src]="'assets/img/svg-squares/add.svg'"
+                                             alt="add"
+                                             class="add-svg"
+                                        >
+                                    </div>
+                                    <div fxFlex="75">
+                                        <p *ngIf="editMode" class="drop-text">
+                                            {{'project.dragDocumentStart' | translate}}
+                                            {{projectDetailForm.controls.thirdVenue && projectDetailForm.controls.thirdVenue.value ?
+                                              projectDetailForm.controls.thirdVenue.value :
+                                              'project.venue3' | translate}}
+                                            {{'project.dragEnd' | translate}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <div *ngIf="projectDetailForm.value.thirdDocumentUpload && editMode">
+                                <div *ngFor="let document of projectAttachmentService.files.thirdVenueAttachments.documents; let i = index ; trackBy:trackSourceBySelf"
+                                     class="attachment-item"
+                                >
+                                    <div [ngSwitch]="projectAttachmentService.getFileEnding(document.fileName)" class="content-style mb-5">
+                                        <div class="relative-parent" fxLayout="column">
+                                            <div class="pdf-wrapper">
+                                                <div class="pdf-indicator">
+                                                    <span *ngIf="document.filePath">.{{projectAttachmentService.getFileEnding(document.fileName)}}</span>
+                                                </div>
+                                                <div class="pdf-indicator">
+                                                    <span *ngIf="document.filePath">.{{projectAttachmentService.getFileEnding(document.fileName)}}</span>
+                                                </div>
+                                                <pdf-viewer *ngSwitchCase="'pdf'"
+                                                            [@fadeEnterLeave]
+                                                            [fit-to-page]="true"
+                                                            [page]="1"
+                                                            [show-all]="false"
+                                                            [src]="document.source"
+                                                            class="pdf-content"
+                                                >
+                                                </pdf-viewer>
+                                                <img *ngSwitchCase="'jpeg'" [src]="document.source" alt="Image file" class="image-uploaded">
+                                                <div *ngSwitchCase="'zip'" class="document-placeholder" fxLayoutAlign="center center">
+                                                    <img [src]="'assets/img/svg-squares/zip.svg'" alt="Document file">
+                                                </div>
+                                                <div *ngSwitchCase="'doc'" class="document-placeholder" fxLayoutAlign="center center">
+                                                    <img [src]="'assets/img/svg-squares/doc.svg'" alt="Document file">
+                                                </div>
+                                                <div *ngSwitchCase="'docx'" class="document-placeholder" fxLayoutAlign="center center">
+                                                    <img [src]="'assets/img/svg-squares/docx.svg'" alt="Document file">
+                                                </div>
+                                                <div *ngSwitchCase="'txt'" class="document-placeholder" fxLayoutAlign="center center">
+                                                    <img [src]="'assets/img/svg-squares/txt.svg'" alt="Document file">
+                                                </div>
+                                                <div *ngSwitchCase="'rtf'" class="document-placeholder" fxLayoutAlign="center center">
+                                                    <img [src]="'assets/img/svg-squares/rtf.svg'" alt="Document file">
+                                                </div>
+                                                <div *ngSwitchCase="'csv'" class="document-placeholder" fxLayoutAlign="center center">
+                                                    <img [src]="'assets/img/svg-squares/csv.svg'" alt="Document file">
+                                                </div>
+                                                <div *ngSwitchCase="'xls'" class="document-placeholder" fxLayoutAlign="center center">
+                                                    <img [src]="'assets/img/svg-squares/xls.svg'" alt="Document file">
+                                                </div>
+                                                <div *ngSwitchCase="'xlsx'" class="document-placeholder" fxLayoutAlign="center center">
+                                                    <img [src]="'assets/img/svg-squares/xlsx.svg'" alt="Document file">
+                                                </div>
+                                                <div *ngSwitchDefault class="document-placeholder"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="editMode" fxLayout="row">
+                                        <div *ngIf="editMode && document.fileName" class="map-file-edit" fxFlex>
+                                            {{document.fileName}}
+                                        </div>
+                                        <div (click)="resetThirdVenueDocument(i)"
+                                             *ngIf="editMode && document.source"
+                                             [@enterLeave]
+                                             class="remove"
+                                             fxFlex="20px"
+                                             fxLayoutAlign="end end"
+                                             mat-ripple
+                                        >
+                                            <img
+                                                [src]="'assets/img/svg-squares/remove.svg'"
+                                                alt="remove"
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <iihf-project-file-placeholder *ngIf="!editMode && !(projectAttachmentService.thirdVenueAnyDocuments())"
+                                                           [attachmentType]="attachmentType.Document"
+                                                           [venue]="projectDetailForm.controls.thirdVenue && projectDetailForm.controls.thirdVenue.value ? projectDetailForm.controls.thirdVenue.value : 'project.venue3' | translate"
+                            >
+                            </iihf-project-file-placeholder>
+                        </div>
+                    </div>
+                </ng-container>
 
-                <div *ngIf="projectAttachmentService.firstVenueAnyDocuments() || projectAttachmentService.secondVenueAnyDocuments()"
+                <div *ngIf="projectAttachmentService.firstVenueAnyDocuments() || projectAttachmentService.secondVenueAnyDocuments() || projectAttachmentService.thirdVenueAnyDocuments()"
                      fxFlex
                      fxLayoutAlign="flex-end flex-end"
                 >
                     <button (click)=toggleDocuments() *ngIf="!viewDocuments" class="see-button" mat-button>
                         {{'project.seeAll' | translate}} {{projectAttachmentService.files.firstVenueAttachments.documents.length +
-                    projectAttachmentService.files.secondVenueAttachments.documents.length}} {{'project.attachments' | translate}}
+                    projectAttachmentService.files.secondVenueAttachments.documents.length + projectAttachmentService.files.thirdVenueAttachments.documents.length}} {{'project.attachments' | translate}}
                         <img
                             [src]="'assets/img/svg-squares/down.svg'"
                             alt="down"

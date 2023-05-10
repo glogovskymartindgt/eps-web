@@ -6,6 +6,7 @@ import { InputUtils } from '../..//hazelnut-common/utils/input-utils';
 import { NumberType } from '../../hazelnut-common/enums/number-type.enum';
 import { TRANSLATE_WRAPPER_TOKEN, TranslateWrapper } from '../../hazelnut-common/interfaces/translate.interface';
 import { Interval } from './interval.interface';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'haz-input-number-range',
@@ -68,7 +69,12 @@ export class InputNumberRangeComponent implements OnInit, ControlValueAccessor {
 
     public _disabled = false;
 
-    public constructor(@Inject(TRANSLATE_WRAPPER_TOKEN) protected readonly translateWrapperService: TranslateWrapper) {
+    public tooltipInfo : string = this.translate.instant('fact.numberInputTooltip')
+
+    public constructor(
+        @Inject(TRANSLATE_WRAPPER_TOKEN) protected readonly translateWrapperService: TranslateWrapper,
+        private translate : TranslateService
+        ) {
     }
 
     public onChange(value: Interval): void {
