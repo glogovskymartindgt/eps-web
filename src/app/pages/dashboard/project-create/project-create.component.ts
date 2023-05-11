@@ -274,7 +274,7 @@ export class ProjectCreateComponent implements OnInit {
         this.businessAreaService.listCountries()
             .pipe(finalize((): any => this.countriesLoading = false))
             .subscribe((data: BrowseResponse<Country>): void => {
-                this.countryList = data.content.filter((item: Country): any => item.state === 'VALID');
+                this.countryList = data.content.filter((item: Country): any => item.state === 'ACTIVE');
             }, (): void => {
                 this.notificationService.openErrorNotification('error.api');
             });
