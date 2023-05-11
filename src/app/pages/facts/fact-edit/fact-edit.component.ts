@@ -84,10 +84,12 @@ const FACTS_SCREEN = 'facts';
     private transformTaskToApiObject(formObject: any): any {
         formObject.firstValue = checkAndRemoveLastDotComma(formObject.firstValue);
         formObject.secondValue = checkAndRemoveLastDotComma(formObject.secondValue);
+        formObject.thirdValue = checkAndRemoveLastDotComma(formObject.thirdValue);
         formObject.totalValue = checkAndRemoveLastDotComma(formObject.totalValue);
         const apiObject: any = {
             valueFirst: formObject.firstValue,
             valueSecond: formObject.secondValue,
+            valueThird: formObject.thirdValue,
             hasOnlyTotalValue: formObject.hasOnlyTotalValue,
             totalValue: this.setTotalValueToApiObject(formObject),
         };
@@ -112,7 +114,7 @@ const FACTS_SCREEN = 'facts';
         if (this.factService.isYesNoFactItemType(formObject?.unitShortName)){
             return formObject.totalValue ? formObject.totalValue : null
         } else {
-            return formObject.totalValue ? formObject.totalValue : (+formObject.firstValue + +formObject.secondValue)
+            return formObject.totalValue ? formObject.totalValue : (+formObject.firstValue + +formObject.secondValue + +formObject.thirdValue)
         }
     }
 
