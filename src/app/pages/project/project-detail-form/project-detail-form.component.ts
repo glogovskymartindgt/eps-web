@@ -573,7 +573,7 @@ export class ProjectDetailFormComponent implements OnInit, OnChanges, OnDestroy 
         this.businessAreaService.listCountries()
             .pipe(finalize((): any => this.countriesLoading = false))
             .subscribe((data: BrowseResponse<Country>) => {
-                this.countryList = data.content.filter((item: Country) => item.state === 'VALID');
+                this.countryList = data.content.filter((item: Country) => item.state === 'ACTIVE');
             }, () => {
                 this.notificationService.openErrorNotification('error.api');
             });
