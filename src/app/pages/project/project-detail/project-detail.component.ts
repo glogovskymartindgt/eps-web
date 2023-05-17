@@ -221,9 +221,9 @@ export class ProjectDetailComponent implements OnInit {
 
         const thirdVenueObject: any = {};
         thirdVenueObject.screenPosition = thirdScreenPositionValue;
-        thirdVenueObject.clCountry = {id: formObject.secondCountry};
-        if (formObject.secondVenue) {
-            thirdVenueObject.cityName = formObject.secondVenue;
+        thirdVenueObject.clCountry = {id: formObject.thirdCountry};
+        if (formObject.thirdVenue) {
+            thirdVenueObject.cityName = formObject.thirdVenue;
         }
         thirdVenueObject.attachments = [];
 
