@@ -59,10 +59,7 @@ export class FactFormComponent implements OnInit {
         return this.factForm.controls;
     }
 
-    public get showThirdVenue () : boolean {
-        // return true
-        return this.controls?.thirdValue.value
-    }
+    public showThirdVenue : boolean = false
 
     /**
      * Set listeners and default form in initialization
@@ -257,6 +254,7 @@ export class FactFormComponent implements OnInit {
         this.firstVenueLabel = fact.venueFirst;
         this.secondVenueLabel = fact.venueSecond;
         this.thirdVenueLabel = fact.venueThird;
+        this.showThirdVenue = fact.venueThird && fact.venueThird !==  '';
         this.actualUnitShortName = fact.subCategory.unitShortName;
         const hasChangedBy: boolean = fact.changedBy && fact.changedBy.firstName && fact.changedBy.lastName;
         this.isFirstValueRequired = true;
