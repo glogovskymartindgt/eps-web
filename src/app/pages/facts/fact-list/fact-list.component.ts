@@ -386,8 +386,8 @@ export class FactListComponent implements OnInit {
                     sorting: true,
                 }),
             );
-            this.setLabel(config, 'valueFirst', 'fact.firstValue');
-            this.setLabel(config, 'valueSecond', 'fact.secondValue');
+            // this.setLabel(config, 'valueFirst', 'fact.firstValue');
+            // this.setLabel(config, 'valueSecond', 'fact.secondValue');
         }
 
         config.stickyEnd = tableLastStickyColumn(config.columns.length);
@@ -459,6 +459,7 @@ export class FactListComponent implements OnInit {
         switch (key){
             case 'valueFirst' :
             case 'valueSecond':
+            case 'valueThird':
             case 'totalValue' :
                 const fit = row?.measureUnit?.toLowerCase()
                 if (this.factService.isYesNoFactItemType(fit)){
