@@ -96,6 +96,7 @@ export class FactFormComponent implements OnInit {
             ],
             unitShortName: ['']
         });
+        this.showThirdVenue = this.projectEventService.instant.thirdVenue && this.projectEventService.instant.thirdVenue !== ''
 
         // Category input listener
         this.factForm.controls.category.valueChanges.subscribe((value: any): void => {
@@ -254,7 +255,6 @@ export class FactFormComponent implements OnInit {
         this.firstVenueLabel = fact.venueFirst;
         this.secondVenueLabel = fact.venueSecond;
         this.thirdVenueLabel = fact.venueThird;
-        this.showThirdVenue = fact.venueThird && fact.venueThird !==  '';
         this.actualUnitShortName = fact.subCategory.unitShortName;
         const hasChangedBy: boolean = fact.changedBy && fact.changedBy.firstName && fact.changedBy.lastName;
         this.isFirstValueRequired = true;
