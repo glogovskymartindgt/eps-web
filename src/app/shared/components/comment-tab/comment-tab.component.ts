@@ -5,9 +5,11 @@ import { Role } from '../../enums/role.enum';
 import { Regex } from '../../hazelnut/hazelnut-common/regex/regex';
 import { CommentResponse } from '../../interfaces/task-comment.interface';
 import { CommentService } from '../../services/comment.service';
+import { ActionPointService } from '../../services/data/action-point.service';
 import { AttachmentService } from '../../services/data/attachment.service';
 import { ImagesService } from '../../services/data/images.service';
 import { NotificationService } from '../../services/notification.service';
+import { CommentComponent } from '../comment/comment.component';
 
 export abstract class CommentTabComponent implements OnInit {
 
@@ -39,6 +41,9 @@ export abstract class CommentTabComponent implements OnInit {
             attachment: ['']
         });
     }
+
+    // @ts-ignore
+    private commentComponent = new CommentComponent();
 
     public onCommentAdded(): void {
         if (this.addCommentForm.invalid) {
@@ -84,10 +89,10 @@ export abstract class CommentTabComponent implements OnInit {
         }
         const reader = new FileReader();
         reader.onload = (): void => {
-            if (file.type === 'application/pdf') {
-                this.uploadPdf(file);
-            }  else {
+            if (ActionPointService.acceptedImageTypes.includes(file.type)) {
                 this.uploadImage(file);
+            } else {
+                this.uploadAttachment(file);
             }
         };
         reader.readAsDataURL(file);
@@ -108,14 +113,14 @@ export abstract class CommentTabComponent implements OnInit {
             });
     }
 
-    protected uploadPdf(file: File): void {
+    protected uploadAttachment(file: File): void {
         this.attachmentService.uploadAttachment([file])
             .subscribe((data: any): void => {
                 this.setAttachmentData(file, data);
                 this.onAttachmentAdded();
             }, (): void => {
                 this.clearAttachmentData();
-                this.notificationService.openErrorNotification('error.imageUpload');
+                this.notificationService.openErrorNotification('error.attachmentUpload');
             });
     }
 

@@ -7,18 +7,18 @@
 
     <div class="comment-content">
         <div *ngIf="commentIsAttachment()" class="content-attachment-container">
-            <ng-container *ngIf="imageSrc">
+            <ng-container *ngIf="isImage(comment.attachment.format)">
                 <span class="attachment-container">
                     <div class="image-container">
                         <span class="file-format">.{{comment.attachment.format}}</span>
-                        <img (click)="openPreviewAttachment(imageSrc)"
+                        <img (click)="openPreviewImage(imageSrc)"
                              [src]="imageSrc"
                              alt="Attachment"
                              class="image"
                         />
                     </div>
 
-                    <span (click)="openPreviewAttachment(imageSrc)" class="link">{{comment.attachment.fileName}}</span>
+                    <span (click)="openPreviewImage(imageSrc)" class="link">{{comment.attachment.fileName}}</span>
                 </span>
                 <a download="{{comment.attachment.fileName}}" href="{{imageSrc}}" mat-icon-button>
                     <img
@@ -28,7 +28,25 @@
                 </a>
             </ng-container>
 
-            <ng-container *ngIf="pdfSrc">
+            <ng-container *ngIf="isVideo(comment.attachment.format)">
+                <span class="attachment-container">
+                    <div class="video-container">
+                        <span class="file-format">.{{comment.attachment.format}}</span>
+                         <mat-icon class="video" (click)="openPreviewVideo(comment.attachment.filePath)">play_circle_filled</mat-icon>
+                    </div>
+
+                    <span (click)="openPreviewVideo(comment.attachment.filePath)" class="link">{{comment.attachment.fileName}}</span>
+                </span>
+                <a (click)="downloadVideo(comment.attachment)" class="download" mat-icon-button>
+                    <img
+                        [src]="'assets/img/svg-squares/download.svg'"
+                        alt="download"
+                    >
+                </a>
+
+            </ng-container>
+
+            <ng-container *ngIf="isDocument(comment.attachment.format)">
                 <span class="attachment-container">
 
                     <div class="pdf-container" fxLayout="column">
@@ -38,19 +56,19 @@
                             </div>
 
                             <pdf-viewer
-                                (click)="openPreviewPdf(pdfSrc)"
+                                (click)="isPdf(comment.attachment.format) && openPreviewPdf(documentSrc)"
                                 [fit-to-page]="true"
                                 [page]="1"
                                 [show-all]="false"
-                                [src]="pdfSrc"
+                                [src]="documentSrc"
                                 class="pdf-content"
                             ></pdf-viewer>
                         </div>
                     </div>
 
-                    <span (click)="openPreviewPdf(pdfSrc)" class="link">{{comment.attachment.fileName}}</span>
+                    <span (click)="isPdf(comment.attachment.format) && openPreviewPdf(documentSrc)" class="link">{{comment.attachment.fileName}}</span>
                 </span>
-                <a download="{{comment.attachment.fileName}}" [href]="pdfSrcSanitized" mat-icon-button>
+                <a download="{{comment.attachment.fileName}}" [href]="documentSrcSanitized" mat-icon-button>
                     <img
                         [src]="'assets/img/svg-squares/download.svg'"
                         alt="download"
