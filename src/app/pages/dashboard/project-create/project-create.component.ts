@@ -161,6 +161,10 @@ export class ProjectCreateComponent implements OnInit {
             const screenPosition = 2;
             apiObject.projectVenues.push(this.createVenueObject(formObject, screenPosition));
         }
+        if (formObject.thirdCountry) {
+            const screenPosition = 3;
+            apiObject.projectVenues.push(this.createVenueObject(formObject, screenPosition));
+        }
         if (formObject.description) {
             apiObject.description = formObject.description;
         }
@@ -171,9 +175,19 @@ export class ProjectCreateComponent implements OnInit {
     private createVenueObject(formObject: any, screenPosition: number): any {
         const venueObject: any = {};
         venueObject.screenPosition = screenPosition;
-        venueObject.clCountry = {id: screenPosition === 1 ? formObject.firstCountry : formObject.secondCountry};
-        if (formObject.secondVenue) {
-            venueObject.cityName = screenPosition === 1 ? formObject.firstVenue : formObject.secondVenue;
+        switch (screenPosition) {
+            case 1 :
+                venueObject.clCountry = {id: formObject.firstCountry};
+                venueObject.cityName = formObject.firstVenue
+                break
+            case 2 :
+                venueObject.clCountry = {id: formObject.secondCountry};
+                venueObject.cityName = formObject.secondVenue
+                break
+            case 3 : 
+                venueObject.clCountry = {id: formObject.thirdCountry};
+                venueObject.cityName = formObject.thirdVenue
+                break
         }
 
         return venueObject;
@@ -189,8 +203,10 @@ export class ProjectCreateComponent implements OnInit {
             dateTo: [''],
             firstCountry: [''],
             secondCountry: [''],
+            thirdCountry: [''],
             firstVenue: ['', ],
             secondVenue: [''],
+            thirdVenue: [''],
             logoUploadId: [''],
             description: [''],
         }, {
@@ -198,6 +214,7 @@ export class ProjectCreateComponent implements OnInit {
                 this.firstCountryEmptyWhenFirstVenue(),
                 this.secondCountryEmptyWhenSecondVenue(),
                 this.firstCountryEmptyWhenSecondCountry(),
+                this.firstCountryEmptyWhenThirdCountry(),
             ]
         });
 
@@ -240,12 +257,24 @@ export class ProjectCreateComponent implements OnInit {
         };
     }
 
+    private firstCountryEmptyWhenThirdCountry(): any {
+        return (group: FormGroup): {[key: string]: any} => {
+            let firstCountryEmptyWhenThirdCountry;
+            if (this.projectDetailForm) {
+                firstCountryEmptyWhenThirdCountry = this.projectDetailForm.controls.thirdCountry.value && !this.projectDetailForm.controls.firstCountry.value;
+            }
+
+            return firstCountryEmptyWhenThirdCountry ? {firstCountryEmptyWhenThirdCountry} : null;
+
+        };
+    }
+
     private loadCountries(): any {
         this.countriesLoading = true;
         this.businessAreaService.listCountries()
             .pipe(finalize((): any => this.countriesLoading = false))
             .subscribe((data: BrowseResponse<Country>): void => {
-                this.countryList = data.content.filter((item: Country): any => item.state === 'VALID');
+                this.countryList = data.content.filter((item: Country): any => item.state === 'ACTIVE');
             }, (): void => {
                 this.notificationService.openErrorNotification('error.api');
             });

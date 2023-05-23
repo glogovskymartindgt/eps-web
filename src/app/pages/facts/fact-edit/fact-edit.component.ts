@@ -84,17 +84,18 @@ const FACTS_SCREEN = 'facts';
     private transformTaskToApiObject(formObject: any): any {
         formObject.firstValue = checkAndRemoveLastDotComma(formObject.firstValue);
         formObject.secondValue = checkAndRemoveLastDotComma(formObject.secondValue);
+        formObject.thirdValue = checkAndRemoveLastDotComma(formObject.thirdValue);
         formObject.totalValue = checkAndRemoveLastDotComma(formObject.totalValue);
         const apiObject: any = {
             valueFirst: formObject.firstValue,
             valueSecond: formObject.secondValue,
+            valueThird: formObject.thirdValue,
             hasOnlyTotalValue: formObject.hasOnlyTotalValue,
-            totalValue: (formObject.totalValue) ? formObject.totalValue : (+formObject.firstValue + +formObject.secondValue),
+            totalValue: this.setTotalValueToApiObject(formObject),
         };
         if (formObject.description) {
             apiObject.description = formObject.description;
         }
-
         return apiObject;
     }
 
@@ -107,6 +108,14 @@ const FACTS_SCREEN = 'facts';
             deleteApiCall: this.factService.deleteById(this.factId),
             redirectRoute: [RouteNames.FACTS, RouteNames.LIST],
         };
+    }
+
+    private setTotalValueToApiObject(formObject: any){
+        if (this.factService.isYesNoFactItemType(formObject?.unitShortName)){
+            return formObject.totalValue ? formObject.totalValue : null
+        } else {
+            return formObject.totalValue ? formObject.totalValue : (+formObject.firstValue + +formObject.secondValue + +formObject.thirdValue)
+        }
     }
 
 }

@@ -1,14 +1,34 @@
 <!--List of facts and figures with title, create button and table with loader-->
 <div>
-    <div class="basic-screen-header" fxLayout="row">
-        <div class="pl-50" fxFlex="400px" fxLayoutAlign="start center">
-            <h2>{{ (allFacts ? 'fact.titleAllFacts' : 'fact.title') | translate}}</h2>
-        </div>
-
-        <div fxFlex fxLayoutAlign="end center">
-            <ng-container >
+    <iihf-header>
+        <h2 title>{{ (allFacts ? 'fact.titleAllFacts' : 'fact.title') | translate}}</h2>
+        <ng-container buttons>
+            <ng-container *ngIf="projectEventService.instant.active && !allFacts">
                 <button
-                    
+                    mat-flat-button class="mr-10" color="accent"
+                    (click)="createTemplate()"
+                >
+                    {{'common.createTemplate' | translate}}
+                </button>
+                <div>
+                    <label 
+                            for="import-button"
+                            (click)="$event.target.value=null"
+                            (change)="onImportFile($event)"
+                            mat-flat-button 
+                            class="input-as-button mr-10"
+                            color="accent"
+                    >
+                    <input
+                            accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                            class="hide-element"
+                            id="import-button"
+                            type="file"
+                    >{{'common.import' | translate}} </label>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="projectEventService.instant.active">
+                <button                   
                     mat-flat-button class="mr-10" color="accent"
                     (click)="export()"
                 >
@@ -24,9 +44,9 @@
                 >
                     {{'common.create' | translate}}
                 </button>
-            </ng-container>  
-        </div>
-    </div>
+            </ng-container>
+        </ng-container>
+    </iihf-header>
 
     <div *ngIf="(!projectEventService.instant.firstVenue || !projectEventService.instant.secondVenue) && !router.url.includes('all-facts')">
         <p class="text-unavailable-facts">{{'fact.unavailable' | translate}}</p>
@@ -44,17 +64,22 @@
     </ng-template>
     <ng-template #firstValueColumn let-actRow="row" let-context="context">
         <div class="fr">
-            {{actRow?.valueFirst === null ? '-' : actRow?.valueFirst | thousandDelimiter: ','}} {{actRow?.valueFirst === null ? '' : actRow.measureUnit}}
+            {{returnColumnValue(actRow, "valueFirst")}}
         </div>
     </ng-template>
     <ng-template #secondValueColumn let-actRow="row" let-context="context">
         <div class="fr">
-            {{actRow?.valueSecond === null ? '-' : actRow?.valueSecond | thousandDelimiter: ','}} {{actRow?.valueSecond === null ? '' : actRow.measureUnit}}
+            {{returnColumnValue(actRow, "valueSecond")}}
+        </div>
+    </ng-template>
+    <ng-template #thirdValueColumn let-actRow="row" let-context="context">
+        <div class="fr">
+            {{actRow?.valueThird === null ? '-' : actRow?.valueThird | thousandDelimiter: ','}} {{actRow?.valueThird === null ? '' : actRow.measureUnit}}
         </div>
     </ng-template>
     <ng-template #totalValueColumn let-actRow="row" let-context="context">
         <div class="fr">
-            {{actRow?.totalValue === null ? '-' : actRow?.totalValue | thousandDelimiter: ','}} {{actRow?.totalValue !== null ? actRow.measureUnit : ''}}
+            {{returnColumnValue(actRow, "totalValue")}}
         </div>
     </ng-template>
     <ng-template #updateColumn let-actRow="row" let-context="context">

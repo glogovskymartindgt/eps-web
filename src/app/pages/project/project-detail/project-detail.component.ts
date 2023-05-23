@@ -110,6 +110,9 @@ export class ProjectDetailComponent implements OnInit {
         if (formObject.secondCountry) {
             this.setSecondCountryApiObject(formObject);
         }
+        if (formObject.thirdCountry) {
+            this.setThirdCountryApiObject(formObject);
+        }
 
         if (formObject.description) {
             this.apiObject.description = formObject.description;
@@ -211,5 +214,54 @@ export class ProjectDetailComponent implements OnInit {
             });
         }
         this.apiObject.projectVenues.push(secondVenueObject);
+    }
+
+    private setThirdCountryApiObject(formObject: any): void {
+        const thirdScreenPositionValue = 3;
+
+        const thirdVenueObject: any = {};
+        thirdVenueObject.screenPosition = thirdScreenPositionValue;
+        thirdVenueObject.clCountry = {id: formObject.thirdCountry};
+        if (formObject.thirdVenue) {
+            thirdVenueObject.cityName = formObject.thirdVenue;
+        }
+        thirdVenueObject.attachments = [];
+
+        if (this.projectAttachmentService.thirdVenueAnyMaps()) {
+            this.projectAttachmentService.files.thirdVenueAttachments.maps.forEach((attachmentDetail: AttachmentDetail, index: number): void => {
+                thirdVenueObject.attachments.push({
+                    fileName: attachmentDetail.fileName,
+                    filePath: attachmentDetail.filePath,
+                    type: AttachmentType.Map,
+                    format: AttachmentFormat.Pdf,
+                    order: index
+                });
+            });
+        }
+        if (this.projectAttachmentService.thirdVenueAnyImages()) {
+            this.projectAttachmentService.files.thirdVenueAttachments.images.forEach((attachmentDetail: AttachmentDetail, index: number): void => {
+                thirdVenueObject.attachments.push({
+                    fileName: attachmentDetail.fileName,
+                    filePath: attachmentDetail.filePath,
+                    type: AttachmentType.Image,
+                    format: attachmentDetail.filePath.substr(attachmentDetail.filePath.lastIndexOf('.') + 1)
+                                            .toUpperCase(),
+                    order: index
+                });
+            });
+        }
+        if (this.projectAttachmentService.thirdVenueAnyDocuments()) {
+            this.projectAttachmentService.files.thirdVenueAttachments.documents.forEach((attachmentDetail: AttachmentDetail, index: number): void => {
+                thirdVenueObject.attachments.push({
+                    fileName: attachmentDetail.fileName,
+                    filePath: attachmentDetail.filePath,
+                    type: AttachmentType.Document,
+                    format: attachmentDetail.filePath.substr(attachmentDetail.filePath.lastIndexOf('.') + 1)
+                                            .toUpperCase(),
+                    order: index
+                });
+            });
+        }
+        this.apiObject.projectVenues.push(thirdVenueObject);
     }
 }

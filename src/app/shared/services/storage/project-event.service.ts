@@ -26,6 +26,7 @@ export class ProjectEventService extends EventService<EventDataInterface> {
             projectName: project ? project.name : null,
             firstVenue: project && project.venues[0] ? project.venues[0].city : null,
             secondVenue: project && project.venues[1] ? project.venues[1].city : null,
+            thirdVenue: project && project.venues[2] ? project.venues[2].city : null,
             active: project ? project.state === 'OPEN' : null,
         });
     }
@@ -56,6 +57,7 @@ export class ProjectEventService extends EventService<EventDataInterface> {
             projectName: project ? project.name : null,
             firstVenue: project && project.firstVenue ? project.firstVenue : null,
             secondVenue: project && project.secondVenue ? project.secondVenue : null,
+            thirdVenue: project && project.thirdVenue ? project.thirdVenue : null,
             active: project ? project.status === 'OPEN' : null,
         });
     }

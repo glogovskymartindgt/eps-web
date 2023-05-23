@@ -7,6 +7,8 @@ export interface Fact {
     venueValue1: number;
     venue2: string;
     venueValue2: number;
+    venue3: string;
+    venueValue3: number;
     factItemState: string;
     description?: string;
 }

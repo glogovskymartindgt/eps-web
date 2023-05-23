@@ -10,6 +10,7 @@ export class ProjectDetail {
     public dateFrom?: string;
     public dateTo?: string;
     public projectVenues?: VenueDetail[];
+    public venues?: VenueDetail[];
     public description: string;
     public clProjectType?: ProjectType;
 }

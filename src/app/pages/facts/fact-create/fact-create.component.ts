@@ -54,14 +54,16 @@ import { checkAndRemoveLastDotComma } from '../../../shared/utils/remove-last-ch
     private transformTaskToApiObject(formObject: any): any {
         formObject.firstValue = checkAndRemoveLastDotComma(formObject.firstValue);
         formObject.secondValue = checkAndRemoveLastDotComma(formObject.secondValue);
+        formObject.thirdValue = checkAndRemoveLastDotComma(formObject.thirdValue);
         formObject.totalValue = checkAndRemoveLastDotComma(formObject.totalValue);
         const apiObject: any = {
             categoryId: formObject.category,
             subCategoryId: formObject.subCategory,
             valueFirst: formObject.firstValue,
             valueSecond: formObject.secondValue,
+            valueThird: formObject.thirdValue,
             hasOnlyTotalValue: formObject.hasOnlyTotalValue,
-            totalValue: (formObject.totalValue) ? formObject.totalValue : (+formObject.firstValue + +formObject.secondValue),
+            totalValue: this.setTotalValueToApiObject(formObject),
             projectId: this.projectEventService.instant.id
         };
         if (formObject.description) {
@@ -69,6 +71,14 @@ import { checkAndRemoveLastDotComma } from '../../../shared/utils/remove-last-ch
         }
 
         return apiObject;
+    }
+
+    private setTotalValueToApiObject(formObject: any){
+        if (formObject?.unitShortName?.toLowerCase() === 'y/n' || formObject?.unitShortName?.toLowerCase() === 'yes/no'){
+            return formObject.totalValue ? formObject.totalValue : null
+        } else {
+            return formObject.totalValue ? formObject.totalValue : (+formObject.firstValue + +formObject.secondValue + +formObject.thirdValue)
+        }
     }
 
 }
