@@ -178,16 +178,16 @@ export class ProjectCreateComponent implements OnInit {
         switch (screenPosition) {
             case 1 :
                 venueObject.clCountry = {id: formObject.firstCountry};
+                venueObject.cityName = formObject.firstVenue
+                break
             case 2 :
                 venueObject.clCountry = {id: formObject.secondCountry};
+                venueObject.cityName = formObject.secondVenue
+                break
             case 3 : 
                 venueObject.clCountry = {id: formObject.thirdCountry};
-        }
-        if (formObject.secondVenue) {
-            venueObject.cityName = screenPosition === 1 ? formObject.firstVenue : formObject.secondVenue;
-        }
-        if (formObject.thirdVenue){
-            venueObject.cityName = formObject.thirdVenue
+                venueObject.cityName = formObject.thirdVenue
+                break
         }
 
         return venueObject;
@@ -274,7 +274,7 @@ export class ProjectCreateComponent implements OnInit {
         this.businessAreaService.listCountries()
             .pipe(finalize((): any => this.countriesLoading = false))
             .subscribe((data: BrowseResponse<Country>): void => {
-                this.countryList = data.content.filter((item: Country): any => item.state === 'VALID');
+                this.countryList = data.content.filter((item: Country): any => item.state === 'ACTIVE');
             }, (): void => {
                 this.notificationService.openErrorNotification('error.api');
             });

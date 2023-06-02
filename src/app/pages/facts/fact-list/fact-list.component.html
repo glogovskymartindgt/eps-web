@@ -27,7 +27,7 @@
                     >{{'common.import' | translate}} </label>
                 </div>
             </ng-container>
-            <ng-container *ngIf="projectEventService.instant.active && allFacts">
+            <ng-container *ngIf="projectEventService.instant.active">
                 <button                   
                     mat-flat-button class="mr-10" color="accent"
                     (click)="export()"

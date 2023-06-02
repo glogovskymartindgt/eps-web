@@ -53,22 +53,6 @@ export class ActionPointEditComponent implements OnInit {
     public attachmentFileName = '';
     public attachmentPathName = '';
 
-    public acceptedImageTypes = ['image/jpg', 'image/jpeg', 'image/png'];
-    public acceptedVideoTypes = ['video/mp4', 'video/mpeg'];
-    public acceptedDocumentTypes = [
-        'application/pdf',
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        'application/msword',
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        'application/vnd.ms-excel',
-        'application/rtf',
-        'text/plain',
-        'text/csv',
-        'application/zip',
-        'application/x-zip-compressed'
-    ];
-
     public constructor(
         private readonly router: Router,
         private readonly notificationService: NotificationService,
@@ -145,7 +129,7 @@ export class ActionPointEditComponent implements OnInit {
 
         const reader = new FileReader();
         reader.onload = (): void => {
-            if (this.acceptedImageTypes.includes(file.type)) {
+            if (ActionPointService.acceptedImageTypes.includes(file.type)) {
                 this.uploadImage(file);
             } else {
                 this.uploadAttachment(file);
@@ -156,9 +140,9 @@ export class ActionPointEditComponent implements OnInit {
 
     public acceptedAllFileTypes(): string {
         return [
-            ...this.acceptedImageTypes,
-            ...this.acceptedVideoTypes,
-            ...this.acceptedDocumentTypes
+            ...ActionPointService.acceptedImageTypes,
+            ...ActionPointService.acceptedVideoTypes,
+            ...ActionPointService.acceptedDocumentTypes
         ].join(', ');
     }
 

@@ -59,10 +59,7 @@ export class FactFormComponent implements OnInit {
         return this.factForm.controls;
     }
 
-    public get showThirdVenue () : boolean {
-        // return true
-        return this.controls?.thirdValue.value
-    }
+    public showThirdVenue : boolean = false
 
     /**
      * Set listeners and default form in initialization
@@ -87,8 +84,7 @@ export class FactFormComponent implements OnInit {
                 Validators.required
             ],
             thirdValue: [
-                '',
-                Validators.required
+                ''
             ],
             description: [''],
             hasOnlyTotalValue: [false],
@@ -100,6 +96,7 @@ export class FactFormComponent implements OnInit {
             ],
             unitShortName: ['']
         });
+        this.showThirdVenue = this.projectEventService.instant.thirdVenue && this.projectEventService.instant.thirdVenue !== ''
 
         // Category input listener
         this.factForm.controls.category.valueChanges.subscribe((value: any): void => {
@@ -132,6 +129,9 @@ export class FactFormComponent implements OnInit {
         });
 
         this.thousandDelimiterPipee = new ThousandDelimiterPipe();
+
+        this.loadCategories();
+        this.checkIfUpdate();
 
     }
 
@@ -216,6 +216,7 @@ export class FactFormComponent implements OnInit {
         if (hasOnlyTotalValue) {
             this.controls.firstValue.clearValidators();
             this.controls.secondValue.clearValidators();
+            this.controls.thirdValue.clearValidators();
             this.controls.totalValue.setValidators(Validators.required);
             this.isFirstValueRequired = false;
             this.isSecondValueRequired = false;
@@ -232,7 +233,6 @@ export class FactFormComponent implements OnInit {
             this.controls.totalValue.clearValidators();
             this.isFirstValueRequired = true;
             this.isSecondValueRequired = true;
-            this.isThirdValueRequired = true;
             this.isTotalRequired = false;
 
             this.factForm.controls.totalValue.disable();
@@ -313,6 +313,7 @@ export class FactFormComponent implements OnInit {
         if (fact.hasOnlyTotalValue) {
             this.controls.firstValue.clearValidators();
             this.controls.secondValue.clearValidators();
+            this.controls.thirdValue.clearValidators();
             this.controls.totalValue.setValidators(Validators.required);
             this.isFirstValueRequired = false;
             this.isSecondValueRequired = false;

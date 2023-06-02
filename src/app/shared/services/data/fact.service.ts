@@ -10,7 +10,7 @@ import { Fact } from '../../interfaces/fact.interface';
 import { NotificationService } from '../notification.service';
 import { ProjectService } from '../project.service';
 import { ProjectUserService } from '../storage/project-user.service';
-import { map, catchError, tap } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -91,7 +91,6 @@ import { map, catchError, tap } from 'rxjs/operators';
 
         return {filters: filters, sort: sort}
 
-        // return this.report(filters, sort, projectId);
     }
 
      /**
