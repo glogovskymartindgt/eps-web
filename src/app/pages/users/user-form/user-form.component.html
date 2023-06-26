@@ -1,4 +1,4 @@
-<form [formGroup]="userForm" (cdkAutofill)="patchValues()">
+<form [formGroup]="userForm" (cdkAutofill)="patchValuesOnAutofill()">
 
     <div fxLayout="row" fxLayoutGap="10px">
 
@@ -58,6 +58,7 @@
                                      [required]="true"
                                      class="theme-input"
                                      [formControlName]="formControlNames.email"
+                                     [autofill]="false"
                 >
                 </haz-copy-core-input>
             </div>
@@ -108,6 +109,7 @@
                                      [required]="true"
                                      class="theme-input"
                                      [formControlName]="formControlNames.function"
+                                     [autofill]="false"
                 >
                 </haz-copy-core-input>
             </div>
@@ -132,6 +134,7 @@
                            class="input-style"
                            [formControlName]="formControlNames.password"
                            matInput
+                           autocomplete="other-password"
                     >
                     <mat-icon (click)="hidePassword = !hidePassword " class="cursor-pointer"
                               matSuffix
