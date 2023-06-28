@@ -59,7 +59,10 @@ export class GuidelineCreateComponent extends GuidelineDetailBaseComponent imple
         })
             .pipe(finalize((): any => this.loading = false))
             .subscribe((): void => {
+                this.notificationService.openSuccessNotification('success.add')
                 this.back();
+            }, (): void => {
+                this.notificationService.openErrorNotification('error.add');
             });
     }
 

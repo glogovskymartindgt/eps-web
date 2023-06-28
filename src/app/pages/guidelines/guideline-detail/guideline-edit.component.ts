@@ -70,7 +70,10 @@ export class GuidelineEditComponent extends GuidelineDetailBaseComponent impleme
         this.guideLineService.updateGuideline(this.guidelineId, this.getGuidelineToSave())
             .pipe(finalize((): any => this.loading = false))
             .subscribe((): void => {
+                this.notificationService.openSuccessNotification('success.edit')
                 this.back();
+            }, (): void => {
+                this.notificationService.openErrorNotification('error.edit');
             });
     }
 
