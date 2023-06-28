@@ -136,7 +136,8 @@
         "guideline.for.project.and.business.area.exists":  "A guideline for the current project and the selected business area already exists",
         "business.area.not.found": "The business area was not found",
         "guideline.not.found": "The guuideline was not found",
-        "telephone.format.error": "Incorrect phone number format"
+        "telephone.format.error": "Incorrect phone number format",
+        "factAlreadyExists": "This fact already exists"
     },
     "errorCode": {
         "1": "System error",

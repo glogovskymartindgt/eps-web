@@ -11,17 +11,22 @@
         "reports": "Reporty",
         "facts": "Fakty a čísla",
         "allFacts": "Všetky Fakty a čísla",
+        "team": "Tím",
         "profile": "Profil",
         "actionPoints": "Akčné body",
+        "guidelines": "Návody",
         "codeLists": "Zoznamy kódov",
         "factItemTypes": "Typy faktických položiek"
-
     },
     "login": {
         "username": "Používateľské meno",
         "password": "Heslo",
         "login": "Prihlásenie",
         "toggleVisibility": "Zmeniť zobrazenie"
+    },
+    "selectSearch": {
+        "label": "Vyhľadaj",
+        "empty": "Neboli nájdené žiadne výsledky"
     },
     "error": {
         "required": "Povinné pole",
@@ -50,7 +55,15 @@
         "fillFirstCountry": "Začnite prvou krajinou",
         "loginUsed": "Načítavanie obrázku zlyhalo",
         "unsupportedType": "Zmena profilu sa nepodarila",
-        "profileUpdateFailed": "Zmena profilu sa nepodarila"
+        "profileUpdateFailed": "Zmena profilu sa nepodarila",
+        "user.not.found": "Používateľ nenájdený",
+        "user.type.not.iihf":  "Typ používateľa nie je IIHF",
+        "project.cannot.be.closed":  "Projekt sa nedá uzavrieť",
+        "guideline.for.project.and.business.area.exists":  "Návod pre tento projekt a vybranú obchodnú oblasť už existuje",
+        "business.area.not.found": "Obchodná oblasť nenájdená",
+        "guideline.not.found": "Návod nenájdený",
+        "telephone.format.error": "Nesprávny formát telefónneho čísla",
+        "factAlreadyExists": "Tento fakt už existuje"
     },
     "hint": {
         "maxlength": "Prekročený limit znakov",
@@ -118,7 +131,8 @@
             "newActionPoint": "Nový akčný bod"
         },
         "edit": {
-            "editActionPoint": "Upraviť akčný bod"
+            "editActionPoint": "Upraviť akčný bod",
+            "actionPointDetail": "Detail akčného bodu"
         },
         "attachments": "Prílohy",
         "addAttachment": "PRIDAJ PRÍLOHU",
@@ -147,6 +161,7 @@
         "description": "Popis",
         "sourceDescription": "Zdrojový popis",
         "changedAt": "Zmenené",
+        "createdBy": "Vytvoril",
         "changedBy": "Zmenil",
         "video": "video",
         "new": {
@@ -191,6 +206,7 @@
         "venue": "Miesto",
         "responsible": "Zodpovedný",
         "dueDate": "Dátum ukončenia",
+        "sourceDescription": "Zdroj popisu",
         "status": "Stav",
         "statusValue": {
             "open": "Otvorené",
@@ -219,6 +235,7 @@
         "changedBy": "Zmenil",
         "hasOnlyTotalValue": "Jedna hodnota pre všetky mestá",
         "year": "Rok",
+        "projectType": "Typ projektu",
         "firstValue": "Prvá hodnota",
         "secondValue": "Druhá hodnota",
         "thirdValue": "Tretia hodnota",
@@ -253,6 +270,7 @@
         "createTitle": "Nový projekt",
         "edit": "Upraviť",
         "name": "Názov",
+        "projectType": "Typ Projektu",
         "year": "Rok",
         "status": "Status",
         "dateFrom": "Dátum začiatku",
@@ -312,7 +330,8 @@
             "category": "Kategória",
             "factItemType": "Názov typu faktickej položky",
             "measurementUnit": "Merná jednotka",
-            "isActive": "Typ faktickej položky je akívny"
+            "isActive": "Typ faktickej položky je akívny",
+            "isInactive": "Typ faktickej položky je neaktívny"
         }
     },
     "users": {
@@ -332,6 +351,10 @@
         "lastName": "Priezvisko",
         "email": "Email",
         "login": "Login",
+        "mobile": "Mobil",
+        "phone": "Telefón",
+        "organization": "Organizácia",
+        "function": "Funkcia",
         "password": "Nové heslo",
         "account": "Účet je ",
         "active": "aktívny",
@@ -379,6 +402,30 @@
             "message":"Daná akcia vymaže aktuálnu prílohu",
             "confirmButton":"VYMAZAŤ",
             "rejectButton":"ZRUŠIŤ"
+        },
+        "task": {
+            "title": "Vymazať danú úlohu?",
+            "message": "Daná akcia vymaže aktuálnu úlohu.",
+            "confirmButton":"VYMAZAŤ",
+            "rejectButton":"ZRUŠIŤ"
+        },
+        "comment": {
+            "title": "Vymazať daný komentár?",
+            "message": "Daná akcia vymaže aktuálny komentár.",
+            "confirmButton":"VYMAZAŤ",
+            "rejectButton":"ZRUŠIŤ"
+        },
+        "guideline": {
+            "title":"Vymazať daný návod?",
+            "message":"Daná akcia vymaže aktuálny návod.",
+            "confirmButton":"VYMAZAŤ",
+            "rejectButton":"ZRUŠIŤ"
+        },
+        "fact": {
+            "title":"Vymazať daný fakt?",
+            "message":"Daná akcia vymaže aktuálny fakt.",
+            "confirmButton":"VYMAZAŤ",
+            "rejectButton":"ZRUŠIŤ"
         }
     },
     "import": {
@@ -389,5 +436,46 @@
         "ok": "OK",
         "cancel": "Cancel",
         "title": "Choose import type"
+    },
+    "team": {
+        "screenTitle": "Tím",
+        "avatar": "Avatar",
+        "firstName": "Meno",
+        "lastName": "Priezvisko",
+        "type": "Typ používateľa",
+        "organization": "Organizácia",
+        "function": "Funkcia",
+        "phone": "Telefón",
+        "mobile": "Mobil",
+        "email": "Email",
+        "accountState": "Stav účtu",
+        "active": "Aktívny",
+        "inactive": "Neaktívny"
+    },
+    "guidelines": {
+        "screenTitle": "Návody",
+        "newGuideline": "Nový návod",
+        "editGuideline": "Zmeniť návod",
+        "guidelineDetail": "Detail návodu",
+        "list": {
+            "businessAreaCode": "Kód obchodne oblasti",
+            "businessAreaName": "Obchodná oblasť",
+            "actionPointTitle": "Názov"
+        },
+        "detail": {
+            "save": "Uložiť",
+            "cancel": "Zrušiť",
+            "title": "Názov",
+            "businessArea": "Obchodná oblasť",
+            "attachment": "Príloha",
+            "dragAttachment": "Potiahnite PDF alebo vyberte zo súborov",
+            "description": "Popis",
+            "unsupportedFileType": "Príloha má nepodporovaný typ",
+            "maximumSizeExceeded": "Súbor presahuje povolenú veľkosť, 15 MB",
+            "createdAt": "Vytvorené",
+            "changedAt": "Zmenené",
+            "changedBy": "Zmenil"
+        }
     }
+
 }
