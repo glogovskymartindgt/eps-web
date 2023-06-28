@@ -16,5 +16,6 @@ clone:
   depth: full
 
 pipelines:
-  default:
-    - step: *build-step
+  branches:
+    develop:
+      - step: *build-step
