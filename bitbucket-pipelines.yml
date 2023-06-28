@@ -2,7 +2,7 @@ image: maven:3.3.9
 
 definitions:
   steps:
-    - step: &build-step
+    - step: &sonar-scan
         name: SonarQube analysis
         script:
           - pipe: sonarsource/sonarqube-scan:1.0.0
@@ -18,4 +18,4 @@ clone:
 pipelines:
   branches:
     develop:
-      - step: *build-step
+      - step: *sonar-scan
