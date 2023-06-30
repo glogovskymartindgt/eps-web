@@ -1,3 +1,5 @@
+[![Quality Gate Status](https://sonar.dgtfactory.com/api/project_badges/measure?project=eps-web&metric=alert_status&token=sqb_f36aaab091a172f8c732e98a9b419884927014dc)](https://sonar.dgtfactory.com/dashboard?id=eps-web)
+
 # IIHF EPS
 
 Wiki: https://wiki.qbsw.sk/display/IIHF/IIHF-TOK+Home
@@ -16,13 +18,13 @@ Prihlasit sa v dockeri po zadani qbsw prihlasovacich udajov v command line:
 ## Development
 
 - Run `npm run api:run` to run the api server from Docker.
-  This will also run `npm run Ndisk:mount` to create an N disk on your PC, 
+  This will also run `npm run Ndisk:mount` to create an N disk on your PC,
   which is used by the backend run locally.
-- Run `npm start` to start the app in an Angular dev server. 
-  Navigate to `http://localhost:4200/`. The app will automatically reload 
+- Run `npm start` to start the app in an Angular dev server.
+  Navigate to `http://localhost:4200/`. The app will automatically reload
   if you change any of the source files.
-- After you've finished working, run `npm run api:stop` to stop the api 
-  server (or you'll probably have to do it the next time you start 
+- After you've finished working, run `npm run api:stop` to stop the api
+  server (or you'll probably have to do it the next time you start
   the api server).
 
 ## Authentication
