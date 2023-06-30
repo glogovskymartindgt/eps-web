@@ -40,7 +40,9 @@ export class FastItemTypesListComponent implements OnInit {
     public loading = false;
     public readonly roles: typeof Role = Role;
 
-    private additionalFilters: Filter[] = [];
+    private additionalFilters: Filter[] = [
+        new Filter('FK_PROJECT', this.projectEventService.instant.id, 'NUMBER')
+    ];
 
     public constructor(
         private readonly projectEventService: ProjectEventService,

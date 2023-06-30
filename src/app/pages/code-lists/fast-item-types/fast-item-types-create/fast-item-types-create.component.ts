@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { RouteNames } from '../../../../shared/enums/route-names.enum';
 import { FactItemTypeService } from '../../../../shared/services/data/factItemType.service';
 import { NotificationService } from '../../../../shared/services/notification.service';
+import { ProjectEventService } from '../../../../shared/services/storage/project-event.service';
 
 @Component({
     selector: 'iihf-fast-item-types-create',
@@ -18,6 +19,7 @@ import { NotificationService } from '../../../../shared/services/notification.se
 
     public constructor(private readonly router: Router,
                        private readonly factItemTypeService: FactItemTypeService,
+                       private readonly projectEventService: ProjectEventService,
                        private readonly notificationService: NotificationService) {
     }
 
@@ -54,7 +56,8 @@ import { NotificationService } from '../../../../shared/services/notification.se
             categoryId: formObject.categoryId,
             factItemType: formObject.factItemType,
             state: formObject.state ? 'ACTIVE' : 'INACTIVE',
-            measureUnitId: formObject.measureUnitId
+            measureUnitId: formObject.measureUnitId,
+            fkProject: this.projectEventService.instant.id
         };
 
         return apiObject;
