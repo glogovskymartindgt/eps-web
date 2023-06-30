@@ -44,6 +44,12 @@ import { checkAndRemoveLastDotComma } from '../../../shared/utils/remove-last-ch
             .subscribe((): void => {
                 this.notificationService.openSuccessNotification('success.add');
                 this.router.navigate(['facts/list']);
+            }, (error) => {
+                if (error?.status === 500 && error?.error?.message === "error.fact.create.subcategory"){
+                    this.notificationService.openErrorNotification("error.factAlreadyExists")
+                } else {
+                    this.notificationService.openErrorNotification('error.add')
+                }
             });
     }
 

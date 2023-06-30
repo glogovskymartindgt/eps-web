@@ -71,8 +71,12 @@ const FACTS_SCREEN = 'facts';
                 .subscribe((): void => {
                     this.notificationService.openSuccessNotification('success.edit');
                     this.router.navigate([this.factRoute + '/list']);
-                }, (): void => {
-                    this.notificationService.openErrorNotification('error.edit');
+                }, (error): void => {
+                    if (error?.status === 500 && error?.error?.message === "error.fact.create.subcategory"){
+                        this.notificationService.openErrorNotification("error.factAlreadyExists")
+                    } else {
+                        this.notificationService.openErrorNotification('error.edit');
+                    }
                 });
         }
     }
