@@ -239,11 +239,11 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
         };
 
 
-        
+
         if (isReport === undefined ||isReport === null){
             isReport = true
         }
-        
+
         let appendix = isReport ? 'report' : 'export'
 
         return this.postBlob(`${hazelnutConfig.URL_API}/${this.urlKey}/project/${projectId}/${appendix}`, content, this.extractDetail);
@@ -257,7 +257,7 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
             filterCriteria: {criteria: filter},
             sortingCriteria: {criteria: sort}
         };
-        return this.postBlob(`${hazelnutConfig.URL_API}/${this.urlKey}/project/${projectId}/export`, content, this.extractDetail);
+        return this.postBlob(`${hazelnutConfig.URL_API}/${this.urlKey}/project/${projectId}/template`, content, this.extractDetail);
     }
 
 
