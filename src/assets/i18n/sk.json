@@ -12,6 +12,7 @@
         "facts": "Fakty a čísla",
         "allFacts": "Všetky Fakty a čísla",
         "team": "Tím",
+        "tags": "Tagy",
         "profile": "Profil",
         "actionPoints": "Akčné body",
         "guidelines": "Návody",
@@ -334,6 +335,18 @@
             "isInactive": "Typ faktickej položky je neaktívny"
         }
     },
+    "tags": {
+        "screenTitle": "Tagy",
+        "editTagItem": "Editovať tag",
+        "tagItemDetail": "Tag detail",
+        "list": {
+            "name": "Názov"
+        },
+        "form": {
+            "edit": "Editovať tag",
+            "name": "Názov"
+        }
+    },
     "users": {
         "title": "Použivatelia",
         "userId": "ID použivateľa",
@@ -406,6 +419,12 @@
         "task": {
             "title": "Vymazať danú úlohu?",
             "message": "Daná akcia vymaže aktuálnu úlohu.",
+            "confirmButton":"VYMAZAŤ",
+            "rejectButton":"ZRUŠIŤ"
+        },
+        "tag": {
+            "title": "Vymazať daný tag?",
+            "message": "Daná akcia vymaže aktuálny tag.",
             "confirmButton":"VYMAZAŤ",
             "rejectButton":"ZRUŠIŤ"
         },

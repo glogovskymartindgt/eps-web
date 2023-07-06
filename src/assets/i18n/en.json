@@ -11,6 +11,7 @@
         "facts": "Facts and Figures",
         "allFacts": "All Facts and Figures",
         "team": "Team",
+        "tags": "Tags",
         "users": "Users",
         "profile": "Profile",
         "actionPoints": "Action points",
@@ -430,6 +431,18 @@
             "isInactive": "Fact item type is inactive"
         }
     },
+    "tags": {
+        "screenTitle": "Tags",
+        "editTagItem": "Edit tag",
+        "tagItemDetail": "Tag detail",
+        "list": {
+            "name": "Name"
+        },
+        "form": {
+            "edit": "Edit tag",
+            "name": "Name"
+        }
+    },
     "confirmation": {
         "actionPoint": {
             "title":"Delete action point?",
@@ -446,6 +459,12 @@
         "task": {
             "title": "Delete task?",
             "message": "This action will delete current task.",
+            "confirmButton": "DELETE",
+            "rejectButton": "CANCEL"
+        },
+        "tag": {
+            "title": "Delete tag?",
+            "message": "This action will delete current tag.",
             "confirmButton": "DELETE",
             "rejectButton": "CANCEL"
         },
