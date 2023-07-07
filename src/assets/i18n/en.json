@@ -436,7 +436,8 @@
         "editTagItem": "Edit tag",
         "tagItemDetail": "Tag detail",
         "list": {
-            "name": "Name"
+            "name": "Name",
+            "count": "Count"
         },
         "form": {
             "edit": "Edit tag",

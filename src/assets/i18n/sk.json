@@ -340,7 +340,8 @@
         "editTagItem": "Editovať tag",
         "tagItemDetail": "Tag detail",
         "list": {
-            "name": "Názov"
+            "name": "Názov",
+            "count": "Počet"
         },
         "form": {
             "edit": "Editovať tag",

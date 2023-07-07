@@ -79,6 +79,11 @@ export class TagsListComponent implements OnInit {
                     sorting: true,
                 }),
                 new TableColumn({
+                    columnDef: 'count',
+                    labelKey: 'tags.list.count',
+                    sorting: true,
+                }),
+                new TableColumn({
                     columnDef: ' ',
                     label: ' ',
                     type: TableCellType.CONTENT,
