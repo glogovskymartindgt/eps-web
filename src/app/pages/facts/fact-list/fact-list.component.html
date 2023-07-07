@@ -11,11 +11,11 @@
                     {{'common.createTemplate' | translate}}
                 </button>
                 <div>
-                    <label 
+                    <label
                             for="import-button"
                             (click)="$event.target.value=null"
                             (change)="onImportFile($event)"
-                            mat-flat-button 
+                            mat-flat-button
                             class="input-as-button mr-10"
                             color="accent"
                     >
@@ -28,7 +28,7 @@
                 </div>
             </ng-container>
             <ng-container *ngIf="projectEventService.instant.active">
-                <button                   
+                <button
                     mat-flat-button class="mr-10" color="accent"
                     (click)="export()"
                 >
@@ -74,7 +74,7 @@
     </ng-template>
     <ng-template #thirdValueColumn let-actRow="row" let-context="context">
         <div class="fr">
-            {{actRow?.valueThird === null ? '-' : actRow?.valueThird | thousandDelimiter: ','}} {{actRow?.valueThird === null ? '' : actRow.measureUnit}}
+            {{returnColumnValue(actRow, "valueThird")}}
         </div>
     </ng-template>
     <ng-template #totalValueColumn let-actRow="row" let-context="context">
