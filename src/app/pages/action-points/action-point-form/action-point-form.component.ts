@@ -313,7 +313,7 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
 
     private loadTags(): void {
         this.tagsLoading = true;
-        this.tagService.browseTags()
+        this.tagService.getTags()
             .pipe(finalize((): any => this.tagsLoading = false))
             .subscribe((data: BrowseResponse<Tag>) => {
                 this.tags = data.content.map(tag => tag.name);

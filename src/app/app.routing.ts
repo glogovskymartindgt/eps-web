@@ -116,6 +116,16 @@ export const routes: Routes = [
                         },
                         canActivate: [AuthGuard]
                     },
+                    {
+                        path: 'tags',
+                        loadChildren: (): any => import('./pages/code-lists/tags/tags.module').then((module: any): any => module.TagsModule),
+                        data: {
+                            title: 'menu.tags',
+                            menu: true,
+                            animation: 'tags'
+                        },
+                        canActivate: [AuthGuard]
+                    },
                 ],
                 data: {
                     title: 'menu.codeLists',
