@@ -65,8 +65,12 @@ import { TaskFormComponent } from '../../../tasks/task-form/task-form.component'
                 .subscribe((): void => {
                     this.notificationService.openSuccessNotification('success.edit');
                     this.router.navigate([RouteNames.CODE_LISTS, RouteNames.TAGS, RouteNames.LIST]);
-                }, (): void => {
-                    this.notificationService.openErrorNotification('error.edit');
+                }, (res): void => {
+                    let message = res.error.message === 'error.tag.already.exist'
+                        ? 'error.error.tag.already.exist'
+                        : 'error.edit'
+
+                    this.notificationService.openErrorNotification(message)
                 });
         }
     }
