@@ -138,7 +138,8 @@
         "business.area.not.found": "The business area was not found",
         "guideline.not.found": "The guuideline was not found",
         "telephone.format.error": "Incorrect phone number format",
-        "factAlreadyExists": "This fact already exists"
+        "factAlreadyExists": "This fact already exists",
+        "error.tag.already.exist": "Tag already exists"
     },
     "errorCode": {
         "1": "System error",
