@@ -88,7 +88,7 @@ export class ActionPointService extends ProjectService<ActionPoint> {
     public exportActionPoints(tableChangeEvent?: TableChangeEvent, additionalFilters?: Filter[], projectId?: number): any {
         let filters = [];
         let sort = [];
-        if (tableChangeEvent && tableChangeEvent.sortActive && tableChangeEvent.sortDirection) {
+        if (tableChangeEvent?.sortActive && tableChangeEvent.sortDirection) {
             sort = [
                 new Sort(tableChangeEvent.sortActive, tableChangeEvent.sortDirection)
             ];
@@ -206,5 +206,11 @@ export class ActionPointService extends ProjectService<ActionPoint> {
             `${hazelnutConfig.URL_API}/actionPointAttachment/zip/${actionPointId}`,
             (data) => data.body
         )
+    }
+
+    public sortFcn (a: string, b: string) {
+        if (a < b) return -1
+        else if (a > b) return 1
+        else return 0
     }
 }
