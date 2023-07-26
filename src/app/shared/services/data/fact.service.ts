@@ -11,6 +11,7 @@ import { NotificationService } from '../notification.service';
 import { ProjectService } from '../project.service';
 import { ProjectUserService } from '../storage/project-user.service';
 import { map, catchError } from 'rxjs/operators';
+import { Category } from '../../interfaces/category.interface';
 
 @Injectable({
     providedIn: 'root'
@@ -199,6 +200,18 @@ import { map, catchError } from 'rxjs/operators';
      */
     public isYesNoFactItemType(factUnit: string): boolean {
         return ['y/n', 'yes/no'].includes(factUnit.toLowerCase())
+    }
+
+    /**
+     * Sort arrays of objects by one of the objects' properties
+     * @param key
+     */
+    public sortItems(key: string){
+        return function(a: any, b: any){
+            if (a[key] < b[key]) return -1
+            else if (a[key] > b[key]) return 1
+            else return 0
+        }   
     }
 
 }

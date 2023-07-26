@@ -151,7 +151,10 @@ export class FactFormComponent implements OnInit {
         this.businessAreaService.listCategories()
             .pipe(finalize((): any => this.categoryLoading = false))
             .subscribe((data: BrowseResponse<Category>): void => {
-                this.categories = data.content;
+                this.categories = data?.content;
+                if (this.categories?.length > 0){
+                    this.categories.sort(this.factService.sortItems("name"))
+                }
             });
     }
 
@@ -165,6 +168,9 @@ export class FactFormComponent implements OnInit {
             .pipe(finalize((): any => this.categoryLoading = false))
             .subscribe((data: SubCategory[]): void => {
                 this.subCategories = data;
+                if (this.subCategories?.length > 0){
+                    this.subCategories.sort(this.factService.sortItems("subCategory"))
+                }
             });
     }
 
