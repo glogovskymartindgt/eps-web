@@ -11,7 +11,6 @@ import { NotificationService } from '../notification.service';
 import { ProjectService } from '../project.service';
 import { ProjectUserService } from '../storage/project-user.service';
 import { map, catchError } from 'rxjs/operators';
-import { Category } from '../../interfaces/category.interface';
 
 @Injectable({
     providedIn: 'root'
