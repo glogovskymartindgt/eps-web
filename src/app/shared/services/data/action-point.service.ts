@@ -15,11 +15,11 @@ import { ProjectUserService } from '../storage/project-user.service';
 })
 export class ActionPointService extends ProjectService<ActionPoint> {
     public static allowedImages = ['JPG', 'JPEG', 'PNG'];
-    public static allowedVideos = ['MP4', 'MPEG'];
+    public static allowedVideos = ['MP4', 'MPEG', 'AVI'];
     public static allowedDocuments = ['ZIP', 'PDF', 'CSV', 'TXT', 'XLS', 'XLSX', 'DOC', 'DOCX'];
 
     public static acceptedImageTypes = ['image/jpg', 'image/jpeg', 'image/png'];
-    public static acceptedVideoTypes = ['video/mp4', 'video/mpeg'];
+    public static acceptedVideoTypes = ['video/mp4', 'video/mpeg', 'video/avi'];
     public static acceptedDocumentTypes = [
         'application/pdf',
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
