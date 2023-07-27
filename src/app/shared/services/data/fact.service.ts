@@ -201,4 +201,16 @@ import { map, catchError } from 'rxjs/operators';
         return ['y/n', 'yes/no'].includes(factUnit.toLowerCase())
     }
 
+    /**
+     * Sort arrays of objects by one of the objects' properties
+     * @param key
+     */
+    public sortItems(key: string){
+        return function(a: any, b: any){
+            if (a[key] < b[key]) return -1
+            else if (a[key] > b[key]) return 1
+            else return 0
+        }   
+    }
+
 }
