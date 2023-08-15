@@ -2,15 +2,12 @@
     <div>
         <mat-form-field appearance="fill" class="long-input">
             <mat-label>{{'fact.category' | translate}}</mat-label>
-            <mat-select formControlName="category" required>
-                <ng-container *ngIf="!formLoaded">
-                    <mat-option *ngFor="let category of categories; trackBy:trackCategoryById" [value]="category.id">
+            <mat-select formControlName="category" required (selectionChange)="categoryChange($event)">
+                <ng-container>
+                    <mat-option *ngFor="let category of categories; trackBy:trackCategoryById" [value]="category.id" >
                         {{ category.name }}
                     </mat-option>
                 </ng-container>
-                <mat-option *ngIf="formLoaded" [value]="factForm?.value?.category">
-                    {{factForm?.value?.category}}
-                </mat-option>
             </mat-select>
 
             <mat-error *ngIf="controls?.category?.errors?.required">
@@ -18,22 +15,18 @@
             </mat-error>
         </mat-form-field>
     </div>
-
     <div *ngIf="subCategories !== null || formLoaded" [@enterLeaveSmooth]>
         <mat-form-field appearance="fill" class="long-input">
             <mat-label>{{'fact.factItemType' | translate}}</mat-label>
-            <mat-select formControlName="subCategory" required>
-                <ng-container *ngIf="subCategories && subCategories.length && !formLoaded">
+            <mat-select formControlName="subCategory" required (selectionChange)="subCategoryChange($event)">
+                <ng-container *ngIf="subCategories && subCategories.length">
                     <mat-option *ngFor="let subcategory of subCategories; trackBy:trackSubCategoryById" [value]="subcategory.id">
                         <span class="fact-text">{{ subcategory.subCategory }}</span>
                     </mat-option>
                 </ng-container>
                 <mat-option
-                    *ngIf="subCategories && subCategories.length === 0 && !formLoaded"
+                    *ngIf="subCategories && subCategories.length === 0"
                 >{{'all.empty' | translate}}</mat-option>
-                <mat-option *ngIf="formLoaded" [value]="factForm?.value?.subCategory">
-                    {{factForm?.value?.subCategory}}
-                </mat-option>
             </mat-select>
             <mat-error *ngIf="controls?.subCategory?.errors?.required">
                 {{ 'error.required' | translate }}
@@ -84,7 +77,7 @@
     </ng-container>
     <ng-container *ngIf="isYesNoFactItemType">
         <div class="long-input">
-            <haz-core-select 
+            <haz-core-select
                         [handleFocusAndBlur]="true"
                         [inputStyles]="{width: '100%', 'position': 'relative', 'right': '5px', 'text-align': 'right'}"
                         [label]="firstVenueLabel"
@@ -94,7 +87,7 @@
                         formControlName="firstValue"
             >
             </haz-core-select>
-            <haz-core-select 
+            <haz-core-select
                         [handleFocusAndBlur]="true"
                         [inputStyles]="{width: '100%', 'position': 'relative', 'right': '5px', 'text-align': 'right'}"
                         [label]="secondVenueLabel"
@@ -137,7 +130,7 @@
     </ng-container>
     <ng-container *ngIf="isYesNoFactItemType">
         <div class="long-input">
-            <haz-core-select 
+            <haz-core-select
                         [handleFocusAndBlur]="true"
                         [inputStyles]="{width: '100%', 'position': 'relative', 'right': '5px', 'text-align': 'right'}"
                         [label]="'fact.totalValue' | translate"
