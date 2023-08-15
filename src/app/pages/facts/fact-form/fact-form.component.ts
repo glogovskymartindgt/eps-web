@@ -50,7 +50,7 @@ export class FactFormComponent implements OnInit {
                        private readonly notificationService: NotificationService) {
     }
 
-    
+
 
     /**
      * Fact form getter of controls
@@ -98,24 +98,6 @@ export class FactFormComponent implements OnInit {
         });
         this.showThirdVenue = this.projectEventService.instant.thirdVenue && this.projectEventService.instant.thirdVenue !== ''
 
-        // Category input listener
-        this.factForm.controls.category.valueChanges.subscribe((value: any): void => {
-            this.actualUnitShortName = '';
-            this.factForm.controls.subCategory.patchValue('');
-            if (value && Number(value)) {
-                this.loadSubCategories(value);
-            }
-        });
-
-        // Subcategory input listener
-        this.factForm.controls.subCategory.valueChanges.subscribe((value: any): void => {
-            const subcategory = this.subCategories.find((subCategory: SubCategory): any => subCategory.id === value);
-            if (!(subcategory === null || subcategory === undefined)) {
-                this.actualUnitShortName = subcategory.unitShortName;
-                this.factForm.controls.unitShortName.patchValue(this.actualUnitShortName)
-            }
-        });
-
         this.setVenueListeners()
 
         // Emit value changes to parent component
@@ -132,7 +114,31 @@ export class FactFormComponent implements OnInit {
 
         this.loadCategories();
         this.checkIfUpdate();
+    }
 
+    /**
+     * Category input listener
+     * @param event
+     */
+    categoryChange(event) {
+        this.actualUnitShortName = '';
+        this.factForm.controls.subCategory.patchValue('');
+        if (event.value && Number(event.value)) {
+            this.loadSubCategories(event.value);
+        }
+    }
+
+    /**
+     * SubCategory input listener
+     * @param event
+     */
+    subCategoryChange(event) {
+        const subcategory = this.subCategories.find((subCategory: SubCategory): any => subCategory.id === event.value);
+        if (!(subcategory === null || subcategory === undefined)) {
+            console.log(subcategory);
+            this.actualUnitShortName = subcategory.unitShortName;
+            this.factForm.controls.unitShortName.patchValue(this.actualUnitShortName)
+        }
     }
 
     public trackCategoryById(index: number, category: Category): number {
@@ -162,7 +168,7 @@ export class FactFormComponent implements OnInit {
      * Load specified category subcategories from API into selected array
      * @param categoryId
      */
-    private loadSubCategories(categoryId): void {
+    public loadSubCategories(categoryId): void {
         this.categoryLoading = true;
         this.businessAreaService.listSubCategories(categoryId)
             .pipe(finalize((): any => this.categoryLoading = false))
@@ -269,11 +275,11 @@ export class FactFormComponent implements OnInit {
         this.isTotalRequired = false;
         this.factForm = this.formBuilder.group({
             category: [
-                fact.category.category,
+                fact.category.id,
                 Validators.required
             ],
             subCategory: [
-                fact.subCategory.subCategory,
+                fact.factItemType.id,
                 Validators.required
             ],
             firstValue: [
@@ -301,6 +307,7 @@ export class FactFormComponent implements OnInit {
         });
 
         this.setVenueListeners()
+        this.loadSubCategories(this.factForm.controls.category.value)
 
         this.factForm.valueChanges.subscribe((): void => {
             this.emitFormDataChangeEmitter();
@@ -346,7 +353,7 @@ export class FactFormComponent implements OnInit {
 
         // Second value input listener
         this.factForm.controls.secondValue.valueChanges.subscribe((secondValue: any): void => {
-            const otherVenuesNumberValue = this.transformNumberValue( this.factForm.value.firstValue, this.factForm.value.thirdValue) 
+            const otherVenuesNumberValue = this.transformNumberValue( this.factForm.value.firstValue, this.factForm.value.thirdValue)
             const numberValue = this.transformNumberValue(otherVenuesNumberValue, secondValue);
             this.factForm.controls.totalValue.patchValue(this.thousandDelimiterPipee.transform(numberValue.toString(), ','));
         });
@@ -358,7 +365,7 @@ export class FactFormComponent implements OnInit {
             this.factForm.controls.totalValue.patchValue(this.thousandDelimiterPipee.transform(numberValue.toString(), ','));
         });
 
-        
+
     }
 
     private transformValue(value: any): any {
