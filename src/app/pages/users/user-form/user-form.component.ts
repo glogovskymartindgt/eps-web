@@ -93,6 +93,15 @@ export class UserFormComponent implements OnInit {
         return item.id;
     }
 
+    public patchValuesOnAutofill(){
+        if (!this.user) {
+            this.userForm.reset()
+        }
+        if(this.user){
+            this.patchValues()
+        }
+    }
+
     public patchValues(): void {
         if (!this.user) {
             return;
@@ -105,7 +114,7 @@ export class UserFormComponent implements OnInit {
         this.userForm.controls[UserFormControlNames.mobile].patchValue(this.user.mobile);
         this.userForm.controls[UserFormControlNames.phone].patchValue(this.user.phone);
         this.userForm.controls[UserFormControlNames.avatar].patchValue(this.user.avatar);
-        this.userForm.controls[UserFormControlNames.function].patchValue(this.user.function || '');
+        this.userForm.controls[UserFormControlNames.function].patchValue(this.user.function);
         this.userForm.controls[UserFormControlNames.password].patchValue(this.user.password);
         this.userForm.controls[UserFormControlNames.login].patchValue(this.user.login);
         this.userForm.controls[UserFormControlNames.isVisible].patchValue(this.user.isVisible);

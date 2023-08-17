@@ -1,0 +1,25 @@
+<iihf-header>
+    <h2 title>{{'tags.screenTitle' | translate}}</h2>
+
+    <ng-container buttons >
+    </ng-container>
+</iihf-header>
+
+<haz-copy-indeterminate-progress-bar [loading]="loading"></haz-copy-indeterminate-progress-bar>
+<haz-core-table
+    (requestData)="getData($event)"
+    [configuration]="tableConfiguration"
+    [data]="tableData"
+    (rowClick)="goToDetail($event)"
+></haz-core-table>
+
+<ng-template #updateColumn let-factItemType="row">
+    <div class="fr">
+        <button
+            mat-icon-button
+            (click)="goToDetail(factItemType)"
+        >
+            <mat-icon>keyboard_arrow_right</mat-icon>
+        </button>
+    </div>
+</ng-template>

@@ -46,6 +46,24 @@ export class CoreInputComponent implements OnInit, OnChanges, ControlValueAccess
     @Input() public appearance: MatFormFieldAppearance = 'standard';
     @Input() public type: 'string' | 'textarea' = 'string'; // TODO: Email, Password
 
+    private _autoCompleteValue : string = "off"
+    @Input() public autofill? : boolean = true
+    get autoCompleteValue() : string{
+        return this._autoCompleteValue
+    }
+
+    private setAutocompleteValue(){
+        if (this.autofill === undefined || this.autofill === null){
+            this._autoCompleteValue = "off"
+        } 
+        if (this.autofill === true){
+            this._autoCompleteValue = "off"
+        }
+        if (this.autofill === false){
+            this._autoCompleteValue = "additional-field"
+        }
+    }
+
     @Input() public errorRequired;
     @Input() public errorMinlength;
     @Input() public errorPattern;
@@ -72,6 +90,7 @@ export class CoreInputComponent implements OnInit, OnChanges, ControlValueAccess
 
     public ngOnInit(): void {
         // TODO implement show errors toggle function
+        this.setAutocompleteValue()
         this.showErrors = true;
         this.minLength = this.setAsExactIfNaN(this.minLength);
         this.maxLength = this.setAsExactIfNaN(this.maxLength);

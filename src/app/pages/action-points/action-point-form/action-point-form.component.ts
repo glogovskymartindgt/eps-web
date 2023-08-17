@@ -245,6 +245,7 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
 
         if (value) {
             this.selectedTags.push(value);
+            this.selectedTags.sort(this.actionPointService.sortFcn)
         }
 
         event.input.value = '';
@@ -264,6 +265,7 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
 
     public selectedTag(event: MatAutocompleteSelectedEvent): void {
         this.selectedTags.push(event.option.value);
+        this.selectedTags.sort(this.actionPointService.sortFcn)
         this.filteredTags.subscribe((tag: string[]) => tag !== event.option.value);
         this.tagInput.nativeElement.value = '';
         this.tagControl.patchValue({});
@@ -313,7 +315,7 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
 
     private loadTags(): void {
         this.tagsLoading = true;
-        this.tagService.browseTags()
+        this.tagService.getTags()
             .pipe(finalize((): any => this.tagsLoading = false))
             .subscribe((data: BrowseResponse<Tag>) => {
                 this.tags = data.content.map(tag => tag.name);
@@ -421,6 +423,7 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
 
         this.selectedResponsibles = actionPoint.responsibles ? actionPoint.responsibles : [];
         this.selectedTags = actionPoint.tagList ? actionPoint.tagList : [];
+        this.selectedTags.sort(this.actionPointService.sortFcn)
         this.actionPointForm.controls.title.patchValue(actionPoint.title);
         this.actionPointForm.controls.trafficLight.patchValue(actionPoint.trafficLight);
         this.addFormValue('actionPointText', actionPoint.actionPointText);
@@ -500,4 +503,5 @@ export class ActionPointFormComponent implements OnInit, OnDestroy {
         }
         this.changeDetector.detectChanges();
     }
+
 }

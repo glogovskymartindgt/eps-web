@@ -135,21 +135,23 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
         return this.browseInner(`${hazelnutConfig.URL_API}/${this.urlKey}/browse`, PostContent.create(limit, offset, filter, sort), this.extractListData);
     }
 
-    protected browseWithSummary<S = T>(postContent: PostContent, additionalUrl = ''): Observable<BrowseResponse<S>> {
+    protected browseWithSummary<S = T>(postContent: PostContent, additionalUrl = '', handleAdditionalUrl = true): Observable<BrowseResponse<S>> {
         if (!postContent.hasSort()) {
             postContent.addSorts(new Sort());
         }
 
-        if (additionalUrl.endsWith('/')) {
-            additionalUrl = additionalUrl.substr(0, additionalUrl.length - 1);
-        }
-
-        if (additionalUrl.startsWith('/')) {
-            if (this.urlKey.endsWith('/')) {
-                additionalUrl = additionalUrl.substr(1, additionalUrl.length);
+        if (handleAdditionalUrl) {
+            if (additionalUrl.endsWith('/')) {
+                additionalUrl = additionalUrl.substr(0, additionalUrl.length - 1);
             }
-        } else if (!this.urlKey.endsWith('/')) {
-            additionalUrl = '/' + additionalUrl;
+
+            if (additionalUrl.startsWith('/')) {
+                if (this.urlKey.endsWith('/')) {
+                    additionalUrl = additionalUrl.substr(1, additionalUrl.length);
+                }
+            } else if (!this.urlKey.endsWith('/')) {
+                additionalUrl = '/' + additionalUrl;
+            }
         }
 
         return this.browseInner<BrowseResponse<S>>(`${hazelnutConfig.URL_API}/${this.urlKey}${additionalUrl}browse`, postContent, this.extractDetail);
@@ -239,11 +241,11 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
         };
 
 
-        
+
         if (isReport === undefined ||isReport === null){
             isReport = true
         }
-        
+
         let appendix = isReport ? 'report' : 'export'
 
         return this.postBlob(`${hazelnutConfig.URL_API}/${this.urlKey}/project/${projectId}/${appendix}`, content, this.extractDetail);
@@ -257,7 +259,7 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
             filterCriteria: {criteria: filter},
             sortingCriteria: {criteria: sort}
         };
-        return this.postBlob(`${hazelnutConfig.URL_API}/${this.urlKey}/project/${projectId}/export`, content, this.extractDetail);
+        return this.postBlob(`${hazelnutConfig.URL_API}/${this.urlKey}/project/${projectId}/template`, content, this.extractDetail);
     }
 
 

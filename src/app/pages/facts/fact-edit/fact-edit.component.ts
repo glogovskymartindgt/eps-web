@@ -71,8 +71,12 @@ const FACTS_SCREEN = 'facts';
                 .subscribe((): void => {
                     this.notificationService.openSuccessNotification('success.edit');
                     this.router.navigate([this.factRoute + '/list']);
-                }, (): void => {
-                    this.notificationService.openErrorNotification('error.edit');
+                }, (error): void => {
+                    if (error?.status === 500 && error?.error?.message === "error.fact.create.subcategory"){
+                        this.notificationService.openErrorNotification("error.factAlreadyExists")
+                    } else {
+                        this.notificationService.openErrorNotification('error.edit');
+                    }
                 });
         }
     }
@@ -92,6 +96,9 @@ const FACTS_SCREEN = 'facts';
             valueThird: formObject.thirdValue,
             hasOnlyTotalValue: formObject.hasOnlyTotalValue,
             totalValue: this.setTotalValueToApiObject(formObject),
+            categoryId: formObject.category,
+            subCategoryId: formObject.subCategory,
+            projectId: this.projectEventService.instant.id
         };
         if (formObject.description) {
             apiObject.description = formObject.description;

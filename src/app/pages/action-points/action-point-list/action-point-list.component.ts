@@ -104,7 +104,7 @@ export class ActionPointListComponent implements OnInit {
         if (!newTableChangeEvent) {
             newTableChangeEvent = this.actionPointTable.reset();
         }
-        if (newTableChangeEvent && newTableChangeEvent.filters && newTableChangeEvent.filters.length > 0) {
+        if (newTableChangeEvent?.filters && newTableChangeEvent.filters.length > 0) {
             this.allActionPointFilters = newTableChangeEvent.filters;
         }
 
@@ -127,6 +127,13 @@ export class ActionPointListComponent implements OnInit {
             .pipe(finalize((): any => this.loading = false))
             .subscribe((data: BrowseResponse<ActionPoint>): void => {
                 this.data = data;
+                if (this.data.content?.length > 0){
+                    this.data.content.forEach(it => {
+                        if (it.tagList?.length > 0){
+                           it.tagList.sort(this.actionPointService.sortFcn)
+                        } 
+                    })
+                }
             }, (): void => {
                 this.notificationService.openErrorNotification('error.api');
             });

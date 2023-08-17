@@ -15,11 +15,11 @@ import { ProjectUserService } from '../storage/project-user.service';
 })
 export class ActionPointService extends ProjectService<ActionPoint> {
     public static allowedImages = ['JPG', 'JPEG', 'PNG'];
-    public static allowedVideos = ['MP4', 'MPEG'];
+    public static allowedVideos = ['MP4', 'MPEG', 'AVI'];
     public static allowedDocuments = ['ZIP', 'PDF', 'CSV', 'TXT', 'XLS', 'XLSX', 'DOC', 'DOCX'];
 
     public static acceptedImageTypes = ['image/jpg', 'image/jpeg', 'image/png'];
-    public static acceptedVideoTypes = ['video/mp4', 'video/mpeg'];
+    public static acceptedVideoTypes = ['video/mp4', 'video/mpeg', 'video/avi'];
     public static acceptedDocumentTypes = [
         'application/pdf',
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -88,7 +88,7 @@ export class ActionPointService extends ProjectService<ActionPoint> {
     public exportActionPoints(tableChangeEvent?: TableChangeEvent, additionalFilters?: Filter[], projectId?: number): any {
         let filters = [];
         let sort = [];
-        if (tableChangeEvent && tableChangeEvent.sortActive && tableChangeEvent.sortDirection) {
+        if (tableChangeEvent?.sortActive && tableChangeEvent.sortDirection) {
             sort = [
                 new Sort(tableChangeEvent.sortActive, tableChangeEvent.sortDirection)
             ];
@@ -206,5 +206,11 @@ export class ActionPointService extends ProjectService<ActionPoint> {
             `${hazelnutConfig.URL_API}/actionPointAttachment/zip/${actionPointId}`,
             (data) => data.body
         )
+    }
+
+    public sortFcn (a: string, b: string) {
+        if (a < b) return -1
+        else if (a > b) return 1
+        else return 0
     }
 }
