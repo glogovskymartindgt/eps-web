@@ -96,9 +96,6 @@ const FACTS_SCREEN = 'facts';
             valueThird: formObject.thirdValue,
             hasOnlyTotalValue: formObject.hasOnlyTotalValue,
             totalValue: this.setTotalValueToApiObject(formObject),
-            categoryId: formObject.category,
-            subCategoryId: formObject.subCategory,
-            projectId: this.projectEventService.instant.id
         };
         if (formObject.description) {
             apiObject.description = formObject.description;
