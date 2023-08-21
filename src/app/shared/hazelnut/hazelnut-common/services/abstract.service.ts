@@ -246,7 +246,7 @@ export abstract class AbstractService<T = any> extends CoreService<T> {
             isReport = true
         }
 
-        let appendix = isReport ? 'report' : 'export'
+        let appendix = isReport ? 'report' : 'template'
 
         return this.postBlob(`${hazelnutConfig.URL_API}/${this.urlKey}/project/${projectId}/${appendix}`, content, this.extractDetail);
     }
