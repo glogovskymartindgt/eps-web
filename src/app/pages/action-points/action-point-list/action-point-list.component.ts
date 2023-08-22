@@ -299,9 +299,27 @@ export class ActionPointListComponent implements OnInit {
     private setConfigVenuesSelectOptions(): ListItem[]{
         let selectOptions : ListItem[] = [
             new ListItem('', this.translateService.instant('venue.value.all')),
-            new ListItem(this.projectEventService.instant.firstVenue, this.projectEventService.instant.firstVenue),
-            new ListItem(this.projectEventService.instant.secondVenue, this.projectEventService.instant.secondVenue),
         ]
+        if (this.projectEventService.instant.thirdVenue){
+            selectOptions.push(
+                new ListItem('ALLTHREE', this.translateService.instant('venue.value.allThree'))
+            )
+        } else {
+            selectOptions.push(
+                new ListItem('BOTH', this.translateService.instant('venue.value.both'))
+            )
+        }
+        selectOptions.push(
+            new ListItem(this.projectEventService.instant.firstVenue, this.projectEventService.instant.firstVenue)
+        )
+        selectOptions.push(
+            new ListItem(this.projectEventService.instant.secondVenue, this.projectEventService.instant.secondVenue),
+        )
+    // let selectOptions : ListItem[] = [
+    //         new ListItem('', this.translateService.instant('venue.value.all')),
+    //         new ListItem(this.projectEventService.instant.firstVenue, this.projectEventService.instant.firstVenue),
+    //         new ListItem(this.projectEventService.instant.secondVenue, this.projectEventService.instant.secondVenue),
+    //     ]
         if (this.projectEventService.instant.thirdVenue){
             selectOptions.push(
                 new ListItem(this.projectEventService.instant.thirdVenue, this.projectEventService.instant.thirdVenue)

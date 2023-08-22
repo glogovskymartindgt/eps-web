@@ -69,8 +69,9 @@
         "save": "SAVE",
         "delete": "DELETE",
         "empty": "Empty",
-        "both": "Both",
+        "both": "Both venues",
         "all": "All",
+        "allThree": "All 3 venues",
         "none": "None",
         "type": "Type",
         "status": "Status",
@@ -263,7 +264,8 @@
     "venue": {
         "value": {
             "all": "All",
-            "both": "Both",
+            "both": "Both venues",
+            "allThree": "All 3 venues",
             "none": "None"
         }
     },
